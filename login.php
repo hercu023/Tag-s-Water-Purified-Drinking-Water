@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <link rel="stylesheet" type="text/css" href="../Tag's Water Purified Drinking Water/loginPage.css">
+    <link rel="stylesheet" type="text/css" href="../Tag-s-Water-Purified-Drinking-Water/loginPage.css">
     <title>Tag's Water Purified Drinking Water</title>
 </head>
 <body> 
@@ -13,7 +13,7 @@
     <div class="colorbg">
         <div class="container">   
             <div class="logo">
-                <img src="../Tag's Water Purified Drinking Water/tags logo.png" width="260">
+                <img src="../Tag-s-Water-Purified-Drinking-Water/tags logo.png" width="260">
                 <h1 id="title">Purified Drinking Water</h1>            
             </div>
             <div class="pageform">
