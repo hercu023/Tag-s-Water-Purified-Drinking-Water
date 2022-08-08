@@ -31,7 +31,7 @@
                                 <i id="unhide"  class='fas fa-eye'></i>
                             </span>
                             <div class="pass-icon"><i class='fas fa-key'></i></div>
-                            <input type="password" name="pswd" required>
+                            <input type="password" id="passs" name="pswd" required>
                             <span></span>
                             <label for="password">Password</label>       
                         </div>
@@ -47,9 +47,9 @@
     </div>
     <div class="line2"></div>
     <div class="line1"></div>
-    <script>
+                        <script>
                             function myFunction(){
-                                var x = document.getElementById("pass");
+                                var x = document.getElementById("passs");
                                 var y = document.getElementById("hide");
                                 var z = document.getElementById("unhide");
 
