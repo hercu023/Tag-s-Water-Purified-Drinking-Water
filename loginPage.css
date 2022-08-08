@@ -1,0 +1,205 @@
+body{
+    background: #a3a3a3;
+    margin: 0;
+    overflow-x: hidden;
+    /* background-image: url("https://wallpaperaccess.com/full/562838.jpg"); */
+    background-repeat: cover;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.line1{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 5vh;
+    background-color: #02661b;
+    background-attachment: fixed;
+}
+ .line2{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 1vh;
+    background-color: rgb(255, 255, 255);
+    background-attachment: fixed;
+} 
+.user-icon{
+    left: 2%;
+}
+#title{
+    color: rgb(0, 0, 0); 
+}
+.logo{
+    text-align: center;
+    padding-top: 50px;
+    position: relative;
+}
+.colorbg{
+    min-height: 93.4vh;
+    background: linear-gradient(600deg, transparent, #660202);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} 
+.icon{
+    background-color:#00690e;
+}
+.container{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 10px 20px 35px rgba(0,0,0,0.55);
+}
+.container form{
+    box-sizing: border-box;
+    padding: 0 30px;
+  }
+form .user-icon{
+    position: absolute;
+    left: 8px;
+    bottom: 11px;
+    font-size: 15px;
+    color: #adadad;
+    border-right: 2.5px solid #adadad;
+    padding-right: 7px;
+  }
+  
+form .pass-icon{
+    position: absolute;
+    left: 8px;
+    bottom: 11px;
+    font-size: 15px;
+    color: #adadad;
+    border-right: 2.5px solid #adadad;
+    padding-right: 7px;
+  }
+
+form .txt_field{
+    position: relative;
+    border-bottom: 2.5px solid #adadad;
+    margin-top: 30px;
+    margin-bottom: 5px;
+  }
+form .txt_field .password{
+    margin-bottom: 10px;
+}
+.txt_field input{
+    width: 100%;
+    margin-left: 38.5px;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 13px;
+    border: none;
+    background: none;
+    outline: none;
+  }
+.txt_field label{
+  font-family: lemon milk;
+  position: absolute;
+  top: 50%;
+  left: 43px;
+  color: #adadad;
+  transform: translateY(-50%);
+  font-size: 12px;
+  pointer-events: none;
+  transition: .5s;
+}
+.txt_field span::before{
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #02661b;
+    transition: .5s;
+}
+.txt_field input:focus ~ label,
+.txt_field input:valid ~ label{
+  top: -5px;
+  color: #02661b;
+}
+
+.txt_field input:focus ~ span::before,
+.txt_field input:valid ~ span::before{
+  width: 100%;
+}
+.pass{
+    margin: -5px 0 20px 5px;
+    color: #a6a6a6;
+    cursor: pointer;
+}
+.pass:hover{
+    text-decoration: underline;
+}
+form .loginbtn input{
+    display: block;
+    font-family: Cocogoose;
+    padding: 10px;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+    height: 50px;
+    outline: none;
+    border: none;
+    font-size: 12px;
+    border-radius: 10px;
+    color: white;
+    background:  #888888;
+    cursor: pointer; 
+    transition: 0.5s;
+}
+form .loginbtn input:hover{
+    background: #00690e; 
+}
+.eye{
+    position: absolute;
+    font-size: 15px;
+    right: 10px;
+    top: 13px;
+    color:rgb(201, 201, 201);
+}
+.eye:hover{
+    color:rgb(63, 63, 63)
+}
+#unhide{
+    display: none;
+}
+.forgotpass{
+    text-align: right;
+    font-size: 12px;
+    font-family: arial;
+    color:rgb(158, 158, 158);
+    cursor: pointer;
+    padding-bottom: 5px;
+}
+.forgotpass:hover{
+    color: rgb(3, 80, 3);
+}
+.container .pageform {
+    padding: 25px;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+  }
+h1{
+    font-family: bebas neue;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: -5px;
+    letter-spacing: 7px;
+    border-bottom: 5px solid rgb(2, 80, 2);
+}
+.title{
+    font-family: cocogoose;
+    font-size: 35px;
+    color: rgb(158, 158, 158);
+}
