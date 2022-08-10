@@ -1,4 +1,5 @@
 <?php
+include 'loginDB.php';
     if (isset($_POST['user']) && isset($_POST['pswd'])){
         
         function validate($data){
@@ -8,10 +9,10 @@
             return $data;
         }
 
-        $username = $_POST['user'];
-        $pass = $_POST['pswd'];
+        $username = validate($_POST['user']);
+        $pass = validate($_POST['pswd']);
         
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username=?");
         $stmt->execute([$username]);
 
         if ($stmt->rowCount() === 1){

@@ -1,4 +1,3 @@
-<!--comment-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,10 +18,14 @@
             </div>
             <div class="pageform">
                 <label class="title"><b>WELCOME</b></label>
-                <form action="HomePage.php" method="post">               
+                <?php if (isset($_GET['error'])) { ?>
+                        <p class="error"><?php echo $_GET['error']; ?></p>
+                    <?php } ?>         
+                <form action="HomePage.php" method="post">    
+                      
                         <div class="txt_field">    
                         <div class="user-icon"><i class='fas fa-user-alt'></i></div>  
-                            <input type="username" name="user" required>
+                            <input type="username" id="username"name="user" required>
                             <span></span>
                             <label for="username">Username</label>
                         </div>                      
