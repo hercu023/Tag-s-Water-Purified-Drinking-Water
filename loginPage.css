@@ -46,7 +46,7 @@ body{
     justify-content: center;
 } 
 .error-error{
-    background-color: hsl(0, 100%, 74%);
+    background-color: hsl(0, 100%, 77%);
     color: #ffffff;
     padding: 15px;
     width: 95%;
@@ -111,13 +111,13 @@ form .txt_field .password{
     outline: none;
   }
 .txt_field label{
-  font-family: lemon milk;
+  font-family: 'Malberg Trial', sans-serif;
   position: absolute;
   top: 50%;
   left: 43px;
   color: #adadad;
   transform: translateY(-50%);
-  font-size: 12px;
+  font-size: 15px;
   pointer-events: none;
   transition: .5s;
 }
@@ -151,7 +151,7 @@ form .txt_field .password{
 }
 form .loginbtn input{
     display: block;
-    font-family: cocogoose;
+    font-family: 'COCOGOOSE', sans-serif;
     padding: 10px;
     margin-top: 25px;
     margin-bottom: 20px;
@@ -201,15 +201,17 @@ form .loginbtn input:hover{
     text-align: center;
   }
 h1{
-    font-family: bebas neue;
     text-align: center;
     font-size: 35px;
-    letter-spacing: 5px;
+    letter-spacing: 3px;
     margin-bottom: -5px;
     border-bottom: 5px solid rgb(2, 80, 2);
+    font-family: 'Galhau Display', sans-serif;
+    font-weight: 1000;
+    
 }
 .title{
-    font-family: cocogoose;
+    font-family: 'COCOGOOSE', sans-serif;
     font-size: 35px;
     color: rgb(158, 158, 158);
 }

@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <link rel="stylesheet" type="text/css" href="../Tag-s-Water-Purified-Drinking-Water/loginPage.css">
+    <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
     <title>Tag's Water Purified Drinking Water</title>
 </head>
 <body> 
@@ -27,7 +30,7 @@
                         <div class="user-icon"><i class='fas fa-user-alt'></i></div>  
                             <input type="text" id="username"name="user" required>
                             <span></span>
-                            <label for="username">Username</label>
+                            <label for="username">USERNAME</label>
                         </div>                      
                         <div class="txt_field">
                             <span class="eye" onclick="myFunction()">
@@ -37,7 +40,7 @@
                             <div class="pass-icon"><i class='fas fa-key'></i></div>
                             <input type="password" id="pass" name="password" required>
                             <span></span>
-                            <label for="password">Password</label>       
+                            <label for="password">PASSWORD</label>       
                         </div>
                         <div class="forgotpass">
                             Forgot Password?
