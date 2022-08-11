@@ -14,7 +14,7 @@
         <div class="container">   
             <div class="logo">
                 <img src="../Tag-s-Water-Purified-Drinking-Water/tags logo.png" width="260">
-                <h1 id="title">Purified Drinking Water</h1>            
+                <h1 id="title">PURIFIED DRINKING WATER</h1>            
             </div>
             <div class="pageform">
                 <label class="title"><b>WELCOME</b></label>

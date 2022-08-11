@@ -151,7 +151,7 @@ form .txt_field .password{
 }
 form .loginbtn input{
     display: block;
-    font-family: Cocogoose;
+    font-family: cocogoose;
     padding: 10px;
     margin-top: 25px;
     margin-bottom: 20px;
@@ -203,9 +203,9 @@ form .loginbtn input:hover{
 h1{
     font-family: bebas neue;
     text-align: center;
-    font-size: 30px;
+    font-size: 35px;
+    letter-spacing: 5px;
     margin-bottom: -5px;
-    letter-spacing: 7px;
     border-bottom: 5px solid rgb(2, 80, 2);
 }
 .title{
