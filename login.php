@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,14 +19,14 @@
             </div>
             <div class="pageform">
                 <label class="title"><b>WELCOME</b></label>
-                <?php if (isset($_GET['error'])) { ?>
-                        <p class="error"><?php echo $_GET['error']; ?></p>
-                    <?php } ?>         
+                  
                 <form action="HomePage.php" method="post">    
-                      
+                        <?php if (isset($_GET['error'])) { ?>
+                            <p class="error-error"><?php echo $_GET['error']; ?></p>
+                        <?php } ?>  
                         <div class="txt_field">    
                         <div class="user-icon"><i class='fas fa-user-alt'></i></div>  
-                            <input type="username" id="username"name="user" required>
+                            <input type="text" id="uname"name="user" required>
                             <span></span>
                             <label for="username">Username</label>
                         </div>                      
@@ -35,7 +36,7 @@
                                 <i id="unhide"  class='fas fa-eye'></i>
                             </span>
                             <div class="pass-icon"><i class='fas fa-key'></i></div>
-                            <input type="password" id="passs" name="pswd" required>
+                            <input type="password" id="pass" name="password" required>
                             <span></span>
                             <label for="password">Password</label>       
                         </div>
@@ -53,7 +54,7 @@
     <div class="line1"></div>
                         <script>
                             function myFunction(){
-                                var x = document.getElementById("passs");
+                                var x = document.getElementById("pass");
                                 var y = document.getElementById("hide");
                                 var z = document.getElementById("unhide");
 

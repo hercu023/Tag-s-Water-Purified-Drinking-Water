@@ -14,7 +14,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 5vh;
+    min-height: 6vh;
     background-color: #02661b;
     background-attachment: fixed;
 }
@@ -45,15 +45,16 @@ body{
     align-items: center;
     justify-content: center;
 } 
-.icon{
-    background-color:#00690e;
-}
-.error{
-    background: #964a4a;
-    color: #c55250;
-    padding: 10px;
+.error-error{
+    background-color: hsl(0, 100%, 74%);
+    color: #ffffff;
+    padding: 15px;
     width: 95%;
-    border-radius: 5px;
+    left: 50%;
+    border-radius: 3px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    font-family: Helvetica, sans-serif;
 }
 .container{
     position: absolute;

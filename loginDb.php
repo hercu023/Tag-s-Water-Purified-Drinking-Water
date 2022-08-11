@@ -2,12 +2,13 @@
 
 $sName = "localhost";
 $uName = "root";
-$pass = "";
+$password = "";
 $db_name = "acc_db";
 
-try{
+try {
     $conn = new PDO("mysql:host=$sName;dbname=$db_name", $uName, $pass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO:: ERRMODE_EXCEPTION);
 }catch(PDOException $e){
-    echo "Connection failed : ". $e->getMessage();
+    echo "Connection failed: ". $e->getMessage();
 }
+?>
