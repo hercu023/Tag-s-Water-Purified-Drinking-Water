@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../Tag-s-Water-Purified-Drinking-Water/loginPage.css">
     <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
     <title>Tag's Water Purified Drinking Water</title>
 </head>

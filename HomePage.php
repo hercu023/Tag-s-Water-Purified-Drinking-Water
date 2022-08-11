@@ -37,7 +37,6 @@ include 'loginDb.php';
             }
         } 
     }
-    echo "ebak";
 ?> 
 <!DOCTYPE html>
 <html lang="en">
