@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +25,7 @@
                         <?php } ?>  
                         <div class="txt_field">    
                         <div class="user-icon"><i class='fas fa-user-alt'></i></div>  
-                            <input type="text" id="uname"name="user" required>
+                            <input type="text" id="username"name="user" required>
                             <span></span>
                             <label for="username">Username</label>
                         </div>                      
