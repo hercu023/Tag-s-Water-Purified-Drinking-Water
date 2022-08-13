@@ -1,0 +1,89 @@
+BODY{
+    font-family: monospace;
+    background-color: lightgray;
+}
+.menu{
+    background-color: white;
+    font-weight: bold;
+    float: left;
+    width: 13%;
+    height: 100%;
+    box-shadow: 10px 0 20px -5px darkgray;
+}
+.userType{
+    font-size: 15px;
+    text-align: center;
+    color: gray;
+    margin: 0px;
+    margin-top: 10px;
+}
+.menu p{
+    font-size: 20px;
+    font-weight: lighter;
+    margin-left: 10px;
+}
+.menu a{
+    padding: 0px;
+    text-align: left;
+    font-weight: lighter;
+    font-size: 20px;
+    margin-top: 10px;
+    color: gray;
+    line-height: 50px;
+    display: block;
+}
+a.menu:link, a:visited{
+    color: white;
+}
+menu.dashboard, a.dashboard:link {
+    color: black;
+    background-color: darkgreen;
+}
+.menu img{
+    width: 15px;
+    margin-right: 10px;
+    margin-left: 20px;
+}
+.menu a:hover{
+    transition: 0.3s;
+    background-color: lightgray;
+    padding-inline: 2%;
+    color: black;
+    font-weight: bold;
+}
+/*top bar css-style*/
+.topBar{
+    margin: 50px;
+    margin-bottom: 1px;
+    margin-left: 14%;
+    text-align: left;
+    background-color: white;
+    height: 5%;
+    width: 82%;
+    border-radius: 0px 0px 10px 10px;
+    padding-inline: 10px;
+    box-shadow: 0 10px 20px -5px darkgray;
+    vertical-align: middle;
+
+}
+.webName{
+    float: left;
+    vertical-align: middle;
+    font-size: 15px;
+}
+.topBar img{
+    border: 1px;
+    padding: 5px;
+    width: 10px;
+    margin-top: 0.9%;
+    float: right;
+}
+/*content */
+.content{
+    padding-inline: 10px;
+    background-color: lightgray;
+    margin-left: 14%;
+    height: 94%;
+    width: 82%;
+    border-radius: 10px;
+}
