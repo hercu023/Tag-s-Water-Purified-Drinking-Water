@@ -42,6 +42,33 @@
         </div>
     </form>
 
+    <!--widgets-->
+    <div class="widgets">
+
+        <div class="item1">
+            <?php echo "Total Sales"?>
+        </div>
+    
+
+        <div class="item2">
+            <?php echo "delivered"?>
+        </div>
+    
+
+        <div class="item3">
+            <?php echo "walk-ins"?>
+        </div>
+    
+        <div class="item4">
+            <?php echo "Unpaid"?>
+        </div>
+
+        <div class="item5">
+             <?php echo "Pick-up"?>
+        </div>
+    </div>
+
+
     </body>
 
 </html>

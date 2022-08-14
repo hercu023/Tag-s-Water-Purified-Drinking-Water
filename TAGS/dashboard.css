@@ -87,3 +87,37 @@ menu.dashboard, a.dashboard:link {
     width: 82%;
     border-radius: 10px;
 }
+
+/*widgets*/
+.item1,.item2,.item3,.item4,.item5{
+    box-shadow: 0 10px 20px -5px darkgray;
+    height: 50px;
+    width: 100px;
+    float: left;
+    margin: 20px;
+    position: relative;
+    bottom: 570px;
+    left: 300px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.item1{
+    background-color: #b4f59d;
+}
+
+.item2{
+    background-color: #f55656;
+}
+
+.item3{
+    background-color: #5690f5;
+}
+
+.item4{
+    background-color: #c884e0;
+}
+
+.item5{
+    background-color: #a2a9b3;
+}
