@@ -14,14 +14,18 @@
 </head>
 <body> 
 
-    <div class="colorbg">
+    <div class="colorbg"> 
+        <div class="lines">
+            <section class="line2"></section>
+            <section class="line1"></section>
+        </div>
         <div class="container">   
             <div class="logo">
-                <img src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" width="260">
+                <img src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" width="200">
                 <h1 id="title">PURIFIED DRINKING WATER</h1>            
             </div>
             <div class="pageform">
-                <label class="title"><b>WELCOME</b></label>
+                <!-- <label class="title"><b>WELCOME</b></label> -->
                   
                 <form action="HomePage.php" method="post">    
                         <?php if (isset($_GET['error'])) { ?>
@@ -34,12 +38,13 @@
                             <label for="username">Username</label>
                         </div>                      
                         <div class="txt_field">
-                            <span class="eye" onclick="myFunction()">
-                                <i id="hide" class='fas fa-eye-slash'></i>
-                                <i id="unhide"  class='fas fa-eye'></i>
-                            </span>
                             <div class="pass-icon"><i class='fas fa-key'></i></div>
+                            <span class="eye" onclick="myFunction()">
+                                <i id="unhide"  class='fas fa-eye'></i>
+                                <i id="hide" class='fas fa-eye-slash'></i>
+                            </span>
                             <input type="password" id="pass" name="password" required>
+                            
                             <span></span>
                             <label for="password">Password</label>       
                         </div>
@@ -52,9 +57,9 @@
                 </form>
             </div>    
         </div>
+        
     </div>
-    <div class="line2"></div>
-    <div class="line1"></div>
+    
                         <script>
                             function myFunction(){
                                 var x = document.getElementById("pass");
@@ -63,19 +68,21 @@
 
                                 if(x.type === 'password'){
                                     x.type = "text";
-                                    y.style.display = "block";
-                                    z.style.display = "none";
+                                    z.style.display = "block";
+                                    y.style.display = "none";
                                 }else{
                                     x.type = "password";
-                                    y.style.display = "none";
-                                    z.style.display = "block";
+                                    y.style.display = "block";
+                                    z.style.display = "none";
                                 }
                             }           
                         </script>
     <style>
             body{
-                background: #a3a3a3;
+                background: #686868;
                 margin: 0;
+                padding: 0;
+                height: 100%;
                 overflow-x: hidden;
                 font-family: Arial, Helvetica, sans-serif;
                 /* background-image: url("https://wallpaperaccess.com/full/562838.jpg"); */ */
@@ -84,24 +91,27 @@
                 background-size: cover;
                 background-attachment: fixed;
             }
+            .lines{
+                position: absolute;
+                bottom: 0%; 
+                width: 100%;
+            }
             .line1{
                 position: relative;
                 display: flex;
-                flex-direction: column;
-                align-items: center;
-                min-height: 5.6vh;
-                background-color: #02661b;
+                min-height: 75.6vh;
+                clip-path: ellipse(83% 42% at 83% 100%);
+                background: linear-gradient(290deg, transparent, #02661b);
                 background-attachment: fixed;
             }
             .line2{
                 position: relative;
                 display: flex;
-                flex-direction: column;
-                align-items: center;
-                min-height: 1vh;
-                background-color: rgb(255, 255, 255);
+                min-height: 40vh;
+                background: linear-gradient(80deg, transparent, #B22222);
+                clip-path: ellipse(60% 66% at 14% 12%);
                 background-attachment: fixed;
-            } 
+            }  
             .user-icon{
                 left: 2%;
             }
@@ -112,22 +122,25 @@
                 text-align: center;
                 padding-top: 50px;
                 position: relative;
+                min-width: 5%;
             }
             .colorbg{
-                min-height: 93.4vh;
-                background: linear-gradient(600deg, transparent, #660202);
+                overflow-y: hidden;
+                position: absolute;
+                height: 100%;
+                bottom: 0%;
+                width: 100%;
+                background: linear-gradient(270deg, transparent, white);
                 display: flex;
-                align-items: center;
-                justify-content: center;
             } 
             .error-error{
                 background-color: hsl(0, 100%, 77%);
                 color: #ffffff;
-                padding: 15px;
-                width: 95%;
+                padding: 13px;
+                width: 90.5%;
                 left: 50%;
                 border-radius: 3px;
-                font-size: 13px;
+                font-size: 11px;
                 letter-spacing: 0.5px;
                 font-family: Helvetica, sans-serif;
             }
@@ -135,8 +148,10 @@
                 position: absolute;
                 top: 45%;
                 left: 50%;
+                min-width: 20vh;
+                max-width: 42vh;
                 transform: translate(-50%, -50%);
-                width: 500px;
+                width: 100%;
                 background: white;
                 border-radius: 10px;
                 box-shadow: 10px 20px 35px rgba(0,0,0,0.55);
@@ -169,18 +184,24 @@
             form .txt_field{
                 position: relative;
                 border-bottom: 2.5px solid #adadad;
-                margin-top: 30px;
+                margin-top: 15px;
                 margin-bottom: 5px;
+                padding-right: 12vh;
             }
             form .txt_field .password{
                 margin-bottom: 10px;
             }
             .txt_field input{
+                position: relative;
+                margin-left: 35px;
+                min-width: 3vh;
+                padding: 0 6px;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                height: 30px;
                 width: 100%;
-                margin-left: 38.5px;
-                padding: 0 5px;
-                height: 40px;
-                font-size: 13px;
+                max-width: 24.7vh;
+                font-size: 12px;
                 border: none;
                 background: none;
                 outline: none;
@@ -192,9 +213,9 @@
             left: 43px;
             color: #adadad;
             transform: translateY(-50%);
-            font-size: 15px;
+            font-size: 13px;
             pointer-events: none;
-            transition: .5s;
+            transition: .2s;
             }
             .txt_field span::before{
                 content: '';
@@ -204,12 +225,12 @@
                 width: 0%;
                 height: 2px;
                 background: #02661b;
-                transition: .5s;
+                transition: .2s;
             }
             .txt_field input:focus ~ label,
-            .txt_field input:not(:placeholder-shown).txt_field input:not(:focus){
-            top: -5px;
-            font-size: 8px;
+            .txt_field input:valid ~ label{
+            top: -0.5px;
+            font-size: 10px;
             color: #02661b;
             }
 
@@ -236,7 +257,7 @@
                 height: 50px;
                 outline: none;
                 border: none;
-                font-size: 12px;
+                font-size: 11px;
                 border-radius: 10px;
                 color: white;
                 background:  #888888;
@@ -249,49 +270,57 @@
             .eye{
                 position: absolute;
                 font-size: 15px;
-                right: 10px;
+                right: 9px;
                 top: 13px;
-                color:rgb(201, 201, 201);
-            }
-            .eye:hover{
-                color:rgb(63, 63, 63)
+                color:rgb(63, 63, 63);
+                cursor: pointer;
             }
             #unhide{
                 display: none;
             }
+            #hide{
+                color:rgb(201, 201, 201);
+            }
             .forgotpass{
                 text-align: right;
-                font-size: 12px;
+                font-size: 10px;
                 font-family: arial;
                 color:rgb(158, 158, 158);
                 cursor: pointer;
                 padding-bottom: 5px;
             }
+            .forgotpass:active{
+                color: rgb(3, 80, 3);
+            }
             .forgotpass:hover{
                 color: rgb(3, 80, 3);
             }
             .container .pageform {
-                padding: 25px;
+                padding: 10px;
                 font-size: 20px;
                 font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 text-align: center;
             }
             h1{
                 text-align: center;
-                font-size: 35px;
+                font-size: 25px;
                 letter-spacing: 3px;
-                margin-bottom: -5px;
-                border-bottom: 5px solid rgb(2, 80, 2);
+                margin-bottom: 6px;
+                border-bottom: 3px solid rgb(2, 80, 2);
                 font-family: 'Galhau Display', sans-serif;
                 font-weight: 1000;
+                padding-bottom: 10px;
                 
             }
-            .title{
+            /* .title{
                 font-family: 'PHANTOM', sans-serif;
-                font-size: 45px;
+                font-size: 35px;
+                margin-top: 50%;
+                align-items: center;
+                text-align: center;
                 letter-spacing: 2px;
                 color: rgb(158, 158, 158);
-            }
+            } */
 
     </style>
 </body>
