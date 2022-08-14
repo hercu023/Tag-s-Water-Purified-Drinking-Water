@@ -33,9 +33,9 @@
                         <?php } ?>  
                         <div class="txt_field">    
                         <div class="user-icon"><i class='fas fa-user-alt'></i></div>  
-                            <input type="text" id="username"name="user" required>
+                            <input type="text" id="email" name="email" required>
                             <span></span>
-                            <label for="username">Username</label>
+                            <label for="email">Email</label>
                         </div>                      
                         <div class="txt_field">
                             <div class="pass-icon"><i class='fas fa-key'></i></div>
@@ -146,7 +146,7 @@
             }
             .container{
                 position: absolute;
-                top: 45%;
+                top: 50%;
                 left: 50%;
                 min-width: 20vh;
                 max-width: 42vh;

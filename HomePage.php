@@ -1,39 +1,38 @@
 <?php
 // session_start();
 include 'loginDb.php';
-    if (isset($_POST['user']) && isset($_POST['password'])){
+    if (isset($_POST['email']) && isset($_POST['password'])){
 
-        $username = $_POST['user'];
+        $email = $_POST['email'];
         $pass = $_POST['password'];
         
-        if (empty($username)){
+        if (empty($email)){
             // header("Location: login.php?error=Email is required");
         }else if (empty($pass)){
             // header("Location: login.php?error=Password is required");
         }else{
-            $stmt = $conn->prepare("SELECT * FROM users WHERE username=?");
-            $stmt->execute([$username]);
+            $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
+            $stmt->execute([$email]);
             if ($stmt->rowCount() === 1){
                 $user = $stmt->fetch();
                 
                 $user_id = $user['id'];
-                $user_username = $user['username'];
+                $user_email = $user['email'];
                 $user_password = $user['password'];
                 $user_full_name = $user['full_name'];
-                if ($username === $user_username){
+                if ($email === $user_email){
                     if (password_verify($pass, $user_password)){
                         $_SESSION['user_id'] = $user_id;
-                        $_SESSION['user_username'] = $user_username;
+                        $_SESSION['user_email'] = $user_email;
                         $_SESSION['user_full_name'] =  $user_full_name;
                     }else{
-                        header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>           Incorrect Username or Password");
+                        header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Incorrect Email or Password");
                     }
                 }else {
-                    header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>           Incorrect Username or Password");
+                    header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Incorrect Email or Password");
                 }
-                
             }else{
-            header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>           Incorrect Username or Password");
+                header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Incorrect Email or Password");
             }
         } 
     }
