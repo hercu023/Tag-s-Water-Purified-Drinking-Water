@@ -137,8 +137,7 @@
                 background-color: hsl(0, 100%, 77%);
                 color: #ffffff;
                 padding: 13px;
-                width: 90.5%;
-                left: 50%;
+                width: 92%;
                 border-radius: 3px;
                 font-size: 11px;
                 letter-spacing: 0.5px;
