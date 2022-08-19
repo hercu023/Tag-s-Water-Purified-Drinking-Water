@@ -133,16 +133,16 @@
                 background-attachment: fixed;
             }
             form .loginbtn{
-                text-align: right;
+                position: relative;
+                padding-left: 3vh;
                 display: flex;
             }
             form .loginbtn #cancel{
                 width: 120px;
                 background: #c44242;
                 font-family: 'COCOGOOSE', sans-serif;
-                padding: 10px;
-                margin-top: 25px;
-                margin-right: 10px;
+                margin-top: 15px;
+                margin-right: 15px;
                 margin-bottom: 20px;
                 text-align: center;
                 height: 45px;
@@ -156,9 +156,7 @@
             form .loginbtn input{
                 /* display: block; */
                 font-family: 'COCOGOOSE', sans-serif;
-                padding: 10px;
-                margin-top: 25px;
-                margin-right: 10px;
+                margin-top: 15px;
                 margin-bottom: 20px;
                 text-align: center;
                 width: 130px;
