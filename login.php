@@ -22,7 +22,7 @@
         <div class="container">  
             
                 <div class="logo">
-                    <img src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" width="200">
+                    <img class="tagslogo" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" >
                     <h1 id="title">PURIFIED DRINKING WATER</h1>            
                 </div>
                     <div class="pageform">
@@ -119,9 +119,12 @@
             }
             .logo{
                 text-align: center;
-                padding-top: 50px;
+                padding-top: 20px;
                 position: relative;
-                min-width: 5%;
+            }
+            .logo .tagslogo{
+                max-width: 23vh;
+                width: 100%;
             }
             .colorbg{
                 overflow-y: hidden;
@@ -146,10 +149,10 @@
                 position: absolute;
                 top: 50%;
                 left: 50%;
-                min-width: 20vh;
-                max-width: 42vh;
-                transform: translate(-50%, -50%);
-                width: 100%;
+                max-height: 85vh;
+                min-width: 300px;
+                overflow-y: scroll;              
+                transform: translate(-50%, -50%);  
                 background: white;
                 border-radius: 10px;
                 box-shadow: 10px 20px 35px rgba(0,0,0,0.55);
@@ -158,7 +161,6 @@
                 box-sizing: border-box;
                 padding: 0 30px;
             }
-
             form .user-icon{
                 position: absolute;
                 left: 8px;
@@ -309,6 +311,7 @@
                 border-bottom: 3px solid rgb(2, 80, 2);
                 font-family: 'Galhau Display', sans-serif;
                 font-weight: 1000;
+
                 padding-bottom: 10px;
             }
 

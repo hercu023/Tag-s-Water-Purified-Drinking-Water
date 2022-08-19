@@ -62,7 +62,6 @@
                 position: relative;
                 border-bottom: 2.5px solid #adadad;
                 margin-top: 15px;
-                margin-bottom: 5px;
                 padding-right: 12vh;
             }
             .txt_field input{
@@ -135,6 +134,7 @@
             }
             form .loginbtn{
                 text-align: right;
+                display: flex;
             }
             form .loginbtn #cancel{
                 width: 120px;
@@ -179,10 +179,9 @@
                 position: absolute;
                 top: 50%;
                 left: 50%;
-                min-width: 20vh;
-                max-width: 42vh;
+                max-height: 85vh;
+                min-width: 300px;
                 transform: translate(-50%, -50%);
-                width: 100%;
                 background: white;
                 border-radius: 10px;
                 box-shadow: 10px 20px 35px rgba(0,0,0,0.55);
