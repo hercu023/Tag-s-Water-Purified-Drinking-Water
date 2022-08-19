@@ -19,43 +19,42 @@
             <section class="line2"></section>
             <section class="line1"></section>
         </div>
-        <div class="container">   
-            <div class="logo">
-                <img src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" width="200">
-                <h1 id="title">PURIFIED DRINKING WATER</h1>            
-            </div>
-            <div class="pageform">
-                <!-- <label class="title"><b>WELCOME</b></label> -->
-                  
-                <form action="HomePage.php" method="post">    
-                        <?php if (isset($_GET['error'])) { ?>
-                            <p class="error-error"><?php echo $_GET['error']; ?></p>
-                        <?php } ?>  
-                        <div class="txt_field">    
-                        <div class="user-icon"><i class='fas fa-user-alt'></i></div>  
-                            <input type="text" id="email" name="email" required>
-                            <span></span>
-                            <label for="email">Email</label>
-                        </div>                      
-                        <div class="txt_field">
-                            <div class="pass-icon"><i class='fas fa-key'></i></div>
-                            <span class="eye" onclick="myFunction()">
-                                <i id="unhide"  class='fas fa-eye'></i>
-                                <i id="hide" class='fas fa-eye-slash'></i>
-                            </span>
-                            <input type="password" id="pass" name="password" required>
-                            
-                            <span></span>
-                            <label for="password">Password</label>       
-                        </div>
-                        <div class="forgotpass">
-                            Forgot Password?
-                        </div>
-                        <div class="loginbtn">
-                            <input type="submit" value="LOG IN" name="submit" id="sub">
-                        </div>   
-                </form>
-            </div>    
+        <div class="container">  
+            
+                <div class="logo">
+                    <img src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" width="200">
+                    <h1 id="title">PURIFIED DRINKING WATER</h1>            
+                </div>
+                    <div class="pageform">
+                        <form action="HomePage.php" method="post">    
+                                <?php if (isset($_GET['error'])) { ?>
+                                    <p class="error-error"><?php echo $_GET['error']; ?></p>
+                                <?php } ?>  
+                                <div class="txt_field">    
+                                <div class="user-icon"><i class='fas fa-user-alt'></i></div>  
+                                    <input type="text" id="email" name="email" required>
+                                    <span></span>
+                                    <label for="email">Email</label>
+                                </div>                      
+                                <div class="txt_field">
+                                    <div class="pass-icon"><i class='fas fa-key'></i></div>
+                                    <span class="eye" onclick="myFunction()">
+                                        <i id="unhide"  class='fas fa-eye'></i>
+                                        <i id="hide" class='fas fa-eye-slash'></i>
+                                    </span>
+                                    <input type="password" id="pass" name="password" required>
+                                    
+                                    <span></span>
+                                    <label for="password">Password</label>       
+                                </div>
+                                <div class="forgotpass"> 
+                                    <a href="forgot.php" id="forgot">Forgot Password?</a>
+                                </div>
+                                <div class="loginbtn">
+                                    <input type="submit" value="LOG IN" name="submit" id="sub">
+                                </div>   
+                        </form>
+                    </div>    
         </div>
         
     </div>
@@ -282,16 +281,18 @@
             }
             .forgotpass{
                 text-align: right;
-                font-size: 10px;
+                padding-bottom: 5px;
+            }
+            .forgotpass #forgot{
+                font-size: 11.5px;
                 font-family: arial;
                 color:rgb(158, 158, 158);
                 cursor: pointer;
-                padding-bottom: 5px;
             }
-            .forgotpass:active{
+            #forgot:active{
                 color: rgb(3, 80, 3);
             }
-            .forgotpass:hover{
+            #forgot:hover{
                 color: rgb(3, 80, 3);
             }
             .container .pageform {
@@ -309,17 +310,8 @@
                 font-family: 'Galhau Display', sans-serif;
                 font-weight: 1000;
                 padding-bottom: 10px;
-                
             }
-            /* .title{
-                font-family: 'PHANTOM', sans-serif;
-                font-size: 35px;
-                margin-top: 50%;
-                align-items: center;
-                text-align: center;
-                letter-spacing: 2px;
-                color: rgb(158, 158, 158);
-            } */
+
 
     </style>
 </body>
