@@ -123,7 +123,8 @@
                 position: relative;
             }
             .logo .tagslogo{
-                max-width: 23vh;
+                min-width: 10vh;
+                max-width: 15vh; 
                 width: 100%;
             }
             .colorbg{
@@ -138,34 +139,35 @@
             .error-error{
                 background-color: hsl(0, 100%, 77%);
                 color: #ffffff;
-                padding: 13px;
+                padding: 11px;
                 width: 92%;
                 border-radius: 3px;
-                font-size: 11px;
+                font-size: min(max(9px, 1.2vw), 11px);
                 letter-spacing: 0.5px;
                 font-family: Helvetica, sans-serif;
             }
             .container{
                 position: absolute;
                 top: 50%;
-                left: 50%;
-                max-height: 85vh;
-                min-width: 300px;
-                overflow-y: scroll;              
+                left: 50%;  
+                max-width: 400px;
+                min-width: 40vh;
+                overflow-y: scroll;
+                min-height: 300px;
                 transform: translate(-50%, -50%);  
                 background: white;
                 border-radius: 10px;
                 box-shadow: 10px 20px 35px rgba(0,0,0,0.55);
-            }
+            }   
             .container form{
                 box-sizing: border-box;
-                padding: 0 30px;
+                padding: 0 20px;
             }
             form .user-icon{
                 position: absolute;
                 left: 8px;
                 bottom: 11px;
-                font-size: 15px;
+                font-size: min(max(11px, 1.5vw), 13px);
                 color: #adadad;
                 border-right: 2.5px solid #adadad;
                 padding-right: 7px;
@@ -175,7 +177,7 @@
                 position: absolute;
                 left: 8px;
                 bottom: 11px;
-                font-size: 15px;
+                font-size: min(max(11px, 1.5vw), 13px);
                 color: #adadad;
                 border-right: 2.5px solid #adadad;
                 padding-right: 7px;
@@ -184,8 +186,7 @@
             form .txt_field{
                 position: relative;
                 border-bottom: 2.5px solid #adadad;
-                margin-top: 15px;
-                margin-bottom: 5px;
+                margin-top: 1.4vh;
                 padding-right: 12vh;
             }
             form .txt_field .password{
@@ -196,12 +197,12 @@
                 margin-left: 35px;
                 min-width: 3vh;
                 padding: 0 6px;
-                margin-top: 5px;
+                margin-top: 7px;
                 margin-bottom: 5px;
-                height: 30px;
+                height: 28px;
                 width: 100%;
-                max-width: 24.7vh;
-                font-size: 12px;
+                max-width: 38.7vh;
+                font-size: min(max(9px, 1.3vw), 11px);
                 border: none;
                 background: none;
                 outline: none;
@@ -213,7 +214,7 @@
             left: 43px;
             color: #adadad;
             transform: translateY(-50%);
-            font-size: 13px;
+            font-size: min(max(11px, 1.5vw), 13px);
             pointer-events: none;
             transition: .2s;
             }
@@ -229,7 +230,7 @@
             }
             .txt_field input:focus ~ label,
             .txt_field input:valid ~ label{
-            top: -0.5px;
+            top: -0.3px;
             font-size: 10px;
             color: #02661b;
             }
@@ -250,14 +251,15 @@
                 display: block;
                 font-family: 'COCOGOOSE', sans-serif;
                 padding: 10px;
-                margin-top: 25px;
+                margin-top: 2vh;
                 margin-bottom: 20px;
                 text-align: center;
                 width: 100%;
-                height: 50px;
+
+                max-height: 60px;
                 outline: none;
                 border: none;
-                font-size: 11px;
+                font-size: min(max(9px, 1.1vw), 11px);
                 border-radius: 10px;
                 color: white;
                 background:  #888888;
@@ -286,7 +288,7 @@
                 padding-bottom: 5px;
             }
             .forgotpass #forgot{
-                font-size: 11.5px;
+                font-size: min(max(9px, 1.1vw), 11px);
                 font-family: arial;
                 color:rgb(158, 158, 158);
                 cursor: pointer;
@@ -302,17 +304,18 @@
                 font-size: 20px;
                 font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 text-align: center;
+                max-height: 600px;
+                overflow-y: scroll;  
             }
             h1{
                 text-align: center;
-                font-size: 25px;
+                font-size: min(max(19px, 1.3vw), 22px);
                 letter-spacing: 3px;
                 margin-bottom: 6px;
                 border-bottom: 3px solid rgb(2, 80, 2);
                 font-family: 'Galhau Display', sans-serif;
                 font-weight: 1000;
-
-                padding-bottom: 10px;
+                padding-bottom: 7px;
             }
 
 
