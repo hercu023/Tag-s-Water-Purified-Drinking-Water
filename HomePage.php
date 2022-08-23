@@ -1,6 +1,6 @@
 <?php
 // session_start();
-include 'loginDb.php';
+include 'connectionDB.php';
     if (isset($_POST['email']) && isset($_POST['password'])){
 
         $email = $_POST['email'];
@@ -26,13 +26,13 @@ include 'loginDb.php';
                         $_SESSION['user_email'] = $user_email;
                         $_SESSION['user_full_name'] =  $user_full_name;
                     }else{
-                        header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Incorrect Email or Password");
+                        header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The password you've entered is incorrect");
                     }
                 }else {
-                    header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Incorrect Email or Password");
+                    header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The email you entered is not connected to the system");
                 }
             }else{
-                header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Incorrect Email or Password");
+                header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The email you entered is not connected to the system");
             }
         } 
     }

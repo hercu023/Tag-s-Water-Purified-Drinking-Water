@@ -7,34 +7,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
-    <title>Forgot Password</title>
+    <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
+    <title>Change Password</title>
 </head>
 <body>
-    <div class="colorbg"> 
+<div class="colorbg"> 
             <div class="lines">
                 <section class="line2"></section>
                 <section class="line1"></section>
             </div>
             <div id="container">
                 <div class="dividecolor">
-                            <h2>Forgot Password</h2>
-                            <p>Please enter your email address and will send you the code.</p> 
-                                <?php if (isset($_GET['error'])) { ?>
-                                    <p class="error-error"><?php echo $_GET['error']; ?></p>
-                                <?php } ?>  
+                    <h2>Change Password</h2>
+                    <p>Create new password that is at least 8 characters long. <br> Mix with numbers and symbols for a strong security.</p>
                 </div>
                 <div class="pageform">
-                    <form action="code-verification.php" method="post" autocomplete="off"> 
-                            
-                                <div class="txt_field">    
-                                    <input type="text" id="email" name="email" required>
+                    <form action="login.php" method="post" autocomplete="off">                      
+                                <div class="txt_field">
+                                    <input type="password" id="pass" name="newpassword" required>
                                     <span></span>
-                                    <label for="email">Email</label>
+                                    <label for="password">New Password</label>  
+                                </div>
+                                <div class="txt_field">  
+                                    <input type="password" id="changepass" name="changePassword" required>
+                                    <span></span>
+                                    <label for="password">Confirm Password</label> 
+                                </div>
+                                <div class="checker">
+                                    <input type="checkbox" name="" onclick="myFunction()" >
+                                    <span>Show password</span>
                                 </div>
                                 <div class="confirmbtn">
-                                    <input type="submit" class="confirm" value="CONTINUE" name="check-email"> 
+                                    <input type="submit" value="SAVE" name="changePassword" class="confirm">
                                     <a href="login.php" id="cancel">CANCEL</a>
                                 </div>   
+                                
                         </div>
                     </form>
                 </div>
@@ -42,6 +49,19 @@
     </div>
 </body>
 </html>
+    <script>
+            function myFunction(){
+                var x = document.getElementById("pass");
+                var y = document.getElementById("changepass");
+                if(x.type === 'password'){
+                    x.type = "text";
+                    y.type = "text";
+                }else{
+                    x.type = "password";
+                    y.type = "password";
+                }
+            }           
+    </script>
     <style>
             body{
                 background: #686868;
@@ -64,6 +84,11 @@
                 width: 100%;
                 background: linear-gradient(270deg, transparent, white);
                 display: flex;
+            }
+            .pageform{
+                background-color: white;
+                border-radius: 0px 0px 10px 10px;
+                border-top: 2px solid hsl(0, 0%, 86%);
             } 
             .error-error{
                 background-color: hsl(0, 100%, 77%);
@@ -73,17 +98,26 @@
                 border-radius: 3px;
                 font-size: min(max(9px, 1.2vw), 11px);
                 letter-spacing: 0.5px;
-                font-family: ARIAL, sans-serif;
+                font-family: Helvetica, sans-serif;
             }
-            .pageform{
-                background-color: white;
-                border-radius: 0px 0px 10px 10px;
-                border-top: 2px solid hsl(0, 0%, 86%);
+            .checker {
+                margin-top: 10px;
+                text-align: right;
+                align-items: right;
+                margin-right: 10px;
+            }
+            .checker span {
+                text-decoration: none;
+                color: rgb(3, 80, 3);
+                top: 50%;
+                font-size: min(max(10px, 1.2vw), 12px);
+                font-family: 'Switzer', sans-serif;
             }
             .txt_field{
                 position: relative;
                 border-bottom: 2.5px solid #adadad;
                 margin-top: 15px;
+                padding-right: 12vh;
             }
             .txt_field input{
                 position: relative;
@@ -100,6 +134,9 @@
                 background: none;
                 outline: none;
             }
+            form .txt_field .password{
+                margin-bottom: 10px;
+            }
             .txt_field label{
                 font-family: 'Malberg Trial', sans-serif;
                 position: absolute;
@@ -107,9 +144,9 @@
                 left: 20px;
                 color: #adadad;
                 transform: translateY(-50%);
-                font-size: 13px;
+                font-size: 11px;
                 pointer-events: none;
-                transition: .2s;
+                transition: 0.2s;
             }
             .txt_field span::before{
                 content: '';
@@ -119,12 +156,12 @@
                 width: 0%;
                 height: 2px;
                 background: #02661b;
-                transition: .2s;
+                transition: 0.2s;
             }
             .txt_field input:focus ~ label,
             .txt_field input:valid ~ label{
                 top: -0.5px;
-                font-size: 10px;
+                font-size: 9px;
                 color: #02661b;
             }
 
@@ -199,9 +236,6 @@
                 background:  #888888;
                 cursor: pointer; 
                 transition: 0.5s; 
-            }
-            form .confirmbtn .confirm:hover{
-                background: #00690e; 
             }
             #container{
                 position: absolute;

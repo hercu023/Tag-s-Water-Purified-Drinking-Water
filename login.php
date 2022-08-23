@@ -124,7 +124,7 @@
             }
             .logo .tagslogo{
                 min-width: 10vh;
-                max-width: 15vh; 
+                max-width: 18vh; 
                 width: 100%;
             }
             .colorbg{
@@ -152,7 +152,7 @@
                 left: 50%;  
                 max-width: 400px;
                 min-width: 40vh;
-                overflow-y: scroll;
+                /* overflow-y: scroll; */
                 min-height: 300px;
                 transform: translate(-50%, -50%);  
                 background: white;
@@ -208,15 +208,15 @@
                 outline: none;
             }
             .txt_field label{
-            font-family: 'Malberg Trial', sans-serif;
-            position: absolute;
-            top: 50%;
-            left: 43px;
-            color: #adadad;
-            transform: translateY(-50%);
-            font-size: min(max(11px, 1.5vw), 13px);
-            pointer-events: none;
-            transition: .2s;
+                font-family: 'Malberg Trial', sans-serif;
+                position: absolute;
+                top: 50%;
+                left: 43px;
+                color: #adadad;
+                transform: translateY(-50%);
+                font-size: min(max(11px, 1.5vw), 13px);
+                pointer-events: none;
+                transition: .2s;
             }
             .txt_field span::before{
                 content: '';
@@ -305,7 +305,7 @@
                 font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 text-align: center;
                 max-height: 600px;
-                overflow-y: scroll;  
+                /* overflow-y: scroll;   */
             }
             h1{
                 text-align: center;

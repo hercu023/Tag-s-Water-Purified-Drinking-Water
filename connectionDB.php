@@ -12,3 +12,6 @@ try {
     echo "Connection failed: ". $e->getMessage();
 }
 ?>
+<?php 
+$con = mysqli_connect('localhost', 'root', '', 'acc_db');
+?>

@@ -9,6 +9,14 @@
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
     <title>Forgot Password</title>
 </head>
+    <script> 
+        function isNumberKey(evt){
+            var charCode = (evt.which) ? evt.which : evt.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+    </script> 
 <body>
     <div class="colorbg"> 
             <div class="lines">
@@ -17,22 +25,28 @@
             </div>
             <div id="container">
                 <div class="dividecolor">
-                            <h2>Forgot Password</h2>
-                            <p>Please enter your email address and will send you the code.</p> 
-                                <?php if (isset($_GET['error'])) { ?>
-                                    <p class="error-error"><?php echo $_GET['error']; ?></p>
-                                <?php } ?>  
+                    <h2>Code Verification</h2>
+                                <?php
+                                    if(isset($_SESSION['message'])){
+                                        ?>
+                                        <div id="alert"><p class="notif-notif"> <?php echo $_SESSION['message']; ?></div></p>
+                                        <?php
+                                    }
+                                    ?>
+                                    <?php if (isset($_GET['error'])) { ?>
+                                        <p class="error-error"><?php echo $_GET['error']; ?></p>
+                                    <?php } ?> 
                 </div>
                 <div class="pageform">
-                    <form action="code-verification.php" method="post" autocomplete="off"> 
+                    <form action="changePassword.php" method="post" autocomplete="off"> 
                             
                                 <div class="txt_field">    
-                                    <input type="text" id="email" name="email" required>
+                                    <input type="text" id="" name="otp" maxlength = "6" onkeypress="return isNumberKey(event)" required>
                                     <span></span>
-                                    <label for="email">Email</label>
+                                    <label for="code">Code</label>
                                 </div>
                                 <div class="confirmbtn">
-                                    <input type="submit" class="confirm" value="CONTINUE" name="check-email"> 
+                                    <input type="submit" value="CONFIRM" name="code-verfiy" class="confirm">
                                     <a href="login.php" id="cancel">CANCEL</a>
                                 </div>   
                         </div>
@@ -42,6 +56,7 @@
     </div>
 </body>
 </html>
+    
     <style>
             body{
                 background: #686868;
@@ -69,34 +84,49 @@
                 background-color: hsl(0, 100%, 77%);
                 color: #ffffff;
                 padding: 11px;
-                width: 92%;
+                margin-left: 30px;
+                width: 77%;
+                align-items: center;
+                text-align: center;
                 border-radius: 3px;
                 font-size: min(max(9px, 1.2vw), 11px);
                 letter-spacing: 0.5px;
-                font-family: ARIAL, sans-serif;
-            }
-            .pageform{
-                background-color: white;
-                border-radius: 0px 0px 10px 10px;
-                border-top: 2px solid hsl(0, 0%, 86%);
+                font-family: Helvetica, sans-serif;
             }
             .txt_field{
                 position: relative;
                 border-bottom: 2.5px solid #adadad;
                 margin-top: 15px;
             }
+            .notif-notif{
+                margin-bottom: -40px;
+                margin-top: -5px;
+                color: hsl(0, 0%, 53%);
+                font-size: min(max(10px, 1.2vw), 12px);
+                letter-spacing: 0.5px;
+                font-family: Helvetica, sans-serif;
+                align-items: center;
+                text-align: center;
+            }
+            .pageform{
+                background-color: white;
+                border-radius: 0px 0px 10px 10px;
+                border-top: 2px solid hsl(0, 0%, 86%);
+            }
             .txt_field input{
                 position: relative;
-                margin-left: 15px;
-                min-width: 3vh;
+                min-width: 5vh;
+                letter-spacing: 8px;
                 padding: 0 6px;
                 margin-top: 5px;
                 margin-bottom: 5px;
                 height: 30px;
                 width: 100%;
-                max-width: 24.7vh;
-                font-size: 12px;
+                font-size: 21px;
+                font-weight: bold;
                 border: none;
+                text-align: center;
+                align-items: center;
                 background: none;
                 outline: none;
             }
@@ -109,7 +139,7 @@
                 transform: translateY(-50%);
                 font-size: 13px;
                 pointer-events: none;
-                transition: .2s;
+                transition: 0.2s;
             }
             .txt_field span::before{
                 content: '';
@@ -119,7 +149,7 @@
                 width: 0%;
                 height: 2px;
                 background: #02661b;
-                transition: .2s;
+                transition: 0.2s;
             }
             .txt_field input:focus ~ label,
             .txt_field input:valid ~ label{
@@ -200,15 +230,12 @@
                 cursor: pointer; 
                 transition: 0.5s; 
             }
-            form .confirmbtn .confirm:hover{
-                background: #00690e; 
-            }
             #container{
                 position: absolute;
                 top: 50%;
                 left: 50%;
                 max-height: 85vh;
-                min-width: 300px;
+                min-width: 200px;
                 transform: translate(-50%, -50%);
                 background: hsl(112, 73%, 90%);
                 border-radius: 10px;
@@ -219,7 +246,7 @@
                 padding: 0 30px;
             }
             .container .pageform {
-                padding: 10px;
+                padding: 5px;
                 font-size: 20px;
                 font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 text-align: center;
@@ -234,12 +261,13 @@
                 margin-bottom: 5px;
             } 
             p{
-                color: hsl(0, 0%, 53%);
-                font-size: min(max(10px, 1.2vw), 12px);
-                letter-spacing: 0.5px;
-                font-family: Helvetica, sans-serif;
-                align-items: center;
-                text-align: center;
+                font-family: 'ARIAL', sans-serif;
+                font-size: 12px;
+                align-items: left;
+                text-align: left;
+                color: rgb(158, 158, 158);
+                padding: 11px;
+                width: 92%;
                 /* margin-left: 30px; */
             }
     </style>
