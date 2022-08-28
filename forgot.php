@@ -18,7 +18,7 @@
             <div id="container">
                 <div class="dividecolor">
                             <h2>Forgot Password</h2>
-                            <p>Please enter your email address and will send you the code.</p> 
+                            <p>Please enter your email address and will send you the 6 <br> digit code.</p> 
                                 <?php if (isset($_GET['error'])) { ?>
                                     <p class="error-error"><?php echo $_GET['error']; ?></p>
                                 <?php } ?>  
@@ -84,17 +84,15 @@
                 position: relative;
                 border-bottom: 2.5px solid #adadad;
                 margin-top: 15px;
+                padding-right: 15px;
             }
             .txt_field input{
                 position: relative;
-                margin-left: 15px;
-                min-width: 3vh;
                 padding: 0 6px;
                 margin-top: 5px;
                 margin-bottom: 5px;
                 height: 30px;
                 width: 100%;
-                max-width: 24.7vh;
                 font-size: 12px;
                 border: none;
                 background: none;
@@ -217,6 +215,7 @@
             .pageform{
                 box-sizing: border-box;
                 padding: 0 30px;
+                display: flex;
             }
             .container .pageform {
                 padding: 10px;

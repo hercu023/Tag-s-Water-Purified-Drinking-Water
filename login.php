@@ -187,7 +187,7 @@
                 position: relative;
                 border-bottom: 2.5px solid #adadad;
                 margin-top: 1.4vh;
-                padding-right: 12vh;
+                padding-right: 80px;
             }
             form .txt_field .password{
                 margin-bottom: 10px;
@@ -195,13 +195,11 @@
             .txt_field input{
                 position: relative;
                 margin-left: 35px;
-                min-width: 3vh;
                 padding: 0 6px;
                 margin-top: 7px;
                 margin-bottom: 5px;
                 height: 28px;
                 width: 100%;
-                max-width: 38.7vh;
                 font-size: min(max(9px, 1.3vw), 11px);
                 border: none;
                 background: none;

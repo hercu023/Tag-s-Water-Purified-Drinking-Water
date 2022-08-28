@@ -38,7 +38,7 @@
                                     <?php } ?> 
                 </div>
                 <div class="pageform">
-                    <form action="changePassword.php" method="post" autocomplete="off"> 
+                    <form action="Change-Password.php" method="post" autocomplete="off"> 
                             
                                 <div class="txt_field">    
                                     <input type="text" id="" name="otp" maxlength = "6" onkeypress="return isNumberKey(event)" required>

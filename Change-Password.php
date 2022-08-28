@@ -22,14 +22,23 @@
                     <p>Create new password that is at least 8 characters long. <br> Mix with numbers and symbols for a strong security.</p>
                 </div>
                 <div class="pageform">
-                    <form action="login.php" method="post" autocomplete="off">                      
+                    <form action="login.php" method="post" autocomplete="off">
+                                <?php
+                                    if ($errors > 0) {
+                                        foreach ($errors as $displayErrors) {
+                                    ?>
+                                            <div id="alert"><?php echo $displayErrors; ?></div>
+                                    <?php
+                                        }
+                                    }
+                                ?>                      
                                 <div class="txt_field">
                                     <input type="password" id="pass" name="newpassword" required>
                                     <span></span>
                                     <label for="password">New Password</label>  
                                 </div>
                                 <div class="txt_field">  
-                                    <input type="password" id="changepass" name="changePassword" required>
+                                    <input type="password" id="changepass" name="confirmPassword" required>
                                     <span></span>
                                     <label for="password">Confirm Password</label> 
                                 </div>
@@ -117,18 +126,16 @@
                 position: relative;
                 border-bottom: 2.5px solid #adadad;
                 margin-top: 15px;
-                padding-right: 12vh;
+                padding-right: 15px;
             }
             .txt_field input{
                 position: relative;
-                margin-left: 15px;
-                min-width: 3vh;
                 padding: 0 6px;
                 margin-top: 5px;
                 margin-bottom: 5px;
                 height: 30px;
                 width: 100%;
-                max-width: 24.7vh;
+                
                 font-size: 12px;
                 border: none;
                 background: none;
