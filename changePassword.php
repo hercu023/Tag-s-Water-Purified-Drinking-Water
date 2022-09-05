@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
@@ -22,16 +23,10 @@
                     <p>Create new password that is at least 8 characters long. <br> Mix with numbers and symbols for a strong security.</p>
                 </div>
                 <div class="pageform">
-                    <form action="login.php" method="post" autocomplete="off">
-                                <?php
-                                    if ($errors > 0) {
-                                        foreach ($errors as $displayErrors) {
-                                    ?>
-                                            <div id="alert"><?php echo $displayErrors; ?></div>
-                                    <?php
-                                        }
-                                    }
-                                ?>                      
+                    <form action="changePassword.php" method="post" autocomplete="off">
+                                <?php if (isset($_GET['error'])) { ?>
+                                    <p class="error-error"><?php echo $_GET['error']; ?></p>
+                                <?php } ?>         
                                 <div class="txt_field">
                                     <input type="password" id="pass" name="newpassword" required>
                                     <span></span>
@@ -47,7 +42,7 @@
                                     <span>Show password</span>
                                 </div>
                                 <div class="confirmbtn">
-                                    <input type="submit" value="SAVE" name="changePassword" class="confirm">
+                                    <input type="submit" value="SAVE" name="Change-Password" class="confirm">
                                     <a href="login.php" id="cancel">CANCEL</a>
                                 </div>   
                                 
@@ -104,6 +99,7 @@
                 color: #ffffff;
                 padding: 11px;
                 width: 92%;
+                margin-left: 3px;
                 border-radius: 3px;
                 font-size: min(max(9px, 1.2vw), 11px);
                 letter-spacing: 0.5px;

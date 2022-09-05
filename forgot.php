@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
     <title>Forgot Password</title>
@@ -71,6 +72,7 @@
                 padding: 11px;
                 width: 92%;
                 border-radius: 3px;
+                margin-left: 3px;
                 font-size: min(max(9px, 1.2vw), 11px);
                 letter-spacing: 0.5px;
                 font-family: ARIAL, sans-serif;

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
     <title>Forgot Password</title>
@@ -38,7 +39,7 @@
                                     <?php } ?> 
                 </div>
                 <div class="pageform">
-                    <form action="Change-Password.php" method="post" autocomplete="off"> 
+                    <form action="changePassword.php" method="post" autocomplete="off"> 
                             
                                 <div class="txt_field">    
                                     <input type="text" id="" name="otp" maxlength = "6" onkeypress="return isNumberKey(event)" required>
