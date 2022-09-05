@@ -254,7 +254,6 @@
                 margin-bottom: 20px;
                 text-align: center;
                 width: 100%;
-
                 max-height: 60px;
                 outline: none;
                 border: none;

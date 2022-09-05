@@ -105,24 +105,31 @@ if(isset($_POST['code-verfiy'])){
         }
         
     }
+
     if(isset($_POST['Change-Password'])){
-        $password = md5($_POST['newpassword']);
-        $confirmPassword = md5($_POST['confirmPassword']);
-        
+        $_SESSION['info'] = "";
+        $password = mysqli_real_escape_string($con, $_POST['newpassword']);
+        $cpassword = mysqli_real_escape_string($con, $_POST['confirmPassword']);
         if (strlen($_POST['newpassword']) < 8) {
             header("Location: changePassword.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>Use 8 or more characters with a mix of letters, numbers & symbols");
         } else {
-            // if password not matched so
-            if ($_POST['newpassword'] != $_POST['confirmPassword']) {
-                header("Location: changePassword.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched");
-            } else {
-                $email = $_SESSION['email'];
-                $updatePassword = "UPDATE users SET password = '$password' WHERE email = '$email'";
-                $updatePass = mysqli_query($con, $updatePassword) or die("Query Failed");
-                session_unset($email);
-                session_destroy();
-                header('location: login.php');
+        if($password !== $cpassword){
+            header("Location: changePassword.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched");
+        }else{
+            $code = 0;
+            $email = $_SESSION['email']; //getting this email using session
+            $encpass = password_hash($password, PASSWORD_BCRYPT);
+            $update_pass = "UPDATE users SET code = $code, password = '$encpass' WHERE email = '$email'";
+            $run_query = mysqli_query($con, $update_pass);
+            if($run_query){
+                header('Location: PwChanged-Confirm.php');
+            }else{
+                $errors['db-error'] = "Failed to change your password!";
             }
         }
     }
+}
+if(isset($_POST['login-now'])){
+    header('Location: login.php');
+}
 ?>
