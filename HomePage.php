@@ -43,101 +43,187 @@ include 'connectionDB.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="../TAGS/dashboard.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
-        <title>Tag's Water Purified Drinking Water</title>
+        <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
+        <title>Home</title>
     </head>
     <body>
-        <div class="menu">
-            <div class="userType">Admin User</div>
+        <div class="container">
+            <div class="menu-tab">
+                <aside>
+                    <div class="title">
+                        <div class="titlelogo">
+                            <img class="tagslogo" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" >
+                            <!-- <h1>Tag's Water Purified Drinking Water</h1> -->
+                        </div>
+                        <div class="close" id="close-btn">
+                            <span class="material-symbols-outlined">arrow_back_ios</span>
+                        </div>
+                    </div>
+                <!-- <div class="userType">Admin User</div> -->
+                <div class="sidebar">
 
-            <p>MAIN</p>
-            <a href="dashboard.php" style="text-decoration:none" class="dashboard" = onclick="dashboard()"><img src="https://cdn-icons-png.flaticon.com/512/25/25694.png">DASHBOARD</a>
-            <a href="posPage.php" style="text-decoration:none" class="pos" = onclick="pos()"><img src="https://www.shareicon.net/data/512x512/2015/09/30/109572_arrows_512x512.png">POINT OF SALES</a></li>
-            <a href="reportsPage.html" style="text-decoration:none" class="reports" = onclick="report()"><img src="https://cdn-icons-png.flaticon.com/512/90/90417.png">REPORTS</a></li>  
-            <a href="monitoringPage.html" style="text-decoration:none" class="monitoring" = onclick="monitor()"><img src="http://cdn.onlinewebfonts.com/svg/img_189017.png">MONITORING</a></li>
-            
-            <p>MANAGEMENT</p>
-            <a href="customersPage.html" style="text-decoration:none" class="customers" = onclick="customers()"><img src="https://static.thenounproject.com/png/3858494-200.png">CUSTOMERS</a></li>  
-            <a href="inventoryPage.html" style="text-decoration:none" class="inventory" = onclick="inventory()"><img src="http://cdn.onlinewebfonts.com/svg/img_191109.png">INVENTORY</a></li>
-            
-            <p>SETTINGS</p>
-            <a href="settingsPage.html" style="text-decoration:none" class="settings" = onclick="settings()"><img src="https://cdn-icons-png.flaticon.com/512/126/126472.png">SETTINGS</a></li>
-            <a href="accountPage.html" style="text-decoration:none" class="account" = onclick="account()"><img src="https://www.veryicon.com/download/png/miscellaneous/management-system-icon-library/account-24?s=256">ACCOUNT</a></li>
+                        <a href="#" class="dashboard">
+                            <span class="material-symbols-outlined">dashboard</span>
+                            <h3>DASHBOARD</h3>
+                        </a>
+                    
+                        <a href="#" class="active">
+                            <span class="material-symbols-outlined">point_of_sale</span>
+                            <h3>POINT OF SALES</h3>
+                        </a>
+                    
+                        <a href="#" class="reports">
+                            <span class="material-symbols-outlined">corporate_fare</span>             
+                            <h3>REPORTS</h3>
+                        </a>
+                
+                        <a href="#" class="monitoring">
+                            <span class="material-symbols-outlined">monitoring</span>
+                            <h3>MONITORING</h3>
+                        </a>
+                    
+                        <a href="#" class="customers">
+                            <span class="material-symbols-outlined">person</span>
+                            <h3>CUSTOMER</h3>
+                        </a>  
+                    
+                        <a href="#" class="inventory">
+                            <span class="material-symbols-outlined">monitoring</span>
+                            <h3>INVENTORY</h3>
+                        </a>
 
+                        <a href="#" class="inventory">
+                            <span class="material-symbols-outlined">badge</span>
+                            <h3>EMPLOYEE</h3>
+                        </a>
+
+                        <a href="#" class="inventory">
+                            <span class="material-symbols-outlined">payments</span>
+                            <h3>EXPENSE</h3>
+                        </a>
+                
+                        <a href="#" class="account">
+                            <span class="material-symbols-outlined">manage_accounts</span>
+                            <h3>ACCOUNT</h3>
+                        </a>
+
+                        <a href="#" class="settings">
+                            <span class="material-symbols-outlined">settings</span>
+                            <h3>SETTINGS</h3>
+                        </a>             
+                </aside>
+            </div>
         </div>
-
-    <form>
+    <!-- <form>
         <div class="topBar">
-            <p class="webName">TAG's Water Purified Drinking Water Station</p>
             <a href="#"><img src="https://www.freeiconspng.com/thumbs/calendar-icon-png/calendar-icon-png-4.png"></a>
             <a href="#"><img src="https://www.freeiconspng.com/thumbs/bell-icons/bell-icon-8.png"></a>
             <a href="#"><img src="http://cdn.onlinewebfonts.com/svg/img_574534.png"></a>
         </div>
-    </form>
-
-    <form>
-        <div class="content">
-
-        <?php
-        echo"<p>INSERT CONTENT HERE</p>";
-        ?> 
-
-        </div>
-    </form>
-
-    <!--widgets-->
-    <div class="widgets">
-
-        <div class="item1">
-            <?php echo "Total Sales"?>
-        </div>
-    
-
-        <div class="item2">
-            <?php echo "delivered"?>
-        </div>
-    
-
-        <div class="item3">
-            <?php echo "walk-ins"?>
-        </div>
-    
-        <div class="item4">
-            <?php echo "Unpaid"?>
-        </div>
-
-        <div class="item5">
-             <?php echo "Pick-up"?>
-        </div>
-    </div>
-
+    </form> -->
 
     </body>
 
 </html>
 <style> 
     BODY{
-        background: #686868;
+        background: hsl(111, 100%, 96%);
         margin: 0;
         padding: 0;
         height: 100%;
         overflow-x: hidden;
         font-family: Arial, Helvetica, sans-serif;
-        /* background-image: url("https://wallpaperaccess.com/full/562838.jpg"); */ */
         background-repeat: cover;
         background-position: center;
         background-size: cover;
         background-attachment: fixed;
     }
-    .menu{
-        background-color: white;
-        font-weight: bold;
-        float: left;
-        width: 13%;
-        height: 100%;
-        box-shadow: 10px 0 20px -5px darkgray;
+    a{
+        text-decoration:none;
+        font-family: 'COCOGOOSE', sans-serif;
     }
+    h3{
+        font-size: 0.87rem;
+    }
+
+    .icons{
+        max-width: 2vh; 
+        margin-left: 1vw;
+        width: 100%;
+    }
+    .container{
+        display: grid;
+        width: 96%;
+        margin: 0 auto;
+        background: white;
+        gap: 1.8rem;
+        grid-template-columns: 14rem auto 23rem;
+    }
+    aside{
+        height: 100vh;
+        background: white;
+    }
+    aside .title{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1.4rem;
+    }
+    aside .titlelogo{
+        display: flex;
+        gap: 0.8rem;
+    }
+    aside .titlelogo img{
+        width: 5rem;
+        margin-left: 5rem;
+    }
+    aside .close{
+        display: none;
+    }
+    aside .sidebar{
+        display: flex;
+        flex-direction: column;
+        height: 86vh;
+        position: relative;
+        top: 3rem;
+    }
+    aside h3{
+        font-weight: 400;
+    }
+    aside .sidebar a{
+        display: flex;
+        color: hsl(0, 0%, 76%);
+        margin-left: 2rem;
+        gap: 1rem;
+        align-items: center;
+        position: relative;
+        height: 3.7rem;
+        transition: all 300ms ease;
+    }
+    aside .sidebar a span{
+        font-size: 1.6rem;
+    }
+    aside .sidebar a:focus{
+        background: hsl(111, 100%, 96%);
+        transition: 0.6s;
+        color: rgb(2, 80, 2);
+        margin-left: 0;
+        padding-left: 1rem;
+        content: "";
+        margin-bottom: 6px;
+        font-size: 10px;
+        border-radius: 0 0 10px 0 ;
+
+        border-bottom: 8px solid rgb(2, 80, 2);
+    }
+    /* aside .sidebar a:focus:before{
+        content: "";
+        width: 6px;
+        height: 100%;
+        background: rgb(2, 80, 2);
+    }  */
     .userType{
         font-size: 15px;
         text-align: center;
@@ -145,41 +231,23 @@ include 'connectionDB.php';
         margin: 0px;
         margin-top: 10px;
     }
-    .menu p{
+    .menu-tab p{
         font-size: 20px;
         font-weight: lighter;
         margin-left: 10px;
     }
-    .menu a{
-        padding: 0px;
-        text-align: left;
-        font-weight: lighter;
-        font-size: 20px;
-        margin-top: 10px;
-        color: gray;
-        line-height: 50px;
-        display: block;
-    }
-    a.menu:link, a:visited{
-        color: white;
-    }
-    menu.dashboard, a.dashboard:link {
-        color: black;
-        background-color: darkgreen;
-    }
-    .menu img{
+
+    .menu-tab img{
         width: 15px;
         margin-right: 10px;
         margin-left: 20px;
     }
-    .menu a:hover{
-        transition: 0.3s;
-        background-color: lightgray;
-        padding-inline: 2%;
-        color: black;
+    .menu-tab a:hover{
+        transition: 0.6s;
+        margin-left: 0.80rem;
+        color: rgb(2, 80, 2);
         font-weight: bold;
     }
-    /*top bar css-style*/
     .topBar{
         margin: 50px;
         margin-bottom: 1px;
@@ -192,7 +260,6 @@ include 'connectionDB.php';
         padding-inline: 10px;
         box-shadow: 0 10px 20px -5px darkgray;
         vertical-align: middle;
-
     }
     .webName{
         float: left;
