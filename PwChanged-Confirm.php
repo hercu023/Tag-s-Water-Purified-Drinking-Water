@@ -123,4 +123,25 @@
                 text-align: center;
                 padding: 10px; 
             }
+            .lines{
+                position: absolute;
+                bottom: 0%; 
+                width: 100%;
+            }
+            .line1{
+                position: relative;
+                display: flex;
+                min-height: 75.6vh;
+                clip-path: ellipse(83% 42% at 83% 100%);
+                background: linear-gradient(290deg, transparent, #02661b);
+                background-attachment: fixed;
+            }
+            .line2{
+                position: relative;
+                display: flex;
+                min-height: 40vh;
+                background: linear-gradient(80deg, transparent, #B22222);
+                clip-path: ellipse(60% 66% at 14% 12%);
+                background-attachment: fixed;
+            }
     </style>
