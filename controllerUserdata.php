@@ -29,45 +29,53 @@ if(isset($_POST['code-verfiy'])){
             header("Location: code-verification.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You've entered incorrect code.");
         }
     }
+    
     if (isset($_POST['check-email'])) {
+        
         $email = $_POST['email'];
         $_SESSION['email'] = $email;
-
+        $disable = $_POST['check-email'];
         $emailCheckQuery = "SELECT * FROM users WHERE email = '$email'";
         $emailCheckResult = mysqli_query($con, $emailCheckQuery);
-
+       
         // if query run
         if ($emailCheckResult) {
+
             // if email matched
             if (mysqli_num_rows($emailCheckResult) > 0) {
-                $code = rand(999999, 111111);
-                $updateQuery = "UPDATE users SET code = $code WHERE email = '$email'";
-                $updateResult = mysqli_query($con, $updateQuery);
-                if ($updateResult) {
-                    $subject = 'Tags Water System Verification Code';
-                    $message = "We received a request to reset your password.
-                    Here is the verification code $code";
-                    $sender = 'From: narutosasuke454545@gmail.com';
+                // function disable(){
+                     
+                    
+                    $code = rand(999999, 111111);
+                    $updateQuery = "UPDATE users SET code = $code WHERE email = '$email'";
+                    $updateResult = mysqli_query($con, $updateQuery);
+                    // $_POST['check-email'] = $this->disable='false';
+                    if ($updateResult) {
+                        $subject = 'Tags Water System Verification Code';
+                        $message = "We received a request to reset your password.
+                        Here is the verification code $code";
+                        $sender = 'From: narutosasuke454545@gmail.com';
 
-                    if (mail($email, $subject, $message, $sender)) {
-                        $message = "We've sent a verification code to your Email <br> <ins><strong>$email</ins></strong>";
+                        if (mail($email, $subject, $message, $sender)) {
+                            $message = "We've sent a verification code to your Email <br> <ins><strong>$email</ins></strong>";
 
-                        $_SESSION['message'] = $message;
-                        header('location: code-verification.php');
-                    }else{
-                        header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while sending code");
+                            $_SESSION['message'] = $message;
+                            header('location: code-verification.php');
+                        }else{
+                            header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while sending code");
+                        }
+                    }else {
+                        header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Something went wrong");
                     }
-                }else {
-                    header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Something went wrong");
                 }
             }else{
                 header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> This email address does not exist to the system");
             }
         }else {
-            header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>Failed while checking email from database!");
+            header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>Failed while checking email from database");
         }
-        
-    }
+    
+    
 
     if(isset($_POST['Change-Password'])){
         $_SESSION['info'] = "";
@@ -96,3 +104,4 @@ if(isset($_POST['login-now'])){
     header('Location: login.php');
 }
 ?>
+   

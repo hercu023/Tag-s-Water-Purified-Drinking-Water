@@ -90,7 +90,7 @@ include 'connectionDB.php';
                         </a>  
                     
                         <a href="#" class="inventory">
-                            <span class="material-symbols-outlined">monitoring</span>
+                            <span class="material-symbols-outlined">inventory</span>
                             <h3>INVENTORY</h3>
                         </a>
 
@@ -129,7 +129,7 @@ include 'connectionDB.php';
 </html>
 <style> 
     BODY{
-        background: hsl(111, 100%, 96%);
+        background: rgb(241, 255, 241);
         margin: 0;
         padding: 0;
         height: 100%;
@@ -157,13 +157,13 @@ include 'connectionDB.php';
         display: grid;
         width: 96%;
         margin: 0 auto;
-        background: white;
+        background: rgb(241, 255, 241);
         gap: 1.8rem;
         grid-template-columns: 14rem auto 23rem;
     }
     aside{
         height: 100vh;
-        background: white;
+        background: rgb(241, 255, 241);
     }
     aside .title{
         display: flex;
@@ -206,7 +206,7 @@ include 'connectionDB.php';
         font-size: 1.6rem;
     }
     aside .sidebar a:focus{
-        background: hsl(111, 100%, 96%);
+        background: white;
         transition: 0.6s;
         color: rgb(2, 80, 2);
         margin-left: 0;
@@ -215,9 +215,50 @@ include 'connectionDB.php';
         margin-bottom: 6px;
         font-size: 10px;
         border-radius: 0 0 10px 0 ;
-
-        border-bottom: 8px solid rgb(2, 80, 2);
+        /* border-left: 5px solid rgb(2, 80, 2); */
+        box-shadow: 1px 3px 1px rgb(78, 150, 78);
     }
+    @media screen and (max-width: 1200px){
+        .container{
+            width: 94%;
+            grid-template-columns: 7rem auto 23rem;
+        }
+        aside .sidebar h3{
+            display: none;
+        }
+        aside .sidebar a{
+            width: 5.6rem;
+        }
+        aside .sidebar a:focus{
+            padding-left: 2rem;
+            width: 4rem;
+        }
+    }
+
+    @media screen and (max-width: 768px){
+        .containter{
+            width: 100%;
+        }
+        aside {
+            position: fixed; 
+            left: 0;
+            background: white;
+            width: 15rem;
+            z-index: 3;
+            height: 100vh;
+            padding-right: var(--card-padding);
+        }
+        aside .sidebar h3{
+            display: inline;
+        }
+        aside .sidebar a{
+            width: 100%;
+            height: 3.4rem;
+        }
+        aside .sidebar a:focus{
+            width: 14rem;
+            background: hsl(111, 100%, 96%);
+        }
     /* aside .sidebar a:focus:before{
         content: "";
         width: 6px;

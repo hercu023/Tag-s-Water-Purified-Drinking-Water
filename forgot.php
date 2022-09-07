@@ -19,13 +19,13 @@
             <div id="container">
                 <div class="dividecolor">
                             <h2>Forgot Password</h2>
-                            <p>Please enter your email address and will send you the 6 <br> digit code.</p> 
+                            <p>Please enter your email address and will send you the <br> 6 digit code.</p> 
                                 <?php if (isset($_GET['error'])) { ?>
                                     <p class="error-error"><?php echo $_GET['error']; ?></p>
                                 <?php } ?>  
                 </div>
                 <div class="pageform">
-                    <form action="code-verification.php" method="post" autocomplete="off"> 
+                    <form action="code-verification.php" method="post" autocomplete="off" > 
                             
                                 <div class="txt_field">    
                                     <input type="text" id="email" name="email" required>
@@ -33,7 +33,8 @@
                                     <label for="email">Email</label>
                                 </div>
                                 <div class="confirmbtn">
-                                    <input type="submit" class="confirm" value="CONTINUE" name="check-email"> 
+                                    <input type="submit" class="confirm" value="CONTINUE" name="check-email" >
+
                                     <a href="login.php" id="cancel">CANCEL</a>
                                 </div>   
                         </div>
@@ -43,6 +44,35 @@
     </div>
 </body>
 </html>
+    <!-- <script>
+        // $("form").submit(function() {
+        // $(this).find('input[type="submit"]').prop("disabled", true);
+        // });
+        // function disable(x){ 
+        //     var y = document.getElementById("continue");
+        //     var z = document.getElementById("email");
+
+        //         y.style.display = "block";
+        //         x.style.display = 'none';
+        //     }else{
+              
+        //     }
+                
+            
+        // }
+        // function disable(x){
+        //     x.disabled=true;
+        // }
+         $('.disable-form').on('submit', function(x){
+                
+                    var self = $(this),
+                        button = self.find('input[type="submit"], button'),
+                        submitValue = button.data('submit-value');
+
+                    button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
+                    return false;
+                });
+    </script> -->
     <style>
             body{
                 background: #686868;
@@ -69,10 +99,10 @@
             .error-error{
                 background-color: hsl(0, 100%, 77%);
                 color: #ffffff;
-                padding: 11px;
-                width: 92%;
+                padding: 13px;
+                width: 80%;
                 border-radius: 3px;
-                margin-left: 3px;
+                margin: 20px;
                 font-size: min(max(9px, 1.2vw), 11px);
                 letter-spacing: 0.5px;
                 font-family: ARIAL, sans-serif;
@@ -182,7 +212,6 @@
                  transition: 0.5s; 
             }
             form .confirmbtn .confirm{
-                /* display: block; */
                 position: relative;
                 font-family: 'COCOGOOSE', sans-serif;
                 margin-top: 15px;
@@ -196,13 +225,14 @@
                 font-size: 11px;
                 border-radius: 10px;
                 color: white;
-                background:  #888888;
+                background: #888888;
                 cursor: pointer; 
                 transition: 0.5s; 
             }
             form .confirmbtn .confirm:hover{
                 background: #00690e; 
             }
+
             #container{
                 position: absolute;
                 top: 50%;
