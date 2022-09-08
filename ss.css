@@ -1,1 +1,17 @@
 a{background-color: rgb(112, 184, 112)}
+<?php require_once "controllerUserdata.php"; ?>
+
+<?php
+
+// $suName = "localhost";
+// $uName = "root";
+// $password = "";
+// $db_name = "acc_db";
+
+// try {
+//     $conn = new PDO("mysql:host=$suName;dbname=$db_name", $uName, $password);
+//     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO:: ERRMODE_EXCEPTION);
+// }catch(PDOException $e){
+//     echo "Connection failed: ". $e->getMessage();
+// }
+?>

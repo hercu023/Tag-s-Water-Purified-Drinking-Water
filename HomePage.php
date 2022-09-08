@@ -1,5 +1,5 @@
 <?php
-// session_start();
+session_start();
 include 'connectionDB.php';
     if (isset($_POST['email']) && isset($_POST['password'])){
 

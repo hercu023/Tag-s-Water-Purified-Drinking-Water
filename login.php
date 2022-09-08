@@ -1,4 +1,4 @@
-<?php require_once "controllerUserdata.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <!-- <link rel="stylesheet" type="text/css" href="../Tag-s-Water-Purified-Drinking-Water/loginPage.css"> -->
     <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
@@ -85,7 +84,7 @@
                 height: 100%;
                 overflow-x: hidden;
                 font-family: Arial, Helvetica, sans-serif;
-                /* background-image: url("https://wallpaperaccess.com/full/562838.jpg"); */ */
+                /* background-image: url("https://wallpaperaccess.com/full/562838.jpg"); */ 
                 background-repeat: cover;
                 background-position: center;
                 background-size: cover;

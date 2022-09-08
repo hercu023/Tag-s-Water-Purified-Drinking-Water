@@ -1,4 +1,4 @@
-<?php require_once "controllerUserdata.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +25,7 @@
                                 <?php } ?>  
                 </div>
                 <div class="pageform">
-                    <form action="code-verification.php" method="post" autocomplete="off" > 
+                    <form action="code-verification.php" method="post" autocomplete="off" class="disable-form"> 
                             
                                 <div class="txt_field">    
                                     <input type="text" id="email" name="email" required>
@@ -33,7 +33,7 @@
                                     <label for="email">Email</label>
                                 </div>
                                 <div class="confirmbtn">
-                                    <input type="submit" class="confirm" value="CONTINUE" name="check-email" >
+                                    <input type="submit" class="confirm" value="CONTINUE" name="check-email" onclick="disable(true)">
 
                                     <a href="login.php" id="cancel">CANCEL</a>
                                 </div>   
@@ -44,7 +44,50 @@
     </div>
 </body>
 </html>
-    <!-- <script>
+    <script>
+//         session_start();
+// include 'connectionDB.php';
+//     if (isset($_POST['check-email'])) {
+//         $email = $_POST['email'];
+//         $disable = 'check-email';
+//         $_SESSION['email'] = $email;
+//         $emailCheckQuery = "SELECT * FROM users WHERE email = '$email'";
+//         $emailCheckResult = mysqli_query($con, $emailCheckQuery);
+        
+//         // if query run
+//         if ($emailCheckResult) {
+
+//             // if email matched
+//             if (mysqli_num_rows($emailCheckResult) > 0) {
+//                         function disable(x){
+//                     x.disabled=true;
+//                     $code = rand(999999, 111111);
+//                     $updateQuery = "UPDATE users SET code = $code WHERE email = '$email'";
+//                     $updateResult = mysqli_query($con, $updateQuery);
+//                     // $_POST['check-email'] = $this->disable='false';
+//                     if ($updateResult) {
+//                         $subject = 'Tags Water System Verification Code';
+//                         $message = "We received a request to reset your password. Here is the verification code $code";
+//                         $sender = 'From: narutosasuke454545@gmail.com';
+
+//                         if (mail($email, $subject, $message, $sender)) {
+//                             $message = "We've sent a verification code to your Email <br> <ins><strong>$email</ins></strong>";
+
+//                             $_SESSION['message'] = $message;
+//                             header('location: code-verification.php');
+//                         }else{
+//                              header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while sending code");
+//                         }
+//                     }else {
+//                         header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Something went wrong");
+//                     }
+//             }else{
+//                 header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> This email address does not exist to the system");
+//             }
+//         }else {
+//            header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while checking email from database");
+//         }
+//     }
         // $("form").submit(function() {
         // $(this).find('input[type="submit"]').prop("disabled", true);
         // });
@@ -57,22 +100,21 @@
         //     }else{
               
         //     }
-                
-            
-        // }
-        // function disable(x){
-        //     x.disabled=true;
-        // }
-         $('.disable-form').on('submit', function(x){
-                
-                    var self = $(this),
-                        button = self.find('input[type="submit"], button'),
-                        submitValue = button.data('submit-value');
 
-                    button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
-                    return false;
-                });
-    </script> -->
+            
+        // // }
+        // 
+        // }
+        //  $('.disable-form').on('submit', function(x){
+                
+        //             var self = $(this),
+        //                 button = self.find('input[type="submit"], button'),
+        //                 submitValue = button.data('submit-value');
+
+        //             button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
+        //             return false;
+        //         });
+    </script>
     <style>
             body{
                 background: #686868;

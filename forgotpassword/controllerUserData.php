@@ -5,7 +5,7 @@ $email = "";
 $name = "";
 $errors = array();
 
-//if user signup button
+// //if user signup button
 if(isset($_POST['signup'])){
     $name = mysqli_real_escape_string($con, $_POST['name']);
     $email = mysqli_real_escape_string($con, $_POST['email']);
@@ -115,22 +115,25 @@ if(isset($_POST['signup'])){
                 $subject = "Password Reset Code";
                 $message = "Your password reset code is $code";
                 $sender = "From: shahiprem7890@gmail.com";
-                if(mail($email, $subject, $message, $sender)){
-                    $info = "We've sent a passwrod reset otp to your email - $email";
-                    $_SESSION['info'] = $info;
-                    $_SESSION['email'] = $email;
-                    header('location: reset-code.php');
-                    exit();
-                }else{
-                    $errors['otp-error'] = "Failed while sending code!";
+
+                if (mail($email, $subject, $message, $sender)) {
+                    $message = "We've sent a verification code to your Email <br> $email";
+
+                    $_SESSION['message'] = $message;
+                    header('location: verifyEmail.php');
+                } else {
+                    $errors['otp_errors'] = 'Failed while sending code!';
                 }
-            }else{
-                $errors['db-error'] = "Something went wrong!";
+            } else {
+                $errors['db_errors'] = "Failed while inserting data into database!";
             }
         }else{
-            $errors['email'] = "This email address does not exist!";
+            $errors['invalidEmail'] = "Invalid Email Address";
         }
+    }else {
+        $errors['db_error'] = "Failed while checking email from database!";
     }
+
 
     //if user click check reset otp button
     if(isset($_POST['check-reset-otp'])){

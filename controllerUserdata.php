@@ -23,18 +23,18 @@ if(isset($_POST['code-verfiy'])){
                 header('location: changePassword.php');
                 exit();
             }else {
-                header("Location: code-verification.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>Failed while updating code.");
+                header("Location: code-verification.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while updating code.");
             }
         }else {
-            header("Location: code-verification.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You've entered incorrect code.");
+            header("Location: code-verification.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> You've entered incorrect code.");
         }
     }
-    
+
+
+
     if (isset($_POST['check-email'])) {
-        
         $email = $_POST['email'];
         $_SESSION['email'] = $email;
-        $disable = $_POST['check-email'];
         $emailCheckQuery = "SELECT * FROM users WHERE email = '$email'";
         $emailCheckResult = mysqli_query($con, $emailCheckQuery);
        
@@ -43,9 +43,6 @@ if(isset($_POST['code-verfiy'])){
 
             // if email matched
             if (mysqli_num_rows($emailCheckResult) > 0) {
-                // function disable(){
-                     
-                    
                     $code = rand(999999, 111111);
                     $updateQuery = "UPDATE users SET code = $code WHERE email = '$email'";
                     $updateResult = mysqli_query($con, $updateQuery);
@@ -62,18 +59,18 @@ if(isset($_POST['code-verfiy'])){
                             $_SESSION['message'] = $message;
                             header('location: code-verification.php');
                         }else{
-                            header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while sending code");
+                             header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while sending code");
                         }
                     }else {
                         header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Something went wrong");
                     }
-                }
             }else{
                 header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> This email address does not exist to the system");
             }
         }else {
-            header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>Failed while checking email from database");
+           header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while checking email from database");
         }
+    }
     
     
 
@@ -82,7 +79,7 @@ if(isset($_POST['code-verfiy'])){
         $password = mysqli_real_escape_string($con, $_POST['newpassword']);
         $cpassword = mysqli_real_escape_string($con, $_POST['confirmPassword']);
         if (strlen($_POST['newpassword']) < 8) {
-            header("Location: changePassword.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>Use 8 or more characters with a mix of letters, numbers & symbols");
+            header("Location: changePassword.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
         } else {
         if($password !== $cpassword){
             header("Location: changePassword.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched");
