@@ -1,4 +1,8 @@
 
+<?php require_once 'controllerUserdata.php';
+ $emailCheckQuery = "SELECT * FROM users WHERE email = '$email'";
+ $emailCheckResult = mysqli_query($con, $emailCheckQuery);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,8 +37,8 @@
                                     <label for="email">Email</label>
                                 </div>
                                 <div class="confirmbtn">
-                                    <input type="submit" class="confirm" value="CONTINUE" name="check-email" onclick="disable(true)">
-
+                                    <input type="submit" class="confirm" value="CONTINUE" name="check-email" id="submitBtn" onclick="disable(this)">
+                                    <!-- <p id="continue">Please wait..</p> -->
                                     <a href="login.php" id="cancel">CANCEL</a>
                                 </div>   
                         </div>
@@ -44,66 +48,28 @@
     </div>
 </body>
 </html>
-    <script>
-//         session_start();
-// include 'connectionDB.php';
-//     if (isset($_POST['check-email'])) {
-//         $email = $_POST['email'];
-//         $disable = 'check-email';
-//         $_SESSION['email'] = $email;
-//         $emailCheckQuery = "SELECT * FROM users WHERE email = '$email'";
-//         $emailCheckResult = mysqli_query($con, $emailCheckQuery);
+   <!-- <script type="text/javascript">
+    $(funciton(){
+        $("#submitBtn").click(function disable(x){
+            var y = document.getElementById("continue");
+            var x = document.getElementById("submitBtn");
+            y.style.display = 'block';
+            x.style.display = "none";
+        });
+    });
+         
         
-//         // if query run
-//         if ($emailCheckResult) {
-
-//             // if email matched
-//             if (mysqli_num_rows($emailCheckResult) > 0) {
-//                         function disable(x){
-//                     x.disabled=true;
-//                     $code = rand(999999, 111111);
-//                     $updateQuery = "UPDATE users SET code = $code WHERE email = '$email'";
-//                     $updateResult = mysqli_query($con, $updateQuery);
-//                     // $_POST['check-email'] = $this->disable='false';
-//                     if ($updateResult) {
-//                         $subject = 'Tags Water System Verification Code';
-//                         $message = "We received a request to reset your password. Here is the verification code $code";
-//                         $sender = 'From: narutosasuke454545@gmail.com';
-
-//                         if (mail($email, $subject, $message, $sender)) {
-//                             $message = "We've sent a verification code to your Email <br> <ins><strong>$email</ins></strong>";
-
-//                             $_SESSION['message'] = $message;
-//                             header('location: code-verification.php');
-//                         }else{
-//                              header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while sending code");
-//                         }
-//                     }else {
-//                         header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Something went wrong");
-//                     }
-//             }else{
-//                 header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> This email address does not exist to the system");
-//             }
-//         }else {
-//            header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while checking email from database");
-//         }
-//     }
-        // $("form").submit(function() {
-        // $(this).find('input[type="submit"]').prop("disabled", true);
-        // });
-        // function disable(x){ 
-        //     var y = document.getElementById("continue");
-        //     var z = document.getElementById("email");
-
-        //         y.style.display = "block";
-        //         x.style.display = 'none';
-        //     }else{
-              
-        //     }
-
-            
-        // // }
+       
         // 
+        // });
+        //  const disable = () => {
+        //     const name = document.querySelector("#email");
+        //     name.value="";
+        //     name.focus();
+        //  };
+        
+        // $("#submitBtn").attr("disabled", true);
+        
         // }
         //  $('.disable-form').on('submit', function(x){
                 
@@ -114,7 +80,7 @@
         //             button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
         //             return false;
         //         });
-    </script>
+    </script> -->
     <style>
             body{
                 background: #686868;
@@ -253,6 +219,26 @@
                  background-color: rgb(158, 0, 0);
                  transition: 0.5s; 
             }
+            /* #continue{
+                display: none;
+                position: relative;
+                font-family: 'COCOGOOSE', sans-serif;
+                margin-top: 15px;
+                padding-top: 13.5px;
+                margin-bottom: 20px;
+                text-align: center;
+                width: 130px;
+                left: 125px;
+                height: 32px;
+                outline: none;
+                border: none;
+                font-size: 11px;
+                border-radius: 10px;
+                color: white;
+                background: #00690e; 
+                cursor: pointer; 
+                transition: 0.5s; 
+            } */
             form .confirmbtn .confirm{
                 position: relative;
                 font-family: 'COCOGOOSE', sans-serif;
@@ -273,7 +259,8 @@
             }
             form .confirmbtn .confirm:hover{
                 background: #00690e; 
-            }
+            } 
+
 
             #container{
                 position: absolute;

@@ -6,7 +6,7 @@ $name = "";
 $errors = array();
 
 if(isset($_POST['code-verfiy'])){
-        $_SESSION['info'] = "";
+        // $_SESSION['info'] = "";
         $otp_code = mysqli_real_escape_string($con, $_POST['otp']);
         $check_code = "SELECT * FROM users WHERE code = $otp_code";
         $code_res = mysqli_query($con, $check_code);
@@ -29,10 +29,10 @@ if(isset($_POST['code-verfiy'])){
             header("Location: code-verification.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> You've entered incorrect code.");
         }
     }
-
-
-
+   
     if (isset($_POST['check-email'])) {
+        // $disable = $_POST['check-email'];
+        // $disable.attr('disable', 'disable');
         $email = $_POST['email'];
         $_SESSION['email'] = $email;
         $emailCheckQuery = "SELECT * FROM users WHERE email = '$email'";
@@ -40,9 +40,11 @@ if(isset($_POST['code-verfiy'])){
        
         // if query run
         if ($emailCheckResult) {
-
             // if email matched
             if (mysqli_num_rows($emailCheckResult) > 0) {
+              
+                   
+                 
                     $code = rand(999999, 111111);
                     $updateQuery = "UPDATE users SET code = $code WHERE email = '$email'";
                     $updateResult = mysqli_query($con, $updateQuery);
