@@ -61,7 +61,7 @@ include 'connectionDB.php';
                             <!-- <h1>Tag's Water Purified Drinking Water</h1> -->
                         </div>
                         <div class="close" id="close-btn">
-                        <span class="material-symbols-outlined">arrow_back_ios</span>
+                        <span class="material-symbols-outlined">close</span>
                         </div>
                     </div>
                 <!-- <div class="userType">Admin User</div> -->
@@ -126,17 +126,22 @@ include 'connectionDB.php';
                 </aside>
             </div>
             <div class="top-menu">  
-                <div id="user">
-                    <div class="welcome">
-                        <h4 > Welcome, </h4>
-                    </div>
-                    <div class="user-name">
-                        <h4 ><?php echo $_SESSION['user_first_name']; ?> </h4>
-                    </div>
-                    <div class="user-type">
-                        <h1> <?php echo $_SESSION['user_user_type']; ?> </h1>
-                    </div>
-                </div>        
+                <div class="menu-bar">
+                    <button id="menu-button">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <div id="user">
+                        <div class="welcome">
+                            <h4 > Welcome, </h4>
+                        </div>
+                        <div class="user-name">
+                            <h4 ><?php echo $_SESSION['user_first_name']; ?> </h4>
+                        </div>
+                        <div class="user-type">
+                            <h1> <?php echo $_SESSION['user_user_type']; ?> </h1>
+                        </div>
+                    </div>        
+                </div>
             </div> 
         </div>
     <!-- <form>
@@ -162,10 +167,28 @@ include 'connectionDB.php';
         background-position: center;
         background-size: cover;
         background-attachment: fixed;
+    }  
+     /* Top bar menu  */
+     .top-menu{
+        margin-top: 1.7rem;
+        position:  relative;
+        text-align: right;
+        align-items: right;
+        left: 100%;
+        width: 15%;
+    }
+    .top-menu .menu-bar{
+        display: flex;
+        justify-content: end;
+        gap: 2rem;
+    }
+    .top-menu .menu-bar button{
+        display: none;
+        
     }
     .user-type{
         font-family: 'PHANTOM', sans-serif;
-        font-size: 10px;
+        font-size: 8px;
         color: rgb(2, 80, 2);
         letter-spacing: .2rem;
         border-top: 2px solid rgb(2, 80, 2); 
@@ -176,7 +199,7 @@ include 'connectionDB.php';
     }
     .welcome{
         font-family: 'Switzer', sans-serif;
-        font-size: 12px;
+        font-size: 10px;
         margin-bottom: -1.2rem;
         letter-spacing: 2px;
         color: rgb(2, 80, 2);
@@ -184,23 +207,17 @@ include 'connectionDB.php';
     }
     .user-name{
         font-family: 'Switzer', sans-serif;
-        font-size: 15px;
+        font-size: 13px;
         text-transform: uppercase;
         margin-bottom: 0;
         color: rgb(136, 0, 0);
     }
-    .top-menu{
-        margin-top: 1.7rem;
-        position:  relative;
-        text-align: right;
-        align-items: right;
-        left: 100%;
-        width: 15%;
-    }
+
     #user{
         text-align: right;
         align-items: right;
     }
+    /* main menu - sidebar */
     a{
         text-decoration:none;
         font-family: 'COCOGOOSE', sans-serif;
@@ -302,33 +319,19 @@ include 'connectionDB.php';
     aside .sidebar2 a span{
         font-size: 1.6rem;
     }
-    aside .sidebar2 a:focus{
-        background: rgb(228, 95, 95);
-        transition: 0.6s;
-        margin-left: 0rem;
-        color: white;
-        font-weight: bold;
-        padding-left: 1rem;
-        content: "";
-        margin-bottom: 6px;
-        font-size: 10px;
-        border-radius: 0 20px 20px 0;
-        border-left: 5px solid rgb(255, 255, 255);
-        box-shadow: 0px 3px 2px 1px rgb(53, 0, 0);
-    }
     .menu-tab .sidebar2 a:hover{
-        background: rgb(228, 95, 95);
+        background: rgb(259, 95, 95);
         transition: 0.6s;
         margin-left: 0rem;
-        color: white;
+        color: rgb(124, 0, 0);
         font-weight: bold;
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
         font-size: 10px;
         border-radius: 0 20px 20px 0;
-        border-left: 5px solid rgb(255, 255, 255);
-        box-shadow: 2px 3px 1px rgb(53, 0, 0);
+        border-left: 5px solid rgb(124, 0, 0);
+        box-shadow: 2px 3px 1px rgb(124, 0, 0);
     }
     @media screen and (max-width: 1200px){
         .container{
@@ -360,8 +363,9 @@ include 'connectionDB.php';
         aside {
             position: fixed; 
             left: 0;
-            background: hsl(111, 100%, 96%);
-            width: 15rem;
+            display: none;
+            background: white;
+            width: 17rem;
             z-index: 3;
             height: 100vh;
             padding-right: var(--card-padding);
@@ -374,8 +378,8 @@ include 'connectionDB.php';
             height: 3.4rem;
         }
         aside .sidebar a:focus{
-            width: 13rem;
-            background: white;
+            width: 15rem;
+            background: hsl(111, 100%, 96%);
             box-shadow: 0px 3px 1px rgb(78, 150, 78);
         }
         aside .sidebar2 h3{
@@ -385,20 +389,21 @@ include 'connectionDB.php';
             width: 100%;
             height: 3.4rem;
         }
-        aside .sidebar2 a:focus{
-            width: 13rem;
-            background: white;
+        aside .sidebar2 a:hover{
+            width: 15rem;
+            background: hsl(111, 100%, 96%);
             box-shadow: 0px 3px 1px rgb(78, 150, 78);
         }
         aside .close{
-            display: block;
-            margin-right:5px;
+            display: inline-block;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .top-menu{
+            width: 94%;
+            margin: 0 auto 4rem;
         }
     }
-    .menu-tab a:hover{
-        width: 14rem;
-    }
-    
 
     .menu-tab p{
         font-size: 20px;
@@ -425,6 +430,8 @@ include 'connectionDB.php';
         /* border-left: 5px solid rgb(2, 80, 2); */
         box-shadow: 1px 3px 1px rgb(78, 150, 78);
     }
+    /* ICONS*/
+   
     .topBar{
         margin: 50px;
         margin-bottom: 1px;

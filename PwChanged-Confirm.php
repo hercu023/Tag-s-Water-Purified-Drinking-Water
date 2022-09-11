@@ -21,12 +21,12 @@
             <div id="container">
                 <div class="dividecolor">
                             <h2>password changed</h2>
-                            <p>You can now login your account with your new password.</p> 
+                            <p >You can now login your account with your new password.</p> 
                 </div>
                 <div class="pageform">
                     <form action="login.php" method="post"> 
                                 <div class="loginbtn">
-                                    <input type="submit" value="PROCEED" name="login-now" id="sub">
+                                    <input type="submit" value="CONFIRM" name="login-now" id="sub">
                                 </div> 
                                 </div>   
                         </div>
@@ -37,6 +37,13 @@
 </body>
 </html>
     <style>
+             .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48
+    }   
             body{
                 background: #686868;
                 margin: 0;

@@ -65,7 +65,8 @@ if(isset($_POST['code-verfiy'])){
                         }
                     }else {
                         header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Something went wrong");
-                    }
+                    
+                }
             }else{
                 header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> This email address does not exist to the system");
             }
@@ -73,6 +74,7 @@ if(isset($_POST['code-verfiy'])){
            header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while checking email from database");
         }
     }
+    
     
     
 
