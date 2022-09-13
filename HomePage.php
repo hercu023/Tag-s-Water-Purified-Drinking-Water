@@ -128,12 +128,12 @@ include 'connectionDB.php';
             </div>
             <!-- <div class="bg-shadow">
                 <section id="shadow"></section>
-            </div> -->
+            </div>onclick="MenuFunction(this)" -->
                 <div class="top-menu">  
                     <div class="menu-bar">
-                        <span id="menu-button" onclick="MenuFunction(this)">
+                        <button id="menu-button">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z"/></svg>
-                        </span>
+                        </button>
                         <div id="user1">
                             <div class="welcome">
                                 <h4 > Welcome, </h4>
@@ -164,15 +164,16 @@ include 'connectionDB.php';
     </body>
 </html>
 <script>
-        var x = document.getElementById("close-btn");
-        var y = document.getElementById("aside");
-        var z = document.getElementById("menu-button");
-        function myFunction(x){
-            y.style.display = "none"; 
-        }      
-        function MenuFunction(z){   
-            y.style.display = "block";
-        }        
+        const sideMenu = document.querySelector("#aside");
+        const closeBtn = document.querySelector("#close-btn");
+        const menuBtn = document.querySelector("#menu-button");
+        menuBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'block';
+        })
+        closeBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'none';
+        })
+
 </script>
 <style> 
     BODY{
@@ -249,6 +250,10 @@ include 'connectionDB.php';
         width: 50px;
         padding: 4px;
     }
+    #menu-button{
+        border: none;
+        background: none;
+    }
     /* .bg-shadow{
         position: absolute;
         bottom: 0%; 
@@ -294,8 +299,9 @@ include 'connectionDB.php';
     }
     aside{
         height: 100vh;
-        background:rgb(224, 224, 224);
-        
+        margin-top: -1.9rem;
+        background: rgb(244, 255, 246);
+        left: 0;
     }
     aside .title{
         display: flex;
@@ -343,7 +349,7 @@ include 'connectionDB.php';
     }
    
     aside .sidebar a:focus{
-        background: white;
+        background: rgb(224, 224, 224);
         transition: 0.6s;
         color: rgb(2, 80, 2);
         fill: rgb(2, 80, 2);
@@ -427,23 +433,26 @@ include 'connectionDB.php';
         aside {
             position: fixed; 
             left: 0;
+            margin-top: -.2rem;
             display: none;
             background: white;
             width: 17rem;
             z-index: 3;
             height: 100vh;
             padding-right: var(--card-padding);
-            animation: asideanimation .2s ease-in forwards;
-            box-shadow: 70px 0px 250px rgb(78, 150, 78);
+            /* animation: sideMenu 400ms ease forwards; */
+            box-shadow: 70px 0px 250px rgb(116, 116, 116);
         }
-            @keyframes asideanimation {
-                from{
-                    opacity: 0%;
-                }
-                to {
-                    opacity: 100%;
-                }      
+        /* @keyframes showMenu {
+            to{
+                left: 0;
             }
+        } */
+        aside .titlelogo img{
+            margin-top: -.6rem;
+            margin-left: 4rem;
+        }
+
         aside .sidebar h3{
             display: inline;
         }
@@ -453,7 +462,7 @@ include 'connectionDB.php';
         }
         aside .sidebar a:focus{
             width: 15rem;
-            background: hsl(111, 100%, 96%);
+            background: rgb(224, 224, 224);
             box-shadow: 0px 3px 1px rgb(78, 150, 78);
         }
         aside .sidebar2 h3{
@@ -465,12 +474,13 @@ include 'connectionDB.php';
         }
         aside .sidebar2 a:hover{
             width: 15rem;
-            background: hsl(111, 100%, 96%);
+            background: rgb(224, 224, 224);
             box-shadow: 0px 3px 1px rgb(78, 150, 78);
         }
         aside .close{
             display: inline-block;
-            margin-right: 15px;
+            margin-right: 18px;
+            margin-top: -1rem;
             cursor: pointer;
             fill: rgb(2, 80, 2);
         }
@@ -494,7 +504,7 @@ include 'connectionDB.php';
             width: 100%;
             margin: 0;
             z-index: 2;
-            box-shadow: 0px 2px 2px rgb(78, 150, 78);
+            box-shadow: 0px 2px 14px rgb(116, 116, 116);
         }
         .profile .profile-picture{
             margin-right: 1.5rem;
@@ -502,9 +512,15 @@ include 'connectionDB.php';
         }
         #menu-button{
             display: block;
-            left: 6%;
+            left: 1rem;
             position: absolute;
             cursor: pointer;
+        }
+        #user1{
+            display: none;
+        }
+        #user2{
+            display: none;
         }
     }
 
@@ -520,7 +536,7 @@ include 'connectionDB.php';
         margin-left: 20px;
     }
     .menu-tab a:hover{
-        background: white;
+        background: rgb(224, 224, 224);
         transition: 0.6s;
         margin-left: 0rem;
         color: rgb(2, 80, 2);
