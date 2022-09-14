@@ -120,9 +120,9 @@ include 'connectionDB.php';
                 </div>           
                 </aside>
             </div>
-            <!-- <main>
+            <main>
                 <h1>Dashboard</h1> 
-            </main> -->
+            </main>
                 <div class="top-menu">  
                     <div class="menu-bar">
                         <button id="menu-button">
