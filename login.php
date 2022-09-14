@@ -28,7 +28,7 @@
                     <h1 id="title">PURIFIED DRINKING WATER</h1>            
                 </div>
                     <div class="pageform">
-                        <form action="HomePage.php" method="post">    
+                        <form action="Dashboard.php" method="post">    
                                 <?php if (isset($_GET['error'])) { ?>
                                     <p class="error-error"><?php echo $_GET['error']; ?></p>
                                 <?php } ?>  

@@ -1,0 +1,406 @@
+ 
+    BODY{
+        background: rgb(224, 224, 224);
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-x: hidden;
+        font-family: Arial, Helvetica, sans-serif;
+        background-repeat: cover;
+        background-position: center;
+        background-size: cover;
+        background-attachment: fixed;
+    }  
+     /* Top bar menu  */
+     .top-menu{
+        margin-top: 1.7rem;
+        position:  relative;
+        text-align: right;
+        align-items: right;
+        left: 100%;
+        width: 32%;
+    }
+    .top-menu .menu-bar{
+        display: flex;
+        justify-content: end;
+        gap: 2rem;
+    }
+    .top-menu .menu-bar button{
+        display: none;
+    }
+    .top-menu .menu-bar #user1{
+        gap: 2rem;
+        align-items: right;
+        text-align: right;
+    }
+    .top-menu .menu-bar #user2{
+        display: flex;
+        gap: 2rem;
+        align-items: right;
+        text-align: right;
+    }
+    .user-type{
+        font-family: 'PHANTOM', sans-serif;
+        font-size: 7.5px;
+        color: rgb(2, 80, 2);
+        letter-spacing: .2rem;
+        border-top: 2px solid rgb(2, 80, 2); 
+        margin-top: -0.97rem;
+        width: 100px;
+    }
+    h1{
+        margin-top: 6px;     
+    }
+    .welcome{
+        font-family: 'Switzer', sans-serif;
+        font-size: 9px;
+        /* margin-right: -7.3rem;*/
+        margin-top: -0.6rem; 
+        letter-spacing: 2px;
+        color: rgb(2, 80, 2);
+    }
+    .user-name{
+        font-family: 'Switzer', sans-serif;
+        font-size: 12px;
+        margin-top: -1rem; 
+        text-transform: uppercase;
+        margin-bottom: 0;
+        color: rgb(136, 0, 0);
+    }
+    .profile .profile-picture{
+        background: white;
+        border-radius: 30%;
+        width: 50px;
+        padding: 4px;
+    }
+    #menu-button{
+        border: none;
+        background: none;
+    }
+    /* .bg-shadow{
+        position: absolute;
+        bottom: 0%; 
+        width: 100%;
+     }
+    #shadow{
+        background: rgb(219, 219, 219);
+        opacity: .2;
+        display: flex;
+        display: none;
+        overflow-y: hidden;
+        position: relative;
+        height: 100%;
+        background-attachment: fixed;
+        bottom: 0%;
+        width: 100%;
+    } */
+    .user{
+        text-align: right;
+        align-items: right;
+    }
+    a{
+        text-decoration:none;
+        font-family: 'COCOGOOSE', sans-serif;
+    }
+    .user2 a{
+        font-family: 'Malberg Trial', sans-serif;
+        color: rgb(68, 68, 68);
+    }
+  
+    h3{
+        font-size: 0.87rem;
+    }
+    .user2{
+        top: 20px;
+        right: 30px;
+    }
+    .user2 .profile{
+        position: relative;
+        cursor: pointer;
+    }
+    .user2 .drop-menu{
+        position: absolute; 
+        top: 120px;
+        right: -10px;
+        padding: 10px 20px;
+        background: white;
+        width: 110px;
+        box-sizing: 0 5px 25px rgba(0,0,0,0.1);
+        border-radius: 7px;
+        transition: 0.5s;
+        visibility: hidden;
+        opacity: 0;
+    }
+    .user2 .drop-menu.user2{
+        top: 80px;
+        visibility: visible;
+        opacity: 1;
+    }
+    .user2 .drop-menu::before{
+        content:'';
+        position: absolute;
+        top: -5px;
+        right: 33px;
+        width: 15px;
+        height: 20px;
+        background: white;
+        transform: rotate(45deg);
+    }
+    .drop-menu .ul{
+        margin-top: .2rem;
+        display: flex;
+        flex-direction: column;
+        height: 9vh;
+        position: relative;
+    }
+    .drop-menu h4{
+        font-weight: 400;
+    }
+    .drop-menu .ul a{
+        display: flex;
+        color: hsl(0, 0%, 69%);
+        fill: hsl(0, 0%, 69%);
+        margin-left: -1.26rem;
+        padding-left: 1rem;
+        gap: 1rem;
+        height: 1vh;
+        width: 7vw;
+        align-items: center;
+        position: relative;
+        height: 1.7rem;
+        transition: all 300ms ease;
+        
+    }
+    .drop-menu .ul a:hover {
+        background: rgb(190, 190, 190);
+        transition: 0.6s;
+        color: rgb(255, 255, 255);
+        fill: rgb(255, 255, 255);
+        padding-left: 1rem;
+        content: "";
+        margin-bottom: 6px;
+        font-size: 15px;
+        border-radius: 0px 0px 10px 10px;
+        cursor: pointer;
+    }
+    .container{
+        display: grid;
+        width: 96%;
+        margin: 0 auto;
+        background: rgb(224, 224, 224);
+        gap: 1.8rem;
+        grid-template-columns: 14rem auto 23rem;
+    }
+    aside{
+        height: 100vh;
+        margin-top: -1.9rem;
+        background: rgb(244, 255, 246);
+        left: 0;
+    }
+    aside .title{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1.9rem;
+    }
+    aside .titlelogo{
+        display: flex;
+        gap: 0.8rem;
+    }
+    aside .titlelogo img{
+        width: 5rem;
+        margin-top: 1rem;
+        margin-left: 4.5rem;
+    }
+    aside .close{
+        display: none;
+        font-size: 1rem;
+    }
+    aside .sidebar{
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        height: 86vh;
+        position: relative;
+    }
+    aside h3{
+        font-weight: 400;
+    }
+    aside .sidebar a{
+        display: flex;
+        color: hsl(0, 0%, 69%);
+        fill: hsl(0, 0%, 69%);
+        margin-left: 2rem;
+        gap: 1rem;
+        align-items: center;
+        position: relative;
+        height: 3.7rem;
+        transition: all 300ms ease;
+        
+    }
+    aside .sidebar a:focus{
+        background: rgb(224, 224, 224);
+        transition: 0.6s;
+        color: rgb(2, 80, 2);
+        fill: rgb(2, 80, 2);
+        margin-left: 0;
+        padding-left: 1rem;
+        content: "";
+        margin-bottom: 6px;
+        font-size: 10px;
+        border-radius: 0 10px 10px 0 ;
+        border-left: 5px solid rgb(2, 80, 2); 
+        box-shadow: 1px 3px 1px rgb(78, 150, 78);
+    }
+    aside .sidebar .account{
+        background: rgb(224, 224, 224);
+        transition: 0.6s;
+        color: rgb(2, 80, 2);
+        fill: rgb(2, 80, 2);
+        margin-left: 0;
+        padding-left: 1rem;
+        content: "";
+        margin-bottom: 6px;
+        font-size: 10px;
+        border-radius: 0 10px 10px 0 ;
+        border-left: 5px solid rgb(2, 80, 2); 
+        box-shadow: 1px 3px 1px rgb(78, 150, 78);
+    }
+    #menu-button{
+        display: none;
+    }
+    @media screen and (max-width: 1200px){
+        .container{
+            width: 94%;
+            grid-template-columns: 7rem auto 23rem;
+        }
+        aside .sidebar h3{
+            display: none;
+        }
+        aside .titlelogo img{
+            margin-left: 1rem;
+        }
+
+        aside .sidebar a{
+            width: 5.6rem;
+        }
+        aside .sidebar a:focus{
+            padding-left: 2rem;
+            width: 4rem;
+        }
+        .top-menu{
+            width: 370px;
+        }
+    }
+
+    @media screen and (max-width: 768px){
+        .containter{
+            width: 100%;
+        }
+        aside {
+            position: fixed; 
+            left: 0;
+            margin-top: -.2rem;
+            display: none;
+            background: white;
+            width: 17rem;
+            z-index: 3;
+            height: 100vh;
+            padding-right: var(--card-padding);
+            animation: sideMenu 400ms ease forwards;
+            box-shadow: 70px 0px 250px rgb(116, 116, 116);
+        }
+        @keyframes showMenu {
+            to{
+                left: 0;
+            }
+        }
+        aside .titlelogo img{
+            margin-top: -.6rem;
+            margin-left: 4rem;
+        }
+
+        aside .sidebar h3{
+            display: inline;
+        }
+        aside .sidebar a{
+            width: 100%;
+            height: 3.4rem;
+        }
+        aside .sidebar a:focus{
+            width: 15rem;
+            background: rgb(224, 224, 224);
+            box-shadow: 0px 3px 1px rgb(78, 150, 78);
+        }
+        aside .close{
+            display: inline-block;
+            margin-right: 18px;
+            margin-top: -1rem;
+            cursor: pointer;
+            fill: rgb(2, 80, 2);
+        }
+        aside .close:hover{
+            display: inline-block;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .top-menu{
+            width: 94%;
+            margin: 0 auto 4rem;
+        }
+        .top-menu .menu-bar{
+            position: fixed;
+            top: 0;
+            left: 0;
+            align-items: center;
+            padding: 0 0.8rem;
+            height: 5rem;
+            background: white;
+            width: 100%;
+            margin: 0;
+            z-index: 2;
+            box-shadow: 0px 2px 14px rgb(116, 116, 116);
+        }
+        .profile .profile-picture{
+            margin-right: 1.5rem;
+            margin-left: -1rem;
+        }
+        #menu-button{
+            display: block;
+            left: 1rem;
+            position: absolute;
+            cursor: pointer;
+        }
+        .user1{
+            display: none;
+        }
+        .user2{
+            display: none;
+        }
+    }
+
+    .menu-tab p{
+        font-size: 20px;
+        font-weight: lighter;
+        margin-left: 10px;
+    }
+
+    .menu-tab img{
+        width: 15px;
+        margin-right: 10px;
+        margin-left: 20px;
+    }
+    .menu-tab a:hover{
+        background:  rgb(250, 255, 251);
+        transition: 0.6s;
+        margin-left: 0rem;
+        color: rgb(2, 80, 2);
+        fill: rgb(2, 80, 2);
+        font-weight: bold;
+        padding-left: 1rem;
+        content: "";
+        margin-bottom: 6px;
+        font-size: 10px;
+        border-radius: 0 10px 10px 0 ;
+        box-shadow: 1px 1px 1px rgb(78, 150, 78);
+    }
