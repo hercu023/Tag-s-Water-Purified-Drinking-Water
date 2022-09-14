@@ -33,8 +33,8 @@
                     <form action="code-verification.php" method="post" autocomplete="off" class="disable-form"> 
                             
                                 <div class="txt_field">    
-                                    <input type="text" id="email" name="email" required>
-                                    <span></span>
+                                     <input type="text" id="email" name="email" required>
+                                   <span></span>
                                     <label for="email">Email</label>
                                 </div>
                                 <div class="confirmbtn">
