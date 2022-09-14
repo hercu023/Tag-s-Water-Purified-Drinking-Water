@@ -38,7 +38,7 @@
                                     <label for="email">Email</label>
                                 </div>
                                 <div class="confirmbtn">
-                                    <input type="submit" class="confirm" value="CONTINUE" name="check-email" id="submitBtn" onclick="disable(this)">
+                                    <input type="submit" class="confirm" value="SEND" name="check-email" id="submitBtn" >
                                     <!-- <p id="continue">Please wait..</p> -->
                                     <a href="login.php" id="cancel">CANCEL</a>
                                 </div>   
