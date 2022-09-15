@@ -21,12 +21,14 @@ include 'connectionDB.php';
                 $user_password = $user['password'];
                 $user_first_name = $user['first_name'];
                 $user_user_type = $user['user_type'];
+                $user_profile_image = $user['profile_image'];
                 if ($email === $user_email){
                     if (password_verify($pass, $user_password)){
                         $_SESSION['user_id'] = $user_id;
                         $_SESSION['user_email'] = $user_email;
                         $_SESSION['user_first_name'] =  $user_first_name;
                         $_SESSION['user_user_type'] =  $user_user_type;
+                        $_SESSION['user_profile_image'] =  $user_profile_image;
                     }else{
                         header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The password you've entered is incorrect");
                     }
@@ -120,9 +122,9 @@ include 'connectionDB.php';
                 </div>           
                 </aside>
             </div>
-            <main>
+            <!-- <main>
                 <h1>Dashboard</h1> 
-            </main>
+            </main> -->
                 <div class="top-menu">  
                     <div class="menu-bar">
                         <button id="menu-button">
@@ -141,7 +143,7 @@ include 'connectionDB.php';
                         </div>   
                         <div class="user2"> 
                             <div class="profile" onclick="menuToggle();">
-                                <img class="profile-picture" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/ID.jpg" >
+                                <img class="profile-picture" src="uploads/<?=$_SESSION['user_profile_image']?>">
                             </div>
                             <div class="drop-menu">
                                 <div class="ul">
@@ -381,7 +383,7 @@ include 'connectionDB.php';
         background: rgb(244, 255, 246);
         left: 0;
         border-radius: 0px 20px 20px 0px;
-        border-left: 10px solid rgb(2, 80, 2); 
+        /* border-left: 10px solid rgb(2, 80, 2);  */
     }
     aside .title{
         display: flex;
@@ -425,7 +427,7 @@ include 'connectionDB.php';
         
     }
     aside .sidebar a:focus{
-        background: rgb(224, 224, 224);
+        background: white;
         transition: 0.6s;
         color: rgb(2, 80, 2);
         fill: rgb(2, 80, 2);
@@ -433,12 +435,12 @@ include 'connectionDB.php';
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
-        font-size: 10px;
-        border-radius: 0 10px 10px 0 ;
-        box-shadow: 1px 3px 1px rgb(78, 150, 78);
+        font-size: 9px;
+        border-radius: 0 0 10px 0 ;
+        box-shadow: 1px 3px 1px rgb(224, 224, 224);
     }
     aside .sidebar .dashboard{
-        background: rgb(224, 224, 224);
+        background: white;
         transition: 0.6s;
         color: rgb(2, 80, 2);
         fill: rgb(2, 80, 2);
@@ -446,9 +448,9 @@ include 'connectionDB.php';
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
-        font-size: 10px;
-        border-radius: 0 10px 10px 0 ;
-        box-shadow: 1px 3px 1px rgb(78, 150, 78);
+        font-size: 9px;
+        border-radius: 0 0 10px 0 ;
+        box-shadow: 1px 3px 1px rgb(224, 224, 224);
     }
     #menu-button{
         display: none;
@@ -512,9 +514,11 @@ include 'connectionDB.php';
             height: 3.4rem;
         }
         aside .sidebar a:focus{
-            width: 15rem;
-            background: rgb(224, 224, 224);
-            box-shadow: 0px 3px 1px rgb(78, 150, 78);
+            width: 14.95rem;
+            fill: white;
+            color: white;
+            background: rgb(78, 150, 78);
+            box-shadow: 1px 3px 1px rgb(224, 224, 224);
         }
         aside .close{
             display: inline-block;
@@ -527,6 +531,12 @@ include 'connectionDB.php';
             display: inline-block;
             margin-right: 15px;
             cursor: pointer;
+        }
+        aside .sidebar .dashboard{
+            width: 15.95rem;
+            fill: white;
+            color: white;
+            background: rgb(78, 150, 78);
         }
         .top-menu{
             width: 94%;
@@ -543,7 +553,7 @@ include 'connectionDB.php';
             width: 100%;
             margin: 0;
             z-index: 2;
-            box-shadow: 0px 2px 14px rgb(116, 116, 116);
+            box-shadow: 0px 1px 14px rgb(116, 116, 116);
         }
         .profile .profile-picture{
             margin-right: 1.5rem;
@@ -555,11 +565,26 @@ include 'connectionDB.php';
             position: absolute;
             cursor: pointer;
         }
-        .user1{
+        #user1{
             display: none;
         }
-        .user2{
+        #user2{
             display: none;
+        }
+        .user2 .drop-menu{
+        right: 35px;
+        margin-top: 10px;
+        }
+
+        .user2 .drop-menu::before{
+        right: 25px;
+        }
+        .drop-menu .ul{
+        width: 8rem;
+        height: 5rem;
+        }
+        .drop-menu .ul a{
+        width: 8rem;
         }
     }
 
@@ -578,15 +603,15 @@ include 'connectionDB.php';
         background:  rgb(250, 255, 251);
         transition: 0.6s;
         margin-left: 0rem;
-        color: rgb(2, 80, 2);
-        fill: rgb(2, 80, 2);
+        color: rgb(224, 224, 224);
+        fill: rgb(224, 224, 224);
         font-weight: bold;
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
-        font-size: 10px;
+        font-size: 9px;
         border-radius: 0 10px 10px 0 ;
-        box-shadow: 1px 1px 1px rgb(78, 150, 78);
+        box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
 </style>
 

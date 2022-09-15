@@ -1,6 +1,8 @@
 <?php
 session_start();
-include 'connectionDB.php';
+include_once('connectionDB.php');
+$query = "SELECT * FROM users";
+$result = mysqli_query($con, $query);
     if (isset($_POST['email'])){
 
         $email = $_POST['email'];
@@ -23,6 +25,8 @@ include 'connectionDB.php';
                 }
             }
         }
+        
+                            
 ?> 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +38,7 @@ include 'connectionDB.php';
         <!-- <link rel="stylesheet" type="text/css" href="../TAG-S-WATER-PURIFIED-DRINKING-WATER/CSS/Account.css"> -->
         <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
+        <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
         <title>Account</title>
@@ -105,9 +110,50 @@ include 'connectionDB.php';
             </div>         
             </aside>
         </div>
-            <!-- <main>
-                <h1>Account</h1> 
-            </main> -->
+            <main>
+                <h1 class="accTitle">ACCOUNT</h1> 
+
+                <div class="account-container">
+                    <h2> User Accounts </h2>
+                    <table> 
+                        <thead> 
+                            <th>ID</th>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Email</th>
+                            <th>Age</th>
+                            <th>Address</th>
+                            <th>Gender</th>
+                            <th>Contact Number</th>
+                            <th>Role</th>
+                        </thead>
+
+                        <?php
+                            while ($rows = mysqli_fetch_assoc($result))
+                            {
+                        ?>
+                        <tbody>
+                                <tr>
+                                    <td> <?php echo $rows['id']; ?></td>
+                                    <td> <?php echo $rows['last_name']; ?></td>
+                                    <td> <?php echo $rows['first_name']; ?></td>
+                                    <td> <?php echo $rows['middle_name']; ?></td>
+                                    <td> <?php echo $rows['email']; ?></td>
+                                    <td> <?php echo $rows['age']; ?></td>
+                                    <td> <?php echo $rows['address']; ?></td>
+                                    <td> <?php echo $rows['gender']; ?></td>
+                                    <td> <?php echo $rows['contact_number']; ?></td>
+                                    <td> <?php echo $rows['user_type']; ?></td>
+                                </tr>
+                        </tbody>
+                                <?php
+                            }
+                            ?>
+                        
+                    </table>     
+                </div>
+            </main>
             <div class="top-menu">  
                 <div class="menu-bar">
                     <button id="menu-button">
@@ -168,9 +214,8 @@ const menuBtn = document.querySelector("#menu-button");
     }
 </script>
 <style>
-    
-    BODY{
-        background: rgb(224, 224, 224);
+       BODY{
+        background: rgb(235, 235, 235);
         margin: 0;
         padding: 0;
         height: 100%;
@@ -181,14 +226,14 @@ const menuBtn = document.querySelector("#menu-button");
         background-size: cover;
         background-attachment: fixed;
     }  
-     /* Top bar menu  */
+     /* ----------------------------------------Top bar menu----------------------------------------  */
      .top-menu{
         margin-top: 1.7rem;
         position:  relative;
         text-align: right;
         align-items: right;
         left: 100%;
-        width: 32%;
+        width: 0;
     }
     .top-menu .menu-bar{
         display: flex;
@@ -264,10 +309,10 @@ const menuBtn = document.querySelector("#menu-button");
         bottom: 0%;
         width: 100%;
     } */
-    .user{
+    /* .user{
         text-align: right;
         align-items: right;
-    }
+    } */
     a{
         text-decoration:none;
         font-family: 'COCOGOOSE', sans-serif;
@@ -333,8 +378,8 @@ const menuBtn = document.querySelector("#menu-button");
         margin-left: -1.26rem;
         padding-left: 1rem;
         gap: 1rem;
-        height: 1vh;
-        width: 7vw;
+        height: 1rem;
+        width: 8.5rem;
         align-items: center;
         position: relative;
         height: 1.7rem;
@@ -353,11 +398,55 @@ const menuBtn = document.querySelector("#menu-button");
         border-radius: 0px 0px 10px 10px;
         cursor: pointer;
     }
+    /* ----------------------------------------MAIN---------------------------------------- */
+    .accTitle{
+        margin-top: 50px;
+        margin-left: 5%;
+        font-size: 1.9rem;
+        color: rgb(2, 80, 2);
+        font-family: 'COCOGOOSE', sans-serif;
+        letter-spacing: .03rem;
+        border-bottom: 2px solid rgb(2, 80, 2);
+    }
+    main .account-container{
+        margin-top: 2rem;
+    }
+    main .account-container h2{
+        margin-bottom: -1.7rem;
+        color: rgb(117, 117, 117);
+        font-size: 1.3rem;
+        margin-left: 9%;
+        letter-spacing: .1rem;
+        font-family: 'Galhau Display', sans-serif;
+    }
+    main .account-container table{
+        background: white;
+        font-family: 'Switzer', sans-serif;
+        width: 100%;
+        font-size: 0.8rem;
+        border-radius: 20px 20px 20px 20px;
+        padding: 3rem;
+        text-align: center; 
+        box-shadow: 0px 5px 30px 2px rgb(244, 255, 246);
+        transition: all 300ms ease;
+        margin: 50px;
+    }
+
+    main .account-container table:hover{
+        box-shadow: none;
+    }
+
+    main table tbody td{
+        height: 2.8rem;
+        border-bottom: 1px solid rgb(224, 224, 224);
+        color: rgb(100, 100, 100);
+    }
+    /* ----------------------------------------ASIDE---------------------------------------- */
     .container{
         display: grid;
         width: 96%;
         margin: 0 auto;
-        background: rgb(224, 224, 224);
+        background: rgb(235, 235, 235);
         gap: 1.8rem;
         grid-template-columns: 14rem auto 23rem;
     }
@@ -367,7 +456,7 @@ const menuBtn = document.querySelector("#menu-button");
         background: rgb(244, 255, 246);
         left: 0;
         border-radius: 0px 20px 20px 0px;
-        border-left: 10px solid rgb(2, 80, 2); 
+        /* border-left: 10px solid rgb(2, 80, 2);  */
     }
     aside .title{
         display: flex;
@@ -411,7 +500,7 @@ const menuBtn = document.querySelector("#menu-button");
         
     }
     aside .sidebar a:focus{
-        background: rgb(224, 224, 224);
+        background: white;
         transition: 0.6s;
         color: rgb(2, 80, 2);
         fill: rgb(2, 80, 2);
@@ -419,12 +508,12 @@ const menuBtn = document.querySelector("#menu-button");
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
-        font-size: 10px;
-        border-radius: 0 10px 10px 0 ;
-        box-shadow: 1px 3px 1px rgb(78, 150, 78);
+        font-size: 9px;
+        border-radius: 0 0 10px 0 ;
+        box-shadow: 1px 3px 1px rgb(224, 224, 224);
     }
     aside .sidebar .account{
-        background: rgb(224, 224, 224);
+        background: white;
         transition: 0.6s;
         color: rgb(2, 80, 2);
         fill: rgb(2, 80, 2);
@@ -432,9 +521,9 @@ const menuBtn = document.querySelector("#menu-button");
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
-        font-size: 10px;
-        border-radius: 0 10px 10px 0 ;
-        box-shadow: 1px 3px 1px rgb(78, 150, 78);
+        font-size: 9px;
+        border-radius: 0 0 10px 0 ;
+        box-shadow: 1px 3px 1px rgb(224, 224, 224);
     }
     #menu-button{
         display: none;
@@ -452,7 +541,7 @@ const menuBtn = document.querySelector("#menu-button");
         }
 
         aside .sidebar a{
-            width: 5.6rem;
+            width: 5.95rem;
         }
         aside .sidebar a:focus{
             padding-left: 2rem;
@@ -498,9 +587,11 @@ const menuBtn = document.querySelector("#menu-button");
             height: 3.4rem;
         }
         aside .sidebar a:focus{
-            width: 15rem;
-            background: rgb(224, 224, 224);
-            box-shadow: 0px 3px 1px rgb(78, 150, 78);
+            width: 14.95rem;
+            fill: white;
+            color: white;
+            background: rgb(78, 150, 78);
+            box-shadow: 1px 3px 1px rgb(224, 224, 224);
         }
         aside .close{
             display: inline-block;
@@ -513,6 +604,12 @@ const menuBtn = document.querySelector("#menu-button");
             display: inline-block;
             margin-right: 15px;
             cursor: pointer;
+        }
+        aside .sidebar .account{
+            width: 15.95rem;
+            fill: white;
+            color: white;
+            background: rgb(78, 150, 78);
         }
         .top-menu{
             width: 94%;
@@ -529,7 +626,7 @@ const menuBtn = document.querySelector("#menu-button");
             width: 100%;
             margin: 0;
             z-index: 2;
-            box-shadow: 0px 2px 14px rgb(116, 116, 116);
+            box-shadow: 0px 1px 14px rgb(116, 116, 116);
         }
         .profile .profile-picture{
             margin-right: 1.5rem;
@@ -541,11 +638,20 @@ const menuBtn = document.querySelector("#menu-button");
             position: absolute;
             cursor: pointer;
         }
-        .user1{
-            display: none;
+        .user2 .drop-menu{
+        right: 35px;
+        margin-top: 10px;
         }
-        .user2{
-            display: none;
+
+        .user2 .drop-menu::before{
+        right: 25px;
+        }
+        .drop-menu .ul{
+        width: 8rem;
+        height: 5rem;
+        }
+        .drop-menu .ul a{
+        width: 8rem;
         }
     }
 
@@ -564,14 +670,14 @@ const menuBtn = document.querySelector("#menu-button");
         background:  rgb(250, 255, 251);
         transition: 0.6s;
         margin-left: 0rem;
-        color: rgb(2, 80, 2);
-        fill: rgb(2, 80, 2);
+        color: rgb(224, 224, 224);
+        fill: rgb(224, 224, 224);
         font-weight: bold;
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
-        font-size: 10px;
+        font-size: 9px;
         border-radius: 0 10px 10px 0 ;
-        box-shadow: 1px 1px 1px rgb(78, 150, 78);
+        box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
     </style>
