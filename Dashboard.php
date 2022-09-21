@@ -122,9 +122,10 @@ include 'connectionDB.php';
                 </div>           
                 </aside>
             </div>
-            <!-- <main>
-                <h1>Dashboard</h1> 
-            </main> -->
+            <main>
+            <div class="main-dashboard">
+                    <h1 class="dashTitle">DASHBOARD</h1> 
+            </main>
                 <div class="top-menu">  
                     <div class="menu-bar">
                         <button id="menu-button">
@@ -142,11 +143,18 @@ include 'connectionDB.php';
                             </div>
                         </div>   
                         <div class="user2"> 
-                            <div class="profile" onclick="menuToggle();">
-                                <img class="profile-picture" src="uploads/<?=$_SESSION['user_profile_image']?>">
-                            </div>
-                            <div class="drop-menu">
+                        <div class="profile"  onclick="menuToggle();">
+                            <img class="profile-picture" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/ID.jpg" >
+                        </div>
+                        <div class="drop-menu" >
                                 <div class="ul">
+                                <input type="checkbox" class="checkbox" id="checkbox">
+                                    <label for="checkbox" class="theme-dark">
+                                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" height="18" width="18"><path d="M10 17q-2.917 0-4.958-2.042Q3 12.917 3 10q0-2.917 2.042-4.958Q7.083 3 10 3q.271 0 .531.021.261.021.531.062-.812.605-1.291 1.5-.479.896-.479 1.917 0 1.771 1.218 2.99 1.219 1.218 2.99 1.218 1.021 0 1.917-.479.895-.479 1.5-1.291.041.27.062.531.021.26.021.531 0 2.917-2.042 4.958Q12.917 17 10 17Z"/></svg>
+                                        <svg class="sun" xmlns="http://www.w3.org/2000/svg" height="18" width="18"><path d="M10 14q-1.667 0-2.833-1.167Q6 11.667 6 10q0-1.667 1.167-2.833Q8.333 6 10 6q1.667 0 2.833 1.167Q14 8.333 14 10q0 1.667-1.167 2.833Q11.667 14 10 14Zm-8.25-3.25q-.312 0-.531-.219Q1 10.312 1 10q0-.312.219-.531.219-.219.531-.219h2q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm14.5 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531.219-.219.531-.219h2q.312 0 .531.219Q19 9.688 19 10q0 .312-.219.531-.219.219-.531.219ZM10 4.5q-.312 0-.531-.219-.219-.219-.219-.531v-2q0-.312.219-.531Q9.688 1 10 1q.312 0 .531.219.219.219.219.531v2q0 .312-.219.531-.219.219-.531.219ZM10 19q-.312 0-.531-.219-.219-.219-.219-.531v-2q0-.312.219-.531.219-.219.531-.219.312 0 .531.219.219.219.219.531v2q0 .312-.219.531Q10.312 19 10 19ZM5.042 6.104 4 5.042q-.229-.209-.229-.511 0-.302.229-.531.208-.229.521-.229.312 0 .521.229l1.062 1.042q.229.229.229.531 0 .302-.229.531-.208.229-.521.229-.312 0-.541-.229ZM14.958 16l-1.062-1.042q-.229-.229-.229-.531 0-.302.229-.531.208-.229.521-.229.312 0 .541.229L16 14.958q.229.209.229.511 0 .302-.229.531-.229.229-.521.229-.291 0-.521-.229Zm-1.062-9.896q-.229-.208-.229-.521 0-.312.229-.541L14.958 4q.23-.229.521-.219.292.011.521.219.229.229.229.521 0 .291-.229.521l-1.042 1.062q-.229.229-.531.229-.302 0-.531-.229ZM4 16q-.229-.208-.229-.521 0-.312.229-.521l1.042-1.062q.229-.208.531-.208.302 0 .531.208.229.229.219.531-.011.302-.219.531L5.042 16q-.209.229-.511.229-.302 0-.531-.229Z"/></svg>
+                                        <div class="ball"></div>
+                                    </label>
+                                </input>
                                     <a href="#" class="account">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.917 14.167q1.062-.875 2.364-1.313 1.302-.437 2.719-.437 1.417 0 2.719.437 1.302.438 2.385 1.313.688-.855 1.084-1.907.395-1.052.395-2.26 0-2.75-1.916-4.667Q12.75 3.417 10 3.417T5.333 5.333Q3.417 7.25 3.417 10q0 1.208.406 2.26.406 1.052 1.094 1.907ZM10 10.854q-1.229 0-2.073-.844-.844-.843-.844-2.072 0-1.23.844-2.073.844-.844 2.073-.844t2.073.844q.844.843.844 2.073 0 1.229-.844 2.072-.844.844-2.073.844Zm0 7.479q-1.729 0-3.25-.656t-2.646-1.781q-1.125-1.125-1.781-2.646-.656-1.521-.656-3.25t.656-3.25q.656-1.521 1.781-2.646T6.75 2.323q1.521-.656 3.25-.656t3.25.656q1.521.656 2.646 1.781t1.781 2.646q.656 1.521.656 3.25t-.656 3.25q-.656 1.521-1.781 2.646t-2.646 1.781q-1.521.656-3.25.656Zm.021-1.75q1.021 0 2-.312.979-.313 1.771-.896-.771-.604-1.75-.906-.98-.302-2.042-.302-1.062 0-2.031.302-.969.302-1.761.906.792.583 1.782.896.989.312 2.031.312ZM10 9.104q.521 0 .844-.323.323-.323.323-.843 0-.521-.323-.844-.323-.323-.844-.323-.521 0-.844.323-.323.323-.323.844 0 .52.323.843.323.323.844.323Zm0-1.166Zm0 7.437Z"/></svg>
                                         <h4>My Account</h4>
@@ -160,8 +168,8 @@ include 'connectionDB.php';
                                         <h4>Logout</h4>
                                     </a>
                                 </div>
-                            </div>  
-                        </div>        
+                        </div>  
+                    </div>           
                     </div>
                 </div>       
         </div> 
@@ -171,22 +179,55 @@ include 'connectionDB.php';
     const sideMenu = document.querySelector("#aside");
     const closeBtn = document.querySelector("#close-btn");
     const menuBtn = document.querySelector("#menu-button");
-    menuBtn.addEventListener('click', () =>{
-        sideMenu.style.display = 'block';
-    })
-    closeBtn.addEventListener('click', () =>{
-        sideMenu.style.display = 'none';
-    })
+    const checkbox = document.getElementById("checkbox");
+        menuBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'block';
+        })
+        closeBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'none';
+        })
+        checkbox.addEventListener('change', () =>{
+            document.body.classList.toggle('dark-theme');
+        })
 
-    function menuToggle(){
-        const toggleMenu = document.querySelector('.drop-menu');
-        toggleMenu.classList.toggle('user2')
-    }
+        function menuToggle(){
+            const toggleMenu = document.querySelector('.drop-menu');
+            toggleMenu.classList.toggle('user2')
+        }
 </script>
 <style>
-    
+     :root{
+        --color-main: rgb(2, 80, 2);
+        --color-white: white;
+        --color-white-secondary: white;
+        --color-tertiary: hsl(0, 0%, 69%);
+        --color-black: rgb(49, 49, 49);
+        --color-maroon: rgb(136, 0, 0);
+        --color-secondary-main: rgb(244, 255, 246);
+        --color-background: rgb(235, 235, 235);
+        --color-solid-gray: rgb(126, 126, 126);
+        --color-td:rgb(100, 100, 100);
+        --color-button: rgb(117, 117, 117);
+        --color-table-shadow: rgb(244, 255, 246);
+        --color-table-hover: rgb(244, 255, 246);
+    }
+    .dark-theme{
+        --color-white: rgb(48, 48, 48);
+        --color-tertiary: hsl(0, 0%, 25%);
+        --color-black: white;
+        --color-table-shadow: rgb(131, 131, 131);
+        --color-maroon: rgb(255, 130, 130);
+        --color-white-secondary: rgb(235, 235, 235);
+        --color-main: rgb(244, 255, 246);
+        --color-secondary-main: rgb(97, 172, 111);
+        --color-background: rgb(80, 80, 80);
+        --color-solid-gray: rgb(231, 231, 231);
+        --color-td: rgb(231, 231, 231);
+        --color-button: rgb(202, 202, 202);
+        --color-table-hover: rgb(112, 112, 112);
+    }
     BODY{
-        background: rgb(224, 224, 224);
+        background: var(--color-background);
         margin: 0;
         padding: 0;
         height: 100%;
@@ -197,14 +238,9 @@ include 'connectionDB.php';
         background-size: cover;
         background-attachment: fixed;
     }  
-     /* Top bar menu  */
-     .top-menu{
+     /* ----------------------------------------Top bar menu----------------------------------------  */
+    .top-menu{
         margin-top: 1.7rem;
-        position:  relative;
-        text-align: right;
-        align-items: right;
-        left: 100%;
-        width: 32%;
     }
     .top-menu .menu-bar{
         display: flex;
@@ -214,12 +250,12 @@ include 'connectionDB.php';
     .top-menu .menu-bar button{
         display: none;
     }
-    .top-menu .menu-bar #user1{
+    .top-menu .menu-bar .user1{
         gap: 2rem;
         align-items: right;
         text-align: right;
     }
-    .top-menu .menu-bar #user2{
+    .top-menu .menu-bar .user2{
         display: flex;
         gap: 2rem;
         align-items: right;
@@ -228,9 +264,9 @@ include 'connectionDB.php';
     .user-type{
         font-family: 'PHANTOM', sans-serif;
         font-size: 7.5px;
-        color: rgb(2, 80, 2);
+        color: var(--color-main); 
         letter-spacing: .2rem;
-        border-top: 2px solid rgb(2, 80, 2); 
+        border-top: 2px solid var(--color-main); 
         margin-top: -0.97rem;
         width: 100px;
     }
@@ -243,7 +279,7 @@ include 'connectionDB.php';
         /* margin-right: -7.3rem;*/
         margin-top: -0.6rem; 
         letter-spacing: 2px;
-        color: rgb(2, 80, 2);
+        color: var(--color-main); 
     }
     .user-name{
         font-family: 'Switzer', sans-serif;
@@ -251,10 +287,10 @@ include 'connectionDB.php';
         margin-top: -1rem; 
         text-transform: uppercase;
         margin-bottom: 0;
-        color: rgb(136, 0, 0);
+        color: var(--color-maroon);
     }
     .profile .profile-picture{
-        background: white;
+        background: var(--color-white); 
         border-radius: 30%;
         width: 50px;
         padding: 4px;
@@ -280,10 +316,10 @@ include 'connectionDB.php';
         bottom: 0%;
         width: 100%;
     } */
-    .user{
+    /* .user{
         text-align: right;
         align-items: right;
-    }
+    } */
     a{
         text-decoration:none;
         font-family: 'COCOGOOSE', sans-serif;
@@ -292,13 +328,19 @@ include 'connectionDB.php';
         font-family: 'Malberg Trial', sans-serif;
         color: rgb(68, 68, 68);
     }
-  
+    .notifs-section{
+
+    }
+    .todeliver{
+        margin-bottom: -2.2rem;
+        margin-top: 2rem;
+        color: rgb(117, 117, 117);
+        font-size: 1.3rem;
+        letter-spacing: .1rem;
+        font-family: 'Galhau Display', sans-serif;
+    }
     h3{
         font-size: 0.87rem;
-    }
-    .user2{
-        top: 20px;
-        right: 30px;
     }
     .user2 .profile{
         position: relative;
@@ -307,7 +349,7 @@ include 'connectionDB.php';
     .user2 .drop-menu{
         position: absolute; 
         top: 120px;
-        right: -10px;
+        right: 15px;
         padding: 10px 20px;
         background: white;
         width: 110px;
@@ -333,7 +375,7 @@ include 'connectionDB.php';
         transform: rotate(45deg);
     }
     .drop-menu .ul{
-        margin-top: .2rem;
+        margin-top: 2rem;
         display: flex;
         flex-direction: column;
         height: 9vh;
@@ -341,27 +383,27 @@ include 'connectionDB.php';
     }
     .drop-menu h4{
         font-weight: 400;
+        font-size: 12px;
     }
     .drop-menu .ul a{
         display: flex;
         color: hsl(0, 0%, 69%);
-        fill: hsl(0, 0%, 69%);
+        fill: hsl(0, 0%, 69%); 
         margin-left: -1.26rem;
         padding-left: 1rem;
         gap: 1rem;
-        height: 1vh;
-        width: 7vw;
+        height: 1rem;
+        width: 8.5rem;
         align-items: center;
         position: relative;
         height: 1.7rem;
         transition: all 300ms ease;
-        
     }
     .drop-menu .ul a:hover {
-        background: rgb(190, 190, 190);
+        background:  rgb(190, 190, 190);
         transition: 0.6s;
-        color: rgb(255, 255, 255);
-        fill: rgb(255, 255, 255);
+        color: white;
+        fill: white;
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
@@ -369,20 +411,73 @@ include 'connectionDB.php';
         border-radius: 0px 0px 10px 10px;
         cursor: pointer;
     }
+    .checkbox{
+        opacity: 0;
+        position: absolute;
+    }
+    .checkbox:checked + .theme-dark .ball{
+        transform: translateX(28px);
+    }
+    .drop-menu .theme-dark{
+        background: hsl(0, 0%, 69%);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 14.5px;
+        width: 42.5px;
+        cursor: pointer;
+        border-radius: 50px;
+        position: relative;
+        padding: 5px;
+        margin-top: -30px;
+        margin-bottom: 8px;
+        margin-left: 2rem;
+    }
+    .sun{
+        fill: yellow;
+    }
+    .moon{
+        fill: white;
+    }
+    .ball{
+        background: white;
+        position: absolute;
+        border-radius: 50%;
+        top: 2px;
+        left: 2px;
+        height: 21px;
+        width: 21px;
+        transition: transform 0.2s linear;
+    }
+    /* ----------------------------------------MAIN---------------------------------------- */
+    .main-dasboard{
+        width:100%;
+    }
+    .dashTitle{
+        margin-top: 50px;
+        margin-left: 5%;
+        font-size: min(max(1.9rem, 1.1vw), 2rem);
+        color: var(--color-main); 
+        font-family: 'COCOGOOSE', sans-serif;
+        letter-spacing: .03rem;
+        border-bottom: 2px solid var(--color-main); 
+    }
+   
+    /* ----------------------------------------ASIDE---------------------------------------- */
     .container{
         display: grid;
         width: 96%;
         margin: 0 auto;
-        background: rgb(224, 224, 224);
+        background: var(--color-background);
         gap: 1.8rem;
         grid-template-columns: 14rem auto 23rem;
     }
     aside{
         height: 100vh;
         margin-top: -1.9rem;
-        background: rgb(244, 255, 246);
+        background: var(--color-table-hover);
         left: 0;
-        border-radius: 0px 20px 20px 0px;
+        border-radius: 0px 30px 30px 0px;
         /* border-left: 10px solid rgb(2, 80, 2);  */
     }
     aside .title{
@@ -416,8 +511,8 @@ include 'connectionDB.php';
     }
     aside .sidebar a{
         display: flex;
-        color: hsl(0, 0%, 69%);
-        fill: hsl(0, 0%, 69%);
+        color: var(--color-tertiary);
+        fill: var(--color-tertiary);
         margin-left: 2rem;
         gap: 1rem;
         align-items: center;
@@ -427,30 +522,30 @@ include 'connectionDB.php';
         
     }
     aside .sidebar a:focus{
-        background: white;
+        background: var(--color-white);
         transition: 0.6s;
-        color: rgb(2, 80, 2);
-        fill: rgb(2, 80, 2);
+        color: var(--color-main);
+        fill: var(--color-main);
         margin-left: 0;
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
         font-size: 9px;
         border-radius: 0 0 10px 0 ;
-        box-shadow: 1px 3px 1px rgb(224, 224, 224);
+        box-shadow: 1px 3px 1px var(--color-background);
     }
     aside .sidebar .dashboard{
-        background: white;
+        background: var(--color-white);
         transition: 0.6s;
-        color: rgb(2, 80, 2);
-        fill: rgb(2, 80, 2);
+        color: var(--color-main);
+        fill: var(--color-main);
         margin-left: 0;
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
         font-size: 9px;
         border-radius: 0 0 10px 0 ;
-        box-shadow: 1px 3px 1px rgb(224, 224, 224);
+        box-shadow: 1px 3px 1px var(--color-background);
     }
     #menu-button{
         display: none;
@@ -464,11 +559,12 @@ include 'connectionDB.php';
             display: none;
         }
         aside .titlelogo img{
-            margin-left: 1rem;
+            margin-left: 1.8rem;
+            width: 40%;
         }
 
         aside .sidebar a{
-            width: 5.6rem;
+            width: 5.95rem;
         }
         aside .sidebar a:focus{
             padding-left: 2rem;
@@ -476,6 +572,10 @@ include 'connectionDB.php';
         }
         .top-menu{
             width: 370px;
+        }
+        .main-dasboard{
+            position: relative;
+            left: -5%;
         }
     }
 
@@ -515,8 +615,8 @@ include 'connectionDB.php';
         }
         aside .sidebar a:focus{
             width: 14.95rem;
-            fill: white;
-            color: white;
+            fill: var(--color-white);
+            color: var(--color-white);
             background: rgb(78, 150, 78);
             box-shadow: 1px 3px 1px rgb(224, 224, 224);
         }
@@ -565,12 +665,6 @@ include 'connectionDB.php';
             position: absolute;
             cursor: pointer;
         }
-        #user1{
-            display: none;
-        }
-        #user2{
-            display: none;
-        }
         .user2 .drop-menu{
         right: 35px;
         margin-top: 10px;
@@ -585,6 +679,9 @@ include 'connectionDB.php';
         }
         .drop-menu .ul a{
         width: 8rem;
+        }
+        .acctitle{
+            margin-left: 0;
         }
     }
 
@@ -603,8 +700,8 @@ include 'connectionDB.php';
         background:  rgb(250, 255, 251);
         transition: 0.6s;
         margin-left: 0rem;
-        color: rgb(224, 224, 224);
-        fill: rgb(224, 224, 224);
+        color: rgb(187, 187, 187);
+        fill: rgb(187, 187, 187);
         font-weight: bold;
         padding-left: 1rem;
         content: "";
@@ -613,5 +710,4 @@ include 'connectionDB.php';
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
-</style>
-
+    </style>

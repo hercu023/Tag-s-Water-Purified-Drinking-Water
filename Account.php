@@ -40,7 +40,7 @@ $result = mysqli_query($con, $query);
         <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
-        <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
+        <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
         <title>Account</title>
     </head>
     <body>
@@ -111,47 +111,68 @@ $result = mysqli_query($con, $query);
             </aside>
         </div>
             <main>
-                <h1 class="accTitle">ACCOUNT</h1> 
-
-                <div class="account-container">
-                    <h2> User Accounts </h2>
-                    <table> 
-                        <thead> 
-                            <th>ID</th>
-                            <th>Last Name</th>
-                            <th>First Name</th>
-                            <th>Middle Name</th>
-                            <th>Email</th>
-                            <th>Age</th>
-                            <th>Address</th>
-                            <th>Gender</th>
-                            <th>Contact Number</th>
-                            <th>Role</th>
-                        </thead>
-
-                        <?php
-                            while ($rows = mysqli_fetch_assoc($result))
-                            {
-                        ?>
-                        <tbody>
+                <div class="main-account">
+                    <h1 class="accTitle">ACCOUNT</h1> 
+                    <div class="sub-tab">
+                        <div class="user-title"> 
+                            <h2> User Accounts </h2>
+                        </div>
+                        <div class="newUser-button"> 
+                            <button type="submit" class="add-account" onclick="addFunction()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
+                                    <h3>Add New User</h3>
+                            </button>
+                        </div>
+                        <div class="search">
+                            <div class="search-bar"> 
+                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+                                <button type="submit" >
+                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+                                </button>
+                            </div>
+                        </div>  
+                        <div class="popup-addAccount">
+                            
+                        </div>
+                    </div>
+                    <div class="account-container">
+                        <table class="table" id="myTable"> 
+                            <thead> 
                                 <tr>
-                                    <td> <?php echo $rows['id']; ?></td>
-                                    <td> <?php echo $rows['last_name']; ?></td>
-                                    <td> <?php echo $rows['first_name']; ?></td>
-                                    <td> <?php echo $rows['middle_name']; ?></td>
-                                    <td> <?php echo $rows['email']; ?></td>
-                                    <td> <?php echo $rows['age']; ?></td>
-                                    <td> <?php echo $rows['address']; ?></td>
-                                    <td> <?php echo $rows['gender']; ?></td>
-                                    <td> <?php echo $rows['contact_number']; ?></td>
-                                    <td> <?php echo $rows['user_type']; ?></td>
+                                    <th>ID</th>
+                                    <th>Last Name</th>
+                                    <th>First Name</th>
+                                    <th>Middle Name</th>
+                                    <th>Email</th>
+                                    <th>Address</th>
+                                    <th>Contact Number</th>
+                                    <th>Role</th>
+                                    <th>Picture</th>
                                 </tr>
-                        </tbody>
-                                <?php
-                            }
+                            </thead>
+
+                            <?php
+                                while ($rows = mysqli_fetch_assoc($result))
+                                {
                             ?>
-                        
-                    </table>     
+                            <tbody>
+                                    <tr>
+                                        <td> <?php echo $rows['id']; ?></td>
+                                        <td> <?php echo $rows['last_name']; ?></td>
+                                        <td> <?php echo $rows['first_name']; ?></td>
+                                        <td> <?php echo $rows['middle_name']; ?></td>
+                                        <td> <?php echo $rows['email']; ?></td>
+                                        <td> <?php echo $rows['address']; ?></td>
+                                        <td> <?php echo $rows['contact_number']; ?></td>
+                                        <td> <?php echo $rows['user_type']; ?></td>
+                                        <td> <?php echo $rows['profile_image']; ?></td>
+                                    </tr>
+                            </tbody>
+                                    <?php
+                                }
+                                ?>   
+                        </table>     
+                    </div>
                 </div>
             </main>
             <div class="top-menu">  
@@ -159,7 +180,7 @@ $result = mysqli_query($con, $query);
                     <button id="menu-button">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z"/></svg>
                     </button>
-                    <div id="user1">
+                    <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
                         </div>
@@ -176,6 +197,13 @@ $result = mysqli_query($con, $query);
                         </div>
                         <div class="drop-menu" >
                                 <div class="ul">
+                                <input type="checkbox" class="checkbox" id="checkbox">
+                                    <label for="checkbox" class="theme-dark">
+                                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" height="18" width="18"><path d="M10 17q-2.917 0-4.958-2.042Q3 12.917 3 10q0-2.917 2.042-4.958Q7.083 3 10 3q.271 0 .531.021.261.021.531.062-.812.605-1.291 1.5-.479.896-.479 1.917 0 1.771 1.218 2.99 1.219 1.218 2.99 1.218 1.021 0 1.917-.479.895-.479 1.5-1.291.041.27.062.531.021.26.021.531 0 2.917-2.042 4.958Q12.917 17 10 17Z"/></svg>
+                                        <svg class="sun" xmlns="http://www.w3.org/2000/svg" height="18" width="18"><path d="M10 14q-1.667 0-2.833-1.167Q6 11.667 6 10q0-1.667 1.167-2.833Q8.333 6 10 6q1.667 0 2.833 1.167Q14 8.333 14 10q0 1.667-1.167 2.833Q11.667 14 10 14Zm-8.25-3.25q-.312 0-.531-.219Q1 10.312 1 10q0-.312.219-.531.219-.219.531-.219h2q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm14.5 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531.219-.219.531-.219h2q.312 0 .531.219Q19 9.688 19 10q0 .312-.219.531-.219.219-.531.219ZM10 4.5q-.312 0-.531-.219-.219-.219-.219-.531v-2q0-.312.219-.531Q9.688 1 10 1q.312 0 .531.219.219.219.219.531v2q0 .312-.219.531-.219.219-.531.219ZM10 19q-.312 0-.531-.219-.219-.219-.219-.531v-2q0-.312.219-.531.219-.219.531-.219.312 0 .531.219.219.219.219.531v2q0 .312-.219.531Q10.312 19 10 19ZM5.042 6.104 4 5.042q-.229-.209-.229-.511 0-.302.229-.531.208-.229.521-.229.312 0 .521.229l1.062 1.042q.229.229.229.531 0 .302-.229.531-.208.229-.521.229-.312 0-.541-.229ZM14.958 16l-1.062-1.042q-.229-.229-.229-.531 0-.302.229-.531.208-.229.521-.229.312 0 .541.229L16 14.958q.229.209.229.511 0 .302-.229.531-.229.229-.521.229-.291 0-.521-.229Zm-1.062-9.896q-.229-.208-.229-.521 0-.312.229-.541L14.958 4q.23-.229.521-.219.292.011.521.219.229.229.229.521 0 .291-.229.521l-1.042 1.062q-.229.229-.531.229-.302 0-.531-.229ZM4 16q-.229-.208-.229-.521 0-.312.229-.521l1.042-1.062q.229-.208.531-.208.302 0 .531.208.229.229.219.531-.011.302-.219.531L5.042 16q-.209.229-.511.229-.302 0-.531-.229Z"/></svg>
+                                        <div class="ball"></div>
+                                    </label>
+                                </input>
                                     <a href="#" class="account">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.917 14.167q1.062-.875 2.364-1.313 1.302-.437 2.719-.437 1.417 0 2.719.437 1.302.438 2.385 1.313.688-.855 1.084-1.907.395-1.052.395-2.26 0-2.75-1.916-4.667Q12.75 3.417 10 3.417T5.333 5.333Q3.417 7.25 3.417 10q0 1.208.406 2.26.406 1.052 1.094 1.907ZM10 10.854q-1.229 0-2.073-.844-.844-.843-.844-2.072 0-1.23.844-2.073.844-.844 2.073-.844t2.073.844q.844.843.844 2.073 0 1.229-.844 2.072-.844.844-2.073.844Zm0 7.479q-1.729 0-3.25-.656t-2.646-1.781q-1.125-1.125-1.781-2.646-.656-1.521-.656-3.25t.656-3.25q.656-1.521 1.781-2.646T6.75 2.323q1.521-.656 3.25-.656t3.25.656q1.521.656 2.646 1.781t1.781 2.646q.656 1.521.656 3.25t-.656 3.25q-.656 1.521-1.781 2.646t-2.646 1.781q-1.521.656-3.25.656Zm.021-1.75q1.021 0 2-.312.979-.313 1.771-.896-.771-.604-1.75-.906-.98-.302-2.042-.302-1.062 0-2.031.302-.969.302-1.761.906.792.583 1.782.896.989.312 2.031.312ZM10 9.104q.521 0 .844-.323.323-.323.323-.843 0-.521-.323-.844-.323-.323-.844-.323-.521 0-.844.323-.323.323-.323.844 0 .52.323.843.323.323.844.323Zm0-1.166Zm0 7.437Z"/></svg>
                                         <h4>My Account</h4>
@@ -192,30 +220,112 @@ $result = mysqli_query($con, $query);
                         </div>  
                     </div>     
                 </div>
-            </div>       
-        
-
+                <!-- <div class="notifs-section">
+                    <h2 class="todeliver">To Deliver</h2>
+                    <div class="pending">
+                        <div class="deliveries-pending">
+                            <a href=#>9 Pending Deliveries</a>
+                        </div>
+                    </div>
+                </div> -->
+            </div>      
     </div> 
+   
 </body>
 </html>
-<script>
+<script type="application/javascript">
+function tableSearch(){
+    let input, filter, table, tr, lastname,
+     firstname, middlename, email, address, role, i, txtValue;
+
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    for(let i = 0; i < tr.length; i++){
+        lastname = tr[i].getElementsByTagName("td")[1];
+        firstname = tr[i].getElementsByTagName("td")[2];
+        middlename = tr[i].getElementsByTagName("td")[3];
+        email = tr[i].getElementsByTagName("td")[4];
+        address = tr[i].getElementsByTagName("td")[5];
+        role = tr[i].getElementsByTagName("td")[7];
+        if(lastname || firstname || middlename || email || address || role){
+            var lastname_value = lastname.textContent || lastname.innerText;
+            var firstname_value = firstname.textContent || firstname.innerText;
+            var middlename_value = middlename.textContent || middlename.innerText;
+            var email_value = email.textContent || email.innerText;
+            var address_value = address.textContent || address.innerText;
+            var role_value = role.textContent || role.innerText;
+
+            if(role_value.toUpperCase().indexOf(filter) > -1 ||
+               address_value.toUpperCase().indexOf(filter) > -1 ||
+               email_value.toUpperCase().indexOf(filter) > -1 ||
+               middlename_value.toUpperCase().indexOf(filter) > -1 ||
+               lastname_value.toUpperCase().indexOf(filter) > -1 ||
+               firstname_value.toUpperCase().indexOf(filter) > -1){
+                tr[i].style.display ="";
+            }
+            else{
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+
 const sideMenu = document.querySelector("#aside");
 const closeBtn = document.querySelector("#close-btn");
 const menuBtn = document.querySelector("#menu-button");
+const checkbox = document.getElementById("checkbox");
     menuBtn.addEventListener('click', () =>{
         sideMenu.style.display = 'block';
     })
     closeBtn.addEventListener('click', () =>{
         sideMenu.style.display = 'none';
     })
+    checkbox.addEventListener('change', () =>{
+        document.body.classList.toggle('dark-theme');
+    })
     function menuToggle(){
         const toggleMenu = document.querySelector('.drop-menu');
         toggleMenu.classList.toggle('user2')
     }
+
+
 </script>
 <style>
-       BODY{
-        background: rgb(235, 235, 235);
+    :root{
+        --color-main: rgb(2, 80, 2);
+        --color-white: white;
+        --color-white-secondary: white;
+        --color-tertiary: hsl(0, 0%, 69%);
+        --color-black: rgb(49, 49, 49);
+        --color-maroon: rgb(136, 0, 0);
+        --color-secondary-main: rgb(244, 255, 246);
+        --color-background: rgb(235, 235, 235);
+        --color-solid-gray: rgb(126, 126, 126);
+        --color-td:rgb(100, 100, 100);
+        --color-button: rgb(117, 117, 117);
+        --color-table-shadow: rgb(244, 255, 246);
+        --color-table-hover: rgb(244, 255, 246);
+    }
+    .dark-theme{
+        --color-white: rgb(48, 48, 48);
+        --color-tertiary: hsl(0, 0%, 25%);
+        --color-black: white;
+        --color-table-shadow: rgb(131, 131, 131);
+        --color-maroon: rgb(255, 130, 130);
+        --color-white-secondary: rgb(235, 235, 235);
+        --color-main: rgb(244, 255, 246);
+        --color-secondary-main: rgb(97, 172, 111);
+        --color-background: rgb(80, 80, 80);
+        --color-solid-gray: rgb(231, 231, 231);
+        --color-td: rgb(231, 231, 231);
+        --color-button: rgb(202, 202, 202);
+        --color-table-hover: rgb(112, 112, 112);
+    }
+    BODY{
+        background: var(--color-background);
         margin: 0;
         padding: 0;
         height: 100%;
@@ -227,13 +337,8 @@ const menuBtn = document.querySelector("#menu-button");
         background-attachment: fixed;
     }  
      /* ----------------------------------------Top bar menu----------------------------------------  */
-     .top-menu{
+    .top-menu{
         margin-top: 1.7rem;
-        position:  relative;
-        text-align: right;
-        align-items: right;
-        left: 100%;
-        width: 0;
     }
     .top-menu .menu-bar{
         display: flex;
@@ -243,12 +348,12 @@ const menuBtn = document.querySelector("#menu-button");
     .top-menu .menu-bar button{
         display: none;
     }
-    .top-menu .menu-bar #user1{
+    .top-menu .menu-bar .user1{
         gap: 2rem;
         align-items: right;
         text-align: right;
     }
-    .top-menu .menu-bar #user2{
+    .top-menu .menu-bar .user2{
         display: flex;
         gap: 2rem;
         align-items: right;
@@ -257,9 +362,9 @@ const menuBtn = document.querySelector("#menu-button");
     .user-type{
         font-family: 'PHANTOM', sans-serif;
         font-size: 7.5px;
-        color: rgb(2, 80, 2);
+        color: var(--color-main); 
         letter-spacing: .2rem;
-        border-top: 2px solid rgb(2, 80, 2); 
+        border-top: 2px solid var(--color-main); 
         margin-top: -0.97rem;
         width: 100px;
     }
@@ -272,7 +377,7 @@ const menuBtn = document.querySelector("#menu-button");
         /* margin-right: -7.3rem;*/
         margin-top: -0.6rem; 
         letter-spacing: 2px;
-        color: rgb(2, 80, 2);
+        color: var(--color-main); 
     }
     .user-name{
         font-family: 'Switzer', sans-serif;
@@ -280,10 +385,10 @@ const menuBtn = document.querySelector("#menu-button");
         margin-top: -1rem; 
         text-transform: uppercase;
         margin-bottom: 0;
-        color: rgb(136, 0, 0);
+        color: var(--color-maroon);
     }
     .profile .profile-picture{
-        background: white;
+        background: var(--color-white); 
         border-radius: 30%;
         width: 50px;
         padding: 4px;
@@ -321,13 +426,19 @@ const menuBtn = document.querySelector("#menu-button");
         font-family: 'Malberg Trial', sans-serif;
         color: rgb(68, 68, 68);
     }
-  
+    .notifs-section{
+
+    }
+    .todeliver{
+        margin-bottom: -2.2rem;
+        margin-top: 2rem;
+        color: rgb(117, 117, 117);
+        font-size: 1.3rem;
+        letter-spacing: .1rem;
+        font-family: 'Galhau Display', sans-serif;
+    }
     h3{
         font-size: 0.87rem;
-    }
-    .user2{
-        top: 20px;
-        right: 30px;
     }
     .user2 .profile{
         position: relative;
@@ -336,7 +447,7 @@ const menuBtn = document.querySelector("#menu-button");
     .user2 .drop-menu{
         position: absolute; 
         top: 120px;
-        right: -10px;
+        right: 15px;
         padding: 10px 20px;
         background: white;
         width: 110px;
@@ -362,7 +473,7 @@ const menuBtn = document.querySelector("#menu-button");
         transform: rotate(45deg);
     }
     .drop-menu .ul{
-        margin-top: .2rem;
+        margin-top: 2rem;
         display: flex;
         flex-direction: column;
         height: 9vh;
@@ -370,11 +481,12 @@ const menuBtn = document.querySelector("#menu-button");
     }
     .drop-menu h4{
         font-weight: 400;
+        font-size: 12px;
     }
     .drop-menu .ul a{
         display: flex;
         color: hsl(0, 0%, 69%);
-        fill: hsl(0, 0%, 69%);
+        fill: hsl(0, 0%, 69%); 
         margin-left: -1.26rem;
         padding-left: 1rem;
         gap: 1rem;
@@ -384,13 +496,12 @@ const menuBtn = document.querySelector("#menu-button");
         position: relative;
         height: 1.7rem;
         transition: all 300ms ease;
-        
     }
     .drop-menu .ul a:hover {
-        background: rgb(190, 190, 190);
+        background:  rgb(190, 190, 190);
         transition: 0.6s;
-        color: rgb(255, 255, 255);
-        fill: rgb(255, 255, 255);
+        color: white;
+        fill: white;
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
@@ -398,64 +509,220 @@ const menuBtn = document.querySelector("#menu-button");
         border-radius: 0px 0px 10px 10px;
         cursor: pointer;
     }
+    .checkbox{
+        opacity: 0;
+        position: absolute;
+    }
+    .checkbox:checked + .theme-dark .ball{
+        transform: translateX(28px);
+    }
+    .drop-menu .theme-dark{
+        background: hsl(0, 0%, 69%);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 14.5px;
+        width: 42.5px;
+        cursor: pointer;
+        border-radius: 50px;
+        position: relative;
+        padding: 5px;
+        margin-top: -30px;
+        margin-bottom: 8px;
+        margin-left: 2rem;
+    }
+    .sun{
+        fill: yellow;
+    }
+    .moon{
+        fill: white;
+    }
+    .ball{
+        background: white;
+        position: absolute;
+        border-radius: 50%;
+        top: 2px;
+        left: 2px;
+        height: 21px;
+        width: 21px;
+        transition: transform 0.2s linear;
+    }
     /* ----------------------------------------MAIN---------------------------------------- */
+    .main-account{
+        width:100%;
+    }
     .accTitle{
         margin-top: 50px;
         margin-left: 5%;
-        font-size: 1.9rem;
-        color: rgb(2, 80, 2);
+        font-size: min(max(1.9rem, 1.1vw), 2rem);
+        color: var(--color-main); 
         font-family: 'COCOGOOSE', sans-serif;
         letter-spacing: .03rem;
-        border-bottom: 2px solid rgb(2, 80, 2);
+        border-bottom: 2px solid var(--color-main); 
     }
-    main .account-container{
+   
+        /* ----------------------------------------Sub TAB---------------------------------------- */
+        .user-title{
+            position: relative;
+        }
+        main  h2{
+            margin-bottom: -2.2rem;
+            margin-top:2rem;
+            color: var(--color-solid-gray);
+            font-size: 1.3rem;
+            margin-left: 9%;
+            letter-spacing: .1rem;
+            font-family: 'Galhau Display', sans-serif;
+        }
+        main .sub-tab{
+            margin-bottom: 4rem;
+        }
+        /* ----------------------------------------Search BAR---------------------------------------- */
+        .search{
+            position: absolute;
+            gap: 2rem;
+            align-items: right;
+            text-align: right;
+            left: 50%;
+        }
+        .search-bar{
+            width: 18rem;
+            background: var(--color-white);
+            display: flex;
+            position: relative;
+            align-items: center;
+            border-radius: 60px;
+            padding: 10px 20px;
+            height: 1.8rem;
+            backdrop-filter: blur(4px) saturate(180%);
+            margin-left: 3rem;
+        }
+        .search-bar input{
+            background: transparent;
+            flex: 1;
+            border: 0;
+            outline: none;
+            padding: 24px 20px;
+            font-size: .8rem;
+            color: var(--color-black); 
+            margin-left: -0.95rem;
+        }
+        ::placeholder{
+            color: var(--color-solid-gray);
+            
+        }
+        .search-bar button svg{
+            width: 20px;
+            fill: var(--color-white); 
+        }
+        .search-bar button{
+            border: 0;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            background: var(--color-main); 
+            margin-right: -0.55rem;
+        }
+        /* ----------------------------------------Add Button---------------------------------------- */
+        .newUser-button{
+            position: absolute;
+            left: 68%;
+        }
+        .add-account{
+            display: flex;
+            border: none;
+            background-color: var(--color-white); 
+            align-items: center;
+            color: var(--color-button); 
+            fill: var(--color-button); 
+            width: 11rem;
+            max-height: 46px;
+            border-radius: 20px;
+            padding: .68rem 1rem;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer; 
+            margin-left: 3rem;
+            gap: 1rem;
+            align-items: center;
+            height: 3.7rem;
+            transition: all 300ms ease;
+            position: relative; 
+            margin-top: .2rem;
+            text-transform: uppercase;
+        }
+        .add-account h3{
+            font-size: .8rem;
+        }
+        .add-account:hover{
+            background-color: var(--color-main); 
+            color: var(--color-white);
+            fill: var(--color-white);
+            padding-top: -.2px;
+            transition: 0.7s;
+            border-bottom: 4px solid var(--color-maroon);
+        }
+         /* ----------------------------------------Account Table---------------------------------------- */
+     main .account-container{
         margin-top: 2rem;
+        height: 500px;
+        
     }
-    main .account-container h2{
-        margin-bottom: -1.7rem;
-        color: rgb(117, 117, 117);
-        font-size: 1.3rem;
-        margin-left: 9%;
-        letter-spacing: .1rem;
-        font-family: 'Galhau Display', sans-serif;
-    }
-    main .account-container table{
-        background: white;
+     main .account-container table{
+        background: var(--color-white);
         font-family: 'Switzer', sans-serif;
         width: 100%;
         font-size: 0.8rem;
-        border-radius: 20px 20px 20px 20px;
-        padding: 3rem;
+        border-radius: 0px 0px 10px 10px;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        padding-bottom: 2.5rem;
         text-align: center; 
-        box-shadow: 0px 5px 30px 2px rgb(244, 255, 246);
-        transition: all 300ms ease;
-        margin: 50px;
+        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
+        border-top: 8px solid var(--color-table-hover);
+        transition: all 700ms ease;
+        overflow: auto;
+        margin-left: 3rem;
+        margin-top: -1rem;
     }
 
     main .account-container table:hover{
         box-shadow: none;
+        border-top: 8px solid var(--color-main);
     }
 
     main table tbody td{
         height: 2.8rem;
-        border-bottom: 1px solid rgb(224, 224, 224);
-        color: rgb(100, 100, 100);
+        border-bottom: 1px solid var(--color-solid-gray);
+        color: var(--color-td); 
+        font-size: .67rem;
     }
+     th{
+        height: 2.8rem;
+        color: var(--color-black); 
+        margin:1rem;
+        font-size: .8rem;
+        letter-spacing: 0.02rem;
+    }  
+    tr:hover td{
+        color: var(--color-main); 
+        cursor: pointer;
+        background-color: var(--color-table-hover);
+     }
     /* ----------------------------------------ASIDE---------------------------------------- */
     .container{
         display: grid;
         width: 96%;
         margin: 0 auto;
-        background: rgb(235, 235, 235);
+        background: var(--color-background);
         gap: 1.8rem;
         grid-template-columns: 14rem auto 23rem;
     }
     aside{
         height: 100vh;
         margin-top: -1.9rem;
-        background: rgb(244, 255, 246);
+        background: var(--color-table-hover);
         left: 0;
-        border-radius: 0px 20px 20px 0px;
+        border-radius: 0px 30px 30px 0px;
         /* border-left: 10px solid rgb(2, 80, 2);  */
     }
     aside .title{
@@ -489,8 +756,8 @@ const menuBtn = document.querySelector("#menu-button");
     }
     aside .sidebar a{
         display: flex;
-        color: hsl(0, 0%, 69%);
-        fill: hsl(0, 0%, 69%);
+        color: var(--color-tertiary);
+        fill: var(--color-tertiary);
         margin-left: 2rem;
         gap: 1rem;
         align-items: center;
@@ -500,30 +767,30 @@ const menuBtn = document.querySelector("#menu-button");
         
     }
     aside .sidebar a:focus{
-        background: white;
+        background: var(--color-white);
         transition: 0.6s;
-        color: rgb(2, 80, 2);
-        fill: rgb(2, 80, 2);
+        color: var(--color-main);
+        fill: var(--color-main);
         margin-left: 0;
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
         font-size: 9px;
         border-radius: 0 0 10px 0 ;
-        box-shadow: 1px 3px 1px rgb(224, 224, 224);
+        box-shadow: 1px 3px 1px var(--color-background);
     }
     aside .sidebar .account{
-        background: white;
+        background: var(--color-white);
         transition: 0.6s;
-        color: rgb(2, 80, 2);
-        fill: rgb(2, 80, 2);
+        color: var(--color-main);
+        fill: var(--color-main);
         margin-left: 0;
         padding-left: 1rem;
         content: "";
         margin-bottom: 6px;
         font-size: 9px;
         border-radius: 0 0 10px 0 ;
-        box-shadow: 1px 3px 1px rgb(224, 224, 224);
+        box-shadow: 1px 3px 1px var(--color-background);
     }
     #menu-button{
         display: none;
@@ -537,7 +804,8 @@ const menuBtn = document.querySelector("#menu-button");
             display: none;
         }
         aside .titlelogo img{
-            margin-left: 1rem;
+            margin-left: 1.8rem;
+            width: 40%;
         }
 
         aside .sidebar a{
@@ -549,6 +817,20 @@ const menuBtn = document.querySelector("#menu-button");
         }
         .top-menu{
             width: 370px;
+        }
+        .main-account{
+            position: relative;
+            left: -5%;
+        }
+        main .account-container{
+            margin: 2rem 0 0 8.8rem;
+            width: 94%;
+            position: relative;
+            left: -58%;
+            transform: translateX(50%);
+        }
+        main .account-container table{
+            width: 83vw;
         }
     }
 
@@ -588,8 +870,8 @@ const menuBtn = document.querySelector("#menu-button");
         }
         aside .sidebar a:focus{
             width: 14.95rem;
-            fill: white;
-            color: white;
+            fill: var(--color-white);
+            color: var(--color-white);
             background: rgb(78, 150, 78);
             box-shadow: 1px 3px 1px rgb(224, 224, 224);
         }
@@ -653,6 +935,9 @@ const menuBtn = document.querySelector("#menu-button");
         .drop-menu .ul a{
         width: 8rem;
         }
+        .acctitle{
+            margin-left: 0;
+        }
     }
 
     .menu-tab p{
@@ -670,8 +955,8 @@ const menuBtn = document.querySelector("#menu-button");
         background:  rgb(250, 255, 251);
         transition: 0.6s;
         margin-left: 0rem;
-        color: rgb(224, 224, 224);
-        fill: rgb(224, 224, 224);
+        color: rgb(187, 187, 187);
+        fill: rgb(187, 187, 187);
         font-weight: bold;
         padding-left: 1rem;
         content: "";

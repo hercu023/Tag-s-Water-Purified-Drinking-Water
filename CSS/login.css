@@ -78,8 +78,9 @@ body{
     min-height: 300px;
     transform: translate(-50%, -50%);  
     background: white;
-    border-radius: 10px;
+    border-radius: 10px; 
     box-shadow: 10px 20px 35px rgba(0,0,0,0.55);
+    transition: all 300ms ease;
 }   
 .container form{
     box-sizing: border-box;
