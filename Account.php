@@ -28,6 +28,7 @@ $result = mysqli_query($con, $query);
         
                             
 ?> 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,9 +42,11 @@ $result = mysqli_query($con, $query);
         <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
+        <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
         <title>Account</title>
+        <!-- <script src="./index.js"></script> -->
     </head>
-    <body>
+    <body >
     
     <div class="container">
         <div class="menu-tab">     
@@ -57,6 +60,65 @@ $result = mysqli_query($con, $query);
                     </div>
                 </div>
             <div class="sidebar">
+
+                    <a href="Dashboard.php" class="dashboard">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M13 9V3h8v6ZM3 13V3h8v10Zm10 8V11h8v10ZM3 21v-6h8v6Z"/></svg>
+                        <h3>DASHBOARD</h3>
+                    </a>
+                
+                    <a href="#" class="pointofsales">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M7 8q-.825 0-1.412-.588Q5 6.825 5 6V4q0-.825.588-1.413Q6.175 2 7 2h10q.825 0 1.413.587Q19 3.175 19 4v2q0 .825-.587 1.412Q17.825 8 17 8Zm0-2h10V4H7v2ZM4 22q-.825 0-1.412-.587Q2 20.825 2 20v-1h20v1q0 .825-.587 1.413Q20.825 22 20 22Zm-2-4 3.475-7.825q.25-.55.738-.863Q6.7 9 7.3 9h9.4q.6 0 1.088.312.487.313.737.863L22 18Zm6.5-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 15 9.5 15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 13 9.5 13h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 11 9.5 11h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Z"/></svg>
+                        <h3>POINT OF SALES</h3>
+                    </a>
+                
+                    <a href="#" class="reports">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M2 21V3h10v4h10v14Zm2-2h6v-2H4Zm0-4h6v-2H4Zm0-4h6V9H4Zm0-4h6V5H4Zm8 12h8V9h-8Zm2-6v-2h4v2Zm0 4v-2h4v2Z"/></svg>
+                        <h3>REPORTS</h3>
+                    </a>
+            
+                    <a href="#" class="monitoring">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 21v-2l2-2v4Zm4 0v-6l2-2v8Zm4 0v-8l2 2.025V21Zm4 0v-5.975l2-2V21Zm4 0V11l2-2v12ZM3 15.825V13l7-7 4 4 7-7v2.825l-7 7-4-4Z"/></svg>
+                        <h3>MONITORING</h3>
+                    </a>
+                
+                    <a href="#" class="customers">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
+                        <h3>CUSTOMER</h3>
+                    </a>  
+                
+                    <a href="#" class="inventory">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
+                        <h3>INVENTORY</h3>
+                    </a>
+
+                    <a href="#" class="employee">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm2-4h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Z"/></svg>
+                        <h3>EMPLOYEE</h3>
+                    </a>
+
+                    <a href="#" class="expense">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
+                        <h3>EXPENSE</h3>
+                    </a>
+            
+                    <a href="Account.php" class="account">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
+                        <h3>ACCOUNT</h3>
+                    </a>
+
+                    <a href="#" class="settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
+                        <h3>SETTINGS</h3>
+                    </a>
+            </div>    
+            </aside>    
+            <aside id="aside2">
+                <div class="title2">
+                    <div class="titlelogo2">
+                        <img class="tagslogo2" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" >
+                    </div>
+                </div>
+            <div class="sidebar2">
 
                     <a href="Dashboard.php" class="dashboard">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M13 9V3h8v6ZM3 13V3h8v10Zm10 8V11h8v10ZM3 21v-6h8v6Z"/></svg>
@@ -180,6 +242,7 @@ $result = mysqli_query($con, $query);
                     <button id="menu-button">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z"/></svg>
                     </button>
+                    <h2 class="accTitle-top">ACCOUNT</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
@@ -197,13 +260,16 @@ $result = mysqli_query($con, $query);
                         </div>
                         <div class="drop-menu" >
                                 <div class="ul">
-                                <input type="checkbox" class="checkbox" id="checkbox">
-                                    <label for="checkbox" class="theme-dark">
-                                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" height="18" width="18"><path d="M10 17q-2.917 0-4.958-2.042Q3 12.917 3 10q0-2.917 2.042-4.958Q7.083 3 10 3q.271 0 .531.021.261.021.531.062-.812.605-1.291 1.5-.479.896-.479 1.917 0 1.771 1.218 2.99 1.219 1.218 2.99 1.218 1.021 0 1.917-.479.895-.479 1.5-1.291.041.27.062.531.021.26.021.531 0 2.917-2.042 4.958Q12.917 17 10 17Z"/></svg>
-                                        <svg class="sun" xmlns="http://www.w3.org/2000/svg" height="18" width="18"><path d="M10 14q-1.667 0-2.833-1.167Q6 11.667 6 10q0-1.667 1.167-2.833Q8.333 6 10 6q1.667 0 2.833 1.167Q14 8.333 14 10q0 1.667-1.167 2.833Q11.667 14 10 14Zm-8.25-3.25q-.312 0-.531-.219Q1 10.312 1 10q0-.312.219-.531.219-.219.531-.219h2q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm14.5 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531.219-.219.531-.219h2q.312 0 .531.219Q19 9.688 19 10q0 .312-.219.531-.219.219-.531.219ZM10 4.5q-.312 0-.531-.219-.219-.219-.219-.531v-2q0-.312.219-.531Q9.688 1 10 1q.312 0 .531.219.219.219.219.531v2q0 .312-.219.531-.219.219-.531.219ZM10 19q-.312 0-.531-.219-.219-.219-.219-.531v-2q0-.312.219-.531.219-.219.531-.219.312 0 .531.219.219.219.219.531v2q0 .312-.219.531Q10.312 19 10 19ZM5.042 6.104 4 5.042q-.229-.209-.229-.511 0-.302.229-.531.208-.229.521-.229.312 0 .521.229l1.062 1.042q.229.229.229.531 0 .302-.229.531-.208.229-.521.229-.312 0-.541-.229ZM14.958 16l-1.062-1.042q-.229-.229-.229-.531 0-.302.229-.531.208-.229.521-.229.312 0 .541.229L16 14.958q.229.209.229.511 0 .302-.229.531-.229.229-.521.229-.291 0-.521-.229Zm-1.062-9.896q-.229-.208-.229-.521 0-.312.229-.541L14.958 4q.23-.229.521-.219.292.011.521.219.229.229.229.521 0 .291-.229.521l-1.042 1.062q-.229.229-.531.229-.302 0-.531-.229ZM4 16q-.229-.208-.229-.521 0-.312.229-.521l1.042-1.062q.229-.208.531-.208.302 0 .531.208.229.229.219.531-.011.302-.219.531L5.042 16q-.209.229-.511.229-.302 0-.531-.229Z"/></svg>
-                                        <div class="ball"></div>
-                                    </label>
-                                </input>
+                                    <div class="user-type3">
+                                        <h1><?php echo $_SESSION['user_user_type']; ?> </h1>
+                                    </div>
+                                    <input type="checkbox" class="checkbox" id="checkbox">
+                                        <label for="checkbox" class="theme-dark">
+                                        <svg class="moon" xmlns="http://www.w3.org/2000/svg" height="18" width="18"><path d="M10 17q-2.917 0-4.958-2.042Q3 12.917 3 10q0-2.917 2.042-4.958Q7.083 3 10 3q.271 0 .531.021.261.021.531.062-.812.605-1.291 1.5-.479.896-.479 1.917 0 1.771 1.218 2.99 1.219 1.218 2.99 1.218 1.021 0 1.917-.479.895-.479 1.5-1.291.041.27.062.531.021.26.021.531 0 2.917-2.042 4.958Q12.917 17 10 17Z"/></svg>
+                                            <svg class="sun" xmlns="http://www.w3.org/2000/svg" height="18" width="18"><path d="M10 14q-1.667 0-2.833-1.167Q6 11.667 6 10q0-1.667 1.167-2.833Q8.333 6 10 6q1.667 0 2.833 1.167Q14 8.333 14 10q0 1.667-1.167 2.833Q11.667 14 10 14Zm-8.25-3.25q-.312 0-.531-.219Q1 10.312 1 10q0-.312.219-.531.219-.219.531-.219h2q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm14.5 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531.219-.219.531-.219h2q.312 0 .531.219Q19 9.688 19 10q0 .312-.219.531-.219.219-.531.219ZM10 4.5q-.312 0-.531-.219-.219-.219-.219-.531v-2q0-.312.219-.531Q9.688 1 10 1q.312 0 .531.219.219.219.219.531v2q0 .312-.219.531-.219.219-.531.219ZM10 19q-.312 0-.531-.219-.219-.219-.219-.531v-2q0-.312.219-.531.219-.219.531-.219.312 0 .531.219.219.219.219.531v2q0 .312-.219.531Q10.312 19 10 19ZM5.042 6.104 4 5.042q-.229-.209-.229-.511 0-.302.229-.531.208-.229.521-.229.312 0 .521.229l1.062 1.042q.229.229.229.531 0 .302-.229.531-.208.229-.521.229-.312 0-.541-.229ZM14.958 16l-1.062-1.042q-.229-.229-.229-.531 0-.302.229-.531.208-.229.521-.229.312 0 .541.229L16 14.958q.229.209.229.511 0 .302-.229.531-.229.229-.521.229-.291 0-.521-.229Zm-1.062-9.896q-.229-.208-.229-.521 0-.312.229-.541L14.958 4q.23-.229.521-.219.292.011.521.219.229.229.229.521 0 .291-.229.521l-1.042 1.062q-.229.229-.531.229-.302 0-.531-.229ZM4 16q-.229-.208-.229-.521 0-.312.229-.521l1.042-1.062q.229-.208.531-.208.302 0 .531.208.229.229.219.531-.011.302-.219.531L5.042 16q-.209.229-.511.229-.302 0-.531-.229Z"/></svg>
+                                            <div class="ball"></div>
+                                        </label>
+                                    </input>
                                     <a href="#" class="account">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.917 14.167q1.062-.875 2.364-1.313 1.302-.437 2.719-.437 1.417 0 2.719.437 1.302.438 2.385 1.313.688-.855 1.084-1.907.395-1.052.395-2.26 0-2.75-1.916-4.667Q12.75 3.417 10 3.417T5.333 5.333Q3.417 7.25 3.417 10q0 1.208.406 2.26.406 1.052 1.094 1.907ZM10 10.854q-1.229 0-2.073-.844-.844-.843-.844-2.072 0-1.23.844-2.073.844-.844 2.073-.844t2.073.844q.844.843.844 2.073 0 1.229-.844 2.072-.844.844-2.073.844Zm0 7.479q-1.729 0-3.25-.656t-2.646-1.781q-1.125-1.125-1.781-2.646-.656-1.521-.656-3.25t.656-3.25q.656-1.521 1.781-2.646T6.75 2.323q1.521-.656 3.25-.656t3.25.656q1.521.656 2.646 1.781t1.781 2.646q.656 1.521.656 3.25t-.656 3.25q-.656 1.521-1.781 2.646t-2.646 1.781q-1.521.656-3.25.656Zm.021-1.75q1.021 0 2-.312.979-.313 1.771-.896-.771-.604-1.75-.906-.98-.302-2.042-.302-1.062 0-2.031.302-.969.302-1.761.906.792.583 1.782.896.989.312 2.031.312ZM10 9.104q.521 0 .844-.323.323-.323.323-.843 0-.521-.323-.844-.323-.323-.844-.323-.521 0-.844.323-.323.323-.323.844 0 .52.323.843.323.323.844.323Zm0-1.166Zm0 7.437Z"/></svg>
                                         <h4>My Account</h4>
@@ -214,7 +280,7 @@ $result = mysqli_query($con, $query);
                                     </a>
                                     <a href="logout.php" class="logout">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.438-1.062Q3.875 3 4.5 3H10v1.5H4.5v11H10V17Zm9-3.5-1.062-1.062 1.687-1.688H8v-1.5h6.125l-1.687-1.688L13.5 6.5 17 10Z"/></svg>
-                                        <h4>Logout</h4>
+                                        <h4>Log Out</h4>
                                     </a>
                                 </div>
                         </div>  
@@ -233,68 +299,28 @@ $result = mysqli_query($con, $query);
    
 </body>
 </html>
-<script type="application/javascript">
-function tableSearch(){
-    let input, filter, table, tr, lastname,
-     firstname, middlename, email, address, role, i, txtValue;
+<script>
+    const sideMenu = document.querySelector("#aside");
+    const closeBtn = document.querySelector("#close-btn");
+    const menuBtn = document.querySelector("#menu-button");
+    const checkbox = document.getElementById("checkbox");
+        menuBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'block';
+        })
+        closeBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'none';
+        })
+        checkbox.addEventListener('change', () =>{
+            document.body.classList.toggle('dark-theme');
+        })
 
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-
-    for(let i = 0; i < tr.length; i++){
-        lastname = tr[i].getElementsByTagName("td")[1];
-        firstname = tr[i].getElementsByTagName("td")[2];
-        middlename = tr[i].getElementsByTagName("td")[3];
-        email = tr[i].getElementsByTagName("td")[4];
-        address = tr[i].getElementsByTagName("td")[5];
-        role = tr[i].getElementsByTagName("td")[7];
-        if(lastname || firstname || middlename || email || address || role){
-            var lastname_value = lastname.textContent || lastname.innerText;
-            var firstname_value = firstname.textContent || firstname.innerText;
-            var middlename_value = middlename.textContent || middlename.innerText;
-            var email_value = email.textContent || email.innerText;
-            var address_value = address.textContent || address.innerText;
-            var role_value = role.textContent || role.innerText;
-
-            if(role_value.toUpperCase().indexOf(filter) > -1 ||
-               address_value.toUpperCase().indexOf(filter) > -1 ||
-               email_value.toUpperCase().indexOf(filter) > -1 ||
-               middlename_value.toUpperCase().indexOf(filter) > -1 ||
-               lastname_value.toUpperCase().indexOf(filter) > -1 ||
-               firstname_value.toUpperCase().indexOf(filter) > -1){
-                tr[i].style.display ="";
-            }
-            else{
-                tr[i].style.display = "none";
-            }
+        function menuToggle(){
+            const toggleMenu = document.querySelector('.drop-menu');
+            toggleMenu.classList.toggle('user2')
         }
-    }
-}
-
-const sideMenu = document.querySelector("#aside");
-const closeBtn = document.querySelector("#close-btn");
-const menuBtn = document.querySelector("#menu-button");
-const checkbox = document.getElementById("checkbox");
-    menuBtn.addEventListener('click', () =>{
-        sideMenu.style.display = 'block';
-    })
-    closeBtn.addEventListener('click', () =>{
-        sideMenu.style.display = 'none';
-    })
-    checkbox.addEventListener('change', () =>{
-        document.body.classList.toggle('dark-theme');
-    })
-    function menuToggle(){
-        const toggleMenu = document.querySelector('.drop-menu');
-        toggleMenu.classList.toggle('user2')
-    }
-
-
 </script>
 <style>
-    :root{
+     :root{
         --color-main: rgb(2, 80, 2);
         --color-white: white;
         --color-white-secondary: white;
@@ -307,12 +333,18 @@ const checkbox = document.getElementById("checkbox");
         --color-td:rgb(100, 100, 100);
         --color-button: rgb(117, 117, 117);
         --color-table-shadow: rgb(244, 255, 246);
+        --color-shadow-shadow: rgb(116, 116, 116);
         --color-table-hover: rgb(244, 255, 246);
+        --color-aside-mobile-focus: rgb(78, 150, 78);
+        --color-aside-mobile-text: hsl(0, 0%, 69%);
+        
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
         --color-tertiary: hsl(0, 0%, 25%);
         --color-black: white;
+        --color-shadow-shadow: rgb(32, 32, 32);
+        --color-aside-mobile-focus: rgb(244, 255, 246);
         --color-table-shadow: rgb(131, 131, 131);
         --color-maroon: rgb(255, 130, 130);
         --color-white-secondary: rgb(235, 235, 235);
@@ -323,6 +355,7 @@ const checkbox = document.getElementById("checkbox");
         --color-td: rgb(231, 231, 231);
         --color-button: rgb(202, 202, 202);
         --color-table-hover: rgb(112, 112, 112);
+        --color-aside-mobile-text:hsl(0, 0%, 88%);
     }
     BODY{
         background: var(--color-background);
@@ -331,7 +364,6 @@ const checkbox = document.getElementById("checkbox");
         height: 100%;
         overflow-x: hidden;
         font-family: Arial, Helvetica, sans-serif;
-        background-repeat: cover;
         background-position: center;
         background-size: cover;
         background-attachment: fixed;
@@ -359,9 +391,19 @@ const checkbox = document.getElementById("checkbox");
         align-items: right;
         text-align: right;
     }
+    .top-menu .menu-bar .accTitle-top{
+        font-size: min(max(1.2rem, 0.4vw), 1.3rem);
+        color: var(--color-main); 
+        font-family: 'COCOGOOSE', sans-serif;
+        letter-spacing: .03rem;
+        display: none;
+        text-align: center;
+        align-items: center;
+    }
+    
     .user-type{
         font-family: 'PHANTOM', sans-serif;
-        font-size: 7.5px;
+        font-size: 5.5px;
         color: var(--color-main); 
         letter-spacing: .2rem;
         border-top: 2px solid var(--color-main); 
@@ -449,7 +491,7 @@ const checkbox = document.getElementById("checkbox");
         top: 120px;
         right: 15px;
         padding: 10px 20px;
-        background: white;
+        background: var(--color-white);
         width: 110px;
         box-sizing: 0 5px 25px rgba(0,0,0,0.1);
         border-radius: 7px;
@@ -469,15 +511,25 @@ const checkbox = document.getElementById("checkbox");
         right: 33px;
         width: 15px;
         height: 20px;
-        background: white;
+        background: var(--color-white);
         transform: rotate(45deg);
+        transition: 0.5s;
     }
+    .drop-menu .ul .user-type3{
+        font-family: 'PHANTOM', sans-serif;
+        font-size: 7.5px;
+        color: var(--color-main); 
+        letter-spacing: .2rem;
+        display: none;
+    }
+
     .drop-menu .ul{
         margin-top: 2rem;
         display: flex;
         flex-direction: column;
         height: 9vh;
         position: relative;
+        margin-bottom: 0.5rem;
     }
     .drop-menu h4{
         font-weight: 400;
@@ -500,9 +552,9 @@ const checkbox = document.getElementById("checkbox");
     .drop-menu .ul a:hover {
         background:  rgb(190, 190, 190);
         transition: 0.6s;
-        color: white;
-        fill: white;
-        padding-left: 1rem;
+        color: var(--color-white);
+        fill: var(--color-white);
+        padding-left: .9rem;
         content: "";
         margin-bottom: 6px;
         font-size: 15px;
@@ -553,7 +605,6 @@ const checkbox = document.getElementById("checkbox");
     }
     .accTitle{
         margin-top: 50px;
-        margin-left: 5%;
         font-size: min(max(1.9rem, 1.1vw), 2rem);
         color: var(--color-main); 
         font-family: 'COCOGOOSE', sans-serif;
@@ -570,7 +621,7 @@ const checkbox = document.getElementById("checkbox");
             margin-top:2rem;
             color: var(--color-solid-gray);
             font-size: 1.3rem;
-            margin-left: 9%;
+            margin-left: 3%;
             letter-spacing: .1rem;
             font-family: 'Galhau Display', sans-serif;
         }
@@ -595,7 +646,6 @@ const checkbox = document.getElementById("checkbox");
             padding: 10px 20px;
             height: 1.8rem;
             backdrop-filter: blur(4px) saturate(180%);
-            margin-left: 3rem;
         }
         .search-bar input{
             background: transparent;
@@ -641,7 +691,6 @@ const checkbox = document.getElementById("checkbox");
             padding: .68rem 1rem;
             font-family: 'Outfit', sans-serif;
             cursor: pointer; 
-            margin-left: 3rem;
             gap: 1rem;
             align-items: center;
             height: 3.7rem;
@@ -681,7 +730,6 @@ const checkbox = document.getElementById("checkbox");
         border-top: 8px solid var(--color-table-hover);
         transition: all 700ms ease;
         overflow: auto;
-        margin-left: 3rem;
         margin-top: -1rem;
     }
 
@@ -717,44 +765,45 @@ const checkbox = document.getElementById("checkbox");
         gap: 1.8rem;
         grid-template-columns: 14rem auto 23rem;
     }
-    aside{
+    #aside{
         height: 100vh;
         margin-top: -1.9rem;
         background: var(--color-table-hover);
         left: 0;
         border-radius: 0px 30px 30px 0px;
+        display: none;
         /* border-left: 10px solid rgb(2, 80, 2);  */
     }
-    aside .title{
+    #aside .title{
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-top: 1.9rem;
     }
-    aside .titlelogo{
+    #aside .titlelogo{
         display: flex;
         gap: 0.8rem;
     }
-    aside .titlelogo img{
+    #aside .titlelogo img{
         width: 5rem;
         margin-top: 1rem;
         margin-left: 4.5rem;
     }
-    aside .close{
+    #aside .close{
         display: none;
         font-size: 1rem;
     }
-    aside .sidebar{
+    #aside .sidebar{
         margin-top: 2rem;
         display: flex;
         flex-direction: column;
         height: 86vh;
         position: relative;
     }
-    aside h3{
+    #aside h3{
         font-weight: 400;
     }
-    aside .sidebar a{
+    #aside .sidebar a{
         display: flex;
         color: var(--color-tertiary);
         fill: var(--color-tertiary);
@@ -766,7 +815,7 @@ const checkbox = document.getElementById("checkbox");
         transition: all 300ms ease;
         
     }
-    aside .sidebar a:focus{
+    #aside .sidebar a:focus{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -779,7 +828,7 @@ const checkbox = document.getElementById("checkbox");
         border-radius: 0 0 10px 0 ;
         box-shadow: 1px 3px 1px var(--color-background);
     }
-    aside .sidebar .account{
+    #aside .sidebar .account{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -795,23 +844,103 @@ const checkbox = document.getElementById("checkbox");
     #menu-button{
         display: none;
     }
-    @media screen and (max-width: 1200px){
+      /* ----------------------------------------SIDEBAR 2---------------------------------------- */
+    #aside2{
+        height: 100vh;
+        margin-top: -1.9rem;
+        background: var(--color-table-hover);
+        left: 0;
+        border-radius: 0px 30px 30px 0px;
+
+        /* border-left: 10px solid rgb(2, 80, 2);  */
+    }
+    #aside2 .title2{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1.9rem;
+    }
+    #aside2 .titlelogo2{
+        display: flex;
+        gap: 0.8rem;
+    }
+    #aside2 .titlelogo2 img{
+        width: 5rem;
+        margin-top: 1rem;
+        margin-left: 4.5rem;
+    }
+    #aside2 .close{
+        display: none;
+        font-size: 1rem;
+    }
+    #aside2 .sidebar2{
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        height: 86vh;
+        position: relative;
+    }
+    #aside2 h3{
+        font-weight: 400;
+    }
+    #aside2 .sidebar2 a{
+        display: flex;
+        color: var(--color-tertiary);
+        fill: var(--color-tertiary);
+        margin-left: 2rem;
+        gap: 1rem;
+        align-items: center;
+        position: relative;
+        height: 3.7rem;
+        transition: all 300ms ease;
+        
+    }
+    #aside2 .sidebar2 a:focus{
+        background: var(--color-white);
+        transition: 0.6s;
+        color: var(--color-main);
+        fill: var(--color-main);
+        margin-left: 0;
+        padding-left: 1rem;
+        content: "";
+        margin-bottom: 6px;
+        font-size: 9px;
+        border-radius: 0 0 10px 0 ;
+        box-shadow: 1px 3px 1px var(--color-background);
+    }
+    #aside2 .sidebar2 .account{
+        background: var(--color-white);
+        transition: 0.6s;
+        color: var(--color-main);
+        fill: var(--color-main);
+        margin-left: 0;
+        padding-left: 1rem;
+        content: "";
+        margin-bottom: 6px;
+        font-size: 9px;
+        border-radius: 0 0 10px 0 ;
+        box-shadow: 1px 3px 1px var(--color-background);
+    }
+      @media screen and (max-width: 1600px){
         .container{
             width: 94%;
             grid-template-columns: 7rem auto 23rem;
         }
-        aside .sidebar h3{
+        #aside .sidebar2 h3{
             display: none;
         }
-        aside .titlelogo img{
+        #aside2 .sidebar2 h3{
+            display: none;
+        }
+        #aside2 .titlelogo2 img{
             margin-left: 1.8rem;
             width: 40%;
         }
 
-        aside .sidebar a{
+        #aside2 .sidebar2 a{
             width: 5.95rem;
         }
-        aside .sidebar a:focus{
+        #aside2 .sidebar2 a:focus{
             padding-left: 2rem;
             width: 4rem;
         }
@@ -825,12 +954,177 @@ const checkbox = document.getElementById("checkbox");
         main .account-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
-            position: relative;
-            left: -58%;
-            transform: translateX(50%);
+            position: absolute;
+            left: 0;
+            margin-left: 52%;
+            transform: translateX(-50%);
+            margin-top: 3%;
         }
         main .account-container table{
-            width: 83vw;
+            width: 65vw;
+            padding-left:30px;
+            padding-right:30px;
+        }
+        .accTitle{
+            margin-left: 5%;
+            width: 25vw;
+        }
+        main  h2{
+            margin-left: 10%;
+        }
+        main .sub-tab{
+            margin-bottom: 4rem;
+        }
+        .newUser-button{
+            left: 94%;
+        }
+        .search{
+            left: 55%;
+        }
+        .search-bar{
+            width: 17vw;
+        }
+    }
+    @media screen and (max-width: 1400px){
+        .container{
+            width: 94%;
+            grid-template-columns: 7rem auto 23rem;
+        }
+        #aside .sidebar h3{
+            display: none;
+        }
+        #aside2 .sidebar2 h3{
+            display: none;
+        }
+        #aside2 .titlelogo2 img{
+            margin-left: 1.8rem;
+            width: 40%;
+        }
+
+        #aside2 .sidebar2 a{
+            width: 5.95rem;
+        }
+        #aside2 .sidebar2 a:focus{
+            padding-left: 2rem;
+            width: 4rem;
+        }
+        .top-menu{
+            width: 370px;
+        }
+        .main-account{
+            position: relative;
+            left: -5%;
+        }
+        main .account-container{
+            margin: 2rem 0 0 8.8rem;
+            width: 94%;
+            position: absolute;
+            left: 0;
+            margin-left: 52%;
+            transform: translateX(-50%);
+            margin-top: 3%;
+        }
+        main .account-container table{
+            width: 65vw;
+            padding-left:30px;
+            padding-right:30px;
+        }
+        .accTitle{
+            margin-left: 5%;
+            width: 25vw;
+        }
+        main  h2{
+            margin-left: 10%;
+        }
+        main .sub-tab{
+            margin-bottom: 4rem;
+        }
+        .newUser-button{
+            left: 99%;
+        }
+        .search{
+            left: 55%;
+        }
+        .search-bar{
+            width: 17vw;
+        }
+    }
+    @media screen and (max-width: 1200px){
+        .container{
+            width: 94%;
+            grid-template-columns: 7rem auto 23rem;
+        }
+        #aside .sidebar h3{
+            display: none;
+        }
+        #aside2 .sidebar2 h3{
+            display: none;
+        }
+        #aside2 .titlelogo2 img{
+            margin-left: 1.8rem;
+            width: 40%;
+        }
+
+        #aside2 .sidebar2 a{
+            width: 5.95rem;
+        }
+        #aside2 .sidebar2 a:focus{
+            padding-left: 2rem;
+            width: 4rem;
+        }
+        .top-menu{
+            width: 370px;
+        }
+        .main-account{
+            position: relative;
+            left: -5%;
+        }
+        main .account-container{
+            margin: 2rem 0 0 8.8rem;
+            width: 94%;
+            position: absolute;
+            left: 0;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            margin-top: 3%;
+        }
+        main .account-container table{
+            width: 80vw;
+            padding-left:30px;
+            padding-right:30px;
+        }
+        .accTitle{
+            margin-left: 5%;
+            width: 25vw;
+        }
+        main  h2{
+            margin-left: 10%;
+        }
+        main .sub-tab{
+            margin-bottom: 4rem;
+        }
+        .newUser-button{
+            left: 137%;
+        }
+        .search{
+            left: 77%;
+        }
+        .search-bar{
+            width: 20vw;
+        }
+        .user2 .drop-menu{
+            right: 13px;
+            margin-top: 2px;
+        }
+        .user2 .drop-menu::before{
+            right: 25px;
+        }
+        .drop-menu .ul{
+            width: 8.5rem;
+            height: 5rem;
+        }
+        .drop-menu .ul a{
+            width: 8.5rem;
         }
     }
 
@@ -838,12 +1132,15 @@ const checkbox = document.getElementById("checkbox");
         .containter{
             width: 100%;
         }
-        aside {
+        #aside2{
+            display: none;
+        }
+        #aside {
             position: fixed; 
             left: 0;
             margin-top: -.2rem;
             display: none;
-            background: white;
+            background: var(--color-white);
             width: 17rem;
             z-index: 3;
             height: 100vh;
@@ -856,43 +1153,46 @@ const checkbox = document.getElementById("checkbox");
                 left: 0;
             }
         }
-        aside .titlelogo img{
+        #aside .titlelogo img{
             margin-top: -.6rem;
             margin-left: 4rem;
         }
 
-        aside .sidebar h3{
+        #aside .sidebar h3{
             display: inline;
         }
-        aside .sidebar a{
+        #aside .sidebar a{
             width: 100%;
+            fill: var(--color-aside-mobile-text);
+            color: var(--color-aside-mobile-text);
             height: 3.4rem;
         }
-        aside .sidebar a:focus{
+        #aside .sidebar a:focus{
             width: 14.95rem;
             fill: var(--color-white);
             color: var(--color-white);
-            background: rgb(78, 150, 78);
+            background: var(--color-aside-mobile-focus);
             box-shadow: 1px 3px 1px rgb(224, 224, 224);
         }
-        aside .close{
+        #aside .close{
             display: inline-block;
             margin-right: 18px;
             margin-top: -1rem;
             cursor: pointer;
-            fill: rgb(2, 80, 2);
+            fill:  var(--color-tertiary);
         }
-        aside .close:hover{
+        #aside .close:hover{
             display: inline-block;
             margin-right: 15px;
             cursor: pointer;
         }
-        aside .sidebar .account{
+        #aside .sidebar .account{
             width: 15.95rem;
-            fill: white;
-            color: white;
-            background: rgb(78, 150, 78);
+            fill:  var(--color-white);
+            color:  var(--color-white);
+            background: var(--color-aside-mobile-focus);
         }
+        
         .top-menu{
             width: 94%;
             margin: 0 auto 4rem;
@@ -903,40 +1203,97 @@ const checkbox = document.getElementById("checkbox");
             left: 0;
             align-items: center;
             padding: 0 0.8rem;
-            height: 5rem;
-            background: white;
+            height: 4rem;
+            background: var(--color-white);
             width: 100%;
             margin: 0;
             z-index: 2;
-            box-shadow: 0px 1px 14px rgb(116, 116, 116);
+            box-shadow: 0px 1px 14px var(--color-shadow-shadow);
         }
-        .profile .profile-picture{
-            margin-right: 1.5rem;
-            margin-left: -1rem;
+        .top-menu .menu-bar .accTitle-top{
+            display: block;
+            left: 0;
+            margin-left:18%;
+            position: absolute;
+        }
+         .profile .profile-picture{
+            margin-right: 2.4rem;
+        }
+        .top-menu .menu-bar .user1{
+            display: none;
+        }
+        .drop-menu .ul .user-type3{
+            display: block;
+            left:27.5%;
+            position: absolute; 
+            margin-top: -2.3rem;
+            margin-bottom: 1.9rem;
         }
         #menu-button{
             display: block;
             left: 1rem;
             position: absolute;
             cursor: pointer;
+            fill: var(--color-black);
+        }
+        .accTitle{
+            display:none;
         }
         .user2 .drop-menu{
-        right: 35px;
-        margin-top: 10px;
+            right: 40px;
+            height: 9.3rem;
+            margin-top: 2px;
         }
-
         .user2 .drop-menu::before{
-        right: 25px;
+            right: 17px;
         }
         .drop-menu .ul{
-        width: 8rem;
-        height: 5rem;
+            width: 8.5rem;
+            height: 5rem;
         }
+        .drop-menu .ul .theme-dark{
+            margin-top: -.3rem;
+        }
+        
         .drop-menu .ul a{
-        width: 8rem;
+            width: 8.5rem;
         }
-        .acctitle{
-            margin-left: 0;
+        .main-account{
+            position: relative;
+            left: -5%;
+        }
+        main .account-container{
+            margin: 2rem 0 0 8.8rem;
+            width: 94%;
+            position: absolute;
+            display:none;
+            left: 0;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            margin-top: 3%;
+        }
+        main .account-container table{
+            width: 80vw;
+            padding-left:30px;
+            padding-right:30px;
+        }
+        main  h2{
+            margin-left: 10%;
+            display:none;
+        }
+        main .sub-tab{
+            margin-bottom: 4rem;
+        }
+        .newUser-button{
+            left: 137%;
+            display:none;
+        }
+        .search{
+            left: 77%;
+            display:none;
+        }
+        .search-bar{
+            width: 20vw;
         }
     }
 
