@@ -44,7 +44,7 @@ $result = mysqli_query($con, $query);
             $contact = $_POST['contactnum'];
             $contact = filter_var($contact, FILTER_SANITIZE_STRING);
             $usertype = $_POST['usertypes'];
-            $usertype = filter_var($usertype, FILTER_SANITIZE_STRING);
+            // $usertype = filter_var($usertype, FILTER_SANITIZE_STRING);
             // $pass = md5($_POST['pass']);
             // $pass = filter_var($pass, FILTER_SANITIZE_STRING);
             $pass = mysqli_real_escape_string($con, $_POST['password']);
@@ -427,13 +427,14 @@ $result = mysqli_query($con, $query);
                     </div>
                     <div class="usertype-dropdown">
                         <select class="select" name="usertypes">
-                            <option disabled selected>ROLE</option>
-                            <option value="admin">Admin</option>
-                            <option value="manager">Manager</option>
-                            <option value="cashier">Cashier</option>
-                            <option value="custom"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
+                            <option disabled selected>Role</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Cashier">Cashier</option>
+                            <option value="Custom"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
                             Custom</option>
                         </select>
+                    </div>
                     <!-- <div class="usertype-dropdown">
                         <div class="select" id="usertype">
                             <span class="selected">ROLE</span>
@@ -446,7 +447,7 @@ $result = mysqli_query($con, $query);
                             <li><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
                             Custom</li>
                         </ul>
-                    </div> -->
+                     -->
                     <div class="form4">  
                         <input type="password" class="password" id="fill" required="required" name="password">
                         <span>Password</span>
@@ -644,7 +645,7 @@ $result = mysqli_query($con, $query);
             });
         });
 
-</script> 
+</script>
 <style>
      :root{
         --color-main: rgb(2, 80, 2);
@@ -938,7 +939,7 @@ $result = mysqli_query($con, $query);
     }
     /* --------------------------------------DROP DOWN------------------------------------- */
     .usertype-dropdown{
-        width: 15em;
+        width: 20em;
         position: relative;
         margin-left: 16rem;
         margin-top: 1rem;
@@ -949,9 +950,10 @@ $result = mysqli_query($con, $query);
         background: var(--color-solid-gray);
         color: var(--color-white);
         align-items: center;
-        border-radius: 10px;
+        border-radius: 13px;
         padding: 8px 12px;
-        height: 3.2em;
+        height: 2.9em;
+        width: 12.8rem;
         cursor: pointer;
         transition: 0.3s;
     }
