@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 include_once('connectionDB.php');
@@ -16,19 +17,115 @@ $result = mysqli_query($con, $query);
                 $user_email = $user['email'];
                 $user_first_name = $user['first_name'];
                 $user_user_type = $user['user_type'];
+                $user_profile_image = $user['profile_image'];
                 if ($email === $user_email){
 
                         $_SESSION['user_id'] = $user_id;
                         $_SESSION['user_email'] = $user_email;
                         $_SESSION['user_first_name'] =  $user_first_name;
                         $_SESSION['user_user_type'] =  $user_user_type;
+                        $_SESSION['user_profile_image'] =  $user_profile_image;
                 }
             }
         }
-        
-                            
-?> 
+    
+        if(isset($_POST['submit'])){
 
+            $lastname = $_POST['lastname'];
+            $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
+            $firstname = $_POST['firstname'];
+            $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
+            $middlename = $_POST['middlename'];
+            $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
+            $email = $_POST['email'];
+            $email = filter_var($email, FILTER_SANITIZE_STRING);
+            $address = $_POST['address'];
+            $address = filter_var($address, FILTER_SANITIZE_STRING);
+            $contact = $_POST['contactnum'];
+            $contact = filter_var($contact, FILTER_SANITIZE_STRING);
+            $usertype = $_POST['usertypes'];
+            $usertype = filter_var($usertype, FILTER_SANITIZE_STRING);
+            // $pass = md5($_POST['pass']);
+            // $pass = filter_var($pass, FILTER_SANITIZE_STRING);
+            $pass = mysqli_real_escape_string($con, $_POST['password']);
+            $pass = filter_var($pass, FILTER_SANITIZE_STRING);
+    
+            $image = $_FILES['profile_image']['name'];
+            $image_tmp_name = $_FILES['profile_image']['tmp_name'];
+            $image_size = $_FILES['profile_image']['size'];
+            $image_folder = 'uploaded_image/'.$image;
+    
+            $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
+            $select->execute([$email]);
+    
+            if($select->rowCount() > 0){
+                header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> User already exist.");
+            }else{
+                if($image_size > 2000000){
+                    header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.");
+                }else{
+                    $encpass = password_hash($password, PASSWORD_BCRYPT);
+                    $insert = mysqli_query($con, "INSERT INTO users VALUES('','$lastname', '$firstname', '$middlename', '$email', '$encpass', '$contact', '','$usertype','', '$image')");
+                    // $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $address, $image]);
+                    if($insert){
+                        move_uploaded_file($image_tmp_name, $image_folder);
+                        header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered successfully.");
+                    }
+                }
+            }
+        }
+        // if(isset($_POST['submit'])){
+        
+        //     $lastname = $_POST['lastname'];
+        //     $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
+        //     $firstname = $_POST['firstname'];
+        //     $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
+        //     $middlename = $_POST['middlename'];
+        //     $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
+        //     $email = $_POST['email'];
+        //     $email = filter_var($email, FILTER_SANITIZE_STRING);
+        //     // $address = $_POST['address'];
+        //     // $address = filter_var($address, FILTER_SANITIZE_STRING);
+        //     $contact = $_POST['contactnum'];
+        //     $contact = filter_var($contact, FILTER_SANITIZE_STRING);
+    
+        //     $pass = md5($_POST['pass']);
+        //     $pass = filter_var($pass, FILTER_SANITIZE_STRING);
+        //     $cpassword = md5($_POST['cpassword']);
+        //     $cpassword = filter_var($cpassword, FILTER_SANITIZE_STRING);
+            
+        //     $image = $_FILES['profile_image']['name'];
+        //     $image_tmp_name = $_FILES['profile_image']['tmp_name'];
+        //     $image_size = $_FILES['profile_image']['size'];
+        //     $image_folder = 'uploaded_image/'.$image;
+    
+        //     $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
+        //     $select->execute([$email]);
+    
+        //     if($select->rowCount() > 0){
+        //         header("error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> User already exist.");
+        //     }else{
+        //          if($image_size > 2000000){
+        //             header("error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.");
+        //         }else if (strlen($_POST['password']) < 8) {
+        //             header("error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
+        //         }else{
+        //             if($pass !== $cpassword){
+        //                     header("error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched"); 
+        //             }else{
+        //                 $encpass = password_hash($pass, PASSWORD_BCRYPT);
+        //                 $insert = mysqli_query($con, "INSERT INTO users VALUES('','$lastname', '$firstname', '$middlename', '$email', '$encpass', '$contact','','', '$image')");
+        //                     // $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $address, $image]);
+        //                 if($insert){
+        //                     move_uploaded_file($image_tmp_name, $image_folder);
+        //                     header("error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered successfully.");
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,7 +152,7 @@ $result = mysqli_query($con, $query);
                     <div class="titlelogo">
                         <img class="tagslogo" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" >
                     </div>
-                    <div class="close" id="close-btn" onclick="myFunctionhp(this)">
+                    <div class="close" id="close-btn" onclick="myFunction(this)">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
                     </div>
                 </div>
@@ -206,7 +303,7 @@ $result = mysqli_query($con, $query);
                                     <th>First Name</th>
                                     <th>Middle Name</th>
                                     <th>Email</th>
-                                    <th>Address</th>
+                                    <!-- <th>Address</th> -->
                                     <th>Contact Number</th>
                                     <th>Role</th>
                                     <th>Picture</th>
@@ -224,7 +321,6 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['first_name']; ?></td>
                                         <td> <?php echo $rows['middle_name']; ?></td>
                                         <td> <?php echo $rows['email']; ?></td>
-                                        <td> <?php echo $rows['address']; ?></td>
                                         <td> <?php echo $rows['contact_number']; ?></td>
                                         <td> <?php echo $rows['user_type']; ?></td>
                                         <td> <?php echo $rows['profile_image']; ?></td>
@@ -256,7 +352,7 @@ $result = mysqli_query($con, $query);
                     </div>   
                     <div class="user2"> 
                         <div class="profile"  onclick="menuToggle();">
-                            <img class="profile-picture" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/ID.jpg" >
+                            <img src="uploaded_image/<?= $_SESSION['user_profile_image']; ?>" alt="">
                         </div>
                         <div class="drop-menu" >
                                 <div class="ul">
@@ -286,6 +382,7 @@ $result = mysqli_query($con, $query);
                         </div>  
                     </div>     
                 </div>
+               
                 <!-- <div class="notifs-section">
                     <h2 class="todeliver">To Deliver</h2>
                     <div class="pending">
@@ -296,35 +393,266 @@ $result = mysqli_query($con, $query);
                 </div> -->
             </div>      
     </div> 
-   
+    <form action="" method="post" enctype="multipart/form-data">
+        <div class="bg-adduserform">
+            <div class="form-adduser1">
+                <h1 class="addnew-title">Add New User</h1>
+                <?php if (isset($_GET['error'])) { ?>
+                    <p class="error-error"><?php echo $_GET['error']; ?></p>
+                <?php } ?>  
+                <div class="form-adduser2">
+                    <div class="form1">  
+                        <input type="text" id="fill" required="required" name="lastname">
+                        <span>Last Name</span>
+                    </div> 
+                    <div class="form1">  
+                        <input type="text" id="fill" required="required" name="firstname">
+                        <span>First Name</span>
+                    </div>
+                    <div class="form2">  
+                        <input type="text" id="fill" required="required" name="middlename">
+                        <span>Middle Name</span>
+                    </div>
+                    <div class="form2">  
+                        <input type="text" id="fill" required="required" name="email">
+                        <span>Email</span>
+                    </div>
+                    <!-- <div class="form3">  
+                        <input type="text" id="fill" required="required" name="address">
+                        <span>Address</span>
+                    </div> -->
+                    <div class="form4">  
+                        <input type="text" id="fill" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
+                        <span>Contact Number</span>
+                    </div>
+                    <div class="usertype-dropdown">
+                        <select class="select" name="usertypes">
+                            <option disabled selected>ROLE</option>
+                            <option value="admin">Admin</option>
+                            <option value="manager">Manager</option>
+                            <option value="cashier">Cashier</option>
+                            <option value="custom"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
+                            Custom</option>
+                        </select>
+                    <!-- <div class="usertype-dropdown">
+                        <div class="select" id="usertype">
+                            <span class="selected">ROLE</span>
+                            <div class="caret"></div>
+                        </div> 
+                        <ul class="menu" name="usertypes" required="required" >
+                            <li class="active">Admin</li>
+                            <li>Manager</li>
+                            <li>Cashier</li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
+                            Custom</li>
+                        </ul>
+                    </div> -->
+                    <div class="form4">  
+                        <input type="password" class="password" id="fill" required="required" name="password">
+                        <span>Password</span>
+                    </div>
+                    <div class="form5">  
+                        <input type="password" class="confirm-password" id="fill" required="required" name="cpassword">
+                        <span>Confirm Password</span>
+                    </div>
+                    <div class="profile-picture1" >
+                        <h4 >Profile Picture</h4>
+                    </div>
+                    <div class="choose-profile">
+                        <input type="file" id="image-profile"name="profile_image" required class="box" accept="image/jpg, image/png, image/jpeg" >
+                    </div>
+                </div>   
+            
+                <div class="AddButton">
+                    <input type="submit" value="ADD USER" name="submit" id="sub">
+                </div>
+                <div class="CancelButton">
+                <a href="Account.php" id="cancel">CANCEL</a>   
+
+                </div>
+                
+            </div>
+        </div>
+    </form>
 </body>
 </html>
 <script>
+    let btnClear = document.querySelector('#cancel');
+    let inputs = document.querySelectorAll('#fill');
+
+    btnClear.addEventListener('click', () => {
+        inputs.forEach(input => input.value = '');
+    });
+
+    function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+    }
+
+    const checkbox = document.getElementById('checkbox');
+         checkbox.addEventListener( 'change', () =>{
+             document.body.classList.toggle('dark-theme');
+        //     if(this.checked) {
+        //         body.classList.add('dark')
+        //     } else {
+        //         body.classList.remove('dark')     
+        //     }
+         });
+    // const checkbox = document.getElementById('checkbox');
+    // checkbox.addEventListener('checked', checkMode);
+    // function checkMode(){
+    //     if(checkbox.checked){
+    //         darkModeOn();
+    //     }
+    //     else{
+    //         darkModeOff();
+    //     }
+    // }
+    // function darkModeOn(){
+    //     document.body.classList.add("dark-theme");
+    // }
+    // function darkModeOff(){
+    //     document.body.classList.remove("dark-theme");
+    // }
+    // const sideMenu = document.querySelector('#aside');
+    // const closeBtn = document.querySelector('#close-btn');
+    // const menuBtn = document.querySelector('#menu-button');
+    // const checkbox = document.getElementById('checkbox');
+    //     menuBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'block';
+    //     })
+
+    //     closeBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'none';
+    //     })
+    //     checkbox.addEventListener( 'change', () => {
+    //         localStorage.setItem('dark',this.checked);
+    //         if(this.checked) {
+    //             body.classList.add('dark')
+    //         } else {
+    //             body.classList.remove('dark')     
+    //         }
+    //     });
+        
+    //     if(localStorage.getItem('dark')) {
+    //         body.classList.add('dark');
+    //         }
     const sideMenu = document.querySelector("#aside");
+    const addForm = document.querySelector(".bg-adduserform");
     const closeBtn = document.querySelector("#close-btn");
+    // const cancelBtn = document.querySelector("#cancel");
+    const addBtn = document.querySelector(".add-account");
     const menuBtn = document.querySelector("#menu-button");
-    const checkbox = document.getElementById("checkbox");
+    // const darktheme = document.querySelector('.dark-theme');
+    // const checkbox = document.getElementById("checkbox");
         menuBtn.addEventListener('click', () =>{
             sideMenu.style.display = 'block';
         })
         closeBtn.addEventListener('click', () =>{
             sideMenu.style.display = 'none';
         })
-        checkbox.addEventListener('change', () =>{
-            document.body.classList.toggle('dark-theme');
+        // cancelBtn.addEventListener('click', () =>{
+        //     addForm.style.display = 'none';
+        // })
+        addBtn.addEventListener('click', () =>{
+            addForm.style.display = 'flex';
         })
-
+        
+        // checkbox.addEventListener( 'change', function() {
+        //     localStorage.setItem('dark-theme',this.checked);
+        //     if(this.checked) {
+        //         body.classList.add('dark-theme')
+        //     } else {
+        //         body.classList.remove('dark-theme')     
+        //     }
+        // });
+        //     document.body.classList.add('dark-theme');
+        // })
+            // if(localStorage.getItem('dark-theme')) {
+            // body.classList.add('dark-theme');
+            // }
+      
         function menuToggle(){
             const toggleMenu = document.querySelector('.drop-menu');
             toggleMenu.classList.toggle('user2')
         }
-</script>
+
+        function tableSearch(){
+    let input, filter, table, tr, lastname,
+     firstname, middlename, email, address, role, i, txtValue;
+
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    for(let i = 0; i < tr.length; i++){
+        lastname = tr[i].getElementsByTagName("td")[1];
+        firstname = tr[i].getElementsByTagName("td")[2];
+        middlename = tr[i].getElementsByTagName("td")[3];
+        email = tr[i].getElementsByTagName("td")[4];
+        address = tr[i].getElementsByTagName("td")[5];
+        role = tr[i].getElementsByTagName("td")[7];
+        if(lastname || firstname || middlename || email || address || role){
+            var lastname_value = lastname.textContent || lastname.innerText;
+            var firstname_value = firstname.textContent || firstname.innerText;
+            var middlename_value = middlename.textContent || middlename.innerText;
+            var email_value = email.textContent || email.innerText;
+            var address_value = address.textContent || address.innerText;
+            var role_value = role.textContent || role.innerText;
+
+            if(role_value.toUpperCase().indexOf(filter) > -1 ||
+               address_value.toUpperCase().indexOf(filter) > -1 ||
+               email_value.toUpperCase().indexOf(filter) > -1 ||
+               middlename_value.toUpperCase().indexOf(filter) > -1 ||
+               lastname_value.toUpperCase().indexOf(filter) > -1 ||
+               firstname_value.toUpperCase().indexOf(filter) > -1){
+                tr[i].style.display ="";
+            }
+            else{
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+    const dropdowns = document.querySelectorAll(".usertype-dropdown");
+        dropdowns.forEach(dropdown =>{
+            const select = dropdown.querySelector(".select");
+            const caret = dropdown.querySelector(".caret");
+            const menu = dropdown.querySelector(".menu");
+            const options = dropdown.querySelectorAll(".menu li");
+            const selected = dropdown.querySelector(".selected");
+
+            select.addEventListener('click', () => {
+                select.classList.toggle('select-clicked');
+                caret.classList.toggle('caret-rotate');
+                menu.classList.toggle('menu-open');
+            });
+            options.forEach(option => {
+                option.addEventListener('click', () =>{
+                    select.innerText = option.innerText;
+                    select.classList.remove('select-clicked');
+                    caret.classList.remove('caret-rotate');
+                    menu.classList.remove('menu-open');
+                    options.forEach(option => {
+                        option.classList.remove('active');
+                    });
+                    option.classList.add('active');
+                });
+            });
+        });
+
+</script> 
 <style>
      :root{
         --color-main: rgb(2, 80, 2);
+        --color-main-2: rgb(2, 80, 2);
+        --color-main-3: rgb(2, 80, 2);
         --color-white: white;
         --color-white-secondary: white;
-        --color-tertiary: hsl(0, 0%, 69%);
+        --color-tertiary: hsl(0, 0%, 57%);
         --color-black: rgb(49, 49, 49);
         --color-maroon: rgb(136, 0, 0);
         --color-secondary-main: rgb(244, 255, 246);
@@ -336,12 +664,14 @@ $result = mysqli_query($con, $query);
         --color-shadow-shadow: rgb(116, 116, 116);
         --color-table-hover: rgb(244, 255, 246);
         --color-aside-mobile-focus: rgb(78, 150, 78);
-        --color-aside-mobile-text: hsl(0, 0%, 69%);
+        --color-aside-mobile-text: hsl(0, 0%, 57%);
         
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
         --color-tertiary: hsl(0, 0%, 25%);
+        --color-main-2: rgb(60, 128, 60);
+        --color-main-3: rgb(93, 163, 93);
         --color-black: white;
         --color-shadow-shadow: rgb(32, 32, 32);
         --color-aside-mobile-focus: rgb(244, 255, 246);
@@ -368,6 +698,432 @@ $result = mysqli_query($con, $query);
         background-size: cover;
         background-attachment: fixed;
     }  
+    /* -----------------------------------------Adduserform------------------------------------------ */
+    .bg-adduserform{
+        height: 100%; 
+        width: 100%;
+        background: rgba(0,0,0,0.7);
+        top: 0;
+        position: absolute;
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+        display: none;
+    }
+    .form-adduser1{
+        width: 500px;
+        height: 520px;
+        border-radius:  0px 0px 20px 20px;
+        background-color: var(--color-white);
+        box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+        border-top: 10px solid var(--color-solid-gray);
+    }
+    .form-adduser2{
+        display: flex;
+        font-size: .7rem;
+        flex-direction: column;
+        font-family: 'Malberg Trial', sans-serif;
+        gap: 30px;
+        min-height: 20vh;
+    }
+    .error-error{
+        background-color: hsl(0, 100%, 77%);
+        color: #ffffff;
+        padding: 11px;
+        width: 92%;
+        border-radius: 3px;
+        font-size: min(max(9px, 1.2vw), 11px);
+        letter-spacing: 0.5px;
+        font-family: Helvetica, sans-serif;
+    }
+    .form1{
+        position: relative;
+        width: 180px;
+        height: 17px;
+        margin-left: 2rem;
+        margin-top: 1rem;
+    }
+    .form1 input{
+        width:100%;
+        height: 17px;
+        padding: 10px;
+        border: 2px solid var(--color-solid-gray);
+        border-radius: 15px;
+        outline: none;
+        font-size: 1em;
+        background: var(--color-white);
+        color: var(--color-black);
+    }
+    .form1 span{
+        position: absolute;
+        left: 0;
+        padding: 12px;
+        pointer-events: none;
+        font-size: 1.2em;
+        margin-top: -2.4rem;
+        margin-left: .2rem;
+        color:var(--color-solid-gray);
+    }
+    .form1 input:focus{
+        border: 2px solid var(--color-main-3);
+    }
+    .form1 input:valid ~ span,
+    .form1 input:focus ~ span{
+        color: var(--color-main-3);
+        transform: translateX(10px) translateY(1px);
+        font-size: 0.85em;
+        padding: 0 10px;
+        transition: .3s
+    }
+    .form2{
+        position: relative;
+        width: 180px;
+        height: 17px;
+        margin-left: 16rem;
+        margin-top: 1rem;
+        top: -7.84rem;
+    }
+    .form2 input{
+        width:100%;
+        height: 17px;
+        padding: 10px;
+        border: 2px solid var(--color-solid-gray);
+        border-radius: 15px;
+        outline: none;
+        font-size: 1em;
+        background: var(--color-white);
+        color: var(--color-black);
+    }
+    .form2 span{
+        position: absolute;
+        left: 0;
+        padding: 12px;
+        pointer-events: none;
+        font-size:  1.2em;
+        margin-top: -2.4rem;
+        margin-left: .2rem;
+        color: var(--color-solid-gray);
+    }
+    .form2 input:focus{
+        border: 2px solid var(--color-main-3);
+    }
+    .form2 input:valid ~ span,
+    .form2 input:focus ~ span{
+        color:var(--color-main-3);
+        transform: translateX(10px) translateY(1px);
+        font-size: 0.85em;
+        padding: 0 10px;
+        transition: .3s
+    }
+    .form3{
+        position: relative;
+        width: 405px;
+        height: 17px;
+        margin-left: 2rem;
+        margin-top: 1rem;
+        top: -7.59rem;
+    }
+    .form3 input{
+        width:100%;
+        height: 17px;
+        padding: 10px;
+        border: 2px solid var(--color-solid-gray);
+        border-radius: 15px;
+        outline: none;
+        font-size: 1em;
+        background: var(--color-white);
+        color: var(--color-black);
+    }
+    .form3 span{
+        position: absolute;
+        left: 0;
+        padding: 12px;
+        pointer-events: none;
+        font-size:  1.2em;
+        margin-top: -2.4rem;
+        margin-left: .2rem;
+        color: var(--color-solid-gray);
+    }
+    .form3 input:focus{
+        border: 2px solid var(--color-main-3);
+    }
+    .form3 input:valid ~ span,
+    .form3 input:focus ~ span{
+        color:var(--color-main-3);
+        transform: translateX(10px) translateY(1px);
+        font-size: 0.85em;
+        padding: 0 10px;
+        transition: .3s
+    }
+    .form4{
+        position: relative;
+        width: 180px;
+        height: 17px;
+        margin-left: 2rem;
+        margin-top: 1rem;
+        top: -7.59rem;
+    }
+    .form4 input{
+        width:100%;
+        height: 17px;
+        padding: 10px;
+        border: 2px solid var(--color-solid-gray);
+        border-radius: 15px;
+        outline: none;
+        font-size: 1em;
+        background: var(--color-white);
+        color: var(--color-black);
+    }
+    .form4 span{
+        position: absolute;
+        left: 0;
+        padding: 12px;
+        pointer-events: none;
+        font-size: 1.2em;
+        margin-top: -2.4rem;
+        margin-left: .2rem;
+        color: var(--color-solid-gray);
+    }
+    .form4 input:focus{
+        border: 2px solid var(--color-main-3);
+    }
+    .form4 input:valid ~ span,
+    .form4 input:focus ~ span{
+        color:var(--color-main-3);
+        transform: translateX(10px) translateY(1px);
+        font-size: 0.85em;
+        padding: 0 10px;
+        transition: .3s
+    }
+    .form5{
+        position: relative;
+        width: 180px;
+        height: 17px;
+        margin-left: 15.9rem;
+        margin-top: 1rem;
+        top: -11.47rem;
+        margin-bottom: -4rem;
+    }
+    .form5 input{
+        width:100%;
+        height: 17px;
+        padding: 10px;
+        border: 2px solid var(--color-solid-gray);
+        border-radius: 15px;
+        outline: none;
+        font-size: 1em;
+        background: var(--color-white);
+        color: var(--color-black);
+    }
+    .form5 span{
+        position: absolute;
+        left: 0;
+        padding: 12px;
+        pointer-events: none;
+        font-size: 1.2em;
+        margin-top: -2.4rem;
+        margin-left: .2rem;
+        color: var(--color-solid-gray);
+    }
+    .form5 input:focus{
+        border: 2px solid var(--color-main-3);
+    }
+    .form5 input:valid ~ span,
+    .form5 input:focus ~ span{
+        color:var(--color-main-3);
+        transform: translateX(10px) translateY(1px);
+        font-size: 0.85em;
+        padding: 0 10px;
+        transition: .3s
+    }
+    /* --------------------------------------DROP DOWN------------------------------------- */
+    .usertype-dropdown{
+        width: 15em;
+        position: relative;
+        margin-left: 16rem;
+        margin-top: 1rem;
+        top: -11.39rem;
+        margin-bottom: -5.39rem;
+    }
+    .select{
+        background: var(--color-solid-gray);
+        color: var(--color-white);
+        align-items: center;
+        border-radius: 10px;
+        padding: 8px 12px;
+        height: 3.2em;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .select-clicked{
+        box-shadow: 0 0 0 2px var(--color-main-2);
+        background: var(--color-main-2);
+        color: white;
+    }
+    .select:hover{
+        background: var(--color-main);
+        color: var(--color-white);
+     }
+    /*.caret{
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 6px solid var(--color-white);
+        transition: .5s;
+    }
+    .caret-rotate{
+        transform: rotate(180deg);
+        transition: .5s;
+    } */
+    .menu{
+        list-style: none;
+        padding: 0.2em 0.5em;
+        background: var(--color-solid-gray);
+        border: 1px solid var(--color-solid-gray);
+        box-shadow: 0 0 .5em .2em var(--color-main-2);
+        border-radius: 0.5em;
+        color: var(--color-white);
+        fill:var(--color-white);
+        gap: 1rem;
+        position: absolute;
+        top: 3em;
+        left: 50%;
+        width: 100%;
+        transform: translateX(-50%);
+        opacity: 0;
+        display: none;
+        z-index: 1;
+    }
+    .menu li{
+        padding: 0.7em 0.5em;
+        margin: 0.3em 0;
+        border-radius: 0.5em;
+        cursor: pointer;
+        transition: .5s;
+        font-size: 12px;
+        position: relative; 
+        align-items: center;
+       
+    }
+    .menu li:last-child{
+        font-size: 12px;
+        padding-left: -1rem;
+        display: flex;
+        align-items: center;
+        gap: .7rem;
+    }
+    .menu li:hover{
+        background: linear-gradient(270deg, transparent, var(--color-tertiary));
+        color: var(--color-main);
+
+    }
+    .active{
+        background: var(--color-main-3);
+        color: var(--color-white);
+        fill:var(--color-white);
+    }
+    .menu-open{
+        display: block;
+        opacity: 1;
+    }
+    /* ------------------------------------------------------------------------------------ */
+    .profile-picture1 h4{
+        display: flex;
+        font-size: .9rem;
+        position: relative;
+        text-align: center;
+        font-family: 'Malberg Trial', sans-serif;
+        color: var(--color-solid-gray);
+        top: -8rem;
+        margin-left: 2rem;
+        width: 26.7rem;
+        border-bottom: 2px solid var(--color-solid-gray);
+        margin-bottom: -5rem;
+     }   
+       
+    .choose-profile{
+        position: relative;
+        width: 20rem;
+        height: 1.32rem;
+        text-align: right;
+        padding: 10px;
+        margin-left: 5rem; 
+        background: var(--color-solid-gray);
+        color: var(--color-white);
+        top: -6.4rem;
+        margin-bottom: -7.6em;
+        border-radius: 10px;
+        transition: 0.5s;
+        font-family: 'COCOGOOSE', sans-serif;
+        cursor: pointer;
+    }
+    #image-profile{
+        cursor: pointer;
+    }
+    .choose-profile:hover{
+        background: var(--color-main-2);
+        transition: 0.5s;
+    }
+    .addnew-title{
+        font-size: min(max(1.9rem, 1.1vw), 2rem);
+        color: var(--color-solid-gray);
+        font-family: 'phantom', sans-serif;
+        letter-spacing: .09rem;
+        display: flex;
+        padding-top: 1rem;
+        justify-content: center;
+        border-bottom: 2px solid var(--color-solid-gray);
+        margin: 15px;
+        padding-bottom: 10px;
+    }
+    .form-adduser1 .AddButton input{
+        font-family: 'COCOGOOSE', sans-serif;
+        padding: 10px;
+        margin-top: .5vh;
+        margin-bottom: 20px;
+        margin-left: 20em;
+        text-align: center;
+        width: 15rem;
+        max-height: 60px;
+        outline: none;
+        border: none;
+        font-size: min(max(9px, 1.1vw), 11px);
+        border-radius: 20px;
+        color: white;
+        background:  var(--color-tertiary); 
+        cursor: pointer; 
+        transition: 0.5s;
+    }
+    .form-adduser1 .AddButton input:hover{
+        background: rgb(70, 70, 70);
+         color: var(--color-secondary-main); 
+    }
+    .CancelButton{
+        margin-top: -5.1vh;
+        margin-left: 2.4em;
+    }
+    #cancel{
+        font-family: 'COCOGOOSE', sans-serif;
+        padding: 10px;
+        padding-left: 60px;
+        padding-right: 60px;
+        text-align: center;
+        width: 20rem;
+        max-height: 70px;
+        outline: none;
+        border: none;
+        font-size: min(max(9px, 1.1vw), 11px);
+        border-radius: 20px;
+        color: white;
+        background: #c44242;
+        cursor: pointer; 
+        transition: 0.5s;
+    }
+    #cancel:hover{
+        background-color: rgb(158, 0, 0);
+        transition: 0.5s; 
+    }
      /* ----------------------------------------Top bar menu----------------------------------------  */
     .top-menu{
         margin-top: 1.7rem;
@@ -429,7 +1185,7 @@ $result = mysqli_query($con, $query);
         margin-bottom: 0;
         color: var(--color-maroon);
     }
-    .profile .profile-picture{
+    .profile img{
         background: var(--color-white); 
         border-radius: 30%;
         width: 50px;
@@ -500,7 +1256,7 @@ $result = mysqli_query($con, $query);
         opacity: 0;
     }
     .user2 .drop-menu.user2{
-        top: 80px;
+        top: 100px;
         visibility: visible;
         opacity: 1;
     }
@@ -508,7 +1264,7 @@ $result = mysqli_query($con, $query);
         content:'';
         position: absolute;
         top: -5px;
-        right: 33px;
+        right: 46px;
         width: 15px;
         height: 20px;
         background: var(--color-white);
@@ -692,8 +1448,7 @@ $result = mysqli_query($con, $query);
             font-family: 'Outfit', sans-serif;
             cursor: pointer; 
             gap: 1rem;
-            align-items: center;
-            height: 3.7rem;
+            height: 3.9rem;
             transition: all 300ms ease;
             position: relative; 
             margin-top: .2rem;
@@ -711,7 +1466,7 @@ $result = mysqli_query($con, $query);
             border-bottom: 4px solid var(--color-maroon);
         }
          /* ----------------------------------------Account Table---------------------------------------- */
-     main .account-container{
+    main .account-container{
         margin-top: 2rem;
         height: 500px;
         
@@ -844,6 +1599,7 @@ $result = mysqli_query($con, $query);
     #menu-button{
         display: none;
     }
+    
       /* ----------------------------------------SIDEBAR 2---------------------------------------- */
     #aside2{
         height: 100vh;
@@ -908,6 +1664,21 @@ $result = mysqli_query($con, $query);
         border-radius: 0 0 10px 0 ;
         box-shadow: 1px 3px 1px var(--color-background);
     }
+    #aside2 .sidebar2 a:hover{
+        background:  rgb(250, 255, 251);
+        transition: 0.6s;
+        margin-left: 0rem;
+        color: rgb(187, 187, 187);
+        fill: rgb(187, 187, 187);
+        font-weight: bold;
+        padding-left: 1rem;
+        content: "";
+        margin-bottom: 6px;
+        font-size: 9px;
+        border-radius: 0 10px 10px 0 ;
+        box-shadow: 1px 1px 1px rgb(224, 224, 224);
+    }
+
     #aside2 .sidebar2 .account{
         background: var(--color-white);
         transition: 0.6s;
@@ -1148,7 +1919,7 @@ $result = mysqli_query($con, $query);
             animation: sideMenu 400ms ease forwards;
             box-shadow: 70px 0px 250px rgb(116, 116, 116);
         }
-        @keyframes showMenu {
+        @keyframes sideMenu {
             to{
                 left: 0;
             }
@@ -1192,7 +1963,6 @@ $result = mysqli_query($con, $query);
             color:  var(--color-white);
             background: var(--color-aside-mobile-focus);
         }
-        
         .top-menu{
             width: 94%;
             margin: 0 auto 4rem;
@@ -1236,6 +2006,7 @@ $result = mysqli_query($con, $query);
             cursor: pointer;
             fill: var(--color-black);
         }
+     
         .accTitle{
             display:none;
         }
@@ -1278,22 +2049,35 @@ $result = mysqli_query($con, $query);
             padding-right:30px;
         }
         main  h2{
-            margin-left: 10%;
-            display:none;
+            margin-left: -8rem;
+            width: 89vw;
+            border-top: 2px solid var(--color-solid-gray);
+            position: absolute;
+        }
+        .add-account{
+            width: 12.7vw;
+            align-items: center;
+            text-align: center;
+        }  
+        .add-account h3{
+            display: none;
+        }
+        .newUser-button{
+            position: absolute;
+            top: 4.5rem;
+            margin-left: 43vw;
         }
         main .sub-tab{
             margin-bottom: 4rem;
         }
-        .newUser-button{
-            left: 137%;
-            display:none;
-        }
         .search{
             left: 77%;
-            display:none;
         }
         .search-bar{
-            width: 20vw;
+            width: 60vw;
+            margin-left: -8rem;
+            top: 4.5rem;
+            position: absolute;
         }
     }
 
@@ -1308,7 +2092,7 @@ $result = mysqli_query($con, $query);
         margin-right: 10px;
         margin-left: 20px;
     }
-    .menu-tab a:hover{
+    /* .menu-tab a:hover{
         background:  rgb(250, 255, 251);
         transition: 0.6s;
         margin-left: 0rem;
@@ -1321,5 +2105,5 @@ $result = mysqli_query($con, $query);
         font-size: 9px;
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
-    }
+    } */
     </style>

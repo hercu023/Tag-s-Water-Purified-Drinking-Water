@@ -42,7 +42,9 @@ if(isset($_POST['code-verfiy'])){
         if ($emailCheckResult) {
             // if email matched
             if (mysqli_num_rows($emailCheckResult) > 0) {
-              
+            //   $(function()
+            //   {
+            //     $("#submitBtn"))
                    
                  
                     $code = rand(999999, 111111);
@@ -85,9 +87,10 @@ if(isset($_POST['code-verfiy'])){
         if (strlen($_POST['newpassword']) < 8) {
             header("Location: changePassword.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
         } else {
-        if($password !== $cpassword){
-            header("Location: changePassword.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched");
-        }else{
+            if($password !== $cpassword){
+                header("Location: changePassword.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched");
+            }else{
+            
             $code = 0;
             $email = $_SESSION['email']; //getting this email using session
             $encpass = password_hash($password, PASSWORD_BCRYPT);
@@ -101,8 +104,54 @@ if(isset($_POST['code-verfiy'])){
         }
     }
 }
+
+    
+ 
 if(isset($_POST['login-now'])){
     header('Location: login.php');
 }
+
+        if(isset($_POST['submit'])){
+
+        $lastname = $_POST['lastname'];
+        $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
+        $firstname = $_POST['firstname'];
+        $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
+        $middlename = $_POST['middlename'];
+        $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
+        $email = $_POST['email'];
+        $email = filter_var($email, FILTER_SANITIZE_STRING);
+        $address = $_POST['address'];
+        $address = filter_var($address, FILTER_SANITIZE_STRING);
+        $contact = $_POST['contactnum'];
+        $contact = filter_var($contact, FILTER_SANITIZE_STRING);
+        $menu = $_POST['menu'];
+        $menu = filter_var($menu, FILTER_SANITIZE_STRING);
+        $pass = md5($_POST['password']);
+        $pass = filter_var($pass, FILTER_SANITIZE_STRING);
+
+        $image = $_FILES['image']['name'];
+        $image_tmp_name = $_FILES['image']['tmp_name'];
+        $image_size = $_FILES['image']['size'];
+        $image_folder = 'uploaded_img/'.$image;
+
+        $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
+        $select->execute([$email]);
+
+        if($select->rowCount() > 0){
+            header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> User already exist.");
+        }else{
+            if($image_size > 2000000){
+                header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.");
+            }else{
+                $insert = $conn->prepare("INSERT INTO `users`(last_name, first_name, middle_name, email, password, contact_number, user_type, address, profile_image) VALUES(?,?,?,?)");
+                $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $menu, $address, $image]);
+                if($insert){
+                    move_uploaded_file($image_tmp_name, $image_folder);
+                    header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered successfully.");
+                }
+            }
+        }
+    }
 ?>
    

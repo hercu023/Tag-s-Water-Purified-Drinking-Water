@@ -38,7 +38,8 @@
                                     <label for="email">Email</label>
                                 </div>
                                 <div class="confirmbtn">
-                                    <input type="submit" class="confirm" value="SEND" name="check-email" id="submitBtn" >
+                                <!-- <button class="confirm" name="check-email" id="submitBtn" disabled="">SEND</button>     -->
+                                <input type="submit" class="confirm" value="SEND" name="check-email" id="submitBtn" >
                                     <!-- <p id="continue">Please wait..</p> -->
                                     <a href="login.php" id="cancel">CANCEL</a>
                                 </div>   
@@ -49,3 +50,14 @@
     </div>
 </body>
 </html>
+<!-- <script type="text/javascript">
+    var timer = 4;
+    var myTimer = setInterval(function(){
+        document.getElementById('submitBtn').innerHTML = "Please Wait for "+timer--+" sec.";
+        if(timer == -1){
+            clearInterval(myTimer);
+            document.getElementById('submitBtn').innerHTML = "Click me!";
+            document.getElementById('submitBtn').disabled = false;
+        }
+    }, 1000);
+    </script> -->

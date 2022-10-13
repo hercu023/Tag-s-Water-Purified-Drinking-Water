@@ -1,4 +1,13 @@
 <?php
+// $db_name = "mysql:host=localhost;dbname=acc_db";
+// $username = "root";
+// $password = "";
+
+// $conn = new PDO($db_name, $username, $password);
+
+
+?>
+<?php
 
 $sName = "localhost";
 $uName = "root";

@@ -11,7 +11,7 @@
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-    <script src="scripts.js"></script>
+    <script src="index.js"></script>
     <title>Tag's Water Purified Drinking Water</title>
 </head>
 <body> 

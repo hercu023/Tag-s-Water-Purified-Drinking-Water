@@ -55,6 +55,7 @@ include 'connectionDB.php';
            <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
         <title>Home</title>
+        <script src="./index.js"></script>
     </head>
     <body>
     
@@ -240,31 +241,54 @@ include 'connectionDB.php';
     </body>
 </html>
 <script>
-    const sideMenu = document.querySelector("#aside");
-    const closeBtn = document.querySelector("#close-btn");
-    const menuBtn = document.querySelector("#menu-button");
-    const checkbox = document.getElementById("checkbox");
+    const sideMenu = document.querySelector('#aside');
+    const closeBtn = document.querySelector('#close-btn');
+    const menuBtn = document.querySelector('#menu-button');
+    const checkbox = document.getElementById('checkbox');
         menuBtn.addEventListener('click', () =>{
             sideMenu.style.display = 'block';
         })
+
         closeBtn.addEventListener('click', () =>{
             sideMenu.style.display = 'none';
         })
-        checkbox.addEventListener('change', () =>{
-            document.body.classList.toggle('dark-theme');
-        })
+         checkbox.addEventListener( 'change', () =>{
+             document.body.classList.toggle('dark-theme');
+        //     if(this.checked) {
+        //         body.classList.add('dark')
+        //     } else {
+        //         body.classList.remove('dark')     
+        //     }
+         });
+        
+        // if(localStorage.getItem('dark')) {
+        //     body.classList.add('dark');
+        //     }
+    // const sideMenu = document.querySelector("#aside");
+    // const closeBtn = document.querySelector("#close-btn");
+    // const menuBtn = document.querySelector("#menu-button");
+    // const checkbox = document.getElementById("checkbox");
+    //     menuBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'block';
+    //     })
+    //     closeBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'none';
+    //     })
+    //     checkbox.addEventListener('change', () =>{
+    //         document.body.classList.toggle('dark-theme');
+    //     })
 
-        function menuToggle(){
-            const toggleMenu = document.querySelector('.drop-menu');
-            toggleMenu.classList.toggle('user2')
-        }
+    //     function menuToggle(){
+    //         const toggleMenu = document.querySelector('.drop-menu');
+    //         toggleMenu.classList.toggle('user2')
+    //     }
 </script>
 <style>
      :root{
         --color-main: rgb(2, 80, 2);
         --color-white: white;
         --color-white-secondary: white;
-        --color-tertiary: hsl(0, 0%, 69%);
+        --color-tertiary: hsl(0, 0%, 57%);
         --color-black: rgb(49, 49, 49);
         --color-maroon: rgb(136, 0, 0);
         --color-secondary-main: rgb(244, 255, 246);
@@ -276,7 +300,7 @@ include 'connectionDB.php';
         --color-shadow-shadow: rgb(116, 116, 116);
         --color-table-hover: rgb(244, 255, 246);
         --color-aside-mobile-focus: rgb(78, 150, 78);
-        --color-aside-mobile-text: hsl(0, 0%, 69%);
+        --color-aside-mobile-text: hsl(0, 0%, 57%);
         
     }
     .dark-theme{
@@ -1111,7 +1135,6 @@ include 'connectionDB.php';
             color:  var(--color-white);
             background: var(--color-aside-mobile-focus);
         }
-        
         .top-menu{
             width: 94%;
             margin: 0 auto 4rem;
