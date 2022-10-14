@@ -44,11 +44,13 @@ $result = mysqli_query($con, $query);
             $contact = $_POST['contactnum'];
             $contact = filter_var($contact, FILTER_SANITIZE_STRING);
             $usertype = $_POST['usertypes'];
-            // $usertype = filter_var($usertype, FILTER_SANITIZE_STRING);
+
             // $pass = md5($_POST['pass']);
             // $pass = filter_var($pass, FILTER_SANITIZE_STRING);
-            $pass = mysqli_real_escape_string($con, $_POST['password']);
-            $pass = filter_var($pass, FILTER_SANITIZE_STRING);
+            // $encpass = md5($_POST['encpass']);
+            // $encpass = filter_var($encpass, FILTER_SANITIZE_STRING);
+            $pass = mysqli_real_escape_string($con, $_POST['pass']);
+            $encpass = mysqli_real_escape_string($con, $_POST['encpass']);
     
             $image = $_FILES['profile_image']['name'];
             $image_tmp_name = $_FILES['profile_image']['tmp_name'];
@@ -57,15 +59,17 @@ $result = mysqli_query($con, $query);
     
             $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
             $select->execute([$email]);
-    
+            
             if($select->rowCount() > 0){
                 header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> User already exist.");
             }else{
-                if($image_size > 2000000){
+                if($pass != $encpass){
+                    header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password does not matched.");
+                }elseif($image_size > 2000000){
                     header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.");
                 }else{
-                    $encpass = password_hash($password, PASSWORD_BCRYPT);
-                    $insert = mysqli_query($con, "INSERT INTO users VALUES('','$lastname', '$firstname', '$middlename', '$email', '$encpass', '$contact', '','$usertype','', '$image')");
+                    $cpass = password_hash($pass, PASSWORD_BCRYPT);
+                    $insert = mysqli_query($con, "INSERT INTO users VALUES('','$lastname', '$firstname', '$middlename', '$email', '$cpass', '$contact', '','$usertype','', '$image')");
                     // $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $address, $image]);
                     if($insert){
                         move_uploaded_file($image_tmp_name, $image_folder);
@@ -426,8 +430,8 @@ $result = mysqli_query($con, $query);
                         <span>Contact Number</span>
                     </div>
                     <div class="usertype-dropdown">
-                        <select class="select" name="usertypes">
-                            <option disabled selected>Role</option>
+                        <select class="select" name="usertypes" required="" >
+                            <option value="">Role</option>
                             <option value="Admin">Admin</option>
                             <option value="Manager">Manager</option>
                             <option value="Cashier">Cashier</option>
@@ -449,11 +453,11 @@ $result = mysqli_query($con, $query);
                         </ul>
                      -->
                     <div class="form4">  
-                        <input type="password" class="password" id="fill" required="required" name="password">
+                        <input type="password" class="password" id="fill" required="required" name="pass">
                         <span>Password</span>
                     </div>
                     <div class="form5">  
-                        <input type="password" class="confirm-password" id="fill" required="required" name="cpassword">
+                        <input type="password" class="confirm-password" id="fill" required="required" name="encpass">
                         <span>Confirm Password</span>
                     </div>
                     <div class="profile-picture1" >
