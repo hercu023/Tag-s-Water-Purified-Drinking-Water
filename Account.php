@@ -1,6 +1,5 @@
-
 <?php
-session_start();
+require_once 'controllerUserdata.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
@@ -29,106 +28,6 @@ $result = mysqli_query($con, $query);
             }
         }
     
-        if(isset($_POST['submit'])){
-
-            $lastname = $_POST['lastname'];
-            $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
-            $firstname = $_POST['firstname'];
-            $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
-            $middlename = $_POST['middlename'];
-            $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
-            $email = $_POST['email'];
-            $email = filter_var($email, FILTER_SANITIZE_STRING);
-            $address = $_POST['address'];
-            $address = filter_var($address, FILTER_SANITIZE_STRING);
-            $contact = $_POST['contactnum'];
-            $contact = filter_var($contact, FILTER_SANITIZE_STRING);
-            $usertype = $_POST['usertypes'];
-
-            // $pass = md5($_POST['pass']);
-            // $pass = filter_var($pass, FILTER_SANITIZE_STRING);
-            // $encpass = md5($_POST['encpass']);
-            // $encpass = filter_var($encpass, FILTER_SANITIZE_STRING);
-            $pass = mysqli_real_escape_string($con, $_POST['pass']);
-            $encpass = mysqli_real_escape_string($con, $_POST['encpass']);
-    
-            $image = $_FILES['profile_image']['name'];
-            $image_tmp_name = $_FILES['profile_image']['tmp_name'];
-            $image_size = $_FILES['profile_image']['size'];
-            $image_folder = 'uploaded_image/'.$image;
-    
-            $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
-            $select->execute([$email]);
-            
-            if($select->rowCount() > 0){
-                header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> User already exist.");
-            }else{
-                if($pass != $encpass){
-                    header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password does not matched.");
-                }elseif($image_size > 2000000){
-                    header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.");
-                }else{
-                    $cpass = password_hash($pass, PASSWORD_BCRYPT);
-                    $insert = mysqli_query($con, "INSERT INTO users VALUES('','$lastname', '$firstname', '$middlename', '$email', '$cpass', '$contact', '','$usertype','', '$image')");
-                    // $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $address, $image]);
-                    if($insert){
-                        move_uploaded_file($image_tmp_name, $image_folder);
-                        header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered successfully.");
-                    }
-                }
-            }
-        }
-        // if(isset($_POST['submit'])){
-        
-        //     $lastname = $_POST['lastname'];
-        //     $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
-        //     $firstname = $_POST['firstname'];
-        //     $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
-        //     $middlename = $_POST['middlename'];
-        //     $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
-        //     $email = $_POST['email'];
-        //     $email = filter_var($email, FILTER_SANITIZE_STRING);
-        //     // $address = $_POST['address'];
-        //     // $address = filter_var($address, FILTER_SANITIZE_STRING);
-        //     $contact = $_POST['contactnum'];
-        //     $contact = filter_var($contact, FILTER_SANITIZE_STRING);
-    
-        //     $pass = md5($_POST['pass']);
-        //     $pass = filter_var($pass, FILTER_SANITIZE_STRING);
-        //     $cpassword = md5($_POST['cpassword']);
-        //     $cpassword = filter_var($cpassword, FILTER_SANITIZE_STRING);
-            
-        //     $image = $_FILES['profile_image']['name'];
-        //     $image_tmp_name = $_FILES['profile_image']['tmp_name'];
-        //     $image_size = $_FILES['profile_image']['size'];
-        //     $image_folder = 'uploaded_image/'.$image;
-    
-        //     $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
-        //     $select->execute([$email]);
-    
-        //     if($select->rowCount() > 0){
-        //         header("error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> User already exist.");
-        //     }else{
-        //          if($image_size > 2000000){
-        //             header("error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.");
-        //         }else if (strlen($_POST['password']) < 8) {
-        //             header("error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
-        //         }else{
-        //             if($pass !== $cpassword){
-        //                     header("error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched"); 
-        //             }else{
-        //                 $encpass = password_hash($pass, PASSWORD_BCRYPT);
-        //                 $insert = mysqli_query($con, "INSERT INTO users VALUES('','$lastname', '$firstname', '$middlename', '$email', '$encpass', '$contact','','', '$image')");
-        //                     // $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $address, $image]);
-        //                 if($insert){
-        //                     move_uploaded_file($image_tmp_name, $image_folder);
-        //                     header("error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered successfully.");
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-        
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,13 +36,14 @@ $result = mysqli_query($con, $query);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-        <!-- <link rel="stylesheet" type="text/css" href="../TAG-S-WATER-PURIFIED-DRINKING-WATER/CSS/Account.css"> -->
         <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <title>Account</title>
         <!-- <script src="./index.js"></script> -->
     </head>
@@ -281,7 +181,7 @@ $result = mysqli_query($con, $query);
                             <h2> User Accounts </h2>
                         </div>
                         <div class="newUser-button"> 
-                            <button type="submit" class="add-account" onclick="addFunction()">
+                            <button type="submit" id="add-userbutton" class="add-account">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
                                     <h3>Add New User</h3>
                             </button>
@@ -294,9 +194,9 @@ $result = mysqli_query($con, $query);
                                 </button>
                             </div>
                         </div>  
-                        <div class="popup-addAccount">
+                        <!-- <div class="popup-addAccount">
                             
-                        </div>
+                        </div> -->
                     </div>
                     <div class="account-container">
                         <table class="table" id="myTable"> 
@@ -397,28 +297,41 @@ $result = mysqli_query($con, $query);
                 </div> -->
             </div>      
     </div> 
-    <form action="" method="post" enctype="multipart/form-data">
-        <div class="bg-adduserform">
-            <div class="form-adduser1">
-                <h1 class="addnew-title">Add New User</h1>
-                <?php if (isset($_GET['error'])) { ?>
-                    <p class="error-error"><?php echo $_GET['error']; ?></p>
-                <?php } ?>  
-                <div class="form-adduser2">
+           
+    <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
+        <div class="bg-adduserform" id="bg-addform">
+            <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
+                <?php
+                    // if(isset($message)){
+                    //     foreach($message as $message){
+                    //         echo '
+                    //         <div class="message">
+                    //             <span>'.$message.'</span>
+                    //             <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+                    //         </div>
+                    //         ';
+                    //     }
+                    // } 
+                    ?>
+                
+            <div class="form-adduser1" id="form-adduser1">
+                <h1 class="addnew-title">ADD NEW USER</h1>
+            
+                <div class="form-adduser2" id="form-adduser2">
                     <div class="form1">  
-                        <input type="text" id="fill" required="required" name="lastname">
+                        <input type="text" id="fill"class="lastname" required="required" name="lastname">
                         <span>Last Name</span>
                     </div> 
                     <div class="form1">  
-                        <input type="text" id="fill" required="required" name="firstname">
+                        <input type="text" id="fill"class="firstname" required="required" name="firstname">
                         <span>First Name</span>
                     </div>
                     <div class="form2">  
-                        <input type="text" id="fill" required="required" name="middlename">
+                        <input type="text" id="fill"class="middlename" required="required" name="middlename">
                         <span>Middle Name</span>
                     </div>
                     <div class="form2">  
-                        <input type="text" id="fill" required="required" name="email">
+                        <input type="text" id="fill" class="email" required="required" name="email">
                         <span>Email</span>
                     </div>
                     <!-- <div class="form3">  
@@ -426,17 +339,17 @@ $result = mysqli_query($con, $query);
                         <span>Address</span>
                     </div> -->
                     <div class="form4">  
-                        <input type="text" id="fill" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
+                        <input type="text" id="fill" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
                         <span>Contact Number</span>
                     </div>
                     <div class="usertype-dropdown">
                         <select class="select" name="usertypes" required="" >
-                            <option value="">Role</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Manager">Manager</option>
-                            <option value="Cashier">Cashier</option>
+                            <option selected disabled value="">ROLE</option>
+                            <option value="Admin">ADMIN</option>
+                            <option value="Manager">MANAGER</option>
+                            <option value="Cashier">CASHIER</option>
                             <option value="Custom"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
-                            Custom</option>
+                            CUSTOM</option>
                         </select>
                     </div>
                     <!-- <div class="usertype-dropdown">
@@ -464,30 +377,167 @@ $result = mysqli_query($con, $query);
                         <h4 >Profile Picture</h4>
                     </div>
                     <div class="choose-profile">
-                        <input type="file" id="image-profile"name="profile_image" required class="box" accept="image/jpg, image/png, image/jpeg" >
+                        <input type="file" id="image-profile" name="profile_image" required class="box" accept="image/jpg, image/png, image/jpeg" >
                     </div>
                 </div>   
             
                 <div class="AddButton">
-                    <input type="submit" value="ADD USER" name="submit" id="sub">
+                    <button type="submit" id="adduserBtn" name="submit">ADD USER</button>
+                    <!-- <input type="submit" value="ADD USER" name="submit" id="sub" onclick="showalert()"> -->
                 </div>
                 <div class="CancelButton">
+                <!-- <button type="button" id="cancel" data-dismiss="modal" aria-label="Close">CANCEL</button> -->
                 <a href="Account.php" id="cancel">CANCEL</a>   
 
                 </div>
-                
             </div>
+            <div id="form-registered">
+                <div id="container-registered">
+                    <div class="content">
+                        <div class="verify">
+                            <svg class="verified" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                width="916px" height="916px" viewBox="0 0 916 916" style="enable-background:new 0 0 916 916;" xml:space="preserve">
+                            <g>
+                                <g>
+                                    <path d="M97.65,862.3c4.7,31.3,27.1,53.7,54.7,53.7h616c27.6,0,50-22.4,50-50V50c0-27.6-22.4-50-50-50h-616
+                                        c-27.6,0-50,22.4-54.7,46.3V862.3z M712.15,750.2l-62.8,62.8l0,0l-18.3,18.3c-9.8,9.7-25.601,9.7-35.3,0l-18.4-18.3l0,0l-18-17
+                                        c-9.8-9.8-9.8-25.6,0-35.4l0.6-0.6c9.801-9.8,25.601-9.8,35.4,0l18,17l62.8-62.8c9.8-9.8,25.601-9.8,35.4,0l0.6,0.6
+                                        C721.95,724.6,721.95,740.4,712.15,750.2z M727.55,602.1c0,13.801-11.2,25-25,25H631.95c-13.8,0-25-11.199-25-25V601.2
+                                        c0-13.8,11.2-25,25-25h70.601c13.8,0,25,11.2,25,25V602.1z M727.55,470c0,13.8-11.2,25-25,25H631.95c-13.8,0-25-11.2-25-25v-0.9
+                                        c0-13.8,11.2-25,25-25h70.601c13.8,0,25,11.2,25,25V470z M702.55,312c13.8,0,25,11.2,25,25v0.9c0,13.8-11.2,25-25,25H631.95
+                                        c-13.8,0-25-11.2-25-25V337c0-13.8,11.2-25,25-25H702.55z M302.65,156c0-13.8,11.2-25,25-25h265.4c13.8,0,25,11.2,25,25v0.9
+                                        c0,13.8-11.2,25-25,25h-265.4c-13.8,0-25-11.2-25-25V156z M193.15,337c0-13.8,11.2-25,25-25h265.4c13.8,0,25,11.2,25,25v0.9
+                                        c0,13.8-11.2,25-25,25h-265.4c-13.8,0-25-11.2-25-25V337L193.15,337z M193.15,469.1c0-13.8,11.2-25,25-25h265.4
+                                        c13.8,0,25,11.2,25,25v0.9c0,13.8-11.2,25-25,25h-265.4c-13.8,0-25-11.2-25-25V469.1L193.15,469.1z M193.15,601.2
+                                        c0-13.8,11.2-25,25-25h265.4c13.8,0,25,11.2,25,25v0.899c0,13.801-11.2,25-25,25h-265.4c-13.8,0-25-11.199-25-25V601.2
+                                        L193.15,601.2z"/>
+                                </g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            </svg>
+                        </div>  
+                        <div class="register">  
+                            <h2>Registered Successfully</h2>
+                        </div>
+                    </div>
+                        <div class="pageform">
+                            <div class="confirmBtn">
+                                <a href="Account.php" id="registered">CONFIRM</a>   
+                            </div> 
+                        </div>
+                </div>
+            </div>
+        </form>
         </div>
-    </form>
+    
 </body>
 </html>
 <script>
+    // // Get the modal
+ 
+    // // // Get the button that opens the modal
+    // // var addbtn = $("#add-userbutton");
+
+    // // // Get the <span> element that closes the modal
+    // var cancelbtn = $("#cancel");
+
+    // $(document).ready(function(){
+    //     // When the user clicks the button, open the modal 
+        // addbtn.on('click', function() {
+        //     bgform.show();
+        // });
+        
+    //     // When the user clicks on <span> (x), close the modal
+    //     cancelbtn.on('click', function() {
+    //         bgform.hide();
+    //     });
+    // // });
+    const regForm = document.querySelector(".form-registered");
+    const regBtn = document.querySelector(".AddButton");
+    var bgform = $('#form-registered');
+    var addform = $('#form-adduser1');
+    var addbtn = $("#adduserBtn");
+    var message1 = $(".message");
+    
+    $(document).ready(function(){
+        $('#adduserFrm').submit(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type: 'post',
+                url: 'controllerUserdata.php',
+                data: new FormData(this),
+                contentType: false, 
+                cache: false,
+                processData: false,
+                // 'submit=1&'+$form.serialize(),
+                dataType: 'json',  
+                success: function(response){
+                    $(".message").css("display", "block");
+                    if(response.status == 1){   
+                        bgform.show();  
+                        addform.hide(); 
+                        message1.hide(); 
+                        $('#adduserFrm')[0].reset();
+
+                }else{
+                    $(".message").html('<p>'+response.message+'<p>');
+                }
+                    }
+                });
+            });
+            $("#image-profile").change(function(){
+                var file = this.files[0];
+                var fileType = file.type;
+                var match = ['image/jpeg', 'image/jpg', 'image/png']
+
+                if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
+                    alert("JPEG, JPG, and PNG files only.")
+                    $("#image-profile").val('');
+                    return false;
+                }
+            });
+        });
+
     let btnClear = document.querySelector('#cancel');
+    // let btnClear1 = document.querySelector('#registered');
     let inputs = document.querySelectorAll('#fill');
 
     btnClear.addEventListener('click', () => {
         inputs.forEach(input => input.value = '');
     });
+    // btnClear1.addEventListener('click', () => {
+    //     inputs.forEach(input => input.value = '');
+    // });
 
     function isNumberKey(evt){
     var charCode = (evt.which) ? evt.which : evt.keyCode
@@ -544,26 +594,58 @@ $result = mysqli_query($con, $query);
     //     if(localStorage.getItem('dark')) {
     //         body.classList.add('dark');
     //         }
+    // const containerReg=document.getElementById("form-registered");
+    // const addusercontainer=document.getElementsByClassName("form-adduser1");
+    // var email=document.getElementsByClassName("email");
+    // var middlename=document.getElementsByClassName("middlename");
+    // var firstname=document.getElementsByClassName("firstname");
+    // var lastname=document.getElementsByClassName("lastname");
+    // var contactnum=document.getElementsByClassName("contactnum");
+    // var password=document.getElementsByClassName("password");
+    // var role=document.getElementsByClassName("select");
+    // var confirmpassword=document.getElementsByClassName("confirm-password");
+    // var profilepicture=document.getElementById("image-profile");
+    
+    // function showalert(){
+    //     // if(email.value === '' || middlename.value === '' || firstname.value === '' || lastname.value === '' || contactnum.value === '' || role.value === '' || password.value === '' || confirmpassword.value === '' || profilepicture.value === ''){ 
+    //     // }else{
+    //         containerReg.style.display='flex';
+    //         // addusercontainer.style.display='flex';
+    //     // }
+            
+    // }
+    
+
     const sideMenu = document.querySelector("#aside");
     const addForm = document.querySelector(".bg-adduserform");
-    const closeBtn = document.querySelector("#close-btn");
-    // const cancelBtn = document.querySelector("#cancel");
+  
+    // const closeBtn = document.querySelector("#close-btn");
+    const cancelBtn = document.querySelector("#cancel");
     const addBtn = document.querySelector(".add-account");
+    const adduserBtn = document.querySelector(".AddButton");
+ 
     const menuBtn = document.querySelector("#menu-button");
     // const darktheme = document.querySelector('.dark-theme');
     // const checkbox = document.getElementById("checkbox");
         menuBtn.addEventListener('click', () =>{
             sideMenu.style.display = 'block';
         })
-        closeBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'none';
-        })
-        // cancelBtn.addEventListener('click', () =>{
-        //     addForm.style.display = 'none';
+        // closeBtn.addEventListener('click', () =>{
+        //     sideMenu.style.display = 'none';
         // })
+        cancelBtn.addEventListener('click', () =>{
+            addForm.style.display = 'none';
+        })
+        // if(email.value === '' || middlename.value === '' || firstname.value === '' || lastname.value === '' || contactnum.value === '' || role.value === '' || password.value === '' || confirmpassword.value === '' || profilepicture.value === ''){ 
+        // }else{
+            
+        // }
         addBtn.addEventListener('click', () =>{
             addForm.style.display = 'flex';
         })
+        // adduserBtn.addEventListener('click', () =>{
+        //     addForm.style.display = 'flex';
+        // })
         
         // checkbox.addEventListener( 'change', function() {
         //     localStorage.setItem('dark-theme',this.checked);
@@ -670,7 +752,8 @@ $result = mysqli_query($con, $query);
         --color-table-hover: rgb(244, 255, 246);
         --color-aside-mobile-focus: rgb(78, 150, 78);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
-        
+        --color-mainbutton: rgb(117, 117, 117);
+        --color-button-hover: rgb(39, 170, 63);
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
@@ -692,6 +775,8 @@ $result = mysqli_query($con, $query);
         --color-table-hover: rgb(112, 112, 112);
         --color-aside-mobile-text:hsl(0, 0%, 88%);
     }
+    
+
     BODY{
         background: var(--color-background);
         margin: 0;
@@ -715,331 +800,442 @@ $result = mysqli_query($con, $query);
         justify-content: center;
         display: none;
     }
+    #form-registered{
+        position: absolute;
+        top: 50%;
+        display: none;
+        left: 50%;
+        max-height: 90vh;
+        min-width: 400px;
+        transform: translate(-50%, -50%);
+        background-color: var(--color-white);
+        border-top: 10px solid var(--color-main-3);
+        box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+        border-radius:  0px 0px 20px 20px;  
+    }
+            .pageform{
+                background-color: var(--color-white);
+                border-radius: 0px 0px 10px 10px;
+                border-top: 2px solid var(--color-solid-gray);
+                box-sizing: border-box;
+                padding: 0 30px;
+                display: flex;
+            }
+            #container-registered .pageform {
+                font-size: 20px;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                text-align: center;
+            }
+            .register h2 {
+                font-family: 'Calibri', sans-serif;
+                font-size: 25px;
+                align-items: center;
+                text-align: center;
+                letter-spacing: 2px;
+                color: var(--color-black);
+                margin-bottom: 5px;
+            } 
+            .content .verify {
+                left: 38.2%;
+                padding-top: 1rem;
+                margin-bottom: -.5rem;
+                align-items: center;
+                position: relative;
+             
+            }
+            .verified {
+                fill: rgb(39, 170, 63);
+                width: 80px;
+                height: 80px;
+            }
+            #registered{
+                font-family: 'COCOGOOSE', sans-serif;
+                padding: 10px;
+                padding-left: 60px;
+                padding-right: 60px;
+                text-align: center;
+                max-height: 70px;
+                outline: none;
+                border: none;
+                font-size: min(max(9px, 1.1vw), 11px);
+                border-radius: 20px;
+                color: white;
+                background: var(--color-mainbutton); 
+                cursor: pointer; 
+                transition: 0.5s;
+                display: block;
+                margin-top: 2vh;
+                margin-bottom: 20px;
+                margin-left: 65.5px;
+                margin-right: 65.5px;
+                width: 5rem;
+            }
+            #registered:hover{
+                background-color: var(--color-button-hover);
+                transition: 0.5s; 
+            }
     .form-adduser1{
         width: 500px;
-        height: 520px;
+        height: 100%;
+        max-height: 480px;
+        position: absolute;
         border-radius:  0px 0px 20px 20px;
         background-color: var(--color-white);
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-top: 10px solid var(--color-solid-gray);
     }
-    .form-adduser2{
-        display: flex;
-        font-size: .7rem;
-        flex-direction: column;
-        font-family: 'Malberg Trial', sans-serif;
-        gap: 30px;
-        min-height: 20vh;
-    }
-    .error-error{
+            .form-adduser2{
+                display: flex;
+                font-size: .7rem;
+                flex-direction: column;
+                font-family: 'Malberg Trial', sans-serif;
+                gap: 30px;
+                min-height: 20vh;
+            }
+            .error-error{
+                background-color: hsl(0, 100%, 77%);
+                color: #ffffff;
+                display: relative;
+                padding: 11px;
+                width: 70%;
+                border-radius: 6px;
+                align-items: center; 
+                text-align: center;
+                margin-left: 3.55rem;
+                font-size: min(max(9px, 1.2vw), 11px);
+                letter-spacing: 0.5px;
+                font-family: Helvetica, sans-serif;
+            }
+            .form1{
+                position: relative;
+                width: 205px;
+                margin-left: 2rem;
+                margin-top: -1.0rem;
+                top: 15px;
+            }
+            .form1 input{
+                width:100%;
+                height: 2.5rem;
+                padding: 10px;
+                border: 2px solid var(--color-solid-gray);
+                border-radius: 15px;
+                outline: none;
+                font-size: 1em;
+                background: var(--color-white);
+                color: var(--color-black);
+            }
+            .form1 span{
+                position: absolute;
+                left: 0;
+                padding: 12px;
+                pointer-events: none;
+                font-size: 1.2em;
+                margin-top: 0.1rem;
+                margin-left: .2rem;
+                color:var(--color-solid-gray);
+            }
+            .form1 input:focus{
+                border: 2px solid var(--color-main-3);
+            }
+            .form1 input:valid ~ span,
+            .form1 input:focus ~ span{
+                color: var(--color-main-3);
+                transform: translateX(10px) translateY(1px);
+                font-size: 0.9em;
+                padding: 0 10px;
+                transition: .3s
+            }
+            .form2{
+                position: relative;
+                width: 205px;
+                height: 17px;
+                margin-left: 16rem;
+                margin-top: .395rem;
+                top: -7.1rem;
+            }
+            .form2 input{
+                width:100%;
+                height: 2.5rem;
+                padding: 10px;
+                border: 2px solid var(--color-solid-gray);
+                border-radius: 15px;
+                outline: none;
+                font-size: 1em;
+                background: var(--color-white);
+                color: var(--color-black);
+            }
+            .form2 span{
+                position: absolute;
+                left: 0;
+                padding: 12px;
+                pointer-events: none;
+                font-size:  1.2em;
+                margin-top: 0.1rem;
+                margin-left: .2rem;
+                color: var(--color-solid-gray);
+            }
+            .form2 input:focus{
+                border: 2px solid var(--color-main-3);
+            }
+            .form2 input:valid ~ span,
+            .form2 input:focus ~ span{
+                color:var(--color-main-3);
+                transform: translateX(10px) translateY(1px);
+                font-size: 0.9em;
+                padding: 0 10px;
+                transition: .3s
+            }
+            /* .form3{
+                position: relative;
+                width: 405px;
+                height: 17px;
+                margin-left: 8rem;
+                margin-top: .38rem;
+                top: -7.1rem;
+            }
+            .form3 input{
+                width:100%;
+                height: 2.5rem;
+                padding: 10px;
+                border: 2px solid var(--color-solid-gray);
+                border-radius: 15px;
+                outline: none;
+                font-size: 1em;
+                background: var(--color-white);
+                color: var(--color-black);
+            }
+            .form3 span{
+                position: absolute;
+                left: 0;
+                padding: 12px;
+                pointer-events: none;
+                font-size:  1.2em;
+                margin-top: -2.4rem;
+                margin-left: .2rem;
+                color: var(--color-solid-gray);
+            }
+            .form3 input:focus{
+                border: 2px solid var(--color-main-3);
+            }
+            .form3 input:valid ~ span,
+            .form3 input:focus ~ span{
+                color:var(--color-main-3);
+                transform: translateX(10px) translateY(1px);
+                font-size: 0.85em;
+                padding: 0 10px;
+                transition: .3s
+            } */ 
+            .form4{
+                position: relative;
+                width: 205px;
+                margin-left: 2rem;
+                margin-top: -.895rem;
+                top: -5.6rem;
+            }
+            .form4 input{
+                width:100%;
+                height: 2.5rem;
+                padding: 10px;
+                border: 2px solid var(--color-solid-gray);
+                border-radius: 15px;
+                outline: none;
+                font-size: 1em;
+                background: var(--color-white);
+                color: var(--color-black);
+            }
+            .form4 span{
+                position: absolute;
+                left: 0;
+                padding: 12px;
+                pointer-events: none;
+                font-size: 1.2em;
+                margin-top: 0.1rem;
+                margin-left: .2rem;
+                color: var(--color-solid-gray);
+            }
+            .form4 input:focus{
+                border: 2px solid var(--color-main-3);
+            }
+            .form4 input:valid ~ span,
+            .form4 input:focus ~ span{
+                color:var(--color-main-3);
+                transform: translateX(10px) translateY(1px);
+                font-size: 0.9em;
+                padding: 0 10px;
+                transition: .3s
+            }
+            .form5{
+                position: relative;
+                width: 205px;
+                margin-left: 15.9rem;
+                margin-top: 1rem;
+                top: -10.93rem;
+                margin-bottom: -5rem;
+            }
+            .form5 input{
+                width:100%;
+                height: 2.5rem;
+                padding: 10px;
+                border: 2px solid var(--color-solid-gray);
+                border-radius: 15px;
+                outline: none;
+                font-size: 1em;
+                background: var(--color-white);
+                color: var(--color-black);
+            }
+            .form5 span{
+                position: absolute;
+                left: 0;
+                padding: 12px;
+                pointer-events: none;
+                font-size: 1.2em;
+                margin-top: .1rem;
+                margin-left: .2rem;
+                color: var(--color-solid-gray);
+            }
+            .form5 input:focus{
+                border: 2px solid var(--color-main-3);
+            }
+            .form5 input:valid ~ span,
+            .form5 input:focus ~ span{
+                color:var(--color-main-3);
+                transform: translateX(10px) translateY(1px);
+                font-size: 0.9em;
+                padding: 0 10px;
+                transition: .3s
+            }
+            /* --------------------------------------DROP DOWN------------------------------------- */
+            .usertype-dropdown{
+                width: 20em;
+                position: relative;
+                margin-left: 16rem;
+                margin-top: 1rem;
+                top: -10.9rem;
+                margin-bottom: -5.39rem;
+            }
+            .select{
+                background: var(--color-solid-gray);
+                color: var(--color-white);
+                align-items: center;
+                border-radius: 13px;
+                padding: 8px 12px;
+                height: 2.9em;
+                width: 12.8rem;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .select-clicked{
+                box-shadow: 0 0 0 1px var(--color-solid-gray);
+                background: var(--color-main-2);
+                color: white;
+            }
+            .select:hover{
+                background: var(--color-main);
+                color: var(--color-white);
+            }
+            /*.caret{
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 6px solid var(--color-white);
+                transition: .5s;
+            }
+            .caret-rotate{
+                transform: rotate(180deg);
+                transition: .5s;
+            } */
+            .menu{
+                list-style: none;
+                padding: 0.2em 0.5em;
+                background: var(--color-solid-gray);
+                border: 1px solid var(--color-solid-gray);
+                box-shadow: 0 0 .5em .2em var(--color-main-2);
+                border-radius: 0.5em;
+                color: var(--color-white);
+                fill:var(--color-white);
+                gap: 1rem;
+                position: absolute;
+                top: 3em;
+                left: 50%;
+                width: 100%;
+                transform: translateX(-50%);
+                opacity: 0;
+                display: none;
+                z-index: 1;
+            }
+            .menu li{
+                padding: 0.7em 0.5em;
+                margin: 0.3em 0;
+                border-radius: 0.5em;
+                cursor: pointer;
+                transition: .5s;
+                font-size: 12px;
+                position: relative; 
+                align-items: center;
+            
+            }
+            .menu li:last-child{
+                font-size: 12px;
+                padding-left: -1rem;
+                display: flex;
+                align-items: center;
+                gap: .7rem;
+            }
+            .menu li:hover{
+                background: linear-gradient(270deg, transparent, var(--color-tertiary));
+                color: var(--color-main);
+
+            }
+            .active{
+                background: var(--color-main-3);
+                color: var(--color-white);
+                fill:var(--color-white);
+            }
+            .menu-open{
+                display: block;
+                opacity: 1;
+            }
+    /* ------------------------------------------------------------------------------------ */
+    .message{
         background-color: hsl(0, 100%, 77%);
         color: #ffffff;
-        padding: 11px;
-        width: 92%;
-        border-radius: 3px;
-        font-size: min(max(9px, 1.2vw), 11px);
+        border-radius: 6px;
+        width: 25%;
+        height: 1.87rem;
+        /* margin-left: 3.55rem; */
         letter-spacing: 0.5px;
-        font-family: Helvetica, sans-serif;
-    }
-    .form1{
-        position: relative;
-        width: 180px;
-        height: 17px;
-        margin-left: 2rem;
-        margin-top: 1rem;
-    }
-    .form1 input{
-        width:100%;
-        height: 17px;
-        padding: 10px;
-        border: 2px solid var(--color-solid-gray);
-        border-radius: 15px;
-        outline: none;
-        font-size: 1em;
-        background: var(--color-white);
-        color: var(--color-black);
-    }
-    .form1 span{
+        font-family: Helvetica, sans-serif;       
+        top: 16.9%;
+        font-size: .7rem;
+        padding: 5px 10px;
+        padding-top: 1rem;
         position: absolute;
-        left: 0;
-        padding: 12px;
-        pointer-events: none;
-        font-size: 1.2em;
-        margin-top: -2.4rem;
-        margin-left: .2rem;
-        color:var(--color-solid-gray);
-    }
-    .form1 input:focus{
-        border: 2px solid var(--color-main-3);
-    }
-    .form1 input:valid ~ span,
-    .form1 input:focus ~ span{
-        color: var(--color-main-3);
-        transform: translateX(10px) translateY(1px);
-        font-size: 0.85em;
-        padding: 0 10px;
-        transition: .3s
-    }
-    .form2{
-        position: relative;
-        width: 180px;
-        height: 17px;
-        margin-left: 16rem;
-        margin-top: 1rem;
-        top: -7.84rem;
-    }
-    .form2 input{
-        width:100%;
-        height: 17px;
-        padding: 10px;
-        border: 2px solid var(--color-solid-gray);
-        border-radius: 15px;
-        outline: none;
-        font-size: 1em;
-        background: var(--color-white);
-        color: var(--color-black);
-    }
-    .form2 span{
-        position: absolute;
-        left: 0;
-        padding: 12px;
-        pointer-events: none;
-        font-size:  1.2em;
-        margin-top: -2.4rem;
-        margin-left: .2rem;
-        color: var(--color-solid-gray);
-    }
-    .form2 input:focus{
-        border: 2px solid var(--color-main-3);
-    }
-    .form2 input:valid ~ span,
-    .form2 input:focus ~ span{
-        color:var(--color-main-3);
-        transform: translateX(10px) translateY(1px);
-        font-size: 0.85em;
-        padding: 0 10px;
-        transition: .3s
-    }
-    .form3{
-        position: relative;
-        width: 405px;
-        height: 17px;
-        margin-left: 2rem;
-        margin-top: 1rem;
-        top: -7.59rem;
-    }
-    .form3 input{
-        width:100%;
-        height: 17px;
-        padding: 10px;
-        border: 2px solid var(--color-solid-gray);
-        border-radius: 15px;
-        outline: none;
-        font-size: 1em;
-        background: var(--color-white);
-        color: var(--color-black);
-    }
-    .form3 span{
-        position: absolute;
-        left: 0;
-        padding: 12px;
-        pointer-events: none;
-        font-size:  1.2em;
-        margin-top: -2.4rem;
-        margin-left: .2rem;
-        color: var(--color-solid-gray);
-    }
-    .form3 input:focus{
-        border: 2px solid var(--color-main-3);
-    }
-    .form3 input:valid ~ span,
-    .form3 input:focus ~ span{
-        color:var(--color-main-3);
-        transform: translateX(10px) translateY(1px);
-        font-size: 0.85em;
-        padding: 0 10px;
-        transition: .3s
-    }
-    .form4{
-        position: relative;
-        width: 180px;
-        height: 17px;
-        margin-left: 2rem;
-        margin-top: 1rem;
-        top: -7.59rem;
-    }
-    .form4 input{
-        width:100%;
-        height: 17px;
-        padding: 10px;
-        border: 2px solid var(--color-solid-gray);
-        border-radius: 15px;
-        outline: none;
-        font-size: 1em;
-        background: var(--color-white);
-        color: var(--color-black);
-    }
-    .form4 span{
-        position: absolute;
-        left: 0;
-        padding: 12px;
-        pointer-events: none;
-        font-size: 1.2em;
-        margin-top: -2.4rem;
-        margin-left: .2rem;
-        color: var(--color-solid-gray);
-    }
-    .form4 input:focus{
-        border: 2px solid var(--color-main-3);
-    }
-    .form4 input:valid ~ span,
-    .form4 input:focus ~ span{
-        color:var(--color-main-3);
-        transform: translateX(10px) translateY(1px);
-        font-size: 0.85em;
-        padding: 0 10px;
-        transition: .3s
-    }
-    .form5{
-        position: relative;
-        width: 180px;
-        height: 17px;
-        margin-left: 15.9rem;
-        margin-top: 1rem;
-        top: -11.47rem;
-        margin-bottom: -4rem;
-    }
-    .form5 input{
-        width:100%;
-        height: 17px;
-        padding: 10px;
-        border: 2px solid var(--color-solid-gray);
-        border-radius: 15px;
-        outline: none;
-        font-size: 1em;
-        background: var(--color-white);
-        color: var(--color-black);
-    }
-    .form5 span{
-        position: absolute;
-        left: 0;
-        padding: 12px;
-        pointer-events: none;
-        font-size: 1.2em;
-        margin-top: -2.4rem;
-        margin-left: .2rem;
-        color: var(--color-solid-gray);
-    }
-    .form5 input:focus{
-        border: 2px solid var(--color-main-3);
-    }
-    .form5 input:valid ~ span,
-    .form5 input:focus ~ span{
-        color:var(--color-main-3);
-        transform: translateX(10px) translateY(1px);
-        font-size: 0.85em;
-        padding: 0 10px;
-        transition: .3s
-    }
-    /* --------------------------------------DROP DOWN------------------------------------- */
-    .usertype-dropdown{
-        width: 20em;
-        position: relative;
-        margin-left: 16rem;
-        margin-top: 1rem;
-        top: -11.39rem;
-        margin-bottom: -5.39rem;
-    }
-    .select{
-        background: var(--color-solid-gray);
-        color: var(--color-white);
         align-items: center;
-        border-radius: 13px;
-        padding: 8px 12px;
-        height: 2.9em;
-        width: 12.8rem;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .select-clicked{
-        box-shadow: 0 0 0 2px var(--color-main-2);
-        background: var(--color-main-2);
-        color: white;
-    }
-    .select:hover{
-        background: var(--color-main);
-        color: var(--color-white);
-     }
-    /*.caret{
-        width: 0;
-        height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 6px solid var(--color-white);
-        transition: .5s;
-    }
-    .caret-rotate{
-        transform: rotate(180deg);
-        transition: .5s;
-    } */
-    .menu{
-        list-style: none;
-        padding: 0.2em 0.5em;
-        background: var(--color-solid-gray);
-        border: 1px solid var(--color-solid-gray);
-        box-shadow: 0 0 .5em .2em var(--color-main-2);
-        border-radius: 0.5em;
-        color: var(--color-white);
-        fill:var(--color-white);
-        gap: 1rem;
-        position: absolute;
-        top: 3em;
-        left: 50%;
-        width: 100%;
-        transform: translateX(-50%);
-        opacity: 0;
+        text-align: center;
+        /* justify-content: space-between; */
+        gap:3.5rem;
+        z-index: 1000;
         display: none;
-        z-index: 1;
     }
-    .menu li{
-        padding: 0.7em 0.5em;
-        margin: 0.3em 0;
-        border-radius: 0.5em;
-        cursor: pointer;
-        transition: .5s;
-        font-size: 12px;
-        position: relative; 
-        align-items: center;
-       
-    }
-    .menu li:last-child{
-        font-size: 12px;
-        padding-left: -1rem;
-        display: flex;
-        align-items: center;
-        gap: .7rem;
-    }
-    .menu li:hover{
-        background: linear-gradient(270deg, transparent, var(--color-tertiary));
-        color: var(--color-main);
 
+    .message span{
+        color:var(--white);
+        font-size: .9rem;
     }
-    .active{
-        background: var(--color-main-3);
-        color: var(--color-white);
-        fill:var(--color-white);
+
+    .message p{
+        color:var(--red);
+        font-size: .9rem;
+        margin: 0 auto;
+        cursor: pointer;
     }
-    .menu-open{
-        display: block;
-        opacity: 1;
-    }
-    /* ------------------------------------------------------------------------------------ */
     .profile-picture1 h4{
         display: flex;
         font-size: .9rem;
         position: relative;
         text-align: center;
-        font-family: 'Malberg Trial', sans-serif;
+        font-family: 'Calibri', sans-serif;
         color: var(--color-solid-gray);
         top: -8rem;
         margin-left: 2rem;
@@ -1074,7 +1270,7 @@ $result = mysqli_query($con, $query);
     .addnew-title{
         font-size: min(max(1.9rem, 1.1vw), 2rem);
         color: var(--color-solid-gray);
-        font-family: 'phantom', sans-serif;
+        font-family: 'Calibri', sans-serif;
         letter-spacing: .09rem;
         display: flex;
         padding-top: 1rem;
@@ -1083,7 +1279,7 @@ $result = mysqli_query($con, $query);
         margin: 15px;
         padding-bottom: 10px;
     }
-    .form-adduser1 .AddButton input{
+    .form-adduser1 .AddButton button{
         font-family: 'COCOGOOSE', sans-serif;
         padding: 10px;
         margin-top: .5vh;
@@ -1097,16 +1293,15 @@ $result = mysqli_query($con, $query);
         font-size: min(max(9px, 1.1vw), 11px);
         border-radius: 20px;
         color: white;
-        background:  var(--color-tertiary); 
+        background:  var(--color-mainbutton); 
         cursor: pointer; 
         transition: 0.5s;
     }
-    .form-adduser1 .AddButton input:hover{
-        background: rgb(70, 70, 70);
-         color: var(--color-secondary-main); 
+    .form-adduser1 .AddButton button:hover{
+        background: var(--color-button-hover);
     }
     .CancelButton{
-        margin-top: -5.1vh;
+        margin-top: -4.9vh;
         margin-left: 2.4em;
     }
     #cancel{
@@ -1115,7 +1310,7 @@ $result = mysqli_query($con, $query);
         padding-left: 60px;
         padding-right: 60px;
         text-align: center;
-        width: 20rem;
+        width: 10rem;
         max-height: 70px;
         outline: none;
         border: none;
@@ -1164,10 +1359,10 @@ $result = mysqli_query($con, $query);
     }
     
     .user-type{
-        font-family: 'PHANTOM', sans-serif;
-        font-size: 5.5px;
+        font-family: 'Calibri', sans-serif;
+        font-size: 7.5px;
         color: var(--color-main); 
-        letter-spacing: .2rem;
+        letter-spacing: .15rem;
         border-top: 2px solid var(--color-main); 
         margin-top: -0.97rem;
         width: 100px;
@@ -1176,8 +1371,8 @@ $result = mysqli_query($con, $query);
         margin-top: 6px;     
     }
     .welcome{
-        font-family: 'Switzer', sans-serif;
-        font-size: 9px;
+        font-family: 'Calibri', sans-serif;
+        font-size: 11px;
         /* margin-right: -7.3rem;*/
         margin-top: -0.6rem; 
         letter-spacing: 2px;
@@ -1278,11 +1473,12 @@ $result = mysqli_query($con, $query);
         transition: 0.5s;
     }
     .drop-menu .ul .user-type3{
-        font-family: 'PHANTOM', sans-serif;
+        font-family: 'Calibri', sans-serif;
         font-size: 7.5px;
         color: var(--color-main); 
         letter-spacing: .2rem;
         display: none;
+        text-transform: uppercase;
     }
 
     .drop-menu .ul{
@@ -1481,7 +1677,7 @@ $result = mysqli_query($con, $query);
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
         width: 100%;
-        font-size: 0.8rem;
+        font-size: 1rem;
         border-radius: 0px 0px 10px 10px;
         padding-left: 2.5rem;
         padding-right: 2.5rem;
@@ -1503,13 +1699,13 @@ $result = mysqli_query($con, $query);
         height: 2.8rem;
         border-bottom: 1px solid var(--color-solid-gray);
         color: var(--color-td); 
-        font-size: .67rem;
+        font-size: .8rem;
     }
      th{
         height: 2.8rem;
         color: var(--color-black); 
         margin:1rem;
-        font-size: .8rem;
+        font-size: 1rem;
         letter-spacing: 0.02rem;
     }  
     tr:hover td{
@@ -1745,6 +1941,7 @@ $result = mysqli_query($con, $query);
         .accTitle{
             margin-left: 5%;
             width: 25vw;
+            font-family: 'Calibri', sans-serif;
         }
         main  h2{
             margin-left: 10%;

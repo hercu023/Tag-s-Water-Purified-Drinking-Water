@@ -120,7 +120,7 @@
                 padding: 0 30px;
                 display: flex;
             }
-            .container .pageform {
+            #container .pageform {
                 font-size: 20px;
                 font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 text-align: center;
