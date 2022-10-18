@@ -82,12 +82,12 @@ include 'connectionDB.php';
                             <h3>POINT OF SALES</h3>
                         </a>
                     
-                        <a href="#" class="reports">
+                        <a href="Reports.php" class="reports">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M2 21V3h10v4h10v14Zm2-2h6v-2H4Zm0-4h6v-2H4Zm0-4h6V9H4Zm0-4h6V5H4Zm8 12h8V9h-8Zm2-6v-2h4v2Zm0 4v-2h4v2Z"/></svg>
                             <h3>REPORTS</h3>
                         </a>
                 
-                        <a href="#" class="monitoring">
+                        <a href="Monitoring.php" class="monitoring">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 21v-2l2-2v4Zm4 0v-6l2-2v8Zm4 0v-8l2 2.025V21Zm4 0v-5.975l2-2V21Zm4 0V11l2-2v12ZM3 15.825V13l7-7 4 4 7-7v2.825l-7 7-4-4Z"/></svg>
                             <h3>MONITORING</h3>
                         </a>
@@ -97,17 +97,17 @@ include 'connectionDB.php';
                             <h3>CUSTOMER</h3>
                         </a>  
                     
-                        <a href="#" class="inventory">
+                        <a href="Inventory.php" class="inventory">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
                             <h3>INVENTORY</h3>
                         </a>
 
-                        <a href="#" class="employee">
+                        <a href="Employee.php" class="employee">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm2-4h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Z"/></svg>
                             <h3>EMPLOYEE</h3>
                         </a>
 
-                        <a href="#" class="expense">
+                        <a href="Expense.php" class="expense">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
                             <h3>EXPENSE</h3>
                         </a>
@@ -117,7 +117,7 @@ include 'connectionDB.php';
                             <h3>ACCOUNT</h3>
                         </a>
 
-                        <a href="#" class="settings">
+                        <a href="Settings.php" class="settings">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
                             <h3>SETTINGS</h3>
                         </a>
@@ -185,14 +185,14 @@ include 'connectionDB.php';
             </div>
             <main>
             <div class="main-dashboard">
-                    <h1 class="dashTitle">INVENTORY</h1> 
+                    <h1 class="dashTitle">EMPLOYEE</h1> 
             </main>
                 <div class="top-menu">  
                     <div class="menu-bar">
                         <button id="menu-button">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z"/></svg>
                         </button>
-                        <h2 class="dashTitle-top">INVENTORY</h2>
+                        <h2 class="dashTitle-top">EMPLOYEE</h2>
                         <div class="user1">
                             <div class="welcome">
                                 <h4 > Welcome, </h4>
@@ -771,7 +771,7 @@ include 'connectionDB.php';
         border-radius: 0 0 10px 0 ;
         box-shadow: 1px 3px 1px var(--color-background);
     }
-    #aside .sidebar .inventory{
+    #aside .sidebar .employee{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -851,7 +851,7 @@ include 'connectionDB.php';
         border-radius: 0 0 10px 0 ;
         box-shadow: 1px 3px 1px var(--color-background);
     }
-    #aside2 .sidebar2 .inventory{
+    #aside2 .sidebar2 .employee{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -1129,7 +1129,7 @@ include 'connectionDB.php';
             margin-right: 15px;
             cursor: pointer;
         }
-        #aside .sidebar .inventory{
+        #aside .sidebar .employee{
             width: 15.95rem;
             fill:  var(--color-white);
             color:  var(--color-white);
