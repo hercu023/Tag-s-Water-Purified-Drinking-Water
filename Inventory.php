@@ -1,65 +1,23 @@
-<?php
-session_start();
-include 'connectionDB.php';
-    if (isset($_POST['email']) && isset($_POST['password'])){
-
-        $email = $_POST['email'];
-        $pass = $_POST['password'];
-        
-        if (empty($email)){
-            // header("Location: login.php?error=Email is required");
-        }else if (empty($pass)){
-            // header("Location: login.php?error=Password is required");
-        }else{
-            $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
-            $stmt->execute([$email]);
-            if ($stmt->rowCount() === 1){
-                $user = $stmt->fetch();
-                
-                $user_id = $user['id'];
-                $user_email = $user['email'];
-                $user_password = $user['password'];
-                $user_first_name = $user['first_name'];
-                $user_user_type = $user['user_type'];
-                $user_profile_image = $user['profile_image'];
-                if ($email === $user_email){
-                    if (password_verify($pass, $user_password)){
-                        $_SESSION['user_id'] = $user_id;
-                        $_SESSION['user_email'] = $user_email;
-                        $_SESSION['user_first_name'] =  $user_first_name;
-                        $_SESSION['user_user_type'] =  $user_user_type;
-                        $_SESSION['user_profile_image'] =  $user_profile_image;
-                    }else{
-                        header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The password you've entered is incorrect");
-                    }
-                }else {
-                    header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The email you entered is not connected to the system");
-                }
-            }else{
-                header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The email you entered is not connected to the system");
-            }
-        } 
-    }
-?> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-        <!-- <link rel="stylesheet" type="text/css" href="../TAG-S-WATER-PURIFIED-DRINKING-WATER/CSS/Dashboard.css"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
+        <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
-           <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
+        <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-        <title>Home</title>
-        <script src="./index.js"></script>
-    </head>
-    <body>
-    
-        <div class="container">
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Inventory</title>
+</head>
+<body>
+
+<div class="container">
             <div class="menu-tab">     
                 <aside id="aside">
                     <div class="title">
@@ -97,7 +55,7 @@ include 'connectionDB.php';
                             <h3>CUSTOMER</h3>
                         </a>  
                     
-                        <a href="Inventory.php" class="inventory">
+                        <a href="#" class="inventory">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
                             <h3>INVENTORY</h3>
                         </a>
@@ -185,14 +143,14 @@ include 'connectionDB.php';
             </div>
             <main>
             <div class="main-dashboard">
-                    <h1 class="dashTitle">DASHBOARD</h1> 
+                    <h1 class="dashTitle">INVENTORY</h1> 
             </main>
                 <div class="top-menu">  
                     <div class="menu-bar">
                         <button id="menu-button">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z"/></svg>
                         </button>
-                        <h2 class="dashTitle-top">DASHBOARD</h2>
+                        <h2 class="dashTitle-top">INVENTORY</h2>
                         <div class="user1">
                             <div class="welcome">
                                 <h4 > Welcome, </h4>
@@ -238,101 +196,12 @@ include 'connectionDB.php';
                     </div>
                 </div>       
         </div> 
-    </body>
-</html>
-<script>
-    const sideMenu = document.querySelector('#aside');
-    const closeBtn = document.querySelector('#close-btn');
-    const menuBtn = document.querySelector('#menu-button');
-    const checkbox = document.getElementById('checkbox');
-        menuBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'block';
-        })
 
-        closeBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'none';
-        })
-         checkbox.addEventListener( 'change', () =>{
-             document.body.classList.toggle('dark-theme');
-        //     if(this.checked) {
-        //         body.classList.add('dark')
-        //     } else {
-        //         body.classList.remove('dark')     
-        //     }
-         });
-        
-        // if(localStorage.getItem('dark')) {
-        //     body.classList.add('dark');
-        //     }
-    // const sideMenu = document.querySelector("#aside");
-    // const closeBtn = document.querySelector("#close-btn");
-    // const menuBtn = document.querySelector("#menu-button");
-    // const checkbox = document.getElementById("checkbox");
-    //     menuBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'block';
-    //     })
-    //     closeBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'none';
-    //     })
-    //     checkbox.addEventListener('change', () =>{
-    //         document.body.classList.toggle('dark-theme');
-    //     })
 
-    //     function menuToggle(){
-    //         const toggleMenu = document.querySelector('.drop-menu');
-    //         toggleMenu.classList.toggle('user2')
-    //     }
-</script>
-<style>
-     :root{
-        --color-main: rgb(2, 80, 2);
-        --color-white: white;
-        --color-white-secondary: white;
-        --color-tertiary: hsl(0, 0%, 57%);
-        --color-black: rgb(49, 49, 49);
-        --color-maroon: rgb(136, 0, 0);
-        --color-secondary-main: rgb(244, 255, 246);
-        --color-background: rgb(235, 235, 235);
-        --color-solid-gray: rgb(126, 126, 126);
-        --color-td:rgb(100, 100, 100);
-        --color-button: rgb(117, 117, 117);
-        --color-table-shadow: rgb(244, 255, 246);
-        --color-shadow-shadow: rgb(116, 116, 116);
-        --color-table-hover: rgb(244, 255, 246);
-        --color-aside-mobile-focus: rgb(78, 150, 78);
-        --color-aside-mobile-text: hsl(0, 0%, 57%);
-        
-    }
-    .dark-theme{
-        --color-white: rgb(48, 48, 48);
-        --color-tertiary: hsl(0, 0%, 25%);
-        --color-black: white;
-        --color-shadow-shadow: rgb(32, 32, 32);
-        --color-aside-mobile-focus: rgb(244, 255, 246);
-        --color-table-shadow: rgb(131, 131, 131);
-        --color-maroon: rgb(255, 130, 130);
-        --color-white-secondary: rgb(235, 235, 235);
-        --color-main: rgb(244, 255, 246);
-        --color-secondary-main: rgb(97, 172, 111);
-        --color-background: rgb(80, 80, 80);
-        --color-solid-gray: rgb(231, 231, 231);
-        --color-td: rgb(231, 231, 231);
-        --color-button: rgb(202, 202, 202);
-        --color-table-hover: rgb(112, 112, 112);
-        --color-aside-mobile-text:hsl(0, 0%, 88%);
-    }
-    BODY{
-        background: var(--color-background);
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow-x: hidden;
-        font-family: Arial, Helvetica, sans-serif;
-        background-position: center;
-        background-size: cover;
-        background-attachment: fixed;
-    }  
-     /* ----------------------------------------Top bar menu----------------------------------------  */
+
+        <!---------------------------------STYLE----------------------------------->
+    <Style>
+            /* Top Bar Menu */
     .top-menu{
         margin-top: 1.7rem;
     }
@@ -542,7 +411,9 @@ include 'connectionDB.php';
         width: 21px;
         transition: transform 0.2s linear;
     }
-    /* ----------------------------------------MAIN---------------------------------------- */
+
+        /* Main */
+
     .main-dashboard{
         width:100%;
     }
@@ -554,152 +425,8 @@ include 'connectionDB.php';
         letter-spacing: .03rem;
         border-bottom: 2px solid var(--color-main); 
     }
-   
-        /* ----------------------------------------Sub TAB---------------------------------------- */
-        /* .user-title{
-            position: relative;
-        }
-        main  h2{
-            margin-bottom: -2.2rem;
-            margin-top:2rem;
-            color: var(--color-solid-gray);
-            font-size: 1.3rem;
-            margin-left: 3%;
-            letter-spacing: .1rem;
-            font-family: 'Galhau Display', sans-serif;
-        }
-        main .sub-tab{
-            margin-bottom: 4rem;
-        } */
-        /* ----------------------------------------Search BAR---------------------------------------- */
-        /* .search{
-            position: absolute;
-            gap: 2rem;
-            align-items: right;
-            text-align: right;
-            left: 50%;
-        }
-        .search-bar{
-            width: 18rem;
-            background: var(--color-white);
-            display: flex;
-            position: relative;
-            align-items: center;
-            border-radius: 60px;
-            padding: 10px 20px;
-            height: 1.8rem;
-            backdrop-filter: blur(4px) saturate(180%);
-        }
-        .search-bar input{
-            background: transparent;
-            flex: 1;
-            border: 0;
-            outline: none;
-            padding: 24px 20px;
-            font-size: .8rem;
-            color: var(--color-black); 
-            margin-left: -0.95rem;
-        }
-        ::placeholder{
-            color: var(--color-solid-gray);
-            
-        }
-        .search-bar button svg{
-            width: 20px;
-            fill: var(--color-white); 
-        }
-        .search-bar button{
-            border: 0;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            background: var(--color-main); 
-            margin-right: -0.55rem;
-        } */
-        /* ----------------------------------------Add Button---------------------------------------- */
-        /* .newUser-button{
-            position: absolute;
-            left: 68%;
-        }
-        .add-account{
-            display: flex;
-            border: none;
-            background-color: var(--color-white); 
-            align-items: center;
-            color: var(--color-button); 
-            fill: var(--color-button); 
-            width: 11rem;
-            max-height: 46px;
-            border-radius: 20px;
-            padding: .68rem 1rem;
-            font-family: 'Outfit', sans-serif;
-            cursor: pointer; 
-            gap: 1rem;
-            align-items: center;
-            height: 3.7rem;
-            transition: all 300ms ease;
-            position: relative; 
-            margin-top: .2rem;
-            text-transform: uppercase;
-        }
-        .add-account h3{
-            font-size: .8rem;
-        }
-        .add-account:hover{
-            background-color: var(--color-main); 
-            color: var(--color-white);
-            fill: var(--color-white);
-            padding-top: -.2px;
-            transition: 0.7s;
-            border-bottom: 4px solid var(--color-maroon);
-        } */
-         /* ----------------------------------------Dashboard Table---------------------------------------- */
-     /* main .account-container{
-        margin-top: 2rem;
-        height: 500px;
-        
-    }
-     main .account-container table{
-        background: var(--color-white);
-        font-family: 'Switzer', sans-serif;
-        width: 100%;
-        font-size: 0.8rem;
-        border-radius: 0px 0px 10px 10px;
-        padding-left: 2.5rem;
-        padding-right: 2.5rem;
-        padding-bottom: 2.5rem;
-        text-align: center; 
-        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
-        border-top: 8px solid var(--color-table-hover);
-        transition: all 700ms ease;
-        overflow: auto;
-        margin-top: -1rem;
-    }
 
-    main .account-container table:hover{
-        box-shadow: none;
-        border-top: 8px solid var(--color-main);
-    }
-
-    main table tbody td{
-        height: 2.8rem;
-        border-bottom: 1px solid var(--color-solid-gray);
-        color: var(--color-td); 
-        font-size: .67rem;
-    }
-     th{
-        height: 2.8rem;
-        color: var(--color-black); 
-        margin:1rem;
-        font-size: .8rem;
-        letter-spacing: 0.02rem;
-    }  
-    tr:hover td{
-        color: var(--color-main); 
-        cursor: pointer;
-        background-color: var(--color-table-hover);
-     } */
-    /* ----------------------------------------ASIDE---------------------------------------- */
+    /* ASIDE  */
     .container{
         display: grid;
         width: 96%;
@@ -787,7 +514,9 @@ include 'connectionDB.php';
     #menu-button{
         display: none;
     }
-      /* ----------------------------------------SIDEBAR 2---------------------------------------- */
+
+    /* sidebar2 */
+
     #aside2{
         height: 100vh;
         margin-top: -1.9rem;
@@ -1264,4 +993,7 @@ include 'connectionDB.php';
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
-</style>
+        </Style>
+    
+</body>
+</html>
