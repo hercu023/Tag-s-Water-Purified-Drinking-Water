@@ -227,7 +227,7 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['email']; ?></td>
                                         <td> <?php echo $rows['contact_number']; ?></td>
                                         <td> <?php echo $rows['user_type']; ?></td>
-                                        <td> <?php echo $rows['profile_image']; ?></td>
+                                        <td> <img src="../uploaded_image/<?php echo $rows['profile_image']; ?>" width='40px' height='40px'/></td>
                                     </tr>
                             </tbody>
                                     <?php
