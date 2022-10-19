@@ -44,7 +44,7 @@ $result = mysqli_query($con, $query);
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <title>Account</title>
+        <title>Customers</title>
         <!-- <script src="./index.js"></script> -->
     </head>
     <body >
@@ -141,7 +141,7 @@ $result = mysqli_query($con, $query);
                         <h3>MONITORING</h3>
                     </a>
                 
-                    <a href="Customer.php" class="customers">
+                    <a href="Customers.php" class="customers">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
                         <h3>CUSTOMER</h3>
                     </a>  
@@ -174,16 +174,16 @@ $result = mysqli_query($con, $query);
             </aside>
         </div>
             <main>
-                <div class="main-account">
-                    <h1 class="accTitle">CUSTOMER</h1> 
+                <div class="main-customer">
+                    <h1 class="accTitle">CUSTOMERS</h1> 
                     <div class="sub-tab">
                         <div class="user-title"> 
-                            <h2> User Accounts </h2>
+                            <h2> Customers </h2>
                         </div>
                         <div class="newUser-button"> 
-                            <button type="submit" id="add-userbutton" class="add-account">
+                            <button type="submit" id="add-userbutton" class="add-customer">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                    <h3>Add New User</h3>
+                                    <h3>Add New Customer</h3>
                             </button>
                         </div>
                         <div class="search">
@@ -198,19 +198,16 @@ $result = mysqli_query($con, $query);
                             
                         </div> -->
                     </div>
-                    <div class="account-container">
+                    <div class="customer-container">
                         <table class="table" id="myTable"> 
                             <thead> 
                                 <tr>
                                     <th>ID</th>
                                     <th>Last Name</th>
                                     <th>First Name</th>
-                                    <th>Middle Name</th>
-                                    <th>Email</th>
-                                    <!-- <th>Address</th> -->
+                                    <th>Address</th>
                                     <th>Contact Number</th>
-                                    <th>Role</th>
-                                    <th>Picture</th>
+                                    <th>Balance/Credit</th>
                                 </tr>
                             </thead>
 
@@ -223,11 +220,9 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['id']; ?></td>
                                         <td> <?php echo $rows['last_name']; ?></td>
                                         <td> <?php echo $rows['first_name']; ?></td>
-                                        <td> <?php echo $rows['middle_name']; ?></td>
-                                        <td> <?php echo $rows['email']; ?></td>
+                                        <td> <?php echo $rows['address']; ?></td>
                                         <td> <?php echo $rows['contact_number']; ?></td>
-                                        <td> <?php echo $rows['user_type']; ?></td>
-                                        <td> <img src="../uploaded_image/<?php echo $rows['profile_image']; ?>" width='40px' height='40px'/></td>
+                                        <td> <?php echo $rows['balance']; ?></td>
                                     </tr>
                             </tbody>
                                     <?php
@@ -242,7 +237,7 @@ $result = mysqli_query($con, $query);
                     <button id="menu-button">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z"/></svg>
                     </button>
-                    <h2 class="accTitle-top">CUSTOMER</h2>
+                    <h2 class="accTitle-top">Customers</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
@@ -298,8 +293,8 @@ $result = mysqli_query($con, $query);
             </div>      
     </div> 
            
-    <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
-        <div class="bg-adduserform" id="bg-addform">
+    <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+        <div class="bg-addcustomerform" id="bg-addform">
             <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
                 <?php
                     // if(isset($message)){
@@ -314,35 +309,35 @@ $result = mysqli_query($con, $query);
                     // } 
                     ?>
                 
-            <div class="form-adduser1" id="form-adduser1">
-                <h1 class="addnew-title">ADD NEW USER</h1>
+            <div class="form-addcustomer1" id="form-addcustomer1">
+                <h1 class="addnew-title">ADD NEW CUSTOMER</h1>
             
-                <div class="form-adduser2" id="form-adduser2">
+                <div class="form-addcustomer2" id="form-addcustomer">
                     <div class="form1">  
                         <input type="text" id="fill"class="lastname" required="required" name="lastname">
                         <span>Last Name</span>
                     </div> 
-                    <div class="form1">  
+                    <div class="form2">  
                         <input type="text" id="fill"class="firstname" required="required" name="firstname">
                         <span>First Name</span>
                     </div>
-                    <div class="form2">  
-                        <input type="text" id="fill"class="middlename" required="required" name="middlename">
-                        <span>Middle Name</span>
-                    </div>
-                    <div class="form2">  
-                        <input type="text" id="fill" class="email" required="required" name="email">
-                        <span>Email</span>
-                    </div>
-                    <!-- <div class="form3">  
+                    <div class="form3">  
                         <input type="text" id="fill" required="required" name="address">
                         <span>Address</span>
-                    </div> -->
+                    </div>
+                    <!--<div class="form2">  
+                        <input type="text" id="fill" class="email" required="required" name="email">
+                        <span>Email</span>
+                    </div>-->
                     <div class="form4">  
                         <input type="text" id="fill" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
                         <span>Contact Number</span>
                     </div>
-                    <div class="usertype-dropdown">
+                    <div class="form5">  
+                        <input type="text" id="fill" class="balance" onkeypress="return isNumberKey(event)" required="required" name="balance">
+                        <span>Balance/Credit</span>
+                    </div>
+                    <!--<div class="usertype-dropdown">
                         <select class="select" name="usertypes" required="" >
                             <option selected disabled value="">ROLE</option>
                             <option value="Admin">ADMIN</option>
@@ -351,7 +346,7 @@ $result = mysqli_query($con, $query);
                             <option value="Custom"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
                             CUSTOM</option>
                         </select>
-                    </div>
+                    </div>-->
                     <!-- <div class="usertype-dropdown">
                         <div class="select" id="usertype">
                             <span class="selected">ROLE</span>
@@ -382,12 +377,12 @@ $result = mysqli_query($con, $query);
                 </div>   
             
                 <div class="AddButton">
-                    <button type="submit" id="adduserBtn" name="submit">ADD USER</button>
+                    <button type="submit" id="addcustomerBtn" name="submit">ADD CUSTOMER</button>
                     <!-- <input type="submit" value="ADD USER" name="submit" id="sub" onclick="showalert()"> -->
                 </div>
                 <div class="CancelButton">
                 <!-- <button type="button" id="cancel" data-dismiss="modal" aria-label="Close">CANCEL</button> -->
-                <a href="Account.php" id="cancel">CANCEL</a>   
+                <a href="Customer.php" id="cancel">CANCEL</a>   
 
                 </div>
             </div>
@@ -451,7 +446,7 @@ $result = mysqli_query($con, $query);
                     </div>
                         <div class="pageform">
                             <div class="confirmBtn">
-                                <a href="Account.php" id="registered">CONFIRM</a>   
+                                <a href="Customer.php" id="registered">CONFIRM</a>   
                             </div> 
                         </div>
                 </div>
@@ -484,12 +479,12 @@ $result = mysqli_query($con, $query);
     const regForm = document.querySelector(".form-registered");
     const regBtn = document.querySelector(".AddButton");
     var bgform = $('#form-registered');
-    var addform = $('#form-adduser1');
-    var addbtn = $("#adduserBtn");
+    var addform = $('#form-addcustomer1');
+    var addbtn = $("#addcustomerBtn");
     var message1 = $(".message");
     
     $(document).ready(function(){
-        $('#adduserFrm').submit(function(e){
+        $('#addcustomerFrm').submit(function(e){
             e.preventDefault();
 
             $.ajax({
@@ -507,7 +502,7 @@ $result = mysqli_query($con, $query);
                         bgform.show();  
                         addform.hide(); 
                         message1.hide(); 
-                        $('#adduserFrm')[0].reset();
+                        $('#addcustomerFrm')[0].reset();
 
                 }else{
                     $(".message").html('<p>'+response.message+'<p>');
@@ -617,12 +612,12 @@ $result = mysqli_query($con, $query);
     
 
     const sideMenu = document.querySelector("#aside");
-    const addForm = document.querySelector(".bg-adduserform");
+    const addForm = document.querySelector(".bg-addcustomerform");
   
     // const closeBtn = document.querySelector("#close-btn");
     const cancelBtn = document.querySelector("#cancel");
-    const addBtn = document.querySelector(".add-account");
-    const adduserBtn = document.querySelector(".AddButton");
+    const addBtn = document.querySelector(".add-customer");
+    const addcustomerBtn = document.querySelector(".AddButton");
  
     const menuBtn = document.querySelector("#menu-button");
     // const darktheme = document.querySelector('.dark-theme');
@@ -788,8 +783,8 @@ $result = mysqli_query($con, $query);
         background-size: cover;
         background-attachment: fixed;
     }  
-    /* -----------------------------------------Adduserform------------------------------------------ */
-    .bg-adduserform{
+    /* -----------------------------------------Add Customer Form------------------------------------------ */
+    .bg-addcustomerform{
         height: 100%; 
         width: 100%;
         background: rgba(0,0,0,0.7);
@@ -874,7 +869,7 @@ $result = mysqli_query($con, $query);
                 background-color: var(--color-button-hover);
                 transition: 0.5s; 
             }
-    .form-adduser1{
+    .form-addcustomer1{
         width: 500px;
         height: 100%;
         max-height: 480px;
@@ -884,7 +879,7 @@ $result = mysqli_query($con, $query);
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-top: 10px solid var(--color-solid-gray);
     }
-            .form-adduser2{
+            .form-addcustomer2{
                 display: flex;
                 font-size: .7rem;
                 flex-direction: column;
@@ -950,7 +945,7 @@ $result = mysqli_query($con, $query);
                 width: 205px;
                 height: 17px;
                 margin-left: 16rem;
-                margin-top: .395rem;
+                margin-top: 3.7rem;
                 top: -7.1rem;
             }
             .form2 input{
@@ -985,13 +980,13 @@ $result = mysqli_query($con, $query);
                 padding: 0 10px;
                 transition: .3s
             }
-            /* .form3{
+            .form3{
                 position: relative;
-                width: 405px;
+                width: 430px;
                 height: 17px;
-                margin-left: 8rem;
-                margin-top: .38rem;
-                top: -7.1rem;
+                margin-left: 2rem;
+                margin-top: 4rem;
+                top: -10rem;
             }
             .form3 input{
                 width:100%;
@@ -1009,8 +1004,8 @@ $result = mysqli_query($con, $query);
                 left: 0;
                 padding: 12px;
                 pointer-events: none;
-                font-size:  1.2em;
-                margin-top: -2.4rem;
+                font-size: 1.2em;
+                margin-top: 0.1rem;
                 margin-left: .2rem;
                 color: var(--color-solid-gray);
             }
@@ -1024,13 +1019,13 @@ $result = mysqli_query($con, $query);
                 font-size: 0.85em;
                 padding: 0 10px;
                 transition: .3s
-            } */ 
+            } 
             .form4{
                 position: relative;
                 width: 205px;
                 margin-left: 2rem;
-                margin-top: -.895rem;
-                top: -5.6rem;
+                margin-top: 1rem;
+                top: -10rem;
             }
             .form4 input{
                 width:100%;
@@ -1068,9 +1063,9 @@ $result = mysqli_query($con, $query);
                 position: relative;
                 width: 205px;
                 margin-left: 15.9rem;
-                margin-top: 1rem;
-                top: -10.93rem;
-                margin-bottom: -5rem;
+                margin-top: 5.6rem;
+                top: -20rem;
+                margin-bottom: -11.5rem;
             }
             .form5 input{
                 width:100%;
@@ -1105,7 +1100,7 @@ $result = mysqli_query($con, $query);
                 transition: .3s
             }
             /* --------------------------------------DROP DOWN------------------------------------- */
-            .usertype-dropdown{
+            /*.usertype-dropdown{
                 width: 20em;
                 position: relative;
                 margin-left: 16rem;
@@ -1237,7 +1232,7 @@ $result = mysqli_query($con, $query);
         text-align: center;
         font-family: 'Calibri', sans-serif;
         color: var(--color-solid-gray);
-        top: -8rem;
+        top: -10.5rem;
         margin-left: 2rem;
         width: 26.7rem;
         border-bottom: 2px solid var(--color-solid-gray);
@@ -1253,8 +1248,8 @@ $result = mysqli_query($con, $query);
         margin-left: 5rem; 
         background: var(--color-solid-gray);
         color: var(--color-white);
-        top: -6.4rem;
-        margin-bottom: -7.6em;
+        top: -9rem;
+        margin-bottom: -8rem;
         border-radius: 10px;
         transition: 0.5s;
         font-family: 'COCOGOOSE', sans-serif;
@@ -1279,7 +1274,7 @@ $result = mysqli_query($con, $query);
         margin: 15px;
         padding-bottom: 10px;
     }
-    .form-adduser1 .AddButton button{
+    .form-addcustomer1 .AddButton button{
         font-family: 'COCOGOOSE', sans-serif;
         padding: 10px;
         margin-top: .5vh;
@@ -1297,7 +1292,7 @@ $result = mysqli_query($con, $query);
         cursor: pointer; 
         transition: 0.5s;
     }
-    .form-adduser1 .AddButton button:hover{
+    .form-addcustomer1 .AddButton button:hover{
         background: var(--color-button-hover);
     }
     .CancelButton{
@@ -1558,7 +1553,7 @@ $result = mysqli_query($con, $query);
         transition: transform 0.2s linear;
     }
     /* ----------------------------------------MAIN---------------------------------------- */
-    .main-account{
+    .main-customer{
         width:100%;
     }
     .accTitle{
@@ -1636,7 +1631,7 @@ $result = mysqli_query($con, $query);
             position: absolute;
             left: 68%;
         }
-        .add-account{
+        .add-customer{
             display: flex;
             border: none;
             background-color: var(--color-white); 
@@ -1656,10 +1651,10 @@ $result = mysqli_query($con, $query);
             margin-top: .2rem;
             text-transform: uppercase;
         }
-        .add-account h3{
+        .add-customer h3{
             font-size: .8rem;
         }
-        .add-account:hover{
+        .add-customer:hover{
             background-color: var(--color-main); 
             color: var(--color-white);
             fill: var(--color-white);
@@ -1667,13 +1662,13 @@ $result = mysqli_query($con, $query);
             transition: 0.7s;
             border-bottom: 4px solid var(--color-maroon);
         }
-         /* ----------------------------------------Account Table---------------------------------------- */
-    main .account-container{
+         /* ----------------------------------------Customers Table---------------------------------------- */
+    main .customer-container{
         margin-top: 2rem;
         height: 500px;
         
     }
-     main .account-container table{
+     main .customer-container table{
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
         width: 100%;
@@ -1690,7 +1685,7 @@ $result = mysqli_query($con, $query);
         margin-top: -1rem;
     }
 
-    main .account-container table:hover{
+    main .customer-container table:hover{
         box-shadow: none;
         border-top: 8px solid var(--color-main);
     }
@@ -1785,7 +1780,7 @@ $result = mysqli_query($con, $query);
         border-radius: 0 0 10px 0 ;
         box-shadow: 1px 3px 1px var(--color-background);
     }
-    #aside .sidebar .account{
+    #aside .sidebar .customers{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -1881,7 +1876,7 @@ $result = mysqli_query($con, $query);
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
 
-    #aside2 .sidebar2 .account{
+    #aside2 .sidebar2 .customers{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -1920,11 +1915,11 @@ $result = mysqli_query($con, $query);
         .top-menu{
             width: 370px;
         }
-        .main-account{
+        .main-customers{
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        main .customers-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -1933,7 +1928,7 @@ $result = mysqli_query($con, $query);
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        main .customers-container table{
             width: 65vw;
             padding-left:30px;
             padding-right:30px;
@@ -1985,11 +1980,11 @@ $result = mysqli_query($con, $query);
         .top-menu{
             width: 370px;
         }
-        .main-account{
+        .main-customers{
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        main .customers-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -1998,7 +1993,7 @@ $result = mysqli_query($con, $query);
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        main .customers-container table{
             width: 65vw;
             padding-left:30px;
             padding-right:30px;
@@ -2049,11 +2044,11 @@ $result = mysqli_query($con, $query);
         .top-menu{
             width: 370px;
         }
-        .main-account{
+        .main-customers{
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        main .customers-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -2062,7 +2057,7 @@ $result = mysqli_query($con, $query);
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        main .customers-container table{
             width: 80vw;
             padding-left:30px;
             padding-right:30px;
@@ -2160,7 +2155,7 @@ $result = mysqli_query($con, $query);
             margin-right: 15px;
             cursor: pointer;
         }
-        #aside .sidebar .account{
+        #aside .sidebar .customers{
             width: 15.95rem;
             fill:  var(--color-white);
             color:  var(--color-white);
@@ -2232,11 +2227,11 @@ $result = mysqli_query($con, $query);
         .drop-menu .ul a{
             width: 8.5rem;
         }
-        .main-account{
+        .main-customers{
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        main .customers-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -2246,7 +2241,7 @@ $result = mysqli_query($con, $query);
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        main .customers-container table{
             width: 80vw;
             padding-left:30px;
             padding-right:30px;
@@ -2257,12 +2252,12 @@ $result = mysqli_query($con, $query);
             border-top: 2px solid var(--color-solid-gray);
             position: absolute;
         }
-        .add-account{
+        .add-customer{
             width: 12.7vw;
             align-items: center;
             text-align: center;
         }  
-        .add-account h3{
+        .add-customer h3{
             display: none;
         }
         .newUser-button{
