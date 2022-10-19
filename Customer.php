@@ -1785,7 +1785,7 @@ $result = mysqli_query($con, $query);
         border-radius: 0 0 10px 0 ;
         box-shadow: 1px 3px 1px var(--color-background);
     }
-    #aside .sidebar .account{
+    #aside .sidebar .customers{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -1881,7 +1881,7 @@ $result = mysqli_query($con, $query);
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
 
-    #aside2 .sidebar2 .account{
+    #aside2 .sidebar2 .customers{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -2160,7 +2160,7 @@ $result = mysqli_query($con, $query);
             margin-right: 15px;
             cursor: pointer;
         }
-        #aside .sidebar .account{
+        #aside .sidebar .customers{
             width: 15.95rem;
             fill:  var(--color-white);
             color:  var(--color-white);

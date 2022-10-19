@@ -1,8 +1,8 @@
 <?php 
 session_start();
 require "connectionDB.php";
-$response = array(); 
-echo json_encode($response); 
+$response = array('status' => 0); 
+
 
 // if(isset($_POST['submit'])){
 if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['middlename'])
@@ -50,7 +50,7 @@ if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['midd
             // $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $address, $image]);
             if($insert){
                 $response['status'] = 1;
-                $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered Successfully!";
+                // $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered Successfully!";
                 move_uploaded_file($image_tmp_name, $image_folder);
                 // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered successfully.");
             }
@@ -60,6 +60,6 @@ if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['midd
     
   
 }
-
+echo json_encode($response); 
 ?>
    
