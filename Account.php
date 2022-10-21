@@ -177,9 +177,9 @@ $result = mysqli_query($con, $query);
                 <div class="main-account">
                     <h1 class="accTitle">ACCOUNT</h1> 
                     <div class="sub-tab">
-                        <div class="user-title"> 
+                        <!-- <div class="user-title"> 
                             <h2> User Accounts </h2>
-                        </div>
+                        </div> -->
                         <div class="newUser-button"> 
                             <button type="submit" id="add-userbutton" class="add-account">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
@@ -211,6 +211,7 @@ $result = mysqli_query($con, $query);
                                     <th>Contact Number</th>
                                     <th>Role</th>
                                     <th>Picture</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
 
@@ -228,6 +229,11 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['contact_number']; ?></td>
                                         <td> <?php echo $rows['user_type']; ?></td>
                                         <td> <img src="../uploaded_image/<?php echo $rows['profile_image']; ?>" width='40px' height='40px'/></td>
+                                        <td>
+                                            <button type="submit" id="select-action" class="action-btn" name="action" onclick="actionToggle();">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m8.3 23.15-.475-3.525q-.075-.05-.163-.1-.087-.05-.162-.1l-3.325 1.4-3.7-6.525 2.8-2.125q0-.05.013-.1.012-.05.012-.125 0-.025-.012-.063-.013-.037-.013-.087l-2.8-2.125 3.7-6.45L7.5 4.575q.1-.025.188-.075.087-.05.162-.1L8.3.825h7.4l.45 3.575.2.1.2.1 3.275-1.375 3.7 6.45-2.85 2.125v.2q0 .05-.012.1-.013.05-.013.1l2.85 2.1-3.75 6.525-3.3-1.4q-.075.025-.15.087-.075.063-.125.088l-.475 3.55Zm3.65-7.4q1.575 0 2.675-1.1 1.1-1.1 1.1-2.675 0-1.55-1.1-2.663Q13.525 8.2 11.95 8.2q-1.575 0-2.675 1.112-1.1 1.113-1.1 2.663 0 1.575 1.1 2.675 1.1 1.1 2.675 1.1Zm0-2.25q-.625 0-1.075-.45-.45-.45-.45-1.075t.45-1.075q.45-.45 1.075-.45t1.075.45q.45.45.45 1.075t-.45 1.075q-.45.45-1.075.45ZM12 12Zm-.725 7.75h1.4l.375-2.6q.825-.225 1.563-.625.737-.4 1.287-1.05l2.425 1.025.7-1.25-2.075-1.575q.15-.4.225-.825.075-.425.075-.85 0-.45-.075-.875t-.2-.825l2.1-1.575-.725-1.25-2.425 1.05q-.55-.675-1.288-1.113-.737-.437-1.587-.587l-.325-2.6H11.25l-.275 2.55q-.875.2-1.637.637Q8.575 7.85 8 8.5L5.625 7.475l-.7 1.25L6.95 10.25q-.15.475-.212.887-.063.413-.063.838t.063.85q.062.425.212.9L4.925 15.25l.7 1.25L8 15.475q.625.65 1.387 1.087.763.438 1.588.613Z"/></svg>
+                                            </button>
+                                        </td>
                                     </tr>
                             </tbody>
                                     <?php
@@ -235,8 +241,10 @@ $result = mysqli_query($con, $query);
                                 ?>   
                         </table>     
                     </div>
+                     
                 </div>
             </main>
+        
             <div class="top-menu">  
                 <div class="menu-bar">
                     <button id="menu-button">
@@ -297,23 +305,29 @@ $result = mysqli_query($con, $query);
                 </div> -->
             </div>      
     </div> 
-           
+        <div class="bg-actionDropdown" id="action-bgdrop">
+            <div class="action">
+                    <h2> ACTION </h2>
+                    <button class="closeact" onclick="closeAction();">
+                        <svg id="close-action"  xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
+                    </button>
+                    <button type="button"  class="edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
+                        <h4>Edit</h4>
+                    </button>
+                    <button type="button"  class="changepass">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17q-1.688 0-3.104-.719-1.417-.719-2.375-1.927l1.062-1.083q.75 1.021 1.896 1.625Q8.625 15.5 10 15.5q2.271 0 3.885-1.615Q15.5 12.271 15.5 10t-1.615-3.885Q12.271 4.5 10 4.5q-2.292 0-3.917 1.635-1.625 1.636-1.583 3.99l1.188-1.187L6.75 10l-3 3-3-3 1.062-1.062L3 10.146q-.021-1.5.531-2.813.552-1.312 1.511-2.27Q6 4.104 7.281 3.552 8.562 3 10.021 3q1.437 0 2.708.552 1.271.552 2.219 1.5t1.5 2.219Q17 8.542 17 10q0 2.917-2.042 4.958Q12.917 17 10 17Zm-1.5-4q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
+                        <h4>Change Password</h4>
+                    </button>
+                    <button type="button" class="archive">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
+                        <h4>Archive</h4>
+                    </button>
+            </div>   
+        </div>    
     <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
         <div class="bg-adduserform" id="bg-addform">
             <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
-                <?php
-                    // if(isset($message)){
-                    //     foreach($message as $message){
-                    //         echo '
-                    //         <div class="message">
-                    //             <span>'.$message.'</span>
-                    //             <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-                    //         </div>
-                    //         ';
-                    //     }
-                    // } 
-                    ?>
-                
             <div class="form-adduser1" id="form-adduser1">
                 <h1 class="addnew-title">ADD NEW USER</h1>
             
@@ -366,12 +380,16 @@ $result = mysqli_query($con, $query);
                         </ul>
                      -->
                     <div class="form4">  
-                        <input type="password" class="password" id="fill" required="required" name="pass">
+                        <input type="password" class="password" id="pass" required="required" name="pass">
                         <span>Password</span>
                     </div>
                     <div class="form5">  
-                        <input type="password" class="confirm-password" id="fill" required="required" name="encpass">
+                        <input type="password" class="confirm-password" id="cpass" required="required" name="encpass">
                         <span>Confirm Password</span>
+                    </div>
+                    <div class="checker">
+                        <input type="checkbox" name="" onclick="myFunctionCP()" >
+                        <span>Show password</span>
                     </div>
                     <div class="profile-picture1" >
                         <h4 >Profile Picture</h4>
@@ -382,7 +400,7 @@ $result = mysqli_query($con, $query);
                 </div>   
             
                 <div class="AddButton">
-                    <button type="submit" id="adduserBtn" name="submit">ADD USER</button>
+                    <button type="submit" id="adduserBtn" name="submit">SAVE</button>
                     <!-- <input type="submit" value="ADD USER" name="submit" id="sub" onclick="showalert()"> -->
                 </div>
                 <div class="CancelButton">
@@ -462,6 +480,18 @@ $result = mysqli_query($con, $query);
 </body>
 </html>
 <script>
+    //CHANGE PASSWORD-------------------------------------------------
+function myFunctionCP(){
+        var x = document.getElementById("pass");
+        var y = document.getElementById("cpass");
+        if(x.type === 'password'){
+            x.type = "text";
+            y.type = "text";
+        }else{
+            x.type = "password";
+            y.type = "password";
+        }
+    }
     // // Get the modal
  
     // // // Get the button that opens the modal
@@ -531,9 +561,12 @@ $result = mysqli_query($con, $query);
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
     let inputs = document.querySelectorAll('#fill');
-
+    let pass = document.querySelectorAll('#pass');
+    let cpass = document.querySelectorAll('#cpass');
     btnClear.addEventListener('click', () => {
         inputs.forEach(input => input.value = '');
+        pass.forEach(input => input.value = '');
+        cpass.forEach(input => input.value = '');
     });
     // btnClear1.addEventListener('click', () => {
     //     inputs.forEach(input => input.value = '');
@@ -614,16 +647,28 @@ $result = mysqli_query($con, $query);
     //     // }
             
     // }
-    
-
+    // --------------------------------------Action Dropdown-------------------------------------- //
+    const actionsForm = document.querySelector(".bg-actionDropdown");
+    const actionsBtn = document.querySelector("#select-action");
+        // actionsBtn.addEventListener('click', () =>{
+        //     actionsForm.style.display = 'block';
+        //     })
+    function actionToggle(){
+        actionsForm.classList.toggle('bg-actionDropdown')
+    }
+        function closeAction(){
+            actionsForm.classList.toggle('bg-actionDropdown')
+        }
+            
+        const toggleMenu = document.querySelector('.drop-menu');
+            toggleMenu.classList.toggle('user2')
     const sideMenu = document.querySelector("#aside");
     const addForm = document.querySelector(".bg-adduserform");
-  
+   
     // const closeBtn = document.querySelector("#close-btn");
     const cancelBtn = document.querySelector("#cancel");
     const addBtn = document.querySelector(".add-account");
     const adduserBtn = document.querySelector(".AddButton");
- 
     const menuBtn = document.querySelector("#menu-button");
     // const darktheme = document.querySelector('.dark-theme');
     // const checkbox = document.getElementById("checkbox");
@@ -643,6 +688,7 @@ $result = mysqli_query($con, $query);
         addBtn.addEventListener('click', () =>{
             addForm.style.display = 'flex';
         })
+        
         // adduserBtn.addEventListener('click', () =>{
         //     addForm.style.display = 'flex';
         // })
@@ -668,7 +714,7 @@ $result = mysqli_query($con, $query);
 
         function tableSearch(){
     let input, filter, table, tr, lastname,
-     firstname, middlename, email, address, role, i, txtValue;
+     firstname, middlename, email, contactnum, role, i, txtValue;
 
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
@@ -680,18 +726,18 @@ $result = mysqli_query($con, $query);
         firstname = tr[i].getElementsByTagName("td")[2];
         middlename = tr[i].getElementsByTagName("td")[3];
         email = tr[i].getElementsByTagName("td")[4];
-        address = tr[i].getElementsByTagName("td")[5];
+        contactnum = tr[i].getElementsByTagName("td")[5];
         role = tr[i].getElementsByTagName("td")[7];
-        if(lastname || firstname || middlename || email || address || role){
+        if(lastname || firstname || middlename || email || contactnum || role){
             var lastname_value = lastname.textContent || lastname.innerText;
             var firstname_value = firstname.textContent || firstname.innerText;
             var middlename_value = middlename.textContent || middlename.innerText;
             var email_value = email.textContent || email.innerText;
-            var address_value = address.textContent || address.innerText;
+            var contactnum_value = contactnum.textContent || contactnum.innerText;
             var role_value = role.textContent || role.innerText;
 
             if(role_value.toUpperCase().indexOf(filter) > -1 ||
-               address_value.toUpperCase().indexOf(filter) > -1 ||
+               contactnum_value.toUpperCase().indexOf(filter) > -1 ||
                email_value.toUpperCase().indexOf(filter) > -1 ||
                middlename_value.toUpperCase().indexOf(filter) > -1 ||
                lastname_value.toUpperCase().indexOf(filter) > -1 ||
@@ -704,33 +750,47 @@ $result = mysqli_query($con, $query);
         }
     }
 }
-    const dropdowns = document.querySelectorAll(".usertype-dropdown");
-        dropdowns.forEach(dropdown =>{
-            const select = dropdown.querySelector(".select");
-            const caret = dropdown.querySelector(".caret");
-            const menu = dropdown.querySelector(".menu");
-            const options = dropdown.querySelectorAll(".menu li");
-            const selected = dropdown.querySelector(".selected");
 
-            select.addEventListener('click', () => {
-                select.classList.toggle('select-clicked');
-                caret.classList.toggle('caret-rotate');
-                menu.classList.toggle('menu-open');
-            });
-            options.forEach(option => {
-                option.addEventListener('click', () =>{
-                    select.innerText = option.innerText;
-                    select.classList.remove('select-clicked');
-                    caret.classList.remove('caret-rotate');
-                    menu.classList.remove('menu-open');
-                    options.forEach(option => {
-                        option.classList.remove('active');
-                    });
-                    option.classList.add('active');
-                });
-            });
-        });
+// function actionToggle(){
+//             const toggleAction = document.querySelector('.menu-action');
+//             toggleAction.classList.toggle('action-dropdown')
+        // }
+        // var smodal = document.getElementByClassName('action-dropdown');
+    // const dropdowns = document.querySelectorAll(".action-dropdown");
+    //     dropdowns.forEach(dropdown =>{
+    //         const select = dropdown.querySelector(".select-action");
+    //         // const caret = dropdown.querySelector(".caret");
+    //         const menu = dropdown.querySelector(".menu-action");   
+    //         // const options = dropdown.querySelectorAll(".menu-action .li");
+    //         // const selected = dropdown.querySelector(".selected-action");
 
+    //         select.addEventListener('click', () => {
+    //             select.classList.toggle('select-action-clicked');
+    //             // caret.classList.toggle('caret-rotate');
+    //             menu.classList.toggle('menu-action-open');
+                
+    //         });
+          
+            // options.forEach(option => {
+            //     option.addEventListener('click', () =>{
+            //         select.innerText = option.innerText;
+            //         select.classList.remove('select-action-clicked');
+            //         // caret.classList.remove('caret-rotate');
+            //         menu.classList.remove('menu-action-open');
+
+            //         options.forEach(option => {
+            //             option.classList.remove('active');
+            //         });
+            //         option.classList.add('active');
+            //     });
+            // });
+        // });
+        // window.onclick = function(e){
+        //         if(e.target == smodal){
+        //             modal.style.display = "none"
+        //         }
+        //     }
+// ///////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
 <style>
      :root{
@@ -754,12 +814,14 @@ $result = mysqli_query($con, $query);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
         --color-mainbutton: rgb(117, 117, 117);
         --color-button-hover: rgb(39, 170, 63);
+        --color-border-bottom: rgb(219, 219, 219);
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
         --color-tertiary: hsl(0, 0%, 25%);
         --color-main-2: rgb(60, 128, 60);
         --color-main-3: rgb(93, 163, 93);
+        --color-border-bottom: rgb(104, 104, 104);
         --color-black: white;
         --color-shadow-shadow: rgb(32, 32, 32);
         --color-aside-mobile-focus: rgb(244, 255, 246);
@@ -789,6 +851,79 @@ $result = mysqli_query($con, $query);
         background-attachment: fixed;
     }  
     /* -----------------------------------------Adduserform------------------------------------------ */
+    .bg-actionDropdown{
+        height: 100%; 
+        width: 100%;
+        background: rgba(0,0,0,0.7);
+        top: 0;
+        position: absolute;
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+        display: none;
+    }
+            .action{ 
+                position: absolute;
+                top: 50%;
+                align-items: center;
+                text-align: center;
+                /* display: none; */
+                left: 50%;
+                height: 13.5rem;
+                min-width: 20rem;
+                transform: translate(-50%, -50%);
+                background-color: var(--color-white);
+                box-shadow: 5px 7px 30px 0px var(--color-shadow-shadow);
+                border-radius: 20px;  
+             }
+             #close-action{
+                position: absolute;
+                margin-top: -5.5rem;
+                left:90%;
+                fill: var(--color-solid-gray);
+             }
+             #close-action:hover{
+                position: absolute;
+                margin-top: -5.5rem;
+                left:90%;
+                fill: #8b0000;
+                transition: .2s;
+             }
+             .action h2{
+                padding-bottom: .5rem;
+                margin-top: .5rem;
+                font-size: min(max(1.9rem, 1.1vw), 2rem);
+                color: var(--color-solid-gray);
+                font-family: 'Malberg Trial', sans-serif;
+                border-bottom:  2px solid var(--color-solid-gray);
+                margin-bottom: 1rem;
+             }
+             .action button{
+                font-family: 'arial', sans-serif;
+                padding-left: .5rem;
+                cursor: pointer;
+                transition: .5s;
+                font-size: 12px;
+                display: flex;
+                gap: .8rem;
+                width: 100%;
+                border: none;
+                background: var(--color-white);
+                align-items: center;
+                color: var(--color-solid-gray);
+                fill: var(--color-solid-gray);
+                border-radius: 20px;  
+            }
+            .action button:last-child{
+                border-top:  2px solid var(--color-solid-gray);
+            }
+            
+            .action button:hover{
+                background: linear-gradient(270deg, transparent, var(--color-secondary-main));
+                color: var(--color-main);
+                fill: var(--color-main);
+            }
+
     .bg-adduserform{
         height: 100%; 
         width: 100%;
@@ -805,13 +940,14 @@ $result = mysqli_query($con, $query);
         top: 50%;
         display: none;
         left: 50%;
-        max-height: 90vh;
+        max-height: 95vh;
         min-width: 400px;
         transform: translate(-50%, -50%);
         background-color: var(--color-white);
         border-top: 10px solid var(--color-main-3);
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-radius:  0px 0px 20px 20px;  
+           
     }
             .pageform{
                 background-color: var(--color-white);
@@ -985,46 +1121,6 @@ $result = mysqli_query($con, $query);
                 padding: 0 10px;
                 transition: .3s
             }
-            /* .form3{
-                position: relative;
-                width: 405px;
-                height: 17px;
-                margin-left: 8rem;
-                margin-top: .38rem;
-                top: -7.1rem;
-            }
-            .form3 input{
-                width:100%;
-                height: 2.5rem;
-                padding: 10px;
-                border: 2px solid var(--color-solid-gray);
-                border-radius: 15px;
-                outline: none;
-                font-size: 1em;
-                background: var(--color-white);
-                color: var(--color-black);
-            }
-            .form3 span{
-                position: absolute;
-                left: 0;
-                padding: 12px;
-                pointer-events: none;
-                font-size:  1.2em;
-                margin-top: -2.4rem;
-                margin-left: .2rem;
-                color: var(--color-solid-gray);
-            }
-            .form3 input:focus{
-                border: 2px solid var(--color-main-3);
-            }
-            .form3 input:valid ~ span,
-            .form3 input:focus ~ span{
-                color:var(--color-main-3);
-                transform: translateX(10px) translateY(1px);
-                font-size: 0.85em;
-                padding: 0 10px;
-                transition: .3s
-            } */ 
             .form4{
                 position: relative;
                 width: 205px;
@@ -1108,9 +1204,9 @@ $result = mysqli_query($con, $query);
             .usertype-dropdown{
                 width: 20em;
                 position: relative;
-                margin-left: 16rem;
                 margin-top: 1rem;
                 top: -10.9rem;
+                left: 51%;
                 margin-bottom: -5.39rem;
             }
             .select{
@@ -1124,78 +1220,43 @@ $result = mysqli_query($con, $query);
                 cursor: pointer;
                 transition: 0.3s;
             }
-            .select-clicked{
-                box-shadow: 0 0 0 1px var(--color-solid-gray);
-                background: var(--color-main-2);
-                color: white;
+            .action-dropdown{
+                position: relative;
+                margin-top: .5rem;
+                /* left: 10%; */
+                margin-bottom: .5rem
             }
-            .select:hover{
+            #select-action{
+                background: var(--color-solid-gray);
+                color: var(--color-white);
+                align-items: center;
+                border-radius: 20px;
+                height: 100%;
+                width: 70%;
+                padding: 10px;
+                cursor: pointer;
+                transition: 0.3s;
+                border: none;
+            }
+            #select-action:hover{
                 background: var(--color-main);
                 color: var(--color-white);
             }
-            /*.caret{
-                width: 0;
-                height: 0;
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-top: 6px solid var(--color-white);
-                transition: .5s;
-            }
-            .caret-rotate{
-                transform: rotate(180deg);
-                transition: .5s;
-            } */
-            .menu{
-                list-style: none;
-                padding: 0.2em 0.5em;
-                background: var(--color-solid-gray);
-                border: 1px solid var(--color-solid-gray);
-                box-shadow: 0 0 .5em .2em var(--color-main-2);
-                border-radius: 0.5em;
-                color: var(--color-white);
-                fill:var(--color-white);
-                gap: 1rem;
-                position: absolute;
-                top: 3em;
-                left: 50%;
-                width: 100%;
-                transform: translateX(-50%);
-                opacity: 0;
-                display: none;
-                z-index: 1;
-            }
-            .menu li{
-                padding: 0.7em 0.5em;
-                margin: 0.3em 0;
-                border-radius: 0.5em;
-                cursor: pointer;
-                transition: .5s;
-                font-size: 12px;
-                position: relative; 
-                align-items: center;
-            
-            }
-            .menu li:last-child{
-                font-size: 12px;
-                padding-left: -1rem;
-                display: flex;
-                align-items: center;
-                gap: .7rem;
-            }
-            .menu li:hover{
-                background: linear-gradient(270deg, transparent, var(--color-tertiary));
-                color: var(--color-main);
-
-            }
-            .active{
-                background: var(--color-main-3);
-                color: var(--color-white);
-                fill:var(--color-white);
-            }
-            .menu-open{
-                display: block;
-                opacity: 1;
-            }
+         
+    .checker {
+        text-align: right;
+        align-items: right;
+        margin-right: 3rem;
+        margin-top: -7.5rem;
+        margin-bottom: 5rem;
+    }
+    .checker span {
+        text-decoration: none;
+        color: rgb(3, 80, 3);
+        top: 0;
+        font-size: min(max(10px, 1.2vw), 12px);
+        font-family: 'Switzer', sans-serif;
+    }
     /* ------------------------------------------------------------------------------------ */
     .message{
         background-color: hsl(0, 100%, 77%);
@@ -1270,7 +1331,7 @@ $result = mysqli_query($con, $query);
     .addnew-title{
         font-size: min(max(1.9rem, 1.1vw), 2rem);
         color: var(--color-solid-gray);
-        font-family: 'Calibri', sans-serif;
+        font-family: 'Malberg Trial', sans-serif;
         letter-spacing: .09rem;
         display: flex;
         padding-top: 1rem;
@@ -1325,9 +1386,35 @@ $result = mysqli_query($con, $query);
         background-color: rgb(158, 0, 0);
         transition: 0.5s; 
     }
+
+    #action_btn {
+        font-family: 'calibri', sans-serif;
+        /* padding: 10px;
+        
+        margin-bottom: 20px;
+        margin-left: 20em; */
+        text-align: center;
+        margin-top: .5vh;
+        margin-bottom: .5vh;
+        width: 3rem;
+        height: 40px;
+        outline: none;
+        border: none;
+        font-size: min(max(10px, 1.2vw), 12px);
+        border-radius: 20px;
+        background: var(--color-solid-gray);
+        cursor: pointer; 
+        transition: 0.5s;
+    }
+    #action_btn:hover{
+        background: var(--color-button-hover);
+    }
+    .actionicon{
+        fill:  var(--color-white);
+    }
      /* ----------------------------------------Top bar menu----------------------------------------  */
     .top-menu{
-        margin-top: 1.7rem;
+        margin-top: .7rem;
     }
     .top-menu .menu-bar{
         display: flex;
@@ -1562,7 +1649,7 @@ $result = mysqli_query($con, $query);
         width:100%;
     }
     .accTitle{
-        margin-top: 50px;
+        margin-top: 2rem;
         font-size: min(max(1.9rem, 1.1vw), 2rem);
         color: var(--color-main); 
         font-family: 'COCOGOOSE', sans-serif;
@@ -1576,7 +1663,7 @@ $result = mysqli_query($con, $query);
         }
         main  h2{
             margin-bottom: -2.2rem;
-            margin-top:2rem;
+            margin-top: 1rem;
             color: var(--color-solid-gray);
             font-size: 1.3rem;
             margin-left: 3%;
@@ -1584,7 +1671,7 @@ $result = mysqli_query($con, $query);
             font-family: 'Galhau Display', sans-serif;
         }
         main .sub-tab{
-            margin-bottom: 4rem;
+            margin-bottom: 7rem;
         }
         /* ----------------------------------------Search BAR---------------------------------------- */
         .search{
@@ -1592,7 +1679,7 @@ $result = mysqli_query($con, $query);
             gap: 2rem;
             align-items: right;
             text-align: right;
-            left: 50%;
+            left: 60%;
         }
         .search-bar{
             width: 18rem;
@@ -1634,7 +1721,7 @@ $result = mysqli_query($con, $query);
         /* ----------------------------------------Add Button---------------------------------------- */
         .newUser-button{
             position: absolute;
-            left: 68%;
+            left: 16%;
         }
         .add-account{
             display: flex;
@@ -1697,7 +1784,7 @@ $result = mysqli_query($con, $query);
 
     main table tbody td{
         height: 2.8rem;
-        border-bottom: 1px solid var(--color-solid-gray);
+        border-bottom: 1px solid var(--color-border-bottom);
         color: var(--color-td); 
         font-size: .8rem;
     }
@@ -1729,7 +1816,6 @@ $result = mysqli_query($con, $query);
         left: 0;
         border-radius: 0px 30px 30px 0px;
         display: none;
-        /* border-left: 10px solid rgb(2, 80, 2);  */
     }
     #aside .title{
         display: flex;
@@ -1755,7 +1841,7 @@ $result = mysqli_query($con, $query);
         display: flex;
         flex-direction: column;
         height: 86vh;
-        position: relative;
+        /* position: relative; */
     }
     #aside h3{
         font-weight: 400;
@@ -1809,8 +1895,10 @@ $result = mysqli_query($con, $query);
         background: var(--color-table-hover);
         left: 0;
         border-radius: 0px 30px 30px 0px;
-
-        /* border-left: 10px solid rgb(2, 80, 2);  */
+        position: absolute;
+        width: 14rem;
+        margin-right: 2rem;
+        border-left: 38px solid var(--color-background); 
     }
     #aside2 .title2{
         display: flex;
@@ -1848,7 +1936,7 @@ $result = mysqli_query($con, $query);
         margin-left: 2rem;
         gap: 1rem;
         align-items: center;
-        position: relative;
+
         height: 3.7rem;
         transition: all 300ms ease;
         

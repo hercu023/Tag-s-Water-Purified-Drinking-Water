@@ -8,11 +8,14 @@
 
 ?>
 <?php
-
 $sName = "localhost";
 $uName = "root";
 $password = "";
 $db_name = "acc_db";
+// $sName = "sql313.epizy.com";
+// $uName = "epiz_32835917";
+// $password = "eO1IGue7ihE";
+// $db_name = "epiz_32835917";
 
 try {
     $conn = new PDO("mysql:host=$sName;dbname=$db_name", $uName, $password);

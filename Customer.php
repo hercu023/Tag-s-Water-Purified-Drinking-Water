@@ -177,9 +177,9 @@ $result = mysqli_query($con, $query);
                 <div class="main-customer">
                     <h1 class="accTitle">CUSTOMERS</h1> 
                     <div class="sub-tab">
-                        <div class="user-title"> 
+                        <!-- <div class="user-title"> 
                             <h2> Customers </h2>
-                        </div>
+                        </div> -->
                         <div class="newUser-button"> 
                             <button type="submit" id="add-userbutton" class="add-customer">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
@@ -212,7 +212,9 @@ $result = mysqli_query($con, $query);
                             </thead>
 
                             <?php
-                                while ($rows = mysqli_fetch_assoc($result))
+                            $customers = "SELECT * FROM customers"; 
+                            $sql = mysqli_query($con, $customers);
+                                while ($rows = mysqli_fetch_assoc($sql))
                                 {
                             ?>
                             <tbody>
@@ -377,7 +379,7 @@ $result = mysqli_query($con, $query);
                 </div>   
             
                 <div class="AddButton">
-                    <button type="submit" id="addcustomerBtn" name="submit">ADD CUSTOMER</button>
+                    <button type="submit" id="addcustomerBtn" name="submit">SAVE</button>
                     <!-- <input type="submit" value="ADD USER" name="submit" id="sub" onclick="showalert()"> -->
                 </div>
                 <div class="CancelButton">
@@ -663,7 +665,7 @@ $result = mysqli_query($con, $query);
 
         function tableSearch(){
     let input, filter, table, tr, lastname,
-     firstname, middlename, email, address, role, i, txtValue;
+     firstname, address, contactnum, i, txtValue;
 
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
@@ -673,22 +675,16 @@ $result = mysqli_query($con, $query);
     for(let i = 0; i < tr.length; i++){
         lastname = tr[i].getElementsByTagName("td")[1];
         firstname = tr[i].getElementsByTagName("td")[2];
-        middlename = tr[i].getElementsByTagName("td")[3];
-        email = tr[i].getElementsByTagName("td")[4];
-        address = tr[i].getElementsByTagName("td")[5];
-        role = tr[i].getElementsByTagName("td")[7];
-        if(lastname || firstname || middlename || email || address || role){
+        address = tr[i].getElementsByTagName("td")[3];
+        contactnum = tr[i].getElementsByTagName("td")[4];
+        if(lastname || firstname || address || contactnum){
             var lastname_value = lastname.textContent || lastname.innerText;
             var firstname_value = firstname.textContent || firstname.innerText;
-            var middlename_value = middlename.textContent || middlename.innerText;
-            var email_value = email.textContent || email.innerText;
+            var contactnum_value = contactnum.textContent || contactnum.innerText;
             var address_value = address.textContent || address.innerText;
-            var role_value = role.textContent || role.innerText;
 
-            if(role_value.toUpperCase().indexOf(filter) > -1 ||
-               address_value.toUpperCase().indexOf(filter) > -1 ||
-               email_value.toUpperCase().indexOf(filter) > -1 ||
-               middlename_value.toUpperCase().indexOf(filter) > -1 ||
+            if(address_value.toUpperCase().indexOf(filter) > -1 ||
+               contactnum_value.toUpperCase().indexOf(filter) > -1 ||
                lastname_value.toUpperCase().indexOf(filter) > -1 ||
                firstname_value.toUpperCase().indexOf(filter) > -1){
                 tr[i].style.display ="";
@@ -1322,7 +1318,7 @@ $result = mysqli_query($con, $query);
     }
      /* ----------------------------------------Top bar menu----------------------------------------  */
     .top-menu{
-        margin-top: 1.7rem;
+        margin-top: .7rem;
     }
     .top-menu .menu-bar{
         display: flex;
@@ -1557,7 +1553,7 @@ $result = mysqli_query($con, $query);
         width:100%;
     }
     .accTitle{
-        margin-top: 50px;
+        margin-top: 2rem;
         font-size: min(max(1.9rem, 1.1vw), 2rem);
         color: var(--color-main); 
         font-family: 'COCOGOOSE', sans-serif;
@@ -1571,7 +1567,7 @@ $result = mysqli_query($con, $query);
         }
         main  h2{
             margin-bottom: -2.2rem;
-            margin-top:2rem;
+            margin-top: 1rem;
             color: var(--color-solid-gray);
             font-size: 1.3rem;
             margin-left: 3%;
@@ -1579,7 +1575,7 @@ $result = mysqli_query($con, $query);
             font-family: 'Galhau Display', sans-serif;
         }
         main .sub-tab{
-            margin-bottom: 4rem;
+            margin-bottom: 7rem;
         }
         /* ----------------------------------------Search BAR---------------------------------------- */
         .search{
@@ -1587,7 +1583,7 @@ $result = mysqli_query($con, $query);
             gap: 2rem;
             align-items: right;
             text-align: right;
-            left: 50%;
+            left: 60%;
         }
         .search-bar{
             width: 18rem;
@@ -1629,7 +1625,7 @@ $result = mysqli_query($con, $query);
         /* ----------------------------------------Add Button---------------------------------------- */
         .newUser-button{
             position: absolute;
-            left: 68%;
+            left: 16%;
         }
         .add-customer{
             display: flex;
@@ -1638,7 +1634,7 @@ $result = mysqli_query($con, $query);
             align-items: center;
             color: var(--color-button); 
             fill: var(--color-button); 
-            width: 11rem;
+            width: 13rem;
             max-height: 46px;
             border-radius: 20px;
             padding: .68rem 1rem;
@@ -1804,8 +1800,10 @@ $result = mysqli_query($con, $query);
         background: var(--color-table-hover);
         left: 0;
         border-radius: 0px 30px 30px 0px;
-
-        /* border-left: 10px solid rgb(2, 80, 2);  */
+        position: absolute;
+        width: 14rem;
+        margin-right: 2rem;
+        border-left: 38px solid var(--color-background);
     }
     #aside2 .title2{
         display: flex;
