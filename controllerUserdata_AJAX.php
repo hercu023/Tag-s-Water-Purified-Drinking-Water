@@ -1,17 +1,39 @@
 <?php 
 session_start();
 require "connectionDB.php";
-$response = array(); 
+$email = "";
+$name = "";
+$lastname= "";
+$firstname= "";
+$middlename= "";
+$email= "";
+$contactnum= "";
 
+$status = 0;
+$errors = array();
+$ids = $_GET['edit'];
+// $ids = $_GET['delete'];
+$sql="Select * From users WHERE id=$ids";
+$results=mysqli_query($con,$sql);
+$rows = mysqli_fetch_assoc($results);
+$lastname=$rows['last_name'];
+$firstname=$rows['first_name'];
+ $middlename=$rows['middle_name']; 
+ $email=$rows['email']; 
+ $contact=$rows['contact_number']; 
+ $usertype=$rows['user_type']; 
+ $image=$rows['profile_image'];
+ 
+ 
+// if(isset($_POST['delete'])){
+//     $sql = "DELETE from `users` WHERE  id=$id";
+//     $results =mysqli_query($con,$sql);
+//     if($results){
 
-// if(isset($_POST['submit'])){
-if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['middlename'])
-|| isset($_POST['email']) || isset($_POST['contactnum']) || isset($_POST['usertypes']) 
-|| isset($_POST['pass']) || isset($_POST['encpass']) || isset($_POST['profile_image'])){
+//     }
+// }
+if(isset($_POST['edit'])){
 
-    
-    // $status = 0;
-    
     $lastname = $_POST['lastname'];
     $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
     $firstname = $_POST['firstname'];
@@ -23,90 +45,43 @@ if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['midd
     $contact = $_POST['contactnum'];
     $contact = filter_var($contact, FILTER_SANITIZE_STRING);
     $usertype = $_POST['usertypes'];
-    $pass = mysqli_real_escape_string($con, $_POST['pass']);
-    $encpass = mysqli_real_escape_string($con, $_POST['encpass']);
 
-    $image = $_FILES['profile_image']['name'];
-    $image_tmp_name = $_FILES['profile_image']['tmp_name'];
-    $image_size = $_FILES['profile_image']['size'];
-    $image_folder = 'uploaded_image/'.$image;
-
-    $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
-    $select->execute([$email]);
-    
-    if($select->rowCount() > 0){
-        $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist! ";
-        // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist.");
-    }else{
-        if($pass != $encpass){
-            $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password does not matched.";
-            // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password does not matched.");
-        }elseif($image_size > 2000000){
-            $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.";
-            // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.");
-        }else{
-            $cpass = password_hash($pass, PASSWORD_BCRYPT);
-            $insert = mysqli_query($con, "INSERT INTO users VALUES('','$lastname', '$firstname', '$middlename', '$email', '$cpass', '$contact', '','$usertype','', '$image')");
-            // $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $address, $image]);
-            if($insert){
-                $response['status'] = 1;
-                // $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered Successfully!";
-                move_uploaded_file($image_tmp_name, $image_folder);
-                // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered successfully.");
-            }
-        }
+    $sql ="UPDATE users SET last_name='$lastname', first_name='$firstname', middle_name='$middlename', email='$email', contact_num='$contact', user_type='$usertype'
+    WHERE id=$id";
+    $results =mysqli_query($con,$sql);
+    if($results){
+        header('location:Account.php');
+        $response['status'] = 1;
+    }
+    else{
+        die(mysqli_error($con));
+        $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Database error.";
     }
 
-    
-  
+    $old_image = $_POST['old_image'];
+    $image = $_FILES['profile_image']['last_name'];
+    $image_tmp_name = $_FILES['image']['tmp_name'];
+    $image_size = $_FILES['profile_image']['size'];
+    $image_folder = 'uploaded_image/'.$image;
+ 
+    if(!empty($image)){
+
+        if($image_size > 2000000){
+            $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>image size is too large";
+        }else{
+        $update_image = $conn->prepare("UPDATE `users` SET image = ? WHERE id = ?");
+        $update_image->execute([$image, $user_id]);
+
+            if($update_image){
+                move_uploaded_file($image_tmp_name, $image_folder);
+                unlink('uploaded_image/'.$old_image);
+                $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image updated! ";
+            }
+        }
 }
-echo json_encode($response); 
-// if (isset($_GET['edit'])){
-//     $id = $_GET['edit'];
-//     $update = true;
-//     $result = $mysqli->query("SELECT * FROM users WHERE id=$id") or die($msqli->error());
-//     if (count($result)==1){
-//         $row = $result->fetch_array();
-//         $lastname = $row['last_name'];
-//         $firstname = $row['first_name'];
-//         $middlename = $row['middle_name'];
-//         $email = $row['email'];
-//         $contactno = $row['contact_number'];
-//         $usertype = $row['user_type'];
-//     }
-// }
-
-// $id=$_GET['id'];
-
-// 	$lastname=$_POST['last_name'];
-//     $firstname=$_POST['first_name'];
-// 	$middlename=$_POST['middle_name'];
-//     $email=$_POST['email'];
-//     $contactno=$_POST['contact_number'];
-//     $usertype=$_POST['user_type'];
-
-// 	mysqli_query($conn,"update `users` set first_name='$firstname', last_name='$lastname', middle_name='$middlename', email='$email', contact_number='$contactno', user_type='$usertype' where id='$id'");
-// 	header('location:Account.php');
-
-if (isset($_GET['archive'])){
-    $id = $_GET['archive'];
-    $mysqli->query("DELETE * FROM users WHERE id=$id") or die($msqli->error());
-    // if (count($result)==1){
-    //     $row = $result->fetch_array();
-    //     $lastname = $row['last_name'];
-    //     $firstname = $row['first_name'];
-    //     $middlename = $row['middle_name'];
-    //     $email = $row['email'];
-    //     $contactno = $row['contact_number'];
-    //     $usertype = $row['user_type'];
-    // }
 }
-// $admin_id = $_SESSION['admin_id'];
-
-// if(!isset($admin_id)){
-//    header('location:login.php');
-// };
-
+// $id = $_GET['id'];
+// $user_id = $_SESSION['user_id'];
 // if(isset($_POST['update'])){
 
 //     $lastname = $_POST['lastname'];
@@ -120,53 +95,60 @@ if (isset($_GET['archive'])){
 //     $contact = $_POST['contactnum'];
 //     $contact = filter_var($contact, FILTER_SANITIZE_STRING);
 //     $usertype = $_POST['usertypes'];
-    
+
 //     $update_profile = $conn->prepare("UPDATE `users` SET name = ?, email = ? WHERE id = ?");
-//     $update_profile->execute([$lastname,  $firstname,  $middlename, $email,  $contact, $usertype, $admin_id]);
+//     $update_profile->execute([$lastname, $firstname, $middlename, $email, $contact, $usertype, $image, $user_id]);
  
 //     $old_image = $_POST['old_image'];
 //     $image = $_FILES['image']['name'];
 //     $image_tmp_name = $_FILES['image']['tmp_name'];
 //     $image_size = $_FILES['image']['size'];
-//     $image_folder = 'uploaded_img/'.$image;
- 
-//     if(!empty($image)){
- 
-//        if($image_size > 2000000){
-//           $message[] = 'image size is too large';
-//        }else{
-//           $update_image = $conn->prepare("UPDATE `users` SET image = ? WHERE id = ?");
-//           $update_image->execute([$image, $admin_id]);
- 
-//           if($update_image){
-//              move_uploaded_file($image_tmp_name, $image_folder);
-//              unlink('uploaded_img/'.$old_image);
-//              $message[] = 'image has been updated!';
-//           }
-//        }
- 
+//     $image_folder = 'uploaded_image/'.$image;
+    
+    
+    // if(!empty($image)){
+
+    //     if($image_size > 2000000){
+    //         $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>image size is too large";
+    //     }else{
+    //     $update_image = $conn->prepare("UPDATE `users` SET image = ? WHERE id = ?");
+    //     $update_image->execute([$image, $user_id]);
+
+    //         if($update_image){
+    //             move_uploaded_file($image_tmp_name, $image_folder);
+    //             unlink('uploaded_image/'.$old_image);
+    //             $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image updated! ";
+    //         }
+    //     }
+
+    //  }
+    //     $sql = "UPDATE users SET last_name ='$lastname', first_name ='$firstname', middle_name ='$middlename', email ='$email',
+    //     contact_number ='$contact', user_type ='$usertype', profile_image ='$image' WHERE id=$id";
+
+    //     $result = mysqli_query($conn, $sql);
+
+    //     if($result){
+    //         $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Record Updated";
+    //     }
+//         }
+// }
+//  if(isset($_GET['edit'])){
+//     $id = $_GET['edit'];
+//     $result = $mysqli->query("SELECT * FROM users WHERE id=$id") or die(mysqli->error());
+//     if (count($result)==1){
+//         $row = $result->fetch_array();
+//         $email = $row['email'];
+//         $lastname= $row['last_name'];
+//         $firstname= $row['first_name'];
+//         $middlename= $row['middle_name'];
+//         $contactnum= $row['contact_number'];
 //     }
- 
-//     $old_pass = $_POST['old_pass'];
-//     $previous_pass = md5($_POST['previous_pass']);
-//     $previous_pass = filter_var($previous_pass, FILTER_SANITIZE_STRING);
-//     $new_pass = md5($_POST['new_pass']);
-//     $new_pass = filter_var($new_pass, FILTER_SANITIZE_STRING);
-//     $confirm_pass = md5($_POST['confirm_pass']);
-//     $confirm_pass = filter_var($confirm_pass, FILTER_SANITIZE_STRING);
- 
-//     if(!empty($previous_pass) || !empty($new_pass) || !empty($confirm_pass)){
-//        if($previous_pass != $old_pass){
-//           $response['message'] = 'old password not matched!';
-//        }elseif($new_pass != $confirm_pass){
-//           $response['message'] = 'confirm password not matched!';
-//        }else{
-//           $response['status'] = 1;
-//           $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
-//           $update_password->execute([$confirm_pass, $admin_id]);
-//        }
-//     }
- 
-//  }
+// }
+ // if(isset($_POST['submit'])){
+if(isset($_POST['login-now'])){
+    header('Location: login.php');
+}
+$response = array(); 
+
+echo json_encode($response); 
 ?>
-   

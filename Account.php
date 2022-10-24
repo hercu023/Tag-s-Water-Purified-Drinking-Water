@@ -654,6 +654,8 @@ function myFunctionCP(){
     //         bgform.hide();
     //     });
     // // });
+
+    // Add new User Message ----------------------------------------------------------------------------------
     const regForm = document.querySelector(".form-registered");
     const regBtn = document.querySelector(".AddButton");
     var bgform = $('#form-registered');
@@ -667,7 +669,7 @@ function myFunctionCP(){
 
             $.ajax({
                 type: 'post',
-                url: 'controllerUserdata_AJAX.php',
+                url: 'controllerUserdata.php',
                 data: new FormData(this),
                 contentType: false, 
                 cache: false,
@@ -700,7 +702,7 @@ function myFunctionCP(){
                 }
             });
         });
-
+// 
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
     let inputs = document.querySelectorAll('#fill');
@@ -757,7 +759,6 @@ function myFunctionCP(){
     // const closeBtn = document.querySelector("#close-btn");
     const cancelBtn = document.querySelector("#cancel");
     const addBtn = document.querySelector(".add-account");
-    const adduserBtn = document.querySelector(".AddButton");
     const menuBtn = document.querySelector("#menu-button");
     // const darktheme = document.querySelector('.dark-theme');
     // const checkbox = document.getElementById("checkbox");
@@ -2015,23 +2016,22 @@ function myFunctionCP(){
          /* ----------------------------------------Account Table---------------------------------------- */
     main .account-container{
         margin-top: 2rem;
-        height: 500px;
-        
+        max-height: 500px;
+        overflow:auto;
+        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
+        border-top: 8px solid var(--color-table-hover);
+        border-radius: 40px;
     }
      main .account-container table{
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
         width: 100%;
         font-size: 1rem;
-        border-radius: 0px 0px 10px 10px;
         padding-left: 2.5rem;
         padding-right: 2.5rem;
         padding-bottom: 2.5rem;
         text-align: center; 
-        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
-        border-top: 8px solid var(--color-table-hover);
         transition: all 700ms ease;
-        overflow: auto;
         margin-top: -1rem;
     }
 

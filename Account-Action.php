@@ -1,5 +1,5 @@
 <?php
-require_once 'controllerUserdata.php';
+require_once 'controllerUserdata_AJAX.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
@@ -29,18 +29,17 @@ $result = mysqli_query($con, $query);
                 }
             }
         }
-        if(isset($_GET['edit'])){
-            $ids = $_GET['edit'];
-            $results = $mysqli->query("SELECT * FROM users WHERE id=$ids") or die(mysqli->error());
-            if (count($results)==1){
-                $row = $results->fetch_array();
-                $email = $row['email'];
-                $lastname= $row['last_name'];
-                $firstname= $row['first_name'];
-                $middlename= $row['middle_name'];
-                $contactnum= $row['contact_number'];
-            }
-        }
+     
+            // $results = $mysqli->query("SELECT * FROM users WHERE id=$ids") or die(mysqli->error());
+            // if (count($results)==1){
+                // $row = $results->fetch_array();
+                // $email = $row['email'];
+                // $lastname= $row['last_name'];
+                // $firstname= $row['first_name'];
+                // $middlename= $row['middle_name'];
+                // $contactnum= $row['contact_number'];
+            
+        // }
 // if(isset($_POST['update'])){
 
 //     $lastname = $_POST['lastname'];
@@ -250,9 +249,6 @@ $result = mysqli_query($con, $query);
                 <div class="main-account">
                     <h1 class="accTitle">ACCOUNT</h1> 
                     <div class="sub-tab">
-                        <!-- <div class="user-title"> 
-                            <h2> User Accounts </h2>
-                        </div> -->
                         <div class="newUser-button"> 
                             <button type="submit" id="add-userbutton" class="add-account">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
@@ -267,9 +263,6 @@ $result = mysqli_query($con, $query);
                                 </button>
                             </div>
                         </div>  
-                        <!-- <div class="popup-addAccount">
-                            
-                        </div> -->
                     </div>
                     <div class="account-container">
                         <table class="table" id="myTable"> 
@@ -280,7 +273,7 @@ $result = mysqli_query($con, $query);
                                     <th>First Name</th>
                                     <th>Middle Name</th>
                                     <th>Email</th>
-                                    <!-- <th>Address</th> -->
+
                                     <th>Contact Number</th>
                                     <th>Role</th>
                                     <th>Picture</th>
@@ -404,18 +397,17 @@ $result = mysqli_query($con, $query);
             </div>   
     
         </div>    
-     <?php 
-        $id = $_GET['id'];
-        $sql = "SELECT * FROM users WHERE id = $id LIMIT 1";
-        $result = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_assoc($result);
-     ?>
-    <form name="edit" action="controllerUserData" method="post" enctype="multipart/form-data" id="edituserFrm">
+
+        <!-- // $id = $_GET['id'];
+        // $sql = "SELECT * FROM users WHERE id = $id LIMIT 1";
+        // $result = mysqli_query($conn, $sql);
+        // $row = mysqli_fetch_assoc($result); -->
+    <form name="edit" action="" method="post" enctype="multipart/form-data" id="edituserFrm">
         <div class="bg-editDropdown" id="edit-bgdrop">
             <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
             <div class="edit-container" id="edit-container">
                 <div class="profile-pic">
-                    <img src="uploaded_image/<?= $fetch_profile['profile_image']; ?>" alt="">
+                    <img src="uploaded_image/<?php echo $image; ?>" alt="">
                 </div>
                 <h1 class="editnew-title">EDIT ACCOUNT</h1>
                 <div class="edit-container2" id="edit-container2">
@@ -436,16 +428,40 @@ $result = mysqli_query($con, $query);
                         <span>Email</span>
                     </div>
                     <div class="form4">  
-                        <input type="text" id="contactnum" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum" value="<?php echo $contactnum; ?>">
+                        <input type="text" id="contactnum" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum" value="<?php echo $contact; ?>">
                         <span>Contact Number</span>
                     </div>
                     <div class="usertype-dropdown">
                         <select class="select" id="usertype" name="usertypes" required=""  value="<?php echo $usertype; ?>">
                             <option selected disabled value="">ROLE</option>
-                            <option value="Admin">ADMIN</option>
-                            <option value="Manager">MANAGER</option>
-                            <option value="Cashier">CASHIER</option>
-                            <option value="Custom"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
+                            <option value="Admin"
+                            <?php
+                                if($usertype == 'Admin'){
+                                    echo 'Selected';
+                                }    
+                            ?>
+                            >ADMIN</option>
+                            <option value="Manager"
+                             <?php
+                                if($usertype == 'Manager'){
+                                    echo 'Selected';
+                                }    
+                            ?>
+                            >MANAGER</option>
+                            <option value="Cashier"
+                            <?php
+                                if($usertype == 'Cashier'){
+                                    echo 'Selected';
+                                }    
+                            ?>
+                            >CASHIER</option>
+                            <option value="Custom"
+                            <?php
+                                if($usertype == 'Custom'){
+                                    echo 'Selected';
+                                }    
+                            ?>
+                            ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
                             CUSTOM</option>
                         </select>
                     </div>
@@ -453,7 +469,7 @@ $result = mysqli_query($con, $query);
                         <h4 >Profile Picture</h4>
                     </div>
                     <div class="choose-profile">
-                        <input type="file" value="<?php echo $profileimage; ?>" id="image-profile" required class="box" accept="image/jpg, image/png, image/jpeg" name="old_image">
+                        <input type="file" value="<?php echo $image; ?>" id="image-profile" required class="box" accept="image/jpg, image/png, image/jpeg" name="old_image">
                     </div>
                 </div>   
             
@@ -525,7 +541,7 @@ $result = mysqli_query($con, $query);
                             </svg>
                         </div>  
                         <div class="register">  
-                            <h2>Registered Successfully</h2>
+                            <h2>User Account Updated</h2>
                         </div>
                     </div>
                         <div class="pageform">
@@ -567,34 +583,15 @@ function myFunctionCP(){
             // document.querySelector("#image-profile").value = selectedRow.children[7].textContent;
         }
     });
-    // // Get the modal
- 
-    // // // Get the button that opens the modal
-    // // var addbtn = $("#add-userbutton");
-
-    // // // Get the <span> element that closes the modal
-    // var cancelbtn = $("#cancel");
-
-    // $(document).ready(function(){
-    //     // When the user clicks the button, open the modal 
-        // addbtn.on('click', function() {
-        //     bgform.show();
-        // });
-        
-    //     // When the user clicks on <span> (x), close the modal
-    //     cancelbtn.on('click', function() {
-    //         bgform.hide();
-    //     });
-    // // });
     const regForm = document.querySelector(".form-registered");
-    const regBtn = document.querySelector(".AddButton");
+    const regBtn = document.querySelector(".EditButton");
     var bgform = $('#form-registered');
-    var addform = $('#form-adduser1');
-    var addbtn = $("#adduserBtn");
+    var addform = $('#edit-container');
+    var addbtn = $("#edituserBtn");
     var message1 = $(".message");
     
     $(document).ready(function(){
-        $('#adduserFrm').submit(function(e){
+        $('#edituserFrm').submit(function(e){
             e.preventDefault();
 
             $.ajax({
@@ -607,12 +604,18 @@ function myFunctionCP(){
                 // 'submit=1&'+$form.serialize(),
                 dataType: 'json',  
                 success: function(response){
-                    $(".message").css("display", "block");
+                    $(".edituserFrm").css("display", "block");
                     if(response.status == 1){   
                         bgform.show();  
                         addform.hide(); 
                         message1.hide(); 
-                        $('#adduserFrm')[0].reset();
+                        $('#edituserFrm')[0].reset();
+
+                    // }else  if(response.status == 2){   
+                    //     bgform.show();  
+                    //     addform.hide(); 
+                    //     message1.hide(); 
+                    //     $('#adduserFrm')[0].reset();
 
                 }else{
                     $(".message").html('<p>'+response.message+'<p>');
@@ -643,9 +646,6 @@ function myFunctionCP(){
         pass.forEach(input => input.value = '');
         cpass.forEach(input => input.value = '');
     });
-    // btnClear1.addEventListener('click', () => {
-    //     inputs.forEach(input => input.value = '');
-    // });
 
     function isNumberKey(evt){
     var charCode = (evt.which) ? evt.which : evt.keyCode
@@ -696,38 +696,15 @@ function myFunctionCP(){
         menuBtn.addEventListener('click', () =>{
             sideMenu.style.display = 'block';
         })
-        // closeBtn.addEventListener('click', () =>{
-        //     sideMenu.style.display = 'none';
-        // })
+
         cancelBtn.addEventListener('click', () =>{
             addForm.style.display = 'none';
         })
-        // if(email.value === '' || middlename.value === '' || firstname.value === '' || lastname.value === '' || contactnum.value === '' || role.value === '' || password.value === '' || confirmpassword.value === '' || profilepicture.value === ''){ 
-        // }else{
-            
-        // }
+
         addBtn.addEventListener('click', () =>{
             addForm.style.display = 'flex';
         })
         
-        // adduserBtn.addEventListener('click', () =>{
-        //     addForm.style.display = 'flex';
-        // })
-        
-        // checkbox.addEventListener( 'change', function() {
-        //     localStorage.setItem('dark-theme',this.checked);
-        //     if(this.checked) {
-        //         body.classList.add('dark-theme')
-        //     } else {
-        //         body.classList.remove('dark-theme')     
-        //     }
-        // });
-        //     document.body.classList.add('dark-theme');
-        // })
-            // if(localStorage.getItem('dark-theme')) {
-            // body.classList.add('dark-theme');
-            // }
-      
        
          function menuToggle(){
             const toggleMenu = document.querySelector('.drop-menu');
@@ -786,73 +763,14 @@ function myFunctionCP(){
             }
         }   
 }
-    // $.fn.AddNoRowsFound = function() {
-    //     if($(this).find('tbody tr:not([data-no-results-found]):visible').length > 0) {
-    //     $(this).find('tbody tr[data-no-results-found]').hide();
-    // }
-    // else {
-    //     $(this).find('tbody tr[data-no-results-found]').show();
-    // }
-    // };
-
-    // $('#myTable').AddNoRowsFound();
-
-// function actionToggle(){
-//             const toggleAction = document.querySelector('.menu-action');
-//             toggleAction.classList.toggle('action-dropdown')
-        // }
-        // var smodal = document.getElementByClassName('action-dropdown');
-    // const dropdowns = document.querySelectorAll(".action-dropdown");
-    //     dropdowns.forEach(dropdown =>{
-    //         const select = dropdown.querySelector(".select-action");
-    //         // const caret = dropdown.querySelector(".caret");
-    //         const menu = dropdown.querySelector(".menu-action");   
-            // const options = dropdown.querySelectorAll(".menu-action .li");
-            // const selected = dropdown.querySelector(".selected-action");
 
             select.addEventListener('click', () => {
                 select.classList.toggle('select-action-clicked');
-                // caret.classList.toggle('caret-rotate');
                 menu.classList.toggle('menu-action-open');
                 
             });
-          
-            // options.forEach(option => {
-            //     option.addEventListener('click', () =>{
-            //         select.innerText = option.innerText;
-            //         select.classList.remove('select-action-clicked');
-            //         // caret.classList.remove('caret-rotate');
-            //         menu.classList.remove('menu-action-open');
-
-            //         options.forEach(option => {
-            //             option.classList.remove('active');
-            //         });
-            //         option.classList.add('active');
-            //     });
-            // });
-        // });
-        // window.onclick = function(e){
-        //         if(e.target == smodal){
-        //             modal.style.display = "none"
-        //         }
-        //     }
+        
 // ///////////////////////////////////////////////////////////////////////////////////////////////////
-// $(document).ready(function(){
-//     $("#actionsSelect").on("change", function() {
-//         $(".bg-editDropdown").hide();
-//         $("#" + $(this).val()).fadeIn(200);
-//     }).change();
-// });
-// $(document).ready(function(){
-//     $('#actionsSelect').on('change', function(){
-//     	var demovalue = $(this).val(); 
-//         // $("div.bg-editDropdown").hide();
-//         $("#edit-bgdrop").show();
-//     });
-// });
-// $("#actionsSelect").on("change", function() {
-//         $("#" + $(this).val()).show().siblings();
-//     })
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>      
@@ -1318,19 +1236,6 @@ function myFunctionCP(){
             }
             
             /* --------------------------------------DROP DOWN ACTION------------------------------------- */
-            .actionBtn{
-                background: var(--color-solid-gray);
-                color: var(--color-white);
-                font-size: 18px;
-                font-family: "Font Awesome 5 Free", sans-serif;
-                font-weight: 501;
-                border-radius: 50px;
-                padding: 10px;
-                height: 2.5em;
-                width: 4rem;
-                cursor: pointer;
-                transition: 0.3s;
-            }
             .fa{
                 font-family: "Font Awesome 5 Free", sans-serif;
                 font-weight: 501;
@@ -1947,23 +1852,22 @@ function myFunctionCP(){
          /* ----------------------------------------Account Table---------------------------------------- */
     main .account-container{
         margin-top: 2rem;
-        height: 500px;
-        
+        max-height: 500px;
+        overflow:auto;
+        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
+        border-top: 8px solid var(--color-table-hover);
+        border-radius: 40px;
     }
      main .account-container table{
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
         width: 100%;
         font-size: 1rem;
-        border-radius: 0px 0px 10px 10px;
         padding-left: 2.5rem;
         padding-right: 2.5rem;
         padding-bottom: 2.5rem;
         text-align: center; 
-        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
-        border-top: 8px solid var(--color-table-hover);
         transition: all 700ms ease;
-        overflow: auto;
         margin-top: -1rem;
     }
 

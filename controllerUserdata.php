@@ -112,45 +112,45 @@ if(isset($_POST['code-verfiy'])){
     }
 }
 // $id = $_GET['id'];
-$user_id = $_SESSION['user_id'];
-if(isset($_POST['update'])){
+// $user_id = $_SESSION['user_id'];
+// if(isset($_POST['update'])){
 
-    $lastname = $_POST['lastname'];
-    $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
-    $firstname = $_POST['firstname'];
-    $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
-    $middlename = $_POST['middlename'];
-    $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
-    $email = $_POST['email'];
-    $email = filter_var($email, FILTER_SANITIZE_STRING);
-    $contact = $_POST['contactnum'];
-    $contact = filter_var($contact, FILTER_SANITIZE_STRING);
-    $usertype = $_POST['usertypes'];
+//     $lastname = $_POST['lastname'];
+//     $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
+//     $firstname = $_POST['firstname'];
+//     $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
+//     $middlename = $_POST['middlename'];
+//     $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
+//     $email = $_POST['email'];
+//     $email = filter_var($email, FILTER_SANITIZE_STRING);
+//     $contact = $_POST['contactnum'];
+//     $contact = filter_var($contact, FILTER_SANITIZE_STRING);
+//     $usertype = $_POST['usertypes'];
 
-    $update_profile = $conn->prepare("UPDATE `users` SET name = ?, email = ? WHERE id = ?");
-    $update_profile->execute([$lastname, $firstname, $middlename, $email, $contact, $usertype, $image, $user_id]);
+//     $update_profile = $conn->prepare("UPDATE `users` SET name = ?, email = ? WHERE id = ?");
+//     $update_profile->execute([$lastname, $firstname, $middlename, $email, $contact, $usertype, $image, $user_id]);
  
-    $old_image = $_POST['old_image'];
-    $image = $_FILES['image']['name'];
-    $image_tmp_name = $_FILES['image']['tmp_name'];
-    $image_size = $_FILES['image']['size'];
-    $image_folder = 'uploaded_image/'.$image;
+//     $old_image = $_POST['old_image'];
+//     $image = $_FILES['image']['name'];
+//     $image_tmp_name = $_FILES['image']['tmp_name'];
+//     $image_size = $_FILES['image']['size'];
+//     $image_folder = 'uploaded_image/'.$image;
     
     
-    if(!empty($image)){
+    // if(!empty($image)){
 
-        if($image_size > 2000000){
-            $response['message'] = 'image size is too large';
-        }else{
-        $update_image = $conn->prepare("UPDATE `users` SET image = ? WHERE id = ?");
-        $update_image->execute([$image, $user_id]);
+    //     if($image_size > 2000000){
+    //         $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>image size is too large";
+    //     }else{
+    //     $update_image = $conn->prepare("UPDATE `users` SET image = ? WHERE id = ?");
+    //     $update_image->execute([$image, $user_id]);
 
-            if($update_image){
-                move_uploaded_file($image_tmp_name, $image_folder);
-                unlink('uploaded_image/'.$old_image);
-                $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image updated! ";
-            }
-        }
+    //         if($update_image){
+    //             move_uploaded_file($image_tmp_name, $image_folder);
+    //             unlink('uploaded_image/'.$old_image);
+    //             $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image updated! ";
+    //         }
+    //     }
 
     //  }
     //     $sql = "UPDATE users SET last_name ='$lastname', first_name ='$firstname', middle_name ='$middlename', email ='$email',
@@ -161,8 +161,8 @@ if(isset($_POST['update'])){
     //     if($result){
     //         $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Record Updated";
     //     }
-        }
-}
+//         }
+// }
 //  if(isset($_GET['edit'])){
 //     $id = $_GET['edit'];
 //     $result = $mysqli->query("SELECT * FROM users WHERE id=$id") or die(mysqli->error());

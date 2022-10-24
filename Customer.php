@@ -82,7 +82,7 @@ $result = mysqli_query($con, $query);
                         <h3>MONITORING</h3>
                     </a>
                 
-                    <a href="Customer.php" class="customers">
+                    <a href="#" class="customers">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
                         <h3>CUSTOMER</h3>
                     </a>  
@@ -141,7 +141,7 @@ $result = mysqli_query($con, $query);
                         <h3>MONITORING</h3>
                     </a>
                 
-                    <a href="Customers.php" class="customers">
+                    <a href="#" class="customers">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
                         <h3>CUSTOMER</h3>
                     </a>  
@@ -208,6 +208,7 @@ $result = mysqli_query($con, $query);
                                     <th>Address</th>
                                     <th>Contact Number</th>
                                     <th>Balance/Credit</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
 
@@ -225,6 +226,11 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['address']; ?></td>
                                         <td> <?php echo $rows['contact_number']; ?></td>
                                         <td> <?php echo $rows['balance']; ?></td>
+                                        <td>
+                                            <a href="#?edit=<?php echo $rows['id']; ?>" id="select-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m8.3 23.15-.475-3.525q-.075-.05-.163-.1-.087-.05-.162-.1l-3.325 1.4-3.7-6.525 2.8-2.125q0-.05.013-.1.012-.05.012-.125 0-.025-.012-.063-.013-.037-.013-.087l-2.8-2.125 3.7-6.45L7.5 4.575q.1-.025.188-.075.087-.05.162-.1L8.3.825h7.4l.45 3.575.2.1.2.1 3.275-1.375 3.7 6.45-2.85 2.125v.2q0 .05-.012.1-.013.05-.013.1l2.85 2.1-3.75 6.525-3.3-1.4q-.075.025-.15.087-.075.063-.125.088l-.475 3.55Zm3.65-7.4q1.575 0 2.675-1.1 1.1-1.1 1.1-2.675 0-1.55-1.1-2.663Q13.525 8.2 11.95 8.2q-1.575 0-2.675 1.112-1.1 1.113-1.1 2.663 0 1.575 1.1 2.675 1.1 1.1 2.675 1.1Zm0-2.25q-.625 0-1.075-.45-.45-.45-.45-1.075t.45-1.075q.45-.45 1.075-.45t1.075.45q.45.45.45 1.075t-.45 1.075q-.45.45-1.075.45ZM12 12Zm-.725 7.75h1.4l.375-2.6q.825-.225 1.563-.625.737-.4 1.287-1.05l2.425 1.025.7-1.25-2.075-1.575q.15-.4.225-.825.075-.425.075-.85 0-.45-.075-.875t-.2-.825l2.1-1.575-.725-1.25-2.425 1.05q-.55-.675-1.288-1.113-.737-.437-1.587-.587l-.325-2.6H11.25l-.275 2.55q-.875.2-1.637.637Q8.575 7.85 8 8.5L5.625 7.475l-.7 1.25L6.95 10.25q-.15.475-.212.887-.063.413-.063.838t.063.85q.062.425.212.9L4.925 15.25l.7 1.25L8 15.475q.625.65 1.387 1.087.763.438 1.588.613Z"/></svg>
+                                            </a>
+                                        </td>
                                     </tr>
                                     <tr id="noRecordTR" style="display:none">
                                         <td colspan="6">No Record Found</td>                         
@@ -1114,6 +1120,34 @@ $result = mysqli_query($con, $query);
                 transition: .3s
             }
             /* --------------------------------------DROP DOWN------------------------------------- */
+            .action-btn{
+                background: var(--color-solid-gray);
+                color: var(--color-white);
+                align-items: center;
+                border-radius: 20px;
+                height: 5rem;
+                width: 5rem;
+                padding-top: 20px;
+                padding-bottom: 5px;
+                padding-left: 10px;
+                padding-right: 10px;
+                cursor: pointer;
+                transition: 0.3s;
+                border: none;
+                margin-bottom: 6rem
+            }
+            .action-btn:hover{
+                background: var(--color-main);
+                color: var(--color-white);
+            }
+            .fa{
+                font-family: "Font Awesome 5 Free", sans-serif;
+                font-weight: 501;
+                font-size: 14px;
+            }
+            .actionicon{
+                fill:  var(--color-white);
+            }
             /*.usertype-dropdown{
                 width: 20em;
                 position: relative;
@@ -1679,23 +1713,22 @@ $result = mysqli_query($con, $query);
          /* ----------------------------------------Customers Table---------------------------------------- */
     main .customer-container{
         margin-top: 2rem;
-        height: 500px;
-        
+        max-height: 500px;
+        overflow:auto;
+        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
+        border-top: 8px solid var(--color-table-hover);
+        border-radius: 40px;
     }
      main .customer-container table{
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
         width: 100%;
         font-size: 1rem;
-        border-radius: 0px 0px 10px 10px;
         padding-left: 2.5rem;
         padding-right: 2.5rem;
         padding-bottom: 2.5rem;
         text-align: center; 
-        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
-        border-top: 8px solid var(--color-table-hover);
         transition: all 700ms ease;
-        overflow: auto;
         margin-top: -1rem;
     }
 
