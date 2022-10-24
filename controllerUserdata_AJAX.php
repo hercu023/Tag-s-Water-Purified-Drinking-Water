@@ -61,8 +61,46 @@ if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['midd
   
 }
 echo json_encode($response); 
+// if (isset($_GET['edit'])){
+//     $id = $_GET['edit'];
+//     $update = true;
+//     $result = $mysqli->query("SELECT * FROM users WHERE id=$id") or die($msqli->error());
+//     if (count($result)==1){
+//         $row = $result->fetch_array();
+//         $lastname = $row['last_name'];
+//         $firstname = $row['first_name'];
+//         $middlename = $row['middle_name'];
+//         $email = $row['email'];
+//         $contactno = $row['contact_number'];
+//         $usertype = $row['user_type'];
+//     }
+// }
 
+// $id=$_GET['id'];
 
+// 	$lastname=$_POST['last_name'];
+//     $firstname=$_POST['first_name'];
+// 	$middlename=$_POST['middle_name'];
+//     $email=$_POST['email'];
+//     $contactno=$_POST['contact_number'];
+//     $usertype=$_POST['user_type'];
+
+// 	mysqli_query($conn,"update `users` set first_name='$firstname', last_name='$lastname', middle_name='$middlename', email='$email', contact_number='$contactno', user_type='$usertype' where id='$id'");
+// 	header('location:Account.php');
+
+if (isset($_GET['archive'])){
+    $id = $_GET['archive'];
+    $mysqli->query("DELETE * FROM users WHERE id=$id") or die($msqli->error());
+    // if (count($result)==1){
+    //     $row = $result->fetch_array();
+    //     $lastname = $row['last_name'];
+    //     $firstname = $row['first_name'];
+    //     $middlename = $row['middle_name'];
+    //     $email = $row['email'];
+    //     $contactno = $row['contact_number'];
+    //     $usertype = $row['user_type'];
+    // }
+}
 // $admin_id = $_SESSION['admin_id'];
 
 // if(!isset($admin_id)){
