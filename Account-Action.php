@@ -3,7 +3,7 @@ require_once 'controllerUserdata.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
-$mysqli = new mysqli('localhost', 'root', '','acc_db');
+// $mysqli = new mysqli('localhost', 'root', '','acc_db');
     if (isset($_POST['id'])){
 
         $id = $_POST['id'];
