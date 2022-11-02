@@ -185,8 +185,7 @@ $response = array();
 // if(isset($_POST['submit'])){
 if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['middlename'])
 || isset($_POST['email']) || isset($_POST['contactnum']) || isset($_POST['usertypes']) 
-|| isset($_POST['pass']) || isset($_POST['encpass']) || isset($_POST['profile_image'])){
-
+|| isset($_POST['pass']) || isset($_POST['ecpass']) || isset($_POST['profile_image'])){
     
     // $status = 0;
     
@@ -202,9 +201,10 @@ if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['midd
     $contact = filter_var($contact, FILTER_SANITIZE_STRING);
     $usertype = $_POST['usertypes'];
     $pass = mysqli_real_escape_string($con, $_POST['pass']);
-    $encpass = mysqli_real_escape_string($con, $_POST['encpass']);
+    $encpass = mysqli_real_escape_string($con, $_POST['ecpass']);
 
-    $image = $_FILES['profile_image']['last_name'];
+   
+    $image = $_FILES['profile_image']['name'];
     $image_tmp_name = $_FILES['profile_image']['tmp_name'];
     $image_size = $_FILES['profile_image']['size'];
     $image_folder = 'uploaded_image/'.$image;
@@ -224,7 +224,7 @@ if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['midd
             // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.");
         }else{
             $cpass = password_hash($pass, PASSWORD_BCRYPT);
-            $insert = mysqli_query($con, "INSERT INTO users VALUES('','$lastname', '$firstname', '$middlename', '$email', '$cpass', '$contact', '','$usertype','', '$image')");
+            $insert = mysqli_query($con, "INSERT INTO users VALUES('','$lastname', '$firstname', '$middlename', '$email', '$cpass', '$contact', '$usertype','', '$image')");
             // $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $address, $image]);
             if($insert){
                 $response['status'] = 1;

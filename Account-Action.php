@@ -4,7 +4,9 @@ include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
 // $mysqli = new mysqli('localhost', 'root', '','acc_db');
-    if (isset($_POST['id'])){
+// $results = mysqli_query($con, "SELECT * FROM users");
+// $row = mysqli_fetch_array($result);  
+if (isset($_POST['id'])){
 
         $id = $_POST['id'];
         
@@ -469,7 +471,8 @@ $result = mysqli_query($con, $query);
                         <h4 >Profile Picture</h4>
                     </div>
                     <div class="choose-profile">
-                        <input type="file" value="<?php echo $image; ?>" id="image-profile" required class="box" accept="image/jpg, image/png, image/jpeg" name="old_image">
+                        <input type="hidden" name="old_image" value="<?php echo $image; ?>">
+                        <input type="file" value="<?php echo $row['profile_image']; ?>" id="image-profile" accept="image/jpg, image/png, image/jpeg" name="old_image">
                     </div>
                 </div>   
             
@@ -485,7 +488,40 @@ $result = mysqli_query($con, $query);
     
         </div>  
     </form>  
- 
+    <form name="cpass" action="" method="post" enctype="multipart/form-data" id="cpassuserFrm">
+        <div class="bg-cpassDropdown" id="cpass-bgdrop">
+            <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
+            <div class="cpass-container" id="cpass-container">
+            <h1 class="cpassnew-title">CHANGE PASSWORD</h1>
+                <p>Create new password that is at least 8 characters long. Mix with numbers and symbols for a strong security.</p>
+                <div class="cpass-container2" id="cpass-container2">
+                    <input type="hidden" name="old_pass" value="<?= $fetch_profile['password']; ?>">
+                    <div class="form1-cpass">  
+                        <input type="password" class="oldpassword" id="oldpass" required="required" name="opass">
+                        <span>Current Password</span>
+                    </div> 
+                    <div class="form1-cpass">  
+                        <input type="password" class="newpassword" id="newpass" required="required" name="pass">
+                        <span>New Password</span>
+                    </div>
+                    <div class="form1-cpass">  
+                    <input type="password" class="confirm-password" id="cpass" required="required" name="encpass">
+                        <span>Confirm Password</span>
+                    </div>
+                    <div class="checker">
+                        <input type="checkbox" name="" onclick="myFunctionCP()" >
+                        <span>Show password</span>
+                    </div>
+                    <div class="cpassButton">
+                        <button type="submit" id="cpassuserBtn" name="change">SAVE</button>
+                    </div>
+                    <div class="CancelButton-cpass">
+                        <a href="Account.php" id="cancel-cpass">CANCEL</a>   
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </form>
             <div id="form-registered">
                 <div id="container-registered">
                     <div class="content">
@@ -559,14 +595,17 @@ $result = mysqli_query($con, $query);
 <script>
     //SHOW PASSWORD-------------------------------------------------
 function myFunctionCP(){
-        var x = document.getElementById("pass");
+        var x = document.getElementById("newpass");
         var y = document.getElementById("cpass");
+        var z = document.getElementById("oldpass");
         if(x.type === 'password'){
             x.type = "text";
             y.type = "text";
+            z.type = "text";
         }else{
             x.type = "password";
             y.type = "password";
+            z.type = "password";
         }
     }
     // EDIT ACCOUNT--------------------------------------------------
@@ -583,59 +622,98 @@ function myFunctionCP(){
             // document.querySelector("#image-profile").value = selectedRow.children[7].textContent;
         }
     });
-    const regForm = document.querySelector(".form-registered");
-    const regBtn = document.querySelector(".EditButton");
-    var bgform = $('#form-registered');
-    var addform = $('#edit-container');
-    var addbtn = $("#edituserBtn");
-    var message1 = $(".message");
+    // const regForm = document.querySelector(".form-registered");
+    // const regBtn = document.querySelector(".EditButton");
+    // var bgform = $('#form-registered');
+    // var addform = $('#edit-container');
+    // var addbtn = $("#edituserBtn");
+    // var message1 = $(".message");
     
-    $(document).ready(function(){
-        $('#edituserFrm').submit(function(e){
-            e.preventDefault();
+    // $(document).ready(function(){
+    //     $('#edituserFrm').submit(function(e){
+    //         e.preventDefault();
 
-            $.ajax({
-                type: 'post',
-                url: 'controllerUserdata_AJAX.php',
-                data: new FormData(this),
-                contentType: false, 
-                cache: false,
-                processData: false,
-                // 'submit=1&'+$form.serialize(),
-                dataType: 'json',  
-                success: function(response){
-                    $(".edituserFrm").css("display", "block");
-                    if(response.status == 1){   
-                        bgform.show();  
-                        addform.hide(); 
-                        message1.hide(); 
-                        $('#edituserFrm')[0].reset();
+    //         $.ajax({
+    //             type: 'post',
+    //             url: 'controllerUserdata_AJAX.php',
+    //             data: new FormData(this),
+    //             contentType: false, 
+    //             cache: false,
+    //             processData: false,
+    //             // 'submit=1&'+$form.serialize(),
+    //             dataType: 'json',  
+    //             success: function(response){
+    //                 $(".edituserFrm").css("display", "block");
+    //                 if(response.status == 1){   
+    //                     bgform.show();  
+    //                     addform.hide(); 
+    //                     message1.hide(); 
+    //                     $('#edituserFrm')[0].reset();
 
-                    // }else  if(response.status == 2){   
-                    //     bgform.show();  
-                    //     addform.hide(); 
-                    //     message1.hide(); 
-                    //     $('#adduserFrm')[0].reset();
+    //                 // }else  if(response.status == 2){   
+    //                 //     bgform.show();  
+    //                 //     addform.hide(); 
+    //                 //     message1.hide(); 
+    //                 //     $('#adduserFrm')[0].reset();
 
-                }else{
-                    $(".message").html('<p>'+response.message+'<p>');
-                }
-                    }
-                });
-            });
-            $("#image-profile").change(function(){
-                var file = this.files[0];
-                var fileType = file.type;
-                var match = ['image/jpeg', 'image/jpg', 'image/png']
+    //             }else{
+    //                 $(".message").html('<p>'+response.message+'<p>');
+    //             }
+    //                 }
+    //             });
+    //         });
+    //         $("#image-profile").change(function(){
+    //             var file = this.files[0];
+    //             var fileType = file.type;
+    //             var match = ['image/jpeg', 'image/jpg', 'image/png']
 
-                if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
-                    alert("JPEG, JPG, and PNG files only.")
-                    $("#image-profile").val('');
-                    return false;
-                }
-            });
-        });
+    //             if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
+    //                 alert("JPEG, JPG, and PNG files only.")
+    //                 $("#image-profile").val('');
+    //                 return false;
+    //             }
+    //         });
+    //     });
+    // const cpass2Btn = document.querySelector(".cpassButton");
+    // var bgform = $('#form-registered');
+    // var cpassform = $('#cpass-container');
+    // var cpassbtn = $("#cpassuserBtn");
+    // var message2 = $(".message");
+    
+    // $(document).ready(function(){
+    //     $('#cpassuserFrm').submit(function(e){
+    //         e.preventDefault();
 
+    //         $.ajax({
+    //             type: 'post',
+    //             url: 'controllerUserdata_AJAX.php',
+    //             data: new FormData(this),
+    //             contentType: false, 
+    //             cache: false,
+    //             processData: false,
+    //             // 'submit=1&'+$form.serialize(),
+    //             dataType: 'json',  
+    //             success: function(response){
+    //                 $(".cpassuserFrm").css("display", "block");
+    //                 if(response.status == 1){   
+    //                     bgform.show();  
+    //                     cpassform.hide(); 
+    //                     message2.hide(); 
+    //                     $('#cpassuserFrm')[0].reset();
+
+    //                 // }else  if(response.status == 2){   
+    //                 //     bgform.show();  
+    //                 //     addform.hide(); 
+    //                 //     message1.hide(); 
+    //                 //     $('#adduserFrm')[0].reset();
+
+    //             }else{
+    //                 $(".message").html('<p>'+response.message+'<p>');
+    //             }
+    //                 }
+    //             });
+    //         });
+    //     });
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
     let inputs = document.querySelectorAll('#fill');
@@ -681,6 +759,12 @@ function myFunctionCP(){
     //     })
     function editAction(){
         editForm.style.display = 'flex';
+        actionsForm.style.display = 'none';
+    }
+    const cpassBtn = document.querySelector(".changepass");
+    const cpassForm = document.querySelector(".bg-cpassDropdown");
+    function cpassAction(){
+        cpassForm.style.display = 'flex';
         actionsForm.style.display = 'none';
     }
     const sideMenu = document.querySelector("#aside");
@@ -764,11 +848,11 @@ function myFunctionCP(){
         }   
 }
 
-            select.addEventListener('click', () => {
-                select.classList.toggle('select-action-clicked');
-                menu.classList.toggle('menu-action-open');
+            // select.addEventListener('click', () => {
+            //     select.classList.toggle('select-action-clicked');
+            //     menu.classList.toggle('menu-action-open');
                 
-            });
+            // });
         
 // ///////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
@@ -908,7 +992,7 @@ function myFunctionCP(){
                 fill: var(--color-main);
             }
 
-    .bg-adduserform{
+    .bg-cpassDropdown{
         height: 100%; 
         width: 100%;
         background: rgba(0,0,0,0.7);
@@ -1015,6 +1099,145 @@ function myFunctionCP(){
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-top: 10px solid var(--color-solid-gray);
     }
+    .cpass-container{
+        width: 350px;
+        height: 100%;
+        max-height: 370px;
+        position: absolute;
+        border-radius:  0px 0px 20px 20px;
+        background-color: var(--color-white);
+        box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+        border-top: 10px solid var(--color-solid-gray);
+    }
+            .cpass-container2{
+                display: flex;
+                font-size: .7rem;
+                flex-direction: column;
+                font-family: 'Malberg Trial', sans-serif;
+                gap: 10px;
+                margin-bottom: 5rem;
+                align-items: center;
+                min-height: 20vh;
+            }
+            .cpass-container .cpassButton button{
+                font-family: 'COCOGOOSE', sans-serif;
+                padding: 10px;
+                margin-top: .5vh;
+                margin-bottom: 20px;
+                margin-left: 13em;
+                text-align: center;
+                width: 9rem;
+                max-height: 60px;
+                outline: none;
+                border: none;
+                font-size: min(max(9px, 1.1vw), 11px);
+                border-radius: 20px;
+                color: white;
+                background:  var(--color-mainbutton); 
+                cursor: pointer; 
+                transition: 0.5s;
+            }
+            .cpass-container .cpassButton button:hover{
+                background: var(--color-button-hover);
+            }
+            .form1-cpass{
+                position: relative;
+                width: 250px;
+            }
+            .form1-cpass input{
+                width:100%;
+                height: 2.5rem;
+                padding: 10px;
+                border: 2px solid var(--color-solid-gray);
+                border-radius: 15px;
+                outline: none;
+                font-size: 1em;
+                align-items: center;
+                background: var(--color-white);
+                color: var(--color-black);
+            }
+            .form1-cpass span{
+                position: absolute;
+                left: 0;
+                padding: 12px;
+                pointer-events: none;
+                font-size: 1.2em;
+                margin-top: 0.1rem;
+                margin-left: .2rem;
+                color:var(--color-solid-gray);
+            }
+            .form1-cpass input:focus{
+                border: 2px solid var(--color-main-3);
+            }
+            .form1-cpass input:valid ~ span,
+            .form1-cpass input:focus ~ span{
+                color: var(--color-main-3);
+                transform: translateX(10px) translateY(1px);
+                font-size: 0.9em;
+                padding: 0 10px;
+                transition: .3s
+            }
+            .cpassnew-title{
+                font-size: min(max(1.9rem, 1.1vw), 2rem);
+                color: var(--color-solid-gray);
+                font-family: 'Malberg Trial', sans-serif;
+                letter-spacing: .09rem;
+                display: flex;
+                padding-top: .5rem;
+                justify-content: center;
+                border-bottom: 2px solid var(--color-solid-gray);
+                margin: 15px;
+                padding-bottom: 10px;
+            }
+            p{
+                color: hsl(0, 0%, 53%);
+                font-size: min(max(10px, 1.2vw), 12px);
+                letter-spacing: 0.5px;
+                font-family: Helvetica, sans-serif;
+                align-items: center;
+                text-align: center;
+                margin-bottom: 2vh;
+                padding-left: 10px;
+                padding-right: 10px;
+                /* margin-left: 30px; */
+            }
+            .CancelButton-cpass{
+                margin-top: -6vh;
+                margin-left:-10rem;
+            }
+            #cancel-cpass{
+                font-family: 'COCOGOOSE', sans-serif;
+                padding: 10px;
+                padding-left: 40px;
+                padding-right: 40px;
+                text-align: center;
+                max-height: 70px;
+                outline: none;
+                border: none;
+                font-size: min(max(9px, 1.1vw), 11px);
+                border-radius: 20px;
+                color: white;
+                background: #c44242;
+                cursor: pointer; 
+                transition: 0.5s;
+            }
+            #cancel-edit:hover{
+                background-color: rgb(158, 0, 0);
+                transition: 0.5s; 
+            }
+            .checker {
+                text-align: right;
+                align-items: right;
+                margin-right: -10rem;
+            }
+            .checker span {
+                text-decoration: none;
+                color: rgb(3, 80, 3);
+                top: 50%;
+                font-size: min(max(10px, 1.2vw), 12px);
+                font-family: 'Switzer', sans-serif;
+            }
+            /* -------------------------------------------------------------------------------------------------------- */
     .edit-container{
         width: 500px;
         height: 100%;
@@ -1053,28 +1276,6 @@ function myFunctionCP(){
             }
             .edit-container .EditButton button:hover{
                 background: var(--color-button-hover);
-            }
-            .form-adduser2{
-                display: flex;
-                font-size: .7rem;
-                flex-direction: column;
-                font-family: 'Malberg Trial', sans-serif;
-                gap: 30px;
-                min-height: 20vh;
-            }
-            .error-error{
-                background-color: hsl(0, 100%, 77%);
-                color: #ffffff;
-                display: relative;
-                padding: 11px;
-                width: 70%;
-                border-radius: 6px;
-                align-items: center; 
-                text-align: center;
-                margin-left: 3.55rem;
-                font-size: min(max(9px, 1.2vw), 11px);
-                letter-spacing: 0.5px;
-                font-family: Helvetica, sans-serif;
             }
             .form1{
                 position: relative;
@@ -1308,22 +1509,8 @@ function myFunctionCP(){
                 background: var(--color-main);
                 color: var(--color-white);
             }
-         
-    .checker {
-        text-align: right;
-        align-items: right;
-        margin-right: 3rem;
-        margin-top: -7.5rem;
-        margin-bottom: 5rem;
-    }
-    .checker span {
-        text-decoration: none;
-        color: var(--color-solid-gray);
-        top: 0;
-        font-size: min(max(10px, 1.2vw), 12px);
-        font-family: 'Switzer', sans-serif;
-    }
     /* ------------------------------------------------------------------------------------ */
+    /* ---------------------------------Change Password------------------------------------ */
     .message{
         background-color: hsl(0, 100%, 77%);
         color: #ffffff;
@@ -1345,7 +1532,6 @@ function myFunctionCP(){
         z-index: 1000;
         display: none;
     }
-
     .message span{
         color:var(--white);
         font-size: .9rem;
@@ -1370,7 +1556,6 @@ function myFunctionCP(){
         border-bottom: 2px solid var(--color-solid-gray);
         margin-bottom: -5rem;
      }   
-       
     .choose-profile{
         position: relative;
         width: 20rem;
@@ -1394,44 +1579,11 @@ function myFunctionCP(){
         background: var(--color-main-2);
         transition: 0.5s;
     }
-    .addnew-title{
-        font-size: min(max(1.9rem, 1.1vw), 2rem);
-        color: var(--color-solid-gray);
-        font-family: 'Malberg Trial', sans-serif;
-        letter-spacing: .09rem;
-        display: flex;
-        padding-top: 1rem;
-        justify-content: center;
-        border-bottom: 2px solid var(--color-solid-gray);
-        margin: 15px;
-        padding-bottom: 10px;
-    }
-   
-    .form-adduser1 .AddButton button{
-        font-family: 'COCOGOOSE', sans-serif;
-        padding: 10px;
-        margin-top: .5vh;
-        margin-bottom: 20px;
-        margin-left: 20em;
-        text-align: center;
-        width: 15rem;
-        max-height: 60px;
-        outline: none;
-        border: none;
-        font-size: min(max(9px, 1.1vw), 11px);
-        border-radius: 20px;
-        color: white;
-        background:  var(--color-mainbutton); 
-        cursor: pointer; 
-        transition: 0.5s;
-    }
-    .form-adduser1 .AddButton button:hover{
-        background: var(--color-button-hover);
-    }
     .CancelButton{
         margin-top: -4.9vh;
         margin-left: 2.4em;
     }
+    
     .CloseButton{
         margin-top: 5.2vh;
         margin-left: 2.4em;

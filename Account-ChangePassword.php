@@ -1,8 +1,9 @@
 <?php
-require_once 'controllerUserdata.php';
+require_once 'controllerUserdata_AJAX.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
+// $mysqli = new mysqli('localhost', 'root', '','acc_db');
     if (isset($_POST['id'])){
 
         $id = $_POST['id'];
@@ -28,7 +29,17 @@ $result = mysqli_query($con, $query);
                 }
             }
         }
-    
+     
+            // $results = $mysqli->query("SELECT * FROM users WHERE id=$ids") or die(mysqli->error());
+            // if (count($results)==1){
+                // $row = $results->fetch_array();
+                // $email = $row['email'];
+                // $lastname= $row['last_name'];
+                // $firstname= $row['first_name'];
+                // $middlename= $row['middle_name'];
+                // $contactnum= $row['contact_number'];
+            
+        // }
 // if(isset($_POST['update'])){
 
 //     $lastname = $_POST['lastname'];
@@ -238,9 +249,6 @@ $result = mysqli_query($con, $query);
                 <div class="main-account">
                     <h1 class="accTitle">ACCOUNT</h1> 
                     <div class="sub-tab">
-                        <!-- <div class="user-title"> 
-                            <h2> User Accounts </h2>
-                        </div> -->
                         <div class="newUser-button"> 
                             <button type="submit" id="add-userbutton" class="add-account">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
@@ -255,9 +263,6 @@ $result = mysqli_query($con, $query);
                                 </button>
                             </div>
                         </div>  
-                        <!-- <div class="popup-addAccount">
-                            
-                        </div> -->
                     </div>
                     <div class="account-container">
                         <table class="table" id="myTable"> 
@@ -268,7 +273,7 @@ $result = mysqli_query($con, $query);
                                     <th>First Name</th>
                                     <th>Middle Name</th>
                                     <th>Email</th>
-                                    <!-- <th>Address</th> -->
+
                                     <th>Contact Number</th>
                                     <th>Role</th>
                                     <th>Picture</th>
@@ -291,7 +296,7 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['user_type']; ?></td>
                                         <td> <img src="<?php echo "uploaded_image/".$rows['profile_image']; ?>" width="50px"></td>
                                         <td>
-                                            <a href="Account-Action.php?edit=<?php echo $rows['id']; ?>" id="select-action" class="action-btn" name="action">
+                                             <a href="Account-Action.php" id="select-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m8.3 23.15-.475-3.525q-.075-.05-.163-.1-.087-.05-.162-.1l-3.325 1.4-3.7-6.525 2.8-2.125q0-.05.013-.1.012-.05.012-.125 0-.025-.012-.063-.013-.037-.013-.087l-2.8-2.125 3.7-6.45L7.5 4.575q.1-.025.188-.075.087-.05.162-.1L8.3.825h7.4l.45 3.575.2.1.2.1 3.275-1.375 3.7 6.45-2.85 2.125v.2q0 .05-.012.1-.013.05-.013.1l2.85 2.1-3.75 6.525-3.3-1.4q-.075.025-.15.087-.075.063-.125.088l-.475 3.55Zm3.65-7.4q1.575 0 2.675-1.1 1.1-1.1 1.1-2.675 0-1.55-1.1-2.663Q13.525 8.2 11.95 8.2q-1.575 0-2.675 1.112-1.1 1.113-1.1 2.663 0 1.575 1.1 2.675 1.1 1.1 2.675 1.1Zm0-2.25q-.625 0-1.075-.45-.45-.45-.45-1.075t.45-1.075q.45-.45 1.075-.45t1.075.45q.45.45.45 1.075t-.45 1.075q-.45.45-1.075.45ZM12 12Zm-.725 7.75h1.4l.375-2.6q.825-.225 1.563-.625.737-.4 1.287-1.05l2.425 1.025.7-1.25-2.075-1.575q.15-.4.225-.825.075-.425.075-.85 0-.45-.075-.875t-.2-.825l2.1-1.575-.725-1.25-2.425 1.05q-.55-.675-1.288-1.113-.737-.437-1.587-.587l-.325-2.6H11.25l-.275 2.55q-.875.2-1.637.637Q8.575 7.85 8 8.5L5.625 7.475l-.7 1.25L6.95 10.25q-.15.475-.212.887-.063.413-.063.838t.063.85q.062.425.212.9L4.925 15.25l.7 1.25L8 15.475q.625.65 1.387 1.087.763.438 1.588.613Z"/></svg>
                                             </a>
                                         </td>
@@ -358,87 +363,164 @@ $result = mysqli_query($con, $query);
                     </div>     
                 </div>
                
+                <!-- <div class="notifs-section">
+                    <h2 class="todeliver">To Deliver</h2>
+                    <div class="pending">
+                        <div class="deliveries-pending">
+                            <a href=#>9 Pending Deliveries</a>
+                        </div>
+                    </div>
+                </div> -->
             </div>      
     </div> 
-  
-    <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
-        <div class="bg-adduserform" id="bg-addform">
+        <div class="bg-actionDropdown" id="action-bgdrop">
+            <div class="action">
+                    <h2> ACTION </h2>
+                    <div class="CloseButton">
+                        <a href="Account.php" id="close">  
+                            <svg id="close-action"  xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
+                        </a>   
+                    </div>
+                    </button>
+                    <button type="button"  class="edit" onclick="editAction();">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
+                        <h4>Edit</h4>
+                    </button>
+                    <button type="button"  class="changepass" onclick="cpassAction();">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17q-1.688 0-3.104-.719-1.417-.719-2.375-1.927l1.062-1.083q.75 1.021 1.896 1.625Q8.625 15.5 10 15.5q2.271 0 3.885-1.615Q15.5 12.271 15.5 10t-1.615-3.885Q12.271 4.5 10 4.5q-2.292 0-3.917 1.635-1.625 1.636-1.583 3.99l1.188-1.187L6.75 10l-3 3-3-3 1.062-1.062L3 10.146q-.021-1.5.531-2.813.552-1.312 1.511-2.27Q6 4.104 7.281 3.552 8.562 3 10.021 3q1.437 0 2.708.552 1.271.552 2.219 1.5t1.5 2.219Q17 8.542 17 10q0 2.917-2.042 4.958Q12.917 17 10 17Zm-1.5-4q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
+                        <h4>Change Password</h4>
+                    </button>
+                    <button type="button" class="archive" onclick="archiveAction();">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
+                        <h4>Archive</h4>
+                    </button>
+            </div>   
+    
+        </div>    
+
+        <!-- // $id = $_GET['id'];
+        // $sql = "SELECT * FROM users WHERE id = $id LIMIT 1";
+        // $result = mysqli_query($conn, $sql);
+        // $row = mysqli_fetch_assoc($result); -->
+    <form name="edit" action="" method="post" enctype="multipart/form-data" id="edituserFrm">
+        <div class="bg-editDropdown" id="edit-bgdrop">
             <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
-            <div class="form-adduser1" id="form-adduser1">
-                <h1 class="addnew-title">ADD NEW USER</h1>
-            
-                <div class="form-adduser2" id="form-adduser2">
+            <div class="edit-container" id="edit-container">
+                <div class="profile-pic">
+                    <img src="uploaded_image/<?php echo $image; ?>" alt="">
+                </div>
+                <h1 class="editnew-title">EDIT ACCOUNT</h1>
+                <div class="edit-container2" id="edit-container2">
                     <div class="form1">  
-                        <input type="text" id="fill"class="lastname" required="required" name="lastname">
+                        <input type="text" id="lastname"class="lastname" required="required" name="lastname" value="<?php echo $lastname; ?>">
                         <span>Last Name</span>
                     </div> 
                     <div class="form1">  
-                        <input type="text" id="fill"class="firstname" required="required" name="firstname">
+                        <input type="text" id="firstname"class="firstname" required="required" name="firstname" value="<?php echo $firstname; ?>">
                         <span>First Name</span>
                     </div>
                     <div class="form2">  
-                        <input type="text" id="fill"class="middlename" required="" name="middlename">
+                        <input type="text" id="middlename"class="middlename" required="required" name="middlename" value="<?php echo $middlename; ?>">
                         <span>Middle Name</span>
                     </div>
                     <div class="form2">  
-                        <input type="text" id="fill" class="email" required="required" name="email">
+                        <input type="text" id="email" class="email" required="required" name="email" value="<?php echo $email; ?>">
                         <span>Email</span>
                     </div>
                     <div class="form4">  
-                        <input type="text" id="fill" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
+                        <input type="text" id="contactnum" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum" value="<?php echo $contact; ?>">
                         <span>Contact Number</span>
                     </div>
                     <div class="usertype-dropdown">
-                        <select class="select" name="usertypes" required="" >
+                        <select class="select" id="usertype" name="usertypes" required=""  value="<?php echo $usertype; ?>">
                             <option selected disabled value="">ROLE</option>
-                            <option value="Admin">ADMIN</option>
-                            <option value="Manager">MANAGER</option>
-                            <option value="Cashier">CASHIER</option>
-                            <option value="Custom"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
+                            <option value="Admin"
+                            <?php
+                                if($usertype == 'Admin'){
+                                    echo 'Selected';
+                                }    
+                            ?>
+                            >ADMIN</option>
+                            <option value="Manager"
+                             <?php
+                                if($usertype == 'Manager'){
+                                    echo 'Selected';
+                                }    
+                            ?>
+                            >MANAGER</option>
+                            <option value="Cashier"
+                            <?php
+                                if($usertype == 'Cashier'){
+                                    echo 'Selected';
+                                }    
+                            ?>
+                            >CASHIER</option>
+                            <option value="Custom"
+                            <?php
+                                if($usertype == 'Custom'){
+                                    echo 'Selected';
+                                }    
+                            ?>
+                            ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
                             CUSTOM</option>
                         </select>
-                    </div>
-                    <!-- <div class="usertype-dropdown">
-                        <div class="select" id="usertype">
-                            <span class="selected">ROLE</span>
-                            <div class="caret"></div>
-                        </div> 
-                        <ul class="menu" name="usertypes" required="required" >
-                            <li class="active">Admin</li>
-                            <li>Manager</li>
-                            <li>Cashier</li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
-                            Custom</li>
-                        </ul>
-                     -->
-                    <div class="form4">  
-                        <input type="password" class="password" id="pass" required="required" name="pass">
-                        <span>Password</span>
-                    </div>
-                    <div class="form5">  
-                        <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass">
-                        <span>Confirm Password</span>
-                    </div>
-                    <div class="checker">
-                        <input type="checkbox" name="" onclick="myFunctionCP()" >
-                        <span>Show password</span>
                     </div>
                     <div class="profile-picture1" >
                         <h4 >Profile Picture</h4>
                     </div>
                     <div class="choose-profile">
-                        <input type="file" id="image-profile" name="profile_image" required class="box" accept="image/jpg, image/png, image/jpeg" >
+                        <input type="file" value="<?php echo $image; ?>" id="image-profile" required class="box" accept="image/jpg, image/png, image/jpeg" name="old_image">
                     </div>
                 </div>   
             
-                <div class="AddButton">
-                    <button type="submit" id="adduserBtn" name="submit">SAVE</button>
-                    <!-- <input type="submit" value="ADD USER" name="submit" id="sub" onclick="showalert()"> -->
+                <div class="EditButton">
+                    <button type="submit" id="edituserBtn" name="update">SAVE</button>
                 </div>
                 <div class="CancelButton">
-                <!-- <button type="button" id="cancel" data-dismiss="modal" aria-label="Close">CANCEL</button> -->
                 <a href="Account.php" id="cancel">CANCEL</a>   
 
+                </div>
+            </div>
+            </div>   
+    
+        </div>  
+    </form>  
+    <div id="cpass-container">
+                <div class="cpass-dividecolor">
+                    <h2>Change Password</h2>
+                    <p>Create new password that is at least 8 characters long. <br> Mix with numbers and symbols for a strong security.</p>
+                </div>
+                <div class="pageform">
+                    <form action="changePassword.php" method="post" autocomplete="off">
+                                <?php if (isset($_GET['error'])) { ?>
+                                    <p class="error-error"><?php echo $_GET['error']; ?></p>
+                                <?php } ?>
+                                <div class="txt_field">
+                                    <input type="password" id="oldpass" name="oldpassword" required>
+                                    <span></span>
+                                    <label for="password">Current Password</label>  
+                                </div>         
+                                <div class="txt_field">
+                                    <input type="password" id="pass" name="newpassword" required>
+                                    <span></span>
+                                    <label for="password">New Password</label>  
+                                </div>
+                                <div class="txt_field">  
+                                    <input type="password" id="changepass" name="confirmPassword" required>
+                                    <span></span>
+                                    <label for="password">Confirm Password</label> 
+                                </div>
+                                <div class="checker">
+                                    <input type="checkbox" name="" onclick="myFunctionCP()" >
+                                    <span>Show password</span>
+                                </div>
+                                <div class="confirmbtn">
+                                    <input type="submit" value="SAVE" name="Change-Password" class="confirm">
+                                    <a href="Account.php" id="cancel">CANCEL</a>
+                                </div>   
+                                
+                        </div>
+                    </form>
                 </div>
             </div>
             <div id="form-registered">
@@ -496,7 +578,7 @@ $result = mysqli_query($con, $query);
                             </svg>
                         </div>  
                         <div class="register">  
-                            <h2>Registered Successfully</h2>
+                            <h2>User Account Updated</h2>
                         </div>
                     </div>
                         <div class="pageform">
@@ -525,55 +607,33 @@ function myFunctionCP(){
         }
     }
     // EDIT ACCOUNT--------------------------------------------------
-    
-    // document.querySelector("#myTable"),addEventListener("click", (e)=>{
-    //     target = e.target;
-    //     if(target.classList.contains("action-btn")){
-    //         selectedRow = target.parentElement.parentElement;
-    //         document.querySelector("#lastname").value = selectedRow.children[1].textContent;
-    //         document.querySelector("#firstname").value = selectedRow.children[2].textContent;
-    //         document.querySelector("#middlename").value = selectedRow.children[3].textContent;
-    //         document.querySelector("#email").value = selectedRow.children[4].textContent;
-    //         document.querySelector("#contactnum").value = selectedRow.children[5].textContent;
-    //         // document.querySelector("#usertype").value = selectedRow.children[6].textContent;
-    //         // document.querySelector("#image-profile").value = selectedRow.children[7].textContent;
-    //     }
-    // });
-    // // Get the modal
- 
-    // // // Get the button that opens the modal
-    // // var addbtn = $("#add-userbutton");
-
-    // // // Get the <span> element that closes the modal
-    // var cancelbtn = $("#cancel");
-
-    // $(document).ready(function(){
-    //     // When the user clicks the button, open the modal 
-        // addbtn.on('click', function() {
-        //     bgform.show();
-        // });
-        
-    //     // When the user clicks on <span> (x), close the modal
-    //     cancelbtn.on('click', function() {
-    //         bgform.hide();
-    //     });
-    // // });
-
-    // Add new User Message ----------------------------------------------------------------------------------
+    document.querySelector("#myTable"),addEventListener("click", (e)=>{
+        target = e.target;
+        if(target.classList.contains("action-btn")){
+            selectedRow = target.parentElement.parentElement;
+            document.querySelector("#lastname").value = selectedRow.children[1].textContent;
+            document.querySelector("#firstname").value = selectedRow.children[2].textContent;
+            document.querySelector("#middlename").value = selectedRow.children[3].textContent;
+            document.querySelector("#email").value = selectedRow.children[4].textContent;
+            document.querySelector("#contactnum").value = selectedRow.children[5].textContent;
+            // document.querySelector("#usertype").value = selectedRow.children[6].textContent;
+            // document.querySelector("#image-profile").value = selectedRow.children[7].textContent;
+        }
+    });
     const regForm = document.querySelector(".form-registered");
-    const regBtn = document.querySelector(".AddButton");
+    const regBtn = document.querySelector(".EditButton");
     var bgform = $('#form-registered');
-    var addform = $('#form-adduser1');
-    var addbtn = $("#adduserBtn");
+    var addform = $('#edit-container');
+    var addbtn = $("#edituserBtn");
     var message1 = $(".message");
     
     $(document).ready(function(){
-        $('#adduserFrm').submit(function(e){
+        $('#edituserFrm').submit(function(e){
             e.preventDefault();
 
             $.ajax({
                 type: 'post',
-                url: 'controllerUserdata.php',
+                url: 'controllerUserdata_AJAX.php',
                 data: new FormData(this),
                 contentType: false, 
                 cache: false,
@@ -581,12 +641,18 @@ function myFunctionCP(){
                 // 'submit=1&'+$form.serialize(),
                 dataType: 'json',  
                 success: function(response){
-                    $(".message").css("display", "block");
+                    $(".edituserFrm").css("display", "block");
                     if(response.status == 1){   
                         bgform.show();  
                         addform.hide(); 
                         message1.hide(); 
-                        $('#adduserFrm')[0].reset();
+                        $('#edituserFrm')[0].reset();
+
+                    // }else  if(response.status == 2){   
+                    //     bgform.show();  
+                    //     addform.hide(); 
+                    //     message1.hide(); 
+                    //     $('#adduserFrm')[0].reset();
 
                 }else{
                     $(".message").html('<p>'+response.message+'<p>');
@@ -604,10 +670,9 @@ function myFunctionCP(){
                     $("#image-profile").val('');
                     return false;
                 }
+            });
         });
-    });
-    
-// 
+
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
     let inputs = document.querySelectorAll('#fill');
@@ -618,9 +683,6 @@ function myFunctionCP(){
         pass.forEach(input => input.value = '');
         cpass.forEach(input => input.value = '');
     });
-    // btnClear1.addEventListener('click', () => {
-    //     inputs.forEach(input => input.value = '');
-    // });
 
     function isNumberKey(evt){
     var charCode = (evt.which) ? evt.which : evt.keyCode
@@ -664,44 +726,22 @@ function myFunctionCP(){
     // const closeBtn = document.querySelector("#close-btn");
     const cancelBtn = document.querySelector("#cancel");
     const addBtn = document.querySelector(".add-account");
+    const adduserBtn = document.querySelector(".AddButton");
     const menuBtn = document.querySelector("#menu-button");
     // const darktheme = document.querySelector('.dark-theme');
     // const checkbox = document.getElementById("checkbox");
         menuBtn.addEventListener('click', () =>{
             sideMenu.style.display = 'block';
         })
-        // closeBtn.addEventListener('click', () =>{
-        //     sideMenu.style.display = 'none';
-        // })
+
         cancelBtn.addEventListener('click', () =>{
             addForm.style.display = 'none';
         })
-        // if(email.value === '' || middlename.value === '' || firstname.value === '' || lastname.value === '' || contactnum.value === '' || role.value === '' || password.value === '' || confirmpassword.value === '' || profilepicture.value === ''){ 
-        // }else{
-            
-        // }
+
         addBtn.addEventListener('click', () =>{
             addForm.style.display = 'flex';
         })
         
-        // adduserBtn.addEventListener('click', () =>{
-        //     addForm.style.display = 'flex';
-        // })
-        
-        // checkbox.addEventListener( 'change', function() {
-        //     localStorage.setItem('dark-theme',this.checked);
-        //     if(this.checked) {
-        //         body.classList.add('dark-theme')
-        //     } else {
-        //         body.classList.remove('dark-theme')     
-        //     }
-        // });
-        //     document.body.classList.add('dark-theme');
-        // })
-            // if(localStorage.getItem('dark-theme')) {
-            // body.classList.add('dark-theme');
-            // }
-      
        
          function menuToggle(){
             const toggleMenu = document.querySelector('.drop-menu');
@@ -760,73 +800,14 @@ function myFunctionCP(){
             }
         }   
 }
-    // $.fn.AddNoRowsFound = function() {
-    //     if($(this).find('tbody tr:not([data-no-results-found]):visible').length > 0) {
-    //     $(this).find('tbody tr[data-no-results-found]').hide();
-    // }
-    // else {
-    //     $(this).find('tbody tr[data-no-results-found]').show();
-    // }
-    // };
 
-    // $('#myTable').AddNoRowsFound();
-
-// function actionToggle(){
-//             const toggleAction = document.querySelector('.menu-action');
-//             toggleAction.classList.toggle('action-dropdown')
-        // }
-        // var smodal = document.getElementByClassName('action-dropdown');
-    // const dropdowns = document.querySelectorAll(".action-dropdown");
-    //     dropdowns.forEach(dropdown =>{
-    //         const select = dropdown.querySelector(".select-action");
-    //         // const caret = dropdown.querySelector(".caret");
-    //         const menu = dropdown.querySelector(".menu-action");   
-            // const options = dropdown.querySelectorAll(".menu-action .li");
-            // const selected = dropdown.querySelector(".selected-action");
-
-            // select.addEventListener('click', () => {
-            //     select.classList.toggle('select-action-clicked');
-            //     // caret.classList.toggle('caret-rotate');
-            //     menu.classList.toggle('menu-action-open');
+            select.addEventListener('click', () => {
+                select.classList.toggle('select-action-clicked');
+                menu.classList.toggle('menu-action-open');
                 
-            // });
-          
-            // options.forEach(option => {
-            //     option.addEventListener('click', () =>{
-            //         select.innerText = option.innerText;
-            //         select.classList.remove('select-action-clicked');
-            //         // caret.classList.remove('caret-rotate');
-            //         menu.classList.remove('menu-action-open');
-
-            //         options.forEach(option => {
-            //             option.classList.remove('active');
-            //         });
-            //         option.classList.add('active');
-            //     });
-            // });
-        // });
-        // window.onclick = function(e){
-        //         if(e.target == smodal){
-        //             modal.style.display = "none"
-        //         }
-        //     }
+            });
+        
 // ///////////////////////////////////////////////////////////////////////////////////////////////////
-// $(document).ready(function(){
-//     $("#actionsSelect").on("change", function() {
-//         $(".bg-editDropdown").hide();
-//         $("#" + $(this).val()).fadeIn(200);
-//     }).change();
-// });
-// $(document).ready(function(){
-//     $('#actionsSelect').on('change', function(){
-//     	var demovalue = $(this).val(); 
-//         // $("div.bg-editDropdown").hide();
-//         $("#edit-bgdrop").show();
-//     });
-// });
-// $("#actionsSelect").on("change", function() {
-//         $("#" + $(this).val()).show().siblings();
-//     })
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>      
@@ -900,7 +881,6 @@ function myFunctionCP(){
         display: flex;
         align-items: center; 
         justify-content: center;
-        display: none;
     }
             .action{ 
                 position: absolute;
@@ -1293,19 +1273,6 @@ function myFunctionCP(){
             }
             
             /* --------------------------------------DROP DOWN ACTION------------------------------------- */
-            .actionBtn{
-                background: var(--color-solid-gray);
-                color: var(--color-white);
-                font-size: 18px;
-                font-family: "Font Awesome 5 Free", sans-serif;
-                font-weight: 501;
-                border-radius: 50px;
-                padding: 10px;
-                height: 2.5em;
-                width: 4rem;
-                cursor: pointer;
-                transition: 0.3s;
-            }
             .fa{
                 font-family: "Font Awesome 5 Free", sans-serif;
                 font-weight: 501;
@@ -1358,32 +1325,49 @@ function myFunctionCP(){
                 /* left: 10%; */
                 margin-bottom: .5rem
             }
-            #select-action{
+            .action-btn{
                 background: var(--color-solid-gray);
                 color: var(--color-white);
                 align-items: center;
                 border-radius: 20px;
-                height: 100%;
-                width: 70%;
+                height: 5rem;
+                width: 5rem;
                 padding-top: 20px;
                 padding-bottom: 5px;
-                padding-right: 10px;
                 padding-left: 10px;
+                padding-right: 10px;
                 cursor: pointer;
                 transition: 0.3s;
                 border: none;
+                margin-bottom: 6rem
             }
-            #select-action:hover{
+            .action-btn:hover{
                 background: var(--color-main);
                 color: var(--color-white);
             }
-         
+    /* ------------------------------------------------------------------------------------ */
+    /* ---------------------------------Change Password------------------------------------ */
+    .pageform{
+        background-color: white;
+        border-radius: 0px 0px 10px 10px;
+        border-top: 2px solid hsl(0, 0%, 86%);
+    } 
+    .error-error{
+        background-color: hsl(0, 100%, 77%);
+        color: #ffffff;
+        padding: 11px;
+        width: 92%;
+        margin-left: 3px;
+        border-radius: 3px;
+        font-size: min(max(9px, 1.2vw), 11px);
+        letter-spacing: 0.5px;
+        font-family: Helvetica, sans-serif;
+    }
     .checker {
+        margin-top: 10px;
         text-align: right;
         align-items: right;
-        margin-right: 3rem;
-        margin-top: -7.5rem;
-        margin-bottom: 5rem;
+        margin-right: 10px;
     }
     .checker span {
         text-decoration: none;
@@ -1392,7 +1376,6 @@ function myFunctionCP(){
         font-size: min(max(10px, 1.2vw), 12px);
         font-family: 'Switzer', sans-serif;
     }
-    /* ------------------------------------------------------------------------------------ */
     .message{
         background-color: hsl(0, 100%, 77%);
         color: #ffffff;
