@@ -44,7 +44,8 @@ $result = mysqli_query($con, $query);
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <title>Inventory</title>
+        <title>Tag's Water Purified Drinking Water</title>
+
         <!-- <script src="./index.js"></script> -->
     </head>
     <body >
@@ -512,45 +513,45 @@ $result = mysqli_query($con, $query);
     var addbtn = $("#addcustomerBtn");
     var message1 = $(".message");
     
-    $(document).ready(function(){
-        $('#addcustomerFrm').submit(function(e){
-            e.preventDefault();
+    // $(document).ready(function(){
+    //     $('#addcustomerFrm').submit(function(e){
+    //         e.preventDefault();
 
-            $.ajax({
-                type: 'post',
-                url: 'controllerUserdata.php',
-                data: new FormData(this),
-                contentType: false, 
-                cache: false,
-                processData: false,
-                // 'submit=1&'+$form.serialize(),
-                dataType: 'json',  
-                success: function(response){
-                    $(".message").css("display", "block");
-                    if(response.status == 1){   
-                        bgform.show();  
-                        addform.hide(); 
-                        message1.hide(); 
-                        $('#addcustomerFrm')[0].reset();
+    //         $.ajax({
+    //             type: 'post',
+    //             url: 'controllerUserdata.php',
+    //             data: new FormData(this),
+    //             contentType: false, 
+    //             cache: false,
+    //             processData: false,
+    //             // 'submit=1&'+$form.serialize(),
+    //             dataType: 'json',  
+    //             success: function(response){
+    //                 $(".message").css("display", "block");
+    //                 if(response.status == 1){   
+    //                     bgform.show();  
+    //                     addform.hide(); 
+    //                     message1.hide(); 
+    //                     $('#addcustomerFrm')[0].reset();
 
-                }else{
-                    $(".message").html('<p>'+response.message+'<p>');
-                }
-                    }
-                });
-            });
-            $("#image-profile").change(function(){
-                var file = this.files[0];
-                var fileType = file.type;
-                var match = ['image/jpeg', 'image/jpg', 'image/png']
+    //             }else{
+    //                 $(".message").html('<p>'+response.message+'<p>');
+    //             }
+    //                 }
+    //             });
+    //         });
+    //         $("#image-profile").change(function(){
+    //             var file = this.files[0];
+    //             var fileType = file.type;
+    //             var match = ['image/jpeg', 'image/jpg', 'image/png']
 
-                if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
-                    alert("JPEG, JPG, and PNG files only.")
-                    $("#image-profile").val('');
-                    return false;
-                }
-            });
-        });
+    //             if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
+    //                 alert("JPEG, JPG, and PNG files only.")
+    //                 $("#image-profile").val('');
+    //                 return false;
+    //             }
+    //         });
+    //     });
 
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
@@ -1755,7 +1756,7 @@ $result = mysqli_query($con, $query);
         overflow:auto;
         box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
         border-top: 8px solid var(--color-table-hover);
-        border-radius: 40px;
+        border-radius: 0px 0px 40px 40px;
     }
      main .inventory-container table{
         background: var(--color-white);

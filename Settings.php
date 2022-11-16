@@ -54,7 +54,7 @@ include 'connectionDB.php';
         <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
            <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-        <title>Home</title>
+        <title>Tag's Water Purified Drinking Water</title>
         <script src="./index.js"></script>
     </head>
     <body>

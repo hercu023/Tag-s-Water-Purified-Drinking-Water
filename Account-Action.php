@@ -1,5 +1,6 @@
 <?php
-require_once 'controllerUserdata_AJAX.php';
+session_start();
+require_once 'controllerUserdata_action.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
@@ -31,78 +32,159 @@ if (isset($_POST['id'])){
                 }
             }
         }
-     
-            // $results = $mysqli->query("SELECT * FROM users WHERE id=$ids") or die(mysqli->error());
-            // if (count($results)==1){
-                // $row = $results->fetch_array();
-                // $email = $row['email'];
-                // $lastname= $row['last_name'];
-                // $firstname= $row['first_name'];
-                // $middlename= $row['middle_name'];
-                // $contactnum= $row['contact_number'];
+        // $id = $_GET['edit'];
+        // $sqls="Select * From users WHERE id=$id";
+        // $results=mysqli_query($con,$sqls);
+        // $rows = mysqli_fetch_assoc($results);
+        // $lastname=$rows['last_name'];
+        // $firstname=$rows['first_name'];
+        // $middlename=$rows['middle_name']; 
+        // $email=$rows['email']; 
+        // $contact=$rows['contact_number']; 
+        // $usertype=$rows['user_type']; 
+        // $image=$rows['profile_image'];
+         
+            if(isset($_POST['user_id']) || isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['middlename'])
+             || isset($_POST['contactnum']) || isset($_POST['usertypes']) 
+             || isset($_FILES['profileimage']['name']) && ($_FILES['profileimage']['name']!="")){
+                
+                $userid = $_POST['user_id'];
+                $lastname = $_POST['lastname'];
+                $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
+                $firstname = $_POST['firstname'];
+                $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
+                $middlename = $_POST['middlename'];
+                $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
+                $contact = $_POST['contactnum'];
+                $contact = filter_var($contact, FILTER_SANITIZE_STRING);
+                $usertype = $_POST['usertypes'];
+        
+                $old_image = $_POST['old_image'];
+                $image = $_FILES['profileimage']['name'];
+                $image_tmp_name = $_FILES['profileimage']['tmp_name'];
+                $image_size = $_FILES['profileimage']['size'];
+                $image_type = $_FILES['profileimage']['type'];
+        
+                $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
+                $select->execute([$email]);
+                
+                        $result =mysqli_query($con, "UPDATE users SET last_name='$lastname', first_name='$firstname', 
+                        middle_name='$middlename', contact_number='$contact', user_type='$usertype' WHERE id='$userid'");
+                       
+                        if($result){
+                                move_uploaded_file($image_tmp_name, "uploaded_image/$image");
+                                header("Location: Account-Updated-Success.php");
+                                // $response['status'] = 1;
+                        }
+                        if(!empty($image)){
+                    
+                                $update_image =mysqli_query($con, "UPDATE users SET profile_image ='$image' WHERE id='$id'");
+                                if($result){
+                                    move_uploaded_file($image_tmp_name, "uploaded_image/$image");
+                                    header("Location: Account-Updated-Success.php");
+                                    // $response['status'] = 1;
+        
+                                }
+        
+                        }
+            }
             
-        // }
-// if(isset($_POST['update'])){
+        // $id = $_GET['edit'];
+        // if (isset($_POST['id'])){
+        //     $id = $_POST['id'];
 
-//     $lastname = $_POST['lastname'];
-//     $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
-//     $firstname = $_POST['firstname'];
-//     $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
-//     $middlename = $_POST['middlename'];
-//     $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
-//     $email = $_POST['email'];
-//     $email = filter_var($email, FILTER_SANITIZE_STRING);
-//     $contact = $_POST['contactnum'];
-//     $contact = filter_var($contact, FILTER_SANITIZE_STRING);
-//     $usertype = $_POST['usertypes'];
-    
-//     $update_profile = $conn->prepare("UPDATE `users` SET last_name = ?, first_name = ?, middle_name = ?, email = ?, contact_number = ?, user_type = ? WHERE id = ?");
-//     $update_profile->execute([$name, $email, $user_id]);
- 
-//     $old_image = $_POST['old_image'];
-//     $image = $_FILES['profile_image']['last_name'];
-//     $image_tmp_name = $_FILES['image']['tmp_name'];
-//     $image_size = $_FILES['profile_image']['size'];
-//     $image_folder = 'uploaded_image/'.$image;
- 
-//     if(!empty($image)){
- 
-//        if($image_size > 2000000){
-//         $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.";
-//        }else{
-//           $update_image = $conn->prepare("UPDATE `users` SET profile_image = ? WHERE id = ?");
-//           $update_image->execute([$image, $user_id]);
- 
-//           if($update_image){
-//              move_uploaded_file($image_tmp_name, $image_folder);
-//              unlink('uploaded_image/'.$old_image);
-//           }
-//        }
- 
-//     }
- 
-//     $old_pass = $_POST['old_pass'];
-//     $previous_pass = md5($_POST['previous_pass']);
-//     $previous_pass = filter_var($previous_pass, FILTER_SANITIZE_STRING);
-//     $new_pass = md5($_POST['new_pass']);
-//     $new_pass = filter_var($new_pass, FILTER_SANITIZE_STRING);
-//     $confirm_pass = md5($_POST['confirm_pass']);
-//     $confirm_pass = filter_var($confirm_pass, FILTER_SANITIZE_STRING);
- 
-//     if(!empty($previous_pass) || !empty($new_pass) || !empty($confirm_pass)){
-//        if($previous_pass != $old_pass){
-//           $message[] = 'old password not matched!';
-//        }elseif($new_pass != $confirm_pass){
-//           $message[] = 'confirm password not matched!';
-//        }else{
-//           $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
-//           $update_password->execute([$confirm_pass, $user_id]);
-//           $message[] = 'password has been updated!';
-//        }
-//     }
- 
-//  }
+        //     if(isset($_POST['pass']) || isset($_POST['ecpass'])){
+        //    // if(isset($_POST['change'])){
+        //            // $password = $_POST['password'];
+        //            // $_SESSION['info'] = "";
+
+        //            $new_pass = mysqli_real_escape_string($con, $_POST['pass']);
+        //            $confirm_pass = mysqli_real_escape_string($con, $_POST['ecpass']);
+        //            $select = $conn->prepare("SELECT * FROM `users` WHERE password = ?");
+        //            $select->execute([$password]);
+                   
+        //            // if($select->rowCount() > 0){
+        //            //     $response['message'] =  "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Create new password";
+       
+        //            // }else{
+       
+                       
+        //                if (strlen($_POST['pass']) < 8) {
+        //                    $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols";
+        //                 //    echo "<p class='message' style='display:block'></p>";
+        //                 //    echo "<div class='bg-cpassDropdown' style='display:block'></div>";
+                          
+        //                    // header("Location: Account-changepass-error1.php");
+        //                    // header("Location: Account-Action.php?message=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
+        //                } else {
+        //                    // $id = $_SESSION['id'];
+        //                    if($new_pass !== $confirm_pass){
+        //                     //    echo "<p class='message'> <i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched </p>";
+        //                        $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //                        // header("Location: Account-Password-Changed.php");
+        //                    }else{
+        //                        $encpass = password_hash($new_pass, PASSWORD_BCRYPT);
+        //                        $update_pass = "UPDATE users SET password = '$encpass' WHERE id = '$id'";
+        //                        $run_query = mysqli_query($con, $update_pass);
+        //                        if($run_query){
+        //                            // header("Location: Account-Password-Changed.php");
+        //                            header("Location: Account-Password-Changed.php");
+        //                        }else{
+   
+        //                        }
+        //                    }   
+        //                }   
+        //            }
+        //         }
+        // if(isset($_POST['pass']) || isset($_POST['encpass'])){
+        // if(isset($_POST['change'])){
+        //     // $password = $_POST['password'];
+        //     $_SESSION['info'] = "";
+        //     $new_pass = mysqli_real_escape_string($con, $_POST['pass']);
+        //     $confirm_pass = mysqli_real_escape_string($con, $_POST['encpass']);
+            
+        //     $select = $conn->prepare("SELECT * FROM `users` WHERE password = ?");
+        //     $select->execute([$password]);
+            
+        //     // if($select->rowCount() > 0){
+        //     //     $message[] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Create new password";
+
+        //     // }else{
+
+                
+        //         if (strlen($_POST['pass']) < 8) {
+            
+        //             $message[] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols";
+        //             // echo "$('#message').text(<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols')";
+        //             // echo "<script>$('#message1').css('display','block');</script>";
+        //             // $error = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //             // $_SESSION['status'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //             // $errors['db-error'] = "Use 8 or more characters with a mix of letters, numbers & symbols.";
+        //             // <script><i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
+        //         } else {
+        //             if($new_pass !== $confirm_pass){
+        //                 // echo  "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //                 // echo ' alert("JavaScript Alert Box by PHP")';
+        //                 $message[] ="<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //             //   $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist! ";
+        //                 // $_SESSION['status'] =  "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //                 // $error = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //             }else{
+
+        //                 $encpass = password_hash($new_pass, PASSWORD_BCRYPT);
+        //                 $update_pass = "UPDATE users SET password = '$encpass' WHERE id = '$id'";
+        //                 $run_query = mysqli_query($con, $update_pass);
+        //                 if($run_query){
+        //                     header("Location: Account-Password-Changed.php");
+        //                 }else{
+        //                     $errors['db-error'] = "Failed to change your password!";
+        //                 }
+        //             }   
+        //         }   
+        //     }
+        // }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,8 +199,9 @@ if (isset($_POST['id'])){
         <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <title>Account</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <title>Tag's Water Purified Drinking Water</title>
         <!-- <script src="./index.js"></script> -->
     </head>
     <body >
@@ -364,18 +447,11 @@ if (isset($_POST['id'])){
                         </div>  
                     </div>     
                 </div>
-               
-                <!-- <div class="notifs-section">
-                    <h2 class="todeliver">To Deliver</h2>
-                    <div class="pending">
-                        <div class="deliveries-pending">
-                            <a href=#>9 Pending Deliveries</a>
-                        </div>
-                    </div>
-                </div> -->
-            </div>      
-    </div> 
-        <div class="bg-actionDropdown" id="action-bgdrop">
+            </div>
+        </div>      
+   
+        <!-- <div class="bg-actionDropdown" id="action-bgdrop">
+            
             <div class="action">
                     <h2> ACTION </h2>
                     <div class="CloseButton">
@@ -398,114 +474,129 @@ if (isset($_POST['id'])){
                     </button>
             </div>   
     
-        </div>    
+        </div>     -->
+        <?php 
+        if(isset($_GET['edit']))
+        {
+          $user_id = $_GET['edit'];  
+          $users = "SELECT * FROM users WHERE id='$user_id'";
+          $users_run = mysqli_query($con, $users);
 
-        <!-- // $id = $_GET['id'];
-        // $sql = "SELECT * FROM users WHERE id = $id LIMIT 1";
-        // $result = mysqli_query($conn, $sql);
-        // $row = mysqli_fetch_assoc($result); -->
-    <form name="edit" action="" method="post" enctype="multipart/form-data" id="edituserFrm">
-        <div class="bg-editDropdown" id="edit-bgdrop">
-            <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
-            <div class="edit-container" id="edit-container">
-                <div class="profile-pic">
-                    <img src="uploaded_image/<?php echo $image; ?>" alt="">
-                </div>
-                <h1 class="editnew-title">EDIT ACCOUNT</h1>
-                <div class="edit-container2" id="edit-container2">
-                    <div class="form1">  
-                        <input type="text" id="lastname"class="lastname" required="required" name="lastname" value="<?php echo $lastname; ?>">
-                        <span>Last Name</span>
-                    </div> 
-                    <div class="form1">  
-                        <input type="text" id="firstname"class="firstname" required="required" name="firstname" value="<?php echo $firstname; ?>">
-                        <span>First Name</span>
+          if(mysqli_num_rows($users_run) > 0)
+          {
+            foreach($users_run as $user)
+            {
+                ?>
+              
+            <form name="edit" action="" method="post" enctype="multipart/form-data"  id="edituserFrm">
+                <div class="bg-editDropdown" id="edit-bgdrop">          
+                    <div class="edit-container" id="edit-container">
+                        <div class="profile-pic">
+                            <img src="uploaded_image/<?=$user['profile_image'];?>" alt="">
+                        </div>
+                        <h1 class="editnew-title">EDIT ACCOUNT</h1>
+                        <div class="edit-container2" id="edit-container2">
+                            <input type="hidden" required="required" name="user_id" value="<?=$user['id'];?>">
+                            
+                            <div class="form1">  
+                                <input type="text" id="lastname"class="lastname" required="required" name="lastname" value="<?=$user['last_name'];?>">
+                                <span>Last Name</span>
+                            </div> 
+                            <div class="form1">  
+                                <input type="text" id="firstname"class="firstname" required="required" name="firstname" value="<?=$user['first_name'];?>">
+                                <span>First Name</span>
+                            </div>
+                            <div class="form2">  
+                                <input type="text" id="middlename"class="middlename" required="required" name="middlename" value="<?=$user['middle_name'];?>">
+                                <span>Middle Name</span>
+                            </div>
+                            <div class="form2">  
+                                <input type="text" id="email" class="email" name="email" value="<?=$user['email'];?>" onfocus="blur()">
+                                <span>Email (not editable)</span>
+                                
+                            </div>
+                            <div class="form4">  
+                                <input type="text" id="contactnum" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum" value="<?=$user['contact_number'];?>">
+                                <span>Contact Number</span>
+                            </div>
+                            <div class="usertype-dropdown">
+                                <select class="select" id="usertypes" name="usertypes" required=""  value="<?=$user['user_type'];?>">
+                                    <option selected disabled value="">ROLE</option>
+                                    <option value="Admin"
+                                    <?php
+                                        if($user['user_type'] == 'Admin'){
+                                            echo 'Selected';
+                                        }    
+                                    ?>
+                                    >ADMIN</option>
+                                    <option value="Manager"
+                                    <?php
+                                        if($user['user_type'] == 'Manager'){
+                                            echo 'Selected';
+                                        }    
+                                    ?>
+                                    >MANAGER</option>
+                                    <option value="Cashier"
+                                    <?php
+                                        if($user['user_type'] == 'Cashier'){
+                                            echo 'Selected';
+                                        }    
+                                    ?>
+                                    >CASHIER</option>
+                                    <option value="Custom"
+                                    <?php
+                                        if($user['user_type'] == 'Custom'){
+                                            echo 'Selected';
+                                        }    
+                                    ?>
+                                    ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
+                                    CUSTOM</option>
+                                </select>
+                            </div>
+                            <div class="profile-picture1" >
+                                <h4 >Profile Picture</h4>
+                            </div>
+                            <div class="choose-profile">
+                                <input type="hidden" name="old_image" value="<?php echo $image; ?>">
+                                <input type="file" value="<?=$user['profile_image'];?>" id="imageprofile" accept="image/jpg, image/png, image/jpeg" name="profileimage">
+                            </div>
+                        </div>   
+                        <div class="EditButton">
+                            <button type="submit" id="edituserBtn" name="submit">SAVE</button>
+                        </div>
+                        <div class="CancelButton">
+                        <a href="Account.php" id="cancel">CANCEL</a>   
+                        </div>
                     </div>
-                    <div class="form2">  
-                        <input type="text" id="middlename"class="middlename" required="required" name="middlename" value="<?php echo $middlename; ?>">
-                        <span>Middle Name</span>
-                    </div>
-                    <div class="form2">  
-                        <input type="text" id="email" class="email" required="required" name="email" value="<?php echo $email; ?>">
-                        <span>Email</span>
-                    </div>
-                    <div class="form4">  
-                        <input type="text" id="contactnum" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum" value="<?php echo $contact; ?>">
-                        <span>Contact Number</span>
-                    </div>
-                    <div class="usertype-dropdown">
-                        <select class="select" id="usertype" name="usertypes" required=""  value="<?php echo $usertype; ?>">
-                            <option selected disabled value="">ROLE</option>
-                            <option value="Admin"
-                            <?php
-                                if($usertype == 'Admin'){
-                                    echo 'Selected';
-                                }    
-                            ?>
-                            >ADMIN</option>
-                            <option value="Manager"
-                             <?php
-                                if($usertype == 'Manager'){
-                                    echo 'Selected';
-                                }    
-                            ?>
-                            >MANAGER</option>
-                            <option value="Cashier"
-                            <?php
-                                if($usertype == 'Cashier'){
-                                    echo 'Selected';
-                                }    
-                            ?>
-                            >CASHIER</option>
-                            <option value="Custom"
-                            <?php
-                                if($usertype == 'Custom'){
-                                    echo 'Selected';
-                                }    
-                            ?>
-                            ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
-                            CUSTOM</option>
-                        </select>
-                    </div>
-                    <div class="profile-picture1" >
-                        <h4 >Profile Picture</h4>
-                    </div>
-                    <div class="choose-profile">
-                        <input type="hidden" name="old_image" value="<?php echo $image; ?>">
-                        <input type="file" value="<?php echo $row['profile_image']; ?>" id="image-profile" accept="image/jpg, image/png, image/jpeg" name="old_image">
-                    </div>
-                </div>   
+                    </div>   
             
-                <div class="EditButton">
-                    <button type="submit" id="edituserBtn" name="update">SAVE</button>
-                </div>
-                <div class="CancelButton">
-                <a href="Account.php" id="cancel">CANCEL</a>   
-
-                </div>
-            </div>
-            </div>   
-    
-        </div>  
-    </form>  
+                </div>  
+            </form> 
+            <?php
+                    }
+                }
+                else{
+                ?>
+                <?php
+                }
+                }
+            ?> 
     <form name="cpass" action="" method="post" enctype="multipart/form-data" id="cpassuserFrm">
         <div class="bg-cpassDropdown" id="cpass-bgdrop">
-            <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
+      
+        <div class='message'></div>
             <div class="cpass-container" id="cpass-container">
+
             <h1 class="cpassnew-title">CHANGE PASSWORD</h1>
                 <p>Create new password that is at least 8 characters long. Mix with numbers and symbols for a strong security.</p>
                 <div class="cpass-container2" id="cpass-container2">
-                    <input type="hidden" name="old_pass" value="<?= $fetch_profile['password']; ?>">
-                    <div class="form1-cpass">  
-                        <input type="password" class="oldpassword" id="oldpass" required="required" name="opass">
-                        <span>Current Password</span>
-                    </div> 
+                <input type="hidden" id="userid" name="userid" value="<?=$user['id'];?>">
                     <div class="form1-cpass">  
                         <input type="password" class="newpassword" id="newpass" required="required" name="pass">
                         <span>New Password</span>
                     </div>
                     <div class="form1-cpass">  
-                    <input type="password" class="confirm-password" id="cpass" required="required" name="encpass">
+                    <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass">
                         <span>Confirm Password</span>
                     </div>
                     <div class="checker">
@@ -522,7 +613,7 @@ if (isset($_POST['id'])){
             </div>
         </div>
     </form>
-            <div id="form-registered">
+    <div id="form-registered1">
                 <div id="container-registered">
                     <div class="content">
                         <div class="verify">
@@ -577,7 +668,7 @@ if (isset($_POST['id'])){
                             </svg>
                         </div>  
                         <div class="register">  
-                            <h2>User Account Updated</h2>
+                            <h2>PASSWORD CHANGED</h2>
                         </div>
                     </div>
                         <div class="pageform">
@@ -587,9 +678,6 @@ if (isset($_POST['id'])){
                         </div>
                 </div>
             </div>
-        </form>
-        </div>
-    
 </body>
 </html>
 <script>
@@ -622,84 +710,71 @@ function myFunctionCP(){
             // document.querySelector("#image-profile").value = selectedRow.children[7].textContent;
         }
     });
-    // const regForm = document.querySelector(".form-registered");
-    // const regBtn = document.querySelector(".EditButton");
-    // var bgform = $('#form-registered');
-    // var addform = $('#edit-container');
-    // var addbtn = $("#edituserBtn");
-    // var message1 = $(".message");
+
+    const regForm = document.querySelector(".form-registered");
+    const regBtn = document.querySelector(".AddButton");
+    var bgform = $('#form-registered1');
+    var addform = $('#cpass-container');
+    var addbtn = $("#cpassuserBtn");
+    var message = $(".message");
     
-    // $(document).ready(function(){
-    //     $('#edituserFrm').submit(function(e){
-    //         e.preventDefault();
-
-    //         $.ajax({
-    //             type: 'post',
-    //             url: 'controllerUserdata_AJAX.php',
-    //             data: new FormData(this),
-    //             contentType: false, 
-    //             cache: false,
-    //             processData: false,
-    //             // 'submit=1&'+$form.serialize(),
-    //             dataType: 'json',  
-    //             success: function(response){
-    //                 $(".edituserFrm").css("display", "block");
-    //                 if(response.status == 1){   
-    //                     bgform.show();  
-    //                     addform.hide(); 
-    //                     message1.hide(); 
-    //                     $('#edituserFrm')[0].reset();
-
-    //                 // }else  if(response.status == 2){   
-    //                 //     bgform.show();  
-    //                 //     addform.hide(); 
-    //                 //     message1.hide(); 
-    //                 //     $('#adduserFrm')[0].reset();
-
-    //             }else{
-    //                 $(".message").html('<p>'+response.message+'<p>');
-    //             }
-    //                 }
-    //             });
-    //         });
-    //         $("#image-profile").change(function(){
-    //             var file = this.files[0];
-    //             var fileType = file.type;
-    //             var match = ['image/jpeg', 'image/jpg', 'image/png']
-
-    //             if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
-    //                 alert("JPEG, JPG, and PNG files only.")
-    //                 $("#image-profile").val('');
-    //                 return false;
-    //             }
-    //         });
-    //     });
-    // const cpass2Btn = document.querySelector(".cpassButton");
-    // var bgform = $('#form-registered');
-    // var cpassform = $('#cpass-container');
-    // var cpassbtn = $("#cpassuserBtn");
-    // var message2 = $(".message");
-    
+    $(document).ready(function(){
+        $('#cpassuserFrm').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                type: 'post',
+                url: 'controllerUserdata_action.php',
+                // data: {password:password, id:id, oldpassword:oldpassword}
+                data: new FormData(this),
+                contentType: false, 
+                cache: false,
+                processData: false,
+                // 'submit=1&'+$form.serialize(),
+                dataType: 'json',  
+                success: function(response){
+                    $(".message").css("display", "block");
+                    // if(response.status == 1){   
+                    //     $("#form-registered1").css("display", "block");
+                    //     addform.hide(); 
+                    //     message.hide(); 
+                    //     $('#cpassuserFrm')[0].reset();
+                    // }else{
+                        $(".message").html('<p>'+response.message+'<p>');
+                    // }
+                }
+            });
+        });
+    });
     // $(document).ready(function(){
     //     $('#cpassuserFrm').submit(function(e){
     //         e.preventDefault();
+    //         var password = $("#cpass").val();
+    //         // var oldpassword = $("#newpass").val();
 
     //         $.ajax({
     //             type: 'post',
     //             url: 'controllerUserdata_AJAX.php',
     //             data: new FormData(this),
-    //             contentType: false, 
-    //             cache: false,
-    //             processData: false,
+    //             data: {password:cpass},
+    //             // contentType: false, 
+    //             // cache: false,
+    //             // processData: false,
     //             // 'submit=1&'+$form.serialize(),
-    //             dataType: 'json',  
-    //             success: function(response){
-    //                 $(".cpassuserFrm").css("display", "block");
-    //                 if(response.status == 1){   
-    //                     bgform.show();  
-    //                     cpassform.hide(); 
-    //                     message2.hide(); 
-    //                     $('#cpassuserFrm')[0].reset();
+    //             dataType: 'html',  
+    //             success: function(data){
+    //                 // $("#message").css("display", "block");
+    //                 $('#message').html(data);
+    //             // }else{
+    //             //     // $('#message').html(data);
+    //             // }
+    //                 }
+    //             // })
+    //                 // $(".message").css("display", "block");
+    //                 // if(response.status == 1){   
+    //                 //     bgform.show();  
+    //                 //     cpassform.hide(); 
+    //                 //     message2.hide(); 
+    //                     // $('#message').html(data);
 
     //                 // }else  if(response.status == 2){   
     //                 //     bgform.show();  
@@ -707,13 +782,13 @@ function myFunctionCP(){
     //                 //     message1.hide(); 
     //                 //     $('#adduserFrm')[0].reset();
 
-    //             }else{
-    //                 $(".message").html('<p>'+response.message+'<p>');
-    //             }
-    //                 }
+    //             // }else{
+    //             //     $(".message").html('<p>'+response.message+'<p>');
+    //             // }
+    //                 })
     //             });
     //         });
-    //     });
+        // });
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
     let inputs = document.querySelectorAll('#fill');
@@ -856,8 +931,9 @@ function myFunctionCP(){
         
 // ///////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>      
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>     
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
 <style>
@@ -1012,9 +1088,9 @@ function myFunctionCP(){
         display: flex;
         align-items: center; 
         justify-content: center;
-        display: none;
+        display: flex;
     }
-    #form-registered{
+    #form-registered1{
         position: absolute;
         top: 50%;
         display: none;
@@ -1100,9 +1176,9 @@ function myFunctionCP(){
         border-top: 10px solid var(--color-solid-gray);
     }
     .cpass-container{
-        width: 350px;
+        width: 400px;
         height: 100%;
-        max-height: 370px;
+        max-height: 320px;
         position: absolute;
         border-radius:  0px 0px 20px 20px;
         background-color: var(--color-white);
@@ -1122,7 +1198,7 @@ function myFunctionCP(){
             .cpass-container .cpassButton button{
                 font-family: 'COCOGOOSE', sans-serif;
                 padding: 10px;
-                margin-top: .5vh;
+                margin-top: .4rem;
                 margin-bottom: 20px;
                 margin-left: 13em;
                 text-align: center;
@@ -1202,7 +1278,7 @@ function myFunctionCP(){
                 /* margin-left: 30px; */
             }
             .CancelButton-cpass{
-                margin-top: -6vh;
+                margin-top: -3.5rem;
                 margin-left:-10rem;
             }
             #cancel-cpass{
@@ -1248,6 +1324,20 @@ function myFunctionCP(){
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-top: 10px solid var(--color-solid-gray);
     }
+            .error-error{
+                background-color: hsl(0, 100%, 77%);
+                color: #ffffff;
+                padding: 11px;
+                margin-left: 30px;
+                width: 77%;
+                display: none;
+                align-items: center;
+                text-align: center;
+                border-radius: 3px;
+                font-size: min(max(9px, 1.2vw), 11px);
+                letter-spacing: 0.5px;
+                font-family: Helvetica, sans-serif;
+            }
             .edit-container2{
                 display: flex;
                 font-size: .7rem;
@@ -1259,7 +1349,8 @@ function myFunctionCP(){
             .edit-container .EditButton button{
                 font-family: 'COCOGOOSE', sans-serif;
                 padding: 10px;
-                margin-top: .5vh;
+                /* position: relative; */
+                margin-top: .5rem;
                 margin-bottom: 20px;
                 margin-left: 20em;
                 text-align: center;
@@ -1335,6 +1426,17 @@ function myFunctionCP(){
                 background: var(--color-white);
                 color: var(--color-black);
             }
+            .form2 .email{
+                width:100%;
+                height: 2.5rem;
+                padding: 10px;
+                border: 2px solid var(--color-solid-gray);
+                border-radius: 15px;
+                outline: none;
+                font-size: 1em;
+                background: var(--color-solid-gray);
+                color: var(--color-white);
+            }
             .form2 span{
                 position: absolute;
                 left: 0;
@@ -1345,11 +1447,32 @@ function myFunctionCP(){
                 margin-left: .2rem;
                 color: var(--color-solid-gray);
             }
+            .form2 .email span{
+                position: absolute;
+                left: 0;
+                /* padding: 12px; */
+                pointer-events: none;
+                font-size: 12.9em;
+                margin-top: -1rem;
+                margin-left: .2rem;
+                color: hsl(0, 100%, 86%);
+            }
+            .form2 .email:focus{
+                border: 2px solid var(--color-solid-gray);
+            }
             .form2 input:focus{
                 border: 2px solid var(--color-main-3);
             }
-            .form2 input:valid ~ span,
-            .form2 input:focus ~ span{
+            .form2 .email:valid ~ span,
+            .form2 .email:focus ~ span{
+                color:hsl(0, 100%, 86%);
+                transform: translateX(10px) translateY(1px);
+                font-size: 0.9em;
+                padding: 0 10px;
+                transition: .3s
+            }
+            .form2 .middlename:valid ~ span,
+            .form2 .middlename:focus ~ span{
                 color:var(--color-main-3);
                 transform: translateX(10px) translateY(1px);
                 font-size: 0.9em;
@@ -1511,19 +1634,19 @@ function myFunctionCP(){
             }
     /* ------------------------------------------------------------------------------------ */
     /* ---------------------------------Change Password------------------------------------ */
+    
     .message{
         background-color: hsl(0, 100%, 77%);
         color: #ffffff;
         border-radius: 6px;
-        width: 25%;
-        height: 1.87rem;
+        width:24%;
+        height: 2rem;
         /* margin-left: 3.55rem; */
         letter-spacing: 0.5px;
         font-family: Helvetica, sans-serif;       
-        top: 16.9%;
-        font-size: .7rem;
-        padding: 5px 10px;
+        top: 25.9%;
         padding-top: 1rem;
+        /* padding-bottom: .5rem; */
         position: absolute;
         align-items: center;
         text-align: center;
@@ -1534,15 +1657,15 @@ function myFunctionCP(){
     }
     .message span{
         color:var(--white);
-        font-size: .9rem;
+        font-size: .6rem;
     }
 
     .message p{
         color:var(--red);
-        font-size: .9rem;
+        font-size: .75rem;
         margin: 0 auto;
         cursor: pointer;
-    }
+    } 
     .profile-picture1 h4{
         display: flex;
         font-size: .9rem;
@@ -1572,7 +1695,7 @@ function myFunctionCP(){
         font-family: 'COCOGOOSE', sans-serif;
         cursor: pointer;
     }
-    #image-profile{
+    #imageprofile{
         cursor: pointer;
     }
     .choose-profile:hover{
@@ -1580,12 +1703,12 @@ function myFunctionCP(){
         transition: 0.5s;
     }
     .CancelButton{
-        margin-top: -4.9vh;
+        margin-top: -2.9rem;
         margin-left: 2.4em;
     }
     
     .CloseButton{
-        margin-top: 5.2vh;
+        margin-top: 3rem;
         margin-left: 2.4em;
         margin-bottom: -2rem;
     }
@@ -1671,10 +1794,11 @@ function myFunctionCP(){
         font-family: 'Calibri', sans-serif;
         font-size: 7.5px;
         color: var(--color-main); 
-        letter-spacing: .15rem;
+        letter-spacing: 1px;
         border-top: 2px solid var(--color-main); 
         margin-top: -0.97rem;
-        width: 100px;
+        width: 7vw;
+        text-transform: uppercase;
     }
     h1{
         margin-top: 6px;     
@@ -1684,7 +1808,7 @@ function myFunctionCP(){
         font-size: 11px;
         /* margin-right: -7.3rem;*/
         margin-top: -0.6rem; 
-        letter-spacing: 2px;
+        letter-spacing: 1px;
         color: var(--color-main); 
     }
     .user-name{
@@ -2008,7 +2132,7 @@ function myFunctionCP(){
         overflow:auto;
         box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
         border-top: 8px solid var(--color-table-hover);
-        border-radius: 40px;
+        border-radius: 0px 0px 40px 40px;
     }
      main .account-container table{
         background: var(--color-white);

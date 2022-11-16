@@ -1,10 +1,13 @@
 <?php
-require_once 'controllerUserdata_AJAX.php';
+session_start();
+require_once 'controllerUserdata_action.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
 // $mysqli = new mysqli('localhost', 'root', '','acc_db');
-    if (isset($_POST['id'])){
+// $results = mysqli_query($con, "SELECT * FROM users");
+// $row = mysqli_fetch_array($result);  
+if (isset($_POST['id'])){
 
         $id = $_POST['id'];
         
@@ -29,78 +32,56 @@ $result = mysqli_query($con, $query);
                 }
             }
         }
-     
-            // $results = $mysqli->query("SELECT * FROM users WHERE id=$ids") or die(mysqli->error());
-            // if (count($results)==1){
-                // $row = $results->fetch_array();
-                // $email = $row['email'];
-                // $lastname= $row['last_name'];
-                // $firstname= $row['first_name'];
-                // $middlename= $row['middle_name'];
-                // $contactnum= $row['contact_number'];
+       
+        // if(isset($_POST['pass']) || isset($_POST['encpass'])){
+        // if(isset($_POST['change'])){
+        //     // $password = $_POST['password'];
+        //     $_SESSION['info'] = "";
+        //     $new_pass = mysqli_real_escape_string($con, $_POST['pass']);
+        //     $confirm_pass = mysqli_real_escape_string($con, $_POST['encpass']);
             
-        // }
-// if(isset($_POST['update'])){
+        //     $select = $conn->prepare("SELECT * FROM `users` WHERE password = ?");
+        //     $select->execute([$password]);
+            
+        //     // if($select->rowCount() > 0){
+        //     //     $message[] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Create new password";
 
-//     $lastname = $_POST['lastname'];
-//     $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
-//     $firstname = $_POST['firstname'];
-//     $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
-//     $middlename = $_POST['middlename'];
-//     $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
-//     $email = $_POST['email'];
-//     $email = filter_var($email, FILTER_SANITIZE_STRING);
-//     $contact = $_POST['contactnum'];
-//     $contact = filter_var($contact, FILTER_SANITIZE_STRING);
-//     $usertype = $_POST['usertypes'];
-    
-//     $update_profile = $conn->prepare("UPDATE `users` SET last_name = ?, first_name = ?, middle_name = ?, email = ?, contact_number = ?, user_type = ? WHERE id = ?");
-//     $update_profile->execute([$name, $email, $user_id]);
- 
-//     $old_image = $_POST['old_image'];
-//     $image = $_FILES['profile_image']['last_name'];
-//     $image_tmp_name = $_FILES['image']['tmp_name'];
-//     $image_size = $_FILES['profile_image']['size'];
-//     $image_folder = 'uploaded_image/'.$image;
- 
-//     if(!empty($image)){
- 
-//        if($image_size > 2000000){
-//         $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.";
-//        }else{
-//           $update_image = $conn->prepare("UPDATE `users` SET profile_image = ? WHERE id = ?");
-//           $update_image->execute([$image, $user_id]);
- 
-//           if($update_image){
-//              move_uploaded_file($image_tmp_name, $image_folder);
-//              unlink('uploaded_image/'.$old_image);
-//           }
-//        }
- 
-//     }
- 
-//     $old_pass = $_POST['old_pass'];
-//     $previous_pass = md5($_POST['previous_pass']);
-//     $previous_pass = filter_var($previous_pass, FILTER_SANITIZE_STRING);
-//     $new_pass = md5($_POST['new_pass']);
-//     $new_pass = filter_var($new_pass, FILTER_SANITIZE_STRING);
-//     $confirm_pass = md5($_POST['confirm_pass']);
-//     $confirm_pass = filter_var($confirm_pass, FILTER_SANITIZE_STRING);
- 
-//     if(!empty($previous_pass) || !empty($new_pass) || !empty($confirm_pass)){
-//        if($previous_pass != $old_pass){
-//           $message[] = 'old password not matched!';
-//        }elseif($new_pass != $confirm_pass){
-//           $message[] = 'confirm password not matched!';
-//        }else{
-//           $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
-//           $update_password->execute([$confirm_pass, $user_id]);
-//           $message[] = 'password has been updated!';
-//        }
-//     }
- 
-//  }
+        //     // }else{
+
+                
+        //         if (strlen($_POST['pass']) < 8) {
+            
+        //             $message[] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols";
+        //             // echo "$('#message').text(<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols')";
+        //             // echo "<script>$('#message1').css('display','block');</script>";
+        //             // $error = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //             // $_SESSION['status'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //             // $errors['db-error'] = "Use 8 or more characters with a mix of letters, numbers & symbols.";
+        //             // <script><i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
+        //         } else {
+        //             if($new_pass !== $confirm_pass){
+        //                 // echo  "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //                 // echo ' alert("JavaScript Alert Box by PHP")';
+        //                 $message[] ="<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //             //   $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist! ";
+        //                 // $_SESSION['status'] =  "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //                 // $error = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
+        //             }else{
+
+        //                 $encpass = password_hash($new_pass, PASSWORD_BCRYPT);
+        //                 $update_pass = "UPDATE users SET password = '$encpass' WHERE id = '$id'";
+        //                 $run_query = mysqli_query($con, $update_pass);
+        //                 if($run_query){
+        //                     header("Location: Account-Password-Changed.php");
+        //                 }else{
+        //                     $errors['db-error'] = "Failed to change your password!";
+        //                 }
+        //             }   
+        //         }   
+        //     }
+        // }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,8 +96,9 @@ $result = mysqli_query($con, $query);
         <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <title>Account</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <title>Tag's Water Purified Drinking Water</title>
         <!-- <script src="./index.js"></script> -->
     </head>
     <body >
@@ -362,168 +344,51 @@ $result = mysqli_query($con, $query);
                         </div>  
                     </div>     
                 </div>
-               
-                <!-- <div class="notifs-section">
-                    <h2 class="todeliver">To Deliver</h2>
-                    <div class="pending">
-                        <div class="deliveries-pending">
-                            <a href=#>9 Pending Deliveries</a>
-                        </div>
-                    </div>
-                </div> -->
-            </div>      
-    </div> 
-        <div class="bg-actionDropdown" id="action-bgdrop">
-            <div class="action">
-                    <h2> ACTION </h2>
-                    <div class="CloseButton">
-                        <a href="Account.php" id="close">  
-                            <svg id="close-action"  xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
-                        </a>   
-                    </div>
-                    </button>
-                    <button type="button"  class="edit" onclick="editAction();">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
-                        <h4>Edit</h4>
-                    </button>
-                    <button type="button"  class="changepass" onclick="cpassAction();">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17q-1.688 0-3.104-.719-1.417-.719-2.375-1.927l1.062-1.083q.75 1.021 1.896 1.625Q8.625 15.5 10 15.5q2.271 0 3.885-1.615Q15.5 12.271 15.5 10t-1.615-3.885Q12.271 4.5 10 4.5q-2.292 0-3.917 1.635-1.625 1.636-1.583 3.99l1.188-1.187L6.75 10l-3 3-3-3 1.062-1.062L3 10.146q-.021-1.5.531-2.813.552-1.312 1.511-2.27Q6 4.104 7.281 3.552 8.562 3 10.021 3q1.437 0 2.708.552 1.271.552 2.219 1.5t1.5 2.219Q17 8.542 17 10q0 2.917-2.042 4.958Q12.917 17 10 17Zm-1.5-4q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
-                        <h4>Change Password</h4>
-                    </button>
-                    <button type="button" class="archive" onclick="archiveAction();">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
-                        <h4>Archive</h4>
-                    </button>
-            </div>   
-    
-        </div>    
-
-        <!-- // $id = $_GET['id'];
-        // $sql = "SELECT * FROM users WHERE id = $id LIMIT 1";
-        // $result = mysqli_query($conn, $sql);
-        // $row = mysqli_fetch_assoc($result); -->
-    <form name="edit" action="" method="post" enctype="multipart/form-data" id="edituserFrm">
-        <div class="bg-editDropdown" id="edit-bgdrop">
+            </div>
+        </div>      
+        <?php
+    if(isset($_SESSION['message'])){
+        ?>
+            <div class='message'>
+                <?= $_SESSION['message']; ?>
+            </div>
+        <?php
+        unset($_SESSION['message']);
+    }
+?>
+        
+    <form name="cpass" action="" method="post" enctype="multipart/form-data" id="cpassuserFrm">
+        <div class="bg-cpassDropdown" id="cpass-bgdrop">
+ 
             <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
-            <div class="edit-container" id="edit-container">
-                <div class="profile-pic">
-                    <img src="uploaded_image/<?php echo $image; ?>" alt="">
-                </div>
-                <h1 class="editnew-title">EDIT ACCOUNT</h1>
-                <div class="edit-container2" id="edit-container2">
-                    <div class="form1">  
-                        <input type="text" id="lastname"class="lastname" required="required" name="lastname" value="<?php echo $lastname; ?>">
-                        <span>Last Name</span>
-                    </div> 
-                    <div class="form1">  
-                        <input type="text" id="firstname"class="firstname" required="required" name="firstname" value="<?php echo $firstname; ?>">
-                        <span>First Name</span>
-                    </div>
-                    <div class="form2">  
-                        <input type="text" id="middlename"class="middlename" required="required" name="middlename" value="<?php echo $middlename; ?>">
-                        <span>Middle Name</span>
-                    </div>
-                    <div class="form2">  
-                        <input type="text" id="email" class="email" required="required" name="email" value="<?php echo $email; ?>">
-                        <span>Email</span>
-                    </div>
-                    <div class="form4">  
-                        <input type="text" id="contactnum" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum" value="<?php echo $contact; ?>">
-                        <span>Contact Number</span>
-                    </div>
-                    <div class="usertype-dropdown">
-                        <select class="select" id="usertype" name="usertypes" required=""  value="<?php echo $usertype; ?>">
-                            <option selected disabled value="">ROLE</option>
-                            <option value="Admin"
-                            <?php
-                                if($usertype == 'Admin'){
-                                    echo 'Selected';
-                                }    
-                            ?>
-                            >ADMIN</option>
-                            <option value="Manager"
-                             <?php
-                                if($usertype == 'Manager'){
-                                    echo 'Selected';
-                                }    
-                            ?>
-                            >MANAGER</option>
-                            <option value="Cashier"
-                            <?php
-                                if($usertype == 'Cashier'){
-                                    echo 'Selected';
-                                }    
-                            ?>
-                            >CASHIER</option>
-                            <option value="Custom"
-                            <?php
-                                if($usertype == 'Custom'){
-                                    echo 'Selected';
-                                }    
-                            ?>
-                            ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
-                            CUSTOM</option>
-                        </select>
-                    </div>
-                    <div class="profile-picture1" >
-                        <h4 >Profile Picture</h4>
-                    </div>
-                    <div class="choose-profile">
-                        <input type="file" value="<?php echo $image; ?>" id="image-profile" required class="box" accept="image/jpg, image/png, image/jpeg" name="old_image">
-                    </div>
-                </div>   
-            
-                <div class="EditButton">
-                    <button type="submit" id="edituserBtn" name="update">SAVE</button>
-                </div>
-                <div class="CancelButton">
-                <a href="Account.php" id="cancel">CANCEL</a>   
+            <div class="cpass-container" id="cpass-container">
 
-                </div>
+            <h1 class="cpassnew-title">CHANGE PASSWORD</h1>
+                <p>Create new password that is at least 8 characters long. Mix with numbers and symbols for a strong security.</p>
+                <div class="cpass-container2" id="cpass-container2">
+                    <div class="form1-cpass">  
+                        <input type="password" class="newpassword" id="newpass" required="required" name="pass">
+                        <span>New Password</span>
+                    </div>
+                    <div class="form1-cpass">  
+                    <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass">
+                        <span>Confirm Password</span>
+                    </div>
+                    <div class="checker">
+                        <input type="checkbox" name="" onclick="myFunctionCP()" >
+                        <span>Show password</span>
+                    </div>
+                    <div class="cpassButton">
+                        <button type="submit" id="cpassuserBtn" name="change">SAVE</button>
+                    </div>
+                    <div class="CancelButton-cpass">
+                        <a href="Account.php" id="cancel-cpass">CANCEL</a>   
+                    </div>
+                </div> 
             </div>
-            </div>   
-    
-        </div>  
-    </form>  
-    <div id="cpass-container">
-                <div class="cpass-dividecolor">
-                    <h2>Change Password</h2>
-                    <p>Create new password that is at least 8 characters long. <br> Mix with numbers and symbols for a strong security.</p>
-                </div>
-                <div class="pageform">
-                    <form action="changePassword.php" method="post" autocomplete="off">
-                                <?php if (isset($_GET['error'])) { ?>
-                                    <p class="error-error"><?php echo $_GET['error']; ?></p>
-                                <?php } ?>
-                                <div class="txt_field">
-                                    <input type="password" id="oldpass" name="oldpassword" required>
-                                    <span></span>
-                                    <label for="password">Current Password</label>  
-                                </div>         
-                                <div class="txt_field">
-                                    <input type="password" id="pass" name="newpassword" required>
-                                    <span></span>
-                                    <label for="password">New Password</label>  
-                                </div>
-                                <div class="txt_field">  
-                                    <input type="password" id="changepass" name="confirmPassword" required>
-                                    <span></span>
-                                    <label for="password">Confirm Password</label> 
-                                </div>
-                                <div class="checker">
-                                    <input type="checkbox" name="" onclick="myFunctionCP()" >
-                                    <span>Show password</span>
-                                </div>
-                                <div class="confirmbtn">
-                                    <input type="submit" value="SAVE" name="Change-Password" class="confirm">
-                                    <a href="Account.php" id="cancel">CANCEL</a>
-                                </div>   
-                                
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div id="form-registered">
+        </div>
+    </form>
+    <div id="form-registered1">
                 <div id="container-registered">
                     <div class="content">
                         <div class="verify">
@@ -578,7 +443,7 @@ $result = mysqli_query($con, $query);
                             </svg>
                         </div>  
                         <div class="register">  
-                            <h2>User Account Updated</h2>
+                            <h2>PASSWORD CHANGED</h2>
                         </div>
                     </div>
                         <div class="pageform">
@@ -588,22 +453,22 @@ $result = mysqli_query($con, $query);
                         </div>
                 </div>
             </div>
-        </form>
-        </div>
-    
 </body>
 </html>
 <script>
     //SHOW PASSWORD-------------------------------------------------
 function myFunctionCP(){
-        var x = document.getElementById("pass");
+        var x = document.getElementById("newpass");
         var y = document.getElementById("cpass");
+        var z = document.getElementById("oldpass");
         if(x.type === 'password'){
             x.type = "text";
             y.type = "text";
+            z.type = "text";
         }else{
             x.type = "password";
             y.type = "password";
+            z.type = "password";
         }
     }
     // EDIT ACCOUNT--------------------------------------------------
@@ -620,20 +485,20 @@ function myFunctionCP(){
             // document.querySelector("#image-profile").value = selectedRow.children[7].textContent;
         }
     });
+
     const regForm = document.querySelector(".form-registered");
-    const regBtn = document.querySelector(".EditButton");
-    var bgform = $('#form-registered');
-    var addform = $('#edit-container');
-    var addbtn = $("#edituserBtn");
-    var message1 = $(".message");
+    const regBtn = document.querySelector(".AddButton");
+    var bgform = $('#form-registered1');
+    var addform = $('#cpass-container');
+    var addbtn = $("#cpassuserBtn");
+    var message = $(".message");
     
     $(document).ready(function(){
-        $('#edituserFrm').submit(function(e){
+        $('#cpassuserFrm').submit(function(e){
             e.preventDefault();
-
             $.ajax({
                 type: 'post',
-                url: 'controllerUserdata_AJAX.php',
+                url: 'controllerUserdata_action.php',
                 data: new FormData(this),
                 contentType: false, 
                 cache: false,
@@ -641,38 +506,63 @@ function myFunctionCP(){
                 // 'submit=1&'+$form.serialize(),
                 dataType: 'json',  
                 success: function(response){
-                    $(".edituserFrm").css("display", "block");
+                    $(".message").css("display", "block");
                     if(response.status == 1){   
-                        bgform.show();  
+                        $("#form-registered1").css("display", "block");
                         addform.hide(); 
-                        message1.hide(); 
-                        $('#edituserFrm')[0].reset();
-
-                    // }else  if(response.status == 2){   
-                    //     bgform.show();  
-                    //     addform.hide(); 
-                    //     message1.hide(); 
-                    //     $('#adduserFrm')[0].reset();
-
-                }else{
-                    $(".message").html('<p>'+response.message+'<p>');
-                }
+                        message.hide(); 
+                        $('#cpassuserFrm')[0].reset();
+                    }else{
+                        $(".message").html('<p>'+response.message+'<p>');
                     }
-                });
-            });
-            $("#image-profile").change(function(){
-                var file = this.files[0];
-                var fileType = file.type;
-                var match = ['image/jpeg', 'image/jpg', 'image/png']
-
-                if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
-                    alert("JPEG, JPG, and PNG files only.")
-                    $("#image-profile").val('');
-                    return false;
                 }
             });
         });
+    });
+    // $(document).ready(function(){
+    //     $('#cpassuserFrm').submit(function(e){
+    //         e.preventDefault();
+    //         var password = $("#cpass").val();
+    //         // var oldpassword = $("#newpass").val();
 
+    //         $.ajax({
+    //             type: 'post',
+    //             url: 'controllerUserdata_AJAX.php',
+    //             data: new FormData(this),
+    //             data: {password:cpass},
+    //             // contentType: false, 
+    //             // cache: false,
+    //             // processData: false,
+    //             // 'submit=1&'+$form.serialize(),
+    //             dataType: 'html',  
+    //             success: function(data){
+    //                 // $("#message").css("display", "block");
+    //                 $('#message').html(data);
+    //             // }else{
+    //             //     // $('#message').html(data);
+    //             // }
+    //                 }
+    //             // })
+    //                 // $(".message").css("display", "block");
+    //                 // if(response.status == 1){   
+    //                 //     bgform.show();  
+    //                 //     cpassform.hide(); 
+    //                 //     message2.hide(); 
+    //                     // $('#message').html(data);
+
+    //                 // }else  if(response.status == 2){   
+    //                 //     bgform.show();  
+    //                 //     addform.hide(); 
+    //                 //     message1.hide(); 
+    //                 //     $('#adduserFrm')[0].reset();
+
+    //             // }else{
+    //             //     $(".message").html('<p>'+response.message+'<p>');
+    //             // }
+    //                 })
+    //             });
+    //         });
+        // });
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
     let inputs = document.querySelectorAll('#fill');
@@ -718,6 +608,12 @@ function myFunctionCP(){
     //     })
     function editAction(){
         editForm.style.display = 'flex';
+        actionsForm.style.display = 'none';
+    }
+    const cpassBtn = document.querySelector(".changepass");
+    const cpassForm = document.querySelector(".bg-cpassDropdown");
+    function cpassAction(){
+        cpassForm.style.display = 'flex';
         actionsForm.style.display = 'none';
     }
     const sideMenu = document.querySelector("#aside");
@@ -801,16 +697,17 @@ function myFunctionCP(){
         }   
 }
 
-            select.addEventListener('click', () => {
-                select.classList.toggle('select-action-clicked');
-                menu.classList.toggle('menu-action-open');
+            // select.addEventListener('click', () => {
+            //     select.classList.toggle('select-action-clicked');
+            //     menu.classList.toggle('menu-action-open');
                 
-            });
+            // });
         
 // ///////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>      
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>     
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
 <style>
@@ -945,7 +842,7 @@ function myFunctionCP(){
                 fill: var(--color-main);
             }
 
-    .bg-adduserform{
+    .bg-cpassDropdown{
         height: 100%; 
         width: 100%;
         background: rgba(0,0,0,0.7);
@@ -954,7 +851,7 @@ function myFunctionCP(){
         display: flex;
         align-items: center; 
         justify-content: center;
-        display: none;
+        display: flex;
     }
     .bg-editDropdown{
         height: 100%; 
@@ -967,7 +864,7 @@ function myFunctionCP(){
         justify-content: center;
         display: none;
     }
-    #form-registered{
+    #form-registered1{
         position: absolute;
         top: 50%;
         display: none;
@@ -1052,6 +949,145 @@ function myFunctionCP(){
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-top: 10px solid var(--color-solid-gray);
     }
+    .cpass-container{
+        width: 350px;
+        height: 100%;
+        max-height: 320px;
+        position: absolute;
+        border-radius:  0px 0px 20px 20px;
+        background-color: var(--color-white);
+        box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+        border-top: 10px solid var(--color-solid-gray);
+    }
+            .cpass-container2{
+                display: flex;
+                font-size: .7rem;
+                flex-direction: column;
+                font-family: 'Malberg Trial', sans-serif;
+                gap: 10px;
+                margin-bottom: 5rem;
+                align-items: center;
+                min-height: 20vh;
+            }
+            .cpass-container .cpassButton button{
+                font-family: 'COCOGOOSE', sans-serif;
+                padding: 10px;
+                margin-top: .5vh;
+                margin-bottom: 20px;
+                margin-left: 13em;
+                text-align: center;
+                width: 9rem;
+                max-height: 60px;
+                outline: none;
+                border: none;
+                font-size: min(max(9px, 1.1vw), 11px);
+                border-radius: 20px;
+                color: white;
+                background:  var(--color-mainbutton); 
+                cursor: pointer; 
+                transition: 0.5s;
+            }
+            .cpass-container .cpassButton button:hover{
+                background: var(--color-button-hover);
+            }
+            .form1-cpass{
+                position: relative;
+                width: 250px;
+            }
+            .form1-cpass input{
+                width:100%;
+                height: 2.5rem;
+                padding: 10px;
+                border: 2px solid var(--color-solid-gray);
+                border-radius: 15px;
+                outline: none;
+                font-size: 1em;
+                align-items: center;
+                background: var(--color-white);
+                color: var(--color-black);
+            }
+            .form1-cpass span{
+                position: absolute;
+                left: 0;
+                padding: 12px;
+                pointer-events: none;
+                font-size: 1.2em;
+                margin-top: 0.1rem;
+                margin-left: .2rem;
+                color:var(--color-solid-gray);
+            }
+            .form1-cpass input:focus{
+                border: 2px solid var(--color-main-3);
+            }
+            .form1-cpass input:valid ~ span,
+            .form1-cpass input:focus ~ span{
+                color: var(--color-main-3);
+                transform: translateX(10px) translateY(1px);
+                font-size: 0.9em;
+                padding: 0 10px;
+                transition: .3s
+            }
+            .cpassnew-title{
+                font-size: min(max(1.9rem, 1.1vw), 2rem);
+                color: var(--color-solid-gray);
+                font-family: 'Malberg Trial', sans-serif;
+                letter-spacing: .09rem;
+                display: flex;
+                padding-top: .5rem;
+                justify-content: center;
+                border-bottom: 2px solid var(--color-solid-gray);
+                margin: 15px;
+                padding-bottom: 10px;
+            }
+            p{
+                color: hsl(0, 0%, 53%);
+                font-size: min(max(10px, 1.2vw), 12px);
+                letter-spacing: 0.5px;
+                font-family: Helvetica, sans-serif;
+                align-items: center;
+                text-align: center;
+                margin-bottom: 2vh;
+                padding-left: 10px;
+                padding-right: 10px;
+                /* margin-left: 30px; */
+            }
+            .CancelButton-cpass{
+                margin-top: -6vh;
+                margin-left:-10rem;
+            }
+            #cancel-cpass{
+                font-family: 'COCOGOOSE', sans-serif;
+                padding: 10px;
+                padding-left: 40px;
+                padding-right: 40px;
+                text-align: center;
+                max-height: 70px;
+                outline: none;
+                border: none;
+                font-size: min(max(9px, 1.1vw), 11px);
+                border-radius: 20px;
+                color: white;
+                background: #c44242;
+                cursor: pointer; 
+                transition: 0.5s;
+            }
+            #cancel-edit:hover{
+                background-color: rgb(158, 0, 0);
+                transition: 0.5s; 
+            }
+            .checker {
+                text-align: right;
+                align-items: right;
+                margin-right: -10rem;
+            }
+            .checker span {
+                text-decoration: none;
+                color: rgb(3, 80, 3);
+                top: 50%;
+                font-size: min(max(10px, 1.2vw), 12px);
+                font-family: 'Switzer', sans-serif;
+            }
+            /* -------------------------------------------------------------------------------------------------------- */
     .edit-container{
         width: 500px;
         height: 100%;
@@ -1062,6 +1098,20 @@ function myFunctionCP(){
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-top: 10px solid var(--color-solid-gray);
     }
+            .error-error{
+                background-color: hsl(0, 100%, 77%);
+                color: #ffffff;
+                padding: 11px;
+                margin-left: 30px;
+                width: 77%;
+                display: none;
+                align-items: center;
+                text-align: center;
+                border-radius: 3px;
+                font-size: min(max(9px, 1.2vw), 11px);
+                letter-spacing: 0.5px;
+                font-family: Helvetica, sans-serif;
+            }
             .edit-container2{
                 display: flex;
                 font-size: .7rem;
@@ -1090,28 +1140,6 @@ function myFunctionCP(){
             }
             .edit-container .EditButton button:hover{
                 background: var(--color-button-hover);
-            }
-            .form-adduser2{
-                display: flex;
-                font-size: .7rem;
-                flex-direction: column;
-                font-family: 'Malberg Trial', sans-serif;
-                gap: 30px;
-                min-height: 20vh;
-            }
-            .error-error{
-                background-color: hsl(0, 100%, 77%);
-                color: #ffffff;
-                display: relative;
-                padding: 11px;
-                width: 70%;
-                border-radius: 6px;
-                align-items: center; 
-                text-align: center;
-                margin-left: 3.55rem;
-                font-size: min(max(9px, 1.2vw), 11px);
-                letter-spacing: 0.5px;
-                font-family: Helvetica, sans-serif;
             }
             .form1{
                 position: relative;
@@ -1171,6 +1199,17 @@ function myFunctionCP(){
                 background: var(--color-white);
                 color: var(--color-black);
             }
+            .form2 .email{
+                width:100%;
+                height: 2.5rem;
+                padding: 10px;
+                border: 2px solid var(--color-solid-gray);
+                border-radius: 15px;
+                outline: none;
+                font-size: 1em;
+                background: var(--color-solid-gray);
+                color: var(--color-white);
+            }
             .form2 span{
                 position: absolute;
                 left: 0;
@@ -1181,11 +1220,32 @@ function myFunctionCP(){
                 margin-left: .2rem;
                 color: var(--color-solid-gray);
             }
+            .form2 .email span{
+                position: absolute;
+                left: 0;
+                /* padding: 12px; */
+                pointer-events: none;
+                font-size: 12.9em;
+                margin-top: -1rem;
+                margin-left: .2rem;
+                color: hsl(0, 100%, 86%);
+            }
+            .form2 .email:focus{
+                border: 2px solid var(--color-solid-gray);
+            }
             .form2 input:focus{
                 border: 2px solid var(--color-main-3);
             }
-            .form2 input:valid ~ span,
-            .form2 input:focus ~ span{
+            .form2 .email:valid ~ span,
+            .form2 .email:focus ~ span{
+                color:hsl(0, 100%, 86%);
+                transform: translateX(10px) translateY(1px);
+                font-size: 0.9em;
+                padding: 0 10px;
+                transition: .3s
+            }
+            .form2 .middlename:valid ~ span,
+            .form2 .middlename:focus ~ span{
                 color:var(--color-main-3);
                 transform: translateX(10px) translateY(1px);
                 font-size: 0.9em;
@@ -1347,35 +1407,7 @@ function myFunctionCP(){
             }
     /* ------------------------------------------------------------------------------------ */
     /* ---------------------------------Change Password------------------------------------ */
-    .pageform{
-        background-color: white;
-        border-radius: 0px 0px 10px 10px;
-        border-top: 2px solid hsl(0, 0%, 86%);
-    } 
-    .error-error{
-        background-color: hsl(0, 100%, 77%);
-        color: #ffffff;
-        padding: 11px;
-        width: 92%;
-        margin-left: 3px;
-        border-radius: 3px;
-        font-size: min(max(9px, 1.2vw), 11px);
-        letter-spacing: 0.5px;
-        font-family: Helvetica, sans-serif;
-    }
-    .checker {
-        margin-top: 10px;
-        text-align: right;
-        align-items: right;
-        margin-right: 10px;
-    }
-    .checker span {
-        text-decoration: none;
-        color: var(--color-solid-gray);
-        top: 0;
-        font-size: min(max(10px, 1.2vw), 12px);
-        font-family: 'Switzer', sans-serif;
-    }
+    
     .message{
         background-color: hsl(0, 100%, 77%);
         color: #ffffff;
@@ -1397,7 +1429,6 @@ function myFunctionCP(){
         z-index: 1000;
         display: none;
     }
-
     .message span{
         color:var(--white);
         font-size: .9rem;
@@ -1408,7 +1439,7 @@ function myFunctionCP(){
         font-size: .9rem;
         margin: 0 auto;
         cursor: pointer;
-    }
+    } 
     .profile-picture1 h4{
         display: flex;
         font-size: .9rem;
@@ -1422,7 +1453,6 @@ function myFunctionCP(){
         border-bottom: 2px solid var(--color-solid-gray);
         margin-bottom: -5rem;
      }   
-       
     .choose-profile{
         position: relative;
         width: 20rem;
@@ -1439,51 +1469,18 @@ function myFunctionCP(){
         font-family: 'COCOGOOSE', sans-serif;
         cursor: pointer;
     }
-    #image-profile{
+    #imageprofile{
         cursor: pointer;
     }
     .choose-profile:hover{
         background: var(--color-main-2);
         transition: 0.5s;
     }
-    .addnew-title{
-        font-size: min(max(1.9rem, 1.1vw), 2rem);
-        color: var(--color-solid-gray);
-        font-family: 'Malberg Trial', sans-serif;
-        letter-spacing: .09rem;
-        display: flex;
-        padding-top: 1rem;
-        justify-content: center;
-        border-bottom: 2px solid var(--color-solid-gray);
-        margin: 15px;
-        padding-bottom: 10px;
-    }
-   
-    .form-adduser1 .AddButton button{
-        font-family: 'COCOGOOSE', sans-serif;
-        padding: 10px;
-        margin-top: .5vh;
-        margin-bottom: 20px;
-        margin-left: 20em;
-        text-align: center;
-        width: 15rem;
-        max-height: 60px;
-        outline: none;
-        border: none;
-        font-size: min(max(9px, 1.1vw), 11px);
-        border-radius: 20px;
-        color: white;
-        background:  var(--color-mainbutton); 
-        cursor: pointer; 
-        transition: 0.5s;
-    }
-    .form-adduser1 .AddButton button:hover{
-        background: var(--color-button-hover);
-    }
     .CancelButton{
         margin-top: -4.9vh;
         margin-left: 2.4em;
     }
+    
     .CloseButton{
         margin-top: 5.2vh;
         margin-left: 2.4em;
@@ -1571,10 +1568,11 @@ function myFunctionCP(){
         font-family: 'Calibri', sans-serif;
         font-size: 7.5px;
         color: var(--color-main); 
-        letter-spacing: .15rem;
+        letter-spacing: 1px;
         border-top: 2px solid var(--color-main); 
         margin-top: -0.97rem;
-        width: 100px;
+        width: 7vw;
+        text-transform: uppercase;
     }
     h1{
         margin-top: 6px;     
@@ -1584,7 +1582,7 @@ function myFunctionCP(){
         font-size: 11px;
         /* margin-right: -7.3rem;*/
         margin-top: -0.6rem; 
-        letter-spacing: 2px;
+        letter-spacing: 1px;
         color: var(--color-main); 
     }
     .user-name{
