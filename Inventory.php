@@ -44,11 +44,8 @@ $result = mysqli_query($con, $query);
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<<<<<<< HEAD
         <title>Tag's Water Purified Drinking Water</title>
-=======
-        <title>Inventory</title>
->>>>>>> f7c6311f8ee3f4f4801a639e269c014b4b3ac2e3
+
         <!-- <script src="./index.js"></script> -->
     </head>
     <body >
