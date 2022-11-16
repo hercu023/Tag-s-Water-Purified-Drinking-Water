@@ -214,7 +214,7 @@ include 'connectionDB.php';
                         </div>   
                         <div class="user2"> 
                         <div class="profile"  onclick="menuToggle();">
-                            <img class="profile-picture" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/ID.jpg" >
+                            <img src="uploaded_image/<?= $_SESSION['user_profile_image']; ?>" alt="">
                         </div>
                         <div class="drop-menu" >
                                 <div class="ul">
@@ -394,8 +394,10 @@ include 'connectionDB.php';
         background-attachment: fixed;
     }  
      /* ----------------------------------------Top bar menu----------------------------------------  */
-    .top-menu{
-        margin-top: 1.7rem;
+     .top-menu{
+        margin-top: .7rem;
+        position: absolute;
+        right: 3%;
     }
     .top-menu .menu-bar{
         display: flex;
@@ -427,13 +429,14 @@ include 'connectionDB.php';
     }
     
     .user-type{
-        font-family: 'PHANTOM', sans-serif;
-        font-size: 5.5px;
-        color: var(--color-main); 
-        letter-spacing: .2rem;
+        font-family: 'switzer', sans-serif;
+        font-size: 7.5px;
+        color: var(--color-black); 
+        letter-spacing: 1px;
         border-top: 2px solid var(--color-main); 
         margin-top: -0.97rem;
-        width: 100px;
+        width: 7vw;
+        text-transform: uppercase;
     }
     h1{
         margin-top: 6px;     
@@ -454,7 +457,7 @@ include 'connectionDB.php';
         margin-bottom: 0;
         color: var(--color-maroon);
     }
-    .profile .profile-picture{
+    .profile img{
         background: var(--color-white); 
         border-radius: 30%;
         width: 50px;
