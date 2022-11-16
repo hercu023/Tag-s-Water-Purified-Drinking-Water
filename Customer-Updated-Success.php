@@ -1221,8 +1221,10 @@ $result = mysqli_query($con, $query);
         transition: 0.5s; 
     }
      /* ----------------------------------------Top bar menu----------------------------------------  */
-    .top-menu{
+     .top-menu{
         margin-top: .7rem;
+        position: absolute;
+        right: 3%;
     }
     .top-menu .menu-bar{
         display: flex;
@@ -1251,16 +1253,16 @@ $result = mysqli_query($con, $query);
         display: none;
         text-align: center;
         align-items: center;
-    }
-    
+    }    
     .user-type{
-        font-family: 'Calibri', sans-serif;
+        font-family: 'switzer', sans-serif;
         font-size: 7.5px;
-        color: var(--color-main); 
-        letter-spacing: .15rem;
+        color: var(--color-black); 
+        letter-spacing: 1px;
         border-top: 2px solid var(--color-main); 
         margin-top: -0.97rem;
-        width: 100px;
+        width: 7vw;
+        text-transform: uppercase;
     }
     h1{
         margin-top: 6px;     
@@ -1341,7 +1343,7 @@ $result = mysqli_query($con, $query);
     .user2 .drop-menu{
         position: absolute; 
         top: 120px;
-        right: 15px;
+        right: 10px;
         padding: 10px 20px;
         background: var(--color-white);
         width: 110px;
@@ -1352,7 +1354,7 @@ $result = mysqli_query($con, $query);
         opacity: 0;
     }
     .user2 .drop-menu.user2{
-        top: 100px;
+        top: 80px;
         visibility: visible;
         opacity: 1;
     }
@@ -1360,7 +1362,7 @@ $result = mysqli_query($con, $query);
         content:'';
         position: absolute;
         top: -5px;
-        right: 46px;
+        right: 15px;
         width: 15px;
         height: 20px;
         background: var(--color-white);
@@ -1455,6 +1457,7 @@ $result = mysqli_query($con, $query);
     /* ----------------------------------------MAIN---------------------------------------- */
     .main-customer{
         width:100%;
+        position: relative;
     }
     .accTitle{
         margin-top: 2rem;
@@ -1463,6 +1466,8 @@ $result = mysqli_query($con, $query);
         font-family: 'COCOGOOSE', sans-serif;
         letter-spacing: .03rem;
         border-bottom: 2px solid var(--color-main); 
+        width: 78%;
+
     }
    
         /* ----------------------------------------Sub TAB---------------------------------------- */
@@ -1487,7 +1492,7 @@ $result = mysqli_query($con, $query);
             gap: 2rem;
             align-items: right;
             text-align: right;
-            left: 60%;
+            right: 0;
         }
         .search-bar{
             width: 18rem;
@@ -1529,7 +1534,7 @@ $result = mysqli_query($con, $query);
         /* ----------------------------------------Add Button---------------------------------------- */
         .newUser-button{
             position: absolute;
-            left: 16%;
+            left: 2%;
         }
         .add-customer{
             display: flex;
@@ -1614,7 +1619,7 @@ $result = mysqli_query($con, $query);
         margin: 0 auto;
         background: var(--color-background);
         gap: 1.8rem;
-        grid-template-columns: 14rem auto 23rem;
+        grid-template-columns: 14rem auto;
     }
     #aside{
         height: 100vh;

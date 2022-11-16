@@ -241,8 +241,11 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['total_amount']; ?></td>
                                         <td> <?php echo $rows['supplier']; ?></td>
                                         <td> 
-                                            <a href="#" id="select-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m8.3 23.15-.475-3.525q-.075-.05-.163-.1-.087-.05-.162-.1l-3.325 1.4-3.7-6.525 2.8-2.125q0-.05.013-.1.012-.05.012-.125 0-.025-.012-.063-.013-.037-.013-.087l-2.8-2.125 3.7-6.45L7.5 4.575q.1-.025.188-.075.087-.05.162-.1L8.3.825h7.4l.45 3.575.2.1.2.1 3.275-1.375 3.7 6.45-2.85 2.125v.2q0 .05-.012.1-.013.05-.013.1l2.85 2.1-3.75 6.525-3.3-1.4q-.075.025-.15.087-.075.063-.125.088l-.475 3.55Zm3.65-7.4q1.575 0 2.675-1.1 1.1-1.1 1.1-2.675 0-1.55-1.1-2.663Q13.525 8.2 11.95 8.2q-1.575 0-2.675 1.112-1.1 1.113-1.1 2.663 0 1.575 1.1 2.675 1.1 1.1 2.675 1.1Zm0-2.25q-.625 0-1.075-.45-.45-.45-.45-1.075t.45-1.075q.45-.45 1.075-.45t1.075.45q.45.45.45 1.075t-.45 1.075q-.45.45-1.075.45ZM12 12Zm-.725 7.75h1.4l.375-2.6q.825-.225 1.563-.625.737-.4 1.287-1.05l2.425 1.025.7-1.25-2.075-1.575q.15-.4.225-.825.075-.425.075-.85 0-.45-.075-.875t-.2-.825l2.1-1.575-.725-1.25-2.425 1.05q-.55-.675-1.288-1.113-.737-.437-1.587-.587l-.325-2.6H11.25l-.275 2.55q-.875.2-1.637.637Q8.575 7.85 8 8.5L5.625 7.475l-.7 1.25L6.95 10.25q-.15.475-.212.887-.063.413-.063.838t.063.85q.062.425.212.9L4.925 15.25l.7 1.25L8 15.475q.625.65 1.387 1.087.763.438 1.588.613Z"/></svg>
+                                            <a href="Customer-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
+                                            </a>
+                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
                                             </a>
                                         </td>
                                     </tr>
@@ -1167,22 +1170,43 @@ $result = mysqli_query($con, $query);
             .actionicon{
                 fill:  var(--color-white);
             }
-            #select-action{
-                background: var(--color-solid-gray);
+            #edit-action{
+                background: hsl(0, 0%, 37%);
                 color: var(--color-white);
                 align-items: center;
-                border-radius: 20px;
+                position: relative;
+                border-radius: 3px;
                 height: 100%;
                 width: 70%;
-                padding-top: 20px;
-                padding-bottom: 5px;
-                padding-right: 10px;
-                padding-left: 10px;
+                margin: 1px;
+                padding-top: 10px;
+                padding-right: 2px;
+                padding-left: 2px;
                 cursor: pointer;
                 transition: 0.3s;
                 border: none;
             }
-            #select-action:hover{
+            #edit-action:hover{
+                background: var(--color-main);
+                color: var(--color-white);
+            }
+            #archive-action{
+                background: hsl(0, 51%, 44%);
+                color: var(--color-white);
+                align-items: center;
+                position: relative;
+                margin: 1px;
+                border-radius: 3px;
+                height: 100%;
+                width: 70%;
+                padding-top: 10px;
+                padding-right: 2px;
+                padding-left: 5px;
+                cursor: pointer;
+                transition: 0.3s;
+                border: none;
+            }
+            #archive-action:hover{
                 background: var(--color-main);
                 color: var(--color-white);
             }
@@ -1408,8 +1432,10 @@ $result = mysqli_query($con, $query);
         transition: 0.5s; 
     }
      /* ----------------------------------------Top bar menu----------------------------------------  */
-    .top-menu{
+     .top-menu{
         margin-top: .7rem;
+        position: absolute;
+        right: 3%;
     }
     .top-menu .menu-bar{
         display: flex;
@@ -1441,13 +1467,14 @@ $result = mysqli_query($con, $query);
     }
     
     .user-type{
-        font-family: 'Calibri', sans-serif;
+        font-family: 'switzer', sans-serif;
         font-size: 7.5px;
-        color: var(--color-main); 
-        letter-spacing: .15rem;
+        color: var(--color-black); 
+        letter-spacing: 1px;
         border-top: 2px solid var(--color-main); 
         margin-top: -0.97rem;
-        width: 100px;
+        width: 7vw;
+        text-transform: uppercase;
     }
     h1{
         margin-top: 6px;     
@@ -1642,6 +1669,7 @@ $result = mysqli_query($con, $query);
     /* ----------------------------------------MAIN---------------------------------------- */
     .main-customer{
         width:100%;
+        position: relative;
     }
     .accTitle{
         margin-top: 2rem;
@@ -1650,6 +1678,7 @@ $result = mysqli_query($con, $query);
         font-family: 'COCOGOOSE', sans-serif;
         letter-spacing: .03rem;
         border-bottom: 2px solid var(--color-main); 
+        width: 78%;
     }
    
         /* ----------------------------------------Sub TAB---------------------------------------- */
@@ -1674,7 +1703,7 @@ $result = mysqli_query($con, $query);
             gap: 2rem;
             align-items: right;
             text-align: right;
-            left: 60%;
+            right: 0;
         }
         .search-bar{
             width: 18rem;
@@ -1716,7 +1745,7 @@ $result = mysqli_query($con, $query);
         /* ----------------------------------------Add Button---------------------------------------- */
         .newUser-button{
             position: absolute;
-            left: 16%;
+            left: 2%;
         }
         .add-customer{
             display: flex;
@@ -1802,7 +1831,7 @@ $result = mysqli_query($con, $query);
         margin: 0 auto;
         background: var(--color-background);
         gap: 1.8rem;
-        grid-template-columns: 14rem auto 23rem;
+        grid-template-columns: 14rem auto;
     }
     #aside{
         height: 100vh;
