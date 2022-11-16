@@ -24,7 +24,7 @@ if(isset($_POST['update'])){
    $image = $_FILES['image']['name'];
    $image_tmp_name = $_FILES['image']['tmp_name'];
    $image_size = $_FILES['image']['size'];
-   $image_folder = 'uploaded_img/'.$image;
+   $image_folder = 'uploaded_image/'.$image;
 
    if(!empty($image)){
 
@@ -36,7 +36,7 @@ if(isset($_POST['update'])){
 
          if($update_image){
             move_uploaded_file($image_tmp_name, $image_folder);
-            unlink('uploaded_img/'.$old_image);
+            unlink('uploaded_image/'.$old_image);
             $message[] = 'image has been updated!';
          }
       }

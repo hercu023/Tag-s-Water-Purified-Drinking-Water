@@ -29,66 +29,6 @@ $result = mysqli_query($con, $query);
             }
         }
     
-// if(isset($_POST['update'])){
-
-//     $lastname = $_POST['lastname'];
-//     $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
-//     $firstname = $_POST['firstname'];
-//     $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
-//     $middlename = $_POST['middlename'];
-//     $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
-//     $email = $_POST['email'];
-//     $email = filter_var($email, FILTER_SANITIZE_STRING);
-//     $contact = $_POST['contactnum'];
-//     $contact = filter_var($contact, FILTER_SANITIZE_STRING);
-//     $usertype = $_POST['usertypes'];
-    
-//     $update_profile = $conn->prepare("UPDATE `users` SET last_name = ?, first_name = ?, middle_name = ?, email = ?, contact_number = ?, user_type = ? WHERE id = ?");
-//     $update_profile->execute([$name, $email, $user_id]);
- 
-//     $old_image = $_POST['old_image'];
-//     $image = $_FILES['profile_image']['last_name'];
-//     $image_tmp_name = $_FILES['image']['tmp_name'];
-//     $image_size = $_FILES['profile_image']['size'];
-//     $image_folder = 'uploaded_image/'.$image;
- 
-//     if(!empty($image)){
- 
-//        if($image_size > 2000000){
-//         $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.";
-//        }else{
-//           $update_image = $conn->prepare("UPDATE `users` SET profile_image = ? WHERE id = ?");
-//           $update_image->execute([$image, $user_id]);
- 
-//           if($update_image){
-//              move_uploaded_file($image_tmp_name, $image_folder);
-//              unlink('uploaded_image/'.$old_image);
-//           }
-//        }
- 
-//     }
- 
-//     $old_pass = $_POST['old_pass'];
-//     $previous_pass = md5($_POST['previous_pass']);
-//     $previous_pass = filter_var($previous_pass, FILTER_SANITIZE_STRING);
-//     $new_pass = md5($_POST['new_pass']);
-//     $new_pass = filter_var($new_pass, FILTER_SANITIZE_STRING);
-//     $confirm_pass = md5($_POST['confirm_pass']);
-//     $confirm_pass = filter_var($confirm_pass, FILTER_SANITIZE_STRING);
- 
-//     if(!empty($previous_pass) || !empty($new_pass) || !empty($confirm_pass)){
-//        if($previous_pass != $old_pass){
-//           $message[] = 'old password not matched!';
-//        }elseif($new_pass != $confirm_pass){
-//           $message[] = 'confirm password not matched!';
-//        }else{
-//           $update_password = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
-//           $update_password->execute([$confirm_pass, $user_id]);
-//           $message[] = 'password has been updated!';
-//        }
-//     }
- 
-//  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,7 +45,7 @@ $result = mysqli_query($con, $query);
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <title>Account</title>
+        <title>Tag's Water Purified Drinking Water</title>
         <!-- <script src="./index.js"></script> -->
     </head>
     <body >
@@ -291,8 +231,14 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['user_type']; ?></td>
                                         <td> <img src="<?php echo "uploaded_image/".$rows['profile_image']; ?>" width="50px"></td>
                                         <td>
-                                            <a href="Account-Action.php?edit=<?php echo $rows['id']; ?>" id="select-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m8.3 23.15-.475-3.525q-.075-.05-.163-.1-.087-.05-.162-.1l-3.325 1.4-3.7-6.525 2.8-2.125q0-.05.013-.1.012-.05.012-.125 0-.025-.012-.063-.013-.037-.013-.087l-2.8-2.125 3.7-6.45L7.5 4.575q.1-.025.188-.075.087-.05.162-.1L8.3.825h7.4l.45 3.575.2.1.2.1 3.275-1.375 3.7 6.45-2.85 2.125v.2q0 .05-.012.1-.013.05-.013.1l2.85 2.1-3.75 6.525-3.3-1.4q-.075.025-.15.087-.075.063-.125.088l-.475 3.55Zm3.65-7.4q1.575 0 2.675-1.1 1.1-1.1 1.1-2.675 0-1.55-1.1-2.663Q13.525 8.2 11.95 8.2q-1.575 0-2.675 1.112-1.1 1.113-1.1 2.663 0 1.575 1.1 2.675 1.1 1.1 2.675 1.1Zm0-2.25q-.625 0-1.075-.45-.45-.45-.45-1.075t.45-1.075q.45-.45 1.075-.45t1.075.45q.45.45.45 1.075t-.45 1.075q-.45.45-1.075.45ZM12 12Zm-.725 7.75h1.4l.375-2.6q.825-.225 1.563-.625.737-.4 1.287-1.05l2.425 1.025.7-1.25-2.075-1.575q.15-.4.225-.825.075-.425.075-.85 0-.45-.075-.875t-.2-.825l2.1-1.575-.725-1.25-2.425 1.05q-.55-.675-1.288-1.113-.737-.437-1.587-.587l-.325-2.6H11.25l-.275 2.55q-.875.2-1.637.637Q8.575 7.85 8 8.5L5.625 7.475l-.7 1.25L6.95 10.25q-.15.475-.212.887-.063.413-.063.838t.063.85q.062.425.212.9L4.925 15.25l.7 1.25L8 15.475q.625.65 1.387 1.087.763.438 1.588.613Z"/></svg>
+                                            <a href="Account-Action.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
+                                            </a>
+                                            <a href="Account-Action-ChangePassword.php?edit=<?php echo $rows['id']; ?>" id="cpass-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17q-1.688 0-3.104-.719-1.417-.719-2.375-1.927l1.062-1.083q.75 1.021 1.896 1.625Q8.625 15.5 10 15.5q2.271 0 3.885-1.615Q15.5 12.271 15.5 10t-1.615-3.885Q12.271 4.5 10 4.5q-2.292 0-3.917 1.635-1.625 1.636-1.583 3.99l1.188-1.187L6.75 10l-3 3-3-3 1.062-1.062L3 10.146q-.021-1.5.531-2.813.552-1.312 1.511-2.27Q6 4.104 7.281 3.552 8.562 3 10.021 3q1.437 0 2.708.552 1.271.552 2.219 1.5t1.5 2.219Q17 8.542 17 10q0 2.917-2.042 4.958Q12.917 17 10 17Zm-1.5-4q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
+                                            </a>
+                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
                                             </a>
                                         </td>
                                     <tr id="noRecordTR" style="display:none">
@@ -308,7 +254,7 @@ $result = mysqli_query($con, $query);
                 </div>
             </main>
         
-            <div class="top-menu">  
+            <!-- <div class="top-menu">  
                 <div class="menu-bar">
                     <button id="menu-button">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z"/></svg>
@@ -359,11 +305,11 @@ $result = mysqli_query($con, $query);
                 </div>
                
             </div>      
-    </div> 
+    </div>  -->
   
     <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
         <div class="bg-adduserform" id="bg-addform">
-            <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
+            <div class="message"></div>
             <div class="form-adduser1" id="form-adduser1">
                 <h1 class="addnew-title">ADD NEW USER</h1>
             
@@ -427,7 +373,7 @@ $result = mysqli_query($con, $query);
                         <h4 >Profile Picture</h4>
                     </div>
                     <div class="choose-profile">
-                        <input type="file" id="image-profile" name="profile_image" required class="box" accept="image/jpg, image/png, image/jpeg" >
+                        <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
                     </div>
                 </div>   
             
@@ -565,7 +511,7 @@ function myFunctionCP(){
     var bgform = $('#form-registered');
     var addform = $('#form-adduser1');
     var addbtn = $("#adduserBtn");
-    var message1 = $(".message");
+    var message = $(".message");
     
     $(document).ready(function(){
         $('#adduserFrm').submit(function(e){
@@ -585,26 +531,25 @@ function myFunctionCP(){
                     if(response.status == 1){   
                         bgform.show();  
                         addform.hide(); 
-                        message1.hide(); 
+                        message.hide(); 
                         $('#adduserFrm')[0].reset();
-
                 }else{
                     $(".message").html('<p>'+response.message+'<p>');
                 }
                     }
                 });
             });
-            $("#image-profile").change(function(){
-                var file = this.files[0];
-                var fileType = file.type;
-                var match = ['image/jpeg', 'image/jpg', 'image/png']
+        //     $("#image-profile").change(function(){
+        //         var file = this.files[0];
+        //         var fileType = file.type;
+        //         var match = ['image/jpeg', 'image/jpg', 'image/png']
 
-                if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
-                    alert("JPEG, JPG, and PNG files only.")
-                    $("#image-profile").val('');
-                    return false;
-                }
-        });
+        //         if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
+        //             alert("JPEG, JPG, and PNG files only.")
+        //             $("#image-profile").val('');
+        //             return false;
+        //         }
+        // });
     });
     
 // 
@@ -828,7 +773,8 @@ function myFunctionCP(){
 //         $("#" + $(this).val()).show().siblings();
 //     })
 </script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>      
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
@@ -1358,22 +1304,64 @@ function myFunctionCP(){
                 /* left: 10%; */
                 margin-bottom: .5rem
             }
-            #select-action{
-                background: var(--color-solid-gray);
+            #edit-action{
+                background: hsl(0, 0%, 37%);
                 color: var(--color-white);
                 align-items: center;
-                border-radius: 20px;
+                position: relative;
+                border-radius: 3px;
                 height: 100%;
                 width: 70%;
-                padding-top: 20px;
-                padding-bottom: 5px;
-                padding-right: 10px;
-                padding-left: 10px;
+                margin: 1px;
+                padding-top: 10px;
+                padding-right: 2px;
+                padding-left: 2px;
                 cursor: pointer;
                 transition: 0.3s;
                 border: none;
             }
-            #select-action:hover{
+            #edit-action:hover{
+                background: var(--color-main);
+                color: var(--color-white);
+            }
+            #cpass-action{
+                background: hsl(51, 96%, 43%);
+                position: relative;
+                color: var(--color-white);
+                align-items: center;
+                text-align: center;
+                margin: 1px;
+                border-radius: 3px;
+                height: 100%;
+                width: 70%;
+                padding-top: 10px;
+                padding-right: 2px;
+                padding-left: 5px;
+                cursor: pointer;
+                transition: 0.3s;
+                border: none;
+            }
+            #cpass-action:hover{
+                background: var(--color-main);
+                color: var(--color-white);
+            }
+            #archive-action{
+                background: hsl(0, 51%, 44%);
+                color: var(--color-white);
+                align-items: center;
+                position: relative;
+                margin: 1px;
+                border-radius: 3px;
+                height: 100%;
+                width: 70%;
+                padding-top: 10px;
+                padding-right: 2px;
+                padding-left: 5px;
+                cursor: pointer;
+                transition: 0.3s;
+                border: none;
+            }
+            #archive-action:hover{
                 background: var(--color-main);
                 color: var(--color-white);
             }
@@ -1588,10 +1576,11 @@ function myFunctionCP(){
         font-family: 'Calibri', sans-serif;
         font-size: 7.5px;
         color: var(--color-main); 
-        letter-spacing: .15rem;
+        letter-spacing: 1px;
         border-top: 2px solid var(--color-main); 
         margin-top: -0.97rem;
-        width: 100px;
+        width: 7vw;
+        text-transform: uppercase;
     }
     h1{
         margin-top: 6px;     
@@ -1601,7 +1590,7 @@ function myFunctionCP(){
         font-size: 11px;
         /* margin-right: -7.3rem;*/
         margin-top: -0.6rem; 
-        letter-spacing: 2px;
+        letter-spacing: 1px;
         color: var(--color-main); 
     }
     .user-name{
@@ -1811,6 +1800,7 @@ function myFunctionCP(){
     /* ----------------------------------------MAIN---------------------------------------- */
     .main-account{
         width:100%;
+        position: relative;
     }
     .accTitle{
         margin-top: 2rem;
@@ -1923,14 +1913,17 @@ function myFunctionCP(){
         margin-top: 2rem;
         max-height: 500px;
         overflow:auto;
+        width: 100%;
+        /* position: absolute; */
         box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
         border-top: 8px solid var(--color-table-hover);
-        border-radius: 40px;
+        border-radius: 0px 0px 40px 40px;
+        
     }
      main .account-container table{
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
-        width: 100%;
+        width: 100%; 
         font-size: 1rem;
         padding-left: 2.5rem;
         padding-right: 2.5rem;

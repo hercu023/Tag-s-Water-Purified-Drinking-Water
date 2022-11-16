@@ -1,14 +1,18 @@
 <?php
-require_once 'controllerUserdata_customers.php';
+require_once 'controllerUserdata.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
-    if (isset($_POST['email'])){
+// $mysqli = new mysqli('localhost', 'root', '','acc_db');
+// $results = mysqli_query($con, "SELECT * FROM users");
+// $row = mysqli_fetch_array($result);  
+if (isset($_POST['id'])){
 
-        $email = $_POST['email'];
+        $id = $_POST['id'];
         
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
-        $stmt->execute([$email]);
+        $stmt = $conn->prepare("SELECT * FROM users WHERE id=?");
+        $stmt->execute([$id]);
+        $fetch_profile = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($stmt->rowCount() === 1){
                 $user = $stmt->fetch();
                 
@@ -27,7 +31,7 @@ $result = mysqli_query($con, $query);
                 }
             }
         }
-        
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,8 +47,9 @@ $result = mysqli_query($con, $query);
         <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <title>Tag's Water Purified Drinking Water</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <title>Account</title>
         <!-- <script src="./index.js"></script> -->
     </head>
     <body >
@@ -82,7 +87,7 @@ $result = mysqli_query($con, $query);
                         <h3>MONITORING</h3>
                     </a>
                 
-                    <a href="#" class="customers">
+                    <a href="Customer.php" class="customers">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
                         <h3>CUSTOMER</h3>
                     </a>  
@@ -141,7 +146,7 @@ $result = mysqli_query($con, $query);
                         <h3>MONITORING</h3>
                     </a>
                 
-                    <a href="#" class="customers">
+                    <a href="Customer.php" class="customers">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
                         <h3>CUSTOMER</h3>
                     </a>  
@@ -174,16 +179,13 @@ $result = mysqli_query($con, $query);
             </aside>
         </div>
             <main>
-                <div class="main-customer">
-                    <h1 class="accTitle">CUSTOMERS</h1> 
+                <div class="main-account">
+                    <h1 class="accTitle">ACCOUNT</h1> 
                     <div class="sub-tab">
-                        <!-- <div class="user-title"> 
-                            <h2> Customers </h2>
-                        </div> -->
                         <div class="newUser-button"> 
-                            <button type="submit" id="add-userbutton" class="add-customer">
+                            <button type="submit" id="add-userbutton" class="add-account">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                    <h3>Add New Customer</h3>
+                                    <h3>Add New User</h3>
                             </button>
                         </div>
                         <div class="search">
@@ -194,46 +196,45 @@ $result = mysqli_query($con, $query);
                                 </button>
                             </div>
                         </div>  
-                        <!-- <div class="popup-addAccount">
-                            
-                        </div> -->
                     </div>
-                    <div class="customer-container">
+                    <div class="account-container">
                         <table class="table" id="myTable"> 
                             <thead> 
                                 <tr>
                                     <th>ID</th>
-                                    <th>Customer Name</th>
-                                    <th>Address</th>
+                                    <th>Last Name</th>
+                                    <th>First Name</th>
+                                    <th>Middle Name</th>
+                                    <th>Email</th>
+
                                     <th>Contact Number</th>
-                                    <th>Balance</th>
-                                    <th>Note</th>
+                                    <th>Role</th>
+                                    <th>Picture</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
 
                             <?php
-                            $customers = "SELECT * FROM customers"; 
-                            $sql = mysqli_query($con, $customers);
-                                while ($rows = mysqli_fetch_assoc($sql))
+                                while ($rows = mysqli_fetch_assoc($result))
                                 {
                             ?>
                             <tbody>
                                     <tr>
                                         <td> <?php echo $rows['id']; ?></td>
-                                        <td> <?php echo $rows['customer_name']; ?></td>
-                                        <td> <?php echo $rows['address']; ?></td>
+                                        <td> <?php echo $rows['last_name']; ?></td>
+                                        <td> <?php echo $rows['first_name']; ?></td>
+                                        <td> <?php echo $rows['middle_name']; ?></td>
+                                        <td> <?php echo $rows['email']; ?></td>
                                         <td> <?php echo $rows['contact_number']; ?></td>
-                                        <td> <?php echo $rows['balance']; ?></td>
-                                        <td> <?php echo $rows['note']; ?></td>
+                                        <td> <?php echo $rows['user_type']; ?></td>
+                                        <td> <img src="<?php echo "uploaded_image/".$rows['profile_image']; ?>" width="50px"></td>
                                         <td>
-                                            <a href="#?edit=<?php echo $rows['id']; ?>" id="select-action" class="action-btn" name="action">
+                                             <a href="Account-Action.php" id="select-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m8.3 23.15-.475-3.525q-.075-.05-.163-.1-.087-.05-.162-.1l-3.325 1.4-3.7-6.525 2.8-2.125q0-.05.013-.1.012-.05.012-.125 0-.025-.012-.063-.013-.037-.013-.087l-2.8-2.125 3.7-6.45L7.5 4.575q.1-.025.188-.075.087-.05.162-.1L8.3.825h7.4l.45 3.575.2.1.2.1 3.275-1.375 3.7 6.45-2.85 2.125v.2q0 .05-.012.1-.013.05-.013.1l2.85 2.1-3.75 6.525-3.3-1.4q-.075.025-.15.087-.075.063-.125.088l-.475 3.55Zm3.65-7.4q1.575 0 2.675-1.1 1.1-1.1 1.1-2.675 0-1.55-1.1-2.663Q13.525 8.2 11.95 8.2q-1.575 0-2.675 1.112-1.1 1.113-1.1 2.663 0 1.575 1.1 2.675 1.1 1.1 2.675 1.1Zm0-2.25q-.625 0-1.075-.45-.45-.45-.45-1.075t.45-1.075q.45-.45 1.075-.45t1.075.45q.45.45.45 1.075t-.45 1.075q-.45.45-1.075.45ZM12 12Zm-.725 7.75h1.4l.375-2.6q.825-.225 1.563-.625.737-.4 1.287-1.05l2.425 1.025.7-1.25-2.075-1.575q.15-.4.225-.825.075-.425.075-.85 0-.45-.075-.875t-.2-.825l2.1-1.575-.725-1.25-2.425 1.05q-.55-.675-1.288-1.113-.737-.437-1.587-.587l-.325-2.6H11.25l-.275 2.55q-.875.2-1.637.637Q8.575 7.85 8 8.5L5.625 7.475l-.7 1.25L6.95 10.25q-.15.475-.212.887-.063.413-.063.838t.063.85q.062.425.212.9L4.925 15.25l.7 1.25L8 15.475q.625.65 1.387 1.087.763.438 1.588.613Z"/></svg>
                                             </a>
                                         </td>
-                                    </tr>
                                     <tr id="noRecordTR" style="display:none">
-                                        <td colspan="6">No Record Found</td>                         
+                                        <td colspan="9">No Record Found</td>                         
                                     </tr>
                             </tbody>
                                     <?php
@@ -241,14 +242,16 @@ $result = mysqli_query($con, $query);
                                 ?>   
                         </table>     
                     </div>
+                     
                 </div>
             </main>
+        
             <div class="top-menu">  
                 <div class="menu-bar">
                     <button id="menu-button">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z"/></svg>
                     </button>
-                    <h2 class="accTitle-top">Customers</h2>
+                    <h2 class="accTitle-top">ACCOUNT</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
@@ -303,52 +306,32 @@ $result = mysqli_query($con, $query);
                 </div> -->
             </div>      
     </div> 
-           
-    <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
-        <div class="bg-addcustomerform" id="bg-addform">
-            <div class="message"></div>
-                
-            <div class="form-addcustomer1" id="form-addcustomer1">
-                <h1 class="addnew-title">ADD NEW CUSTOMER</h1>
-            
-                <div class="form-addcustomer2" id="form-addcustomer">
-                    <div class="form1">  
-                        <input type="text" id="fill"class="customername" required="required" name="customername">
-                        <span>Customer Name</span>
-                    </div> 
-                    <div class="form2">  
-                        <input type="text" id="fill" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
-                        <span>Contact Number</span>
+        <div class="bg-actionDropdown" id="action-bgdrop">
+            <div class="action">
+                    <h2> ACTION </h2>
+                    <div class="CloseButton">
+                        <a href="Account.php" id="close">  
+                            <svg id="close-action"  xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
+                        </a>   
                     </div>
-                    <div class="form3">  
-                        <input type="text" id="fill" required="required" name="address">
-                        <span>Address</span>
-                    </div>
-                    <h4 class="bal">Balance</h4>
-                    <div class="form4">   
-                        <input type="number" class="balance" onchange="setTwoNumberDecimal" step="0.25"  required="required" name="balance" placeholder="0.00"/>
-                        <!-- <input type="text" id="fill" class="balance" onkeypress="return isNumberKey(event)" > -->
-                    </div>
-                    <div class="profile-picture1" >
-                        <h4>NOTE</h4>
-                    </div>
-                    <div class="form5">  
-                        <input type="text" id="fill" class="note" name="note" placeholder="Note">
-
-                    </div>
- 
-                <div class="AddButton">
-                    <button type="submit" id="addcustomerBtn" name="submitCustomer">SAVE</button>
-                </div>
-                <div class="CancelButton">
-
-                <a href="Customer.php" id="cancel">CANCEL</a>   
-
-                </div>
-            </div>
-        </div>
+                    </button>
+                    <button type="button"  class="edit" onclick="editAction();">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
+                        <h4>Edit</h4>
+                    </button>
+                    <button type="button"  class="changepass" onclick="cpassAction();">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17q-1.688 0-3.104-.719-1.417-.719-2.375-1.927l1.062-1.083q.75 1.021 1.896 1.625Q8.625 15.5 10 15.5q2.271 0 3.885-1.615Q15.5 12.271 15.5 10t-1.615-3.885Q12.271 4.5 10 4.5q-2.292 0-3.917 1.635-1.625 1.636-1.583 3.99l1.188-1.187L6.75 10l-3 3-3-3 1.062-1.062L3 10.146q-.021-1.5.531-2.813.552-1.312 1.511-2.27Q6 4.104 7.281 3.552 8.562 3 10.021 3q1.437 0 2.708.552 1.271.552 2.219 1.5t1.5 2.219Q17 8.542 17 10q0 2.917-2.042 4.958Q12.917 17 10 17Zm-1.5-4q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
+                        <h4>Change Password</h4>
+                    </button>
+                    <button type="button" class="archive" onclick="archiveAction();">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
+                        <h4>Archive</h4>
+                    </button>
+            </div>   
+    
+        </div>    
     </form>
-            <div id="form-registered1">
+            <div id="form-registered">
                 <div id="container-registered">
                     <div class="content">
                         <div class="verify">
@@ -403,69 +386,219 @@ $result = mysqli_query($con, $query);
                             </svg>
                         </div>  
                         <div class="register">  
-                            <h2>CUSTOMER ADDED SUCCESSFULLY</h2>
+                            <h2>PASSWORD HAS CHANGED</h2>
                         </div>
                     </div>
                         <div class="pageform">
                             <div class="confirmBtn">
-                                <a href="Customer.php" id="registered">CONFIRM</a>   
+                                <a href="Account.php" id="registered">CONFIRM</a>   
                             </div> 
                         </div>
                 </div>
             </div>
-        
-       
+        </form>
+        </div>
     
 </body>
 </html>
 <script>
-
+    //SHOW PASSWORD-------------------------------------------------
+function myFunctionCP(){
+        var x = document.getElementById("newpass");
+        var y = document.getElementById("cpass");
+        var z = document.getElementById("oldpass");
+        if(x.type === 'password'){
+            x.type = "text";
+            y.type = "text";
+            z.type = "text";
+        }else{
+            x.type = "password";
+            y.type = "password";
+            z.type = "password";
+        }
+    }
+    // EDIT ACCOUNT--------------------------------------------------
+    document.querySelector("#myTable"),addEventListener("click", (e)=>{
+        target = e.target;
+        if(target.classList.contains("action-btn")){
+            selectedRow = target.parentElement.parentElement;
+            document.querySelector("#lastname").value = selectedRow.children[1].textContent;
+            document.querySelector("#firstname").value = selectedRow.children[2].textContent;
+            document.querySelector("#middlename").value = selectedRow.children[3].textContent;
+            document.querySelector("#email").value = selectedRow.children[4].textContent;
+            document.querySelector("#contactnum").value = selectedRow.children[5].textContent;
+            // document.querySelector("#usertype").value = selectedRow.children[6].textContent;
+            // document.querySelector("#image-profile").value = selectedRow.children[7].textContent;
+        }
+    });
     const regForm = document.querySelector(".form-registered");
-    const regBtn = document.querySelector(".AddButton");
-    var bgform = $('#form-registered1');
-    var addform = $('#form-addcustomer1');
-    var addbtn = $("#addcustomerBtn");
-    var message = $(".message");
-    
+    const regBtn = document.querySelector(".EditButton");
+    var bgform = $('#form-registered');
+    var editform = $('#edit-container');
+    var editbtn = $("#edituserBtn");
+    var message = $("#message");
+
     $(document).ready(function(){
-        $('#addcustomerFrm').submit(function(e){
-            e.preventDefault();
+        $('#edituserFrm').submit(function(event){
+            event.preventDefault();
+            //  var values = $(this).serialize();
+            var lastname = $("#lastname").val();
+            var firstname = $("#firstname").val();
+            var middlename = $("#middlename").val();
+            var email = $("#email").val();
+            var contactnum = $("#contactnum").val();
+            var usertype = $("#usertype").val();
+            var imageprofile = $("#imageprofile").val();
+                        // bgform.show();  
 
             $.ajax({
                 type: 'post',
-                url: 'controllerUserdata_customers.php',
-                data: new FormData(this),
-                contentType: false, 
-                cache: false,
-                processData: false,
+                url: 'controllerUserdata_AJAX.php',
+                // data: new FormData(this),
+                data: {last_name:lastname,first_name:firstname,middle_name:middlename,email:email,contact_number:contactnum,
+                user_type:usertype,profile_image:imageprofile},
+                // contentType: false, 
+                // cache: false,
+                // processData: false,
                 // 'submit=1&'+$form.serialize(),
-                dataType: 'json',  
-                success: function(response){
-                    $(".message").css("display", "block");
-                    if(response.status == 1){   
-                        $("#form-registered1").css("display", "block");
-                        addform.hide(); 
-                        message.hide(); 
-                        $('#addcustomerFrm')[0].reset();
-                }else{
-                    $(".message").html('<p>'+response.message+'<p>');
+                dataType: "html",  
+                success: function(data){
+                    if(data.status == 1){   
+                        editform.hide(); 
+                        bgform.show();  
+                        $('#edituserFrm')[0].reset();
+                        // $("#message").html(data);
+                    } 
                 }
-                    }
-                });
-            });
+            });     
         });
+    });
+    // $(document).ready(function(){
+    //     $('#edituserFrm').submit(function(e){ 
+    //         e.preventDefault();
+           
+    //         $.ajax({
+    //             type: 'post',
+    //             url: 'controllerUserdata_AJAX.php',
+    //             data: new FormData(this),
+    //             contentType: false, 
+    //             cache: false,
+    //             processData: false,
+    //             dataType: "json",  
+    //             success: function(data){    
+    //                 $("#message").css("display", "block");
+    //                 if(data.status == 1){   
+    //                     addform.hide(); 
+    //                     bgform.show();  
+    //                     message.hide(); 
+    //                     $('#edituserFrm')[0].reset();
+    //                     // $("#message").css("display", "block");
+    //                     // $("#message").html(data);
+    //             }else{
+    //                 $("#message").html('<p>'+data.message+'<p>');
+    //             }
+    //                 }
+    //             });
+    //         });
+    //     }); 
+    // $(document).ready(function(){
+    //     $('#edituserFrm').update(function(e){
+    //         e.preventDefault();
+    //         var lastname = $("#lastname").val();
+    //         var firstname = $("#firstname").val();
+    //         var middlename = $("#middlename").val();
+    //         var email = $("#email").val();
+    //         var contactnum = $("#contactnum").val();
+    //         var usertypes = $("#usertypes").val();
+    //         var imageprofile = $("#imageprofile").val();
 
+    //         $.ajax({
+    //             type: 'post',
                
+    //             data: {lastname:lastname,firstname:firstname,middlename:middlename,email:email,contactnum:contactnum},
+                // data: new FormData(this),
+                // contentType: false, 
+                // cache: false,
+                // processData: false,
+                // 'submit=1&'+$form.serialize(),
+                // dataType: 'html',  
+                // success: function(data){
+                    // $("#message").css("display", "block");
+                    // $("#message").html(data);
+                    // if(response.status == 1){   
+                    //     bgform.show();  
+                    //     editform.hide(); 
+                    //     message.hide(); 
+                    //     $('#edituserFrm')[0].reset();
+
+                    // }else{
+                    //     $(".message").html('<p>'+response.message+'<p>');
+                    // }
+            //             }
+            //     });
+            // });
+            // $("#image-profile").change(function(){
+            //     var file = this.files[0];
+            //     var fileType = file.type;
+            //     var match = ['image/jpeg', 'image/jpg', 'image/png']
+
+            //     if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
+            //         alert("JPEG, JPG, and PNG files only.")
+            //         $("#image-profile").val('');
+            //         return false;
+            //     }
+            // });
+        // });
+    // const cpass2Btn = document.querySelector(".cpassButton");
+    // var bgform = $('#form-registered');
+    // var cpassform = $('#cpass-container');
+    // var cpassbtn = $("#cpassuserBtn");
+    // var message2 = $(".message");
+    
+    // $(document).ready(function(){
+    //     $('#cpassuserFrm').submit(function(e){
+    //         e.preventDefault();
+
+    //         $.ajax({
+    //             type: 'post',
+    //             url: 'controllerUserdata_AJAX.php',
+    //             data: new FormData(this),
+    //             contentType: false, 
+    //             cache: false,
+    //             processData: false,
+    //             // 'submit=1&'+$form.serialize(),
+    //             dataType: 'json',  
+    //             success: function(response){
+    //                 $(".cpassuserFrm").css("display", "block");
+    //                 if(response.status == 1){   
+    //                     bgform.show();  
+    //                     cpassform.hide(); 
+    //                     message2.hide(); 
+    //                     $('#cpassuserFrm')[0].reset();
+
+    //                 // }else  if(response.status == 2){   
+    //                 //     bgform.show();  
+    //                 //     addform.hide(); 
+    //                 //     message1.hide(); 
+    //                 //     $('#adduserFrm')[0].reset();
+
+    //             }else{
+    //                 $(".message").html('<p>'+response.message+'<p>');
+    //             }
+    //                 }
+    //             });
+    //         });
+    //     });
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
     let inputs = document.querySelectorAll('#fill');
-
+    let pass = document.querySelectorAll('#pass');
+    let cpass = document.querySelectorAll('#cpass');
     btnClear.addEventListener('click', () => {
         inputs.forEach(input => input.value = '');
+        pass.forEach(input => input.value = '');
+        cpass.forEach(input => input.value = '');
     });
-    // btnClear1.addEventListener('click', () => {
-    //     inputs.forEach(input => input.value = '');
-    // });
 
     function isNumberKey(evt){
     var charCode = (evt.which) ? evt.which : evt.keyCode
@@ -477,25 +610,48 @@ $result = mysqli_query($con, $query);
     const checkbox = document.getElementById('checkbox');
          checkbox.addEventListener( 'change', () =>{
              document.body.classList.toggle('dark-theme');
-        //     if(this.checked) {
-        //         body.classList.add('dark')
-        //     } else {
-        //         body.classList.remove('dark')     
-        //     }
          });
-
+  
+    // --------------------------------------Action Dropdown-------------------------------------- //
+    const actionsForm = document.querySelector(".bg-actionDropdown");
+    const actionsBtn = document.querySelector(".action-btn");
+        // actionsBtn.addEventListener('click', () =>{
+        //     actionsForm.style.display = 'block';
+        // })
+    function actionFunction(){
+        // actionsForm.classList.toggle('bg-actionDropdown')
+        actionsForm.style.display = 'flex';
+    }
+    function closeAction(){
+        // actionsForm.classList.toggle('bg-actionDropdown')
+        actionsForm.style.display = 'none';
+    }
+    const editBtn = document.querySelector(".edit");
+    const editForm = document.querySelector(".bg-editDropdown");
     
-
+    // editBtn.addEventListener('click', () =>{
+    //     editForm.style.display = 'flex';
+    //     })
+    function editAction(){
+        editForm.style.display = 'flex';
+        actionsForm.style.display = 'none';
+    }
+    const cpassBtn = document.querySelector(".changepass");
+    const cpassForm = document.querySelector(".bg-cpassDropdown");
+    function cpassAction(){
+        cpassForm.style.display = 'flex';
+        actionsForm.style.display = 'none';
+    }
     const sideMenu = document.querySelector("#aside");
-    const addForm = document.querySelector(".bg-addcustomerform");
-  
-  
+    const addForm = document.querySelector(".bg-adduserform");
+   
+    // const closeBtn = document.querySelector("#close-btn");
     const cancelBtn = document.querySelector("#cancel");
-    const addBtn = document.querySelector(".add-customer");
-    const addcustomerBtn = document.querySelector(".AddButton");
- 
+    const addBtn = document.querySelector(".add-account");
+    const adduserBtn = document.querySelector(".AddButton");
     const menuBtn = document.querySelector("#menu-button");
-
+    // const darktheme = document.querySelector('.dark-theme');
+    // const checkbox = document.getElementById("checkbox");
         menuBtn.addEventListener('click', () =>{
             sideMenu.style.display = 'block';
         })
@@ -507,90 +663,78 @@ $result = mysqli_query($con, $query);
         addBtn.addEventListener('click', () =>{
             addForm.style.display = 'flex';
         })
-    
-        function menuToggle(){
+        
+       
+         function menuToggle(){
             const toggleMenu = document.querySelector('.drop-menu');
             toggleMenu.classList.toggle('user2')
         }
 
+
         function tableSearch(){
     let input, filter, table, tr, lastname,
-     firstname, address, contactnum, i, txtValue;
-
+     firstname, middlename, email, contactnum, role, i, txtValue;
+  
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
     table = document.getElementById("myTable");
     tr = table.getElementsByTagName("tr");
 
-    for(let i = 0; i < tr.length; i++){
-        lastname = tr[i].getElementsByTagName("td")[1];
-        firstname = tr[i].getElementsByTagName("td")[2];
-        address = tr[i].getElementsByTagName("td")[3];
-        contactnum = tr[i].getElementsByTagName("td")[4];
-        if(lastname || firstname || address || contactnum){
-            var lastname_value = lastname.textContent || lastname.innerText;
-            var firstname_value = firstname.textContent || firstname.innerText;
-            var contactnum_value = contactnum.textContent || contactnum.innerText;
-            var address_value = address.textContent || address.innerText;
 
-            if(address_value.toUpperCase().indexOf(filter) > -1 ||
-               contactnum_value.toUpperCase().indexOf(filter) > -1 ||
-               lastname_value.toUpperCase().indexOf(filter) > -1 ||
-               firstname_value.toUpperCase().indexOf(filter) > -1){
-                tr[i].style.display ="";
-            }
+        for(i = 0; i < tr.length; i++){
+           
+            lastname = tr[i].getElementsByTagName("td")[1];
+            firstname = tr[i].getElementsByTagName("td")[2];
+            middlename = tr[i].getElementsByTagName("td")[3];
+            email = tr[i].getElementsByTagName("td")[4];
+            contactnum = tr[i].getElementsByTagName("td")[5];
+            role = tr[i].getElementsByTagName("td")[6];
+            
+            
+            if(lastname || firstname || middlename || email || contactnum || role){
+                var lastname_value = lastname.textContent || lastname.innerText;
+                var firstname_value = firstname.textContent || firstname.innerText;
+                var middlename_value = middlename.textContent || middlename.innerText;
+                var email_value = email.textContent || email.innerText;
+                var contactnum_value = contactnum.textContent || contactnum.innerText;
+                var role_value = role.textContent || role.innerText;
+                if(role_value.toUpperCase().indexOf(filter) > -1 ||
+                contactnum_value.toUpperCase().indexOf(filter) > -1 ||
+                email_value.toUpperCase().indexOf(filter) > -1 ||
+                middlename_value.toUpperCase().indexOf(filter) > -1 ||
+                lastname_value.toUpperCase().indexOf(filter) > -1 ||
+                firstname_value.toUpperCase().indexOf(filter) > -1){
+                    tr[i].style.display ="";
+                }
                 else{
                     tr[i].style.display = "none";
                 }
-                    if($('#myTable tbody tr:visible').length === 0) {
-                        document.getElementById('noRecordTR').style.display = "";
-                    }else{
-                        document.getElementById('noRecordTR').style.display = "none";
-                    }
+                if($('#myTable tbody tr:visible').length === 0) {
+                document.getElementById('noRecordTR').style.display = "";
+            }else{
+                document.getElementById('noRecordTR').style.display = "none";
+            }
             }
             if($('#myTable tbody tr:visible').length === 0) {
-                        document.getElementById('noRecordTR').style.display = "";
-                    }else{
-                        document.getElementById('noRecordTR').style.display = "none";
-                    }
+                document.getElementById('noRecordTR').style.display = "";
+            }else{
+                document.getElementById('noRecordTR').style.display = "none";
+            }
         }   
-        if($('#myTable tbody tr:visible').length === 0) {
-                        document.getElementById('noRecordTR').style.display = "";
-                    }else{
-                        document.getElementById('noRecordTR').style.display = "none";
-                    }
 }
-    const dropdowns = document.querySelectorAll(".usertype-dropdown");
-        dropdowns.forEach(dropdown =>{
-            const select = dropdown.querySelector(".select");
-            const caret = dropdown.querySelector(".caret");
-            const menu = dropdown.querySelector(".menu");
-            const options = dropdown.querySelectorAll(".menu li");
-            const selected = dropdown.querySelector(".selected");
 
-            select.addEventListener('click', () => {
-                select.classList.toggle('select-clicked');
-                caret.classList.toggle('caret-rotate');
-                menu.classList.toggle('menu-open');
-            });
-            options.forEach(option => {
-                option.addEventListener('click', () =>{
-                    select.innerText = option.innerText;
-                    select.classList.remove('select-clicked');
-                    caret.classList.remove('caret-rotate');
-                    menu.classList.remove('menu-open');
-                    options.forEach(option => {
-                        option.classList.remove('active');
-                    });
-                    option.classList.add('active');
-                });
-            });
-        });
-
+            // select.addEventListener('click', () => {
+            //     select.classList.toggle('select-action-clicked');
+            //     menu.classList.toggle('menu-action-open');
+                
+            // });
+        
+// ///////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>      
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
 <style>
      :root{
         --color-main: rgb(2, 80, 2);
@@ -613,12 +757,14 @@ $result = mysqli_query($con, $query);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
         --color-mainbutton: rgb(117, 117, 117);
         --color-button-hover: rgb(39, 170, 63);
+        --color-border-bottom: rgb(219, 219, 219);
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
         --color-tertiary: hsl(0, 0%, 25%);
         --color-main-2: rgb(60, 128, 60);
         --color-main-3: rgb(93, 163, 93);
+        --color-border-bottom: rgb(104, 104, 104);
         --color-black: white;
         --color-shadow-shadow: rgb(32, 32, 32);
         --color-aside-mobile-focus: rgb(244, 255, 246);
@@ -647,8 +793,8 @@ $result = mysqli_query($con, $query);
         background-size: cover;
         background-attachment: fixed;
     }  
-    /* -----------------------------------------Add Customer Form------------------------------------------ */
-    .bg-addcustomerform{
+    /* -----------------------------------------Adduserform------------------------------------------ */
+    .bg-actionDropdown{
         height: 100%; 
         width: 100%;
         background: rgba(0,0,0,0.7);
@@ -657,20 +803,21 @@ $result = mysqli_query($con, $query);
         display: flex;
         align-items: center; 
         justify-content: center;
-        display: none;
     }
-    #form-registered1{
+        
+    #form-registered{
         position: absolute;
         top: 50%;
-        display: none;
+        display: flex;
         left: 50%;
-        max-height: 90vh;
+        max-height: 95vh;
         min-width: 400px;
         transform: translate(-50%, -50%);
         background-color: var(--color-white);
         border-top: 10px solid var(--color-main-3);
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-radius:  0px 0px 20px 20px;  
+           
     }
             .pageform{
                 background-color: var(--color-white);
@@ -687,7 +834,7 @@ $result = mysqli_query($con, $query);
             }
             .register h2 {
                 font-family: 'Calibri', sans-serif;
-                font-size: 20px;
+                font-size: 25px;
                 align-items: center;
                 text-align: center;
                 letter-spacing: 1px;
@@ -733,17 +880,179 @@ $result = mysqli_query($con, $query);
                 background-color: var(--color-button-hover);
                 transition: 0.5s; 
             }
-    .form-addcustomer1{
+    .form-adduser1{
         width: 500px;
         height: 100%;
-        max-height: 440px;
-        position: relative;
+        max-height: 480px;
+        position: absolute;
         border-radius:  0px 0px 20px 20px;
         background-color: var(--color-white);
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-top: 10px solid var(--color-solid-gray);
     }
-            .form-addcustomer2{
+    .cpass-container{
+        width: 350px;
+        height: 100%;
+        max-height: 370px;
+        position: absolute;
+        border-radius:  0px 0px 20px 20px;
+        background-color: var(--color-white);
+        box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+        border-top: 10px solid var(--color-solid-gray);
+    }
+            .cpass-container2{
+                display: flex;
+                font-size: .7rem;
+                flex-direction: column;
+                font-family: 'Malberg Trial', sans-serif;
+                gap: 10px;
+                margin-bottom: 5rem;
+                align-items: center;
+                min-height: 20vh;
+            }
+            .cpass-container .cpassButton button{
+                font-family: 'COCOGOOSE', sans-serif;
+                padding: 10px;
+                margin-top: .5vh;
+                margin-bottom: 20px;
+                margin-left: 13em;
+                text-align: center;
+                width: 9rem;
+                max-height: 60px;
+                outline: none;
+                border: none;
+                font-size: min(max(9px, 1.1vw), 11px);
+                border-radius: 20px;
+                color: white;
+                background:  var(--color-mainbutton); 
+                cursor: pointer; 
+                transition: 0.5s;
+            }
+            .cpass-container .cpassButton button:hover{
+                background: var(--color-button-hover);
+            }
+            .form1-cpass{
+                position: relative;
+                width: 250px;
+            }
+            .form1-cpass input{
+                width:100%;
+                height: 2.5rem;
+                padding: 10px;
+                border: 2px solid var(--color-solid-gray);
+                border-radius: 15px;
+                outline: none;
+                font-size: 1em;
+                align-items: center;
+                background: var(--color-white);
+                color: var(--color-black);
+            }
+            .form1-cpass span{
+                position: absolute;
+                left: 0;
+                padding: 12px;
+                pointer-events: none;
+                font-size: 1.2em;
+                margin-top: 0.1rem;
+                margin-left: .2rem;
+                color:var(--color-solid-gray);
+            }
+            .form1-cpass input:focus{
+                border: 2px solid var(--color-main-3);
+            }
+            .form1-cpass input:valid ~ span,
+            .form1-cpass input:focus ~ span{
+                color: var(--color-main-3);
+                transform: translateX(10px) translateY(1px);
+                font-size: 0.9em;
+                padding: 0 10px;
+                transition: .3s
+            }
+            .cpassnew-title{
+                font-size: min(max(1.9rem, 1.1vw), 2rem);
+                color: var(--color-solid-gray);
+                font-family: 'Malberg Trial', sans-serif;
+                letter-spacing: .09rem;
+                display: flex;
+                padding-top: .5rem;
+                justify-content: center;
+                border-bottom: 2px solid var(--color-solid-gray);
+                margin: 15px;
+                padding-bottom: 10px;
+            }
+            p{
+                color: hsl(0, 0%, 53%);
+                font-size: min(max(10px, 1.2vw), 12px);
+                letter-spacing: 0.5px;
+                font-family: Helvetica, sans-serif;
+                align-items: center;
+                text-align: center;
+                margin-bottom: 2vh;
+                padding-left: 10px;
+                padding-right: 10px;
+                /* margin-left: 30px; */
+            }
+            .CancelButton-cpass{
+                margin-top: -6vh;
+                margin-left:-10rem;
+            }
+            #cancel-cpass{
+                font-family: 'COCOGOOSE', sans-serif;
+                padding: 10px;
+                padding-left: 40px;
+                padding-right: 40px;
+                text-align: center;
+                max-height: 70px;
+                outline: none;
+                border: none;
+                font-size: min(max(9px, 1.1vw), 11px);
+                border-radius: 20px;
+                color: white;
+                background: #c44242;
+                cursor: pointer; 
+                transition: 0.5s;
+            }
+            #cancel-edit:hover{
+                background-color: rgb(158, 0, 0);
+                transition: 0.5s; 
+            }
+            .checker {
+                text-align: right;
+                align-items: right;
+                margin-right: -10rem;
+            }
+            .checker span {
+                text-decoration: none;
+                color: rgb(3, 80, 3);
+                top: 50%;
+                font-size: min(max(10px, 1.2vw), 12px);
+                font-family: 'Switzer', sans-serif;
+            }
+            /* -------------------------------------------------------------------------------------------------------- */
+    .edit-container{
+        width: 500px;
+        height: 100%;
+        max-height: 520px;
+        position: absolute;
+        border-radius:  0px 0px 20px 20px;
+        background-color: var(--color-white);
+        box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+        border-top: 10px solid var(--color-solid-gray);
+    }
+            .error-error{
+                background-color: hsl(0, 100%, 77%);
+                color: #ffffff;
+                padding: 11px;
+                margin-left: 30px;
+                width: 77%;
+                align-items: center;
+                text-align: center;
+                border-radius: 3px;
+                font-size: min(max(9px, 1.2vw), 11px);
+                letter-spacing: 0.5px;
+                font-family: Helvetica, sans-serif;
+            }
+            .edit-container2{
                 display: flex;
                 font-size: .7rem;
                 flex-direction: column;
@@ -751,19 +1060,26 @@ $result = mysqli_query($con, $query);
                 gap: 30px;
                 min-height: 20vh;
             }
-            .error-error{
-                background-color: hsl(0, 100%, 77%);
-                color: #ffffff;
-                display: relative;
-                padding: 11px;
-                width: 70%;
-                border-radius: 6px;
-                align-items: center; 
+            .edit-container .EditButton button{
+                font-family: 'COCOGOOSE', sans-serif;
+                padding: 10px;
+                margin-top: .5vh;
+                margin-bottom: 20px;
+                margin-left: 20em;
                 text-align: center;
-                margin-left: 3.55rem;
-                font-size: min(max(9px, 1.2vw), 11px);
-                letter-spacing: 0.5px;
-                font-family: Helvetica, sans-serif;
+                width: 15rem;
+                max-height: 60px;
+                outline: none;
+                border: none;
+                font-size: min(max(9px, 1.1vw), 11px);
+                border-radius: 20px;
+                color: white;
+                background:  var(--color-mainbutton); 
+                cursor: pointer; 
+                transition: 0.5s;
+            }
+            .edit-container .EditButton button:hover{
+                background: var(--color-button-hover);
             }
             .form1{
                 position: relative;
@@ -809,7 +1125,7 @@ $result = mysqli_query($con, $query);
                 width: 205px;
                 height: 17px;
                 margin-left: 16rem;
-                margin-top: 3.7rem;
+                margin-top: .395rem;
                 top: -7.1rem;
             }
             .form2 input{
@@ -823,6 +1139,17 @@ $result = mysqli_query($con, $query);
                 background: var(--color-white);
                 color: var(--color-black);
             }
+            .form2 .email{
+                width:100%;
+                height: 2.5rem;
+                padding: 10px;
+                border: 2px solid var(--color-solid-gray);
+                border-radius: 15px;
+                outline: none;
+                font-size: 1em;
+                background: var(--color-solid-gray);
+                color: var(--color-white);
+            }
             .form2 span{
                 position: absolute;
                 left: 0;
@@ -833,75 +1160,44 @@ $result = mysqli_query($con, $query);
                 margin-left: .2rem;
                 color: var(--color-solid-gray);
             }
+            .form2 .email span{
+                position: absolute;
+                left: 0;
+                /* padding: 12px; */
+                pointer-events: none;
+                font-size: 12.9em;
+                margin-top: -1rem;
+                margin-left: .2rem;
+                color: var(--color-white);
+            }
+            .form2 .email:focus{
+                border: 2px solid var(--color-solid-gray);
+            }
             .form2 input:focus{
                 border: 2px solid var(--color-main-3);
             }
-            .form2 input:valid ~ span,
-            .form2 input:focus ~ span{
+            .form2 .email:valid ~ span,
+            .form2 .email:focus ~ span{
+                color:var(--color-white);
+                transform: translateX(10px) translateY(1px);
+                font-size: 0.9em;
+                padding: 0 10px;
+                transition: .3s
+            }
+            .form2 .middlename:valid ~ span,
+            .form2 .middlename:focus ~ span{
                 color:var(--color-main-3);
                 transform: translateX(10px) translateY(1px);
                 font-size: 0.9em;
                 padding: 0 10px;
                 transition: .3s
             }
-            .form3{
-                position: relative;
-                width: 430px;
-                height: 17px;
-                margin-left: 2rem;
-                margin-top: 4rem;
-                top: -10rem;
-            }
-            .form3 input{
-                width:100%;
-                height: 2.5rem;
-                padding: 10px;
-                border: 2px solid var(--color-solid-gray);
-                border-radius: 15px;
-                outline: none;
-                font-size: 1em;
-                background: var(--color-white);
-                color: var(--color-black);
-            }
-            .form3 span{
-                position: absolute;
-                left: 0;
-                padding: 12px;
-                pointer-events: none;
-                font-size: 1.2em;
-                margin-top: 0.1rem;
-                margin-left: .2rem;
-                color: var(--color-solid-gray);
-            }
-            .form3 input:focus{
-                border: 2px solid var(--color-main-3);
-            }
-            .form3 input:valid ~ span,
-            .form3 input:focus ~ span{
-                color:var(--color-main-3);
-                transform: translateX(10px) translateY(1px);
-                font-size: 0.85em;
-                padding: 0 10px;
-                transition: .3s
-            } 
-            .bal{
-                font-size: 1.6em;
-                color: var(--color-solid-gray);
-                font-family: 'Malberg Trial', sans-serif;
-                display: flex;
-                padding-top: 1rem;
-                margin-top:7.5rem;
-                position: absolute;
-                justify-content: left;
-                margin-left: 5rem;
-                padding-bottom: 10px;
-            }
             .form4{
                 position: relative;
                 width: 205px;
-                margin-left: 10rem;
-                margin-top: -0.5rem;
-                top: -8.5rem;
+                margin-left: 2rem;
+                margin-top: -.895rem;
+                top: -5.6rem;
             }
             .form4 input{
                 width:100%;
@@ -937,11 +1233,11 @@ $result = mysqli_query($con, $query);
             }
             .form5{
                 position: relative;
-                width: 430px;
-                margin-left: 2rem;
-                margin-top: 5.6rem;
-                top: -14rem;
-                margin-bottom: -11.5rem;
+                width: 205px;
+                margin-left: 15.9rem;
+                margin-top: 1rem;
+                top: -10.93rem;
+                margin-bottom: -5rem;
             }
             .form5 input{
                 width:100%;
@@ -975,7 +1271,60 @@ $result = mysqli_query($con, $query);
                 padding: 0 10px;
                 transition: .3s
             }
+            
+            /* --------------------------------------DROP DOWN ACTION------------------------------------- */
+            .fa{
+                font-family: "Font Awesome 5 Free", sans-serif;
+                font-weight: 501;
+                font-size: 14px;
+            }
+            .actionicon{
+                fill:  var(--color-white);
+            }
+            .select-items {
+                position: absolute;
+                background-color: DodgerBlue;
+                top: 100%;
+                left: 0;
+                right: 0;
+                z-index: 99;
+            }
+            .select-selected:after {
+                position: absolute;
+                content: "";
+                top: 14px;
+                right: 10px;
+                width: 0;
+                height: 0;
+                border: 6px solid transparent;
+                border-color: #fff transparent transparent transparent;
+            }
             /* --------------------------------------DROP DOWN------------------------------------- */
+            .usertype-dropdown{
+                width: 20em;
+                position: relative;
+                margin-top: 1rem;
+                top: -10.9rem;
+                left: 51%;
+                margin-bottom: -5.39rem;
+            }
+            .select{
+                background: var(--color-solid-gray);
+                color: var(--color-white);
+                align-items: center;
+                border-radius: 13px;
+                padding: 8px 12px;
+                height: 2.9em;
+                width: 12.8rem;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .action-dropdown{
+                position: relative;
+                margin-top: .5rem;
+                /* left: 10%; */
+                margin-bottom: .5rem
+            }
             .action-btn{
                 background: var(--color-solid-gray);
                 color: var(--color-white);
@@ -996,107 +1345,9 @@ $result = mysqli_query($con, $query);
                 background: var(--color-main);
                 color: var(--color-white);
             }
-            .fa{
-                font-family: "Font Awesome 5 Free", sans-serif;
-                font-weight: 501;
-                font-size: 14px;
-            }
-            .actionicon{
-                fill:  var(--color-white);
-            }
-            /*.usertype-dropdown{
-                width: 20em;
-                position: relative;
-                margin-left: 16rem;
-                margin-top: 1rem;
-                top: -10.9rem;
-                margin-bottom: -5.39rem;
-            }
-            .select{
-                background: var(--color-solid-gray);
-                color: var(--color-white);
-                align-items: center;
-                border-radius: 13px;
-                padding: 8px 12px;
-                height: 2.9em;
-                width: 12.8rem;
-                cursor: pointer;
-                transition: 0.3s;
-            }
-            .select-clicked{
-                box-shadow: 0 0 0 1px var(--color-solid-gray);
-                background: var(--color-main-2);
-                color: white;
-            }
-            .select:hover{
-                background: var(--color-main);
-                color: var(--color-white);
-            }
-            /*.caret{
-                width: 0;
-                height: 0;
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-top: 6px solid var(--color-white);
-                transition: .5s;
-            }
-            .caret-rotate{
-                transform: rotate(180deg);
-                transition: .5s;
-            } */
-            .menu{
-                list-style: none;
-                padding: 0.2em 0.5em;
-                background: var(--color-solid-gray);
-                border: 1px solid var(--color-solid-gray);
-                box-shadow: 0 0 .5em .2em var(--color-main-2);
-                border-radius: 0.5em;
-                color: var(--color-white);
-                fill:var(--color-white);
-                gap: 1rem;
-                position: absolute;
-                top: 3em;
-                left: 50%;
-                width: 100%;
-                transform: translateX(-50%);
-                opacity: 0;
-                display: none;
-                z-index: 1;
-            }
-            .menu li{
-                padding: 0.7em 0.5em;
-                margin: 0.3em 0;
-                border-radius: 0.5em;
-                cursor: pointer;
-                transition: .5s;
-                font-size: 12px;
-                position: relative; 
-                align-items: center;
-            
-            }
-            .menu li:last-child{
-                font-size: 12px;
-                padding-left: -1rem;
-                display: flex;
-                align-items: center;
-                gap: .7rem;
-            }
-            .menu li:hover{
-                background: linear-gradient(270deg, transparent, var(--color-tertiary));
-                color: var(--color-main);
-
-            }
-            .active{
-                background: var(--color-main-3);
-                color: var(--color-white);
-                fill:var(--color-white);
-            }
-            .menu-open{
-                display: block;
-                opacity: 1;
-            }
     /* ------------------------------------------------------------------------------------ */
-    .message{
+    /* ---------------------------------Change Password------------------------------------ */
+    #message{
         background-color: hsl(0, 100%, 77%);
         color: #ffffff;
         border-radius: 6px;
@@ -1117,13 +1368,12 @@ $result = mysqli_query($con, $query);
         z-index: 1000;
         display: none;
     }
-
-    .message span{
+    #message span{
         color:var(--white);
         font-size: .9rem;
     }
 
-    .message p{
+    #message p{
         color:var(--red);
         font-size: .9rem;
         margin: 0 auto;
@@ -1136,13 +1386,12 @@ $result = mysqli_query($con, $query);
         text-align: center;
         font-family: 'Calibri', sans-serif;
         color: var(--color-solid-gray);
-        top: -10.5rem;
+        top: -8rem;
         margin-left: 2rem;
         width: 26.7rem;
         border-bottom: 2px solid var(--color-solid-gray);
         margin-bottom: -5rem;
      }   
-       
     .choose-profile{
         position: relative;
         width: 20rem;
@@ -1152,56 +1401,29 @@ $result = mysqli_query($con, $query);
         margin-left: 5rem; 
         background: var(--color-solid-gray);
         color: var(--color-white);
-        top: -9rem;
-        margin-bottom: -8rem;
+        top: -6.4rem;
+        margin-bottom: -7.6em;
         border-radius: 10px;
         transition: 0.5s;
         font-family: 'COCOGOOSE', sans-serif;
         cursor: pointer;
     }
-    #image-profile{
+    #imageprofile{
         cursor: pointer;
     }
     .choose-profile:hover{
         background: var(--color-main-2);
         transition: 0.5s;
     }
-    .addnew-title{
-        font-size: min(max(1.9rem, 1.1vw), 2rem);
-        color: var(--color-solid-gray);
-        font-family: 'Calibri', sans-serif;
-        letter-spacing: .09rem;
-        display: flex;
-        padding-top: 1rem;
-        justify-content: center;
-        border-bottom: 2px solid var(--color-solid-gray);
-        margin: 15px;
-        padding-bottom: 10px;
-    }
-    .form-addcustomer1 .AddButton button{
-        font-family: 'COCOGOOSE', sans-serif;
-        padding: 10px;
-        margin-top: -3rem;
-        margin-bottom: 20px;
-        margin-left: 20em;
-        text-align: center;
-        width: 15rem;
-        max-height: 60px;
-        outline: none;
-        border: none;
-        font-size: min(max(9px, 1.1vw), 11px);
-        border-radius: 20px;
-        color: white;
-        background:  var(--color-mainbutton); 
-        cursor: pointer; 
-        transition: 0.5s;
-    }
-    .form-addcustomer1 .AddButton button:hover{
-        background: var(--color-button-hover);
-    }
     .CancelButton{
-        margin-top: -4.8rem;
-        margin-left: 2.9em;
+        margin-top: -4.9vh;
+        margin-left: 2.4em;
+    }
+    
+    .CloseButton{
+        margin-top: 5.2vh;
+        margin-left: 2.4em;
+        margin-bottom: -2rem;
     }
     #cancel{
         font-family: 'COCOGOOSE', sans-serif;
@@ -1224,6 +1446,30 @@ $result = mysqli_query($con, $query);
         background-color: rgb(158, 0, 0);
         transition: 0.5s; 
     }
+
+    #action_btn {
+        font-family: 'calibri', sans-serif;
+        /* padding: 10px;
+        
+        margin-bottom: 20px;
+        margin-left: 20em; */
+        text-align: center;
+        margin-top: .5vh;
+        margin-bottom: .5vh;
+        width: 3rem;
+        height: 40px;
+        outline: none;
+        border: none;
+        font-size: min(max(10px, 1.2vw), 12px);
+        border-radius: 20px;
+        background: var(--color-solid-gray);
+        cursor: pointer; 
+        transition: 0.5s;
+    }
+    #action_btn:hover{
+        background: var(--color-button-hover);
+    }
+  
      /* ----------------------------------------Top bar menu----------------------------------------  */
     .top-menu{
         margin-top: .7rem;
@@ -1261,10 +1507,11 @@ $result = mysqli_query($con, $query);
         font-family: 'Calibri', sans-serif;
         font-size: 7.5px;
         color: var(--color-main); 
-        letter-spacing: .15rem;
+        letter-spacing: 1px;
         border-top: 2px solid var(--color-main); 
         margin-top: -0.97rem;
-        width: 100px;
+        width: 7vw;
+        text-transform: uppercase;
     }
     h1{
         margin-top: 6px;     
@@ -1274,7 +1521,7 @@ $result = mysqli_query($con, $query);
         font-size: 11px;
         /* margin-right: -7.3rem;*/
         margin-top: -0.6rem; 
-        letter-spacing: 2px;
+        letter-spacing: 1px;
         color: var(--color-main); 
     }
     .user-name{
@@ -1291,6 +1538,31 @@ $result = mysqli_query($con, $query);
         width: 50px;
         padding: 4px;
     }
+    .profile-pic{
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    .profile-pic img{
+        background: var(--color-solid-gray); 
+        border-radius: 50%;
+        width: 100px;
+        padding: 3px;
+    }
+    .editnew-title{
+        font-size: min(max(1.9rem, 1.1vw), 2rem);
+        color: var(--color-solid-gray);
+        font-family: 'Malberg Trial', sans-serif;
+        letter-spacing: .09rem;
+        display: flex;
+        padding-top: .5rem;
+        justify-content: center;
+        border-bottom: 2px solid var(--color-solid-gray);
+        margin: 15px;
+        padding-bottom: 10px;
+    }
+   
     #menu-button{
         border: none;
         background: none;
@@ -1457,7 +1729,7 @@ $result = mysqli_query($con, $query);
         transition: transform 0.2s linear;
     }
     /* ----------------------------------------MAIN---------------------------------------- */
-    .main-customer{
+    .main-account{
         width:100%;
     }
     .accTitle{
@@ -1535,14 +1807,14 @@ $result = mysqli_query($con, $query);
             position: absolute;
             left: 16%;
         }
-        .add-customer{
+        .add-account{
             display: flex;
             border: none;
             background-color: var(--color-white); 
             align-items: center;
             color: var(--color-button); 
             fill: var(--color-button); 
-            width: 13rem;
+            width: 11rem;
             max-height: 46px;
             border-radius: 20px;
             padding: .68rem 1rem;
@@ -1555,10 +1827,10 @@ $result = mysqli_query($con, $query);
             margin-top: .2rem;
             text-transform: uppercase;
         }
-        .add-customer h3{
+        .add-account h3{
             font-size: .8rem;
         }
-        .add-customer:hover{
+        .add-account:hover{
             background-color: var(--color-main); 
             color: var(--color-white);
             fill: var(--color-white);
@@ -1566,16 +1838,16 @@ $result = mysqli_query($con, $query);
             transition: 0.7s;
             border-bottom: 4px solid var(--color-maroon);
         }
-         /* ----------------------------------------Customers Table---------------------------------------- */
-    main .customer-container{
+         /* ----------------------------------------Account Table---------------------------------------- */
+    main .account-container{
         margin-top: 2rem;
         max-height: 500px;
         overflow:auto;
         box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
         border-top: 8px solid var(--color-table-hover);
-        border-radius: 0px 0px 40px 40px;
+        border-radius: 40px;
     }
-     main .customer-container table{
+     main .account-container table{
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
         width: 100%;
@@ -1588,14 +1860,14 @@ $result = mysqli_query($con, $query);
         margin-top: -1rem;
     }
 
-    main .customer-container table:hover{
+    main .account-container table:hover{
         box-shadow: none;
         border-top: 8px solid var(--color-main);
     }
 
     main table tbody td{
         height: 2.8rem;
-        border-bottom: 1px solid var(--color-solid-gray);
+        border-bottom: 1px solid var(--color-border-bottom);
         color: var(--color-td); 
         font-size: .8rem;
     }
@@ -1627,7 +1899,6 @@ $result = mysqli_query($con, $query);
         left: 0;
         border-radius: 0px 30px 30px 0px;
         display: none;
-        /* border-left: 10px solid rgb(2, 80, 2);  */
     }
     #aside .title{
         display: flex;
@@ -1653,7 +1924,7 @@ $result = mysqli_query($con, $query);
         display: flex;
         flex-direction: column;
         height: 86vh;
-        position: relative;
+        /* position: relative; */
     }
     #aside h3{
         font-weight: 400;
@@ -1683,7 +1954,7 @@ $result = mysqli_query($con, $query);
         border-radius: 0 0 10px 0 ;
         box-shadow: 1px 3px 1px var(--color-background);
     }
-    #aside .sidebar .customers{
+    #aside .sidebar .account{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -1710,7 +1981,7 @@ $result = mysqli_query($con, $query);
         position: absolute;
         width: 14rem;
         margin-right: 2rem;
-        border-left: 38px solid var(--color-background);
+        border-left: 38px solid var(--color-background); 
     }
     #aside2 .title2{
         display: flex;
@@ -1748,7 +2019,7 @@ $result = mysqli_query($con, $query);
         margin-left: 2rem;
         gap: 1rem;
         align-items: center;
-        position: relative;
+
         height: 3.7rem;
         transition: all 300ms ease;
         
@@ -1781,7 +2052,7 @@ $result = mysqli_query($con, $query);
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
 
-    #aside2 .sidebar2 .customers{
+    #aside2 .sidebar2 .account{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -1820,11 +2091,11 @@ $result = mysqli_query($con, $query);
         .top-menu{
             width: 370px;
         }
-        .main-customers{
+        .main-account{
             position: relative;
             left: -5%;
         }
-        main .customers-container{
+        main .account-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -1833,7 +2104,7 @@ $result = mysqli_query($con, $query);
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .customers-container table{
+        main .account-container table{
             width: 65vw;
             padding-left:30px;
             padding-right:30px;
@@ -1885,11 +2156,11 @@ $result = mysqli_query($con, $query);
         .top-menu{
             width: 370px;
         }
-        .main-customers{
+        .main-account{
             position: relative;
             left: -5%;
         }
-        main .customers-container{
+        main .account-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -1898,7 +2169,7 @@ $result = mysqli_query($con, $query);
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .customers-container table{
+        main .account-container table{
             width: 65vw;
             padding-left:30px;
             padding-right:30px;
@@ -1949,11 +2220,11 @@ $result = mysqli_query($con, $query);
         .top-menu{
             width: 370px;
         }
-        .main-customers{
+        .main-account{
             position: relative;
             left: -5%;
         }
-        main .customers-container{
+        main .account-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -1962,7 +2233,7 @@ $result = mysqli_query($con, $query);
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .customers-container table{
+        main .account-container table{
             width: 80vw;
             padding-left:30px;
             padding-right:30px;
@@ -2060,7 +2331,7 @@ $result = mysqli_query($con, $query);
             margin-right: 15px;
             cursor: pointer;
         }
-        #aside .sidebar .customers{
+        #aside .sidebar .account{
             width: 15.95rem;
             fill:  var(--color-white);
             color:  var(--color-white);
@@ -2132,11 +2403,11 @@ $result = mysqli_query($con, $query);
         .drop-menu .ul a{
             width: 8.5rem;
         }
-        .main-customers{
+        .main-account{
             position: relative;
             left: -5%;
         }
-        main .customers-container{
+        main .account-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -2146,7 +2417,7 @@ $result = mysqli_query($con, $query);
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .customers-container table{
+        main .account-container table{
             width: 80vw;
             padding-left:30px;
             padding-right:30px;
@@ -2157,12 +2428,12 @@ $result = mysqli_query($con, $query);
             border-top: 2px solid var(--color-solid-gray);
             position: absolute;
         }
-        .add-customer{
+        .add-account{
             width: 12.7vw;
             align-items: center;
             text-align: center;
         }  
-        .add-customer h3{
+        .add-account h3{
             display: none;
         }
         .newUser-button{

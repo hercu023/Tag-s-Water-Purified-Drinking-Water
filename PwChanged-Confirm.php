@@ -10,7 +10,7 @@
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
-    <title>New Password Confirmation</title>
+    <title>Tag's Water Purified Drinking Water</title>
 </head>
 <body>
 <div class="colorbg"> 

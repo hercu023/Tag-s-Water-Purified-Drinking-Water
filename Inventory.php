@@ -44,7 +44,11 @@ $result = mysqli_query($con, $query);
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <title>Customers</title>
+<<<<<<< HEAD
+        <title>Tag's Water Purified Drinking Water</title>
+=======
+        <title>Inventory</title>
+>>>>>>> f7c6311f8ee3f4f4801a639e269c014b4b3ac2e3
         <!-- <script src="./index.js"></script> -->
     </head>
     <body >
@@ -112,7 +116,8 @@ $result = mysqli_query($con, $query);
                         <h3>SETTINGS</h3>
                     </a>
             </div>    
-            </aside>    
+            </aside>
+                <!-----------------------------------------------Sidebar for Desktop Layout  ---------------------------------------->
             <aside id="aside2">
                 <div class="title2">
                     <div class="titlelogo2">
@@ -173,6 +178,10 @@ $result = mysqli_query($con, $query);
             </div>         
             </aside>
         </div>
+
+        <!---------------------------------------------------------Main Inventory Table---------------------------------------->
+
+        <!---------------------------------------------------------Acc Title ----------------------------------->
             <main>
                 <div class="main-customer">
                     <h1 class="accTitle">INVENTORY</h1> 
@@ -180,12 +189,15 @@ $result = mysqli_query($con, $query);
                         <!-- <div class="user-title"> 
                             <h2> Customers </h2>
                         </div> -->
+
+                        <!------------------------------------Add New Button ------------------------------------------>
                         <div class="newUser-button"> 
                             <button type="submit" id="add-userbutton" class="add-customer">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                    <h3>Add New Customer</h3>
+                                    <h3>Add New Inventory</h3>
                             </button>
                         </div>
+                        <!-------------------------------------Search Bar ---------------------------------------------->
                         <div class="search">
                             <div class="search-bar"> 
                                 <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
@@ -198,6 +210,7 @@ $result = mysqli_query($con, $query);
                             
                         </div> -->
                     </div>
+                    <!----------------------------------------------Inventory Table ------------------------------------->
                     <div class="inventory-container">
                         <table class="table" id="myTable"> 
                             <thead> 
@@ -246,6 +259,9 @@ $result = mysqli_query($con, $query);
                         </table>     
                     </div>
                 </div>
+                <!-----------------------------------------------End of Main Inventory Table ------------------------------>
+                
+                <!-----------------------------------------------Account Profile Button (Upper Right) --------------------->
             </main>
             <div class="top-menu">  
                 <div class="menu-bar">
@@ -307,6 +323,8 @@ $result = mysqli_query($con, $query);
                 </div> -->
             </div>      
     </div> 
+           <!----------------------------------------------------End of Account Profile Button (Upper Right) -------------------->
+
            
     <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
         <div class="bg-addcustomerform" id="bg-addform">
@@ -498,45 +516,45 @@ $result = mysqli_query($con, $query);
     var addbtn = $("#addcustomerBtn");
     var message1 = $(".message");
     
-    $(document).ready(function(){
-        $('#addcustomerFrm').submit(function(e){
-            e.preventDefault();
+    // $(document).ready(function(){
+    //     $('#addcustomerFrm').submit(function(e){
+    //         e.preventDefault();
 
-            $.ajax({
-                type: 'post',
-                url: 'controllerUserdata.php',
-                data: new FormData(this),
-                contentType: false, 
-                cache: false,
-                processData: false,
-                // 'submit=1&'+$form.serialize(),
-                dataType: 'json',  
-                success: function(response){
-                    $(".message").css("display", "block");
-                    if(response.status == 1){   
-                        bgform.show();  
-                        addform.hide(); 
-                        message1.hide(); 
-                        $('#addcustomerFrm')[0].reset();
+    //         $.ajax({
+    //             type: 'post',
+    //             url: 'controllerUserdata.php',
+    //             data: new FormData(this),
+    //             contentType: false, 
+    //             cache: false,
+    //             processData: false,
+    //             // 'submit=1&'+$form.serialize(),
+    //             dataType: 'json',  
+    //             success: function(response){
+    //                 $(".message").css("display", "block");
+    //                 if(response.status == 1){   
+    //                     bgform.show();  
+    //                     addform.hide(); 
+    //                     message1.hide(); 
+    //                     $('#addcustomerFrm')[0].reset();
 
-                }else{
-                    $(".message").html('<p>'+response.message+'<p>');
-                }
-                    }
-                });
-            });
-            $("#image-profile").change(function(){
-                var file = this.files[0];
-                var fileType = file.type;
-                var match = ['image/jpeg', 'image/jpg', 'image/png']
+    //             }else{
+    //                 $(".message").html('<p>'+response.message+'<p>');
+    //             }
+    //                 }
+    //             });
+    //         });
+    //         $("#image-profile").change(function(){
+    //             var file = this.files[0];
+    //             var fileType = file.type;
+    //             var match = ['image/jpeg', 'image/jpg', 'image/png']
 
-                if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
-                    alert("JPEG, JPG, and PNG files only.")
-                    $("#image-profile").val('');
-                    return false;
-                }
-            });
-        });
+    //             if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
+    //                 alert("JPEG, JPG, and PNG files only.")
+    //                 $("#image-profile").val('');
+    //                 return false;
+    //             }
+    //         });
+    //     });
 
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
@@ -1734,14 +1752,14 @@ $result = mysqli_query($con, $query);
             transition: 0.7s;
             border-bottom: 4px solid var(--color-maroon);
         }
-         /* ----------------------------------------Customers Table---------------------------------------- */
+         /* ----------------------------------------Inventory Table---------------------------------------- */
     main .inventory-container{
         margin-top: 2rem;
         max-height: 500px;
         overflow:auto;
         box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
         border-top: 8px solid var(--color-table-hover);
-        border-radius: 40px;
+        border-radius: 0px 0px 40px 40px;
     }
      main .inventory-container table{
         background: var(--color-white);
@@ -1779,6 +1797,7 @@ $result = mysqli_query($con, $query);
         cursor: pointer;
         background-color: var(--color-table-hover);
      }
+     
     /* ----------------------------------------ASIDE---------------------------------------- */
     .container{
         display: grid;

@@ -10,6 +10,8 @@ $email= "";
 $contactnum= "";
 
 $status = 0;
+// $status_customer = 0;
+
 $errors = array();
 
 if(isset($_POST['code-verfiy'])){
@@ -111,78 +113,15 @@ if(isset($_POST['code-verfiy'])){
         }
     }
 }
-// $id = $_GET['id'];
-// $user_id = $_SESSION['user_id'];
-// if(isset($_POST['update'])){
+$response = array( 'status' => 0); 
 
-//     $lastname = $_POST['lastname'];
-//     $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
-//     $firstname = $_POST['firstname'];
-//     $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
-//     $middlename = $_POST['middlename'];
-//     $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
-//     $email = $_POST['email'];
-//     $email = filter_var($email, FILTER_SANITIZE_STRING);
-//     $contact = $_POST['contactnum'];
-//     $contact = filter_var($contact, FILTER_SANITIZE_STRING);
-//     $usertype = $_POST['usertypes'];
-
-//     $update_profile = $conn->prepare("UPDATE `users` SET name = ?, email = ? WHERE id = ?");
-//     $update_profile->execute([$lastname, $firstname, $middlename, $email, $contact, $usertype, $image, $user_id]);
- 
-//     $old_image = $_POST['old_image'];
-//     $image = $_FILES['image']['name'];
-//     $image_tmp_name = $_FILES['image']['tmp_name'];
-//     $image_size = $_FILES['image']['size'];
-//     $image_folder = 'uploaded_image/'.$image;
-    
-    
-    // if(!empty($image)){
-
-    //     if($image_size > 2000000){
-    //         $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>image size is too large";
-    //     }else{
-    //     $update_image = $conn->prepare("UPDATE `users` SET image = ? WHERE id = ?");
-    //     $update_image->execute([$image, $user_id]);
-
-    //         if($update_image){
-    //             move_uploaded_file($image_tmp_name, $image_folder);
-    //             unlink('uploaded_image/'.$old_image);
-    //             $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image updated! ";
-    //         }
-    //     }
-
-    //  }
-    //     $sql = "UPDATE users SET last_name ='$lastname', first_name ='$firstname', middle_name ='$middlename', email ='$email',
-    //     contact_number ='$contact', user_type ='$usertype', profile_image ='$image' WHERE id=$id";
-
-    //     $result = mysqli_query($conn, $sql);
-
-    //     if($result){
-    //         $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Record Updated";
-    //     }
-//         }
-// }
-//  if(isset($_GET['edit'])){
-//     $id = $_GET['edit'];
-//     $result = $mysqli->query("SELECT * FROM users WHERE id=$id") or die(mysqli->error());
-//     if (count($result)==1){
-//         $row = $result->fetch_array();
-//         $email = $row['email'];
-//         $lastname= $row['last_name'];
-//         $firstname= $row['first_name'];
-//         $middlename= $row['middle_name'];
-//         $contactnum= $row['contact_number'];
-//     }
-// }
  // if(isset($_POST['submit'])){
 if(isset($_POST['login-now'])){
     header('Location: login.php');
 }
-$response = array(); 
 
 
-// if(isset($_POST['submit'])){
+// // if(isset($_POST['submit'])){
 if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['middlename'])
 || isset($_POST['email']) || isset($_POST['contactnum']) || isset($_POST['usertypes']) 
 || isset($_POST['pass']) || isset($_POST['ecpass']) || isset($_POST['profile_image'])){
@@ -234,9 +173,42 @@ if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['midd
             }
         }
     }
-
-    
-  
 }
-echo json_encode($response); 
+
+// if(isset($_POST['customername']) || isset($_POST['address']) || isset($_POST['contactnum']) || isset($_POST['balance']) 
+// || isset($_POST['note'])){
+
+// if(isset($_POST['submitCustomer'])){
+// // $status = 0;
+
+// $customername = $_POST['customername'];
+// $customername = filter_var($customername, FILTER_SANITIZE_STRING);
+// $address = $_POST['address'];
+// $address = filter_var($address, FILTER_SANITIZE_STRING);
+// $contact = $_POST['contactnum'];
+// $contact = filter_var($contactnum, FILTER_SANITIZE_STRING);
+// $balance = $_POST['balance'];
+// $balance = filter_var($balance, FILTER_SANITIZE_STRING);
+// $note = $_POST['note'];
+
+
+// $selects = $conn->prepare("SELECT * FROM `customers` WHERE customer_name = ?");
+// $selects->execute([$customername]);
+
+// if($selects->rowCount() > 0){
+//     $response_customer['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Customer already exist! ";
+//     // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist.");
+// }else{
+//         $inserts = mysqli_query($con, "INSERT INTO customers VALUES('','$customername', '$address', '$contact', '$balance', '$note')");
+//         // $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $address, $image]);
+//         if($inserts){
+//             $response_customer['status'] = 1;
+
+//         }
+//     }
+// }
+
+  
+ echo json_encode($response); 
+// echo json_encode($response); 
 ?>

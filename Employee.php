@@ -54,7 +54,7 @@ include 'connectionDB.php';
         <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
            <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-        <title>Home</title>
+        <title>Tag's Water Purified Drinking Water</title>
         <script src="./index.js"></script>
     </head>
     <body>
@@ -129,6 +129,8 @@ include 'connectionDB.php';
                         <img class="tagslogo2" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" >
                     </div>
                 </div>
+                
+                <!-----------------------------------------------Sidebar for Desktop Layout  ---------------------------------------->
             <div class="sidebar2">
 
                     <a href="Dashboard.php" class="dashboard">
@@ -183,10 +185,16 @@ include 'connectionDB.php';
             </div>         
             </aside>
             </div>
+
+            <!---------------------------------------------------------Main Employee Table---------------------------------------->
+
+            <!---------------------------------------------------------Acc Title ----------------------------------->
             <main>
             <div class="main-dashboard">
                     <h1 class="dashTitle">EMPLOYEE</h1> 
             </main>
+
+                <!-----------------------------------------------Account Profile Button (Upper Right) --------------------->
                 <div class="top-menu">  
                     <div class="menu-bar">
                         <button id="menu-button">
@@ -238,6 +246,59 @@ include 'connectionDB.php';
                     </div>
                 </div>       
         </div> 
+        <!----------------------------------------------------End of Account Profile Button (Upper Right) -------------------->
+
+        <!----------------------------------------------------Main Employee Table ------------------------------------------->
+        <div class="employee-container">
+                        <table class="table" id="myTable"> 
+                            <thead> 
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Contact No.</th>
+                                    <th>Status</th>
+                                    <th>Position</th>
+                                    <th>Time in</th>
+                                    <th>Time Out</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <?php
+                            $inventory = "SELECT * FROM inventory"; 
+                            $sql = mysqli_query($con, $inventory);
+                                while ($rows = mysqli_fetch_assoc($sql))
+                                {
+                            ?>
+                            <tbody>
+                                    <tr>
+                                        <td> <?php echo $rows['id']; ?></td>
+                                        <td> <?php echo $rows['item_name']; ?></td>
+                                        <td> <?php echo $rows['type']; ?></td>
+                                        <td> <?php echo $rows['ingoing']; ?></td>
+                                        <td> <?php echo $rows['outgoing']; ?></td>
+                                        <td> <?php echo $rows['onhand']; ?></td>
+                                        <td> <?php echo $rows['total_amount']; ?></td>
+                                        <td> <?php echo $rows['supplier']; ?></td>
+                                        <td> 
+                                            <a href="#" id="select-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m8.3 23.15-.475-3.525q-.075-.05-.163-.1-.087-.05-.162-.1l-3.325 1.4-3.7-6.525 2.8-2.125q0-.05.013-.1.012-.05.012-.125 0-.025-.012-.063-.013-.037-.013-.087l-2.8-2.125 3.7-6.45L7.5 4.575q.1-.025.188-.075.087-.05.162-.1L8.3.825h7.4l.45 3.575.2.1.2.1 3.275-1.375 3.7 6.45-2.85 2.125v.2q0 .05-.012.1-.013.05-.013.1l2.85 2.1-3.75 6.525-3.3-1.4q-.075.025-.15.087-.075.063-.125.088l-.475 3.55Zm3.65-7.4q1.575 0 2.675-1.1 1.1-1.1 1.1-2.675 0-1.55-1.1-2.663Q13.525 8.2 11.95 8.2q-1.575 0-2.675 1.112-1.1 1.113-1.1 2.663 0 1.575 1.1 2.675 1.1 1.1 2.675 1.1Zm0-2.25q-.625 0-1.075-.45-.45-.45-.45-1.075t.45-1.075q.45-.45 1.075-.45t1.075.45q.45.45.45 1.075t-.45 1.075q-.45.45-1.075.45ZM12 12Zm-.725 7.75h1.4l.375-2.6q.825-.225 1.563-.625.737-.4 1.287-1.05l2.425 1.025.7-1.25-2.075-1.575q.15-.4.225-.825.075-.425.075-.85 0-.45-.075-.875t-.2-.825l2.1-1.575-.725-1.25-2.425 1.05q-.55-.675-1.288-1.113-.737-.437-1.587-.587l-.325-2.6H11.25l-.275 2.55q-.875.2-1.637.637Q8.575 7.85 8 8.5L5.625 7.475l-.7 1.25L6.95 10.25q-.15.475-.212.887-.063.413-.063.838t.063.85q.062.425.212.9L4.925 15.25l.7 1.25L8 15.475q.625.65 1.387 1.087.763.438 1.588.613Z"/></svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr id="noRecordTR" style="display:none">
+                                        <td colspan="9">No Record Found</td>                         
+                                    </tr>
+                            </tbody>
+                                    <?php
+                                }
+                                ?>   
+                        </table>     
+                    </div>
+                </div>
+                        
+                <!-----------------------------------------------End of Main Employee Table ------------------------------>
     </body>
 </html>
 <script>
@@ -542,12 +603,13 @@ include 'connectionDB.php';
         width: 21px;
         transition: transform 0.2s linear;
     }
-    /* ----------------------------------------MAIN---------------------------------------- */
+    /* ----------------------------------------MAIN ---------------------------------------- */
+    /* ----------------------------------------Acc Title----------------------------------- */
     .main-dashboard{
         width:100%;
     }
     .dashTitle{
-        margin-top: 50px;
+        margin-top: 2rem;
         font-size: min(max(1.9rem, 1.1vw), 2rem);
         color: var(--color-main); 
         font-family: 'COCOGOOSE', sans-serif;
@@ -654,38 +716,38 @@ include 'connectionDB.php';
             border-bottom: 4px solid var(--color-maroon);
         } */
          /* ----------------------------------------Dashboard Table---------------------------------------- */
-     /* main .account-container{
+     /* main.employee-container{
         margin-top: 2rem;
-        height: 500px;
+        max-height: 500px;
+        overflow:auto;
+        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
+        border-top: 8px solid var(--color-table-hover);
+        border-radius: 40px;
         
     }
-     main .account-container table{
+     .employee-container table{
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
         width: 100%;
-        font-size: 0.8rem;
-        border-radius: 0px 0px 10px 10px;
+        font-size: 1rem;
         padding-left: 2.5rem;
         padding-right: 2.5rem;
         padding-bottom: 2.5rem;
         text-align: center; 
-        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
-        border-top: 8px solid var(--color-table-hover);
         transition: all 700ms ease;
-        overflow: auto;
         margin-top: -1rem;
     }
 
-    main .account-container table:hover{
+    .employee-container table:hover{
         box-shadow: none;
         border-top: 8px solid var(--color-main);
     }
 
-    main table tbody td{
+    table tbody td{
         height: 2.8rem;
-        border-bottom: 1px solid var(--color-solid-gray);
+        border-bottom: 1px solid var(--color-border-bottom);
         color: var(--color-td); 
-        font-size: .67rem;
+        font-size: .8rem;
     }
      th{
         height: 2.8rem;
@@ -894,7 +956,7 @@ include 'connectionDB.php';
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        .employee-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -903,7 +965,7 @@ include 'connectionDB.php';
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        .employee-container table{
             width: 65vw;
             padding-left:30px;
             padding-right:30px;
@@ -958,7 +1020,7 @@ include 'connectionDB.php';
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        .employee-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -967,7 +1029,7 @@ include 'connectionDB.php';
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        .employee-container table{
             width: 65vw;
             padding-left:30px;
             padding-right:30px;
@@ -1022,7 +1084,7 @@ include 'connectionDB.php';
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        .employee-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -1031,7 +1093,7 @@ include 'connectionDB.php';
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        .employee-container table{
             width: 80vw;
             padding-left:30px;
             padding-right:30px;
@@ -1204,7 +1266,7 @@ include 'connectionDB.php';
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        .employee-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -1214,7 +1276,7 @@ include 'connectionDB.php';
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        .employee-container table{
             width: 80vw;
             padding-left:30px;
             padding-right:30px;
@@ -1264,4 +1326,51 @@ include 'connectionDB.php';
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
+
+        /* ---------------------------------------- Main Employee Table New---------------------------------------- */
+
+     .employee-container{
+        margin-top: 2rem;
+        max-height: 500px;
+        overflow:auto;
+        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
+        border-top: 8px solid var(--color-table-hover);
+        border-radius: 40px;
+    }
+     .employee-container table{
+        background: var(--color-white);
+        font-family: 'Switzer', sans-serif;
+        width: 100%;
+        font-size: 1rem;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        padding-bottom: 2.5rem;
+        text-align: center; 
+        transition: all 700ms ease;
+        margin-top: -1rem;
+    }
+
+     .employee-container table:hover{
+        box-shadow: none;
+        border-top: 8px solid var(--color-main);
+    }
+
+     table tbody td{
+        height: 2.8rem;
+        border-bottom: 1px solid var(--color-border-bottom);
+        color: var(--color-td); 
+        font-size: .8rem;
+    }
+     th{
+        height: 2.8rem;
+        color: var(--color-black); 
+        margin:1rem;
+        font-size: 1rem;
+        letter-spacing: 0.02rem;
+    }  
+    tr:hover td{
+        color: var(--color-main); 
+        cursor: pointer;
+        background-color: var(--color-table-hover);
+     }
 </style>
