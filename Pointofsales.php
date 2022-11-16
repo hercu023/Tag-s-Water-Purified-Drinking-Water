@@ -240,6 +240,7 @@ include 'connectionDB.php';
                 </div>
                 
 <!-- CONTAINER START -------------------------------------------------------------------------------------- -->
+<!--------------------------------------------------------------------------------------------------------- -->
 
     <div class="top-buttons">
             <button class="selectCustomer-button">Select Customer</button>
@@ -247,7 +248,7 @@ include 'connectionDB.php';
             <button class="returnContainer-button">Return Container</button>
         </div>
 
-        <!-- ---------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
+<!-- ---------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
 
         <div class="form1">
             <p class="selectCustomer-text">*SELECT CUSTOMER
@@ -282,7 +283,9 @@ include 'connectionDB.php';
 
             <div class="form1-buttons">
                 <button class="addDeliveryFee-button">Add Delivery Fee</button>
-                <button class="addOrder-button">Add Order</button>
+                <button class="addOrder-button" id="addOrder-form">Add Order</button>
+
+                
             </div>
 
         </div>
@@ -345,6 +348,7 @@ include 'connectionDB.php';
             </div>
 
 <!-- CONTAINER END ---------------------------------------------------------------------------------------- -->
+<!--------------------------------------------------------------------------------------------------------- -->
 
         </div>  
         </div> 
@@ -1361,7 +1365,7 @@ include 'connectionDB.php';
 
     /* GENERAL -----------------------------------------------------------------------------------------*/
     button:active {
-        background-color: crimson;
+        background-color: var(--color-maroon);
     }
 
     button:hover{
@@ -1415,7 +1419,7 @@ include 'connectionDB.php';
         border: none;
         height: 3rem;
         width: 15rem;
-        box-shadow: 0px 3px 0px 0px var(--color-return-container);
+        box-shadow: 0px 3px 0px 0px var(--color-shadow-shadow);
     }
 
     /* ORDER FORM -------------------------------------------------------------------------------*/
@@ -1648,7 +1652,7 @@ include 'connectionDB.php';
         margin-left: 1rem;
     }
     .confirmOrder-button{
-        background: var(--color-main);
+        background: var(--color-return-container);
         padding: 1rem;
         border-radius: 5rem;
         font-size: 1rem;
@@ -1682,3 +1686,7 @@ include 'connectionDB.php';
         margin-left: 1rem;
     }
 </style>
+<!-- SCRIPT------------------------------------------------------------------------------------ -->
+<script>
+
+</script>
