@@ -1,6 +1,6 @@
 <?php
-session_start();
-require_once 'controllerUserdata_action.php';
+// session_start();
+require_once 'controllerUserdata_account.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
@@ -44,50 +44,7 @@ if (isset($_POST['id'])){
         // $usertype=$rows['user_type']; 
         // $image=$rows['profile_image'];
          
-            if(isset($_POST['user_id']) || isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['middlename'])
-             || isset($_POST['contactnum']) || isset($_POST['usertypes']) 
-             || isset($_FILES['profileimage']['name']) && ($_FILES['profileimage']['name']!="")){
-                
-                $userid = $_POST['user_id'];
-                $lastname = $_POST['lastname'];
-                $lastname = filter_var($lastname, FILTER_SANITIZE_STRING);
-                $firstname = $_POST['firstname'];
-                $firstname = filter_var($firstname, FILTER_SANITIZE_STRING);
-                $middlename = $_POST['middlename'];
-                $middlename = filter_var($middlename, FILTER_SANITIZE_STRING);
-                $contact = $_POST['contactnum'];
-                $contact = filter_var($contact, FILTER_SANITIZE_STRING);
-                $usertype = $_POST['usertypes'];
-        
-                $old_image = $_POST['old_image'];
-                $image = $_FILES['profileimage']['name'];
-                $image_tmp_name = $_FILES['profileimage']['tmp_name'];
-                $image_size = $_FILES['profileimage']['size'];
-                $image_type = $_FILES['profileimage']['type'];
-        
-                $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
-                $select->execute([$email]);
-                
-                        $result =mysqli_query($con, "UPDATE users SET last_name='$lastname', first_name='$firstname', 
-                        middle_name='$middlename', contact_number='$contact', user_type='$usertype' WHERE id='$userid'");
-                       
-                        if($result){
-                                move_uploaded_file($image_tmp_name, "uploaded_image/$image");
-                                header("Location: Account-Updated-Success.php");
-                                // $response['status'] = 1;
-                        }
-                        if(!empty($image)){
-                    
-                                $update_image =mysqli_query($con, "UPDATE users SET profile_image ='$image' WHERE id='$id'");
-                                if($result){
-                                    move_uploaded_file($image_tmp_name, "uploaded_image/$image");
-                                    header("Location: Account-Updated-Success.php");
-                                    // $response['status'] = 1;
-        
-                                }
-        
-                        }
-            }
+          
             
         // $id = $_GET['edit'];
         // if (isset($_POST['id'])){
@@ -381,8 +338,14 @@ if (isset($_POST['id'])){
                                         <td> <?php echo $rows['user_type']; ?></td>
                                         <td> <img src="<?php echo "uploaded_image/".$rows['profile_image']; ?>" width="50px"></td>
                                         <td>
-                                             <a href="Account-Action.php" id="select-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m8.3 23.15-.475-3.525q-.075-.05-.163-.1-.087-.05-.162-.1l-3.325 1.4-3.7-6.525 2.8-2.125q0-.05.013-.1.012-.05.012-.125 0-.025-.012-.063-.013-.037-.013-.087l-2.8-2.125 3.7-6.45L7.5 4.575q.1-.025.188-.075.087-.05.162-.1L8.3.825h7.4l.45 3.575.2.1.2.1 3.275-1.375 3.7 6.45-2.85 2.125v.2q0 .05-.012.1-.013.05-.013.1l2.85 2.1-3.75 6.525-3.3-1.4q-.075.025-.15.087-.075.063-.125.088l-.475 3.55Zm3.65-7.4q1.575 0 2.675-1.1 1.1-1.1 1.1-2.675 0-1.55-1.1-2.663Q13.525 8.2 11.95 8.2q-1.575 0-2.675 1.112-1.1 1.113-1.1 2.663 0 1.575 1.1 2.675 1.1 1.1 2.675 1.1Zm0-2.25q-.625 0-1.075-.45-.45-.45-.45-1.075t.45-1.075q.45-.45 1.075-.45t1.075.45q.45.45.45 1.075t-.45 1.075q-.45.45-1.075.45ZM12 12Zm-.725 7.75h1.4l.375-2.6q.825-.225 1.563-.625.737-.4 1.287-1.05l2.425 1.025.7-1.25-2.075-1.575q.15-.4.225-.825.075-.425.075-.85 0-.45-.075-.875t-.2-.825l2.1-1.575-.725-1.25-2.425 1.05q-.55-.675-1.288-1.113-.737-.437-1.587-.587l-.325-2.6H11.25l-.275 2.55q-.875.2-1.637.637Q8.575 7.85 8 8.5L5.625 7.475l-.7 1.25L6.95 10.25q-.15.475-.212.887-.063.413-.063.838t.063.85q.062.425.212.9L4.925 15.25l.7 1.25L8 15.475q.625.65 1.387 1.087.763.438 1.588.613Z"/></svg>
+                                            <a href="Account-Action.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
+                                            </a>
+                                            <a href="Account-Action-ChangePassword.php?edit=<?php echo $rows['id']; ?>" id="cpass-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17q-1.688 0-3.104-.719-1.417-.719-2.375-1.927l1.062-1.083q.75 1.021 1.896 1.625Q8.625 15.5 10 15.5q2.271 0 3.885-1.615Q15.5 12.271 15.5 10t-1.615-3.885Q12.271 4.5 10 4.5q-2.292 0-3.917 1.635-1.625 1.636-1.583 3.99l1.188-1.187L6.75 10l-3 3-3-3 1.062-1.062L3 10.146q-.021-1.5.531-2.813.552-1.312 1.511-2.27Q6 4.104 7.281 3.552 8.562 3 10.021 3q1.437 0 2.708.552 1.271.552 2.219 1.5t1.5 2.219Q17 8.542 17 10q0 2.917-2.042 4.958Q12.917 17 10 17Zm-1.5-4q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
+                                            </a>
+                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
                                             </a>
                                         </td>
                                     <tr id="noRecordTR" style="display:none">
@@ -723,7 +686,7 @@ function myFunctionCP(){
             e.preventDefault();
             $.ajax({
                 type: 'post',
-                url: 'controllerUserdata_action.php',
+                url: 'controllerUserdata_account.php',
                 // data: {password:password, id:id, oldpassword:oldpassword}
                 data: new FormData(this),
                 contentType: false, 
@@ -1568,23 +1531,66 @@ function myFunctionCP(){
             .actionicon{
                 fill:  var(--color-white);
             }
-            .select-items {
-                position: absolute;
-                background-color: DodgerBlue;
-                top: 100%;
-                left: 0;
-                right: 0;
-                z-index: 99;
+            #edit-action{
+                background: hsl(0, 0%, 37%);
+                color: var(--color-white);
+                align-items: center;
+                position: relative;
+                border-radius: 3px;
+                height: 100%;
+                width: 70%;
+                margin: 1px;
+                padding-top: 10px;
+                padding-right: 2px;
+                padding-left: 2px;
+                cursor: pointer;
+                transition: 0.3s;
+                border: none;
             }
-            .select-selected:after {
-                position: absolute;
-                content: "";
-                top: 14px;
-                right: 10px;
-                width: 0;
-                height: 0;
-                border: 6px solid transparent;
-                border-color: #fff transparent transparent transparent;
+            #edit-action:hover{
+                background: var(--color-main);
+                color: var(--color-white);
+            }
+            #cpass-action{
+                background: #00aa09;
+                position: relative;
+                color: var(--color-white);
+                align-items: center;
+                text-align: center;
+                margin: 1px;
+                border-radius: 3px;
+                height: 100%;
+                width: 70%;
+                padding-top: 10px;
+                padding-right: 2px;
+                padding-left: 5px;
+                cursor: pointer;
+                transition: 0.3s;
+                border: none;
+            }
+            #cpass-action:hover{
+                background: var(--color-main);
+                color: var(--color-white);
+            }
+            #archive-action{
+                background: hsl(0, 51%, 44%);
+                color: var(--color-white);
+                align-items: center;
+                position: relative;
+                margin: 1px;
+                border-radius: 3px;
+                height: 100%;
+                width: 70%;
+                padding-top: 10px;
+                padding-right: 2px;
+                padding-left: 5px;
+                cursor: pointer;
+                transition: 0.3s;
+                border: none;
+            }
+            #archive-action:hover{
+                background: var(--color-main);
+                color: var(--color-white);
             }
             /* --------------------------------------DROP DOWN------------------------------------- */
             .usertype-dropdown{

@@ -1,5 +1,5 @@
 <?php
-require_once 'controllerUserdata_customers.php';
+require_once 'controllerUserdata.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
@@ -177,9 +177,6 @@ $result = mysqli_query($con, $query);
                 <div class="main-customer">
                     <h1 class="accTitle">CUSTOMERS</h1> 
                     <div class="sub-tab">
-                        <!-- <div class="user-title"> 
-                            <h2> Customers </h2>
-                        </div> -->
                         <div class="newUser-button"> 
                             <button type="submit" id="add-userbutton" class="add-customer">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
@@ -194,9 +191,6 @@ $result = mysqli_query($con, $query);
                                 </button>
                             </div>
                         </div>  
-                        <!-- <div class="popup-addAccount">
-                            
-                        </div> -->
                     </div>
                     <div class="customer-container">
                         <table class="table" id="myTable"> 
@@ -227,8 +221,11 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['balance']; ?></td>
                                         <td> <?php echo $rows['note']; ?></td>
                                         <td>
-                                            <a href="#?edit=<?php echo $rows['id']; ?>" id="select-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m8.3 23.15-.475-3.525q-.075-.05-.163-.1-.087-.05-.162-.1l-3.325 1.4-3.7-6.525 2.8-2.125q0-.05.013-.1.012-.05.012-.125 0-.025-.012-.063-.013-.037-.013-.087l-2.8-2.125 3.7-6.45L7.5 4.575q.1-.025.188-.075.087-.05.162-.1L8.3.825h7.4l.45 3.575.2.1.2.1 3.275-1.375 3.7 6.45-2.85 2.125v.2q0 .05-.012.1-.013.05-.013.1l2.85 2.1-3.75 6.525-3.3-1.4q-.075.025-.15.087-.075.063-.125.088l-.475 3.55Zm3.65-7.4q1.575 0 2.675-1.1 1.1-1.1 1.1-2.675 0-1.55-1.1-2.663Q13.525 8.2 11.95 8.2q-1.575 0-2.675 1.112-1.1 1.113-1.1 2.663 0 1.575 1.1 2.675 1.1 1.1 2.675 1.1Zm0-2.25q-.625 0-1.075-.45-.45-.45-.45-1.075t.45-1.075q.45-.45 1.075-.45t1.075.45q.45.45.45 1.075t-.45 1.075q-.45.45-1.075.45ZM12 12Zm-.725 7.75h1.4l.375-2.6q.825-.225 1.563-.625.737-.4 1.287-1.05l2.425 1.025.7-1.25-2.075-1.575q.15-.4.225-.825.075-.425.075-.85 0-.45-.075-.875t-.2-.825l2.1-1.575-.725-1.25-2.425 1.05q-.55-.675-1.288-1.113-.737-.437-1.587-.587l-.325-2.6H11.25l-.275 2.55q-.875.2-1.637.637Q8.575 7.85 8 8.5L5.625 7.475l-.7 1.25L6.95 10.25q-.15.475-.212.887-.063.413-.063.838t.063.85q.062.425.212.9L4.925 15.25l.7 1.25L8 15.475q.625.65 1.387 1.087.763.438 1.588.613Z"/></svg>
+                                        <a href="Customer-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
+                                            </a>
+                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
                                             </a>
                                         </td>
                                     </tr>
@@ -334,16 +331,12 @@ $result = mysqli_query($con, $query);
                     </div>
                     <div class="form5">  
                         <input type="text" id="fill" class="note" name="note" placeholder="Note">
-
                     </div>
- 
                 <div class="AddButton">
                     <button type="submit" id="addcustomerBtn" name="submitCustomer">SAVE</button>
                 </div>
                 <div class="CancelButton">
-
-                <a href="Customer.php" id="cancel">CANCEL</a>   
-
+                    <a href="Customer.php" id="cancel">CANCEL</a>   
                 </div>
             </div>
         </div>
@@ -1004,6 +997,46 @@ $result = mysqli_query($con, $query);
             .actionicon{
                 fill:  var(--color-white);
             }
+            #edit-action{
+                background: hsl(0, 0%, 37%);
+                color: var(--color-white);
+                align-items: center;
+                position: relative;
+                border-radius: 3px;
+                height: 100%;
+                width: 70%;
+                margin: 1px;
+                padding-top: 10px;
+                padding-right: 2px;
+                padding-left: 2px;
+                cursor: pointer;
+                transition: 0.3s;
+                border: none;
+            }
+            #edit-action:hover{
+                background: var(--color-main);
+                color: var(--color-white);
+            }
+            #archive-action{
+                background: hsl(0, 51%, 44%);
+                color: var(--color-white);
+                align-items: center;
+                position: relative;
+                margin: 1px;
+                border-radius: 3px;
+                height: 100%;
+                width: 70%;
+                padding-top: 10px;
+                padding-right: 2px;
+                padding-left: 5px;
+                cursor: pointer;
+                transition: 0.3s;
+                border: none;
+            }
+            #archive-action:hover{
+                background: var(--color-main);
+                color: var(--color-white);
+            }
             /*.usertype-dropdown{
                 width: 20em;
                 position: relative;
@@ -1105,7 +1138,7 @@ $result = mysqli_query($con, $query);
         /* margin-left: 3.55rem; */
         letter-spacing: 0.5px;
         font-family: Helvetica, sans-serif;       
-        top: 16.9%;
+        top: 19.9%;
         font-size: .7rem;
         padding: 5px 10px;
         padding-top: 1rem;

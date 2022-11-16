@@ -816,7 +816,7 @@ function myFunctionCP(){
         background-color: var(--color-white);
         border-top: 10px solid var(--color-main-3);
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-        border-radius:  0px 0px 20px 20px;  
+        border-radius:  0px 0px 10px 10px;  
            
     }
             .pageform{
@@ -834,7 +834,7 @@ function myFunctionCP(){
             }
             .register h2 {
                 font-family: 'Calibri', sans-serif;
-                font-size: 25px;
+                font-size: 20px;
                 align-items: center;
                 text-align: center;
                 letter-spacing: 1px;

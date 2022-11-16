@@ -1,15 +1,14 @@
 <?php
-require_once 'controllerUserdata.php';
+require_once 'controllerUserdata_customers.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
-    if (isset($_POST['id'])){
+    if (isset($_POST['email'])){
 
-        $id = $_POST['id'];
+        $email = $_POST['email'];
         
-        $stmt = $conn->prepare("SELECT * FROM users WHERE id=?");
-        $stmt->execute([$id]);
-        $fetch_profile = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
+        $stmt->execute([$email]);
         if ($stmt->rowCount() === 1){
                 $user = $stmt->fetch();
                 
@@ -28,7 +27,7 @@ $result = mysqli_query($con, $query);
                 }
             }
         }
-    
+        
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,7 +82,7 @@ $result = mysqli_query($con, $query);
                         <h3>MONITORING</h3>
                     </a>
                 
-                    <a href="Customer.php" class="customers">
+                    <a href="#" class="customers">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
                         <h3>CUSTOMER</h3>
                     </a>  
@@ -142,7 +141,7 @@ $result = mysqli_query($con, $query);
                         <h3>MONITORING</h3>
                     </a>
                 
-                    <a href="Customer.php" class="customers">
+                    <a href="#" class="customers">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
                         <h3>CUSTOMER</h3>
                     </a>  
@@ -175,16 +174,13 @@ $result = mysqli_query($con, $query);
             </aside>
         </div>
             <main>
-                <div class="main-account">
-                    <h1 class="accTitle">ACCOUNT</h1> 
+                <div class="main-customer">
+                    <h1 class="accTitle">CUSTOMERS</h1> 
                     <div class="sub-tab">
-                        <!-- <div class="user-title"> 
-                            <h2> User Accounts </h2>
-                        </div> -->
                         <div class="newUser-button"> 
-                            <button type="submit" id="add-userbutton" class="add-account">
+                            <button type="submit" id="add-userbutton" class="add-customer">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                    <h3>Add New User</h3>
+                                    <h3>Add New Customer</h3>
                             </button>
                         </div>
                         <div class="search">
@@ -195,54 +191,46 @@ $result = mysqli_query($con, $query);
                                 </button>
                             </div>
                         </div>  
-                        <!-- <div class="popup-addAccount">
-                            
-                        </div> -->
                     </div>
-                    <div class="account-container">
+                    <div class="customer-container">
                         <table class="table" id="myTable"> 
                             <thead> 
                                 <tr>
                                     <th>ID</th>
-                                    <th>Last Name</th>
-                                    <th>First Name</th>
-                                    <th>Middle Name</th>
-                                    <th>Email</th>
-                                    <!-- <th>Address</th> -->
+                                    <th>Customer Name</th>
+                                    <th>Address</th>
                                     <th>Contact Number</th>
-                                    <th>Role</th>
-                                    <th>Picture</th>
+                                    <th>Balance</th>
+                                    <th>Note</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
 
                             <?php
-                                while ($rows = mysqli_fetch_assoc($result))
+                            $customers = "SELECT * FROM customers"; 
+                            $sql = mysqli_query($con, $customers);
+                                while ($rows = mysqli_fetch_assoc($sql))
                                 {
                             ?>
                             <tbody>
                                     <tr>
                                         <td> <?php echo $rows['id']; ?></td>
-                                        <td> <?php echo $rows['last_name']; ?></td>
-                                        <td> <?php echo $rows['first_name']; ?></td>
-                                        <td> <?php echo $rows['middle_name']; ?></td>
-                                        <td> <?php echo $rows['email']; ?></td>
+                                        <td> <?php echo $rows['customer_name']; ?></td>
+                                        <td> <?php echo $rows['address']; ?></td>
                                         <td> <?php echo $rows['contact_number']; ?></td>
-                                        <td> <?php echo $rows['user_type']; ?></td>
-                                        <td> <img src="<?php echo "uploaded_image/".$rows['profile_image']; ?>" width="50px"></td>
+                                        <td> <?php echo $rows['balance']; ?></td>
+                                        <td> <?php echo $rows['note']; ?></td>
                                         <td>
-                                            <a href="Account-Action.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                        <a href="Account-Action.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
-                                            </a>
-                                            <a href="Account-Action-ChangePassword.php?edit=<?php echo $rows['id']; ?>" id="cpass-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17q-1.688 0-3.104-.719-1.417-.719-2.375-1.927l1.062-1.083q.75 1.021 1.896 1.625Q8.625 15.5 10 15.5q2.271 0 3.885-1.615Q15.5 12.271 15.5 10t-1.615-3.885Q12.271 4.5 10 4.5q-2.292 0-3.917 1.635-1.625 1.636-1.583 3.99l1.188-1.187L6.75 10l-3 3-3-3 1.062-1.062L3 10.146q-.021-1.5.531-2.813.552-1.312 1.511-2.27Q6 4.104 7.281 3.552 8.562 3 10.021 3q1.437 0 2.708.552 1.271.552 2.219 1.5t1.5 2.219Q17 8.542 17 10q0 2.917-2.042 4.958Q12.917 17 10 17Zm-1.5-4q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
                                             </a>
                                             <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
                                             </a>
                                         </td>
+                                    </tr>
                                     <tr id="noRecordTR" style="display:none">
-                                        <td colspan="9">No Record Found</td>                         
+                                        <td colspan="6">No Record Found</td>                         
                                     </tr>
                             </tbody>
                                     <?php
@@ -250,16 +238,14 @@ $result = mysqli_query($con, $query);
                                 ?>   
                         </table>     
                     </div>
-                     
                 </div>
             </main>
-        
             <div class="top-menu">  
                 <div class="menu-bar">
                     <button id="menu-button">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z"/></svg>
                     </button>
-                    <h2 class="accTitle-top">ACCOUNT</h2>
+                    <h2 class="accTitle-top">Customers</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
@@ -304,90 +290,79 @@ $result = mysqli_query($con, $query);
                     </div>     
                 </div>
                
+                <!-- <div class="notifs-section">
+                    <h2 class="todeliver">To Deliver</h2>
+                    <div class="pending">
+                        <div class="deliveries-pending">
+                            <a href=#>9 Pending Deliveries</a>
+                        </div>
+                    </div>
+                </div> -->
             </div>      
     </div> 
-  
-    <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
-        <div class="bg-adduserform" id="bg-addform">
+    <?php
+    if(isset($_GET['edit']))
+        {
+          $user_id = $_GET['edit'];  
+          $users = "SELECT * FROM customers WHERE id='$user_id'";
+          $users_run = mysqli_query($con, $users);
+
+          if(mysqli_num_rows($users_run) > 0)
+          {
+            foreach($users_run as $user)
+            {
+                ?>
+              
+    <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+        <div class="bg-addcustomerform" id="bg-addform">
             <div class="message"></div>
-            <div class="form-adduser1" id="form-adduser1">
-                <h1 class="addnew-title">ADD NEW USER</h1>
-            
-                <div class="form-adduser2" id="form-adduser2">
+                
+            <div class="form-addcustomer1" id="form-addcustomer1">
+                <h1 class="addnew-title">EDIT CUSTOMER</h1>
+                <div class="form-addcustomer2" id="form-addcustomer">
+                    <input type="hidden" required="required" name="user_id" value="<?=$user['id'];?>">
                     <div class="form1">  
-                        <input type="text" id="fill"class="lastname" required="required" name="lastname">
-                        <span>Last Name</span>
+                        <input type="text" id="fill"class="customername" required="required" name="customername" value="<?=$user['customer_name'];?>">
+                        <span>Customer Name</span>
                     </div> 
-                    <div class="form1">  
-                        <input type="text" id="fill"class="firstname" required="required" name="firstname">
-                        <span>First Name</span>
-                    </div>
                     <div class="form2">  
-                        <input type="text" id="fill"class="middlename" required="" name="middlename">
-                        <span>Middle Name</span>
-                    </div>
-                    <div class="form2">  
-                        <input type="text" id="fill" class="email" required="required" name="email">
-                        <span>Email</span>
-                    </div>
-                    <div class="form4">  
-                        <input type="text" id="fill" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
+                        <input type="text" id="fill" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum" value="<?=$user['contact_number'];?>">
                         <span>Contact Number</span>
                     </div>
-                    <div class="usertype-dropdown">
-                        <select class="select" name="usertypes" required="" >
-                            <option selected disabled value="">ROLE</option>
-                            <option value="Admin">ADMIN</option>
-                            <option value="Manager">MANAGER</option>
-                            <option value="Cashier">CASHIER</option>
-                            <option value="Custom"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
-                            CUSTOM</option>
-                        </select>
+                    <div class="form3">  
+                        <input type="text" id="fill" required="required" name="address" value="<?=$user['address'];?>">
+                        <span>Address</span>
                     </div>
-                    <!-- <div class="usertype-dropdown">
-                        <div class="select" id="usertype">
-                            <span class="selected">ROLE</span>
-                            <div class="caret"></div>
-                        </div> 
-                        <ul class="menu" name="usertypes" required="required" >
-                            <li class="active">Admin</li>
-                            <li>Manager</li>
-                            <li>Cashier</li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
-                            Custom</li>
-                        </ul>
-                     -->
-                    <div class="form4">  
-                        <input type="password" class="password" id="pass" required="required" name="pass">
-                        <span>Password</span>
-                    </div>
-                    <div class="form5">  
-                        <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass">
-                        <span>Confirm Password</span>
-                    </div>
-                    <div class="checker">
-                        <input type="checkbox" name="" onclick="myFunctionCP()" >
-                        <span>Show password</span>
+                    <h4 class="bal">Balance</h4>
+                    <div class="form4">   
+                        <input type="number" class="balance" onchange="setTwoNumberDecimal" step="0.25"  required="required" name="balance" placeholder="0.00" value="<?=$user['balance'];?>"/>
+                        <!-- <input type="text" id="fill" class="balance" onkeypress="return isNumberKey(event)" > -->
                     </div>
                     <div class="profile-picture1" >
-                        <h4 >Profile Picture</h4>
+                        <h4>NOTE</h4>
                     </div>
-                    <div class="choose-profile">
-                        <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
+                    <div class="form5">  
+                        <input type="text" id="fill" class="note" name="note" placeholder="Note" value="<?=$user['note'];?>">
                     </div>
-                </div>   
-            
                 <div class="AddButton">
-                    <button type="submit" id="adduserBtn" name="submit">SAVE</button>
-                    <!-- <input type="submit" value="ADD USER" name="submit" id="sub" onclick="showalert()"> -->
+                    <button type="submit" id="addcustomerBtn" name="submitCustomer">SAVE</button>
                 </div>
                 <div class="CancelButton">
-                <!-- <button type="button" id="cancel" data-dismiss="modal" aria-label="Close">CANCEL</button> -->
-                <a href="Account.php" id="cancel">CANCEL</a>   
-
+                    <a href="Customer.php" id="cancel">CANCEL</a>   
                 </div>
             </div>
-            <div id="form-registered">
+        </div>
+    </form>
+    <?php
+                    }
+                }
+                else{
+                ?>
+                <?php
+                }
+                }
+            ?> 
+            <div id="form-registered1">
                 <div id="container-registered">
                     <div class="content">
                         <div class="verify">
@@ -442,125 +417,65 @@ $result = mysqli_query($con, $query);
                             </svg>
                         </div>  
                         <div class="register">  
-                            <h2>Registered Successfully</h2>
+                            <h2>CUSTOMER ADDED SUCCESSFULLY</h2>
                         </div>
                     </div>
                         <div class="pageform">
                             <div class="confirmBtn">
-                                <a href="Account.php" id="registered">CONFIRM</a>   
+                                <a href="Customer.php" id="registered">CONFIRM</a>   
                             </div> 
                         </div>
                 </div>
             </div>
-        </form>
-        </div>
+        
+       
     
 </body>
 </html>
 <script>
-    //SHOW PASSWORD-------------------------------------------------
-function myFunctionCP(){
-        var x = document.getElementById("pass");
-        var y = document.getElementById("cpass");
-        if(x.type === 'password'){
-            x.type = "text";
-            y.type = "text";
-        }else{
-            x.type = "password";
-            y.type = "password";
-        }
-    }
-    // EDIT ACCOUNT--------------------------------------------------
-    
-    // document.querySelector("#myTable"),addEventListener("click", (e)=>{
-    //     target = e.target;
-    //     if(target.classList.contains("action-btn")){
-    //         selectedRow = target.parentElement.parentElement;
-    //         document.querySelector("#lastname").value = selectedRow.children[1].textContent;
-    //         document.querySelector("#firstname").value = selectedRow.children[2].textContent;
-    //         document.querySelector("#middlename").value = selectedRow.children[3].textContent;
-    //         document.querySelector("#email").value = selectedRow.children[4].textContent;
-    //         document.querySelector("#contactnum").value = selectedRow.children[5].textContent;
-    //         // document.querySelector("#usertype").value = selectedRow.children[6].textContent;
-    //         // document.querySelector("#image-profile").value = selectedRow.children[7].textContent;
-    //     }
-    // });
-    // // Get the modal
- 
-    // // // Get the button that opens the modal
-    // // var addbtn = $("#add-userbutton");
 
-    // // // Get the <span> element that closes the modal
-    // var cancelbtn = $("#cancel");
-
-    // $(document).ready(function(){
-    //     // When the user clicks the button, open the modal 
-        // addbtn.on('click', function() {
-        //     bgform.show();
-        // });
-        
-    //     // When the user clicks on <span> (x), close the modal
-    //     cancelbtn.on('click', function() {
-    //         bgform.hide();
-    //     });
-    // // });
-
-    // Add new User Message ----------------------------------------------------------------------------------
     const regForm = document.querySelector(".form-registered");
     const regBtn = document.querySelector(".AddButton");
-    var bgform = $('#form-registered');
-    var addform = $('#form-adduser1');
-    var addbtn = $("#adduserBtn");
+    var bgform = $('#form-registered1');
+    var addform = $('#form-addcustomer1');
+    var addbtn = $("#addcustomerBtn");
     var message = $(".message");
     
-    $(document).ready(function(){
-        $('#adduserFrm').submit(function(e){
-            e.preventDefault();
-            $.ajax({
-                type: 'post',
-                url: 'controllerUserdata.php',
-                data: new FormData(this),
-                contentType: false, 
-                cache: false,
-                processData: false,
-                // 'submit=1&'+$form.serialize(),
-                dataType: 'json',  
-                success: function(response){
-                    $(".message").css("display", "block");
-                    if(response.status == 1){   
-                        bgform.show();  
-                        addform.hide(); 
-                        message.hide(); 
-                        $('#adduserFrm')[0].reset();
-                }else{
-                    $(".message").html('<p>'+response.message+'<p>');
-                }
-                    }
-                });
-            });
-        //     $("#image-profile").change(function(){
-        //         var file = this.files[0];
-        //         var fileType = file.type;
-        //         var match = ['image/jpeg', 'image/jpg', 'image/png']
+    // $(document).ready(function(){
+    //     $('#addcustomerFrm').submit(function(e){
+    //         e.preventDefault();
 
-        //         if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
-        //             alert("JPEG, JPG, and PNG files only.")
-        //             $("#image-profile").val('');
-        //             return false;
-        //         }
-        // });
-    });
-    
-// 
+    //         $.ajax({
+    //             type: 'post',
+    //             url: 'controllerUserdata_customers.php',
+    //             data: new FormData(this),
+    //             contentType: false, 
+    //             cache: false,
+    //             processData: false,
+    //             // 'submit=1&'+$form.serialize(),
+    //             dataType: 'json',  
+    //             success: function(response){
+    //                 $(".message").css("display", "block");
+    //                 if(response.status == 1){   
+    //                     $("#form-registered1").css("display", "block");
+    //                     addform.hide(); 
+    //                     message.hide(); 
+    //                     $('#addcustomerFrm')[0].reset();
+    //             }else{
+    //                 $(".message").html('<p>'+response.message+'<p>');
+    //             }
+    //                 }
+    //             });
+    //         });
+    //     });
+
+               
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
     let inputs = document.querySelectorAll('#fill');
-    let pass = document.querySelectorAll('#pass');
-    let cpass = document.querySelectorAll('#cpass');
+
     btnClear.addEventListener('click', () => {
         inputs.forEach(input => input.value = '');
-        pass.forEach(input => input.value = '');
-        cpass.forEach(input => input.value = '');
     });
     // btnClear1.addEventListener('click', () => {
     //     inputs.forEach(input => input.value = '');
@@ -576,207 +491,120 @@ function myFunctionCP(){
     const checkbox = document.getElementById('checkbox');
          checkbox.addEventListener( 'change', () =>{
              document.body.classList.toggle('dark-theme');
+        //     if(this.checked) {
+        //         body.classList.add('dark')
+        //     } else {
+        //         body.classList.remove('dark')     
+        //     }
          });
-  
-    // --------------------------------------Action Dropdown-------------------------------------- //
-    const actionsForm = document.querySelector(".bg-actionDropdown");
-    const actionsBtn = document.querySelector(".action-btn");
-        // actionsBtn.addEventListener('click', () =>{
-        //     actionsForm.style.display = 'block';
-        // })
-    function actionFunction(){
-        // actionsForm.classList.toggle('bg-actionDropdown')
-        actionsForm.style.display = 'flex';
-    }
-    function closeAction(){
-        // actionsForm.classList.toggle('bg-actionDropdown')
-        actionsForm.style.display = 'none';
-    }
-    const editBtn = document.querySelector(".edit");
-    const editForm = document.querySelector(".bg-editDropdown");
+
     
-    // editBtn.addEventListener('click', () =>{
-    //     editForm.style.display = 'flex';
-    //     })
-    function editAction(){
-        editForm.style.display = 'flex';
-        actionsForm.style.display = 'none';
-    }
+
     const sideMenu = document.querySelector("#aside");
-    const addForm = document.querySelector(".bg-adduserform");
-   
-    // const closeBtn = document.querySelector("#close-btn");
+    const addForm = document.querySelector(".bg-addcustomerform");
+  
+  
     const cancelBtn = document.querySelector("#cancel");
-    const addBtn = document.querySelector(".add-account");
+    const addBtn = document.querySelector(".add-customer");
+    const addcustomerBtn = document.querySelector(".AddButton");
+ 
     const menuBtn = document.querySelector("#menu-button");
-    // const darktheme = document.querySelector('.dark-theme');
-    // const checkbox = document.getElementById("checkbox");
+
         menuBtn.addEventListener('click', () =>{
             sideMenu.style.display = 'block';
         })
-        // closeBtn.addEventListener('click', () =>{
-        //     sideMenu.style.display = 'none';
-        // })
+
         cancelBtn.addEventListener('click', () =>{
             addForm.style.display = 'none';
         })
-        // if(email.value === '' || middlename.value === '' || firstname.value === '' || lastname.value === '' || contactnum.value === '' || role.value === '' || password.value === '' || confirmpassword.value === '' || profilepicture.value === ''){ 
-        // }else{
-            
-        // }
+
         addBtn.addEventListener('click', () =>{
             addForm.style.display = 'flex';
         })
-        
-        // adduserBtn.addEventListener('click', () =>{
-        //     addForm.style.display = 'flex';
-        // })
-        
-        // checkbox.addEventListener( 'change', function() {
-        //     localStorage.setItem('dark-theme',this.checked);
-        //     if(this.checked) {
-        //         body.classList.add('dark-theme')
-        //     } else {
-        //         body.classList.remove('dark-theme')     
-        //     }
-        // });
-        //     document.body.classList.add('dark-theme');
-        // })
-            // if(localStorage.getItem('dark-theme')) {
-            // body.classList.add('dark-theme');
-            // }
-      
-       
-         function menuToggle(){
+    
+        function menuToggle(){
             const toggleMenu = document.querySelector('.drop-menu');
             toggleMenu.classList.toggle('user2')
         }
 
-
         function tableSearch(){
     let input, filter, table, tr, lastname,
-     firstname, middlename, email, contactnum, role, i, txtValue;
-  
+     firstname, address, contactnum, i, txtValue;
+
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
     table = document.getElementById("myTable");
     tr = table.getElementsByTagName("tr");
 
+    for(let i = 0; i < tr.length; i++){
+        lastname = tr[i].getElementsByTagName("td")[1];
+        firstname = tr[i].getElementsByTagName("td")[2];
+        address = tr[i].getElementsByTagName("td")[3];
+        contactnum = tr[i].getElementsByTagName("td")[4];
+        if(lastname || firstname || address || contactnum){
+            var lastname_value = lastname.textContent || lastname.innerText;
+            var firstname_value = firstname.textContent || firstname.innerText;
+            var contactnum_value = contactnum.textContent || contactnum.innerText;
+            var address_value = address.textContent || address.innerText;
 
-        for(i = 0; i < tr.length; i++){
-           
-            lastname = tr[i].getElementsByTagName("td")[1];
-            firstname = tr[i].getElementsByTagName("td")[2];
-            middlename = tr[i].getElementsByTagName("td")[3];
-            email = tr[i].getElementsByTagName("td")[4];
-            contactnum = tr[i].getElementsByTagName("td")[5];
-            role = tr[i].getElementsByTagName("td")[6];
-            
-            
-            if(lastname || firstname || middlename || email || contactnum || role){
-                var lastname_value = lastname.textContent || lastname.innerText;
-                var firstname_value = firstname.textContent || firstname.innerText;
-                var middlename_value = middlename.textContent || middlename.innerText;
-                var email_value = email.textContent || email.innerText;
-                var contactnum_value = contactnum.textContent || contactnum.innerText;
-                var role_value = role.textContent || role.innerText;
-                if(role_value.toUpperCase().indexOf(filter) > -1 ||
-                contactnum_value.toUpperCase().indexOf(filter) > -1 ||
-                email_value.toUpperCase().indexOf(filter) > -1 ||
-                middlename_value.toUpperCase().indexOf(filter) > -1 ||
-                lastname_value.toUpperCase().indexOf(filter) > -1 ||
-                firstname_value.toUpperCase().indexOf(filter) > -1){
-                    tr[i].style.display ="";
-                }
+            if(address_value.toUpperCase().indexOf(filter) > -1 ||
+               contactnum_value.toUpperCase().indexOf(filter) > -1 ||
+               lastname_value.toUpperCase().indexOf(filter) > -1 ||
+               firstname_value.toUpperCase().indexOf(filter) > -1){
+                tr[i].style.display ="";
+            }
                 else{
                     tr[i].style.display = "none";
                 }
-                if($('#myTable tbody tr:visible').length === 0) {
-                document.getElementById('noRecordTR').style.display = "";
-            }else{
-                document.getElementById('noRecordTR').style.display = "none";
-            }
+                    if($('#myTable tbody tr:visible').length === 0) {
+                        document.getElementById('noRecordTR').style.display = "";
+                    }else{
+                        document.getElementById('noRecordTR').style.display = "none";
+                    }
             }
             if($('#myTable tbody tr:visible').length === 0) {
-                document.getElementById('noRecordTR').style.display = "";
-            }else{
-                document.getElementById('noRecordTR').style.display = "none";
-            }
+                        document.getElementById('noRecordTR').style.display = "";
+                    }else{
+                        document.getElementById('noRecordTR').style.display = "none";
+                    }
         }   
+        if($('#myTable tbody tr:visible').length === 0) {
+                        document.getElementById('noRecordTR').style.display = "";
+                    }else{
+                        document.getElementById('noRecordTR').style.display = "none";
+                    }
 }
-    // $.fn.AddNoRowsFound = function() {
-    //     if($(this).find('tbody tr:not([data-no-results-found]):visible').length > 0) {
-    //     $(this).find('tbody tr[data-no-results-found]').hide();
-    // }
-    // else {
-    //     $(this).find('tbody tr[data-no-results-found]').show();
-    // }
-    // };
+    const dropdowns = document.querySelectorAll(".usertype-dropdown");
+        dropdowns.forEach(dropdown =>{
+            const select = dropdown.querySelector(".select");
+            const caret = dropdown.querySelector(".caret");
+            const menu = dropdown.querySelector(".menu");
+            const options = dropdown.querySelectorAll(".menu li");
+            const selected = dropdown.querySelector(".selected");
 
-    // $('#myTable').AddNoRowsFound();
+            select.addEventListener('click', () => {
+                select.classList.toggle('select-clicked');
+                caret.classList.toggle('caret-rotate');
+                menu.classList.toggle('menu-open');
+            });
+            options.forEach(option => {
+                option.addEventListener('click', () =>{
+                    select.innerText = option.innerText;
+                    select.classList.remove('select-clicked');
+                    caret.classList.remove('caret-rotate');
+                    menu.classList.remove('menu-open');
+                    options.forEach(option => {
+                        option.classList.remove('active');
+                    });
+                    option.classList.add('active');
+                });
+            });
+        });
 
-// function actionToggle(){
-//             const toggleAction = document.querySelector('.menu-action');
-//             toggleAction.classList.toggle('action-dropdown')
-        // }
-        // var smodal = document.getElementByClassName('action-dropdown');
-    // const dropdowns = document.querySelectorAll(".action-dropdown");
-    //     dropdowns.forEach(dropdown =>{
-    //         const select = dropdown.querySelector(".select-action");
-    //         // const caret = dropdown.querySelector(".caret");
-    //         const menu = dropdown.querySelector(".menu-action");   
-            // const options = dropdown.querySelectorAll(".menu-action .li");
-            // const selected = dropdown.querySelector(".selected-action");
-
-            // select.addEventListener('click', () => {
-            //     select.classList.toggle('select-action-clicked');
-            //     // caret.classList.toggle('caret-rotate');
-            //     menu.classList.toggle('menu-action-open');
-                
-            // });
-          
-            // options.forEach(option => {
-            //     option.addEventListener('click', () =>{
-            //         select.innerText = option.innerText;
-            //         select.classList.remove('select-action-clicked');
-            //         // caret.classList.remove('caret-rotate');
-            //         menu.classList.remove('menu-action-open');
-
-            //         options.forEach(option => {
-            //             option.classList.remove('active');
-            //         });
-            //         option.classList.add('active');
-            //     });
-            // });
-        // });
-        // window.onclick = function(e){
-        //         if(e.target == smodal){
-        //             modal.style.display = "none"
-        //         }
-        //     }
-// ///////////////////////////////////////////////////////////////////////////////////////////////////
-// $(document).ready(function(){
-//     $("#actionsSelect").on("change", function() {
-//         $(".bg-editDropdown").hide();
-//         $("#" + $(this).val()).fadeIn(200);
-//     }).change();
-// });
-// $(document).ready(function(){
-//     $('#actionsSelect').on('change', function(){
-//     	var demovalue = $(this).val(); 
-//         // $("div.bg-editDropdown").hide();
-//         $("#edit-bgdrop").show();
-//     });
-// });
-// $("#actionsSelect").on("change", function() {
-//         $("#" + $(this).val()).show().siblings();
-//     })
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>      
-
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
 <style>
      :root{
         --color-main: rgb(2, 80, 2);
@@ -799,14 +627,12 @@ function myFunctionCP(){
         --color-aside-mobile-text: hsl(0, 0%, 57%);
         --color-mainbutton: rgb(117, 117, 117);
         --color-button-hover: rgb(39, 170, 63);
-        --color-border-bottom: rgb(219, 219, 219);
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
         --color-tertiary: hsl(0, 0%, 25%);
         --color-main-2: rgb(60, 128, 60);
         --color-main-3: rgb(93, 163, 93);
-        --color-border-bottom: rgb(104, 104, 104);
         --color-black: white;
         --color-shadow-shadow: rgb(32, 32, 32);
         --color-aside-mobile-focus: rgb(244, 255, 246);
@@ -835,8 +661,8 @@ function myFunctionCP(){
         background-size: cover;
         background-attachment: fixed;
     }  
-    /* -----------------------------------------Adduserform------------------------------------------ */
-    .bg-actionDropdown{
+    /* -----------------------------------------Add Customer Form------------------------------------------ */
+    .bg-addcustomerform{
         height: 100%; 
         width: 100%;
         background: rgba(0,0,0,0.7);
@@ -845,106 +671,20 @@ function myFunctionCP(){
         display: flex;
         align-items: center; 
         justify-content: center;
-        display: none;
-    }
-            .action{ 
-                position: absolute;
-                top: 50%;
-                align-items: center;
-                text-align: center;
-                /* display: none; */
-                left: 50%;
-                height: 13.5rem;
-                min-width: 17rem;
-                
-                transform: translate(-50%, -50%);
-                background-color: var(--color-white);
-                box-shadow: 5px 7px 30px 0px var(--color-shadow-shadow);
-                border-radius: 20px;  
-             }
-             #close-action{
-                position: absolute;
-                margin-top: -5.5rem;
-                left:87%;
-                fill: var(--color-solid-gray);
-             }
-             #close-action:hover{
-                position: absolute;
-                margin-top: -5.5rem;
-                left:87%;
-                fill: #8b0000;
-                transition: .2s;
-             }
-             .action h2{
-                padding-bottom: .5rem;
-                margin-top: .5rem;
-                font-size: min(max(1.9rem, 1.1vw), 2rem);
-                color: var(--color-solid-gray);
-                font-family: 'Malberg Trial', sans-serif;
-                border-bottom:  2px solid var(--color-solid-gray);
-                margin-bottom: 1rem;
-             }
-             .action button{
-                padding-left:1rem;
-                font-family: 'arial', sans-serif;
-                cursor: pointer;
-                transition: .5s;
-                font-size: 12px;
-                display: flex;
-                gap: .8rem;
-                width: 100%;
-                border: none;
-                background: var(--color-white);
-                align-items: center;
-                color: var(--color-solid-gray);
-                fill: var(--color-solid-gray);
-                border-radius: 20px;  
-            }
-            .action button:last-child{
-                border-top:  2px solid var(--color-solid-gray);
-            }
-            
-            .action button:hover{
-                background: linear-gradient(270deg, transparent, var(--color-secondary-main));
-                color: var(--color-main);
-                fill: var(--color-main);
-            }
-
-    .bg-adduserform{
-        height: 100%; 
-        width: 100%;
-        background: rgba(0,0,0,0.7);
-        top: 0;
-        position: absolute;
         display: flex;
-        align-items: center; 
-        justify-content: center;
-        display: none;
     }
-    .bg-editDropdown{
-        height: 100%; 
-        width: 100%;
-        background: rgba(0,0,0,0.7);
-        top: 0;
-        position: absolute;
-        display: flex;
-        align-items: center; 
-        justify-content: center;
-        display: none;
-    }
-    #form-registered{
+    #form-registered1{
         position: absolute;
         top: 50%;
         display: none;
         left: 50%;
-        max-height: 95vh;
+        max-height: 90vh;
         min-width: 400px;
         transform: translate(-50%, -50%);
         background-color: var(--color-white);
         border-top: 10px solid var(--color-main-3);
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-radius:  0px 0px 20px 20px;  
-           
     }
             .pageform{
                 background-color: var(--color-white);
@@ -961,10 +701,10 @@ function myFunctionCP(){
             }
             .register h2 {
                 font-family: 'Calibri', sans-serif;
-                font-size: 25px;
+                font-size: 20px;
                 align-items: center;
                 text-align: center;
-                letter-spacing: 2px;
+                letter-spacing: 1px;
                 color: var(--color-black);
                 margin-bottom: 5px;
             } 
@@ -1007,56 +747,17 @@ function myFunctionCP(){
                 background-color: var(--color-button-hover);
                 transition: 0.5s; 
             }
-    .form-adduser1{
+    .form-addcustomer1{
         width: 500px;
         height: 100%;
-        max-height: 480px;
-        position: absolute;
+        max-height: 440px;
+        position: relative;
         border-radius:  0px 0px 20px 20px;
         background-color: var(--color-white);
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-top: 10px solid var(--color-solid-gray);
     }
-    .edit-container{
-        width: 500px;
-        height: 100%;
-        max-height: 520px;
-        position: absolute;
-        border-radius:  0px 0px 20px 20px;
-        background-color: var(--color-white);
-        box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-        border-top: 10px solid var(--color-solid-gray);
-    }
-            .edit-container2{
-                display: flex;
-                font-size: .7rem;
-                flex-direction: column;
-                font-family: 'Malberg Trial', sans-serif;
-                gap: 30px;
-                min-height: 20vh;
-            }
-            .edit-container .EditButton button{
-                font-family: 'COCOGOOSE', sans-serif;
-                padding: 10px;
-                margin-top: .5vh;
-                margin-bottom: 20px;
-                margin-left: 20em;
-                text-align: center;
-                width: 15rem;
-                max-height: 60px;
-                outline: none;
-                border: none;
-                font-size: min(max(9px, 1.1vw), 11px);
-                border-radius: 20px;
-                color: white;
-                background:  var(--color-mainbutton); 
-                cursor: pointer; 
-                transition: 0.5s;
-            }
-            .edit-container .EditButton button:hover{
-                background: var(--color-button-hover);
-            }
-            .form-adduser2{
+            .form-addcustomer2{
                 display: flex;
                 font-size: .7rem;
                 flex-direction: column;
@@ -1122,7 +823,7 @@ function myFunctionCP(){
                 width: 205px;
                 height: 17px;
                 margin-left: 16rem;
-                margin-top: .395rem;
+                margin-top: 3.7rem;
                 top: -7.1rem;
             }
             .form2 input{
@@ -1157,12 +858,64 @@ function myFunctionCP(){
                 padding: 0 10px;
                 transition: .3s
             }
+            .form3{
+                position: relative;
+                width: 430px;
+                height: 17px;
+                margin-left: 2rem;
+                margin-top: 4rem;
+                top: -10rem;
+            }
+            .form3 input{
+                width:100%;
+                height: 2.5rem;
+                padding: 10px;
+                border: 2px solid var(--color-solid-gray);
+                border-radius: 15px;
+                outline: none;
+                font-size: 1em;
+                background: var(--color-white);
+                color: var(--color-black);
+            }
+            .form3 span{
+                position: absolute;
+                left: 0;
+                padding: 12px;
+                pointer-events: none;
+                font-size: 1.2em;
+                margin-top: 0.1rem;
+                margin-left: .2rem;
+                color: var(--color-solid-gray);
+            }
+            .form3 input:focus{
+                border: 2px solid var(--color-main-3);
+            }
+            .form3 input:valid ~ span,
+            .form3 input:focus ~ span{
+                color:var(--color-main-3);
+                transform: translateX(10px) translateY(1px);
+                font-size: 0.85em;
+                padding: 0 10px;
+                transition: .3s
+            } 
+            .bal{
+                font-size: 1.6em;
+                color: var(--color-solid-gray);
+                font-family: 'Malberg Trial', sans-serif;
+                display: flex;
+                padding-top: 1rem;
+                margin-top:7.5rem;
+                position: absolute;
+                justify-content: left;
+                margin-left: 5rem;
+                padding-bottom: 10px;
+            }
             .form4{
                 position: relative;
                 width: 205px;
-                margin-left: 2rem;
-                margin-top: -.895rem;
-                top: -5.6rem;
+                margin-left: 10rem;
+                margin-top: -0.5rem;
+                top: -8.5rem;
             }
             .form4 input{
                 width:100%;
@@ -1198,11 +951,11 @@ function myFunctionCP(){
             }
             .form5{
                 position: relative;
-                width: 205px;
-                margin-left: 15.9rem;
-                margin-top: 1rem;
-                top: -10.93rem;
-                margin-bottom: -5rem;
+                width: 430px;
+                margin-left: 2rem;
+                margin-top: 5.6rem;
+                top: -14rem;
+                margin-bottom: -11.5rem;
             }
             .form5 input{
                 width:100%;
@@ -1236,20 +989,26 @@ function myFunctionCP(){
                 padding: 0 10px;
                 transition: .3s
             }
-            
-            /* --------------------------------------DROP DOWN ACTION------------------------------------- */
-            .actionBtn{
+            /* --------------------------------------DROP DOWN------------------------------------- */
+            .action-btn{
                 background: var(--color-solid-gray);
                 color: var(--color-white);
-                font-size: 18px;
-                font-family: "Font Awesome 5 Free", sans-serif;
-                font-weight: 501;
-                border-radius: 50px;
-                padding: 10px;
-                height: 2.5em;
-                width: 4rem;
+                align-items: center;
+                border-radius: 20px;
+                height: 5rem;
+                width: 5rem;
+                padding-top: 20px;
+                padding-bottom: 5px;
+                padding-left: 10px;
+                padding-right: 10px;
                 cursor: pointer;
                 transition: 0.3s;
+                border: none;
+                margin-bottom: 6rem
+            }
+            .action-btn:hover{
+                background: var(--color-main);
+                color: var(--color-white);
             }
             .fa{
                 font-family: "Font Awesome 5 Free", sans-serif;
@@ -1258,33 +1017,6 @@ function myFunctionCP(){
             }
             .actionicon{
                 fill:  var(--color-white);
-            }
-          
-            /* --------------------------------------DROP DOWN------------------------------------- */
-            .usertype-dropdown{
-                width: 20em;
-                position: relative;
-                margin-top: 1rem;
-                top: -10.9rem;
-                left: 51%;
-                margin-bottom: -5.39rem;
-            }
-            .select{
-                background: var(--color-solid-gray);
-                color: var(--color-white);
-                align-items: center;
-                border-radius: 13px;
-                padding: 8px 12px;
-                height: 2.9em;
-                width: 12.8rem;
-                cursor: pointer;
-                transition: 0.3s;
-            }
-            .action-dropdown{
-                position: relative;
-                margin-top: .5rem;
-                /* left: 10%; */
-                margin-bottom: .5rem
             }
             #edit-action{
                 background: hsl(0, 0%, 37%);
@@ -1303,27 +1035,6 @@ function myFunctionCP(){
                 border: none;
             }
             #edit-action:hover{
-                background: var(--color-main);
-                color: var(--color-white);
-            }
-            #cpass-action{
-                background:#00aa09;
-                position: relative;
-                color: var(--color-white);
-                align-items: center;
-                text-align: center;
-                margin: 1px;
-                border-radius: 3px;
-                height: 100%;
-                width: 70%;
-                padding-top: 10px;
-                padding-right: 2px;
-                padding-left: 5px;
-                cursor: pointer;
-                transition: 0.3s;
-                border: none;
-            }
-            #cpass-action:hover{
                 background: var(--color-main);
                 color: var(--color-white);
             }
@@ -1347,21 +1058,97 @@ function myFunctionCP(){
                 background: var(--color-main);
                 color: var(--color-white);
             }
-         
-    .checker {
-        text-align: right;
-        align-items: right;
-        margin-right: 3rem;
-        margin-top: -7.5rem;
-        margin-bottom: 5rem;
-    }
-    .checker span {
-        text-decoration: none;
-        color: var(--color-solid-gray);
-        top: 0;
-        font-size: min(max(10px, 1.2vw), 12px);
-        font-family: 'Switzer', sans-serif;
-    }
+            /*.usertype-dropdown{
+                width: 20em;
+                position: relative;
+                margin-left: 16rem;
+                margin-top: 1rem;
+                top: -10.9rem;
+                margin-bottom: -5.39rem;
+            }
+            .select{
+                background: var(--color-solid-gray);
+                color: var(--color-white);
+                align-items: center;
+                border-radius: 13px;
+                padding: 8px 12px;
+                height: 2.9em;
+                width: 12.8rem;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .select-clicked{
+                box-shadow: 0 0 0 1px var(--color-solid-gray);
+                background: var(--color-main-2);
+                color: white;
+            }
+            .select:hover{
+                background: var(--color-main);
+                color: var(--color-white);
+            }
+            /*.caret{
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 6px solid var(--color-white);
+                transition: .5s;
+            }
+            .caret-rotate{
+                transform: rotate(180deg);
+                transition: .5s;
+            } */
+            .menu{
+                list-style: none;
+                padding: 0.2em 0.5em;
+                background: var(--color-solid-gray);
+                border: 1px solid var(--color-solid-gray);
+                box-shadow: 0 0 .5em .2em var(--color-main-2);
+                border-radius: 0.5em;
+                color: var(--color-white);
+                fill:var(--color-white);
+                gap: 1rem;
+                position: absolute;
+                top: 3em;
+                left: 50%;
+                width: 100%;
+                transform: translateX(-50%);
+                opacity: 0;
+                display: none;
+                z-index: 1;
+            }
+            .menu li{
+                padding: 0.7em 0.5em;
+                margin: 0.3em 0;
+                border-radius: 0.5em;
+                cursor: pointer;
+                transition: .5s;
+                font-size: 12px;
+                position: relative; 
+                align-items: center;
+            
+            }
+            .menu li:last-child{
+                font-size: 12px;
+                padding-left: -1rem;
+                display: flex;
+                align-items: center;
+                gap: .7rem;
+            }
+            .menu li:hover{
+                background: linear-gradient(270deg, transparent, var(--color-tertiary));
+                color: var(--color-main);
+
+            }
+            .active{
+                background: var(--color-main-3);
+                color: var(--color-white);
+                fill:var(--color-white);
+            }
+            .menu-open{
+                display: block;
+                opacity: 1;
+            }
     /* ------------------------------------------------------------------------------------ */
     .message{
         background-color: hsl(0, 100%, 77%);
@@ -1403,7 +1190,7 @@ function myFunctionCP(){
         text-align: center;
         font-family: 'Calibri', sans-serif;
         color: var(--color-solid-gray);
-        top: -8rem;
+        top: -10.5rem;
         margin-left: 2rem;
         width: 26.7rem;
         border-bottom: 2px solid var(--color-solid-gray);
@@ -1419,8 +1206,8 @@ function myFunctionCP(){
         margin-left: 5rem; 
         background: var(--color-solid-gray);
         color: var(--color-white);
-        top: -6.4rem;
-        margin-bottom: -7.6em;
+        top: -9rem;
+        margin-bottom: -8rem;
         border-radius: 10px;
         transition: 0.5s;
         font-family: 'COCOGOOSE', sans-serif;
@@ -1436,7 +1223,7 @@ function myFunctionCP(){
     .addnew-title{
         font-size: min(max(1.9rem, 1.1vw), 2rem);
         color: var(--color-solid-gray);
-        font-family: 'Malberg Trial', sans-serif;
+        font-family: 'Calibri', sans-serif;
         letter-spacing: .09rem;
         display: flex;
         padding-top: 1rem;
@@ -1445,11 +1232,10 @@ function myFunctionCP(){
         margin: 15px;
         padding-bottom: 10px;
     }
-   
-    .form-adduser1 .AddButton button{
+    .form-addcustomer1 .AddButton button{
         font-family: 'COCOGOOSE', sans-serif;
         padding: 10px;
-        margin-top: .5vh;
+        margin-top: -3rem;
         margin-bottom: 20px;
         margin-left: 20em;
         text-align: center;
@@ -1464,17 +1250,12 @@ function myFunctionCP(){
         cursor: pointer; 
         transition: 0.5s;
     }
-    .form-adduser1 .AddButton button:hover{
+    .form-addcustomer1 .AddButton button:hover{
         background: var(--color-button-hover);
     }
     .CancelButton{
-        margin-top: -4.9vh;
-        margin-left: 2.4em;
-    }
-    .CloseButton{
-        margin-top: 5.2vh;
-        margin-left: 2.4em;
-        margin-bottom: -2rem;
+        margin-top: -4.8rem;
+        margin-left: 2.9em;
     }
     #cancel{
         font-family: 'COCOGOOSE', sans-serif;
@@ -1497,30 +1278,6 @@ function myFunctionCP(){
         background-color: rgb(158, 0, 0);
         transition: 0.5s; 
     }
-
-    #action_btn {
-        font-family: 'calibri', sans-serif;
-        /* padding: 10px;
-        
-        margin-bottom: 20px;
-        margin-left: 20em; */
-        text-align: center;
-        margin-top: .5vh;
-        margin-bottom: .5vh;
-        width: 3rem;
-        height: 40px;
-        outline: none;
-        border: none;
-        font-size: min(max(10px, 1.2vw), 12px);
-        border-radius: 20px;
-        background: var(--color-solid-gray);
-        cursor: pointer; 
-        transition: 0.5s;
-    }
-    #action_btn:hover{
-        background: var(--color-button-hover);
-    }
-  
      /* ----------------------------------------Top bar menu----------------------------------------  */
     .top-menu{
         margin-top: .7rem;
@@ -1558,11 +1315,10 @@ function myFunctionCP(){
         font-family: 'Calibri', sans-serif;
         font-size: 7.5px;
         color: var(--color-main); 
-        letter-spacing: 1px;
+        letter-spacing: .15rem;
         border-top: 2px solid var(--color-main); 
         margin-top: -0.97rem;
-        width: 7vw;
-        text-transform: uppercase;
+        width: 100px;
     }
     h1{
         margin-top: 6px;     
@@ -1572,7 +1328,7 @@ function myFunctionCP(){
         font-size: 11px;
         /* margin-right: -7.3rem;*/
         margin-top: -0.6rem; 
-        letter-spacing: 1px;
+        letter-spacing: 2px;
         color: var(--color-main); 
     }
     .user-name{
@@ -1589,31 +1345,6 @@ function myFunctionCP(){
         width: 50px;
         padding: 4px;
     }
-    .profile-pic{
-        align-items: center;
-        text-align: center;
-        justify-content: center;
-        margin-top: 1rem;
-    }
-    .profile-pic img{
-        background: var(--color-solid-gray); 
-        border-radius: 50%;
-        width: 100px;
-        padding: 3px;
-    }
-    .editnew-title{
-        font-size: min(max(1.9rem, 1.1vw), 2rem);
-        color: var(--color-solid-gray);
-        font-family: 'Malberg Trial', sans-serif;
-        letter-spacing: .09rem;
-        display: flex;
-        padding-top: .5rem;
-        justify-content: center;
-        border-bottom: 2px solid var(--color-solid-gray);
-        margin: 15px;
-        padding-bottom: 10px;
-    }
-   
     #menu-button{
         border: none;
         background: none;
@@ -1780,9 +1511,8 @@ function myFunctionCP(){
         transition: transform 0.2s linear;
     }
     /* ----------------------------------------MAIN---------------------------------------- */
-    .main-account{
+    .main-customer{
         width:100%;
-        position: relative;
     }
     .accTitle{
         margin-top: 2rem;
@@ -1859,14 +1589,14 @@ function myFunctionCP(){
             position: absolute;
             left: 16%;
         }
-        .add-account{
+        .add-customer{
             display: flex;
             border: none;
             background-color: var(--color-white); 
             align-items: center;
             color: var(--color-button); 
             fill: var(--color-button); 
-            width: 11rem;
+            width: 13rem;
             max-height: 46px;
             border-radius: 20px;
             padding: .68rem 1rem;
@@ -1879,10 +1609,10 @@ function myFunctionCP(){
             margin-top: .2rem;
             text-transform: uppercase;
         }
-        .add-account h3{
+        .add-customer h3{
             font-size: .8rem;
         }
-        .add-account:hover{
+        .add-customer:hover{
             background-color: var(--color-main); 
             color: var(--color-white);
             fill: var(--color-white);
@@ -1890,22 +1620,19 @@ function myFunctionCP(){
             transition: 0.7s;
             border-bottom: 4px solid var(--color-maroon);
         }
-         /* ----------------------------------------Account Table---------------------------------------- */
-    main .account-container{
+         /* ----------------------------------------Customers Table---------------------------------------- */
+    main .customer-container{
         margin-top: 2rem;
         max-height: 500px;
         overflow:auto;
-        width: 100%;
-        /* position: absolute; */
         box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
         border-top: 8px solid var(--color-table-hover);
-        border-radius: 0px 0px 10px 10px;
-        
+        border-radius: 0px 0px 40px 40px;
     }
-     main .account-container table{
+     main .customer-container table{
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
-        width: 100%; 
+        width: 100%;
         font-size: 1rem;
         padding-left: 2.5rem;
         padding-right: 2.5rem;
@@ -1915,14 +1642,14 @@ function myFunctionCP(){
         margin-top: -1rem;
     }
 
-    main .account-container table:hover{
+    main .customer-container table:hover{
         box-shadow: none;
         border-top: 8px solid var(--color-main);
     }
 
     main table tbody td{
         height: 2.8rem;
-        border-bottom: 1px solid var(--color-border-bottom);
+        border-bottom: 1px solid var(--color-solid-gray);
         color: var(--color-td); 
         font-size: .8rem;
     }
@@ -1954,6 +1681,7 @@ function myFunctionCP(){
         left: 0;
         border-radius: 0px 30px 30px 0px;
         display: none;
+        /* border-left: 10px solid rgb(2, 80, 2);  */
     }
     #aside .title{
         display: flex;
@@ -1979,7 +1707,7 @@ function myFunctionCP(){
         display: flex;
         flex-direction: column;
         height: 86vh;
-        /* position: relative; */
+        position: relative;
     }
     #aside h3{
         font-weight: 400;
@@ -2009,7 +1737,7 @@ function myFunctionCP(){
         border-radius: 0 0 10px 0 ;
         box-shadow: 1px 3px 1px var(--color-background);
     }
-    #aside .sidebar .account{
+    #aside .sidebar .customers{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -2036,7 +1764,7 @@ function myFunctionCP(){
         position: absolute;
         width: 14rem;
         margin-right: 2rem;
-        border-left: 38px solid var(--color-background); 
+        border-left: 38px solid var(--color-background);
     }
     #aside2 .title2{
         display: flex;
@@ -2074,7 +1802,7 @@ function myFunctionCP(){
         margin-left: 2rem;
         gap: 1rem;
         align-items: center;
-
+        position: relative;
         height: 3.7rem;
         transition: all 300ms ease;
         
@@ -2107,7 +1835,7 @@ function myFunctionCP(){
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
 
-    #aside2 .sidebar2 .account{
+    #aside2 .sidebar2 .customers{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -2146,11 +1874,11 @@ function myFunctionCP(){
         .top-menu{
             width: 370px;
         }
-        .main-account{
+        .main-customers{
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        main .customers-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -2159,7 +1887,7 @@ function myFunctionCP(){
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        main .customers-container table{
             width: 65vw;
             padding-left:30px;
             padding-right:30px;
@@ -2211,11 +1939,11 @@ function myFunctionCP(){
         .top-menu{
             width: 370px;
         }
-        .main-account{
+        .main-customers{
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        main .customers-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -2224,7 +1952,7 @@ function myFunctionCP(){
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        main .customers-container table{
             width: 65vw;
             padding-left:30px;
             padding-right:30px;
@@ -2275,11 +2003,11 @@ function myFunctionCP(){
         .top-menu{
             width: 370px;
         }
-        .main-account{
+        .main-customers{
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        main .customers-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -2288,7 +2016,7 @@ function myFunctionCP(){
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        main .customers-container table{
             width: 80vw;
             padding-left:30px;
             padding-right:30px;
@@ -2386,7 +2114,7 @@ function myFunctionCP(){
             margin-right: 15px;
             cursor: pointer;
         }
-        #aside .sidebar .account{
+        #aside .sidebar .customers{
             width: 15.95rem;
             fill:  var(--color-white);
             color:  var(--color-white);
@@ -2458,11 +2186,11 @@ function myFunctionCP(){
         .drop-menu .ul a{
             width: 8.5rem;
         }
-        .main-account{
+        .main-customers{
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        main .customers-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -2472,7 +2200,7 @@ function myFunctionCP(){
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        main .customers-container table{
             width: 80vw;
             padding-left:30px;
             padding-right:30px;
@@ -2483,12 +2211,12 @@ function myFunctionCP(){
             border-top: 2px solid var(--color-solid-gray);
             position: absolute;
         }
-        .add-account{
+        .add-customer{
             width: 12.7vw;
             align-items: center;
             text-align: center;
         }  
-        .add-account h3{
+        .add-customer h3{
             display: none;
         }
         .newUser-button{
