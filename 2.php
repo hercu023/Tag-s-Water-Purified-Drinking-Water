@@ -71,6 +71,7 @@ include 'connectionDB.php';
                         </div>
                     </div>
                 <div class="sidebar">
+
                         <a href="Dashboard.php" class="dashboard">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M13 9V3h8v6ZM3 13V3h8v10Zm10 8V11h8v10ZM3 21v-6h8v6Z"/></svg>
                             <h3>DASHBOARD</h3>
@@ -122,17 +123,84 @@ include 'connectionDB.php';
                         </a>
                 </div>           
                 </aside>
+                <aside id="aside2">
+                <div class="title2">
+                    <div class="titlelogo2">
+                        <img class="tagslogo2" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" >
+                    </div>
+                </div>
+                
+                <!-----------------------------------------------Sidebar for Desktop Layout  ---------------------------------------->
+            <div class="sidebar2">
+
+                    <a href="Dashboard.php" class="dashboard">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M13 9V3h8v6ZM3 13V3h8v10Zm10 8V11h8v10ZM3 21v-6h8v6Z"/></svg>
+                        <h3>DASHBOARD</h3>
+                    </a>
+                
+                    <a href="Pointofsales.php" class="pointofsales">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M7 8q-.825 0-1.412-.588Q5 6.825 5 6V4q0-.825.588-1.413Q6.175 2 7 2h10q.825 0 1.413.587Q19 3.175 19 4v2q0 .825-.587 1.412Q17.825 8 17 8Zm0-2h10V4H7v2ZM4 22q-.825 0-1.412-.587Q2 20.825 2 20v-1h20v1q0 .825-.587 1.413Q20.825 22 20 22Zm-2-4 3.475-7.825q.25-.55.738-.863Q6.7 9 7.3 9h9.4q.6 0 1.088.312.487.313.737.863L22 18Zm6.5-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 15 9.5 15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 13 9.5 13h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 11 9.5 11h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Z"/></svg>
+                        <h3>POINT OF SALES</h3>
+                    </a>
+                
+                    <a href="Reports.php" class="reports">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M2 21V3h10v4h10v14Zm2-2h6v-2H4Zm0-4h6v-2H4Zm0-4h6V9H4Zm0-4h6V5H4Zm8 12h8V9h-8Zm2-6v-2h4v2Zm0 4v-2h4v2Z"/></svg>
+                        <h3>REPORTS</h3>
+                    </a>
+            
+                    <a href="Monitoring.php" class="monitoring">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 21v-2l2-2v4Zm4 0v-6l2-2v8Zm4 0v-8l2 2.025V21Zm4 0v-5.975l2-2V21Zm4 0V11l2-2v12ZM3 15.825V13l7-7 4 4 7-7v2.825l-7 7-4-4Z"/></svg>
+                        <h3>MONITORING</h3>
+                    </a>
+                
+                    <a href="Customer.php" class="customers">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
+                        <h3>CUSTOMER</h3>
+                    </a>  
+                
+                    <a href="Inventory.php" class="inventory">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
+                        <h3>INVENTORY</h3>
+                    </a>
+
+                    <a href="Employee.php" class="employee">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm2-4h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Z"/></svg>
+                        <h3>EMPLOYEE</h3>
+                    </a>
+
+                    <a href="Expense.php" class="expense">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
+                        <h3>EXPENSE</h3>
+                    </a>
+            
+                    <a href="Account.php" class="account">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
+                        <h3>ACCOUNT</h3>
+                    </a>
+
+                    <a href="Settings.php" class="settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
+                        <h3>SETTINGS</h3>
+                    </a>
+            </div>         
+            </aside>
             </div>
+
+            <!---------------------------------------------------------Main Employee Table---------------------------------------->
+
+            <!---------------------------------------------------------Acc Title ----------------------------------->
             <main>
             <div class="main-dashboard">
-                    <h1 class="dashTitle">DASHBOARD</h1> 
+                    <h1 class="dashTitle">EMPLOYEE</h1> 
             </main>
+
+                <!-----------------------------------------------Account Profile Button (Upper Right) --------------------->
                 <div class="top-menu">  
                     <div class="menu-bar">
                         <button id="menu-button">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z"/></svg>
                         </button>
-                        <h2 class="dashTitle-top">DASHBOARD</h2>
+                        <h2 class="dashTitle-top">EMPLOYEE</h2>
                         <div class="user1">
                             <div class="welcome">
                                 <h4 > Welcome, </h4>
@@ -178,6 +246,59 @@ include 'connectionDB.php';
                     </div>
                 </div>       
         </div> 
+        <!----------------------------------------------------End of Account Profile Button (Upper Right) -------------------->
+
+        <!----------------------------------------------------Main Employee Table ------------------------------------------->
+        <div class="employee-container">
+                        <table class="table" id="myTable"> 
+                            <thead> 
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Contact No.</th>
+                                    <th>Status</th>
+                                    <th>Position</th>
+                                    <th>Time in</th>
+                                    <th>Time Out</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <?php
+                            $inventory = "SELECT * FROM inventory"; 
+                            $sql = mysqli_query($con, $inventory);
+                                while ($rows = mysqli_fetch_assoc($sql))
+                                {
+                            ?>
+                            <tbody>
+                                    <tr>
+                                        <td> <?php echo $rows['id']; ?></td>
+                                        <td> <?php echo $rows['item_name']; ?></td>
+                                        <td> <?php echo $rows['type']; ?></td>
+                                        <td> <?php echo $rows['ingoing']; ?></td>
+                                        <td> <?php echo $rows['outgoing']; ?></td>
+                                        <td> <?php echo $rows['onhand']; ?></td>
+                                        <td> <?php echo $rows['total_amount']; ?></td>
+                                        <td> <?php echo $rows['supplier']; ?></td>
+                                        <td> 
+                                            <a href="#" id="select-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m8.3 23.15-.475-3.525q-.075-.05-.163-.1-.087-.05-.162-.1l-3.325 1.4-3.7-6.525 2.8-2.125q0-.05.013-.1.012-.05.012-.125 0-.025-.012-.063-.013-.037-.013-.087l-2.8-2.125 3.7-6.45L7.5 4.575q.1-.025.188-.075.087-.05.162-.1L8.3.825h7.4l.45 3.575.2.1.2.1 3.275-1.375 3.7 6.45-2.85 2.125v.2q0 .05-.012.1-.013.05-.013.1l2.85 2.1-3.75 6.525-3.3-1.4q-.075.025-.15.087-.075.063-.125.088l-.475 3.55Zm3.65-7.4q1.575 0 2.675-1.1 1.1-1.1 1.1-2.675 0-1.55-1.1-2.663Q13.525 8.2 11.95 8.2q-1.575 0-2.675 1.112-1.1 1.113-1.1 2.663 0 1.575 1.1 2.675 1.1 1.1 2.675 1.1Zm0-2.25q-.625 0-1.075-.45-.45-.45-.45-1.075t.45-1.075q.45-.45 1.075-.45t1.075.45q.45.45.45 1.075t-.45 1.075q-.45.45-1.075.45ZM12 12Zm-.725 7.75h1.4l.375-2.6q.825-.225 1.563-.625.737-.4 1.287-1.05l2.425 1.025.7-1.25-2.075-1.575q.15-.4.225-.825.075-.425.075-.85 0-.45-.075-.875t-.2-.825l2.1-1.575-.725-1.25-2.425 1.05q-.55-.675-1.288-1.113-.737-.437-1.587-.587l-.325-2.6H11.25l-.275 2.55q-.875.2-1.637.637Q8.575 7.85 8 8.5L5.625 7.475l-.7 1.25L6.95 10.25q-.15.475-.212.887-.063.413-.063.838t.063.85q.062.425.212.9L4.925 15.25l.7 1.25L8 15.475q.625.65 1.387 1.087.763.438 1.588.613Z"/></svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr id="noRecordTR" style="display:none">
+                                        <td colspan="9">No Record Found</td>                         
+                                    </tr>
+                            </tbody>
+                                    <?php
+                                }
+                                ?>   
+                        </table>     
+                    </div>
+                </div>
+                        
+                <!-----------------------------------------------End of Main Employee Table ------------------------------>
     </body>
 </html>
 <script>
@@ -274,7 +395,7 @@ include 'connectionDB.php';
     }  
      /* ----------------------------------------Top bar menu----------------------------------------  */
      .top-menu{
-        margin-top: 2rem;
+        margin-top: .7rem;
         position: absolute;
         right: 3%;
     }
@@ -341,7 +462,6 @@ include 'connectionDB.php';
         border-radius: 30%;
         width: 50px;
         padding: 4px;
-        
     }
     #menu-button{
         border: none;
@@ -486,21 +606,19 @@ include 'connectionDB.php';
         width: 21px;
         transition: transform 0.2s linear;
     }
-    /* ----------------------------------------MAIN---------------------------------------- */
+    /* ----------------------------------------MAIN ---------------------------------------- */
+    /* ----------------------------------------Acc Title----------------------------------- */
     .main-dashboard{
         width:100%;
     }
     .dashTitle{
-        /* margin-top: 2rem; */
+        margin-top: 2rem;
         font-size: min(max(1.9rem, 1.1vw), 2rem);
         color: var(--color-main); 
         font-family: 'COCOGOOSE', sans-serif;
         letter-spacing: .03rem;
         border-bottom: 2px solid var(--color-main); 
-        width: 78%;
-        margin-top: 3.2rem;
     }
-   
    
         /* ----------------------------------------Sub TAB---------------------------------------- */
         /* .user-title{
@@ -601,38 +719,38 @@ include 'connectionDB.php';
             border-bottom: 4px solid var(--color-maroon);
         } */
          /* ----------------------------------------Dashboard Table---------------------------------------- */
-     /* main .account-container{
+     /* main.employee-container{
         margin-top: 2rem;
-        height: 500px;
+        max-height: 500px;
+        overflow:auto;
+        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
+        border-top: 8px solid var(--color-table-hover);
+        border-radius: 40px;
         
     }
-     main .account-container table{
+     .employee-container table{
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
         width: 100%;
-        font-size: 0.8rem;
-        border-radius: 0px 0px 10px 10px;
+        font-size: 1rem;
         padding-left: 2.5rem;
         padding-right: 2.5rem;
         padding-bottom: 2.5rem;
         text-align: center; 
-        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
-        border-top: 8px solid var(--color-table-hover);
         transition: all 700ms ease;
-        overflow: auto;
         margin-top: -1rem;
     }
 
-    main .account-container table:hover{
+    .employee-container table:hover{
         box-shadow: none;
         border-top: 8px solid var(--color-main);
     }
 
-    main table tbody td{
+    table tbody td{
         height: 2.8rem;
-        border-bottom: 1px solid var(--color-solid-gray);
+        border-bottom: 1px solid var(--color-border-bottom);
         color: var(--color-td); 
-        font-size: .67rem;
+        font-size: .8rem;
     }
      th{
         height: 2.8rem;
@@ -650,20 +768,18 @@ include 'connectionDB.php';
     .container{
         display: grid;
         width: 96%;
-        /* margin: 0 auto; */
+        margin: 0 auto;
         background: var(--color-background);
         gap: 1.8rem;
-        grid-template-columns: 14rem auto;
+        grid-template-columns: 14rem auto 23rem;
     }
     #aside{
         height: 100vh;
         margin-top: -1.9rem;
         background: var(--color-table-hover);
         left: 0;
-        /* border-radius: 0px 30px 30px 0px; */
-        width: 14rem;
-        /* display: none; */
-        margin-right: 2rem;
+        border-radius: 0px 30px 30px 0px;
+        display: none;
         /* border-left: 10px solid rgb(2, 80, 2);  */
     }
     #aside .title{
@@ -720,7 +836,7 @@ include 'connectionDB.php';
         border-radius: 0 0 10px 0 ;
         box-shadow: 1px 3px 1px var(--color-background);
     }
-    #aside .sidebar .dashboard{
+    #aside .sidebar .employee{
         background: var(--color-white);
         transition: 0.6s;
         color: var(--color-main);
@@ -736,24 +852,103 @@ include 'connectionDB.php';
     #menu-button{
         display: none;
     }
+      /* ----------------------------------------SIDEBAR 2---------------------------------------- */
+    #aside2{
+        height: 100vh;
+        margin-top: -1.9rem;
+        background: var(--color-table-hover);
+        left: 0;
+        border-radius: 0px 30px 30px 0px;
+
+        /* border-left: 10px solid rgb(2, 80, 2);  */
+    }
+    #aside2 .title2{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1.9rem;
+    }
+    #aside2 .titlelogo2{
+        display: flex;
+        gap: 0.8rem;
+    }
+    #aside2 .titlelogo2 img{
+        width: 5rem;
+        margin-top: 1rem;
+        margin-left: 4.5rem;
+    }
+    #aside2 .close{
+        display: none;
+        font-size: 1rem;
+    }
+    #aside2 .sidebar2{
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        height: 86vh;
+        position: relative;
+    }
+    #aside2 h3{
+        font-weight: 400;
+    }
+    #aside2 .sidebar2 a{
+        display: flex;
+        color: var(--color-tertiary);
+        fill: var(--color-tertiary);
+        margin-left: 2rem;
+        gap: 1rem;
+        align-items: center;
+        position: relative;
+        height: 3.7rem;
+        transition: all 300ms ease;
+        
+    }
+    #aside2 .sidebar2 a:focus{
+        background: var(--color-white);
+        transition: 0.6s;
+        color: var(--color-main);
+        fill: var(--color-main);
+        margin-left: 0;
+        padding-left: 1rem;
+        content: "";
+        margin-bottom: 6px;
+        font-size: 9px;
+        border-radius: 0 0 10px 0 ;
+        box-shadow: 1px 3px 1px var(--color-background);
+    }
+    #aside2 .sidebar2 .employee{
+        background: var(--color-white);
+        transition: 0.6s;
+        color: var(--color-main);
+        fill: var(--color-main);
+        margin-left: 0;
+        padding-left: 1rem;
+        content: "";
+        margin-bottom: 6px;
+        font-size: 9px;
+        border-radius: 0 0 10px 0 ;
+        box-shadow: 1px 3px 1px var(--color-background);
+    }
       @media screen and (max-width: 1600px){
         .container{
             width: 94%;
-            grid-template-columns: 14rem auto;
+            grid-template-columns: 7rem auto 23rem;
         }
-   
         #aside .sidebar2 h3{
             display: none;
         }
-        #aside .titlelogo2 img{
+        #aside2 .sidebar2 h3{
+            display: none;
+        }
+        #aside2 .titlelogo2 img{
             margin-left: 1.8rem;
             width: 40%;
         }
 
-        #aside .sidebar2 a{
+        #aside2 .sidebar2 a{
             width: 5.95rem;
         }
-        #aside .sidebar2 a:focus{
+        #aside2 .sidebar2 a:focus{
             padding-left: 2rem;
             width: 4rem;
         }
@@ -764,7 +959,7 @@ include 'connectionDB.php';
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        .employee-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -773,15 +968,14 @@ include 'connectionDB.php';
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        .employee-container table{
             width: 65vw;
             padding-left:30px;
             padding-right:30px;
         }
         .dashTitle{
             margin-left: 5%;
-            width: 78%;
-            margin-top: 3.2rem;
+            width: 25vw;
         }
         main  h2{
             margin-left: 10%;
@@ -802,27 +996,23 @@ include 'connectionDB.php';
     @media screen and (max-width: 1400px){
         .container{
             width: 94%;
-            grid-template-columns: 7rem auto;
-        }
-        #aside{
-            width: 7rem;
+            grid-template-columns: 7rem auto 23rem;
         }
         #aside .sidebar h3{
             display: none;
         }
-        #aside svg{
-            margin-left: .4rem;
+        #aside2 .sidebar2 h3{
+            display: none;
         }
-        #aside .titlelogo img{
-            margin-left: 1.3rem;
-            width: 60%;
+        #aside2 .titlelogo2 img{
+            margin-left: 1.8rem;
+            width: 40%;
         }
 
-        #aside .sidebar2 a{
-            width: 7.95rem;
-            /* left: ; */
+        #aside2 .sidebar2 a{
+            width: 5.95rem;
         }
-        #aside .sidebar2 a:focus{
+        #aside2 .sidebar2 a:focus{
             padding-left: 2rem;
             width: 4rem;
         }
@@ -833,7 +1023,7 @@ include 'connectionDB.php';
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        .employee-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -842,16 +1032,14 @@ include 'connectionDB.php';
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        .employee-container table{
             width: 65vw;
             padding-left:30px;
             padding-right:30px;
         }
         .dashTitle{
             margin-left: 5%;
-            /* margin-top: 3.5rem; */
-            width: 60vw;
-
+            width: 25vw;
         }
         main  h2{
             margin-left: 10%;
@@ -872,23 +1060,23 @@ include 'connectionDB.php';
     @media screen and (max-width: 1200px){
         .container{
             width: 94%;
-            grid-template-columns: 7rem auto;
+            grid-template-columns: 7rem auto 23rem;
         }
         #aside .sidebar h3{
             display: none;
         }
-        #aside svg{
-            margin-left: .4rem;
+        #aside2 .sidebar2 h3{
+            display: none;
         }
-        #aside .titlelogo img{
-            margin-left: 1.3rem;
-            width: 60%;
+        #aside2 .titlelogo2 img{
+            margin-left: 1.8rem;
+            width: 40%;
         }
 
-        #aside .sidebar2 a{
+        #aside2 .sidebar2 a{
             width: 5.95rem;
         }
-        #aside .sidebar2 a:focus{
+        #aside2 .sidebar2 a:focus{
             padding-left: 2rem;
             width: 4rem;
         }
@@ -899,7 +1087,7 @@ include 'connectionDB.php';
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        .employee-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -908,14 +1096,14 @@ include 'connectionDB.php';
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        .employee-container table{
             width: 80vw;
             padding-left:30px;
             padding-right:30px;
         }
         .dashTitle{
             margin-left: 5%;
-            width: 60vw;
+            width: 25vw;
         }
         main  h2{
             margin-left: 10%;
@@ -952,15 +1140,18 @@ include 'connectionDB.php';
         .containter{
             width: 100%;
         }
+        #aside2{
+            display: none;
+        }
         #aside {
             position: fixed; 
             left: 0;
-            margin-top: 0rem;
+            margin-top: -.2rem;
             display: none;
             background: var(--color-white);
-            width: 18rem;
+            width: 17rem;
             z-index: 3;
-            height: 100%;
+            height: 100vh;
             padding-right: var(--card-padding);
             animation: sideMenu 400ms ease forwards;
             box-shadow: 70px 0px 250px rgb(116, 116, 116);
@@ -985,7 +1176,7 @@ include 'connectionDB.php';
             height: 3.4rem;
         }
         #aside .sidebar a:focus{
-            width: 16.95rem;
+            width: 14.95rem;
             fill: var(--color-white);
             color: var(--color-white);
             background: var(--color-aside-mobile-focus);
@@ -1003,8 +1194,8 @@ include 'connectionDB.php';
             margin-right: 15px;
             cursor: pointer;
         }
-        #aside .sidebar .dashboard{
-            width: 16.95rem;
+        #aside .sidebar .employee{
+            width: 15.95rem;
             fill:  var(--color-white);
             color:  var(--color-white);
             background: var(--color-aside-mobile-focus);
@@ -1029,18 +1220,18 @@ include 'connectionDB.php';
         .top-menu .menu-bar .dashTitle-top{
             display: block;
             left: 0;
-            margin-left: 4rem;
+            margin-left:18%;
             position: absolute;
         }
-         .profile{
-            margin-right: 1.4rem;
+         .profile .profile-picture{
+            margin-right: 2.4rem;
         }
         .top-menu .menu-bar .user1{
             display: none;
         }
         .drop-menu .ul .user-type3{
             display: block;
-            left:22.5%;
+            left:27.5%;
             position: absolute; 
             margin-top: -2.3rem;
             margin-bottom: 1.9rem;
@@ -1078,7 +1269,7 @@ include 'connectionDB.php';
             position: relative;
             left: -5%;
         }
-        main .account-container{
+        .employee-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -1088,7 +1279,7 @@ include 'connectionDB.php';
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .account-container table{
+        .employee-container table{
             width: 80vw;
             padding-left:30px;
             padding-right:30px;
@@ -1138,4 +1329,51 @@ include 'connectionDB.php';
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
+
+        /* ---------------------------------------- Main Employee Table New---------------------------------------- */
+
+     .employee-container{
+        margin-top: 2rem;
+        max-height: 500px;
+        overflow:auto;
+        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
+        border-top: 8px solid var(--color-table-hover);
+        border-radius: 40px;
+    }
+     .employee-container table{
+        background: var(--color-white);
+        font-family: 'Switzer', sans-serif;
+        width: 100%;
+        font-size: 1rem;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        padding-bottom: 2.5rem;
+        text-align: center; 
+        transition: all 700ms ease;
+        margin-top: -1rem;
+    }
+
+     .employee-container table:hover{
+        box-shadow: none;
+        border-top: 8px solid var(--color-main);
+    }
+
+     table tbody td{
+        height: 2.8rem;
+        border-bottom: 1px solid var(--color-border-bottom);
+        color: var(--color-td); 
+        font-size: .8rem;
+    }
+     th{
+        height: 2.8rem;
+        color: var(--color-black); 
+        margin:1rem;
+        font-size: 1rem;
+        letter-spacing: 0.02rem;
+    }  
+    tr:hover td{
+        color: var(--color-main); 
+        cursor: pointer;
+        background-color: var(--color-table-hover);
+     }
 </style>

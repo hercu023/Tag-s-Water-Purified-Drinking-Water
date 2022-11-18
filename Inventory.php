@@ -3,12 +3,13 @@ require_once 'controllerUserdata.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
-    if (isset($_POST['email'])){
+    if (isset($_POST['id'])){
 
-        $email = $_POST['email'];
+        $id = $_POST['id'];
         
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
-        $stmt->execute([$email]);
+        $stmt = $conn->prepare("SELECT * FROM users WHERE id=?");
+        $stmt->execute([$id]);
+        $fetch_profile = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($stmt->rowCount() === 1){
                 $user = $stmt->fetch();
                 
@@ -45,10 +46,9 @@ $result = mysqli_query($con, $query);
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <title>Tag's Water Purified Drinking Water</title>
-
         <!-- <script src="./index.js"></script> -->
     </head>
-    <body >
+    <body>
     
     <div class="container">
         <div class="menu-tab">     
@@ -88,7 +88,7 @@ $result = mysqli_query($con, $query);
                         <h3>CUSTOMER</h3>
                     </a>  
                 
-                    <a href="#" class="inventory">
+                    <a href="Inventory.php" class="inventory">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
                         <h3>INVENTORY</h3>
                     </a>
@@ -113,88 +113,21 @@ $result = mysqli_query($con, $query);
                         <h3>SETTINGS</h3>
                     </a>
             </div>    
-            </aside>
-                <!-----------------------------------------------Sidebar for Desktop Layout  ---------------------------------------->
-            <aside id="aside2">
-                <div class="title2">
-                    <div class="titlelogo2">
-                        <img class="tagslogo2" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" >
-                    </div>
-                </div>
-            <div class="sidebar2">
-
-                    <a href="Dashboard.php" class="dashboard">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M13 9V3h8v6ZM3 13V3h8v10Zm10 8V11h8v10ZM3 21v-6h8v6Z"/></svg>
-                        <h3>DASHBOARD</h3>
-                    </a>
-                
-                    <a href="Pointofsales.php" class="pointofsales">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M7 8q-.825 0-1.412-.588Q5 6.825 5 6V4q0-.825.588-1.413Q6.175 2 7 2h10q.825 0 1.413.587Q19 3.175 19 4v2q0 .825-.587 1.412Q17.825 8 17 8Zm0-2h10V4H7v2ZM4 22q-.825 0-1.412-.587Q2 20.825 2 20v-1h20v1q0 .825-.587 1.413Q20.825 22 20 22Zm-2-4 3.475-7.825q.25-.55.738-.863Q6.7 9 7.3 9h9.4q.6 0 1.088.312.487.313.737.863L22 18Zm6.5-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 15 9.5 15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 13 9.5 13h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 11 9.5 11h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Z"/></svg>
-                        <h3>POINT OF SALES</h3>
-                    </a>
-                
-                    <a href="Reports.php" class="reports">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M2 21V3h10v4h10v14Zm2-2h6v-2H4Zm0-4h6v-2H4Zm0-4h6V9H4Zm0-4h6V5H4Zm8 12h8V9h-8Zm2-6v-2h4v2Zm0 4v-2h4v2Z"/></svg>
-                        <h3>REPORTS</h3>
-                    </a>
-            
-                    <a href="Monitoring.php" class="monitoring">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 21v-2l2-2v4Zm4 0v-6l2-2v8Zm4 0v-8l2 2.025V21Zm4 0v-5.975l2-2V21Zm4 0V11l2-2v12ZM3 15.825V13l7-7 4 4 7-7v2.825l-7 7-4-4Z"/></svg>
-                        <h3>MONITORING</h3>
-                    </a>
-                
-                    <a href="Customer.php" class="customers">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
-                        <h3>CUSTOMER</h3>
-                    </a>  
-                
-                    <a href="#" class="inventory">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
-                        <h3>INVENTORY</h3>
-                    </a>
-
-                    <a href="Employee.php" class="employee">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm2-4h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Z"/></svg>
-                        <h3>EMPLOYEE</h3>
-                    </a>
-
-                    <a href="Expense.php" class="expense">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
-                        <h3>EXPENSE</h3>
-                    </a>
-            
-                    <a href="Account.php" class="account">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
-                        <h3>ACCOUNT</h3>
-                    </a>
-
-                    <a href="Settings.php" class="settings">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
-                        <h3>SETTINGS</h3>
-                    </a>
-            </div>         
-            </aside>
+            </aside>    
         </div>
-
-        <!---------------------------------------------------------Main Inventory Table---------------------------------------->
-
-        <!---------------------------------------------------------Acc Title ----------------------------------->
             <main>
-                <div class="main-customer">
+                <div class="main-account">
                     <h1 class="accTitle">INVENTORY</h1> 
                     <div class="sub-tab">
                         <!-- <div class="user-title"> 
-                            <h2> Customers </h2>
+                            <h2> User Accounts </h2>
                         </div> -->
-
-                        <!------------------------------------Add New Button ------------------------------------------>
                         <div class="newUser-button"> 
-                            <button type="submit" id="add-userbutton" class="add-customer">
+                            <button type="submit" id="add-userbutton" class="add-account">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                    <h3>Add New Inventory</h3>
+                                    <h3>Add Stocks</h3>
                             </button>
                         </div>
-                        <!-------------------------------------Search Bar ---------------------------------------------->
                         <div class="search">
                             <div class="search-bar"> 
                                 <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
@@ -207,8 +140,7 @@ $result = mysqli_query($con, $query);
                             
                         </div> -->
                     </div>
-                    <!----------------------------------------------Inventory Table ------------------------------------->
-                    <div class="inventory-container">
+                    <div class="account-container">
                         <table class="table" id="myTable"> 
                             <thead> 
                                 <tr>
@@ -259,16 +191,14 @@ $result = mysqli_query($con, $query);
                         </table>     
                     </div>
                 </div>
-                <!-----------------------------------------------End of Main Inventory Table ------------------------------>
-                
-                <!-----------------------------------------------Account Profile Button (Upper Right) --------------------->
             </main>
+        
             <div class="top-menu">  
                 <div class="menu-bar">
                     <button id="menu-button">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z"/></svg>
                     </button>
-                    <h2 class="accTitle-top">Inventory</h2>
+                    <h2 class="accTitle-top">INVENTORY</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
@@ -313,64 +243,38 @@ $result = mysqli_query($con, $query);
                     </div>     
                 </div>
                
-                <!-- <div class="notifs-section">
-                    <h2 class="todeliver">To Deliver</h2>
-                    <div class="pending">
-                        <div class="deliveries-pending">
-                            <a href=#>9 Pending Deliveries</a>
-                        </div>
-                    </div>
-                </div> -->
             </div>      
-    </div> 
-           <!----------------------------------------------------End of Account Profile Button (Upper Right) -------------------->
-
-           
-    <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
-        <div class="bg-addcustomerform" id="bg-addform">
-            <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
-                <?php
-                    // if(isset($message)){
-                    //     foreach($message as $message){
-                    //         echo '
-                    //         <div class="message">
-                    //             <span>'.$message.'</span>
-                    //             <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-                    //         </div>
-                    //         ';
-                    //     }
-                    // } 
-                    ?>
-                
-            <div class="form-addcustomer1" id="form-addcustomer1">
-                <h1 class="addnew-title">ADD STOCKS</h1>
+  
+        </div> 
+  
+    <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
+        <div class="bg-adduserform" id="bg-addform">
+            <div class="message"></div>
+            <div class="form-adduser1" id="form-adduser1">
+                <h1 class="addnew-title">ADD NEW USER</h1>
             
-                <div class="form-addcustomer2" id="form-addcustomer">
+                <div class="form-adduser2" id="form-adduser2">
                     <div class="form1">  
                         <input type="text" id="fill"class="lastname" required="required" name="lastname">
                         <span>Last Name</span>
                     </div> 
-                    <div class="form2">  
+                    <div class="form1">  
                         <input type="text" id="fill"class="firstname" required="required" name="firstname">
                         <span>First Name</span>
                     </div>
-                    <div class="form3">  
-                        <input type="text" id="fill" required="required" name="address">
-                        <span>Address</span>
+                    <div class="form2">  
+                        <input type="text" id="fill"class="middlename" required="" name="middlename">
+                        <span>Middle Name</span>
                     </div>
-                    <!--<div class="form2">  
+                    <div class="form2">  
                         <input type="text" id="fill" class="email" required="required" name="email">
                         <span>Email</span>
-                    </div>-->
+                    </div>
                     <div class="form4">  
                         <input type="text" id="fill" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
                         <span>Contact Number</span>
                     </div>
-                    <div class="form5">  
-                        <input type="text" id="fill" class="balance" onkeypress="return isNumberKey(event)" required="required" name="balance">
-                        <span>Balance/Credit</span>
-                    </div>
-                    <!--<div class="usertype-dropdown">
+                    <div class="usertype-dropdown">
                         <select class="select" name="usertypes" required="" >
                             <option selected disabled value="">ROLE</option>
                             <option value="Admin">ADMIN</option>
@@ -379,7 +283,7 @@ $result = mysqli_query($con, $query);
                             <option value="Custom"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
                             CUSTOM</option>
                         </select>
-                    </div>-->
+                    </div>
                     <!-- <div class="usertype-dropdown">
                         <div class="select" id="usertype">
                             <span class="selected">ROLE</span>
@@ -394,28 +298,32 @@ $result = mysqli_query($con, $query);
                         </ul>
                      -->
                     <div class="form4">  
-                        <input type="password" class="password" id="fill" required="required" name="pass">
+                        <input type="password" class="password" id="pass" required="required" name="pass">
                         <span>Password</span>
                     </div>
                     <div class="form5">  
-                        <input type="password" class="confirm-password" id="fill" required="required" name="encpass">
+                        <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass">
                         <span>Confirm Password</span>
+                    </div>
+                    <div class="checker">
+                        <input type="checkbox" name="" onclick="myFunctionCP()" >
+                        <span>Show password</span>
                     </div>
                     <div class="profile-picture1" >
                         <h4 >Profile Picture</h4>
                     </div>
                     <div class="choose-profile">
-                        <input type="file" id="image-profile" name="profile_image" required class="box" accept="image/jpg, image/png, image/jpeg" >
+                        <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
                     </div>
                 </div>   
             
                 <div class="AddButton">
-                    <button type="submit" id="addcustomerBtn" name="submit">SAVE</button>
+                    <button type="submit" id="adduserBtn" name="submit">SAVE</button>
                     <!-- <input type="submit" value="ADD USER" name="submit" id="sub" onclick="showalert()"> -->
                 </div>
                 <div class="CancelButton">
                 <!-- <button type="button" id="cancel" data-dismiss="modal" aria-label="Close">CANCEL</button> -->
-                <a href="Customer.php" id="cancel">CANCEL</a>   
+                <a href="Account.php" id="cancel">CANCEL</a>   
 
                 </div>
             </div>
@@ -479,7 +387,7 @@ $result = mysqli_query($con, $query);
                     </div>
                         <div class="pageform">
                             <div class="confirmBtn">
-                                <a href="Customer.php" id="registered">CONFIRM</a>   
+                                <a href="Account.php" id="registered">CONFIRM</a>   
                             </div> 
                         </div>
                 </div>
@@ -490,6 +398,33 @@ $result = mysqli_query($con, $query);
 </body>
 </html>
 <script>
+    //SHOW PASSWORD-------------------------------------------------
+function myFunctionCP(){
+        var x = document.getElementById("pass");
+        var y = document.getElementById("cpass");
+        if(x.type === 'password'){
+            x.type = "text";
+            y.type = "text";
+        }else{
+            x.type = "password";
+            y.type = "password";
+        }
+    }
+    // EDIT ACCOUNT--------------------------------------------------
+    
+    // document.querySelector("#myTable"),addEventListener("click", (e)=>{
+    //     target = e.target;
+    //     if(target.classList.contains("action-btn")){
+    //         selectedRow = target.parentElement.parentElement;
+    //         document.querySelector("#lastname").value = selectedRow.children[1].textContent;
+    //         document.querySelector("#firstname").value = selectedRow.children[2].textContent;
+    //         document.querySelector("#middlename").value = selectedRow.children[3].textContent;
+    //         document.querySelector("#email").value = selectedRow.children[4].textContent;
+    //         document.querySelector("#contactnum").value = selectedRow.children[5].textContent;
+    //         // document.querySelector("#usertype").value = selectedRow.children[6].textContent;
+    //         // document.querySelector("#image-profile").value = selectedRow.children[7].textContent;
+    //     }
+    // });
     // // Get the modal
  
     // // // Get the button that opens the modal
@@ -509,59 +444,63 @@ $result = mysqli_query($con, $query);
     //         bgform.hide();
     //     });
     // // });
+
+    // Add new User Message ----------------------------------------------------------------------------------
     const regForm = document.querySelector(".form-registered");
     const regBtn = document.querySelector(".AddButton");
     var bgform = $('#form-registered');
-    var addform = $('#form-addcustomer1');
-    var addbtn = $("#addcustomerBtn");
-    var message1 = $(".message");
+    var addform = $('#form-adduser1');
+    var addbtn = $("#adduserBtn");
+    var message = $(".message");
     
-    // $(document).ready(function(){
-    //     $('#addcustomerFrm').submit(function(e){
-    //         e.preventDefault();
+    $(document).ready(function(){
+        $('#adduserFrm').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                type: 'post',
+                url: 'controllerUserdata.php',
+                data: new FormData(this),
+                contentType: false, 
+                cache: false,
+                processData: false,
+                // 'submit=1&'+$form.serialize(),
+                dataType: 'json',  
+                success: function(response){
+                    $(".message").css("display", "block");
+                    if(response.status == 1){   
+                        bgform.show();  
+                        addform.hide(); 
+                        message.hide(); 
+                        $('#adduserFrm')[0].reset();
+                }else{
+                    $(".message").html('<p>'+response.message+'<p>');
+                }
+                    }
+                });
+            });
+        //     $("#image-profile").change(function(){
+        //         var file = this.files[0];
+        //         var fileType = file.type;
+        //         var match = ['image/jpeg', 'image/jpg', 'image/png']
 
-    //         $.ajax({
-    //             type: 'post',
-    //             url: 'controllerUserdata.php',
-    //             data: new FormData(this),
-    //             contentType: false, 
-    //             cache: false,
-    //             processData: false,
-    //             // 'submit=1&'+$form.serialize(),
-    //             dataType: 'json',  
-    //             success: function(response){
-    //                 $(".message").css("display", "block");
-    //                 if(response.status == 1){   
-    //                     bgform.show();  
-    //                     addform.hide(); 
-    //                     message1.hide(); 
-    //                     $('#addcustomerFrm')[0].reset();
-
-    //             }else{
-    //                 $(".message").html('<p>'+response.message+'<p>');
-    //             }
-    //                 }
-    //             });
-    //         });
-    //         $("#image-profile").change(function(){
-    //             var file = this.files[0];
-    //             var fileType = file.type;
-    //             var match = ['image/jpeg', 'image/jpg', 'image/png']
-
-    //             if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
-    //                 alert("JPEG, JPG, and PNG files only.")
-    //                 $("#image-profile").val('');
-    //                 return false;
-    //             }
-    //         });
-    //     });
-
+        //         if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
+        //             alert("JPEG, JPG, and PNG files only.")
+        //             $("#image-profile").val('');
+        //             return false;
+        //         }
+        // });
+    });
+    
+// 
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
     let inputs = document.querySelectorAll('#fill');
-
+    let pass = document.querySelectorAll('#pass');
+    let cpass = document.querySelectorAll('#cpass');
     btnClear.addEventListener('click', () => {
         inputs.forEach(input => input.value = '');
+        pass.forEach(input => input.value = '');
+        cpass.forEach(input => input.value = '');
     });
     // btnClear1.addEventListener('click', () => {
     //     inputs.forEach(input => input.value = '');
@@ -577,90 +516,47 @@ $result = mysqli_query($con, $query);
     const checkbox = document.getElementById('checkbox');
          checkbox.addEventListener( 'change', () =>{
              document.body.classList.toggle('dark-theme');
-        //     if(this.checked) {
-        //         body.classList.add('dark')
-        //     } else {
-        //         body.classList.remove('dark')     
-        //     }
          });
-    // const checkbox = document.getElementById('checkbox');
-    // checkbox.addEventListener('checked', checkMode);
-    // function checkMode(){
-    //     if(checkbox.checked){
-    //         darkModeOn();
-    //     }
-    //     else{
-    //         darkModeOff();
-    //     }
-    // }
-    // function darkModeOn(){
-    //     document.body.classList.add("dark-theme");
-    // }
-    // function darkModeOff(){
-    //     document.body.classList.remove("dark-theme");
-    // }
-    // const sideMenu = document.querySelector('#aside');
-    // const closeBtn = document.querySelector('#close-btn');
-    // const menuBtn = document.querySelector('#menu-button');
-    // const checkbox = document.getElementById('checkbox');
-    //     menuBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'block';
-    //     })
-
-    //     closeBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'none';
-    //     })
-    //     checkbox.addEventListener( 'change', () => {
-    //         localStorage.setItem('dark',this.checked);
-    //         if(this.checked) {
-    //             body.classList.add('dark')
-    //         } else {
-    //             body.classList.remove('dark')     
-    //         }
-    //     });
-        
-    //     if(localStorage.getItem('dark')) {
-    //         body.classList.add('dark');
-    //         }
-    // const containerReg=document.getElementById("form-registered");
-    // const addusercontainer=document.getElementsByClassName("form-adduser1");
-    // var email=document.getElementsByClassName("email");
-    // var middlename=document.getElementsByClassName("middlename");
-    // var firstname=document.getElementsByClassName("firstname");
-    // var lastname=document.getElementsByClassName("lastname");
-    // var contactnum=document.getElementsByClassName("contactnum");
-    // var password=document.getElementsByClassName("password");
-    // var role=document.getElementsByClassName("select");
-    // var confirmpassword=document.getElementsByClassName("confirm-password");
-    // var profilepicture=document.getElementById("image-profile");
-    
-    // function showalert(){
-    //     // if(email.value === '' || middlename.value === '' || firstname.value === '' || lastname.value === '' || contactnum.value === '' || role.value === '' || password.value === '' || confirmpassword.value === '' || profilepicture.value === ''){ 
-    //     // }else{
-    //         containerReg.style.display='flex';
-    //         // addusercontainer.style.display='flex';
-    //     // }
-            
-    // }
-    
-
-    const sideMenu = document.querySelector("#aside");
-    const addForm = document.querySelector(".bg-addcustomerform");
   
-    // const closeBtn = document.querySelector("#close-btn");
+    // --------------------------------------Action Dropdown-------------------------------------- //
+    const actionsForm = document.querySelector(".bg-actionDropdown");
+    const actionsBtn = document.querySelector(".action-btn");
+        // actionsBtn.addEventListener('click', () =>{
+        //     actionsForm.style.display = 'block';
+        // })
+    function actionFunction(){
+        // actionsForm.classList.toggle('bg-actionDropdown')
+        actionsForm.style.display = 'flex';
+    }
+    function closeAction(){
+        // actionsForm.classList.toggle('bg-actionDropdown')
+        actionsForm.style.display = 'none';
+    }
+    const editBtn = document.querySelector(".edit");
+    const editForm = document.querySelector(".bg-editDropdown");
+    
+    // editBtn.addEventListener('click', () =>{
+    //     editForm.style.display = 'flex';
+    //     })
+    function editAction(){
+        editForm.style.display = 'flex';
+        actionsForm.style.display = 'none';
+    }
+    const sideMenu = document.querySelector("#aside");
+    const addForm = document.querySelector(".bg-adduserform");
+   
+    const closeBtn = document.querySelector("#close-btn");
     const cancelBtn = document.querySelector("#cancel");
-    const addBtn = document.querySelector(".add-customer");
-    const addcustomerBtn = document.querySelector(".AddButton");
- 
+    const addBtn = document.querySelector(".add-account");
     const menuBtn = document.querySelector("#menu-button");
     // const darktheme = document.querySelector('.dark-theme');
     // const checkbox = document.getElementById("checkbox");
         menuBtn.addEventListener('click', () =>{
             sideMenu.style.display = 'block';
         })
-        // closeBtn.addEventListener('click', () =>{
-        //     sideMenu.style.display = 'none';
-        // })
+        closeBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'none';
+        })
         cancelBtn.addEventListener('click', () =>{
             addForm.style.display = 'none';
         })
@@ -671,6 +567,7 @@ $result = mysqli_query($con, $query);
         addBtn.addEventListener('click', () =>{
             addForm.style.display = 'flex';
         })
+        
         // adduserBtn.addEventListener('click', () =>{
         //     addForm.style.display = 'flex';
         // })
@@ -689,86 +586,137 @@ $result = mysqli_query($con, $query);
             // body.classList.add('dark-theme');
             // }
       
-        function menuToggle(){
+       
+         function menuToggle(){
             const toggleMenu = document.querySelector('.drop-menu');
             toggleMenu.classList.toggle('user2')
         }
 
-        function tableSearch(){
-    let input, filter, table, tr, itemname,
-     type, totalamount, supplier;
 
+        function tableSearch(){
+    let input, filter, table, tr, lastname,
+     firstname, middlename, email, contactnum, role, i, txtValue;
+  
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
     table = document.getElementById("myTable");
     tr = table.getElementsByTagName("tr");
 
-    for(let i = 0; i < tr.length; i++){
-        itemname = tr[i].getElementsByTagName("td")[1];
-        type = tr[i].getElementsByTagName("td")[2];
-        totalamount = tr[i].getElementsByTagName("td")[3];
-        supplier = tr[i].getElementsByTagName("td")[4];
-        if(itemname || type || totalamount || supplier){
-            var itemname = itemname.textContent || itemname.innerText;
-            var type_value = type.textContent || type.innerText;
-            var totalamount_value = totalamount.textContent || totalamount.innerText;
-            var supplier_value = supplier.textContent || supplier.innerText;
 
-            if(totalamount_value.toUpperCase().indexOf(filter) > -1 ||
-                type_value.toUpperCase().indexOf(filter) > -1 ||
-                itemname.toUpperCase().indexOf(filter) > -1 ||
-               supplier_value.toUpperCase().indexOf(filter) > -1){
-                tr[i].style.display ="";
-            }
+        for(i = 0; i < tr.length; i++){
+           
+            lastname = tr[i].getElementsByTagName("td")[1];
+            firstname = tr[i].getElementsByTagName("td")[2];
+            middlename = tr[i].getElementsByTagName("td")[3];
+            email = tr[i].getElementsByTagName("td")[4];
+            contactnum = tr[i].getElementsByTagName("td")[5];
+            role = tr[i].getElementsByTagName("td")[6];
+            
+            
+            if(lastname || firstname || middlename || email || contactnum || role){
+                var lastname_value = lastname.textContent || lastname.innerText;
+                var firstname_value = firstname.textContent || firstname.innerText;
+                var middlename_value = middlename.textContent || middlename.innerText;
+                var email_value = email.textContent || email.innerText;
+                var contactnum_value = contactnum.textContent || contactnum.innerText;
+                var role_value = role.textContent || role.innerText;
+                if(role_value.toUpperCase().indexOf(filter) > -1 ||
+                contactnum_value.toUpperCase().indexOf(filter) > -1 ||
+                email_value.toUpperCase().indexOf(filter) > -1 ||
+                middlename_value.toUpperCase().indexOf(filter) > -1 ||
+                lastname_value.toUpperCase().indexOf(filter) > -1 ||
+                firstname_value.toUpperCase().indexOf(filter) > -1){
+                    tr[i].style.display ="";
+                }
                 else{
                     tr[i].style.display = "none";
                 }
-                    if($('#myTable tbody tr:visible').length === 0) {
-                        document.getElementById('noRecordTR').style.display = "";
-                    }else{
-                        document.getElementById('noRecordTR').style.display = "none";
-                    }
+                if($('#myTable tbody tr:visible').length === 0) {
+                document.getElementById('noRecordTR').style.display = "";
+            }else{
+                document.getElementById('noRecordTR').style.display = "none";
+            }
             }
             if($('#myTable tbody tr:visible').length === 0) {
-                        document.getElementById('noRecordTR').style.display = "";
-                    }else{
-                        document.getElementById('noRecordTR').style.display = "none";
-                    }
+                document.getElementById('noRecordTR').style.display = "";
+            }else{
+                document.getElementById('noRecordTR').style.display = "none";
+            }
         }   
-        if($('#myTable tbody tr:visible').length === 0) {
-                        document.getElementById('noRecordTR').style.display = "";
-                    }else{
-                        document.getElementById('noRecordTR').style.display = "none";
-                    }
 }
-    const dropdowns = document.querySelectorAll(".usertype-dropdown");
-        dropdowns.forEach(dropdown =>{
-            const select = dropdown.querySelector(".select");
-            const caret = dropdown.querySelector(".caret");
-            const menu = dropdown.querySelector(".menu");
-            const options = dropdown.querySelectorAll(".menu li");
-            const selected = dropdown.querySelector(".selected");
+    // $.fn.AddNoRowsFound = function() {
+    //     if($(this).find('tbody tr:not([data-no-results-found]):visible').length > 0) {
+    //     $(this).find('tbody tr[data-no-results-found]').hide();
+    // }
+    // else {
+    //     $(this).find('tbody tr[data-no-results-found]').show();
+    // }
+    // };
 
-            select.addEventListener('click', () => {
-                select.classList.toggle('select-clicked');
-                caret.classList.toggle('caret-rotate');
-                menu.classList.toggle('menu-open');
-            });
-            options.forEach(option => {
-                option.addEventListener('click', () =>{
-                    select.innerText = option.innerText;
-                    select.classList.remove('select-clicked');
-                    caret.classList.remove('caret-rotate');
-                    menu.classList.remove('menu-open');
-                    options.forEach(option => {
-                        option.classList.remove('active');
-                    });
-                    option.classList.add('active');
-                });
-            });
-        });
+    // $('#myTable').AddNoRowsFound();
 
+// function actionToggle(){
+//             const toggleAction = document.querySelector('.menu-action');
+//             toggleAction.classList.toggle('action-dropdown')
+        // }
+        // var smodal = document.getElementByClassName('action-dropdown');
+    // const dropdowns = document.querySelectorAll(".action-dropdown");
+    //     dropdowns.forEach(dropdown =>{
+    //         const select = dropdown.querySelector(".select-action");
+    //         // const caret = dropdown.querySelector(".caret");
+    //         const menu = dropdown.querySelector(".menu-action");   
+            // const options = dropdown.querySelectorAll(".menu-action .li");
+            // const selected = dropdown.querySelector(".selected-action");
+
+            // select.addEventListener('click', () => {
+            //     select.classList.toggle('select-action-clicked');
+            //     // caret.classList.toggle('caret-rotate');
+            //     menu.classList.toggle('menu-action-open');
+                
+            // });
+          
+            // options.forEach(option => {
+            //     option.addEventListener('click', () =>{
+            //         select.innerText = option.innerText;
+            //         select.classList.remove('select-action-clicked');
+            //         // caret.classList.remove('caret-rotate');
+            //         menu.classList.remove('menu-action-open');
+
+            //         options.forEach(option => {
+            //             option.classList.remove('active');
+            //         });
+            //         option.classList.add('active');
+            //     });
+            // });
+        // });
+        // window.onclick = function(e){
+        //         if(e.target == smodal){
+        //             modal.style.display = "none"
+        //         }
+        //     }
+// ///////////////////////////////////////////////////////////////////////////////////////////////////
+// $(document).ready(function(){
+//     $("#actionsSelect").on("change", function() {
+//         $(".bg-editDropdown").hide();
+//         $("#" + $(this).val()).fadeIn(200);
+//     }).change();
+// });
+// $(document).ready(function(){
+//     $('#actionsSelect').on('change', function(){
+//     	var demovalue = $(this).val(); 
+//         // $("div.bg-editDropdown").hide();
+//         $("#edit-bgdrop").show();
+//     });
+// });
+// $("#actionsSelect").on("change", function() {
+//         $("#" + $(this).val()).show().siblings();
+//     })
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>      
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
 <style>
      :root{
         --color-main: rgb(2, 80, 2);
@@ -791,12 +739,14 @@ $result = mysqli_query($con, $query);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
         --color-mainbutton: rgb(117, 117, 117);
         --color-button-hover: rgb(39, 170, 63);
+        --color-border-bottom: rgb(219, 219, 219);
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
         --color-tertiary: hsl(0, 0%, 25%);
         --color-main-2: rgb(60, 128, 60);
         --color-main-3: rgb(93, 163, 93);
+        --color-border-bottom: rgb(104, 104, 104);
         --color-black: white;
         --color-shadow-shadow: rgb(32, 32, 32);
         --color-aside-mobile-focus: rgb(244, 255, 246);
@@ -814,7 +764,7 @@ $result = mysqli_query($con, $query);
     }
     
 
-    BODY{
+    body{
         background: var(--color-background);
         margin: 0;
         padding: 0;
@@ -825,8 +775,93 @@ $result = mysqli_query($con, $query);
         background-size: cover;
         background-attachment: fixed;
     }  
-    /* -----------------------------------------Add Customer Form------------------------------------------ */
-    .bg-addcustomerform{
+    /* -----------------------------------------Adduserform------------------------------------------ */
+    .bg-actionDropdown{
+        height: 100%; 
+        width: 100%;
+        background: rgba(0,0,0,0.7);
+        top: 0;
+        position: absolute;
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+        display: none;
+    }
+            .action{ 
+                position: absolute;
+                top: 50%;
+                align-items: center;
+                text-align: center;
+                /* display: none; */
+                left: 50%;
+                height: 13.5rem;
+                min-width: 17rem;
+                
+                transform: translate(-50%, -50%);
+                background-color: var(--color-white);
+                box-shadow: 5px 7px 30px 0px var(--color-shadow-shadow);
+                border-radius: 20px;  
+             }
+             #close-action{
+                position: absolute;
+                margin-top: -5.5rem;
+                left:87%;
+                fill: var(--color-solid-gray);
+             }
+             #close-action:hover{
+                position: absolute;
+                margin-top: -5.5rem;
+                left:87%;
+                fill: #8b0000;
+                transition: .2s;
+             }
+             .action h2{
+                padding-bottom: .5rem;
+                margin-top: .5rem;
+                font-size: min(max(1.9rem, 1.1vw), 2rem);
+                color: var(--color-solid-gray);
+                font-family: 'Malberg Trial', sans-serif;
+                border-bottom:  2px solid var(--color-solid-gray);
+                margin-bottom: 1rem;
+             }
+             .action button{
+                padding-left:1rem;
+                font-family: 'arial', sans-serif;
+                cursor: pointer;
+                transition: .5s;
+                font-size: 12px;
+                display: flex;
+                gap: .8rem;
+                width: 100%;
+                border: none;
+                background: var(--color-white);
+                align-items: center;
+                color: var(--color-solid-gray);
+                fill: var(--color-solid-gray);
+                border-radius: 20px;  
+            }
+            .action button:last-child{
+                border-top:  2px solid var(--color-solid-gray);
+            }
+            
+            .action button:hover{
+                background: linear-gradient(270deg, transparent, var(--color-secondary-main));
+                color: var(--color-main);
+                fill: var(--color-main);
+            }
+
+    .bg-adduserform{
+        height: 100%; 
+        width: 100%;
+        background: rgba(0,0,0,0.7);
+        top: 0;
+        position: absolute;
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+        display: none;
+    }
+    .bg-editDropdown{
         height: 100%; 
         width: 100%;
         background: rgba(0,0,0,0.7);
@@ -842,13 +877,14 @@ $result = mysqli_query($con, $query);
         top: 50%;
         display: none;
         left: 50%;
-        max-height: 90vh;
+        max-height: 95vh;
         min-width: 400px;
         transform: translate(-50%, -50%);
         background-color: var(--color-white);
         border-top: 10px solid var(--color-main-3);
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-radius:  0px 0px 20px 20px;  
+           
     }
             .pageform{
                 background-color: var(--color-white);
@@ -911,7 +947,7 @@ $result = mysqli_query($con, $query);
                 background-color: var(--color-button-hover);
                 transition: 0.5s; 
             }
-    .form-addcustomer1{
+    .form-adduser1{
         width: 500px;
         height: 100%;
         max-height: 480px;
@@ -921,7 +957,46 @@ $result = mysqli_query($con, $query);
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-top: 10px solid var(--color-solid-gray);
     }
-            .form-addcustomer2{
+    .edit-container{
+        width: 500px;
+        height: 100%;
+        max-height: 520px;
+        position: absolute;
+        border-radius:  0px 0px 20px 20px;
+        background-color: var(--color-white);
+        box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+        border-top: 10px solid var(--color-solid-gray);
+    }
+            .edit-container2{
+                display: flex;
+                font-size: .7rem;
+                flex-direction: column;
+                font-family: 'Malberg Trial', sans-serif;
+                gap: 30px;
+                min-height: 20vh;
+            }
+            .edit-container .EditButton button{
+                font-family: 'COCOGOOSE', sans-serif;
+                padding: 10px;
+                margin-top: .5vh;
+                margin-bottom: 20px;
+                margin-left: 20em;
+                text-align: center;
+                width: 15rem;
+                max-height: 60px;
+                outline: none;
+                border: none;
+                font-size: min(max(9px, 1.1vw), 11px);
+                border-radius: 20px;
+                color: white;
+                background:  var(--color-mainbutton); 
+                cursor: pointer; 
+                transition: 0.5s;
+            }
+            .edit-container .EditButton button:hover{
+                background: var(--color-button-hover);
+            }
+            .form-adduser2{
                 display: flex;
                 font-size: .7rem;
                 flex-direction: column;
@@ -987,7 +1062,7 @@ $result = mysqli_query($con, $query);
                 width: 205px;
                 height: 17px;
                 margin-left: 16rem;
-                margin-top: 3.7rem;
+                margin-top: .395rem;
                 top: -7.1rem;
             }
             .form2 input{
@@ -1022,52 +1097,12 @@ $result = mysqli_query($con, $query);
                 padding: 0 10px;
                 transition: .3s
             }
-            .form3{
-                position: relative;
-                width: 430px;
-                height: 17px;
-                margin-left: 2rem;
-                margin-top: 4rem;
-                top: -10rem;
-            }
-            .form3 input{
-                width:100%;
-                height: 2.5rem;
-                padding: 10px;
-                border: 2px solid var(--color-solid-gray);
-                border-radius: 15px;
-                outline: none;
-                font-size: 1em;
-                background: var(--color-white);
-                color: var(--color-black);
-            }
-            .form3 span{
-                position: absolute;
-                left: 0;
-                padding: 12px;
-                pointer-events: none;
-                font-size: 1.2em;
-                margin-top: 0.1rem;
-                margin-left: .2rem;
-                color: var(--color-solid-gray);
-            }
-            .form3 input:focus{
-                border: 2px solid var(--color-main-3);
-            }
-            .form3 input:valid ~ span,
-            .form3 input:focus ~ span{
-                color:var(--color-main-3);
-                transform: translateX(10px) translateY(1px);
-                font-size: 0.85em;
-                padding: 0 10px;
-                transition: .3s
-            } 
             .form4{
                 position: relative;
                 width: 205px;
                 margin-left: 2rem;
-                margin-top: 1rem;
-                top: -10rem;
+                margin-top: -.895rem;
+                top: -5.6rem;
             }
             .form4 input{
                 width:100%;
@@ -1105,9 +1140,9 @@ $result = mysqli_query($con, $query);
                 position: relative;
                 width: 205px;
                 margin-left: 15.9rem;
-                margin-top: 5.6rem;
-                top: -20rem;
-                margin-bottom: -11.5rem;
+                margin-top: 1rem;
+                top: -10.93rem;
+                margin-bottom: -5rem;
             }
             .form5 input{
                 width:100%;
@@ -1141,26 +1176,20 @@ $result = mysqli_query($con, $query);
                 padding: 0 10px;
                 transition: .3s
             }
-            /* --------------------------------------DROP DOWN------------------------------------- */
-            .action-btn{
+            
+            /* --------------------------------------DROP DOWN ACTION------------------------------------- */
+            .actionBtn{
                 background: var(--color-solid-gray);
                 color: var(--color-white);
-                align-items: center;
-                border-radius: 20px;
-                height: 5rem;
-                width: 5rem;
-                padding-top: 20px;
-                padding-bottom: 5px;
-                padding-left: 10px;
-                padding-right: 10px;
+                font-size: 18px;
+                font-family: "Font Awesome 5 Free", sans-serif;
+                font-weight: 501;
+                border-radius: 50px;
+                padding: 10px;
+                height: 2.5em;
+                width: 4rem;
                 cursor: pointer;
                 transition: 0.3s;
-                border: none;
-                margin-bottom: 6rem
-            }
-            .action-btn:hover{
-                background: var(--color-main);
-                color: var(--color-white);
             }
             .fa{
                 font-family: "Font Awesome 5 Free", sans-serif;
@@ -1169,6 +1198,33 @@ $result = mysqli_query($con, $query);
             }
             .actionicon{
                 fill:  var(--color-white);
+            }
+          
+            /* --------------------------------------DROP DOWN------------------------------------- */
+            .usertype-dropdown{
+                width: 20em;
+                position: relative;
+                margin-top: 1rem;
+                top: -10.9rem;
+                left: 51%;
+                margin-bottom: -5.39rem;
+            }
+            .select{
+                background: var(--color-solid-gray);
+                color: var(--color-white);
+                align-items: center;
+                border-radius: 13px;
+                padding: 8px 12px;
+                height: 2.9em;
+                width: 12.8rem;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .action-dropdown{
+                position: relative;
+                margin-top: .5rem;
+                /* left: 10%; */
+                margin-bottom: .5rem
             }
             #edit-action{
                 background: hsl(0, 0%, 37%);
@@ -1187,6 +1243,27 @@ $result = mysqli_query($con, $query);
                 border: none;
             }
             #edit-action:hover{
+                background: var(--color-main);
+                color: var(--color-white);
+            }
+            #cpass-action{
+                background:#00aa09;
+                position: relative;
+                color: var(--color-white);
+                align-items: center;
+                text-align: center;
+                margin: 1px;
+                border-radius: 3px;
+                height: 100%;
+                width: 70%;
+                padding-top: 10px;
+                padding-right: 2px;
+                padding-left: 5px;
+                cursor: pointer;
+                transition: 0.3s;
+                border: none;
+            }
+            #cpass-action:hover{
                 background: var(--color-main);
                 color: var(--color-white);
             }
@@ -1211,97 +1288,20 @@ $result = mysqli_query($con, $query);
                 color: var(--color-white);
             }
          
-            /*.usertype-dropdown{
-                width: 20em;
-                position: relative;
-                margin-left: 16rem;
-                margin-top: 1rem;
-                top: -10.9rem;
-                margin-bottom: -5.39rem;
-            }
-            .select{
-                background: var(--color-solid-gray);
-                color: var(--color-white);
-                align-items: center;
-                border-radius: 13px;
-                padding: 8px 12px;
-                height: 2.9em;
-                width: 12.8rem;
-                cursor: pointer;
-                transition: 0.3s;
-            }
-            .select-clicked{
-                box-shadow: 0 0 0 1px var(--color-solid-gray);
-                background: var(--color-main-2);
-                color: white;
-            }
-            .select:hover{
-                background: var(--color-main);
-                color: var(--color-white);
-            }
-            /*.caret{
-                width: 0;
-                height: 0;
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-top: 6px solid var(--color-white);
-                transition: .5s;
-            }
-            .caret-rotate{
-                transform: rotate(180deg);
-                transition: .5s;
-            } */
-            .menu{
-                list-style: none;
-                padding: 0.2em 0.5em;
-                background: var(--color-solid-gray);
-                border: 1px solid var(--color-solid-gray);
-                box-shadow: 0 0 .5em .2em var(--color-main-2);
-                border-radius: 0.5em;
-                color: var(--color-white);
-                fill:var(--color-white);
-                gap: 1rem;
-                position: absolute;
-                top: 3em;
-                left: 50%;
-                width: 100%;
-                transform: translateX(-50%);
-                opacity: 0;
-                display: none;
-                z-index: 1;
-            }
-            .menu li{
-                padding: 0.7em 0.5em;
-                margin: 0.3em 0;
-                border-radius: 0.5em;
-                cursor: pointer;
-                transition: .5s;
-                font-size: 12px;
-                position: relative; 
-                align-items: center;
-            
-            }
-            .menu li:last-child{
-                font-size: 12px;
-                padding-left: -1rem;
-                display: flex;
-                align-items: center;
-                gap: .7rem;
-            }
-            .menu li:hover{
-                background: linear-gradient(270deg, transparent, var(--color-tertiary));
-                color: var(--color-main);
-
-            }
-            .active{
-                background: var(--color-main-3);
-                color: var(--color-white);
-                fill:var(--color-white);
-            }
-            .menu-open{
-                display: block;
-                opacity: 1;
-            }
+    .checker {
+        text-align: right;
+        align-items: right;
+        margin-right: 3rem;
+        margin-top: -7.5rem;
+        margin-bottom: 5rem;
+    }
+    .checker span {
+        text-decoration: none;
+        color: var(--color-solid-gray);
+        top: 0;
+        font-size: min(max(10px, 1.2vw), 12px);
+        font-family: 'Switzer', sans-serif;
+    }
     /* ------------------------------------------------------------------------------------ */
     .message{
         background-color: hsl(0, 100%, 77%);
@@ -1343,7 +1343,7 @@ $result = mysqli_query($con, $query);
         text-align: center;
         font-family: 'Calibri', sans-serif;
         color: var(--color-solid-gray);
-        top: -10.5rem;
+        top: -8rem;
         margin-left: 2rem;
         width: 26.7rem;
         border-bottom: 2px solid var(--color-solid-gray);
@@ -1359,8 +1359,8 @@ $result = mysqli_query($con, $query);
         margin-left: 5rem; 
         background: var(--color-solid-gray);
         color: var(--color-white);
-        top: -9rem;
-        margin-bottom: -8rem;
+        top: -6.4rem;
+        margin-bottom: -7.6em;
         border-radius: 10px;
         transition: 0.5s;
         font-family: 'COCOGOOSE', sans-serif;
@@ -1376,7 +1376,7 @@ $result = mysqli_query($con, $query);
     .addnew-title{
         font-size: min(max(1.9rem, 1.1vw), 2rem);
         color: var(--color-solid-gray);
-        font-family: 'Calibri', sans-serif;
+        font-family: 'Malberg Trial', sans-serif;
         letter-spacing: .09rem;
         display: flex;
         padding-top: 1rem;
@@ -1385,7 +1385,8 @@ $result = mysqli_query($con, $query);
         margin: 15px;
         padding-bottom: 10px;
     }
-    .form-addcustomer1 .AddButton button{
+   
+    .form-adduser1 .AddButton button{
         font-family: 'COCOGOOSE', sans-serif;
         padding: 10px;
         margin-top: .5vh;
@@ -1403,12 +1404,17 @@ $result = mysqli_query($con, $query);
         cursor: pointer; 
         transition: 0.5s;
     }
-    .form-addcustomer1 .AddButton button:hover{
+    .form-adduser1 .AddButton button:hover{
         background: var(--color-button-hover);
     }
     .CancelButton{
         margin-top: -4.9vh;
         margin-left: 2.4em;
+    }
+    .CloseButton{
+        margin-top: 5.2vh;
+        margin-left: 2.4em;
+        margin-bottom: -2rem;
     }
     #cancel{
         font-family: 'COCOGOOSE', sans-serif;
@@ -1431,8 +1437,32 @@ $result = mysqli_query($con, $query);
         background-color: rgb(158, 0, 0);
         transition: 0.5s; 
     }
+
+    #action_btn {
+        font-family: 'calibri', sans-serif;
+        /* padding: 10px;
+        
+        margin-bottom: 20px;
+        margin-left: 20em; */
+        text-align: center;
+        margin-top: .5vh;
+        margin-bottom: .5vh;
+        width: 3rem;
+        height: 40px;
+        outline: none;
+        border: none;
+        font-size: min(max(10px, 1.2vw), 12px);
+        border-radius: 20px;
+        background: var(--color-solid-gray);
+        cursor: pointer; 
+        transition: 0.5s;
+    }
+    #action_btn:hover{
+        background: var(--color-button-hover);
+    }
+  
      /* ----------------------------------------Top bar menu----------------------------------------  */
-     .top-menu{
+    .top-menu{
         margin-top: .7rem;
         position: absolute;
         right: 3%;
@@ -1484,7 +1514,7 @@ $result = mysqli_query($con, $query);
         font-size: 11px;
         /* margin-right: -7.3rem;*/
         margin-top: -0.6rem; 
-        letter-spacing: 2px;
+        letter-spacing: 1px;
         color: var(--color-main); 
     }
     .user-name{
@@ -1500,7 +1530,33 @@ $result = mysqli_query($con, $query);
         border-radius: 30%;
         width: 50px;
         padding: 4px;
+        margin-top: .3rem;
     }
+    .profile-pic{
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    .profile-pic img{
+        background: var(--color-solid-gray); 
+        border-radius: 50%;
+        width: 100px;
+        padding: 3px;
+    }
+    .editnew-title{
+        font-size: min(max(1.9rem, 1.1vw), 2rem);
+        color: var(--color-solid-gray);
+        font-family: 'Malberg Trial', sans-serif;
+        letter-spacing: .09rem;
+        display: flex;
+        padding-top: .5rem;
+        justify-content: center;
+        border-bottom: 2px solid var(--color-solid-gray);
+        margin: 15px;
+        padding-bottom: 10px;
+    }
+   
     #menu-button{
         border: none;
         background: none;
@@ -1555,7 +1611,7 @@ $result = mysqli_query($con, $query);
     .user2 .drop-menu{
         position: absolute; 
         top: 120px;
-        right: 15px;
+        right: 10px;
         padding: 10px 20px;
         background: var(--color-white);
         width: 110px;
@@ -1566,7 +1622,7 @@ $result = mysqli_query($con, $query);
         opacity: 0;
     }
     .user2 .drop-menu.user2{
-        top: 100px;
+        top: 80px;
         visibility: visible;
         opacity: 1;
     }
@@ -1574,7 +1630,7 @@ $result = mysqli_query($con, $query);
         content:'';
         position: absolute;
         top: -5px;
-        right: 46px;
+        right: 15px;
         width: 15px;
         height: 20px;
         background: var(--color-white);
@@ -1667,7 +1723,7 @@ $result = mysqli_query($con, $query);
         transition: transform 0.2s linear;
     }
     /* ----------------------------------------MAIN---------------------------------------- */
-    .main-customer{
+    .main-account{
         width:100%;
         position: relative;
     }
@@ -1706,7 +1762,7 @@ $result = mysqli_query($con, $query);
             right: 0;
         }
         .search-bar{
-            width: 18rem;
+            width: 15vw;
             background: var(--color-white);
             display: flex;
             position: relative;
@@ -1747,14 +1803,14 @@ $result = mysqli_query($con, $query);
             position: absolute;
             left: 2%;
         }
-        .add-customer{
+        .add-account{
             display: flex;
             border: none;
             background-color: var(--color-white); 
             align-items: center;
             color: var(--color-button); 
             fill: var(--color-button); 
-            width: 13rem;
+            width: 11rem;
             max-height: 46px;
             border-radius: 20px;
             padding: .68rem 1rem;
@@ -1767,10 +1823,10 @@ $result = mysqli_query($con, $query);
             margin-top: .2rem;
             text-transform: uppercase;
         }
-        .add-customer h3{
+        .add-account h3{
             font-size: .8rem;
         }
-        .add-customer:hover{
+        .add-account:hover{
             background-color: var(--color-main); 
             color: var(--color-white);
             fill: var(--color-white);
@@ -1778,36 +1834,39 @@ $result = mysqli_query($con, $query);
             transition: 0.7s;
             border-bottom: 4px solid var(--color-maroon);
         }
-         /* ----------------------------------------Inventory Table---------------------------------------- */
-    main .inventory-container{
-        margin-top: 2rem;
+         /* ----------------------------------------Account Table---------------------------------------- */
+    main .account-container{
+        margin-top: -1rem;
         max-height: 500px;
         overflow:auto;
+        width: 100%;
+        /* position: absolute; */
         box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
         border-top: 8px solid var(--color-table-hover);
-        border-radius: 0px 0px 40px 40px;
+        border-radius: 0px 0px 10px 10px;
+        
     }
-     main .inventory-container table{
+     main .account-container table{
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
-        width: 100%;
+        width: 100%; 
         font-size: 1rem;
         padding-left: 2.5rem;
         padding-right: 2.5rem;
         padding-bottom: 2.5rem;
         text-align: center; 
         transition: all 700ms ease;
-        margin-top: -1rem;
+        /* margin-top: -1rem; */
     }
 
-    main .inventory-container table:hover{
+    main .account-container table:hover{
         box-shadow: none;
-        border-top: 8px solid var(--color-main);
+        /* border-top: 8px solid var(--color-main); */
     }
 
     main table tbody td{
         height: 2.8rem;
-        border-bottom: 1px solid var(--color-solid-gray);
+        border-bottom: 1px solid var(--color-border-bottom);
         color: var(--color-td); 
         font-size: .8rem;
     }
@@ -1823,7 +1882,6 @@ $result = mysqli_query($con, $query);
         cursor: pointer;
         background-color: var(--color-table-hover);
      }
-     
     /* ----------------------------------------ASIDE---------------------------------------- */
     .container{
         display: grid;
@@ -1831,16 +1889,23 @@ $result = mysqli_query($con, $query);
         margin: 0 auto;
         background: var(--color-background);
         gap: 1.8rem;
-        grid-template-columns: 14rem auto;
+        grid-template-columns: 12rem auto;
     }
     #aside{
         height: 100vh;
         margin-top: -1.9rem;
         background: var(--color-table-hover);
         left: 0;
-        border-radius: 0px 30px 30px 0px;
-        display: none;
-        /* border-left: 10px solid rgb(2, 80, 2);  */
+        /* border-radius: 0px 30px 30px 0px; */
+        /* position: absolute; */
+        width: 14rem;
+        margin-right: 2rem;
+        padding-left: 10rem;
+        margin-top: -3rem;
+        margin-left: -12.3rem;
+
+        /* display: none; */
+        /* border-left: 38px solid var(--color-table-hover);  */
     }
     #aside .title{
         display: flex;
@@ -1866,7 +1931,7 @@ $result = mysqli_query($con, $query);
         display: flex;
         flex-direction: column;
         height: 86vh;
-        position: relative;
+        /* position: relative; */
     }
     #aside h3{
         font-weight: 400;
@@ -1914,211 +1979,78 @@ $result = mysqli_query($con, $query);
     }
     
       /* ----------------------------------------SIDEBAR 2---------------------------------------- */
-    #aside2{
-        height: 100vh;
-        margin-top: -1.9rem;
-        background: var(--color-table-hover);
-        left: 0;
-        border-radius: 0px 30px 30px 0px;
-        position: absolute;
-        width: 14rem;
-        margin-right: 2rem;
-        border-left: 38px solid var(--color-background);
-    }
-    #aside2 .title2{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 1.9rem;
-    }
-    #aside2 .titlelogo2{
-        display: flex;
-        gap: 0.8rem;
-    }
-    #aside2 .titlelogo2 img{
-        width: 5rem;
-        margin-top: 1rem;
-        margin-left: 4.5rem;
-    }
-    #aside2 .close{
-        display: none;
-        font-size: 1rem;
-    }
-    #aside2 .sidebar2{
-        margin-top: 2rem;
-        display: flex;
-        flex-direction: column;
-        height: 86vh;
-        position: relative;
-    }
-    #aside2 h3{
-        font-weight: 400;
-    }
-    #aside2 .sidebar2 a{
-        display: flex;
-        color: var(--color-tertiary);
-        fill: var(--color-tertiary);
-        margin-left: 2rem;
-        gap: 1rem;
-        align-items: center;
-        position: relative;
-        height: 3.7rem;
-        transition: all 300ms ease;
-        
-    }
-    #aside2 .sidebar2 a:focus{
-        background: var(--color-white);
-        transition: 0.6s;
-        color: var(--color-main);
-        fill: var(--color-main);
-        margin-left: 0;
-        padding-left: 1rem;
-        content: "";
-        margin-bottom: 6px;
-        font-size: 9px;
-        border-radius: 0 0 10px 0 ;
-        box-shadow: 1px 3px 1px var(--color-background);
-    }
-    #aside2 .sidebar2 a:hover{
-        background:  rgb(250, 255, 251);
-        transition: 0.6s;
-        margin-left: 0rem;
-        color: rgb(187, 187, 187);
-        fill: rgb(187, 187, 187);
-        font-weight: bold;
-        padding-left: 1rem;
-        content: "";
-        margin-bottom: 6px;
-        font-size: 9px;
-        border-radius: 0 10px 10px 0 ;
-        box-shadow: 1px 1px 1px rgb(224, 224, 224);
-    }
-
-    #aside2 .sidebar2 .inventory{
-        background: var(--color-white);
-        transition: 0.6s;
-        color: var(--color-main);
-        fill: var(--color-main);
-        margin-left: 0;
-        padding-left: 1rem;
-        content: "";
-        margin-bottom: 6px;
-        font-size: 9px;
-        border-radius: 0 0 10px 0 ;
-        box-shadow: 1px 3px 1px var(--color-background);
-    }
       @media screen and (max-width: 1600px){
         .container{
             width: 94%;
-            grid-template-columns: 7rem auto 23rem;
+            grid-template-columns: 11rem auto;
+        }
+        #aside{
+            margin-left: -12.9rem;
         }
         #aside .sidebar2 h3{
             display: none;
         }
-        #aside2 .sidebar2 h3{
-            display: none;
-        }
-        #aside2 .titlelogo2 img{
+        #aside .titlelogo2 img{
             margin-left: 1.8rem;
             width: 40%;
         }
 
-        #aside2 .sidebar2 a{
+        #aside .sidebar2 a{
             width: 5.95rem;
         }
-        #aside2 .sidebar2 a:focus{
+        #aside .sidebar2 a:focus{
             padding-left: 2rem;
             width: 4rem;
         }
         .top-menu{
             width: 370px;
         }
-        .main-customers{
-            position: relative;
-            left: -5%;
-        }
-        main .customers-container{
-            margin: 2rem 0 0 8.8rem;
-            width: 94%;
-            position: absolute;
-            left: 0;
-            margin-left: 52%;
-            transform: translateX(-50%);
-            margin-top: 3%;
-        }
-        main .customers-container table{
-            width: 65vw;
-            padding-left:30px;
-            padding-right:30px;
-        }
-        .accTitle{
-            margin-left: 5%;
-            width: 25vw;
-            font-family: 'Calibri', sans-serif;
+        main .account-container{
+            margin-top: 6rem;
         }
         main  h2{
             margin-left: 10%;
         }
         main .sub-tab{
             margin-bottom: 4rem;
-        }
-        .newUser-button{
-            left: 94%;
-        }
-        .search{
-            left: 55%;
-        }
-        .search-bar{
-            width: 17vw;
         }
     }
     @media screen and (max-width: 1400px){
         .container{
             width: 94%;
-            grid-template-columns: 7rem auto 23rem;
+            grid-template-columns: 7.77rem auto;
+        }
+        #aside{
+            width: 7rem;
+            margin-left: -12.5rem;
+        }
+        #aside svg{
+            margin-left: .4rem;
         }
         #aside .sidebar h3{
             display: none;
         }
-        #aside2 .sidebar2 h3{
-            display: none;
-        }
-        #aside2 .titlelogo2 img{
-            margin-left: 1.8rem;
-            width: 40%;
+        #aside .titlelogo img{
+            margin-left: 1.3rem;
+            width: 60%;
         }
 
-        #aside2 .sidebar2 a{
+        #aside .sidebar2 a{
             width: 5.95rem;
         }
-        #aside2 .sidebar2 a:focus{
+        #aside .sidebar2 a:focus{
             padding-left: 2rem;
             width: 4rem;
         }
         .top-menu{
             width: 370px;
         }
-        .main-customers{
+        .main-account{
             position: relative;
             left: -5%;
         }
-        main .customers-container{
-            margin: 2rem 0 0 8.8rem;
-            width: 94%;
-            position: absolute;
-            left: 0;
-            margin-left: 52%;
-            transform: translateX(-50%);
-            margin-top: 3%;
-        }
-        main .customers-container table{
-            width: 65vw;
-            padding-left:30px;
-            padding-right:30px;
-        }
-        .accTitle{
-            margin-left: 5%;
-            width: 25vw;
+        main .account-container{
+            width: 105%;
         }
         main  h2{
             margin-left: 10%;
@@ -2127,74 +2059,41 @@ $result = mysqli_query($con, $query);
             margin-bottom: 4rem;
         }
         .newUser-button{
-            left: 99%;
+            left: 2.5%;
         }
         .search{
-            left: 55%;
+            right: -5%;
         }
         .search-bar{
-            width: 17vw;
+            width: 18vw;
         }
     }
     @media screen and (max-width: 1200px){
         .container{
             width: 94%;
-            grid-template-columns: 7rem auto 23rem;
+            grid-template-columns: 7.3rem auto;
         }
         #aside .sidebar h3{
             display: none;
         }
-        #aside2 .sidebar2 h3{
-            display: none;
+        #aside svg{
+            margin-left: .4rem;
         }
-        #aside2 .titlelogo2 img{
-            margin-left: 1.8rem;
-            width: 40%;
-        }
-
-        #aside2 .sidebar2 a{
-            width: 5.95rem;
-        }
-        #aside2 .sidebar2 a:focus{
-            padding-left: 2rem;
-            width: 4rem;
+        .accTitle{
+            width: 74%;
         }
         .top-menu{
             width: 370px;
         }
-        .main-customers{
+        .main-account{
             position: relative;
             left: -5%;
-        }
-        main .customers-container{
-            margin: 2rem 0 0 8.8rem;
-            width: 94%;
-            position: absolute;
-            left: 0;
-            margin-left: 50%;
-            transform: translateX(-50%);
-            margin-top: 3%;
-        }
-        main .customers-container table{
-            width: 80vw;
-            padding-left:30px;
-            padding-right:30px;
-        }
-        .accTitle{
-            margin-left: 5%;
-            width: 25vw;
         }
         main  h2{
             margin-left: 10%;
         }
         main .sub-tab{
             margin-bottom: 4rem;
-        }
-        .newUser-button{
-            left: 137%;
-        }
-        .search{
-            left: 77%;
         }
         .search-bar{
             width: 20vw;
@@ -2219,25 +2118,22 @@ $result = mysqli_query($con, $query);
         .containter{
             width: 100%;
         }
-        #aside2{
-            display: none;
-        }
         #aside {
             position: fixed; 
-            left: 0;
-            margin-top: -.2rem;
+            left: 9%;
+            margin-top: -1.2rem;
             display: none;
             background: var(--color-white);
-            width: 17rem;
+            width: 18rem;
             z-index: 3;
             height: 100vh;
             padding-right: var(--card-padding);
             animation: sideMenu 400ms ease forwards;
             box-shadow: 70px 0px 250px rgb(116, 116, 116);
         }
-        @keyframes sideMenu {
+        @keyframes showMenu {
             to{
-                left: 0;
+                left: 50%;
             }
         }
         #aside .titlelogo img{
@@ -2255,7 +2151,7 @@ $result = mysqli_query($con, $query);
             height: 3.4rem;
         }
         #aside .sidebar a:focus{
-            width: 14.95rem;
+            width: 16.95rem;
             fill: var(--color-white);
             color: var(--color-white);
             background: var(--color-aside-mobile-focus);
@@ -2274,7 +2170,7 @@ $result = mysqli_query($con, $query);
             cursor: pointer;
         }
         #aside .sidebar .inventory{
-            width: 15.95rem;
+            width: 16.95rem;
             fill:  var(--color-white);
             color:  var(--color-white);
             background: var(--color-aside-mobile-focus);
@@ -2299,18 +2195,18 @@ $result = mysqli_query($con, $query);
         .top-menu .menu-bar .accTitle-top{
             display: block;
             left: 0;
-            margin-left:18%;
+            margin-left: 4rem;
             position: absolute;
         }
-         .profile .profile-picture{
-            margin-right: 2.4rem;
+         .profile{
+            margin-right: 1.4rem;
         }
         .top-menu .menu-bar .user1{
             display: none;
         }
         .drop-menu .ul .user-type3{
             display: block;
-            left:27.5%;
+            left:22.5%;
             position: absolute; 
             margin-top: -2.3rem;
             margin-bottom: 1.9rem;
@@ -2322,7 +2218,6 @@ $result = mysqli_query($con, $query);
             cursor: pointer;
             fill: var(--color-black);
         }
-     
         .accTitle{
             display:none;
         }
@@ -2345,11 +2240,11 @@ $result = mysqli_query($con, $query);
         .drop-menu .ul a{
             width: 8.5rem;
         }
-        .main-customers{
+        .main-account{
             position: relative;
             left: -5%;
         }
-        main .customers-container{
+        main .account-container{
             margin: 2rem 0 0 8.8rem;
             width: 94%;
             position: absolute;
@@ -2359,41 +2254,28 @@ $result = mysqli_query($con, $query);
             transform: translateX(-50%);
             margin-top: 3%;
         }
-        main .customers-container table{
+        main .account-container table{
             width: 80vw;
             padding-left:30px;
             padding-right:30px;
         }
         main  h2{
-            margin-left: -8rem;
-            width: 89vw;
-            border-top: 2px solid var(--color-solid-gray);
-            position: absolute;
-        }
-        .add-customer{
-            width: 12.7vw;
-            align-items: center;
-            text-align: center;
-        }  
-        .add-customer h3{
-            display: none;
-        }
-        .newUser-button{
-            position: absolute;
-            top: 4.5rem;
-            margin-left: 43vw;
+            margin-left: 10%;
+            display:none;
         }
         main .sub-tab{
             margin-bottom: 4rem;
         }
+        .newUser-button{
+            left: 137%;
+            display:none;
+        }
         .search{
             left: 77%;
+            display:none;
         }
         .search-bar{
-            width: 60vw;
-            margin-left: -8rem;
-            top: 4.5rem;
-            position: absolute;
+            width: 20vw;
         }
     }
 

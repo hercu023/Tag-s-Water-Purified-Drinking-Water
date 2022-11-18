@@ -187,7 +187,6 @@ if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['midd
 //             //     $response['message'] =  "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Create new password";
 //             // }else{
  
-                
 //                 if (strlen($_POST['pass']) < 8) {
 //                  //    $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols";
 //                     echo "<div class='message' style='display:block'></div>";
