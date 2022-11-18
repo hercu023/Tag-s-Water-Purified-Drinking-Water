@@ -88,21 +88,21 @@ include 'connectionDB.php';
             <div class="sub-menu">
                 <a href="Reports-sales.php" class="sub-item">Sales</a>
                 <a href="Reports-deliverywalkin.php" class="sub-item">Delivery/Walk-in</a>
-                <a href="Reports-datalogs.php" class="sub-item">Data Logs</a>
-                <a href="Reports-inventory.php" class="sub-item">Inventory</a>
-                <a href="Reports-itemissue.php" class="sub-item">Item Issue</a>
-                <a href="Reports-inventory.php" class="sub-item">Attendance</a>
-                <a href="Reports-expense.php" class="sub-item">Expense</a>
+                <a href="Reports-datalogs.php" class="sub-item" id="reports-datalogs">Data Logs</a>
+                <a href="Reports-inventory.php" class="sub-item" id="reports-inventory">Inventory</a>
+                <a href="Reports-itemissue.php" class="sub-item" id="reports-itemissue">Item Issue</a>
+                <a href="Reports-inventory.php" class="sub-item" id="reports-attendance">Attendance</a>
+                <a href="Reports-expense.php" class="sub-item" id="reports-expense">Expense</a>
             </div>
         </div>
         <div id="monitoring" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 21v-2l2-2v4Zm4 0v-6l2-2v8Zm4 0v-8l2 2.025V21Zm4 0v-5.975l2-2V21Zm4 0V11l2-2v12ZM3 15.825V13l7-7 4 4 7-7v2.825l-7 7-4-4Z"/></svg>
         MONITORING<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
-                <a href="Monitoring-deliverypickup.php" class="sub-item">Delivery/Pick Up</a>
-                <a href="Monitoring-returncontainer.php" class="sub-item">Return Container</a>
-                <a href="Monitoring-customerbalance.php" class="sub-item">Customer Balance</a>
-                <a href="Monitoring-scheduling.php" class="sub-item">Scheduling</a>
-                <a href="Monitoring-itemhistory.php" class="sub-item">Item History</a>
+                <a href="Monitoring-deliverypickup.php" class="sub-item" id="monitoring-deliverypickup">Delivery/Pick Up</a>
+                <a href="Monitoring-returncontainer.php" class="sub-item" id="monitoring-returncontainer">Return Container</a>
+                <a href="Monitoring-customerbalance.php" class="sub-item" id="monitoring-customerbalance">Customer Balance</a>
+                <a href="Monitoring-scheduling.php" class="sub-item" id="monitoring-scheduling">Scheduling</a>
+                <a href="Monitoring-itemhistory.php" class="sub-item" id="monitoring-itemhistory">Item History</a>
             </div>
         </div>
         <div id="customer" class="item"><a href="Customer.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
@@ -119,8 +119,8 @@ include 'connectionDB.php';
         <div id="expense" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
         EXPENSE<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
-                <a href="Expense-expense.php" class="sub-item">Expense</a>
-                <a href="Expense-employeesalary.php" class="sub-item">Employee Salary</a>
+                <a href="Expense-expense.php" class="sub-item" id="expense-expense">Expense</a>
+                <a href="Expense-employeesalary.php" class="sub-item" id="employee-salary">Employee Salary</a>
             </div>
         </div>
         <div id="account" class="item"><a href="Account.php"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
@@ -137,15 +137,15 @@ include 'connectionDB.php';
    </div>
    </div>
             <main>
-            <div class="main-pos">
-                    <h1 class="posTitle">POINT OF SALES</h1> 
+            <div class="main-dashboard">
+                    <h1 class="dashTitle">EMPLOYEE</h1> 
             </main>
                 <div class="top-menu">  
                     <div class="menu-bar">
                         <div class="menu-btn2">
                             <i class="fas fa-bars"></i>
                         </div>
-                        <h2 class="posTitle-top">POINT OF SALES</h2>
+                        <h2 class="dashTitle-top">EMPLOYEE</h2>
                         <div class="user1">
                             <div class="welcome">
                                 <h4 > Welcome, </h4>
@@ -158,7 +158,7 @@ include 'connectionDB.php';
                             </div>
                         </div>   
                         <div class="user2"> 
-                        <div class="profile" onclick="menuToggle();">
+                        <div class="profile"  onclick="menuToggle();">
                             <img src="uploaded_image/<?= $_SESSION['user_profile_image']; ?>" alt="">
                         </div>
                         <div class="drop-menu" >
@@ -185,130 +185,17 @@ include 'connectionDB.php';
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.438-1.062Q3.875 3 4.5 3H10v1.5H4.5v11H10V17Zm9-3.5-1.062-1.062 1.687-1.688H8v-1.5h6.125l-1.687-1.688L13.5 6.5 17 10Z"/></svg>
                                         <h4>Logout</h4>
                                     </a>
-                                </div>    
+                                </div>
                         </div>  
                     </div>           
                     </div>
-                </div>
-                
-<!-- CONTAINER START -------------------------------------------------------------------------------------- -->
-<!--------------------------------------------------------------------------------------------------------- -->
-
-    <div class="top-buttons">
-            <button class="selectCustomer-button">Select Customer</button>
-            <button class="newCustomer-button">New Customer</button>
-            <button class="returnContainer-button">Return Container</button>
-        </div>
-
-<!-- ---------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
-
-        <div class="form1">
-            <p class="selectCustomer-text">*SELECT CUSTOMER
-                <select class="delivery-options">
-                    <option value="" selected="selected">Select Delivery</option>
-                    <option value="Home Delivery">Home Delivery</option>
-                </select>
-            </p>
-
-            <hr>
-            
-            <div class="form1-ordertype-buttons">
-                <button class="refillOrder-button">Refill</button>
-                <button class="newOrder-button">New Order</button>
-            </div>
-
-            <br>
-
-            <div class="form1-details">
-                <div class="form1-tableoption-buttons">
-                    <button class="customerTable-button">Customer</button>
-                    <br>
-                    <button class="bottleTable-button">Bottle</button>
-                    <br>
-                    <button class="iceTubeTable-button">Ice Tube</button>
-                </div>
-
-                <div class="form1-table">
-                    <!-- INSERT TABLE -->
-                </div>
-            </div>
-
-            <div class="form1-buttons">
-                <button class="addDeliveryFee-button">Add Delivery Fee</button>
-                <button class="addOrder-button" id="addOrder-form">Add Order</button>
-
-                
-            </div>
-
-        </div>
-
-        <!-- ---------------------------------------------------- PAYMENT OPTIONS ------------------------------------------------- -->
-
-        <div class="payment-options">
-            <p class="paymentOptions-text">Payment Options
-                <select class="paymentOptions-dropdown">
-                    <option value="cod_option" selected="selected">Cash on Delivery</option>
-                    <option value="onsite_option">Onsite Delivery</option>
-                    <option value="gcash_option">GCash</option>
-                </select>
-            </p>
-        </div>
-
-        <!-- ---------------------------------------------------- RECEIPT ------------------------------------------------- -->
-
-        <div class="form2">
-            <header class="company-name">Tag's Water Purified Drinking Water</header>
-            <body>
-                <p class="date-Text">Date and Time: <span id='date-time'></p>
-                <hr>
-                <div class="orderSummary">
-                    <p class="orderSummary-text">Order Summary</p>
-                    <p class="customer-text">Customer: <span id="customer-name"></span></p>
-                </div>
-                <hr>
-                <div class="orderSum-table">
-                    <!-- order summary in table -->
-                </div>
-                <hr>
-                <p class="orderTotal-text">Order Total <span id="order-total"></span></p>
-                <hr>
-                <div class="receipt-buttons">
-                    <button class="cancelOrder-button">Cancel</button>
-                    <button class="confirmOrder-button">Confirm</button>
-                </div>
-            </body>
-        </div>
-
-        <!-- ---------------------------------------------------- PREVIOUS TRANSACTIONS ------------------------------------------------- -->
-
-        <div class="previous-transaction">
-            <br>
-            <header class="previous-transaction-header">Today's Previous Transaction</header>
-            <hr>
-            <!-- <table class="previous-transaction-table">
-                <thead>
-                    <tr>
-                    <td>#</td>
-                    <td>Customer Details</td>
-                    <td>Order</td>
-                    <td>Payment</td>
-                    <td>Status</td>
-                    <td>Date/Time</td>
-                    </tr>
-                </thead>
-                </table> -->
-            </div>
-
-<!-- CONTAINER END ---------------------------------------------------------------------------------------- -->
-<!--------------------------------------------------------------------------------------------------------- -->
-
-        </div>  
+                </div>       
         </div> 
     </body>
 </html>
 <script>
-     // -----------------------------SIDE MENU
-     $(document).ready(function(){
+    // -----------------------------SIDE MENU
+ $(document).ready(function(){
      //jquery for toggle sub menus
      $('.sub-btn').click(function(){
        $(this).next('.sub-menu').slideToggle();
@@ -356,9 +243,30 @@ include 'connectionDB.php';
         //     }
          });
         
+        // if(localStorage.getItem('dark')) {
+        //     body.classList.add('dark');
+        //     }
+    // const sideMenu = document.querySelector("#aside");
+    // const closeBtn = document.querySelector("#close-btn");
+    // const menuBtn = document.querySelector("#menu-button");
+    // const checkbox = document.getElementById("checkbox");
+    //     menuBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'block';
+    //     })
+    //     closeBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'none';
+    //     })
+    //     checkbox.addEventListener('change', () =>{
+    //         document.body.classList.toggle('dark-theme');
+    //     })
+
+    //     function menuToggle(){
+    //         const toggleMenu = document.querySelector('.drop-menu');
+    //         toggleMenu.classList.toggle('user2')
+    //     }
 </script>
 <style>
-    :root{
+     :root{
         --color-main: rgb(2, 80, 2);
         --color-white: white;
         --color-white-secondary: white;
@@ -375,13 +283,7 @@ include 'connectionDB.php';
         --color-table-hover: rgb(244, 255, 246);
         --color-aside-mobile-focus: rgb(78, 150, 78);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
-        --color-select-customer:rgb(9, 138, 107);
-        --color-new-customer:rgb(169, 109,5);
-        --color-return-container:rgb(54, 85, 225);
-        --color-table-title:rgb(0, 197, 145);
-        --color-table-border:rgb(226, 226, 229);
-        --color-secondary-background:rgb(244, 244, 244);
-        --color-lightest-gray:rgb(250,250,250);
+        
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
@@ -478,19 +380,6 @@ include 'connectionDB.php';
         height: 2.9rem;
 
     }
-    #pointofsales{
-            background: var(--color-white);
-            transition: 0.6s;
-            color: var(--color-main);
-            fill: var(--color-main);
-            margin-left: 0;
-            padding-left: 1rem;
-            content: "";
-            margin-bottom: 6px;
-            font-size: 15px;
-            border-radius: 0 0 10px 0 ;
-            box-shadow: 1px 3px 1px var(--color-background);
-        }
     .side-bar .menu .item a:hover{
         background: var(--color-table-hover);
         transition: 0.6s;
@@ -498,7 +387,11 @@ include 'connectionDB.php';
         border-radius: 0 10px 10px 0 ;
         box-shadow: 2px 2px 2px rgb(224, 224, 224);
     }
-
+    #employee{
+        background: var(--color-white);
+        box-shadow: 2px 2px 2px rgb(224, 224, 224);
+        border-radius: 0 10px 10px 0;
+    }
     .side-bar .menu .item a .dropdown{
         position: absolute;
         right: 0;
@@ -564,7 +457,7 @@ include 'connectionDB.php';
     }
      /* ----------------------------------------Top bar menu----------------------------------------  */
      .top-menu{
-        margin-top: .7rem;
+        margin-top: 2rem;
         position: absolute;
         right: 3%;
     }
@@ -587,7 +480,7 @@ include 'connectionDB.php';
         align-items: right;
         text-align: right;
     }
-    .top-menu .menu-bar .posTitle-top{
+    .top-menu .menu-bar .dashTitle-top{
         font-size: min(max(1.2rem, 0.4vw), 1.3rem);
         color: var(--color-main); 
         font-family: 'COCOGOOSE', sans-serif;
@@ -611,8 +504,8 @@ include 'connectionDB.php';
         margin-top: 6px;     
     }
     .welcome{
-        font-family: 'Calibri', sans-serif;
-        font-size: 11px;
+        font-family: 'Switzer', sans-serif;
+        font-size: 9px;
         /* margin-right: -7.3rem;*/
         margin-top: -0.6rem; 
         letter-spacing: 2px;
@@ -643,6 +536,9 @@ include 'connectionDB.php';
     .user2 a{
         font-family: 'Malberg Trial', sans-serif;
         color: rgb(68, 68, 68);
+    }
+    .notifs-section{
+
     }
     .todeliver{
         margin-bottom: -2.2rem;
@@ -773,17 +669,18 @@ include 'connectionDB.php';
         transition: transform 0.2s linear;
     }
     /* ----------------------------------------MAIN---------------------------------------- */
-    .main-pos{
+    .main-dashboard{
         width:100%;
     }
-    .posTitle{
-        margin-top: 2rem;
+    .dashTitle{
+        /* margin-top: 2rem; */
         font-size: min(max(1.9rem, 1.1vw), 2rem);
         color: var(--color-main); 
         font-family: 'COCOGOOSE', sans-serif;
         letter-spacing: .03rem;
         border-bottom: 2px solid var(--color-main); 
         width: 78%;
+        margin-top: 3.2rem;
     }
    
         /* ----------------------------------------Sub TAB---------------------------------------- */
@@ -942,24 +839,60 @@ include 'connectionDB.php';
     #menu-button{
         display: none;
     }
-      @media screen and (max-width: 1600px){
+    @media screen and (max-width: 1600px){
         .container{
             width: 94%;
             grid-template-columns: 16rem auto;
         }
    
-        #aside .titlelogo2 img{
-            margin-left: 1.8rem;
-            width: 40%;
+        .top-menu{
+            width: 370px;
+        }
+        .main-dashboard{
+            position: relative;
+            left: -5%;
+        }
+        main .account-container{
+            margin: 2rem 0 0 8.8rem;
+            width: 94%;
+            position: absolute;
+            left: 0;
+            margin-left: 52%;
+            transform: translateX(-50%);
+            margin-top: 3%;
+        }
+        main .account-container table{
+            width: 65vw;
+            padding-left:30px;
+            padding-right:30px;
+        }
+        .dashTitle{
+            margin-left: 5%;
+            width: 78%;
+            margin-top: 3.2rem;
+        }
+        main  h2{
+            margin-left: 10%;
+        }
+        main .sub-tab{
+            margin-bottom: 4rem;
+        }
+        .newUser-button{
+            left: 94%;
+        }
+        .search{
+            left: 55%;
+        }
+        .search-bar{
+            width: 17vw;
+        }
+    }
+    @media screen and (max-width: 1600px){
+        .container{
+            width: 94%;
+            grid-template-columns: 16rem auto;
         }
 
-        #aside .sidebar2 a{
-            width: 5.95rem;
-        }
-        #aside .sidebar2 a:focus{
-            padding-left: 2rem;
-            width: 4rem;
-        }
         .top-menu{
             width: 370px;
         }
@@ -1226,7 +1159,6 @@ include 'connectionDB.php';
         }
     }
     
-
     .menu-tab p{
         font-size: 20px;
         font-weight: lighter;
@@ -1252,333 +1184,4 @@ include 'connectionDB.php';
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
-
-/*------------------------------------------------CONTAINER----------------------------------------------------*/
-
-    /* GENERAL -----------------------------------------------------------------------------------------*/
-    button:active {
-        background-color: var(--color-maroon);
-    }
-
-    button:hover{
-        filter: brightness(85%);
-        font-weight: bolder;
-        font-size: 110%;
-    }
-    hr{
-        width: 95%;
-    }
-
-    /* TOP BUTTONS -------------------------------------------------------------------------------------*/
-    .top-buttons{
-        margin-top: 4rem;
-        margin-left: 17rem;
-        padding: 50px;
-        background-color: none;
-        position: absolute;
-    }
-    .selectCustomer-button{
-        background: var(--color-select-customer);
-        padding: 1rem;
-        margin-left: 1rem;
-        border-radius: 5rem;
-        font-size: 1rem;
-        color: white;
-        border: none;
-        height: 3rem;
-        width: 15rem;
-        box-shadow: 0px 3px 0px 0px var(--color-shadow-shadow);
-    }
-    .newCustomer-button{
-        background: var(--color-new-customer);
-        padding: 1rem;
-        margin-left: 1rem;
-        border-radius: 5rem;
-        font-size: 1rem;
-        color: white;
-        border: none;
-        height: 3rem;
-        width: 15rem;
-        box-shadow: 0px 3px 0px 0px var(--color-shadow-shadow);
-    }
-    .returnContainer-button{
-        background: var(--color-return-container);
-        padding: 1rem;
-        margin-left: 1rem;
-        border-radius: 5rem;
-        font-size: 1rem;
-        color: white;
-        border: none;
-        height: 3rem;
-        width: 15rem;
-        box-shadow: 0px 3px 0px 0px var(--color-shadow-shadow);
-    }
-
-    /* ORDER FORM -------------------------------------------------------------------------------*/
-    .form1{
-        background-color: var(--color-white);
-        margin-top: 11rem;
-        margin-left: 20rem;
-        border: 1px solid;
-        border-color: var(--color-table-border);
-        width: 60rem;
-        height: 33rem;
-        border-radius: 1rem;
-        position: absolute;
-    }
-    .selectCustomer-text{
-        color: var(--color-solid-gray);
-        font-weight: bold;
-        margin-top: 2rem;
-        margin-left: 5rem;
-    }
-    .delivery-options{
-        background-color: var(--color-background);
-        padding: 0.5rem;
-        width: 15rem;
-        margin-bottom: 1rem;
-        margin-right: 5rem;
-        float: right;
-    }
-    .form1-ordertype-buttons{
-        margin-top: 1rem;
-        margin-left: 15rem;
-        height: 2rem;
-    }
-    .refillOrder-button{
-        background-color: var(--color-white);
-        padding: 0rem;
-        height: 2rem;
-        width: 15rem;
-        font-size: 1rem;
-        border-radius: 5px;
-        border-color: var(--color-lightest-gray);
-        box-shadow: 0px 3px 0px 0px var(--color-shadow-shadow);
-    }
-    .newOrder-button{
-        background-color: var(--color-white);
-        padding: 0rem;
-        height: 2rem;
-        width: 15rem;
-        margin-left: 1rem;
-        font-size: 1rem;
-        border-radius: 5px;
-        border-color: var(--color-lightest-gray);
-        box-shadow: 0px 3px 0px 0px var(--color-shadow-shadow);
-
-    }
-    .form1-details{
-        width: 50rem;
-        margin-top: 0.5rem;
-        margin-left: 1rem;
-    }
-    .form1-tableoption-buttons{
-        background-color: none;
-        margin-left: 1rem;
-        float: left;
-        border: none;
-    }
-    .customerTable-button{
-        background-color: none;
-        color: var(--color-solid-gray);
-        padding: 1rem;
-        height: 3rem;
-        width: 10rem;
-        border: none;
-        font-size: 1rem;
-    }
-    .bottleTable-button{
-        background-color: none;
-        color: var(--color-solid-gray);
-        padding: 1rem;
-        height: 3rem;
-        width: 10rem;
-        border: none;
-        font-size: 1rem;
-    }
-    .iceTubeTable-button{
-        background-color: none;
-        color: var(--color-solid-gray);
-        padding: 1rem;
-        height: 3rem;
-        width: 10rem;
-        border: none;
-        font-size: 1rem;
-    }
-    .form1-table{
-        background-color: var(--color-table-title);
-        padding: 1rem;
-        width: 36rem;
-        height: 15rem;
-        float: left;
-        margin-left: 1rem;
-        text-align: right;
-        box-shadow: 0.5rem 0.5rem 0.5rem var(--color-solid-gray);
-    }
-    .form1-buttons{
-        margin-top: 17rem;
-        margin-bottom: 1rem;
-        margin-left: 20rem;
-        background-color: none;
-        padding: 1rem;
-    }
-    .addDeliveryFee-button{
-        background-color: var(--color-white);
-        padding: 0rem;
-        height: 3rem;
-        width: 14rem;
-        font-size: 1rem;
-        border-radius: 50px;
-        border-color: var(--color-lightest-gray);
-        box-shadow: 0px 3px 0px 0px var(--color-shadow-shadow);
-        margin: 1rem;
-    }
-    .addOrder-button{
-        background-color: var(--color-white);
-        padding: 0rem;
-        height: 3rem;
-        width: 14rem;
-        font-size: 1rem;
-        border-radius: 50px;
-        border-color: var(--color-lightest-gray);
-        box-shadow: 0px 3px 0px 0px var(--color-shadow-shadow);
-    }
-
-    /* PAYMENT OPTIONS ------------------------------------------------------------------------------ */
-
-    .payment-options{
-        margin-top: 6.5rem;
-        margin-left: 80rem;
-        padding: 5px;
-        background-color: none;
-        position: absolute;
-    }
-    .paymentOptions-text{
-        font-size: 1rem;
-        color: var(--color-solid-gray);
-        font-weight: bold;
-    }
-    .paymentOptions-dropdown{
-        background-color: var(--color-background);
-        margin-left: 1rem;
-        padding: 0.5rem;
-        width: 15rem;
-        margin-bottom: 1rem;
-        float: right;
-    }
-
-    /* RECEIPT --------------------------------------------------------------------------------------*/
-
-    .form2{
-        background-color: var(--color-white);
-        margin-top: 11rem;
-        margin-left: 82rem;
-        margin-bottom: 10px;
-        border: 1px solid;
-        border-color: var(--color-table-border);
-        width: 30rem;
-        height: 33rem;
-        border-radius: 1rem;
-        position: absolute;
-    }
-    .company-name{
-        color: var(--color-solid-gray);
-        font-size: 0.8rem;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 1rem;
-    }
-    .date-Text{
-        font-weight: bold;
-        margin-left: 1rem;
-    }
-    .date-time{
-        font-weight: lighter;
-        margin-left: 1rem;
-        /* INSERT CODE FOR DATE AND TIME */
-    }
-    .orderSummary-text{
-        color: var(--color-solid-gray);
-        font-weight: bolder;
-        margin-left: 1rem;
-        font-size: 1rem;
-        text-align: center;
-    }
-    .customer-text{
-        color: var(--color-black);
-        font-weight: lighter;
-        margin-top: 1rem;
-        margin-left: 1rem;
-        font-size: 1rem;
-    }
-    .orderSum-table{
-        background-color: var(--color-table-title);
-        padding: 1rem;
-        width: 25rem;
-        height: 10rem;
-        float: left;
-        margin-left: 1rem;
-        margin-bottom: 1.5rem;
-        text-align: center;
-        box-shadow: 0.5rem 0.5rem 0.5rem var(--color-solid-gray);
-    }
-    .orderTotal-text{
-        color: var(--color-black);
-        font-weight: bolder;
-        margin-top: 1rem;
-        margin-left: 1rem;
-        font-size: 1rem;
-    }
-    .receipt-buttons{
-        text-align: center;
-    }
-    .cancelOrder-button{
-        background: var(--color-tertiary);
-        padding: 1rem;
-        border-radius: 5rem;
-        font-size: 1rem;
-        color: white;
-        border: none;
-        height: 3rem;
-        width: 10rem;
-        margin-left: 1rem;
-    }
-    .confirmOrder-button{
-        background: var(--color-return-container);
-        padding: 1rem;
-        border-radius: 5rem;
-        font-size: 1rem;
-        color: white;
-        border: none;
-        height: 3rem;
-        width: 10rem;
-        margin-left: 1rem;
-    }
-
-    /* PREVIOUS TRANSACTIONS ------------------------------------------------------------------------------- */
-
-    .previous-transaction{
-        background-color: var(--color-white);
-        padding: 0rem;
-        width: 92rem;
-        height: 10rem;
-        margin-left: 20rem;
-        margin-top: 45rem;
-        margin-bottom: 10px;
-        border-radius: 5px;
-        border: 1px solid;
-        border-color: var(--color-table-border);
-        position: absolute;
-    }
-    .previous-transaction-header{
-        color: var(--color-black);
-        font-weight: bold;
-        font-size: 1rem;
-        text-align: center;
-        margin-left: 1rem;
-    }
 </style>
-<!-- SCRIPT------------------------------------------------------------------------------------ -->
-<script>
-
-</script>
