@@ -189,7 +189,126 @@ include 'connectionDB.php';
                         </div>  
                     </div>           
                     </div>
-                </div>       
+                </div>      
+                
+    <!-- CONTAINER START -------------------------------------------------------------------------------------- -->
+    <!--------------------------------------------------------------------------------------------------------- -->
+
+    <div class="search">
+        <div class="search-bar"> 
+            <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+            <button type="submit" >
+                <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="backup-topmenu">
+        <p class="backup-text">Backup</p>
+        <select class="backup-dropdown">
+            <option onclick="Settings-databackup-customers.php">Customer</option>
+            <option onclick="Settings-databackup-inventory.php">Inventory</option>
+            <option>Employees</option>
+            <option>Account</option>
+        </select>
+        <button class="backup-button">Backup</button>
+    </div>
+
+    <!-- -------------------------------------------------TABLES------------------------------------------------ -->
+    <div class="backup-container">
+        <div class="backup-customers-table">
+
+        </div>
+    </div>
+
+    <div class="backup-location-div">
+        <p class="backup-location">Set Location: </p>
+    </div>
+
+    <!-- ---------------------------------------- AUTOMATIC BACKUP -------------------------------------------- -->
+
+    <div class="autobackup-container">
+            <p class="autobackup-title">SET AUTOMATIC BACKUP SCHEDULE</p>
+
+            <p class="backupFile-text">File: </p>
+            <div class="backupFile-div">
+                <input type="radio" name="backup-all" id="backup-all">
+                <label for="backup-all">All</label><br>
+                <input type="radio" name="backup-selected1" id="backup-selected1">
+                <label for="backup-selected1">Selected Module(Customers)</label><br>
+                <input type="radio" name="backup-selected2" id="backup-selected2">
+                <label for="backup-selected2">Selected File(0)</label>
+            </div>
+
+            <p class="backupFile-text">Location: </p>
+
+            <hr>
+            <br>
+
+            <input type="checkbox" name="scheduler-checkbox1" class="enableScheduler-checkbox">
+            <label for="scheduler-checkbox1"> Enable Backup Scheduler</label><br>
+
+            <br>
+
+            <div class="datetime-div">
+                <label for="backup-datetime">Task run time (date and time):</label>
+                <input type="date" name="backup-datetime" class="backup-date">
+                <input type="time" name="backup-datetime" class="backup-time">
+            </div>
+
+            <br>
+
+            <div class="selectFrequency-container">
+                <p class="backupFile-text">How often to run the task? </p>
+
+                <div class="selectFrequency-radios">
+                    <input type="radio" name="backup-once" class="backupFrequency-radio1">
+                    <label for="backup-once">Once</label><br>
+                    <input type="radio" name="backup-everyday" class="backupFrequency-radio2">
+                    <label for="backup-everyday">Everyday</label><br>
+                    <input type="radio" name="backup-weekdays" class="backupFrequency-radio3">
+                    <label for="backup-weekdays">On week days</label><br>
+                    <input type="radio" name="backup-month" class="backupFrequency-radio4">
+                    <label for="backup-month">On month days</label><br>
+                    <input type="radio" name="backup-custom" class="backupFrequency-radio5">
+                    <label for="backup-custom">Custom</label><br>
+                </div>
+
+                <div class="selectedFrequency-options">
+                    
+                </div>
+            </div>
+
+            <br>
+
+            <input type="checkbox" name="missedSched-checkbox1" class="missedSched-checkbox">
+            <label for="missedSched-checkbox1"> Run the missed schedules</label>
+
+            <br><br>
+
+            <div class="runOptions-div">
+                <input type="checkbox" name="launchByUSB-checkbox1" class="launchByUSB-checkbox">
+                <label for="launchByUSB-checkbox1"> Launch by USB Insertion</label><br>
+
+                <input type="checkbox" name="launchLogin-checkbox1" class="launchLogin-checkbox">
+                <label for="launchLogin-checkbox1"> Run on login</label><br>
+
+                <input type="checkbox" name="launchLogout-checkbox1" class="launchLogout-checkbox">
+                <label for="launchLogout-checkbox1"> Run on logout</label>
+            </div>
+
+            <br>
+
+            <button class="autobackup-prev">PREVIOUS SCHEDULE</button>
+            <button class="autobackup-save">SAVE NEW SCHEDULE</button>
+            <button class="autobackup-reset">RESET</button>
+
+
+    </div>
+
+    <!-- CONTAINER END ---------------------------------------------------------------------------------------- -->
+    <!--------------------------------------------------------------------------------------------------------- -->
+
         </div> 
     </body>
 </html>
@@ -283,7 +402,13 @@ include 'connectionDB.php';
         --color-table-hover: rgb(244, 255, 246);
         --color-aside-mobile-focus: rgb(78, 150, 78);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
-        
+        --color-select-customer:rgb(9, 138, 107);
+        --color-new-customer:rgb(169, 109,5);
+        --color-return-container:rgb(54, 85, 225);
+        --color-table-title:rgb(0, 197, 145);
+        --color-table-border:rgb(226, 226, 229);
+        --color-secondary-background:rgb(244, 244, 244);
+        --color-lightest-gray:rgb(250,250,250);
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
@@ -1210,5 +1335,226 @@ include 'connectionDB.php';
         font-size: 9px;
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
+    }
+
+    /* CONTAINER STYLE-------------------------------------------------------------------------------- */
+
+    /* ------------------------------------------ GENERAL --------------------------------------------- */
+
+    button:active {
+        background-color: var(--color-maroon);
+    }
+
+    button:hover{
+        filter: brightness(85%);
+        font-weight: bolder;
+    }
+
+    /* ------------------------------------------- TOPMENU --------------------------------------------- */
+    .backup-topmenu{
+        background-color: var(--color-white);
+        width: 42rem;
+        height: 4rem;
+        border-radius: 1rem;
+        margin-top: -2em;
+        display: grid;
+        gap: 1rem;
+        grid-auto-flow: column;
+    }
+    .backup-text{
+        font-weight: bold;
+        display: right;
+        overflow-x: auto;
+        white-space: nowrap;
+        margin-top: 1.2rem;
+        margin-left: 2rem;
+        font-size: 1.3rem;
+    }
+    .backup-dropdown{
+        background-color: var(--color-background);
+        margin-left: 1rem;
+        padding: 0.5rem;
+        border-radius: 0.2rem;
+        width: 15rem;
+        height: 2rem;
+        margin-bottom: 1rem;
+        float: left;
+        margin-top: 1rem;
+    }
+    .backup-button{
+        background-color: var(--color-main);
+        margin-left: 1rem;
+        padding: 0.5rem;
+        border-radius: 0.2rem;
+        width: 10rem;
+        height: 2rem;
+        margin-bottom: 1rem;
+        float: left;
+        margin-top: 1rem;
+        font-size: 1rem;
+        color: white;
+        border: none;
+        box-shadow: 2px 2px 0px 0px var(--color-shadow-shadow);
+    }
+    /* ----------------------------------------Search BAR---------------------------------------- */
+    .search{
+        gap: 2rem;
+        align-items: right;
+        text-align: right;
+        right: 0;
+        margin-top: -2rem;
+        margin-left: 61rem;
+    }
+    .search-bar{
+        width: 17vw;
+        background: var(--color-white);
+        display: flex;
+        position: relative;
+        align-items: center;
+        border-radius: 60px;
+        padding: 10px 20px;
+        height: 2.5rem;
+        backdrop-filter: blur(4px) saturate(180%);
+    }
+    .search-bar input{
+        background: transparent;
+        flex: 1;
+        border: 0;
+        outline: none;
+        padding: 24px 20px;
+        font-size: .8rem;
+        color: var(--color-black); 
+        margin-left: -0.95rem;
+    }
+    ::placeholder{
+        color: var(--color-solid-gray);
+        
+    }
+    .search-bar button svg{
+        width: 20px;
+        fill: var(--color-white); 
+    }
+    .search-bar button{
+        border: 0;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        background: var(--color-main); 
+        margin-right: -0.55rem;
+    }
+
+    /* ARCHIVE MENU --------------------------------------------------------------------------------------- */
+    .backup-container{
+        background-color: var(--color-white);
+        border-radius: 1rem;
+        width: 65rem;
+        height: 42rem;
+        margin-left: 18rem;
+        margin-top: -1rem;
+        border-color: var(--color-solid-gray);
+    }
+    /* ----------------------------------------------TABLES------------------------------------------------ */
+    .backup-customers-table{
+        padding: 1rem;
+        width: 59rem;
+        height: 33rem;
+        margin-top: 2rem;
+        margin-left: 2rem;
+        background-color: var(--color-solid-gray);
+        border-radius: 5px;
+    }
+    .backup-location-div{
+        height: 2rem;
+        width: 10rem;
+    }
+    .backup-location{
+        margin-top: 38rem;
+        margin-left: 2.5rem;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+    /* ------------------------------------------AUTOMATIC BACKUP----------------------------------------- */
+    .autobackup-container{
+        background-color: var(--color-white);
+        border-radius: 1rem;
+        width: 28rem;
+        height: 46.5rem;
+        margin-left: 84rem;
+        margin-top: -48.5rem;
+        border-color: var(--color-solid-gray);
+    }
+    .autobackup-title{
+        font-weight: bold;
+        text-align: center;
+        font-size: 1.2rem;
+    }
+    .backupFile-text{
+        margin-left: 1rem;
+        font-weight: bold;
+    }
+    .backupFile-div{
+        margin-left: 1rem;
+    }
+    .enableScheduler-checkbox{
+        margin-left: 1rem;
+    }
+    .datetime-div{
+        margin-left: 1rem;
+    }
+    .backup-date, .backup-time{
+        width: 6rem;
+        border-radius: 5px;
+    }
+    .selectFrequency-container{
+        width: 26rem;
+        height: 13rem;
+        margin-left: 1rem;
+        background-color: none;
+        border-style: solid;
+        border-width: thin;
+        border-color: var(--color-black);
+    }
+    .selectFrequency-radios{
+        margin-left: 1rem;
+    }
+    .selectedFrequency-options{
+        margin-top: -9rem;
+        margin-left: 14rem;
+        width: 11.5rem;
+        height: 12rem;
+        background-color: none;
+        border-style: solid;
+        border-width: thin;
+        border-color: var(--color-black);
+    }
+    .missedSched-checkbox{
+        margin-left: 2rem;
+    }
+    .runOptions-div{
+        margin-left: 1rem;
+    }
+    .autobackup-prev{
+        height: 2rem;
+        width: 13rem;
+        margin-left: 1rem;
+        border-radius: 5px;
+        background-color: var(--color-solid-gray);
+        color: var(--color-white);
+    }
+    .autobackup-save{
+        height: 2rem;
+        width: 13rem;
+        border-radius: 5px;
+        background-color: var(--color-main);
+        color: var(--color-white);
+    }
+    .autobackup-reset{
+        height: 2rem;
+        width: 5rem;
+        margin-top: 0.3rem;
+        margin-left: 1rem;
+        border-radius: 5px;
+        background-color: var(--color-maroon);
+        color: var(--color-white);
     }
 </style>

@@ -128,8 +128,8 @@ include 'connectionDB.php';
         <div id="settings" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
         SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
-                <a href="Settings-help.php" class="sub-item" id="settings-help">Help</a>
-                <a href="Settings-dataarchive.php" class="sub-item" id="settings-dataarchive">Archive</a>
+                <a href="Settings-help.php" class="sub-item" onclick="Settings-help.php" id="settings-help">Help</a>
+                <a href="Settings-dataarchive.php" class="sub-item" onclick="Settings-dataarchive.php" id="settings-dataarchive">Archive</a>
                 <a href="Settings-databackup.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
             </div>
         </div>
@@ -189,7 +189,47 @@ include 'connectionDB.php';
                         </div>  
                     </div>           
                     </div>
-                </div>       
+                </div>
+
+    <!-- CONTAINER START -------------------------------------------------------------------------------------- -->
+    <!--------------------------------------------------------------------------------------------------------- -->
+
+    <div class="search">
+        <div class="search-bar"> 
+            <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+            <button type="submit" >
+                <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="archive-topmenu">
+        <p class="archive-text">Restore</p>
+        <select class="archive-dropdown">
+            <option>Customer</option>
+            <option>Inventory</option>
+            <option>Employees</option>
+            <option>Account</option>
+        </select>
+        <button class="archive-button">Restore</button>
+    </div>
+
+    <!-- -------------------------------------------------TABLES------------------------------------------------ -->
+    <div class="archive-container">
+        <div class="archive-customers-table">
+
+        </div>
+    </div>
+
+    <!-- -------------------------------------------RESTORE OPTIONS-------------------------------------------- -->
+
+    <div class="restore-location-div">
+        <p class="restore-location">Alternative Location: </p>
+    </div>
+
+    <!-- CONTAINER END ---------------------------------------------------------------------------------------- -->
+    <!--------------------------------------------------------------------------------------------------------- -->
+                
         </div> 
     </body>
 </html>
@@ -283,6 +323,13 @@ include 'connectionDB.php';
         --color-table-hover: rgb(244, 255, 246);
         --color-aside-mobile-focus: rgb(78, 150, 78);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
+        --color-select-customer:rgb(9, 138, 107);
+        --color-new-customer:rgb(169, 109,5);
+        --color-return-container:rgb(54, 85, 225);
+        --color-table-title:rgb(0, 197, 145);
+        --color-table-border:rgb(226, 226, 229);
+        --color-secondary-background:rgb(244, 244, 244);
+        --color-lightest-gray:rgb(250,250,250);
         
     }
     .dark-theme{
@@ -1210,5 +1257,143 @@ include 'connectionDB.php';
         font-size: 9px;
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
+    }
+
+    /* CONTAINER STYLE-------------------------------------------------------------------------------- */
+
+    /* ------------------------------------------ GENERAL --------------------------------------------- */
+
+    button:active {
+        background-color: var(--color-maroon);
+    }
+
+    button:hover{
+        filter: brightness(85%);
+        font-weight: bolder;
+        font-size: 110%;
+    }
+
+    /* ------------------------------------------- TOPMENU --------------------------------------------- */
+    .archive-topmenu{
+        background-color: var(--color-white);
+        width: 42rem;
+        height: 4rem;
+        border-radius: 1rem;
+        margin-top: -2em;
+        display: grid;
+        gap: 1rem;
+        grid-auto-flow: column;
+    }
+    .archive-text{
+        font-weight: bold;
+        display: right;
+        overflow-x: auto;
+        white-space: nowrap;
+        margin-top: 1.2rem;
+        margin-left: 2rem;
+        font-size: 1.3rem;
+    }
+    .archive-dropdown{
+        background-color: var(--color-background);
+        margin-left: 1rem;
+        padding: 0.5rem;
+        border-radius: 0.2rem;
+        width: 15rem;
+        height: 2rem;
+        margin-bottom: 1rem;
+        float: left;
+        margin-top: 1rem;
+    }
+    .archive-button{
+        background-color: var(--color-main);
+        margin-left: 1rem;
+        padding: 0.5rem;
+        border-radius: 0.2rem;
+        width: 10rem;
+        height: 2rem;
+        margin-bottom: 1rem;
+        float: left;
+        margin-top: 1rem;
+        font-size: 1rem;
+        color: white;
+        border: none;
+        box-shadow: 2px 2px 0px 0px var(--color-shadow-shadow);
+    }
+    /* ----------------------------------------Search BAR---------------------------------------- */
+    .search{
+        gap: 2rem;
+        align-items: right;
+        text-align: right;
+        right: 0;
+        margin-top: -2rem;
+        margin-left: 61rem;
+    }
+    .search-bar{
+        width: 17vw;
+        background: var(--color-white);
+        display: flex;
+        position: relative;
+        align-items: center;
+        border-radius: 60px;
+        padding: 10px 20px;
+        height: 2.5rem;
+        backdrop-filter: blur(4px) saturate(180%);
+    }
+    .search-bar input{
+        background: transparent;
+        flex: 1;
+        border: 0;
+        outline: none;
+        padding: 24px 20px;
+        font-size: .8rem;
+        color: var(--color-black); 
+        margin-left: -0.95rem;
+    }
+    ::placeholder{
+        color: var(--color-solid-gray);
+        
+    }
+    .search-bar button svg{
+        width: 20px;
+        fill: var(--color-white); 
+    }
+    .search-bar button{
+        border: 0;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        background: var(--color-main); 
+        margin-right: -0.55rem;
+    }
+
+    /* ARCHIVE MENU --------------------------------------------------------------------------------------- */
+    .archive-container{
+        background-color: var(--color-white);
+        border-radius: 1rem;
+        width: 90rem;
+        height: 42rem;
+        margin-left: 18rem;
+        margin-top: -1rem;
+        border-color: var(--color-solid-gray);
+    }
+    /* ----------------------------------------------TABLES------------------------------------------------ */
+    .archive-customers-table{
+        padding: 1rem;
+        width: 84rem;
+        height: 33rem;
+        margin-top: 2rem;
+        margin-left: 2rem;
+        background-color: var(--color-solid-gray);
+        border-radius: 5px;
+    }
+    .restore-location-div{
+        height: 2rem;
+        width: 20rem;
+    }
+    .restore-location{
+        margin-top: 38rem;
+        margin-left: 2.5rem;
+        font-weight: bold;
+        font-size: 1rem;
     }
 </style>
