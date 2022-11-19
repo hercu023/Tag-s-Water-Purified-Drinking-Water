@@ -155,36 +155,36 @@ $result = mysqli_query($con, $query);
                     </div>
                     <div class="account-container">
                         <table class="table" id="myTable"> 
-                            <thead> 
+                            <thead class="theader"> 
                                 <tr>
                                     <th>ID</th>
-                                    <th>Item Name</th>
-                                    <th>Type</th>
-                                    <th>IN</th>
-                                    <th>OUT</th>
-                                    <th>On Hand</th>
-                                    <th>Total Amount</th>
-                                    <th>Supplier</th>
+                                    <th>Last Name</th>
+                                    <th>First Name</th>
+                                    <th>Middle Name</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Email Address</th>
+                                    <th>Contact No.</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
 
                             <?php
-                            $inventory = "SELECT * FROM inventory"; 
-                            $sql = mysqli_query($con, $inventory);
+                            $employee = "SELECT * FROM employee"; 
+                            $sql = mysqli_query($con, $employee);
                                 while ($rows = mysqli_fetch_assoc($sql))
                                 {
                             ?>
                             <tbody>
                                     <tr>
-                                        <td> <?php echo $rows['id']; ?></td>
-                                        <td> <?php echo $rows['item_name']; ?></td>
-                                        <td> <?php echo $rows['type']; ?></td>
-                                        <td> <?php echo $rows['ingoing']; ?></td>
-                                        <td> <?php echo $rows['outgoing']; ?></td>
-                                        <td> <?php echo $rows['onhand']; ?></td>
-                                        <td> <?php echo $rows['total_amount']; ?></td>
-                                        <td> <?php echo $rows['supplier']; ?></td>
+                                        <td> <?php echo $rows['ID']; ?></td>
+                                        <td> <?php echo $rows['last_name']; ?></td>
+                                        <td> <?php echo $rows['first_name']; ?></td>
+                                        <td> <?php echo $rows['middle_name']; ?></td>
+                                        <td> <?php echo $rows['date_of_birth']; ?></td>
+                                        <td> <?php echo $rows['email_address']; ?></td>
+                                        <td> <?php echo $rows['contact_number']; ?></td>
+                                        <td> <?php echo $rows['status']; ?></td>
                                         <td> 
                                             <a href="Customer-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
@@ -2062,12 +2062,22 @@ function myFunctionCP(){
         color: var(--color-td); 
         font-size: .8rem;
     }
+
+    .theader{
+    position: sticky;
+    top: 0px;
+    background-color: #ffffff;
+
+    }
+
+
      th{
         height: 3.3rem;
         color: var(--color-black); 
         margin:1rem;
         font-size: 1rem;
         letter-spacing: 0.02rem;
+        
     }  
     tr:hover td{
         color: var(--color-main); 
