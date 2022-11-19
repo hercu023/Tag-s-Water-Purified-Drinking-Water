@@ -1,5 +1,5 @@
 <?php
-require_once 'controllerUserdata_customers.php';
+require_once 'controllerUserdata.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
@@ -27,7 +27,39 @@ $result = mysqli_query($con, $query);
                 }
             }
         }
-       
+        if(isset($_POST['user_id']) || isset($_POST['customername']) || isset($_POST['address']) || isset($_POST['contactnum']) || isset($_POST['balance']) 
+        || isset($_POST['note'])){
+            // if(isset($_POST['customername']) || isset($_POST['address']) || isset($_POST['contactnum']) || isset($_POST['balance']) 
+            //     || isset($_POST['note'])){
+            // $status = 0;
+            $userid = $_POST['user_id'];
+            $customername = $_POST['customername'];
+            $customername = filter_var($customername, FILTER_SANITIZE_STRING);
+            $address = $_POST['address'];
+            $address = filter_var($address, FILTER_SANITIZE_STRING);
+            $contact = $_POST['contactnum'];
+            $contact = filter_var($contact, FILTER_SANITIZE_STRING);
+            $balance = $_POST['balance'];
+            $balance = filter_var($balance, FILTER_SANITIZE_STRING);
+            $note = $_POST['note'];
+            
+            $selects = $conn->prepare("SELECT * FROM `customers` WHERE customer_name = ?");
+            $selects->execute([$customername]);
+            
+            // if($selects->rowCount() > 0){
+            //     $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Customer already exist! ";
+            //     // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist.");
+            // }else{
+                    // $insert = mysqli_query($con, "INSERT INTO customers VALUES('','$customername', '$address', '$contact', '$note', '$balance','')");
+                    // // $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $address, $image]);
+
+            $result =mysqli_query($con, "UPDATE customers SET customer_name='$customername', address='$address', 
+            contact_number='$contact', note='$note', balance='$balance' WHERE id='$userid'");
+            if($result){
+                // $response['status'] = 1;
+                header("Location: Customer-Updated-Success.php");
+            }
+        }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,8 +151,8 @@ $result = mysqli_query($con, $query);
                         SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
                             <div class="sub-menu">
                                 <a href="Settings-help.php" class="sub-item" id="settings-help">Help</a>
-                                <a href="Settings-dataarchive.php" class="sub-item" id="settings-dataarchive">Archive</a>
-                                <a href="Settings-databackup.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
+                                <a href="Settings-dataarchive.php" class="sub-item" id="settings-dataarchive">Archive/Restore</a>
+                                <a href="Settings-databackup.php" class="sub-item" id="settings-databackup">Data Backup</a>
                             </div>
                         </div>
                     </div>
@@ -131,7 +163,7 @@ $result = mysqli_query($con, $query);
                     <h1 class="accTitle">CUSTOMERS</h1> 
                     <div class="sub-tab">
                         <div class="newUser-button"> 
-                            <button type="submit" id="add-userbutton" class="add-customer">
+                            <button type="button" id="add-userbutton" class="add-customer" onclick="addnewuser();">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
                                     <h3>Add New Customer</h3>
                             </button>
@@ -253,7 +285,7 @@ $result = mysqli_query($con, $query);
                 </div> -->
             </div>      
     </div> 
-           
+         
     <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
         <div class="bg-addcustomerform" id="bg-addform">
             <div class="message"></div>
@@ -274,11 +306,11 @@ $result = mysqli_query($con, $query);
                         <input type="text" id="fill" required="required" name="address">
                         <span>Address</span>
                     </div>
-                    <h4 class="bal">Balance</h4>
+                    <!-- <h4 class="bal">Balance</h4>
                     <div class="form4">   
                         <input type="number" class="balance" onchange="setTwoNumberDecimal" step="0.25" name="balance" placeholder="0.00"/>
-                        <!-- <input type="text" id="fill" class="balance" onkeypress="return isNumberKey(event)" > -->
-                    </div>
+                        <input type="text" id="fill" class="balance" onkeypress="return isNumberKey(event)" >
+                    </div> -->
                     <div class="profile-picture1" >
                         <h4>NOTE</h4>
                     </div>
@@ -360,13 +392,14 @@ $result = mysqli_query($con, $query);
                 </div>
             </div>
         
+        
        
     
 </body>
 </html>
 <script>
-   // -----------------------------SIDE MENU
-   $(document).ready(function(){
+ // -----------------------------SIDE MENU
+    $(document).ready(function(){
      //jquery for toggle sub menus
      $('.sub-btn').click(function(){
        $(this).next('.sub-menu').slideToggle();
@@ -401,33 +434,33 @@ $result = mysqli_query($con, $query);
     var addbtn = $("#addcustomerBtn");
     var message = $(".message");
     
-    $(document).ready(function(){
-        $('#addcustomerFrm').submit(function(e){
-            e.preventDefault();
+    // $(document).ready(function(){
+    //     $('#addcustomerFrm').submit(function(e){
+    //         e.preventDefault();
 
-            $.ajax({
-                type: 'post',
-                url: 'controllerUserdata_customers.php',
-                data: new FormData(this),
-                contentType: false, 
-                cache: false,
-                processData: false,
-                // 'submit=1&'+$form.serialize(),
-                dataType: 'json',  
-                success: function(response){
-                    $(".message").css("display", "block");
-                    if(response.status == 1){   
-                        $("#form-registered1").css("display", "block");
-                        addform.hide(); 
-                        message.hide(); 
-                        $('#addcustomerFrm')[0].reset();
-                }else{
-                    $(".message").html('<p>'+response.message+'<p>');
-                }
-                    }
-                });
-            });
-        });
+    //         $.ajax({
+    //             type: 'post',
+    //             url: 'controllerUserdata_customers.php',
+    //             data: new FormData(this),
+    //             contentType: false, 
+    //             cache: false,
+    //             processData: false,
+    //             // 'submit=1&'+$form.serialize(),
+    //             dataType: 'json',  
+    //             success: function(response){
+    //                 $(".message").css("display", "block");
+    //                 if(response.status == 1){   
+    //                     $("#form-registered1").css("display", "block");
+    //                     addform.hide(); 
+    //                     message.hide(); 
+    //                     $('#addcustomerFrm')[0].reset();
+    //             }else{
+    //                 $(".message").html('<p>'+response.message+'<p>');
+    //             }
+    //                 }
+    //             });
+    //         });
+    //     });
 
                
     let btnClear = document.querySelector('#cancel');
@@ -463,9 +496,9 @@ $result = mysqli_query($con, $query);
     const sideMenu = document.querySelector("#aside");
     const addForm = document.querySelector(".bg-addcustomerform");
   
-    const closeBtn = document.querySelector("#close-btn");
+  
     const cancelBtn = document.querySelector("#cancel");
-    const addBtn = document.querySelector(".add-customer");
+    
     const addcustomerBtn = document.querySelector(".AddButton");
  
     const menuBtn = document.querySelector("#menu-button");
@@ -473,9 +506,7 @@ $result = mysqli_query($con, $query);
         menuBtn.addEventListener('click', () =>{
             sideMenu.style.display = 'block';
         })
-        closeBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'none';
-        })
+
         cancelBtn.addEventListener('click', () =>{
             addForm.style.display = 'none';
         })
@@ -483,7 +514,10 @@ $result = mysqli_query($con, $query);
         addBtn.addEventListener('click', () =>{
             addForm.style.display = 'flex';
         })
-    
+        function addnewuser(){
+            const addBtn = document.querySelector(".add-customer");
+            addForm.style.display = 'flex';
+        }
         function menuToggle(){
             const toggleMenu = document.querySelector('.drop-menu');
             toggleMenu.classList.toggle('user2')
@@ -499,20 +533,20 @@ $result = mysqli_query($con, $query);
     tr = table.getElementsByTagName("tr");
 
     for(let i = 0; i < tr.length; i++){
-        lastname = tr[i].getElementsByTagName("td")[1];
-        firstname = tr[i].getElementsByTagName("td")[2];
-        address = tr[i].getElementsByTagName("td")[3];
-        contactnum = tr[i].getElementsByTagName("td")[4];
-        if(lastname || firstname || address || contactnum){
-            var lastname_value = lastname.textContent || lastname.innerText;
-            var firstname_value = firstname.textContent || firstname.innerText;
-            var contactnum_value = contactnum.textContent || contactnum.innerText;
+        customername = tr[i].getElementsByTagName("td")[1];
+        address = tr[i].getElementsByTagName("td")[2];
+        contactnum = tr[i].getElementsByTagName("td")[3];
+        note = tr[i].getElementsByTagName("td")[5];
+        if(customername || address || contactnum || note){
+            var customername_value = customername.textContent || customername.innerText;
             var address_value = address.textContent || address.innerText;
+            var contactnum_value = contactnum.textContent || contactnum.innerText;
+            var note_value = note.textContent || note.innerText;
 
             if(address_value.toUpperCase().indexOf(filter) > -1 ||
                contactnum_value.toUpperCase().indexOf(filter) > -1 ||
-               lastname_value.toUpperCase().indexOf(filter) > -1 ||
-               firstname_value.toUpperCase().indexOf(filter) > -1){
+               note_value.toUpperCase().indexOf(filter) > -1 ||
+               customername_value.toUpperCase().indexOf(filter) > -1){
                 tr[i].style.display ="";
             }
                 else{
@@ -589,11 +623,9 @@ $result = mysqli_query($con, $query);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
         --color-mainbutton: rgb(117, 117, 117);
         --color-button-hover: rgb(39, 170, 63);
-        --color-border-bottom: rgb(219, 219, 219);
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
-        --color-border-bottom: rgb(104, 104, 104);
         --color-tertiary: hsl(0, 0%, 25%);
         --color-main-2: rgb(60, 128, 60);
         --color-main-3: rgb(93, 163, 93);
@@ -612,6 +644,8 @@ $result = mysqli_query($con, $query);
         --color-table-hover: rgb(112, 112, 112);
         --color-aside-mobile-text:hsl(0, 0%, 88%);
     }
+    
+
     BODY{
         background: var(--color-background);
         margin: 0;
@@ -623,8 +657,8 @@ $result = mysqli_query($con, $query);
         background-size: cover;
         background-attachment: fixed;
     }  
-     /* -----------------------------------------------Side Menu---------------------------------------- */
-     .side-bar{
+      /* -----------------------------------------------Side Menu---------------------------------------- */
+      .side-bar{
         background: var(--color-table-hover);
         backdrop-filter: blur(15px);
         width: 15.5rem;
@@ -780,10 +814,10 @@ $result = mysqli_query($con, $query);
         background: rgba(0,0,0,0.7);
         top: 0;
         position: absolute;
-        display: flex;
+        display: none;
         align-items: center; 
         justify-content: center;
-        display: none;
+        /* display: flex; */
     }
     #form-registered1{
         position: absolute;
@@ -862,7 +896,7 @@ $result = mysqli_query($con, $query);
     .form-addcustomer1{
         width: 500px;
         height: 100%;
-        max-height: 440px;
+        max-height: 390px;
         position: relative;
         border-radius:  0px 0px 20px 20px;
         background-color: var(--color-white);
@@ -1170,97 +1204,6 @@ $result = mysqli_query($con, $query);
                 background: var(--color-main);
                 color: var(--color-white);
             }
-            /* .usertype-dropdown{
-                width: 20em;
-                position: relative;
-                margin-left: 16rem;
-                margin-top: 1rem;
-                top: -10.9rem;
-                margin-bottom: -5.39rem;
-            }
-            .select{
-                background: var(--color-solid-gray);
-                color: var(--color-white);
-                align-items: center;
-                border-radius: 13px;
-                padding: 8px 12px;
-                height: 2.9em;
-                width: 12.8rem;
-                cursor: pointer;
-                transition: 0.3s;
-            }
-            .select-clicked{
-                box-shadow: 0 0 0 1px var(--color-solid-gray);
-                background: var(--color-main-2);
-                color: white;
-            }
-            .select:hover{
-                background: var(--color-main);
-                color: var(--color-white);
-            }
-            /*.caret{
-                width: 0;
-                height: 0;
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-top: 6px solid var(--color-white);
-                transition: .5s;
-            }
-            .caret-rotate{
-                transform: rotate(180deg);
-                transition: .5s;
-            } */
-            /* .menu{
-                list-style: none;
-                padding: 0.2em 0.5em;
-                background: var(--color-solid-gray);
-                border: 1px solid var(--color-solid-gray);
-                box-shadow: 0 0 .5em .2em var(--color-main-2);
-                border-radius: 0.5em;
-                color: var(--color-white);
-                fill:var(--color-white);
-                gap: 1rem;
-                position: absolute;
-                top: 3em;
-                left: 50%;
-                width: 100%;
-                transform: translateX(-50%);
-                opacity: 0;
-                display: none;
-                z-index: 1;
-            }
-            .menu li{
-                padding: 0.7em 0.5em;
-                margin: 0.3em 0;
-                border-radius: 0.5em;
-                cursor: pointer;
-                transition: .5s;
-                font-size: 12px;
-                position: relative; 
-                align-items: center;
-            
-            }
-            .menu li:last-child{
-                font-size: 12px;
-                padding-left: -1rem;
-                display: flex;
-                align-items: center;
-                gap: .7rem;
-            }
-            .menu li:hover{
-                background: linear-gradient(270deg, transparent, var(--color-tertiary));
-                color: var(--color-main);
-
-            }
-            .active{
-                background: var(--color-main-3);
-                color: var(--color-white);
-                fill:var(--color-white);
-            }
-            .menu-open{
-                display: block;
-                opacity: 1;
-            } */
     /* ------------------------------------------------------------------------------------ */
     .message{
         background-color: hsl(0, 100%, 77%);
@@ -1271,7 +1214,7 @@ $result = mysqli_query($con, $query);
         /* margin-left: 3.55rem; */
         letter-spacing: 0.5px;
         font-family: Helvetica, sans-serif;       
-        top: 19.9%;
+        top: 16.9%;
         font-size: .7rem;
         padding: 5px 10px;
         padding-top: 1rem;
@@ -1423,8 +1366,7 @@ $result = mysqli_query($con, $query);
         display: none;
         text-align: center;
         align-items: center;
-    }
-    
+    }    
     .user-type{
         font-family: 'switzer', sans-serif;
         font-size: 7.5px;
@@ -1514,7 +1456,7 @@ $result = mysqli_query($con, $query);
     .user2 .drop-menu{
         position: absolute; 
         top: 120px;
-        right: 10px;
+        right: 15px;
         padding: 10px 20px;
         background: var(--color-white);
         width: 110px;
@@ -1525,7 +1467,7 @@ $result = mysqli_query($con, $query);
         opacity: 0;
     }
     .user2 .drop-menu.user2{
-        top: 80px;
+        top: 100px;
         visibility: visible;
         opacity: 1;
     }
@@ -1533,7 +1475,7 @@ $result = mysqli_query($con, $query);
         content:'';
         position: absolute;
         top: -5px;
-        right: 15px;
+        right: 46px;
         width: 15px;
         height: 20px;
         background: var(--color-white);
@@ -1638,8 +1580,8 @@ $result = mysqli_query($con, $query);
         letter-spacing: .03rem;
         border-bottom: 2px solid var(--color-main); 
         width: 78%;
+
     }
-   
    
         /* ----------------------------------------Sub TAB---------------------------------------- */
         .user-title{
@@ -1666,7 +1608,7 @@ $result = mysqli_query($con, $query);
             right: 0;
         }
         .search-bar{
-            width: 15vw;
+            width: 18rem;
             background: var(--color-white);
             display: flex;
             position: relative;
@@ -1748,6 +1690,7 @@ $result = mysqli_query($con, $query);
         box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
         border-top: 8px solid var(--color-table-hover);
         border-radius: 0px 0px 10px 10px;
+        
     }
      main .customer-container table{
         background: var(--color-white);
@@ -1759,20 +1702,21 @@ $result = mysqli_query($con, $query);
         padding-bottom: 2.5rem;
         text-align: center; 
         transition: all 700ms ease;
+        /* margin-top: -1rem; */
     }
-
     main .customer-container table:hover{
         box-shadow: none;
         /* border-top: 8px solid var(--color-main); */
     }
+
     main table tbody td{
-        height: 3.3rem;
-        border-bottom: 1px solid var(--color-border-bottom);
+        height: 2.8rem;
+        border-bottom: 1px solid var(--color-solid-gray);
         color: var(--color-td); 
         font-size: .8rem;
     }
      th{
-        height: 3.3rem;
+        height: 2.8rem;
         color: var(--color-black); 
         margin:1rem;
         font-size: 1rem;
