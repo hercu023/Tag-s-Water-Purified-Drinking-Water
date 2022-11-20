@@ -203,6 +203,19 @@ $result = mysqli_query($con, $query);
                                 ?>   
                         </table>     
                     </div>
+                    <!-- <div class="next-page">
+                        <div class="pagination">
+                            <a href=""><i class="fas fa-chevron-left"></i> PREV</a>
+                            <a href="">1</a>
+                            <a href="">2</a>
+                            <a href="">3</a>
+                            <a href="">4</a>
+                            <a href="">...</a>
+                            <a href="">10</a>
+                            <a href=""> &nbsp;NEXT <i class="fas fa-chevron-right"></i></a>
+                            <div class="bottom_bar"></div>
+                        </div>
+                    </div> -->
                 </div>
             </main>
         
@@ -440,6 +453,52 @@ $result = mysqli_query($con, $query);
      });
    });
 //    --------------------------------------------------------------------
+$(function() {
+	const rowsPerPage = 13;
+	const rows = $('#my-table tbody tr');
+	const rowsCount = rows.length;
+	const pageCount = Math.ceil(rowsCount / rowsPerPage); // avoid decimals
+	const numbers = $('#numbers');
+	
+	// Generate the pagination.
+	for (var i = 0; i < pageCount; i++) {
+		numbers.append('<li><a href="#">' + (i+1) + '</a></li>');
+	}
+		
+	// Mark the first page link as active.
+	$('#numbers li:first-child a').addClass('active');
+
+	// Display the first set of rows.
+	displayRows(1);
+	
+	// On pagination click.
+	$('#numbers li a').click(function(e) {
+		var $this = $(this);
+		
+		e.preventDefault();
+		
+		// Remove the active class from the links.
+		$('#numbers li a').removeClass('active');
+		
+		// Add the active class to the current link.
+		$this.addClass('active');
+		
+		// Show the rows corresponding to the clicked page ID.
+		displayRows($this.text());
+	});
+	
+	// Function that displays rows for a specific page.
+	function displayRows(index) {
+		var start = (index - 1) * rowsPerPage;
+		var end = start + rowsPerPage;
+		
+		// Hide all rows.
+		rows.hide();
+		
+		// Show the proper rows for this page.
+		rows.slice(start, end).show();
+	}
+});
     //SHOW PASSWORD-------------------------------------------------
 function myFunctionCP(){
         var x = document.getElementById("pass");
@@ -2027,15 +2086,56 @@ function myFunctionCP(){
             border-bottom: 4px solid var(--color-maroon);
         }
          /* ----------------------------------------Account Table---------------------------------------- */
+                .pagination{
+                    background-color: var(--color-white);
+                    display: flex;
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 50px;
+                    width: 40rem;
+                    align-items: center;
+                    text-align: center;
+                    margin: auto;
+                }
+
+                .pagination a{
+                    width: 80px;
+                    height: 60px;
+                    line-height: 60px;
+                    text-align: center;
+                    color: #333;
+                    font-size: 12px;
+                    font-weight: 700;
+                    transition: .3s linear;
+                    font-family: 'Poppins', sans-serif;
+
+                }
+
+                .pagination a:hover{
+                    color: #fff;
+                    background-color: #5271e9;
+                }
+
+                .bottom_bar{
+                    position: absolute;
+                    width: 80px;
+                    height: 4px;
+                    background-color: #000;
+                    bottom: 0;
+                    left: -100px;
+                    transition: .4s;
+                }
+
     main .account-container{
         margin-top: -1rem;
-        max-height: 500px;
+        max-height: 650px;
         overflow:auto;
         width: 100%;
+        margin-bottom: 20px;
         /* position: absolute; */
         box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
-        border-top: 8px solid var(--color-table-hover);
-        border-radius: 0px 0px 10px 10px;
+        /* border-top: 8px solid var(--color-table-hover); */
+        border-radius: 20px;
         
     }
      main .account-container table{

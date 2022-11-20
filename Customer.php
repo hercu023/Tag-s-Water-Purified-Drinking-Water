@@ -206,11 +206,11 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['balance']; ?></td>
                                         <td> <?php echo $rows['note']; ?></td>
                                         <td>
-                                        <a href="Customer-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
+                                            <a href="Account-Action.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
                                             </a>
                                             <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
                                             </a>
                                         </td>
                                     </tr>
@@ -1683,7 +1683,7 @@ $result = mysqli_query($con, $query);
          /* ----------------------------------------Customers Table---------------------------------------- */
     main .customer-container{
         margin-top: -1rem;
-        max-height: 500px;
+        max-height: 650px;
         overflow:auto;
         width: 100%;
         /* position: absolute; */
@@ -1951,7 +1951,7 @@ $result = mysqli_query($con, $query);
             z-index: 2;
             box-shadow: 0px 1px 14px var(--color-shadow-shadow);
         }
-        .top-menu .menu-bar .dashTitle-top{
+        .top-menu .menu-bar .accTitle-top{
             display: block;
             left: 0;
             margin-left: 4rem;
@@ -1970,7 +1970,7 @@ $result = mysqli_query($con, $query);
             margin-top: -2.3rem;
             margin-bottom: 1.9rem;
         }
-        .dashTitle{
+        .accTitle{
             display:none;
         }
         .user2 .drop-menu{
@@ -1992,7 +1992,7 @@ $result = mysqli_query($con, $query);
         .drop-menu .ul a{
             width: 8.5rem;
         }
-        .main-customer{
+        .main-account{
             position: relative;
             left: -5%;
         }

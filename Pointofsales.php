@@ -175,14 +175,12 @@ include 'connectionDB.php';
 <!-- ---------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
 
             <div class="form1">
-                <div class="inline">
                 <p class="selectCustomer-text">*SELECT CUSTOMER</p>
-                    <div class="delivery-options">
-                        <select class="select">
-                            <option value="Walk In">Walk In</option>
-                            <option value="Delivery">Delivery</option>
-                        </select>
-                    </div>
+                <div class="delivery-options">
+                    <select class="select">
+                        <option value="Walk In">Walk In</option>
+                        <option value="Delivery">Delivery</option>
+                    </select>
                 </div>
 
                 <hr>
@@ -441,32 +439,7 @@ include 'connectionDB.php';
         background-size: cover;
         background-attachment: fixed;
     }  
-    .inline{
-        display: inline-block;
-        /* align-items: right; */
-        text-align: right;
-    }
-    .delivery-options{
-        width: 20em;
-        position: absolute;
-        /* margin-top: 1rem; */
-        /* top: 13.3rem; */
-
-        margin-right: 100%;
-        /* margin-bottom: -5.39rem; */
-    }
-    /* } */
-    .select{
-        background: var(--color-solid-gray);
-        color: var(--color-white);
-        align-items: center;
-        border-radius: 13px;
-        padding: 8px 12px;
-        height: 2.9em;
-        width: 12.8rem;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+  
       /* -----------------------------------------------Side Menu---------------------------------------- */
       .side-bar{
         background: var(--color-table-hover);
@@ -1338,6 +1311,7 @@ include 'connectionDB.php';
         /* background-color: none; */
         position: relative;
     }
+   
     .selectCustomer-button{
         background: var(--color-select-customer);
         padding: 1rem;
@@ -1389,14 +1363,42 @@ include 'connectionDB.php';
         background-color: var(--color-white);
         margin-top: 2rem;
         /* margin-left: 20rem; */
-        border: 1px solid;
-        border-color: var(--color-table-border);
-        width: 60rem;
-        height: 33rem;
+        border: none;
+        /* border-color: var(--color-table-border); */
+        width: 60%;
+        /* display: inline-block;
+         */
+        position: relative;
+        height: 33%;
         border-radius: 1rem;
         /* position: absolute; */
     }
+
+    .delivery-options{
+        width: 20em;
+        display: inline-block;
+        /* display: inline-block; */
+        position: relative;
+        /* margin-left: 22rem; */
+        /* top: 13.3rem; */
+        /* align-items: right; */
+        text-align: right;        
+        /* margin-bottom: -5.39rem; */
+    }
+    /* } */
+    .select{
+        background: var(--color-solid-gray);
+        color: var(--color-white);
+        /* align-items: center; */
+        border-radius: 13px;
+        padding: 8px 12px;
+        height: 2.9em;
+        width: 10.8rem;
+        cursor: pointer;
+        transition: 0.3s;
+    }
     .selectCustomer-text{
+        display: inline-block;
         color: var(--color-solid-gray);
         font-weight: bold;
         margin-top: 2rem;
