@@ -3,17 +3,17 @@ require_once 'controllerUserdata.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
-    if (isset($_POST['id'])){
+    if (isset($_POST['user_id'])){
 
-        $id = $_POST['id'];
+        $id = $_POST['user_id'];
         
-        $stmt = $conn->prepare("SELECT * FROM users WHERE id=?");
+        $stmt = $conn->prepare("SELECT * FROM users WHERE user_id=?");
         $stmt->execute([$id]);
         $fetch_profile = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($stmt->rowCount() === 1){
                 $user = $stmt->fetch();
                 
-                $user_id = $user['id'];
+                $user_id = $user['user_id'];
                 $user_email = $user['email'];
                 $user_first_name = $user['first_name'];
                 $user_user_type = $user['user_type'];
@@ -114,8 +114,13 @@ $result = mysqli_query($con, $query);
                             <a href="Expense-employeesalary.php" class="sub-item" id="employee-salary">Employee Salary</a>
                         </div>
                     </div>
-                    <div id="account" class="item"><a href="Account.php"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
-                    ACCOUNT</a></div>
+                    <div id="account" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
+                    ACCOUNT<i class="fas fa-angle-right dropdown"></i></a>
+                        <div class="sub-menu">
+                            <a href="Account-Type.php" class="sub-item" id="account-type">Account Type</a>
+                            <a href="Account.php" class="sub-item" id="accounts">User Account</a>
+                        </div>            
+                    </div>
                     <div id="settings" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
                     SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
                         <div class="sub-menu">
@@ -131,14 +136,15 @@ $result = mysqli_query($con, $query);
                 <div class="main-account">
                     <h1 class="accTitle">ACCOUNT</h1> 
                     <div class="sub-tab">
-                        <!-- <div class="user-title"> 
-                            <h2> User Accounts </h2>
-                        </div> -->
+                        <div class="user-title"> 
+                            <h2> User Account </h2>
+                        </div>
                         <div class="newUser-button"> 
                             <button type="submit" id="add-userbutton" class="add-account" onclick="addnewuser();">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
                                     <h3>Add New User</h3>
                             </button>
+                            
                         </div>
                         <div class="search">
                             <div class="search-bar"> 
@@ -175,7 +181,7 @@ $result = mysqli_query($con, $query);
                             ?>
                             <tbody>
                                     <tr>
-                                        <td> <?php echo $rows['id']; ?></td>
+                                        <td> <?php echo $rows['user_id']; ?></td>
                                         <td> <?php echo $rows['last_name']; ?></td>
                                         <td> <?php echo $rows['first_name']; ?></td>
                                         <td> <?php echo $rows['middle_name']; ?></td>
@@ -184,12 +190,12 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['user_type']; ?></td>
                                         <td> <img src="<?php echo "uploaded_image/".$rows['profile_image']; ?>" width="50px"></td>
                                         <td>
-                                            <a href="Account-Action.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                            <a href="Account-Action.php?edit=<?php echo $rows['user_id']; ?>" id="edit-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
                                             </a>
-                                            <a href="Account-Action-ChangePassword.php?edit=<?php echo $rows['id']; ?>" id="cpass-action" class="action-btn" name="action">
+                                            <a href="Account-Action-ChangePassword.php?edit=<?php echo $rows['user_id']; ?>" id="cpass-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17.708q-1.979 0-3.604-.864-1.625-.865-2.688-2.323l1.73-1.771q.833 1.229 2.02 1.865 1.188.635 2.542.635 2.188 0 3.719-1.531Q15.25 12.188 15.25 10q0-2.188-1.531-3.719Q12.188 4.75 10 4.75q-2.146 0-3.719 1.521t-1.531 3.75v-.125l1.188-1.188L7.208 10l-3.687 3.688L-.167 10l1.271-1.292 1.188 1.209v.125q-.021-1.604.583-3.021.604-1.417 1.656-2.469Q5.583 3.5 7 2.896q1.417-.604 3.021-.604 1.583 0 2.979.604 1.396.604 2.448 1.656T17.104 7q.604 1.396.604 3 0 3.229-2.239 5.469-2.24 2.239-5.469 2.239ZM8.5 13q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
-                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
+                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['user_id']; ?>" id="archive-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
                                             </a>
                                         </td>
@@ -287,14 +293,23 @@ $result = mysqli_query($con, $query);
                         <input type="text" id="fill" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
                         <span>Contact Number</span>
                     </div>
+                    
+                    <?php
+                        $dropdown_query = "SELECT * FROM account_type";
+                        $result1 = mysqli_query($con, $dropdown_query);
+                    ?>
+
                     <div class="usertype-dropdown">
                         <select class="select" name="usertypes" required="" >
                             <option selected disabled value="">ROLE</option>
-                            <option value="Admin">ADMIN</option>
+                            <?php while($row2 = mysqli_fetch_array($result1)):;?>
+                            <option><?php echo $row2[1];?></option>
+                            <?php endwhile;?>
+                            <!-- <option value="Admin">ADMIN</option>
                             <option value="Manager">MANAGER</option>
                             <option value="Cashier">CASHIER</option>
                             <option value="Custom"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
-                            CUSTOM</option>
+                            CUSTOM</option> -->
                         </select>
                     </div>
                     <!-- <div class="usertype-dropdown">
@@ -1927,6 +1942,8 @@ function myFunctionCP(){
         /* ----------------------------------------Sub TAB---------------------------------------- */
         .user-title{
             position: relative;
+            display: inline-block;
+            width: 100%;
         }
         main  h2{
             margin-bottom: -2.2rem;
@@ -1988,7 +2005,7 @@ function myFunctionCP(){
         /* ----------------------------------------Add Button---------------------------------------- */
         .newUser-button{
             position: absolute;
-            left: 2%;
+            left: 15%;
         }
         .add-account{
             display: flex;
@@ -2023,7 +2040,7 @@ function myFunctionCP(){
         }
          /* ----------------------------------------Account Table---------------------------------------- */
     main .account-container{
-        margin-top: -1rem;
+        margin-top: -2rem;
         max-height: 650px;
         overflow:auto;
         width: 100%;

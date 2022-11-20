@@ -124,8 +124,13 @@ include 'connectionDB.php';
                 <a href="Expense-employeesalary.php" class="sub-item">Employee Salary</a>
             </div>
         </div>
-        <div id="account" class="item"><a href="Account.php"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
-        ACCOUNT</a></div>
+        <div id="account" class="item"><a class="sub-btn"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
+        ACCOUNT<i class="fas fa-angle-right dropdown"></i></a>
+            <div class="sub-menu">
+                <a href="Account-Type.php" class="sub-item" id="account-type">Account Type</a>
+                <a href="Account.php" class="sub-item" id="accounts">User Account</a>
+            </div>            
+        </div>
         <div id="settings" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
         SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
@@ -142,19 +147,19 @@ include 'connectionDB.php';
                     <h1 class="posTitle">POINT OF SALES</h1> 
                     <div class="top-buttons">
                         <div class="newUser-button"> 
-                            <button type="submit" id="add-userbutton" class="add-account" onclick="addnewuser();">
+                            <button type="submit" id="select-customerbutton" class="add-account" onclick="addnewuser();">
                             <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.896 17.792-5.125-5.125q-.604.375-1.344.593-.739.219-1.594.219-2.271 0-3.875-1.604T2.354 8q0-2.271 1.604-3.875t3.875-1.604q2.271 0 3.875 1.604T13.312 8q0 .875-.218 1.594-.219.718-.594 1.302l5.146 5.166Zm-8.063-6.771q1.271 0 2.146-.875T10.854 8q0-1.271-.875-2.146t-2.146-.875q-1.271 0-2.145.875-.876.875-.876 2.146t.876 2.146q.874.875 2.145.875Z"/></svg>
                                 <h3>SELECT CUSTOMER</h3>
                             </button>
                         </div>
                         <div class="newUser-button"> 
-                            <button type="submit" id="add-userbutton" class="add-account" onclick="addnewuser();">
+                            <button type="submit" id="new-customerbutton" class="add-account" onclick="addnewuser();">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
                                 <h3>ADD NEW CUSTOMER</h3>
                             </button>
                         </div>
                         <div class="newUser-button"> 
-                            <button type="submit" id="add-userbutton" class="add-account" onclick="addnewuser();">
+                            <button type="submit" id="return-containerbutton" class="add-account" onclick="addnewuser();">
                             <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M7.479 15.042 2.417 10l5.062-5.042 1.729 1.73-2.083 2.083h7v-2.25h2.458v4.708H7.125l2.083 2.083Z"/></svg>
                                 <h3>RETURN CONTAINER</h3>
                             </button>
@@ -175,7 +180,7 @@ include 'connectionDB.php';
 <!-- ---------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
 
             <div class="form1">
-                <p class="selectCustomer-text">*SELECT CUSTOMER</p>
+                <p class="selectCustomer-text">SELECT CUSTOMER</p>
                 <div class="delivery-options">
                     <select class="select">
                         <option value="Walk In">Walk In</option>
@@ -187,7 +192,7 @@ include 'connectionDB.php';
                 
                 <div class="form1-ordertype-buttons">
                     <button class="refillOrder-button">Refill</button>
-                    <button class="newOrder-button">New Order</button>
+                    <button class="newOrder-button">New</button>
                 </div>
 
                 <br>
@@ -396,6 +401,7 @@ include 'connectionDB.php';
         --color-background: rgb(235, 235, 235);
         --color-solid-gray: rgb(126, 126, 126);
         --color-td:rgb(100, 100, 100);
+        --color-blue-button: rgb(62, 178, 255);
         --color-button: rgb(117, 117, 117);
         --color-table-shadow: rgb(244, 255, 246);
         --color-shadow-shadow: rgb(116, 116, 116);
@@ -418,6 +424,7 @@ include 'connectionDB.php';
         --color-aside-mobile-focus: rgb(244, 255, 246);
         --color-table-shadow: rgb(131, 131, 131);
         --color-maroon: rgb(255, 130, 130);
+        --color-blue-button: rgb(164, 219, 255);
         --color-white-secondary: rgb(235, 235, 235);
         --color-main: rgb(244, 255, 246);
         --color-secondary-main: rgb(97, 172, 111);
@@ -882,6 +889,21 @@ include 'connectionDB.php';
             display: inline-block;
             margin-left: 1rem;
         }
+        #select-customerbutton:hover{
+            background: var(--color-select-customer);
+            color: var(--color-white); 
+            fill: var(--color-white); 
+        }
+        #return-containerbutton:hover{
+            background: var(--color-return-container);
+            color: var(--color-white); 
+            fill: var(--color-white); 
+        }
+        #new-customerbutton:hover{
+            background: var(--color-new-customer);
+            color: var(--color-white); 
+            fill: var(--color-white); 
+        }
         .add-account{
             display: flex;
             border: none;
@@ -1289,15 +1311,19 @@ include 'connectionDB.php';
 
     /* GENERAL -----------------------------------------------------------------------------------------*/
     button:active {
-        background-color: var(--color-maroon);
+        background-color: var(--color-blue-button);
     }
-
-    button:hover{
-        filter: brightness(85%);
+    button:hover {
+        background-color: var(--color-blue-button);
+        color: var(--color-white);
+        transition: 0.3s;
+    }
+    /* button:hover{
+        filter: brightness(100%);
         transition: 0.3s;
         /* font-weight: bolder; */
         /* font-size: 110%; */
-    }
+    /* } */ 
     hr{
         width: 95%;
     }
@@ -1375,27 +1401,28 @@ include 'connectionDB.php';
     }
 
     .delivery-options{
-        width: 20em;
         display: inline-block;
         /* display: inline-block; */
         position: relative;
-        /* margin-left: 22rem; */
-        /* top: 13.3rem; */
-        /* align-items: right; */
-        text-align: right;        
-        /* margin-bottom: -5.39rem; */
+        /* margin-left: 18rem; */
+        /* text-align: right;    */
+        left: 22vw;     
     }
-    /* } */
     .select{
         background: var(--color-solid-gray);
         color: var(--color-white);
         /* align-items: center; */
-        border-radius: 13px;
-        padding: 8px 12px;
+        border-radius: 15px;
+        padding: 10px 13px;
         height: 2.9em;
-        width: 10.8rem;
+        width: 10.8vw;
+        font-size: 14px;
         cursor: pointer;
         transition: 0.3s;
+        border: none;
+    }
+    .select:hover{
+        background: var(--color-main);
     }
     .selectCustomer-text{
         display: inline-block;
@@ -1404,33 +1431,55 @@ include 'connectionDB.php';
         margin-top: 2rem;
         margin-left: 5rem;
     }
-   
+    .selectCustomer-text:hover{
+        filter: brightness(50%);
+        cursor: pointer;
+    }
     .form1-ordertype-buttons{
         margin-top: 1rem;
-        margin-left: 15rem;
+        margin-left: 15vw;
+        display: flex;
         height: 2rem;
+        position: relative;
+        /* text-align: right; */
     }
     .refillOrder-button{
-        background-color: var(--color-white);
+        background-color: var(--color-secondary-main);
+        display: inline-block;
+        color: var(--color-tertiary);
         padding: 0rem;
         height: 2rem;
-        width: 15rem;
+        width: 15vw;
+        font-family: 'calibri', sans-serif;
+        text-transform: uppercase;
         font-size: 1rem;
-        border-radius: 5px;
+        font-weight: 900;
+        border-radius: 10px;
+        border: none;
         border-color: var(--color-lightest-gray);
-        box-shadow: 0px 3px 0px 0px var(--color-shadow-shadow);
+        box-shadow: 1px 0px 3px 1px var(--color-tertiary);
+    }
+    .refillOrder-button:hover{
+        color: var(--color-white);
+        transition: 0.3s
+
     }
     .newOrder-button{
-        background-color: var(--color-white);
+        background-color: var(--color-secondary-main);
+        display: inline-block;
+        color: var(--color-tertiary);
         padding: 0rem;
         height: 2rem;
-        width: 15rem;
+        width: 15vw;
         margin-left: 1rem;
+        font-family: 'calibri', sans-serif;
+        font-weight: 900;
+        text-transform: uppercase;
         font-size: 1rem;
-        border-radius: 5px;
+        border-radius: 10px;
+        border: none;
         border-color: var(--color-lightest-gray);
-        box-shadow: 0px 3px 0px 0px var(--color-shadow-shadow);
-
+        box-shadow: 1px 0px 3px 1px var(--color-tertiary);
     }
     .form1-details{
         width: 50rem;
@@ -1441,6 +1490,7 @@ include 'connectionDB.php';
         background-color: none;
         margin-left: 1rem;
         float: left;
+        font-family: 'outfit', sans-serif;
         border: none;
     }
     .customerTable-button{
