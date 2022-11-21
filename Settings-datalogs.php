@@ -134,8 +134,9 @@ include 'connectionDB.php';
         SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
                 <a href="Settings-help.php" class="sub-item" id="settings-help">Help</a>
-                <a href="Settings-dataarchive.php" class="sub-item" id="settings-dataarchive">Archive</a>
-                <a href="Settings-databackup.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
+                <a href="Settings-datalogs.php" class="sub-item" id="settings-datalogs">Data Logs</a>
+                <a href="Settings-dataarchive-customers.php" class="sub-item" id="settings-dataarchive">Archive</a>
+                <a href="Settings-databackup-customers.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
             </div>
         </div>
     </div>
@@ -194,8 +195,8 @@ include 'connectionDB.php';
                         </div>  
                     </div>           
                     </div>
-                </div>      
-                
+                </div>
+
     <!-- CONTAINER START -------------------------------------------------------------------------------------- -->
     <!--------------------------------------------------------------------------------------------------------- -->
 
@@ -208,112 +209,27 @@ include 'connectionDB.php';
         </div>
     </div>
 
-    <div class="backup-topmenu">
-        <p class="backup-text">Backup</p>
-        <select class="backup-dropdown">
-            <option onclick="Settings-databackup-customers.php">Customer</option>
-            <option onclick="Settings-databackup-inventory.php">Inventory</option>
-            <option>Employees</option>
-            <option>Account</option>
+    <div class="datalogs-topmenu">
+        <p class="datalogs-text">Data Logs</p>
+        <select class="datalogs-dropdown">
+            <option>Today</option>
+            <option>This week</option>
+            <option>This month</option>
+            <option>This year</option>
         </select>
-        <button class="backup-button">Backup</button>
+        <button class="datalogs-filter">Filter</button>
     </div>
 
     <!-- -------------------------------------------------TABLES------------------------------------------------ -->
-    <div class="backup-container">
-        <div class="backup-customers-table">
+    <div class="datalogs-container">
+        <div class="datalogs-table">
 
         </div>
     </div>
 
-    <div class="backup-location-div">
-        <p class="backup-location">Set Location: </p>
-    </div>
-
-    <!-- ---------------------------------------- AUTOMATIC BACKUP -------------------------------------------- -->
-
-    <div class="autobackup-container">
-            <p class="autobackup-title">SET AUTOMATIC BACKUP SCHEDULE</p>
-
-            <p class="backupFile-text">File: </p>
-            <div class="backupFile-div">
-                <input type="radio" name="backup-all" id="backup-all">
-                <label for="backup-all">All</label><br>
-                <input type="radio" name="backup-selected1" id="backup-selected1">
-                <label for="backup-selected1">Selected Module(Customers)</label><br>
-                <input type="radio" name="backup-selected2" id="backup-selected2">
-                <label for="backup-selected2">Selected File(0)</label>
-            </div>
-
-            <p class="backupFile-text">Location: </p>
-
-            <hr>
-            <br>
-
-            <input type="checkbox" name="scheduler-checkbox1" class="enableScheduler-checkbox">
-            <label for="scheduler-checkbox1"> Enable Backup Scheduler</label><br>
-
-            <br>
-
-            <div class="datetime-div">
-                <label for="backup-datetime">Task run time (date and time):</label>
-                <input type="date" name="backup-datetime" class="backup-date">
-                <input type="time" name="backup-datetime" class="backup-time">
-            </div>
-
-            <br>
-
-            <div class="selectFrequency-container">
-                <p class="backupFile-text">How often to run the task? </p>
-
-                <div class="selectFrequency-radios">
-                    <input type="radio" name="backup-once" class="backupFrequency-radio1">
-                    <label for="backup-once">Once</label><br>
-                    <input type="radio" name="backup-everyday" class="backupFrequency-radio2">
-                    <label for="backup-everyday">Everyday</label><br>
-                    <input type="radio" name="backup-weekdays" class="backupFrequency-radio3">
-                    <label for="backup-weekdays">On week days</label><br>
-                    <input type="radio" name="backup-month" class="backupFrequency-radio4">
-                    <label for="backup-month">On month days</label><br>
-                    <input type="radio" name="backup-custom" class="backupFrequency-radio5">
-                    <label for="backup-custom">Custom</label><br>
-                </div>
-
-                <div class="selectedFrequency-options">
-                    
-                </div>
-            </div>
-
-            <br>
-
-            <input type="checkbox" name="missedSched-checkbox1" class="missedSched-checkbox">
-            <label for="missedSched-checkbox1"> Run the missed schedules</label>
-
-            <br><br>
-
-            <div class="runOptions-div">
-                <input type="checkbox" name="launchByUSB-checkbox1" class="launchByUSB-checkbox">
-                <label for="launchByUSB-checkbox1"> Launch by USB Insertion</label><br>
-
-                <input type="checkbox" name="launchLogin-checkbox1" class="launchLogin-checkbox">
-                <label for="launchLogin-checkbox1"> Run on login</label><br>
-
-                <input type="checkbox" name="launchLogout-checkbox1" class="launchLogout-checkbox">
-                <label for="launchLogout-checkbox1"> Run on logout</label>
-            </div>
-
-            <br>
-
-            <button class="autobackup-prev">PREVIOUS SCHEDULE</button>
-            <button class="autobackup-save">SAVE NEW SCHEDULE</button>
-            <button class="autobackup-reset">RESET</button>
-
-
-    </div>
-
     <!-- CONTAINER END ---------------------------------------------------------------------------------------- -->
     <!--------------------------------------------------------------------------------------------------------- -->
-
+                
         </div> 
     </body>
 </html>
@@ -414,6 +330,7 @@ include 'connectionDB.php';
         --color-table-border:rgb(226, 226, 229);
         --color-secondary-background:rgb(244, 244, 244);
         --color-lightest-gray:rgb(250,250,250);
+        
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
@@ -1353,10 +1270,11 @@ include 'connectionDB.php';
     button:hover{
         filter: brightness(85%);
         font-weight: bolder;
+        font-size: 110%;
     }
 
     /* ------------------------------------------- TOPMENU --------------------------------------------- */
-    .backup-topmenu{
+    .datalogs-topmenu{
         background-color: var(--color-white);
         width: 42rem;
         height: 4rem;
@@ -1366,7 +1284,7 @@ include 'connectionDB.php';
         gap: 1rem;
         grid-auto-flow: column;
     }
-    .backup-text{
+    .datalogs-text{
         font-weight: bold;
         display: right;
         overflow-x: auto;
@@ -1375,7 +1293,7 @@ include 'connectionDB.php';
         margin-left: 2rem;
         font-size: 1.3rem;
     }
-    .backup-dropdown{
+    .datalogs-dropdown{
         background-color: var(--color-background);
         margin-left: 1rem;
         padding: 0.5rem;
@@ -1386,7 +1304,7 @@ include 'connectionDB.php';
         float: left;
         margin-top: 1rem;
     }
-    .backup-button{
+    .datalogs-filter{
         background-color: var(--color-main);
         margin-left: 1rem;
         padding: 0.5rem;
@@ -1449,117 +1367,23 @@ include 'connectionDB.php';
     }
 
     /* ARCHIVE MENU --------------------------------------------------------------------------------------- */
-    .backup-container{
+    .datalogs-container{
         background-color: var(--color-white);
         border-radius: 1rem;
-        width: 65rem;
+        width: 90rem;
         height: 42rem;
         margin-left: 18rem;
         margin-top: -1rem;
         border-color: var(--color-solid-gray);
     }
-    /* ----------------------------------------------TABLES------------------------------------------------ */
-    .backup-customers-table{
+    /* ----------------------------------------------TABLE------------------------------------------------ */
+    .datalogs-table{
         padding: 1rem;
-        width: 59rem;
+        width: 84rem;
         height: 33rem;
         margin-top: 2rem;
         margin-left: 2rem;
         background-color: var(--color-solid-gray);
         border-radius: 5px;
-    }
-    .backup-location-div{
-        height: 2rem;
-        width: 10rem;
-    }
-    .backup-location{
-        margin-top: 38rem;
-        margin-left: 2.5rem;
-        font-weight: bold;
-        font-size: 1rem;
-    }
-    /* ------------------------------------------AUTOMATIC BACKUP----------------------------------------- */
-    .autobackup-container{
-        background-color: var(--color-white);
-        border-radius: 1rem;
-        width: 28rem;
-        height: 46.5rem;
-        margin-left: 84rem;
-        margin-top: -48.5rem;
-        border-color: var(--color-solid-gray);
-    }
-    .autobackup-title{
-        font-weight: bold;
-        text-align: center;
-        font-size: 1.2rem;
-    }
-    .backupFile-text{
-        margin-left: 1rem;
-        font-weight: bold;
-    }
-    .backupFile-div{
-        margin-left: 1rem;
-    }
-    .enableScheduler-checkbox{
-        margin-left: 1rem;
-    }
-    .datetime-div{
-        margin-left: 1rem;
-    }
-    .backup-date, .backup-time{
-        width: 6rem;
-        border-radius: 5px;
-    }
-    .selectFrequency-container{
-        width: 26rem;
-        height: 13rem;
-        margin-left: 1rem;
-        background-color: none;
-        border-style: solid;
-        border-width: thin;
-        border-color: var(--color-black);
-    }
-    .selectFrequency-radios{
-        margin-left: 1rem;
-    }
-    .selectedFrequency-options{
-        margin-top: -9rem;
-        margin-left: 14rem;
-        width: 11.5rem;
-        height: 12rem;
-        background-color: none;
-        border-style: solid;
-        border-width: thin;
-        border-color: var(--color-black);
-    }
-    .missedSched-checkbox{
-        margin-left: 2rem;
-    }
-    .runOptions-div{
-        margin-left: 1rem;
-    }
-    .autobackup-prev{
-        height: 2rem;
-        width: 13rem;
-        margin-left: 1rem;
-        border-radius: 5px;
-        background-color: var(--color-solid-gray);
-        color: var(--color-white);
-    }
-    .autobackup-save{
-        height: 2rem;
-        width: 13rem;
-        border-radius: 5px;
-        background-color: var(--color-main);
-        color: var(--color-white);
-    }
-    .autobackup-reset{
-        height: 2rem;
-        width: 5rem;
-        margin-top: 0.3rem;
-        margin-left: 1rem;
-        border-radius: 5px;
-        background-color: var(--color-maroon);
-        color: var(--color-white);
     }
 </style>

@@ -129,8 +129,9 @@ include 'connectionDB.php';
         SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
                 <a href="Settings-help.php" class="sub-item" id="settings-help">Help</a>
-                <a href="Settings-dataarchive.php" class="sub-item" id="settings-dataarchive">Archive</a>
-                <a href="Settings-databackup.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
+                <a href="Settings-datalogs.php" class="sub-item" id="settings-datalogs">Data Logs</a>
+                <a href="Settings-dataarchive-customers.php" class="sub-item" id="settings-dataarchive">Archive</a>
+                <a href="Settings-databackup-customers.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
             </div>
         </div>
     </div>
@@ -236,7 +237,7 @@ include 'connectionDB.php';
                     }
                 }
             </script>
-        <button class="backup-button">Backup All</button>
+        <button class="backup-button" id="backupAll-button" onclick="backupAllForm()">Backup All</button>
     </div>
 
     <!-- -------------------------------------------------TABLES------------------------------------------------ -->
@@ -254,12 +255,12 @@ include 'connectionDB.php';
 
     <div class="autobackup-container">
 
-        <p class="autobackup-title">BACKUP SETTINGS</p>
-
-        <br>
-
+        <p class="autobackup-title">RESTORE FROM BACKUP</p><br>
         <p class="backupFile-text">Restore from Backup: <input type="file" id="myFile" class="backupRestore"></p>
 
+        <hr>
+
+        <p class="autobackup-title">BACKUP SETTINGS</p>
         <p class="backupFile-text">File: </p>
             <div class="backupFile-div">
                 <input type="radio" name="backup-all" id="backup-all">
@@ -270,14 +271,13 @@ include 'connectionDB.php';
                 <label for="backup-selected2">Selected File(0)</label>
             </div>
 
-            <br>
-
             <p class="backupFile-text">Location: <input type="file" id="myFile" class="backupLocation"></p>
 
             <br>
 
             <button class="backup-now">BACKUP NOW</button>
 
+            <br>
             <hr>
 
             <p class="autobackup-title">SET AUTOMATIC BACKUP SCHEDULE</p>
@@ -296,12 +296,6 @@ include 'connectionDB.php';
             </div>
 
             <br>
-            <br>
-
-            <input type="checkbox" name="missedSched-checkbox1" class="missedSched-checkbox">
-            <label for="missedSched-checkbox1"> Run the missed schedules</label>
-
-            <br><br>
 
             <div class="runOptions-div">
                 <input type="checkbox" name="launchByUSB-checkbox1" class="launchByUSB-checkbox">
@@ -1550,9 +1544,6 @@ include 'connectionDB.php';
     .backup-date, .backup-time{
         width: 6rem;
         border-radius: 5px;
-    }
-    .missedSched-checkbox{
-        margin-left: 2rem;
     }
     .runOptions-div{
         margin-left: 1rem;

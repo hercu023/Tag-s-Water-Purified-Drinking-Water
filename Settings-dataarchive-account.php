@@ -128,9 +128,10 @@ include 'connectionDB.php';
         <div id="settings" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
         SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
-                <a href="Settings-help.php" class="sub-item" onclick="Settings-help.php" id="settings-help">Help</a>
-                <a href="Settings-dataarchive.php" class="sub-item" onclick="Settings-dataarchive.php" id="settings-dataarchive">Archive</a>
-                <a href="Settings-databackup.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
+                <a href="Settings-help.php" class="sub-item" id="settings-help">Help</a>
+                <a href="Settings-datalogs.php" class="sub-item" id="settings-datalogs">Data Logs</a>
+                <a href="Settings-dataarchive-customers.php" class="sub-item" id="settings-dataarchive">Archive</a>
+                <a href="Settings-databackup-customers.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
             </div>
         </div>
     </div>

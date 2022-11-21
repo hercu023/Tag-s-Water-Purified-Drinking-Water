@@ -129,8 +129,9 @@ include 'connectionDB.php';
         SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
                 <a href="Settings-help.php" class="sub-item" id="settings-help">Help</a>
-                <a href="Settings-dataarchive.php" class="sub-item" id="settings-dataarchive">Archive</a>
-                <a href="Settings-databackup.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
+                <a href="Settings-datalogs.php" class="sub-item" id="settings-datalogs">Data Logs</a>
+                <a href="Settings-dataarchive-customers.php" class="sub-item" id="settings-dataarchive">Archive</a>
+                <a href="Settings-databackup-customers.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
             </div>
         </div>
     </div>
