@@ -137,21 +137,21 @@ include 'connectionDB.php';
                 <a href="Settings-datalogs.php" class="sub-item" id="settings-datalogs">Data Logs</a>
                 <a href="Settings-dataarchive-customers.php" class="sub-item" id="settings-dataarchive">Archive</a>
                 <a href="Settings-databackup-customers.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
-            </div>  
+            </div>
         </div>
     </div>
    </div>
    </div>
             <main>
             <div class="main-dashboard">
-                    <h1 class="dashTitle">REPORTS</h1> 
+                    <h1 class="dashTitle">SETTINGS</h1> 
             </main>
                 <div class="top-menu">  
                     <div class="menu-bar">
                         <div class="menu-btn2">
                             <i class="fas fa-bars"></i>
                         </div>
-                        <h2 class="dashTitle-top">REPORTS</h2>
+                        <h2 class="dashTitle-top">SETTINGS</h2>
                         <div class="user1">
                             <div class="welcome">
                                 <h4 > Welcome, </h4>
@@ -195,7 +195,41 @@ include 'connectionDB.php';
                         </div>  
                     </div>           
                     </div>
-                </div>       
+                </div>
+
+    <!-- CONTAINER START -------------------------------------------------------------------------------------- -->
+    <!--------------------------------------------------------------------------------------------------------- -->
+
+    <div class="search">
+        <div class="search-bar"> 
+            <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+            <button type="submit" >
+                <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="datalogs-topmenu">
+        <p class="datalogs-text">Data Logs</p>
+        <select class="datalogs-dropdown">
+            <option>Today</option>
+            <option>This week</option>
+            <option>This month</option>
+            <option>This year</option>
+        </select>
+        <button class="datalogs-filter">Filter</button>
+    </div>
+
+    <!-- -------------------------------------------------TABLES------------------------------------------------ -->
+    <div class="datalogs-container">
+        <div class="datalogs-table">
+
+        </div>
+    </div>
+
+    <!-- CONTAINER END ---------------------------------------------------------------------------------------- -->
+    <!--------------------------------------------------------------------------------------------------------- -->
+                
         </div> 
     </body>
 </html>
@@ -289,6 +323,13 @@ include 'connectionDB.php';
         --color-table-hover: rgb(244, 255, 246);
         --color-aside-mobile-focus: rgb(78, 150, 78);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
+        --color-select-customer:rgb(9, 138, 107);
+        --color-new-customer:rgb(169, 109,5);
+        --color-return-container:rgb(54, 85, 225);
+        --color-table-title:rgb(0, 197, 145);
+        --color-table-border:rgb(226, 226, 229);
+        --color-secondary-background:rgb(244, 244, 244);
+        --color-lightest-gray:rgb(250,250,250);
         
     }
     .dark-theme{
@@ -393,7 +434,7 @@ include 'connectionDB.php';
         border-radius: 0 10px 10px 0 ;
         box-shadow: 2px 2px 2px rgb(224, 224, 224);
     }
-    #reports{
+    #settings{
         background: var(--color-white);
         box-shadow: 2px 2px 2px rgb(224, 224, 224);
         border-radius: 0 10px 10px 0;
@@ -1216,5 +1257,133 @@ include 'connectionDB.php';
         font-size: 9px;
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
+    }
+
+    /* CONTAINER STYLE-------------------------------------------------------------------------------- */
+
+    /* ------------------------------------------ GENERAL --------------------------------------------- */
+
+    button:active {
+        background-color: var(--color-maroon);
+    }
+
+    button:hover{
+        filter: brightness(85%);
+        font-weight: bolder;
+        font-size: 110%;
+    }
+
+    /* ------------------------------------------- TOPMENU --------------------------------------------- */
+    .datalogs-topmenu{
+        background-color: var(--color-white);
+        width: 42rem;
+        height: 4rem;
+        border-radius: 1rem;
+        margin-top: -2em;
+        display: grid;
+        gap: 1rem;
+        grid-auto-flow: column;
+    }
+    .datalogs-text{
+        font-weight: bold;
+        display: right;
+        overflow-x: auto;
+        white-space: nowrap;
+        margin-top: 1.2rem;
+        margin-left: 2rem;
+        font-size: 1.3rem;
+    }
+    .datalogs-dropdown{
+        background-color: var(--color-background);
+        margin-left: 1rem;
+        padding: 0.5rem;
+        border-radius: 0.2rem;
+        width: 15rem;
+        height: 2rem;
+        margin-bottom: 1rem;
+        float: left;
+        margin-top: 1rem;
+    }
+    .datalogs-filter{
+        background-color: var(--color-main);
+        margin-left: 1rem;
+        padding: 0.5rem;
+        border-radius: 0.2rem;
+        width: 10rem;
+        height: 2rem;
+        margin-bottom: 1rem;
+        float: left;
+        margin-top: 1rem;
+        font-size: 1rem;
+        color: white;
+        border: none;
+        box-shadow: 2px 2px 0px 0px var(--color-shadow-shadow);
+    }
+    /* ----------------------------------------Search BAR---------------------------------------- */
+    .search{
+        gap: 2rem;
+        align-items: right;
+        text-align: right;
+        right: 0;
+        margin-top: -2rem;
+        margin-left: 61rem;
+    }
+    .search-bar{
+        width: 17vw;
+        background: var(--color-white);
+        display: flex;
+        position: relative;
+        align-items: center;
+        border-radius: 60px;
+        padding: 10px 20px;
+        height: 2.5rem;
+        backdrop-filter: blur(4px) saturate(180%);
+    }
+    .search-bar input{
+        background: transparent;
+        flex: 1;
+        border: 0;
+        outline: none;
+        padding: 24px 20px;
+        font-size: .8rem;
+        color: var(--color-black); 
+        margin-left: -0.95rem;
+    }
+    ::placeholder{
+        color: var(--color-solid-gray);
+        
+    }
+    .search-bar button svg{
+        width: 20px;
+        fill: var(--color-white); 
+    }
+    .search-bar button{
+        border: 0;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        background: var(--color-main); 
+        margin-right: -0.55rem;
+    }
+
+    /* ARCHIVE MENU --------------------------------------------------------------------------------------- */
+    .datalogs-container{
+        background-color: var(--color-white);
+        border-radius: 1rem;
+        width: 90rem;
+        height: 42rem;
+        margin-left: 18rem;
+        margin-top: -1rem;
+        border-color: var(--color-solid-gray);
+    }
+    /* ----------------------------------------------TABLE------------------------------------------------ */
+    .datalogs-table{
+        padding: 1rem;
+        width: 84rem;
+        height: 33rem;
+        margin-top: 2rem;
+        margin-left: 2rem;
+        background-color: var(--color-solid-gray);
+        border-radius: 5px;
     }
 </style>

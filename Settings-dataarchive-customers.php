@@ -123,13 +123,8 @@ include 'connectionDB.php';
                 <a href="Expense-employeesalary.php" class="sub-item" id="employee-salary">Employee Salary</a>
             </div>
         </div>
-        <div id="account" class="item"><a class="sub-btn"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
-        ACCOUNT<i class="fas fa-angle-right dropdown"></i></a>
-            <div class="sub-menu">
-                <a href="Account-Type.php" class="sub-item" id="account-type">Account Type</a>
-                <a href="Account.php" class="sub-item" id="accounts">User Account</a>
-            </div>            
-        </div>
+        <div id="account" class="item"><a href="Account.php"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
+        ACCOUNT</a></div>
         <div id="settings" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
         SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
@@ -137,21 +132,21 @@ include 'connectionDB.php';
                 <a href="Settings-datalogs.php" class="sub-item" id="settings-datalogs">Data Logs</a>
                 <a href="Settings-dataarchive-customers.php" class="sub-item" id="settings-dataarchive">Archive</a>
                 <a href="Settings-databackup-customers.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
-            </div>  
+            </div>
         </div>
     </div>
    </div>
    </div>
             <main>
             <div class="main-dashboard">
-                    <h1 class="dashTitle">REPORTS</h1> 
+                    <h1 class="dashTitle">SETTINGS</h1> 
             </main>
                 <div class="top-menu">  
                     <div class="menu-bar">
                         <div class="menu-btn2">
                             <i class="fas fa-bars"></i>
                         </div>
-                        <h2 class="dashTitle-top">REPORTS</h2>
+                        <h2 class="dashTitle-top">SETTINGS</h2>
                         <div class="user1">
                             <div class="welcome">
                                 <h4 > Welcome, </h4>
@@ -195,7 +190,72 @@ include 'connectionDB.php';
                         </div>  
                     </div>           
                     </div>
-                </div>       
+                </div>
+
+    <!-- CONTAINER START -------------------------------------------------------------------------------------- -->
+    <!--------------------------------------------------------------------------------------------------------- -->
+
+    <div class="search">
+        <div class="search-bar"> 
+            <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+            <button type="submit" >
+                <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="archive-topmenu">
+        <p class="archive-text">Restore</p>
+        <select id="s1" class="archive-dropdown" onChange="SelectRedirect();">
+            <option href="Settings-dataarchive-customer.php" id="archive-customers" selected="">Customer</option>
+            <option href="Settings-dataarchive-inventory.php" id="archive-inventory">Inventory</option>
+            <option href="Settings-dataarchive-employees.php" id="archive-employees">Employees</option>
+            <option href="Settings-dataarchive-account.php" id="archive-account">Account</option>
+        </select>
+        <script>
+                function SelectRedirect(){
+                    switch(document.getElementById('s1').value){
+                        case "Customers":
+                            window.location="Settings-dataarchive-customers.php";
+                            break;
+
+                        case "Inventory":
+                            window.location="Settings-dataarchive-inventory.php";
+                            break;
+
+                        case "Employees":
+                            window.location="Settings-dataarchive-employees.php";
+                            break;
+
+                        case "Account":
+                            window.location="Settings-dataarchive-account.php";
+                            break;
+
+                            default:
+                            window.location="Settings-dataarchive-customers.php";
+                            break;
+                    }
+                }
+            </script>
+        <button class="archive-button">Restore</button>
+    </div>
+
+    <!-- -------------------------------------------------TABLES------------------------------------------------ -->
+    <div class="archive-container">
+        <div class="archive-customers-table">
+
+        </div>
+    </div>
+
+    <!-- -------------------------------------------RESTORE OPTIONS-------------------------------------------- -->
+
+    <div class="restore-location-div">
+        <p class="restore-location">Alternative Location: </p>
+    </div>
+
+    <!-- CONTAINER END ---------------------------------------------------------------------------------------- -->
+    <!--------------------------------------------------------------------------------------------------------- -->
+                
         </div> 
     </body>
 </html>
@@ -289,6 +349,13 @@ include 'connectionDB.php';
         --color-table-hover: rgb(244, 255, 246);
         --color-aside-mobile-focus: rgb(78, 150, 78);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
+        --color-select-customer:rgb(9, 138, 107);
+        --color-new-customer:rgb(169, 109,5);
+        --color-return-container:rgb(54, 85, 225);
+        --color-table-title:rgb(0, 197, 145);
+        --color-table-border:rgb(226, 226, 229);
+        --color-secondary-background:rgb(244, 244, 244);
+        --color-lightest-gray:rgb(250,250,250);
         
     }
     .dark-theme{
@@ -393,7 +460,7 @@ include 'connectionDB.php';
         border-radius: 0 10px 10px 0 ;
         box-shadow: 2px 2px 2px rgb(224, 224, 224);
     }
-    #reports{
+    #settings{
         background: var(--color-white);
         box-shadow: 2px 2px 2px rgb(224, 224, 224);
         border-radius: 0 10px 10px 0;
@@ -1216,5 +1283,143 @@ include 'connectionDB.php';
         font-size: 9px;
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
+    }
+
+    /* CONTAINER STYLE-------------------------------------------------------------------------------- */
+
+    /* ------------------------------------------ GENERAL --------------------------------------------- */
+
+    button:active {
+        background-color: var(--color-maroon);
+    }
+
+    button:hover{
+        filter: brightness(85%);
+        font-weight: bolder;
+        font-size: 110%;
+    }
+
+    /* ------------------------------------------- TOPMENU --------------------------------------------- */
+    .archive-topmenu{
+        background-color: var(--color-white);
+        width: 42rem;
+        height: 4rem;
+        border-radius: 1rem;
+        margin-top: -2rem;
+        display: grid;
+        gap: 1rem;
+        grid-auto-flow: column;
+    }
+    .archive-text{
+        font-weight: bold;
+        display: right;
+        overflow-x: auto;
+        white-space: nowrap;
+        margin-top: 1.2rem;
+        margin-left: 2rem;
+        font-size: 1.3rem;
+    }
+    .archive-dropdown{
+        background-color: var(--color-background);
+        margin-left: 1rem;
+        padding: 0.5rem;
+        border-radius: 0.2rem;
+        width: 15rem;
+        height: 2rem;
+        margin-bottom: 1rem;
+        float: left;
+        margin-top: 1rem;
+    }
+    .archive-button{
+        background-color: var(--color-main);
+        margin-left: 1rem;
+        padding: 0.5rem;
+        border-radius: 0.2rem;
+        width: 10rem;
+        height: 2rem;
+        margin-bottom: 1rem;
+        float: left;
+        margin-top: 1rem;
+        font-size: 1rem;
+        color: white;
+        border: none;
+        box-shadow: 2px 2px 0px 0px var(--color-shadow-shadow);
+    }
+    /* ----------------------------------------Search BAR---------------------------------------- */
+    .search{
+        gap: 2rem;
+        align-items: right;
+        text-align: right;
+        right: 0;
+        margin-top: -2rem;
+        margin-left: 61rem;
+    }
+    .search-bar{
+        width: 17vw;
+        background: var(--color-white);
+        display: flex;
+        position: relative;
+        align-items: center;
+        border-radius: 60px;
+        padding: 10px 20px;
+        height: 2.5rem;
+        backdrop-filter: blur(4px) saturate(180%);
+    }
+    .search-bar input{
+        background: transparent;
+        flex: 1;
+        border: 0;
+        outline: none;
+        padding: 24px 20px;
+        font-size: .8rem;
+        color: var(--color-black); 
+        margin-left: -0.95rem;
+    }
+    ::placeholder{
+        color: var(--color-solid-gray);
+        
+    }
+    .search-bar button svg{
+        width: 20px;
+        fill: var(--color-white); 
+    }
+    .search-bar button{
+        border: 0;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        background: var(--color-main); 
+        margin-right: -0.55rem;
+    }
+
+    /* ARCHIVE MENU --------------------------------------------------------------------------------------- */
+    .archive-container{
+        background-color: var(--color-white);
+        border-radius: 1rem;
+        width: 90rem;
+        height: 42rem;
+        margin-left: 18rem;
+        margin-top: -1rem;
+        border-color: var(--color-solid-gray);
+    }
+    /* ----------------------------------------------TABLES------------------------------------------------ */
+    .archive-customers-table{
+        padding: 1rem;
+        width: 84rem;
+        height: 33rem;
+        margin-top: 2rem;
+        margin-left: 2rem;
+        background-color: var(--color-solid-gray);
+        border-radius: 5px;
+    }
+    .restore-location-div{
+        height: 2rem;
+        width: 20rem;
+    }
+    .restore-location{
+        margin-top: 38rem;
+        margin-left: 2.5rem;
+        font-weight: bold;
+        font-size: 1rem;
     }
 </style>
