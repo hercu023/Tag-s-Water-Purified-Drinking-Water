@@ -3,24 +3,24 @@ require_once 'controllerUserdata.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
-    if (isset($_POST['id'])){
+    if (isset($_POST['user_id'])){
 
-        $id = $_POST['id'];
+        $id = $_POST['user_id'];
         
-        $stmt = $conn->prepare("SELECT * FROM users WHERE id=?");
+        $stmt = $conn->prepare("SELECT * FROM users WHERE user_id=?");
         $stmt->execute([$id]);
         $fetch_profile = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($stmt->rowCount() === 1){
                 $user = $stmt->fetch();
                 
-                $user_id = $user['id'];
+                $user_id = $user['user_id'];
                 $user_email = $user['email'];
                 $user_first_name = $user['first_name'];
                 $user_user_type = $user['user_type'];
                 $user_profile_image = $user['profile_image'];
                 if ($email === $user_email){
 
-                        $_SESSION['user_id'] = $user_id;
+                        $_SESSION['user_user_id'] = $user_id;
                         $_SESSION['user_email'] = $user_email;
                         $_SESSION['user_first_name'] =  $user_first_name;
                         $_SESSION['user_user_type'] =  $user_user_type;
@@ -192,10 +192,10 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['contact_number']; ?></td>
                                         <td> <?php echo $rows['status']; ?></td>
                                         <td> 
-                                            <a href="Customer-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                            <a href="Customer-edit.php?edit=<?php echo $rows['ID']; ?>" id="edit-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
                                             </a>
-                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
+                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['ID']; ?>" id="archive-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
                                             </a>
                                         </td>

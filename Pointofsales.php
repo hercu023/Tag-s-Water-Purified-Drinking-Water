@@ -181,14 +181,9 @@ include 'connectionDB.php';
                     </div> -->
 
 <!-- ---------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
-
+        <!-- <div class="form-container"> -->
             <div class="form1">
                 <p class="selectCustomer-text">SELECT CUSTOMER</p>
-                <div class="card">
-                    <h1 id="time" class="time">00:00:00</h1>
-                    <h1 class="dash">-</h1>
-                    <h1 id="date" class="date">00/00/0000</h1>
-                </div>
                 <div class="delivery-options">
                     <select class="select">
                         <option value="Walk In">Walk In</option>
@@ -220,6 +215,7 @@ include 'connectionDB.php';
                     <table class="table" id="myTable"> 
                         <thead> 
                             <tr>
+                                <th></th>
                                 <th>WATER</th>
                                 <th>ITEM</th>
                                 <th>Own Gal</th>
@@ -232,79 +228,22 @@ include 'connectionDB.php';
                         </tbody>
                         <tfoot>
                             <tr id="selectorder" class="selectorder" style="width:10rem">
-                                <td colspan="6"><input type="button" class="select-order" id="selectOrder" value="ADD ORDER"></td>                         
+                                <td colspan="7"><input type="button" class="select-order" id="selectOrder" value="ADD ORDER"></td>                         
                             </tr>
                         </tfoot>
                     </table>
                 </div>
-
                 <div class="form1-buttons">
                     <button class="addDeliveryFee-button">Add Delivery Fee</button>
                     <button class="addOrder-button" id="addOrder-form">Add Order</button>
                 </div>
             </div>
 
-        <!-- ---------------------------------------------------- PAYMENT OPTIONS ------------------------------------------------- -->
-
-            <div class="payment-options">
-                <p class="paymentOptions-text">Payment Options
-                    <select class="paymentOptions-dropdown">
-                        <option value="cod_option" selected="selected">Cash on Delivery</option>
-                        <option value="onsite_option">Onsite Delivery</option>
-                        <option value="gcash_option">GCash</option>
-                    </select>
-                </p>
-            </div>
-
-        <!-- ---------------------------------------------------- RECEIPT ------------------------------------------------- -->
-
-            <div class="form2">
-                <header class="company-name">Tag's Water Purified Drinking Water</header>
-                <body>
-                    <p class="date-Text">Date and Time: <span id='date-time'></p>
-                    <hr>
-                    <div class="orderSummary">
-                        <p class="orderSummary-text">Order Summary</p>
-                        <p class="customer-text">Customer: <span id="customer-name"></span></p>
-                    </div>
-                    <hr>
-                    <div class="orderSum-table">
-                        <!-- order summary in table -->
-                    </div>
-                    <hr>
-                    <p class="orderTotal-text">Order Total <span id="order-total"></span></p>
-                    <hr>
-                    <div class="receipt-buttons">
-                        <button class="cancelOrder-button">Cancel</button>
-                        <button class="confirmOrder-button">Confirm</button>
-                    </div>
-                </body>
-            </div>
-
-        <!-- ---------------------------------------------------- PREVIOUS TRANSACTIONS ------------------------------------------------- -->
-
-            <div class="previous-transaction">
-                <br>
-                <header class="previous-transaction-header">Today's Previous Transaction</header>
-                <hr>
-                <!-- <table class="previous-transaction-table">
-                    <thead>
-                        <tr>
-                        <td>#</td>
-                        <td>Customer Details</td>
-                        <td>Order</td>
-                        <td>Payment</td>
-                        <td>Status</td>
-                        <td>Date/Time</td>
-                        </tr>
-                    </thead>
-                    </table> -->
-            </div>
-
+     
 <!-- CONTAINER END ---------------------------------------------------------------------------------------- -->
 <!--------------------------------------------------------------------------------------------------------- -->
 
-            </div>  
+          
         </div> 
             </main>
                 <div class="top-menu">  
@@ -354,17 +293,129 @@ include 'connectionDB.php';
                                         </a>
                                 </div>    
                         </div>  
-                    </div>           
+                    </div>      
+                    <!-- <div class="form2"> -->
+                            <div class="payment-options">
+                                 <?php
+                                    $dropdown_query1 = "SELECT * FROM payment_option";
+                                    $result3 = mysqli_query($con, $dropdown_query1);
+                                ?>
+                                <p class="paymentOptions-text">Payment Options</p>
+                                    <select class="paymentOptions-dropdown">
+                                        <?php while($row3 = mysqli_fetch_array($result3)):;?>
+                                            <option><?php echo $row3[1];?></option>
+                                        <?php endwhile;?>
+                                    </select>
+                            </div>
+                            <div class="totalOrder">
+                                
+                                <header class="company-name">Tag's Water Purified Drinking Water</header>
+                                <body>
+                                    <p class="date-Text">Date and Time: 
+                                        <div class="card">
+                                            <h1 id="time" class="time">00:00:00</h1>
+                                            <h1 class="dash">-</h1>
+                                            <h1 id="date" class="date">00/00/0000</h1>
+                                        </div>
+                                    </p>
+                                    <hr class="hr1">
+                                    <p class="orderSummary-text">Order Summary</p>
+                                    <p class="cashier-text">Cashier: <span id="cashier-name"><h5 class="name-cashier"><?php echo $_SESSION['user_first_name']; ?></h5></span></p>
+                                    <div class="orderSum-table">
+                                        <table class="tableCheckout" id="myTable"> 
+                                            <thead> 
+                                                <tr>
+                                                    <th>ITEM</th>
+                                                    <th>Water</th>
+                                                    <th>Type</th>
+                                                    <th>QTY</th>
+                                                    <th>Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr>
+                                    <p class="orderTotal-text">Order Total</p>
+                                    <h3 class="peso-sign">PHP</h3>
+                                    <input type="text" class="total-order" value="0.00" readonly>
+                                    <hr>
+                                    <div class="receipt-buttons">
+                                        <a href="Account.php" id="cancel">CANCEL</a>   
+                                        <input type="button" class="confirmOrder-button" value="CONFIRM">
+                                    </div>
+                                </body>
+                            </div>
+                    <!-- </div>  -->
                 </div>
+                   <!-- ---------------------------------------------------- PREVIOUS TRANSACTIONS ------------------------------------------------- -->
+
+            <div class="previous-transaction">
+                <br>
+                <header class="previous-transaction-header">Previous Transaction</header>
+                <hr>
+                <table class="previous-transaction-table">
+                    <thead>
+                        <tr>
+                        <th>ID</th>
+                        <th>Customer Name</th>
+                        <th>Item Name</th>
+                        <th>Water</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th>QTY</th>
+                        <th>Total</th>
+                        <th>Change</th>
+                        <th>Amount Tentered</th>
+                        <th>Payment</th>
+                        <th>Service</th>
+                        <th>Cashier Name</th>
+                        <th>Date/Time</th>
+                        </tr>
+                    </thead>
+                    <?php
+                            $dropdown_query2 = "SELECT * FROM transaction";
+                            $result4 = mysqli_query($con, $dropdown_query2);
+                                while ($rows = mysqli_fetch_assoc($result4))
+                                {
+                            ?>
+                            <tbody>
+                                    <tr>
+                                        <td> <?php echo $rows['transaction_id']; ?></td>
+                                        <td> <?php echo $rows['customer_name']; ?></td>
+                                        <td> <?php echo $rows['item_name']; ?></td>
+                                        <td> <?php echo $rows['water_type']; ?></td>
+                                        <td> <?php echo $rows['water_service']; ?></td>
+                                        <td> <?php echo $rows['price']; ?></td>
+                                        <td> <?php echo $rows['quantity']; ?></td>
+                                        <td> <?php echo $rows['total_amount']; ?></td>
+                                        <td> <?php echo $rows['customer_change']; ?></td>
+                                        <td> <?php echo $rows['amount_tentered']; ?></td>
+                                        <td> <?php echo $rows['payment_option']; ?></td>
+                                        <td> <?php echo $rows['service_type']; ?></td>
+                                        <td> <?php echo $rows['cashier_name']; ?></td>
+                                        <td> <?php echo $rows['date_time']; ?></td>
+                                    <tr id="noRecordTR" style="display:none">
+                                        <td colspan="10">No Record Found</td>                         
+                                    </tr>
+                            </tbody>
+                                    <?php
+                                }
+                                ?> 
+                    </table>
+            </div>
+
         </div>
                 
 <!-- CONTAINER START -------------------------------------------------------------------------------------- -->
 <!--------------------------------------------------------------------------------------------------------- -->
 
                     <?php
-                        $dropdown_query = "SELECT * FROM category";
+                        $dropdown_query = "SELECT item_name FROM inventory_details";
                         $result1 = mysqli_query($con, $dropdown_query);
                     ?>
+                    
     </body>
 </html>
 <script>
@@ -372,17 +423,20 @@ include 'connectionDB.php';
         $(document).ready(function(){
             $("#selectOrder").click(function(){
                 var addcontrols="<tr>"
+                    addcontrols+="<td><button type='button' class='removeBtn'>X</button></td>"
                     addcontrols+="<td><select class='selectTable-water1'><option value='Alkaline'>Alkaline</option><option value='Mineral'>Mineral</option></select></td>"
                     addcontrols+="<td><select class='selectTable-item'><?php while($row2 = mysqli_fetch_array($result1)):;?><option><?php echo $row2[1];?></option><?php endwhile;?></select></td>"
-                    addcontrols+="<td><input type='text' class='textBox-table' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
-                    addcontrols+="<td><input type='text' class='textBox-table' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
-                    addcontrols+="<td><input type='text' class='textBox-table' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
-                    addcontrols+="<td><input type='text' class='textBox-table' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
+                    addcontrols+="<td><input type='number' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
+                    addcontrols+="<td><input type='number' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
+                    addcontrols+="<td><input type='text' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)' readonly></td>"
+                    addcontrols+="<td><input type='text' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)' readonly></td>"
                     addcontrols+="</tr>";
                         $("table tbody").append(addcontrols);
                 });
             });
-
+            $('.table tbody').on('click','.removeBtn',function(){
+                $(this).closest('tr').remove();
+            });
        // -----------------------------date and time
         var today = new Date();
         var day = today.getDate();
@@ -460,7 +514,12 @@ include 'connectionDB.php';
         //         body.classList.remove('dark')     
         //     }
          });
-        
+    function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+    }
 </script>
 <style>
     :root{
@@ -674,12 +733,15 @@ include 'connectionDB.php';
      .top-menu{
         margin-top: .7rem;
         position: absolute;
+        display: grid;
         right: 3%;
+        width:100%;
     }
     .top-menu .menu-bar{
         display: flex;
         justify-content: end;
         gap: 2rem;
+        position:relative;
     }
     .top-menu .menu-bar button{
         display: none;
@@ -891,7 +953,7 @@ include 'connectionDB.php';
         font-family: 'COCOGOOSE', sans-serif;
         letter-spacing: .03rem;
         border-bottom: 2px solid var(--color-main); 
-        width: 78%;
+        width: 100%;
     }
    
         /* ----------------------------------------Sub TAB---------------------------------------- */
@@ -1056,7 +1118,7 @@ include 'connectionDB.php';
     /* ----------------------------------------ASIDE---------------------------------------- */
     .container{
         display: grid;
-        width: 96%;
+        width: 71%;
         /* margin: 0 auto; */
         background: var(--color-background);
         gap: 1.8rem;
@@ -1403,6 +1465,7 @@ include 'connectionDB.php';
         /* padding: 50px; */
         /* background-color: none; */
         position: relative;
+        margin-bottom: -1rem;
     }
    
     .selectCustomer-button{
@@ -1452,59 +1515,32 @@ include 'connectionDB.php';
     }
 
     /* ORDER FORM -------------------------------------------------------------------------------*/
+    .form-container{
+        display: inline-block;
+        position: relative;
+    }
     .form1{
         background-color: var(--color-white);
         margin-top: 2rem;
         /* margin-left: 20rem; */
         border: none;
         /* border-color: var(--color-table-border); */
-        width: 60%;
-        /* display: inline-block;
-         */
-        position: relative;
+        width: 100%;
+        display: inline-block;
         height: 33%;
         border-radius: 1rem;
         /* position: absolute; */
+        padding-top: 1rem;
     }
-    .card {
-        display: inline-block;
-        /* padding-bottom: 1rem; */
-        /* padding-bottom: 1.6rem; */
-        /* box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.2); */
-        border-radius: 0.1rem;
-        height: 1rem;
-        border: transparent;
-        font-size: 1rem;
-        font-family: 'Rajdhani', sans-serif;
-        left: 17vw;     
-        /* margin-top: rem; */
-        position: absolute;
-        margin-top: .7rem;
-    }
-    .time{
-        /* background-color: var(--color-black); */
-        color: var(--color-tertiary);
-        font-size: 1.5rem;
-        font-weight: 500;
-        display: inline-block;
-    }
-    .date {
-        color: var(--color-tertiary);
-        font-size: 1.5rem;
-        font-weight: 500;
-        display: inline-block;
-    }
-    .dash{
-        display: inline-block;
-        color: var(--color-tertiary);
-    }
+    
     .delivery-options{
         display: inline-block;
         /* display: inline-block; */
         position: relative;
         /* margin-left: 18rem; */
         /* text-align: right;    */
-        left: 22vw; 
+        left: 25vw; 
+        margin-top: -.7rem;
     }
     .select{
         background: var(--color-solid-gray);
@@ -1522,7 +1558,6 @@ include 'connectionDB.php';
     .select:hover{
         background: var(--color-main);
     }
-   
     .selectTable-water{
         background: none;
         color: var(--color-tertiary);
@@ -1538,20 +1573,23 @@ include 'connectionDB.php';
         display: inline-block;
         color: var(--color-solid-gray);
         font-weight: bold;
-        margin-top: 2rem;
+        /* margin-top: 2rem; */
         margin-left: 5rem;
+        font-size: 25px;
     }
     .selectCustomer-text:hover{
         filter: brightness(50%);
         cursor: pointer;
     }
     .form1-ordertype-buttons{
-        
         margin-top: 1rem;
-        margin-left: 15vw;
-        display: flex;
+        margin-left: 20vw;
+        width: 100%;
+        /* display: block; */
         height: 2rem;
-        position: relative;
+        position: static;
+        align-items: right;
+        right: 0;
         /* text-align: right; */
     }
     .refillOrder-button{
@@ -1561,7 +1599,7 @@ include 'connectionDB.php';
         display: inline-block;
         /* padding: 0rem; */
         height: 2rem;
-        width: 15vw;
+        width: 18rem;
         font-family: 'calibri', sans-serif;
         text-transform: uppercase;
         font-size: 1rem;
@@ -1576,7 +1614,6 @@ include 'connectionDB.php';
     }
     .a .refillOrder-button{
         text-align: center;
-        
         align-items: center;
     }
     .refillOrder-button:hover{
@@ -1596,7 +1633,7 @@ include 'connectionDB.php';
         display: inline-block;
         padding: 0rem;
         height: 2rem;
-        width: 15vw;
+        width: 18rem;
         font-family: 'calibri', sans-serif;
         text-transform: uppercase;
         font-size: 1rem;
@@ -1724,7 +1761,7 @@ include 'connectionDB.php';
     .form1-table{
         background-color: var(--color-white);
         padding: 1rem;
-        width:65%;
+        width:40%;
         overflow:auto;
         display: inline-block;
         height: 15rem;
@@ -1740,6 +1777,20 @@ include 'connectionDB.php';
     .textBox-table{
         width:2rem;
         border-radius: 5px;
+    }
+    .removeBtn{
+        background: none;
+        border: none;
+        font-weight: 600;
+        color: var(--color-maroon);
+        font-family: 'COCOGOOSE', sans-serif;
+    }
+    .removeBtn:hover{
+        background: var(--color-maroon);
+        border: none;
+        font-weight: 600;
+        border-radius: 15px;
+        color: var(--color-white);
     }
     .select-order{
         width: 36rem;
@@ -1758,11 +1809,13 @@ include 'connectionDB.php';
     }
     .form1-buttons{
         margin-top: 6rem;
-        margin-bottom: 1rem;
-        margin-left: 20rem;
+        /* margin-bottom: 1rem; */
+        margin-left: 30rem;
+        align-items: right;
         background-color: none;
         position: relative;
         padding: 1rem;
+        width: 100%;
     }
     .addDeliveryFee-button{
         background-color: var(--color-white);
@@ -1795,128 +1848,286 @@ include 'connectionDB.php';
     /* PAYMENT OPTIONS ------------------------------------------------------------------------------ */
 
     .payment-options{
-        margin-top: 6.5rem;
-        margin-left: 80rem;
-        padding: 5px;
+        /* position:relative; */
+        margin-left: -30rem; 
+        /* padding: 5px; */
         background-color: none;
+        /* display: inline-block; */
+        /* align-items: center; */
         position: absolute;
+        margin-top: 7rem;
     }
     .paymentOptions-text{
         font-size: 1rem;
+        margin-left: -10rem; 
         color: var(--color-solid-gray);
         font-weight: bold;
+        display: inline-block;
+        align-items: center;
+        margin-top: .5rem;
+        /* width: 10rem; */
     }
     .paymentOptions-dropdown{
         background-color: var(--color-background);
-        margin-left: 1rem;
-        padding: 0.5rem;
-        width: 15rem;
-        margin-bottom: 1rem;
+        margin-right: 5rem;
+        /* padding: 0.5rem; */
+        display: inline-block;
+        align-items: center;
+        width: 10rem;
+        height: 2rem;
+        /* margin-bottom: 1rem; */
         float: right;
     }
 
     /* RECEIPT --------------------------------------------------------------------------------------*/
 
-    .form2{
+    .totalOrder{
         background-color: var(--color-white);
-        margin-top: 11rem;
-        margin-left: 82rem;
-        margin-bottom: 10px;
-        border: 1px solid;
-        border-color: var(--color-table-border);
-        width: 30rem;
-        height: 33rem;
-        border-radius: 1rem;
+        border-color: var(--color-table-border); 
+        width: 25%;
+        border-radius: 20px;
+        height: 34.3rem;
+        /* padding: 4px; */
         position: absolute;
+        margin-top: 10.6rem;
+        /* display: grid; */
     }
     .company-name{
         color: var(--color-solid-gray);
         font-size: 0.8rem;
         font-weight: bold;
         text-align: center;
-        margin-top: 1rem;
+        margin-top: .8rem;
+        padding-top: 1.2rem;
+        text-transform: uppercase;
     }
     .date-Text{
-        font-weight: bold;
+        font-weight: 900;
+        font-size: 13px;
         margin-left: 1rem;
+        margin-top:1.7rem;
+        color: var(--color-black);
+        display: inline-block;
     }
-    .date-time{
-        font-weight: lighter;
-        margin-left: 1rem;
-        /* INSERT CODE FOR DATE AND TIME */
+    .card {
+        display: inline-block;
+        /* padding-bottom: 1rem; */
+        /* padding-bottom: 1.6rem; */
+        /* box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.2); */
+        border-radius: 0.1rem;
+        height: 1rem;
+        margin-left: 2rem;
+        border: transparent;
+        font-size: 10px;
+        font-family: 'Rajdhani', sans-serif;
+        /* left: 25vw;      */
+        /* margin-top: rem; */
+        /* position: absolute; */
+    }
+    .time{
+        /* background-color: var(--color-black); */
+        color: var(--color-tertiary);
+        font-size: 1.5rem;
+        font-weight: 500;
+        display: inline-block;
+    }
+    .date {
+        color: var(--color-tertiary);
+        font-size: 1.5rem;
+        font-weight: 500;
+        display: inline-block;
+    }
+    .dash{
+        display: inline-block;
+        color: var(--color-tertiary);
+    }
+    .hr1{
+        margin-top: -1rem;
+        margin-bottom: -1rem;
     }
     .orderSummary-text{
         color: var(--color-solid-gray);
         font-weight: bolder;
         margin-left: 1rem;
-        font-size: 1rem;
-        text-align: center;
+        font-size: 1.4rem;
+        text-align: left;
+        font-family: 'rajdhani', sans-serif;
+        text-transform: uppercase;
+        display: inline-block;
+        /* position: absolute; */
     }
-    .customer-text{
+    .cashier-text{
         color: var(--color-black);
         font-weight: lighter;
+        display: inline-block;
         margin-top: 1rem;
+        margin-left: 8rem;
+        font-size: .8rem;
+        text-align: 
+    }
+    .name-cashier{
+        display: inline-block;
         margin-left: 1rem;
-        font-size: 1rem;
+        margin-bottom: -1rem;
     }
     .orderSum-table{
-        background-color: var(--color-table-title);
+        background-color: var(--color-white);
         padding: 1rem;
-        width: 25rem;
-        height: 10rem;
-        float: left;
-        margin-left: 1rem;
-        margin-bottom: 1.5rem;
-        text-align: center;
-        box-shadow: 0.5rem 0.5rem 0.5rem var(--color-solid-gray);
+        width:85%;
+        overflow:auto;
+        /* display: inline-block; */
+        margin-left: 1.1rem;
+        height: 13rem;
+        margin-top: -1.76rem;
+        /* text-align: right; */
+        /* display: flex; */
+        border-top: 2px solid var(--color-tertiary);
+        position: relative;
+        border-radius: 10px;
     }
+    .tableCheckout table{
+        background: var(--color-white);
+        font-family: 'Switzer', sans-serif;
+        width: 100%;
+        font-size: 0.8rem;
+        border-radius: 0px 0px 10px 10px;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-bottom: 2.5rem;
+        text-align: center; 
+        transition: all 700ms ease;
+        overflow: auto;
+        margin-top: -1rem;
+    }
+
+    table tbody td{
+        height: 2.8rem;
+        border-bottom: 1px solid var(--color-solid-gray);
+        color: var(--color-td); 
+        font-size: .67rem;
+    }
+    .tableCheckout th{
+        height: 1.8rem;
+        color: var(--color-tertiary);
+        margin:1rem;
+        font-size: .8rem;
+        letter-spacing: 0.02rem;
+        border: none;
+        /* border-bottom: 2px solid var(--color-solid-gray); */
+    }  
+    tr:hover td{
+        color: var(--color-main); 
+        cursor: pointer;
+        background-color: var(--color-table-hover);
+     } 
     .orderTotal-text{
         color: var(--color-black);
         font-weight: bolder;
         margin-top: 1rem;
         margin-left: 1rem;
         font-size: 1rem;
+        align-items: right;
+        display: inline-block;
+    }
+    .peso-sign{
+        margin-left: 9rem;
+        display: inline-block;
+    }
+    .total-order{
+        display: inline-block;
+        border: none;
+        background-color: #FFCFCF;
+        padding: 7px;
+        font-family: 'Calibri', sans-serif;
+        font-size: 20px;
+        font-weight: 900;
+        text-align: right;
+        width: 10rem;
+        color: var(--color-tertiary);
     }
     .receipt-buttons{
         text-align: center;
+        margin-top: 1.3rem;
     }
     .cancelOrder-button{
-        background: var(--color-tertiary);
-        padding: 1rem;
+        background: #c44242;
+        /* padding: 1rem; */
         border-radius: 5rem;
-        font-size: 1rem;
+        font-size: min(max(9px, 1.1vw), 11px);
         color: white;
         border: none;
-        height: 3rem;
+        height: 2rem;
         width: 10rem;
+        /* position: absolute; */
         margin-left: 1rem;
-    }
+        font-family: 'COCOGOOSE', sans-serif;
+        text-transform: uppercase;
+        cursor: pointer; 
+   }
     .confirmOrder-button{
-        background: var(--color-return-container);
-        padding: 1rem;
+        background: var(--color-tertiary);
         border-radius: 5rem;
-        font-size: 1rem;
+        font-size: min(max(9px, 1.1vw), 11px);
         color: white;
         border: none;
-        height: 3rem;
-        width: 10rem;
+        height: 2.3rem;
+        width: 15rem;
         margin-left: 1rem;
+        font-family: 'COCOGOOSE', sans-serif;
+        text-transform: uppercase;
+        cursor: pointer; 
+        
+    }
+    .confirmOrder-button:hover{
+        filter: brightness(120%);
+        background: var(--color-tertiary);
+        transition: 0.5s; 
+    }
+    .cancelOrder-button:hover{
+        background-color: rgb(158, 0, 0);
+        transition: 0.5s; 
+    }
+    #cancel{
+        font-family: 'COCOGOOSE', sans-serif;
+        padding: 10px;
+        padding-left: 60px;
+        padding-right: 60px;
+        text-align: center;
+        width: 10rem;
+        height: 2rem;
+        outline: none;
+        border: none;
+        font-size: min(max(9px, 1.1vw), 11px);
+        border-radius: 20px;
+        color: white;
+        background: #c44242;
+        cursor: pointer; 
+        transition: 0.5s;
+    }
+    #cancel:hover{
+        background-color: rgb(158, 0, 0);
+        transition: 0.5s; 
     }
 
     /* PREVIOUS TRANSACTIONS ------------------------------------------------------------------------------- */
 
     .previous-transaction{
         background-color: var(--color-white);
-        padding: 0rem;
-        width: 92rem;
-        height: 10rem;
-        margin-left: 20rem;
-        margin-top: 45rem;
-        margin-bottom: 10px;
-        border-radius: 5px;
+        padding-left: 3rem;
+        padding-right: 3rem;
+        width: 76.8%;
+        height: 40rem;
+        margin-left: 21.4rem;
+        margin-top: 46rem;
+        margin-bottom: 4rem;
         border: 1px solid;
         border-color: var(--color-table-border);
         position: absolute;
+        overflow:auto;
+        /* position: absolute; */
+        /* box-shadow: 0px 5px 30px 2px var(--color-table-shadow); */
+        border-top: 8px solid var(--color-table-hover);
+        border-radius: 0px 0px 20px 20px;
     }
     .previous-transaction-header{
         color: var(--color-black);
@@ -1924,7 +2135,31 @@ include 'connectionDB.php';
         font-size: 1rem;
         text-align: center;
         margin-left: 1rem;
+        text-transform: uppercase;
+        font-family: 'COCOGOOSE', sans-serif;
+        letter-spacing: 1px;
+        /* margin-bottom:1.5rem; */
     }
+    .previous-transaction-table table tbody td{
+        height: 3.3rem;
+        border-bottom: 1px solid var(--color-border-bottom);
+        color: var(--color-td); 
+        font-size: .8rem;
+    }
+    .previous-transaction-table th{
+        height: 3.3rem;
+        /* padding: 1rem; */
+        color: var(--color-black); 
+        margin:1rem;
+        font-size: .8rem;
+        letter-spacing: 0.02rem;
+        border: none;
+    }  
+    .previous-transaction-table tr:hover td{
+        color: var(--color-main); 
+        cursor: pointer;
+        background-color: var(--color-table-hover);
+     }
 </style>
 <!-- SCRIPT------------------------------------------------------------------------------------ -->
 <script>
