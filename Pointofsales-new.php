@@ -59,7 +59,6 @@ include 'connectionDB.php';
         <title>Tag's Water Purified Drinking Water</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
         <!-- <script src="./index.js"></script> -->
     </head>
     <body>
@@ -221,25 +220,19 @@ include 'connectionDB.php';
                             <tr>
                                 <th>WATER</th>
                                 <th>ITEM</th>
-                                <th>Own Gal</th>
+                                <th>Customer Gal</th>
                                 <th>Tags Gal</th>
                                 <th>Price</th>
                                 <th>TOTAL</th>
                             </tr>
                         </thead>
-                        <tbody>
-                        </tbody>
-                        <tfoot>
-                            <tr id="selectorder" class="selectorder" style="width:10rem">
-                                <td colspan="6"><input type="button" class="select-order" id="selectOrder" value="ADD ORDER"></td>                         
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
 
                 <div class="form1-buttons">
                     <button class="addDeliveryFee-button">Add Delivery Fee</button>
                     <button class="addOrder-button" id="addOrder-form">Add Order</button>
+    
                 </div>
             </div>
 
@@ -360,85 +353,68 @@ include 'connectionDB.php';
 <!-- CONTAINER START -------------------------------------------------------------------------------------- -->
 <!--------------------------------------------------------------------------------------------------------- -->
 
-                    <?php
-                        $dropdown_query = "SELECT * FROM category";
-                        $result1 = mysqli_query($con, $dropdown_query);
-                    ?>
+  
     </body>
 </html>
 <script>
-       // -----------------------------add order table
-        $(document).ready(function(){
-            $("#selectOrder").click(function(){
-                var addcontrols="<tr>"
-                    addcontrols+="<td><select class='selectTable-water1'><option value='Alkaline'>Alkaline</option><option value='Mineral'>Mineral</option></select></td>"
-                    addcontrols+="<td><select class='selectTable-item'><?php while($row2 = mysqli_fetch_array($result1)):;?><option><?php echo $row2[1];?></option><?php endwhile;?></select></td>"
-                    addcontrols+="<td><input type='text' class='textBox-table' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
-                    addcontrols+="<td><input type='text' class='textBox-table' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
-                    addcontrols+="<td><input type='text' class='textBox-table' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
-                    addcontrols+="<td><input type='text' class='textBox-table' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
-                    addcontrols+="</tr>";
-                        $("table tbody").append(addcontrols);
-                });
-            });
+     // -----------------------------date and time
 
-       // -----------------------------date and time
-        var today = new Date();
-        var day = today.getDate();
-        var month = today.getMonth() + 1;
+    var today = new Date();
+    var day = today.getDate();
+    var month = today.getMonth() + 1;
 
-        function appendZero(value) {
-            return "0" + value;
-        }
+    function appendZero(value) {
+        return "0" + value;
+    }
 
-        function theTime() {
-            var d = new Date();
-            document.getElementById("time").innerHTML = d.toLocaleTimeString("en-US");
-        }
+    function theTime() {
+        var d = new Date();
+        document.getElementById("time").innerHTML = d.toLocaleTimeString("en-US");
+    }
 
-        if (day < 10) {
-            day = appendZero(day);
-        }
+    if (day < 10) {
+        day = appendZero(day);
+    }
 
-        if (month < 10) {
-            month = appendZero(month);
-        }
+    if (month < 10) {
+        month = appendZero(month);
+    }
 
-        today = day + "/" + month + "/" + today.getFullYear();
+    today = day + "/" + month + "/" + today.getFullYear();
 
-        document.getElementById("date").innerHTML = today;
+    document.getElementById("date").innerHTML = today;
 
-        var myVar = setInterval(function () {
-            theTime();
-        }, 1000);
+    var myVar = setInterval(function () {
+        theTime();
+    }, 1000);
      // -----------------------------SIDE MENU
-        $(document).ready(function(){
-        //jquery for toggle sub menus
-        $('.sub-btn').click(function(){
-        $(this).next('.sub-menu').slideToggle();
-        $(this).find('.dropdown').toggleClass('rotate');
-        });
+     $(document).ready(function(){
+     //jquery for toggle sub menus
+     $('.sub-btn').click(function(){
+       $(this).next('.sub-menu').slideToggle();
+       $(this).find('.dropdown').toggleClass('rotate');
+     });
 
-        //jquery for expand and collapse the sidebar
-        $('.menu-btn').click(function(){
-        $('.side-bar').addClass('active');
-        $('.menu-btn').css("visibility", "hidden");
-        });
+     //jquery for expand and collapse the sidebar
+     $('.menu-btn').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn').css("visibility", "hidden");
+     });
 
-        $('.close-btn').click(function(){
-        $('.side-bar').removeClass('active');
-        $('.menu-btn').css("visibility", "visible");
-        });
-        $('.menu-btn2').click(function(){
-        $('.side-bar').addClass('active');
-        $('.menu-btn2').css("visibility", "hidden");
-        });
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn').css("visibility", "visible");
+     });
+     $('.menu-btn2').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn2').css("visibility", "hidden");
+     });
 
-        $('.close-btn').click(function(){
-        $('.side-bar').removeClass('active');
-        $('.menu-btn2').css("visibility", "visible");
-        });
-    });
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn2').css("visibility", "visible");
+     });
+   });
 //    --------------------------------------------------------------------
     const sideMenu = document.querySelector('#aside');
     const closeBtn = document.querySelector('#close-btn');
@@ -1018,7 +994,7 @@ include 'connectionDB.php';
         height: 500px;
         
     }*/
-     table{
+    table{
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
         width: 100%;
@@ -1465,6 +1441,7 @@ include 'connectionDB.php';
         border-radius: 1rem;
         /* position: absolute; */
     }
+    
     .card {
         display: inline-block;
         /* padding-bottom: 1rem; */
@@ -1497,13 +1474,14 @@ include 'connectionDB.php';
         display: inline-block;
         color: var(--color-tertiary);
     }
+
     .delivery-options{
         display: inline-block;
         /* display: inline-block; */
         position: relative;
         /* margin-left: 18rem; */
         /* text-align: right;    */
-        left: 22vw; 
+        left: 22vw;     
     }
     .select{
         background: var(--color-solid-gray);
@@ -1520,18 +1498,6 @@ include 'connectionDB.php';
     }
     .select:hover{
         background: var(--color-main);
-    }
-   
-    .selectTable-water{
-        background: none;
-        color: var(--color-tertiary);
-        /* align-items: center; */
-        /* padding: 10px 13px; */
-        height: 2.9em;
-        width: 4vw;
-        font-size: 14px;
-        cursor: pointer;
-        border: none;
     }
     .selectCustomer-text{
         display: inline-block;
@@ -1554,10 +1520,9 @@ include 'connectionDB.php';
         /* text-align: right; */
     }
     .refillOrder-button{
-        color: var(--color-white);
-        transition: 0.3s;
-        background-color: var(--color-blue-button);
         display: inline-block;
+        background-color: var(--color-secondary-main);
+        color: var(--color-tertiary);   
         /* padding: 0rem; */
         height: 2rem;
         width: 15vw;
@@ -1590,9 +1555,9 @@ include 'connectionDB.php';
     }
 
     .newOrder-button{
-        background-color: var(--color-secondary-main);
-        color: var(--color-tertiary);
         display: inline-block;
+        color: var(--color-white);
+        background-color: var(--color-blue-button);
         padding: 0rem;
         height: 2rem;
         width: 15vw;
@@ -1677,10 +1642,6 @@ include 'connectionDB.php';
         font-size: .7rem;
         margin: 1px;
     }
-    .containerTable-button:focus{
-        background-color: var(--color-blue-button);
-        color: var(--color-white);
-    }
     .bottleTable-button{
         background: var(--color-tertiary);
         color: var(--color-white);
@@ -1694,10 +1655,6 @@ include 'connectionDB.php';
         text-transform: uppercase;
         font-size: .7rem;
         margin: 1px;
-    }
-    .bottleTable-button:focus{
-        background-color: var(--color-blue-button);
-        color: var(--color-white);
     }
     .othersTable-button{
         background: var(--color-tertiary);
@@ -1715,16 +1672,12 @@ include 'connectionDB.php';
         margin-right: 1px;
         margin-bottom: 1px;
         margin-top: 2.5px;
-    }
-    .othersTable-button:focus{
-        background-color: var(--color-blue-button);
-        color: var(--color-white);
+
     }
     .form1-table{
         background-color: var(--color-white);
         padding: 1rem;
         width:65%;
-        overflow:auto;
         display: inline-block;
         height: 15rem;
         margin-left: 1rem;
@@ -1736,31 +1689,11 @@ include 'connectionDB.php';
         border-radius: 10px;
         /* box-shadow: 0.5rem 0.5rem 0.5rem var(--color-solid-gray); */
     }
-    .textBox-table{
-        width:2rem;
-        border-radius: 5px;
-    }
-    .select-order{
-        width: 36rem;
-        font-weight: 900;
-        height: 2rem;
-        background: var(--color-secondary-main);
-        color: var(--color-tertiary);
-        border: none;
-        font-family: 'outfit', sans-serif;
-        box-shadow: 0px 0px 2px 1px var(--color-tertiary);
-        border-radius: 15px;
-    }
-    .select-order:hover{
-        background: var(--color-main);
-        color: var(--color-white);
-    }
     .form1-buttons{
-        margin-top: 6rem;
+        margin-top: 17rem;
         margin-bottom: 1rem;
         margin-left: 20rem;
         background-color: none;
-        position: relative;
         padding: 1rem;
     }
     .addDeliveryFee-button{
@@ -1770,11 +1703,8 @@ include 'connectionDB.php';
         width: 14rem;
         font-size: 1rem;
         border-radius: 50px;
-        font-weight: 600;
-        font-family: 'outfit', sans-serif;
-        text-transform: uppercase;
         border-color: var(--color-lightest-gray);
-        box-shadow: 0px 1px 0px 0px var(--color-shadow-shadow);
+        box-shadow: 0px 3px 0px 0px var(--color-shadow-shadow);
         margin: 1rem;
     }
     .addOrder-button{
@@ -1784,11 +1714,8 @@ include 'connectionDB.php';
         width: 14rem;
         font-size: 1rem;
         border-radius: 50px;
-        font-weight: 600;
-        text-transform: uppercase;
-        font-family: 'outfit', sans-serif;
         border-color: var(--color-lightest-gray);
-        box-shadow: 0px 1px 0px 0px var(--color-shadow-shadow);
+        box-shadow: 0px 3px 0px 0px var(--color-shadow-shadow);
     }
 
     /* PAYMENT OPTIONS ------------------------------------------------------------------------------ */

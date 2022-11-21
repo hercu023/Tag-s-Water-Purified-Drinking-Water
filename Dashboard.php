@@ -16,7 +16,7 @@ include 'connectionDB.php';
             if ($stmt->rowCount() === 1){
                 $user = $stmt->fetch();
                 
-                $user_id = $user['id'];
+                $user_id = $user['user_id'];
                 $user_email = $user['email'];
                 $user_password = $user['password'];
                 $user_first_name = $user['first_name'];
@@ -24,7 +24,7 @@ include 'connectionDB.php';
                 $user_profile_image = $user['profile_image'];
                 if ($email === $user_email){
                     if (password_verify($pass, $user_password)){
-                        $_SESSION['user_id'] = $user_id;
+                        $_SESSION['user_user_id'] = $user_id;
                         $_SESSION['user_email'] = $user_email;
                         $_SESSION['user_first_name'] =  $user_first_name;
                         $_SESSION['user_user_type'] =  $user_user_type;

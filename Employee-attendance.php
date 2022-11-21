@@ -3,24 +3,24 @@ require_once 'controllerUserdata.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
-    if (isset($_POST['id'])){
+    if (isset($_POST['user_id'])){
 
-        $id = $_POST['id'];
+        $id = $_POST['user_id'];
         
-        $stmt = $conn->prepare("SELECT * FROM users WHERE id=?");
+        $stmt = $conn->prepare("SELECT * FROM users WHERE user_id=?");
         $stmt->execute([$id]);
         $fetch_profile = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($stmt->rowCount() === 1){
                 $user = $stmt->fetch();
                 
-                $user_id = $user['id'];
+                $user_id = $user['user_id'];
                 $user_email = $user['email'];
                 $user_first_name = $user['first_name'];
                 $user_user_type = $user['user_type'];
                 $user_profile_image = $user['profile_image'];
                 if ($email === $user_email){
 
-                        $_SESSION['user_id'] = $user_id;
+                        $_SESSION['user_user_id'] = $user_id;
                         $_SESSION['user_email'] = $user_email;
                         $_SESSION['user_first_name'] =  $user_first_name;
                         $_SESSION['user_user_type'] =  $user_user_type;

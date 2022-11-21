@@ -22,7 +22,7 @@ $result1 = mysqli_query($con, $query1);
                 $user_profile_image = $user['profile_image'];
                 if ($email === $user_email){
 
-                        $_SESSION['user_id'] = $user_id;
+                        $_SESSION['user_user_id'] = $user_id;
                         $_SESSION['user_email'] = $user_email;
                         $_SESSION['user_first_name'] =  $user_first_name;
                         $_SESSION['user_user_type'] =  $user_user_type;
@@ -189,7 +189,7 @@ $result1 = mysqli_query($con, $query1);
                                             </a>
                                         </td>
                                     <tr id="noRecordTR" style="display:none">
-                                        <td colspan="9">No Record Found</td>                         
+                                        <td colspan="10">No Record Found</td>                         
                                     </tr>
                             </tbody>
                                     <?php
