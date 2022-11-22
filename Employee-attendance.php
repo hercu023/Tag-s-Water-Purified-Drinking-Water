@@ -54,7 +54,6 @@ $result = mysqli_query($con, $query);
     
         <div class="container">
         <div class="block"></div>
-
             <div class="menu">
                 <div class="menu-btn">
                 <i class="fas fa-bars"></i>
