@@ -53,6 +53,8 @@ $result = mysqli_query($con, $query);
     <body>
     
         <div class="container">
+        <div class="block"></div>
+
             <div class="menu">
                 <div class="menu-btn">
                 <i class="fas fa-bars"></i>
@@ -192,10 +194,10 @@ $result = mysqli_query($con, $query);
                                         <td> <?php echo $rows['contact_number']; ?></td>
                                         <td> <?php echo $rows['status']; ?></td>
                                         <td> 
-                                            <a href="Customer-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                            <a href="Customer-edit.php?edit=<?php echo $rows['ID']; ?>" id="edit-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
                                             </a>
-                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
+                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['ID']; ?>" id="archive-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
                                             </a>
                                         </td>
@@ -823,6 +825,14 @@ function myFunctionCP(){
         background-size: cover;
         background-attachment: fixed;
     }  
+    .block{
+        width: 5rem;
+        height: 2rem;
+        background-color: var(--color-background);
+        position: fixed;
+        display: flex;
+        top: 0;
+    }
       /* -----------------------------------------------Side Menu---------------------------------------- */
       .side-bar{
         background: var(--color-table-hover);

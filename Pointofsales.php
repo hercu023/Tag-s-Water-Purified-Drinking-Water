@@ -342,7 +342,7 @@ include 'connectionDB.php';
                                     <input type="text" class="total-order" value="0.00" readonly>
                                     <hr>
                                     <div class="receipt-buttons">
-                                        <a href="Account.php" id="cancel">CANCEL</a>   
+                                        <a href="Pointofsales.php" id="cancel">CANCEL</a>   
                                         <input type="button" class="confirmOrder-button" value="CONFIRM">
                                     </div>
                                 </body>
@@ -350,62 +350,62 @@ include 'connectionDB.php';
                     <!-- </div>  -->
                 </div>
                    <!-- ---------------------------------------------------- PREVIOUS TRANSACTIONS ------------------------------------------------- -->
-
-            <div class="previous-transaction">
-                <br>
-                <header class="previous-transaction-header">Previous Transaction</header>
-                <hr>
-                <table class="previous-transaction-table">
-                    <thead>
-                        <tr>
-                        <th>ID</th>
-                        <th>Customer Name</th>
-                        <th>Item Name</th>
-                        <th>Water</th>
-                        <th>Type</th>
-                        <th>Price</th>
-                        <th>QTY</th>
-                        <th>Total</th>
-                        <th>Change</th>
-                        <th>Amount Tentered</th>
-                        <th>Payment</th>
-                        <th>Service</th>
-                        <th>Cashier Name</th>
-                        <th>Date/Time</th>
-                        </tr>
-                    </thead>
-                    <?php
-                            $dropdown_query2 = "SELECT * FROM transaction";
-                            $result4 = mysqli_query($con, $dropdown_query2);
-                                while ($rows = mysqli_fetch_assoc($result4))
-                                {
-                            ?>
-                            <tbody>
-                                    <tr>
-                                        <td> <?php echo $rows['transaction_id']; ?></td>
-                                        <td> <?php echo $rows['customer_name']; ?></td>
-                                        <td> <?php echo $rows['item_name']; ?></td>
-                                        <td> <?php echo $rows['water_type']; ?></td>
-                                        <td> <?php echo $rows['water_service']; ?></td>
-                                        <td> <?php echo $rows['price']; ?></td>
-                                        <td> <?php echo $rows['quantity']; ?></td>
-                                        <td> <?php echo $rows['total_amount']; ?></td>
-                                        <td> <?php echo $rows['customer_change']; ?></td>
-                                        <td> <?php echo $rows['amount_tentered']; ?></td>
-                                        <td> <?php echo $rows['payment_option']; ?></td>
-                                        <td> <?php echo $rows['service_type']; ?></td>
-                                        <td> <?php echo $rows['cashier_name']; ?></td>
-                                        <td> <?php echo $rows['date_time']; ?></td>
-                                    <tr id="noRecordTR" style="display:none">
-                                        <td colspan="10">No Record Found</td>                         
-                                    </tr>
-                            </tbody>
-                                    <?php
-                                }
-                                ?> 
-                    </table>
-            </div>
-
+            <div class="form3">
+                <div class="previous-transaction">
+                    <br>
+                    <header class="previous-transaction-header">Previous Transaction</header>
+                    <hr>
+                    <table class="previous-transaction-table">
+                        <thead>
+                            <tr>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Item Name</th>
+                            <th>Water</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>QTY</th>
+                            <th>Total</th>
+                            <th>Change</th>
+                            <th>Amount Tentered</th>
+                            <th>Payment</th>
+                            <th>Service</th>
+                            <th>Cashier Name</th>
+                            <th>Date/Time</th>
+                            </tr>
+                        </thead>
+                        <?php
+                                $dropdown_query2 = "SELECT * FROM transaction";
+                                $result4 = mysqli_query($con, $dropdown_query2);
+                                    while ($rows = mysqli_fetch_assoc($result4))
+                                    {
+                                ?>
+                                <tbody>
+                                        <tr>
+                                            <td> <?php echo $rows['transaction_id']; ?></td>
+                                            <td> <?php echo $rows['customer_name']; ?></td>
+                                            <td> <?php echo $rows['item_name']; ?></td>
+                                            <td> <?php echo $rows['water_type']; ?></td>
+                                            <td> <?php echo $rows['water_service']; ?></td>
+                                            <td> <?php echo $rows['price']; ?></td>
+                                            <td> <?php echo $rows['quantity']; ?></td>
+                                            <td> <?php echo $rows['total_amount']; ?></td>
+                                            <td> <?php echo $rows['customer_change']; ?></td>
+                                            <td> <?php echo $rows['amount_tentered']; ?></td>
+                                            <td> <?php echo $rows['payment_option']; ?></td>
+                                            <td> <?php echo $rows['service_type']; ?></td>
+                                            <td> <?php echo $rows['cashier_name']; ?></td>
+                                            <td> <?php echo $rows['date_time']; ?></td>
+                                        <tr id="noRecordTR" style="display:none">
+                                            <td colspan="10">No Record Found</td>                         
+                                        </tr>
+                                </tbody>
+                                        <?php
+                                    }
+                                    ?> 
+                        </table>
+                    </div>
+                </div>
         </div>
                 
 <!-- CONTAINER START -------------------------------------------------------------------------------------- -->

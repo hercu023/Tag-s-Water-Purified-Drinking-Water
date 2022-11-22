@@ -53,6 +53,7 @@ $result = mysqli_query($con, $query);
     <body>
     
         <div class="container">
+        <div class="block"></div>
             <div class="menu">
                 <div class="menu-btn">
                 <i class="fas fa-bars"></i>
@@ -823,6 +824,14 @@ function myFunctionCP(){
         background-size: cover;
         background-attachment: fixed;
     }  
+    .block{
+        width: 5rem;
+        height: 2rem;
+        background-color: var(--color-background);
+        position: fixed;
+        display: flex;
+        top: 0;
+    }
       /* -----------------------------------------------Side Menu---------------------------------------- */
       .side-bar{
         background: var(--color-table-hover);
