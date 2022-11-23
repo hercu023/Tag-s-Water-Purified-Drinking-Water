@@ -11,7 +11,10 @@ include 'connectionDB.php';
         }else if (empty($pass)){
             // header("Location: login.php?error=Password is required");
         }else{
-            $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
+            $stmt = $conn->prepare("SELECT users.user_id,users.last_name,users.first_name,users.middle_name,users.email,users.password,users.contact_number, users.profile_image, account_type.user_type FROM users INNER JOIN account_type ON users.account_type_id = account_type.id WHERE email=?");
+            // $stmt1 = $conn->prepare("SELECT user_type FROM account_type WHERE id=?");
+            // $stmt1->execute([$id]);
+            
             $stmt->execute([$email]);
             if ($stmt->rowCount() === 1){
                 $user = $stmt->fetch();

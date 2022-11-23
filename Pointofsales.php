@@ -389,7 +389,7 @@ include 'connectionDB.php';
                                             <td> <?php echo $rows['amount_tentered']; ?></td>
                                             <td> <?php echo $rows['payment_option']; ?></td>
                                             <td> <?php echo $rows['service_type']; ?></td>
-                                            <td> <?php echo $rows['cashier_name']; ?></td>
+                                            <td> <?php echo $_SESSION['user_user_type']; ?></td>
                                             <td> <?php echo $rows['date_time']; ?></td>
                                         <tr id="noRecordTR" style="display:none">
                                             <td colspan="10">No Record Found</td>                         
@@ -407,7 +407,7 @@ include 'connectionDB.php';
 <!--------------------------------------------------------------------------------------------------------- -->
 
                     <?php
-                        $dropdown_query = "SELECT item_name FROM inventory_details";
+                        $dropdown_query = "SELECT item_name FROM inventory_item";
                         $result1 = mysqli_query($con, $dropdown_query);
                     ?>
                     

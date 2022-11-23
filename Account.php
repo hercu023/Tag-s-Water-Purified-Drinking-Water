@@ -1,34 +1,40 @@
 <?php
 require_once 'controllerUserdata.php';
 include_once('connectionDB.php');
-$query = "SELECT * FROM users";
-$result = mysqli_query($con, $query);
+// $query = "SELECT * FROM users";
+
+$query1 = "SELECT users.user_id,users.last_name,users.first_name,users.middle_name,users.email,users.contact_number, users.profile_image, account_type.user_type FROM users INNER JOIN account_type ON users.account_type_id = account_type.id";
+// $result = mysqli_query($con, $query);
+$result1 = mysqli_query($con, $query1);
+
     if (isset($_POST['user_id'])){
 
-        $id = $_POST['user_id'];
-        
-        $stmt = $conn->prepare("SELECT * FROM users WHERE user_id=?");
-        $stmt->execute([$id]);
-        $fetch_profile = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($stmt->rowCount() === 1){
+            // $id = $_POST['user_id'];
+            
+            $stmt = $conn->prepare("SELECT users.user_id,users.last_name,users.first_name,users.middle_name,users.email,users.contact_number, users.profile_image, account_type.user_type FROM users INNER JOIN account_type ON users.account_type_id = account_type.id WHERE user_id=?");
+            // $stmt1 = $conn->prepare("SELECT user_type FROM account_type WHERE id=?");
+            $stmt->execute([$id]);
+            // $stmt1->execute([$id]);
+            $fetch_profile = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($stmt->rowCount() === 1){
                 $user = $stmt->fetch();
+                // $user1 = $stmt1->fetch();
                 
                 $user_id = $user['user_id'];
                 $user_email = $user['email'];
                 $user_first_name = $user['first_name'];
-                $user_user_type = $user['user_type'];
+                $user_user_type = $user['account_type_id'];
                 $user_profile_image = $user['profile_image'];
                 if ($email === $user_email){
 
                         $_SESSION['user_user_id'] = $user_id;
                         $_SESSION['user_email'] = $user_email;
                         $_SESSION['user_first_name'] =  $user_first_name;
-                        $_SESSION['user_user_type'] =  $user_user_type;
+                        $_SESSION['user_account_type_id'] =  $user_user_type;
                         $_SESSION['user_profile_image'] =  $user_profile_image;
                 }
             }
         }
-    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -182,7 +188,8 @@ $result = mysqli_query($con, $query);
                             </thead>
 
                             <?php
-                                while ($rows = mysqli_fetch_assoc($result))
+                            
+                                while ($rows = mysqli_fetch_assoc($result1))
                                 {
                             ?>
                             <tbody>
@@ -242,7 +249,7 @@ $result = mysqli_query($con, $query);
                         <div class="drop-menu" >
                                 <div class="ul">
                                     <div class="user-type3">
-                                        <h1><?php echo $_SESSION['user_user_type']; ?> </h1>
+                                        <h1><?php echo $_SESSION['user_account_type_id']; ?> </h1>
                                     </div>
                                     <input type="checkbox" class="checkbox" id="checkbox">
                                         <label for="checkbox" class="theme-dark">
@@ -279,83 +286,88 @@ $result = mysqli_query($con, $query);
             <form action="#">
                 <div class="main-user-info">
                 <div class="user-input-box">
-                    <label for="itemname">Item Name</label>
+                    <label for="lastname">Last Name</label>
                     <input type="text"
-                            id="itemname"
-                            name="itemname"
+                            id="lastname"
+                            name="lastname"
                             required="required"
-                            placeholder="Enter Item Name"/>
+                            placeholder="Enter Last Name"/>
                 </div>
-                <div class="usertype-dropdown">
-                        <select class="select" name="inventorytype" required="" >
-                            <option selected disabled value="">TYPE</option>
-                            <option value="Admin">Container</option>
-                            <option value="Manager">Bottle</option>
-                            <option value="Cashier">Seal</option>
-                            <option value="Cashier">Filter</option>
-                            <option value="Cashier">Caps</option>
-                            <option value="Custom">Other</option>
-                        </select>
-                    </div>
-                    <!-- <th>ID</th>
-                                    <th>Item Name</th>
-                                    <th>Type</th>
-                                    <th>POS</th>
-                                    <th>Reorder Level</th>
-                                    <th>SRP</th>
-                                    <th>Cost</th>
-                                    <th>Supplier</th>
-                                    <th>Image</th>
-                                    <th>Date/Time</th>
-                                    <th>Action</th> -->
                 <div class="user-input-box">
-                    <label for="reorder">Reorder Level</label>
-                    <input type="number" min='0' onkeypress='return isNumberKey(event)'
-                            id="reorder"
-                            name="reorder"
+                    <label for="firstname">First Name</label>
+                    <input type="text"
+                            id="firstname"
+                            name="firstname"
+                            required="required"
+                            placeholder="Enter First Name"/>
+                </div>
+                <div class="user-input-box">
+                    <label for="middlename">Middle Name</label>
+                    <input type="text"
+                            id="middlename"
+                            name="middlename"
+                            required="required"
+                            placeholder="Enter Middle Name"/>
+                </div>
+                <div class="user-input-box">
+                    <label for="email">Email</label>
+                    <input type="text"
+                            id="email"
+                            name="email"
+                            required="required"
+                            placeholder="Enter Email"/>
+                </div>
+
+                <div class="user-input-box">
+                    <label for="contactnum">Contact Number</label>
+                    <input type="text" min='0' onkeypress='return isNumberKey(event)'
+                            id="contactnum"
+                            name="contactnum"
                             placeholder='0'
                             required="required"/>
                 </div>
                 
+                <div class="usertype-dropdown">
+                    <?php
+                        $dropdown_query1 = "SELECT * FROM account_type";
+                        $result3 = mysqli_query($con, $dropdown_query1);
+                    ?>
+                        <select class="select" name="usertypes" required="" >
+                            <option selected disabled value="">ROLE</option>
+                            <?php while($row3 = mysqli_fetch_array($result3)):;?>
+                                <option><?php echo $row3[1];?></option>
+                            <?php endwhile;?>
+                        </select>
+                    </div>
                 <div class="user-input-box">
-                    <label for="sellingprice">SRP</label>
-                    <!-- <span class="srp">PHP</span> -->
-                    <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
-                            id="sellingprice"
-                            class="sellingprice"
-                            name="sellingprice"
-                            placeholder="0.00"
-                            required="required"/>
+                    <label for="pass">Password</label>
+                    <input type="password"
+                            id="pass"
+                            name="pass"
+                            required="required"
+                            placeholder="Create Password"/>
                 </div>
                 <div class="user-input-box">
-                    <label for="suppliercost">Supplier Cost</label>
-                    <!-- <span class="cost">PHP</span> -->
-                    <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
-                            id="suppliercost"
-                            class="suppliercost"
-                            name="suppliercost"
-                            placeholder="0.00"
-                            required="required"/>
-                            
-                </div>
-                <div class="user-input-box">
-                    <label for="supplier">Supplier</label>
-                    <input type="text"
-                            id="supplier"
-                            name="supplier"
-                            placeholder="Enter Supplier"
-                            required="required"/>
-                </div>
-                <div class="line"></div>
+                    <label for="ecpass">Confirm Password</label>
+                    <input type="password"
+                            id="cpass"
+                            name="ecpass"
+                            required="required"
+                            placeholder="Confirm Password"/>
+                </div>              
+                <div class="checker">
+                        <input type="checkbox" name="" onclick="myFunctionCP()" >
+                        <span>Show password</span>
+                    </div>
                     <span class="gender-title">Profile Picture</span>
                     <div class="choose-profile">
-                        <input type="file" id="image-profile" name="image_item" accept="image/jpg, image/png, image/jpeg" >
+                        <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
                     </div>
                 <div class="line"></div>
 
                 <div class="bot-buttons">
                     <div class="CancelButton">
-                        <a href="Inventory-details.php" id="cancel">CANCEL</a>    
+                        <a href="Account.php" id="cancel">CANCEL</a>    
                     </div>
                     <div class="AddButton">
                         <button type="submit" id="adduserBtn" name="submit">SAVE</button>
@@ -521,28 +533,28 @@ function myFunctionCP(){
     
     $(document).ready(function(){
         $('#adduserFrm').submit(function(e){
-            e.preventDefault();
-            $.ajax({
-                type: 'post',
-                url: 'controllerUserdata.php',
-                data: new FormData(this),
-                contentType: false, 
-                cache: false,
-                processData: false,
-                // 'submit=1&'+$form.serialize(),
-                dataType: 'json',  
-                success: function(response){
-                    $(".message").css("display", "block");
-                    if(response.status == 1){   
-                        bgform.show();  
-                        addform.hide(); 
-                        message.hide(); 
-                        $('#adduserFrm')[0].reset();
-                }else{
-                    $(".message").html('<p>'+response.message+'<p>');
-                }
-                    }
-                });
+            // e.preventDefault();
+            // $.ajax({
+            //     type: 'post',
+            //     url: 'controllerUserdata.php',
+            //     data: new FormData(this),
+            //     contentType: false, 
+            //     cache: false,
+            //     processData: false,
+            //     // 'submit=1&'+$form.serialize(),
+            //     dataType: 'json',  
+            //     success: function(response){
+            //         $(".message").css("display", "block");
+            //         if(response.status == 1){   
+            //             bgform.show();  
+            //             addform.hide(); 
+            //             message.hide(); 
+            //             $('#adduserFrm')[0].reset();
+            //     }else{
+            //         $(".message").html('<p>'+response.message+'<p>');
+            //     }
+            //         }
+            //     });
             });
         //     $("#image-profile").change(function(){
         //         var file = this.files[0];
@@ -900,7 +912,22 @@ function myFunctionCP(){
     justify-content: end;
 }
 
-
+.checker {
+        /* display: flex; */
+        flex-wrap: wrap;
+        width: 100%;
+        padding-bottom: 15px;
+        gap: 5px;
+        text-align: right; 
+        align-items: right;
+    }
+    .checker span {
+        text-decoration: none;
+        color: var(--color-solid-gray);
+        top: 0;
+        font-size: min(max(10px, 1.2vw), 12px);
+        font-family: 'Switzer', sans-serif;
+    }
 .user-input-box{
     display: flex;
     flex-wrap: wrap;
@@ -1015,7 +1042,7 @@ function myFunctionCP(){
         align-items: center;
     }
 .gender-title{
-    margin-top: 1rem;
+    /* margin-top: rem; */
     font-family: 'Calibri', sans-serif;
     color: var(--color-solid-gray);
     width: 100%;
@@ -1113,10 +1140,10 @@ function myFunctionCP(){
     #cancel{
         font-family: 'COCOGOOSE', sans-serif;
         padding: 10px;
-        padding-left: 60px;
-        padding-right: 60px;
+        padding-left: 80px;
+        padding-right: 80px;
         text-align: center;
-        width: 10rem;
+        width: 30rem;
         max-height: 70px;
         outline: none;
         border: none;
@@ -1177,7 +1204,7 @@ function myFunctionCP(){
         width: 100%;
         align-items: center;
         text-align: center;
-        margin-top: 1.3rem;
+        margin-top: 4.3rem;
     }
     .AddButton button:hover{
         background: var(--color-button-hover);
@@ -1185,6 +1212,8 @@ function myFunctionCP(){
     .CancelButton{
         position: relative;
         margin-top: 3rem;
+        padding-top: 2rem;
+        /* padding-right: 2rem; */
     }
     .AddButton{
         position: relative;
@@ -1838,20 +1867,7 @@ function myFunctionCP(){
                 color: var(--color-white);
             }
          
-    .checker {
-        text-align: right;
-        align-items: right;
-        margin-right: 3rem;
-        margin-top: -7.5rem;
-        margin-bottom: 5rem;
-    }
-    .checker span {
-        text-decoration: none;
-        color: var(--color-solid-gray);
-        top: 0;
-        font-size: min(max(10px, 1.2vw), 12px);
-        font-family: 'Switzer', sans-serif;
-    }
+   
     /* ------------------------------------------------------------------------------------ */
     .message{
         background-color: hsl(0, 100%, 77%);
@@ -1907,7 +1923,7 @@ function myFunctionCP(){
        
     .choose-profile{
         /* position: relative; */
-        width: 100%;
+        width: 97%;
         height: 1.32rem;
         padding: 10px;
         margin-top: 1rem;
@@ -1928,19 +1944,7 @@ function myFunctionCP(){
         background: var(--color-main-2);
         transition: 0.5s;
     }
-    .addnew-title{
-        font-size: min(max(1.9rem, 1.1vw), 2rem);
-        color: var(--color-solid-gray);
-        font-family: 'Malberg Trial', sans-serif;
-        letter-spacing: .09rem;
-        display: flex;
-        padding-top: 1rem;
-        justify-content: center;
-        border-bottom: 2px solid var(--color-solid-gray);
-        margin: 15px;
-        padding-bottom: 10px;
-    }
-   
+
     .form-adduser1 .AddButton button{
         font-family: 'COCOGOOSE', sans-serif;
         padding: 10px;

@@ -28,11 +28,11 @@ $id = $_GET['edit'];
        $image_size = $_FILES['profileimage']['size'];
        $image_type = $_FILES['profileimage']['type'];
 
-       $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
-       $select->execute([$email]);
-       
+        $select = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
+        $select->execute([$email]);
+        
                $result =mysqli_query($con, "UPDATE users SET last_name='$lastname', first_name='$firstname', 
-               middle_name='$middlename', contact_number='$contact', user_type='$usertype' WHERE id='$userid'");
+               middle_name='$middlename', contact_number='$contact', user_type='$usertype' WHERE user_id='$userid'");
               
                if($result){
                        move_uploaded_file($image_tmp_name, "uploaded_image/$image");
@@ -85,7 +85,7 @@ $id = $_GET['edit'];
                         // header("Location: Account-Action-ChangePassword.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
                         }else{
                             $encpass = password_hash($new_pass, PASSWORD_BCRYPT);
-                            $run_query = mysqli_query($con, "UPDATE users SET password = '$encpass' WHERE id = '$id'");
+                            $run_query = mysqli_query($con, "UPDATE users SET password = '$encpass' WHERE user_id = '$id'");
                          //    $run_query = mysqli_query($con, $update_pass);
                             if($run_query){
                                 // header("Location: Account-Password-Changed.php");

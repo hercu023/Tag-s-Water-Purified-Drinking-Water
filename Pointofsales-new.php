@@ -417,7 +417,7 @@ include 'connectionDB.php';
 <!--------------------------------------------------------------------------------------------------------- -->
 
                     <?php
-                        $dropdown_query = "SELECT item_name FROM inventory_details";
+                        $dropdown_query = "SELECT item_name FROM inventory_item";
                         $result1 = mysqli_query($con, $dropdown_query);
                     ?>
                     

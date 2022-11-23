@@ -2,8 +2,9 @@
 // session_start();
 require_once 'controllerUserdata_account.php';
 include_once('connectionDB.php');
-$query = "SELECT * FROM users";
-$result = mysqli_query($con, $query);
+$query1 = "SELECT users.user_id,users.last_name,users.first_name,users.middle_name,users.email,users.contact_number, users.profile_image, account_type.user_type FROM users INNER JOIN account_type ON users.account_type_id = account_type.id";
+// $result = mysqli_query($con, $query);
+$result1 = mysqli_query($con, $query1);
 // $mysqli = new mysqli('localhost', 'root', '','acc_db');
 // $results = mysqli_query($con, "SELECT * FROM users");
 // $row = mysqli_fetch_array($result);  
@@ -11,7 +12,7 @@ if (isset($_POST['user_id'])){
 
         $id = $_POST['user_id'];
         
-        $stmt = $conn->prepare("SELECT * FROM users WHERE user_id=?");
+        $stmt = $conn->prepare("SELECT users.user_id,users.last_name,users.first_name,users.middle_name,users.email,users.contact_number, users.profile_image, account_type.user_type FROM users INNER JOIN account_type ON users.account_type_id = account_type.idWHERE user_id=?");
         $stmt->execute([$id]);
         $fetch_profile = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($stmt->rowCount() === 1){
@@ -181,7 +182,7 @@ if (isset($_POST['user_id'])){
                             </thead>
 
                             <?php
-                                while ($rows = mysqli_fetch_assoc($result))
+                                while ($rows = mysqli_fetch_assoc($result1))
                                 {
                             ?>
                             <tbody>
@@ -299,7 +300,7 @@ if (isset($_POST['user_id'])){
         if(isset($_GET['edit']))
         {
           $user_id = $_GET['edit'];  
-          $users = "SELECT * FROM users WHERE user_id='$user_id'";
+          $users = "SELECT users.user_id,users.last_name,users.first_name,users.middle_name,users.email,users.contact_number,users.profile_image, account_type.user_type FROM users INNER JOIN account_type ON users.account_type_id = account_type.id WHERE user_id='$user_id'";
           $users_run = mysqli_query($con, $users);
 
           if(mysqli_num_rows($users_run) > 0)
@@ -339,40 +340,22 @@ if (isset($_POST['user_id'])){
                                 <input type="text" id="contactnum" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum" value="<?=$user['contact_number'];?>">
                                 <span>Contact Number</span>
                             </div>
+                   
                             <div class="usertype-dropdown">
-                                <select class="select" id="usertypes" name="usertypes" required=""  value="<?=$user['user_type'];?>">
+                                <?php
+                                    $dropdown_query1 = "SELECT * FROM account_type";
+                                    $result3 = mysqli_query($con, $dropdown_query1);
+                                ?>
+                                <select class="select" name="usertypes" required="" value="<?=$user['user_type'];?>">
                                     <option selected disabled value="">ROLE</option>
-                                    <option value="Admin"
-                                    <?php
-                                        if($user['user_type'] == 'Admin'){
-                                            echo 'Selected';
-                                        }    
-                                    ?>
-                                    >ADMIN</option>
-                                    <option value="Manager"
-                                    <?php
-                                        if($user['user_type'] == 'Manager'){
-                                            echo 'Selected';
-                                        }    
-                                    ?>
-                                    >MANAGER</option>
-                                    <option value="Cashier"
-                                    <?php
-                                        if($user['user_type'] == 'Cashier'){
-                                            echo 'Selected';
-                                        }    
-                                    ?>
-                                    >CASHIER</option>
-                                    <option value="Custom"
-                                    <?php
-                                        if($user['user_type'] == 'Custom'){
-                                            echo 'Selected';
-                                        }    
-                                    ?>
-                                    ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
-                                    CUSTOM</option>
+                                        <?php while($row3 = mysqli_fetch_array($result3)):;?>
+                                            <option><?php echo $row3[1];?></option>
+                                        <?php endwhile;?>
                                 </select>
                             </div>
+                                    
+                                
+
                             <div class="profile-picture1" >
                                 <h4 >Profile Picture</h4>
                             </div>

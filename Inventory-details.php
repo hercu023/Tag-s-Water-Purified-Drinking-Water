@@ -1,8 +1,9 @@
 <?php
 require_once 'controllerUserdata_inventory.php';
 include_once('connectionDB.php');
-$query = "SELECT * FROM users";
-$result = mysqli_query($con, $query);
+$query1 = "SELECT inventory_item.id,inventory_item.item_name,category_type.name,inventory_item.pos_item,inventory_item.reorder_level,inventory_item.selling_price,inventory_item.image, inventory_item.created_at, users.first_name FROM inventory_item INNER JOIN category_type  ON inventory_item.category_by_id = category_type.id INNER JOIN users  ON inventory_item.created_by_id = users.user_id";
+// $result = mysqli_query($con, $query);
+$result1 = mysqli_query($con, $query1);
     if (isset($_POST['id'])){
 
         $id = $_POST['id'];
@@ -175,37 +176,35 @@ $result = mysqli_query($con, $query);
                                     <th>POS</th>
                                     <th>Reorder Level</th>
                                     <th>SRP</th>
-                                    <th>Cost</th>
-                                    <th>Supplier</th>
                                     <th>Image</th>
-                                    <th>Date/Time</th>
+                                    <th>Date/Time Added</th>
+                                    <th>Added By</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
 
                             <?php
-                            $inventory = "SELECT * FROM inventory_details"; 
+                            $inventory = "SELECT * FROM inventory_item"; 
                             $sql = mysqli_query($con, $inventory);
                                 while ($rows = mysqli_fetch_assoc($sql))
                                 {
                             ?>
                             <tbody>
                                     <tr>
-                                        <td> <?php echo $rows['inventory_id']; ?></td>
+                                        <td> <?php echo $rows['id']; ?></td>
                                         <td> <?php echo $rows['item_name']; ?></td>
-                                        <td> <?php echo $rows['type']; ?></td>
+                                        <td> <?php echo $rows['name']; ?></td>
                                         <td> <?php echo $rows['pos_item']; ?></td>
                                         <td> <?php echo $rows['reorder_level']; ?></td>
                                         <td> <?php echo $rows['selling_price']; ?></td>
-                                        <td> <?php echo $rows['supplier_price']; ?></td>
-                                        <td> <?php echo $rows['supplier']; ?></td>
-                                        <td> <?php echo $rows['image_item']; ?></td>
-                                        <td> <?php echo $rows['date_time']; ?></td>
+                                        <td> <?php echo $rows['image']; ?></td>
+                                        <td> <?php echo $rows['created_at']; ?></td>
+                                        <td> <?php echo $rows['first_name']; ?></td>
                                         <td> 
-                                            <a href="Customer-edit.php?edit=<?php echo $rows['inventory_id']; ?>" id="edit-action" class="action-btn" name="action">
+                                            <a href="Customer-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
                                             </a>
-                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['inventory_id']; ?>" id="archive-action" class="action-btn" name="action">
+                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
                                             </a>
                                         </td>
@@ -305,16 +304,19 @@ $result = mysqli_query($con, $query);
                             placeholder="Enter Item Name"/>
                 </div>
                 <div class="usertype-dropdown">
+                    <?php
+                        $dropdown_query1 = "SELECT * FROM category_type";
+                        $result3 = mysqli_query($con, $dropdown_query1);
+                    ?>
                         <select class="select" name="inventorytype" required="" >
                             <option selected disabled value="">TYPE</option>
-                            <option value="Admin">Container</option>
-                            <option value="Manager">Bottle</option>
-                            <option value="Cashier">Seal</option>
-                            <option value="Cashier">Filter</option>
-                            <option value="Cashier">Caps</option>
-                            <option value="Custom">Other</option>
+                            <?php while($row3 = mysqli_fetch_array($result3)):;?>
+                                <option><?php echo $row3[1];?></option>
+                            <?php endwhile;?>
                         </select>
-                    </div>
+                    </div>  
+                    <input type="hidden" required="required" name="firstname" value="<?php echo $_SESSION['user_first_name']; ?>">
+                         
                     <!-- <th>ID</th>
                                     <th>Item Name</th>
                                     <th>Type</th>
@@ -345,9 +347,9 @@ $result = mysqli_query($con, $query);
                             placeholder="0.00"
                             required="required"/>
                 </div>
-                <div class="user-input-box">
+                <!-- <div class="user-input-box">
                     <label for="suppliercost">Supplier Cost</label>
-                    <!-- <span class="cost">PHP</span> -->
+                    <span class="cost">PHP</span>
                     <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
                             id="suppliercost"
                             class="suppliercost"
@@ -355,15 +357,7 @@ $result = mysqli_query($con, $query);
                             placeholder="0.00"
                             required="required"/>
                             
-                </div>
-                <div class="user-input-box">
-                    <label for="supplier">Supplier</label>
-                    <input type="text"
-                            id="supplier"
-                            name="supplier"
-                            placeholder="Enter Supplier"
-                            required="required"/>
-                </div>
+                </div> -->
                 <div class="line"></div>
                     <span class="gender-title">Image</span>
                     <div class="choose-profile">
