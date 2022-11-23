@@ -109,8 +109,9 @@ $result = mysqli_query($con, $query);
                         <div id="employee" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm2-4h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Z"/></svg>
                         EMPLOYEE<i class="fas fa-angle-right dropdown"></i></a>
                             <div class="sub-menu">
-                                <a href="Employee-details.php" class="sub-item" id="employee-details">Employee Details</a>
-                                <a href="Employee-attendance.php" class="sub-item" id="employee-attendance" >Attendance</a>
+                                <a href="Employee-attendance.php" class="sub-item" id="employee-attendance">Attendance</a>
+                                <a href="Employee-details.php" class="sub-item" id="employee-details">Employee List</a>
+                                <a href="Employee-payroll.php" class="sub-item" id="employee-payroll">Payroll</a>
                             </div>
                         </div>
                         <div id="expense" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
@@ -142,7 +143,7 @@ $result = mysqli_query($con, $query);
         
             <main>
                 <div class="main-account">
-                    <h1 class="accTitle">EMPLOYEE</h1> 
+                    <h1 class="accTitle">EMPLOYEE ATTENDANCE</h1> 
                     <div class="sub-tab">
                         <!-- <div class="user-title"> 
                             <h2> User Accounts </h2>
@@ -150,7 +151,7 @@ $result = mysqli_query($con, $query);
                         <div class="newUser-button"> 
                             <button type="submit" id="add-userbutton" class="add-account">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                    <h3>Add Employee</h3>
+                                    <h3> NEW </h3>
                             </button>
                         </div>
                         <div class="search">
@@ -170,49 +171,27 @@ $result = mysqli_query($con, $query);
                             <thead class="theader"> 
                                 <tr>
                                     <th>ID</th>
-                                    <th>Last Name</th>
-                                    <th>First Name</th>
-                                    <th>Middle Name</th>
-                                    <th>Date Of Birth</th>
-                                    <th>Email Address</th>
-                                    <th>Contact No.</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Employee Name</th>
+                                    <th>Time In</th>
+                                    <th>Time Out</th>
+                                    <th>Date</th>
                                 </tr>
                             </thead>
 
-                            <?php
-                            $employee = "SELECT * FROM employee"; 
-                            $sql = mysqli_query($con, $employee);
-                                while ($rows = mysqli_fetch_assoc($sql))
-                                {
-                            ?>
                             <tbody>
-                                    <tr>
-                                        <td> <?php echo $rows['ID']; ?></td>
-                                        <td> <?php echo $rows['last_name']; ?></td>
-                                        <td> <?php echo $rows['first_name']; ?></td>
-                                        <td> <?php echo $rows['middle_name']; ?></td>
-                                        <td> <?php echo $rows['date_of_birth']; ?></td>
-                                        <td> <?php echo $rows['email_address']; ?></td>
-                                        <td> <?php echo $rows['contact_number']; ?></td>
-                                        <td> <?php echo $rows['status']; ?></td>
-                                        <td> 
-                                            <a href="Customer-edit.php?edit=<?php echo $rows['ID']; ?>" id="edit-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
-                                            </a>
-                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['ID']; ?>" id="archive-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr id="noRecordTR" style="display:none">
-                                        <td colspan="9">No Record Found</td>                         
-                                    </tr>
+                                <tr>
+                                <td class='hidden'></td>
+                                <td>".date('M d, Y', strtotime($row['date']))."</td>
+                                <td>".$row['empid']."</td>
+                                <td>".$row['firstname'].' '.$row['lastname']."</td>
+                                <td>".date('h:i A', strtotime($row['time_in'])).$status."</td>
+                                <td>".date('h:i A', strtotime($row['time_out']))."</td>
+                                <td>
+                                    <button class='btn btn-success btn-sm btn-flat edit' data-id='".$row['attid']."'><i class='fa fa-edit'></i> Edit</button>
+                                    <button class='btn btn-danger btn-sm btn-flat delete' data-id='".$row['attid']."'><i class='fa fa-trash'></i> Delete</button>
+                                </td>
+                                </tr>
                             </tbody>
-                                    <?php
-                                }
-                                ?>   
                         </table>     
                     </div>
                 </div>
@@ -223,7 +202,7 @@ $result = mysqli_query($con, $query);
                     <div class="menu-btn2">
                         <i class="fas fa-bars"></i>
                     </div>
-                    <h2 class="accTitle-top">EMPLOYEE</h2>
+                    <h2 class="accTitle-top">EMPLOYEE ATTENDANCE</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
@@ -374,36 +353,6 @@ $result = mysqli_query($con, $query);
                                         L193.15,601.2z"/>
                                 </g>
                             </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
                             </svg>
                         </div>  
                         <div class="register">  
@@ -418,6 +367,17 @@ $result = mysqli_query($con, $query);
                 </div>
             </div>
         </form>
+
+    <!------------------------------------------ CONTAINER START ------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------>
+
+
+
+    <!------------------------------------------- CONTAINER END -------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------>
+
+
+
         </div>
     
 </body>
@@ -2013,7 +1973,7 @@ function myFunctionCP(){
             align-items: center;
             color: var(--color-button); 
             fill: var(--color-button); 
-            width: 11rem;
+            width: 8rem;
             max-height: 46px;
             border-radius: 20px;
             padding: .68rem 1rem;
