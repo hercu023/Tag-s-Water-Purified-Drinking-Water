@@ -1,29 +1,26 @@
 <?php
-require_once 'controllerUserdata_account.php';
+require_once 'controllerUserdata_inventory.php';
 include_once('connectionDB.php');
 $query = "SELECT * FROM users";
 $result = mysqli_query($con, $query);
-// $mysqli = new mysqli('localhost', 'root', '','acc_db');
-// $results = mysqli_query($con, "SELECT * FROM users");
-// $row = mysqli_fetch_array($result);  
-if (isset($_POST['user_id'])){
+    if (isset($_POST['id'])){
 
-        $id = $_POST['user_id'];
+        $id = $_POST['id'];
         
-        $stmt = $conn->prepare("SELECT * FROM users WHERE user_id=?");
+        $stmt = $conn->prepare("SELECT * FROM users WHERE id=?");
         $stmt->execute([$id]);
         $fetch_profile = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($stmt->rowCount() === 1){
                 $user = $stmt->fetch();
                 
-                $user_id = $user['user_id'];
+                $user_id = $user['id'];
                 $user_email = $user['email'];
                 $user_first_name = $user['first_name'];
                 $user_user_type = $user['user_type'];
                 $user_profile_image = $user['profile_image'];
                 if ($email === $user_email){
 
-                        $_SESSION['user_user_id'] = $user_id;
+                        $_SESSION['user_id'] = $user_id;
                         $_SESSION['user_email'] = $user_email;
                         $_SESSION['user_first_name'] =  $user_first_name;
                         $_SESSION['user_user_type'] =  $user_user_type;
@@ -31,9 +28,8 @@ if (isset($_POST['user_id'])){
                 }
             }
         }
-       
+    
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,111 +44,113 @@ if (isset($_POST['user_id'])){
         <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <title>Tag's Water Purified Drinking Water</title>
-        <!-- <script src="./index.js"></script> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+        <script src="./index.js"></script>
     </head>
-    <body >
+    <body>
     
-    <div class="container">
+        <div class="container">
         <div class="block"></div>
             <div class="menu">
                 <div class="menu-btn">
-                    <i class="fas fa-bars"></i>
+                <i class="fas fa-bars"></i>
                 </div>
                 <div class="side-bar">
                     <div class="close-btn">
                         <i class="fas fa-times"></i>
                     </div>
-                <div class="menu">
-                <div class="title">
-                    <div class="titlelogo">
-                        <img class="tagslogo" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" >
-                    </div>
-                    <div class="close" id="close-btn" onclick="myFunctionhp(this)">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
-                    </div>
-                </div>
-                    <div id="dashboard" class="item"><a href="Dashboard.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M13 9V3h8v6ZM3 13V3h8v10Zm10 8V11h8v10ZM3 21v-6h8v6Z"/></svg>
-                    DASHBOARD</a></div>
-                    <div id="pointofsales" class="item"><a href="Pointofsales.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M7 8q-.825 0-1.412-.588Q5 6.825 5 6V4q0-.825.588-1.413Q6.175 2 7 2h10q.825 0 1.413.587Q19 3.175 19 4v2q0 .825-.587 1.412Q17.825 8 17 8Zm0-2h10V4H7v2ZM4 22q-.825 0-1.412-.587Q2 20.825 2 20v-1h20v1q0 .825-.587 1.413Q20.825 22 20 22Zm-2-4 3.475-7.825q.25-.55.738-.863Q6.7 9 7.3 9h9.4q.6 0 1.088.312.487.313.737.863L22 18Zm6.5-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 15 9.5 15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 13 9.5 13h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 11 9.5 11h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Z"/></svg>
-                    POINT OF SALES</a></div>
-                    <div id="reports" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M2 21V3h10v4h10v14Zm2-2h6v-2H4Zm0-4h6v-2H4Zm0-4h6V9H4Zm0-4h6V5H4Zm8 12h8V9h-8Zm2-6v-2h4v2Zm0 4v-2h4v2Z"/></svg>
-                    REPORTS<i class="fas fa-angle-right dropdown"></i></a>
-                        <div class="sub-menu">
-                            <a href="Reports-sales.php" class="sub-item">Sales</a>
-                            <a href="Reports-deliverywalkin.php" class="sub-item">Delivery/Walk-in</a>
-                            <a href="Reports-datalogs.php" class="sub-item" id="reports-datalogs">Data Logs</a>
-                            <a href="Reports-inventory.php" class="sub-item" id="reports-inventory">Inventory</a>
-                            <a href="Reports-itemissue.php" class="sub-item" id="reports-itemissue">Item Issue</a>
-                            <a href="Reports-inventory.php" class="sub-item" id="reports-attendance">Attendance</a>
-                            <a href="Reports-expense.php" class="sub-item" id="reports-expense">Expense</a>
+                    <div class="menu">
+                        <div class="title">
+                            <div class="titlelogo">
+                                <img class="tagslogo" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" >
+                            </div>
+                            <div class="close" id="close-btn" onclick="myFunctionhp(this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
+                            </div>
                         </div>
-                    </div>
-                    <div id="monitoring" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 21v-2l2-2v4Zm4 0v-6l2-2v8Zm4 0v-8l2 2.025V21Zm4 0v-5.975l2-2V21Zm4 0V11l2-2v12ZM3 15.825V13l7-7 4 4 7-7v2.825l-7 7-4-4Z"/></svg>
-                    MONITORING<i class="fas fa-angle-right dropdown"></i></a>
-                        <div class="sub-menu">
-                            <a href="Monitoring-deliverypickup.php" class="sub-item" id="monitoring-deliverypickup">Delivery/Pick Up</a>
-                            <a href="Monitoring-returncontainer.php" class="sub-item" id="monitoring-returncontainer">Return Container</a>
-                            <a href="Monitoring-customerbalance.php" class="sub-item" id="monitoring-customerbalance">Customer Balance</a>
-                            <a href="Monitoring-scheduling.php" class="sub-item" id="monitoring-scheduling">Scheduling</a>
-                            <a href="Monitoring-itemhistory.php" class="sub-item" id="monitoring-itemhistory">Item History</a>
+                        <div id="dashboard" class="item"><a href="Dashboard.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M13 9V3h8v6ZM3 13V3h8v10Zm10 8V11h8v10ZM3 21v-6h8v6Z"/></svg>
+                        DASHBOARD</a></div>
+                        <div id="pointofsales" class="item"><a href="Pointofsales.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M7 8q-.825 0-1.412-.588Q5 6.825 5 6V4q0-.825.588-1.413Q6.175 2 7 2h10q.825 0 1.413.587Q19 3.175 19 4v2q0 .825-.587 1.412Q17.825 8 17 8Zm0-2h10V4H7v2ZM4 22q-.825 0-1.412-.587Q2 20.825 2 20v-1h20v1q0 .825-.587 1.413Q20.825 22 20 22Zm-2-4 3.475-7.825q.25-.55.738-.863Q6.7 9 7.3 9h9.4q.6 0 1.088.312.487.313.737.863L22 18Zm6.5-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 15 9.5 15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 13 9.5 13h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 11 9.5 11h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Z"/></svg>
+                        POINT OF SALES</a></div>
+                        <div id="reports" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M2 21V3h10v4h10v14Zm2-2h6v-2H4Zm0-4h6v-2H4Zm0-4h6V9H4Zm0-4h6V5H4Zm8 12h8V9h-8Zm2-6v-2h4v2Zm0 4v-2h4v2Z"/></svg>
+                        REPORTS<i class="fas fa-angle-right dropdown"></i></a>
+                            <div class="sub-menu">
+                                <a href="Reports-sales.php" class="sub-item">Sales</a>
+                                <a href="Reports-deliverywalkin.php" class="sub-item">Delivery/Walk-in</a>
+                                <a href="Reports-datalogs.php" class="sub-item" id="reports-datalogs">Data Logs</a>
+                                <a href="Reports-inventory.php" class="sub-item" id="reports-inventory">Inventory</a>
+                                <a href="Reports-itemissue.php" class="sub-item" id="reports-itemissue">Item Issue</a>
+                                <a href="Reports-inventory.php" class="sub-item" id="reports-attendance">Attendance</a>
+                                <a href="Reports-expense.php" class="sub-item" id="reports-expense">Expense</a>
+                            </div>
                         </div>
-                    </div>
-                    <div id="customer" class="item"><a href="Customer.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
-                    CUSTOMER</a></div>
-                    <div id="inventory" class="item"><a class="sub-btn"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
+                        <div id="monitoring" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 21v-2l2-2v4Zm4 0v-6l2-2v8Zm4 0v-8l2 2.025V21Zm4 0v-5.975l2-2V21Zm4 0V11l2-2v12ZM3 15.825V13l7-7 4 4 7-7v2.825l-7 7-4-4Z"/></svg>
+                        MONITORING<i class="fas fa-angle-right dropdown"></i></a>
+                            <div class="sub-menu">
+                                <a href="Monitoring-deliverypickup.php" class="sub-item" id="monitoring-deliverypickup">Delivery/Pick Up</a>
+                                <a href="Monitoring-returncontainer.php" class="sub-item" id="monitoring-returncontainer">Return Container</a>
+                                <a href="Monitoring-customerbalance.php" class="sub-item" id="monitoring-customerbalance">Customer Balance</a>
+                                <a href="Monitoring-scheduling.php" class="sub-item" id="monitoring-scheduling">Scheduling</a>
+                                <a href="Monitoring-itemhistory.php" class="sub-item" id="monitoring-itemhistory">Item History</a>
+                            </div>
+                        </div>
+                        <div id="customer" class="item"><a href="Customer.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
+                        CUSTOMER</a></div>
+                        <div id="inventory" class="item"><a class="sub-btn"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
                         INVENTORY<i class="fas fa-angle-right dropdown"></i></a>
                             <div class="sub-menu">
                                 <a href="Inventory-stocks.php" class="sub-item" id="inventory-stocks">Stocks</a>
                                 <a href="Inventory-details.php" class="sub-item" id="inventory-details">Item</a>
                             </div>
                         </div>
-                    <div id="employee" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm2-4h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Z"/></svg>
-                    EMPLOYEE<i class="fas fa-angle-right dropdown"></i></a>
-                        <div class="sub-menu">
-                            <a href="Employee-details.php" class="sub-item" id="employee-details">Employee Details</a>
-                            <a href="Employee-attendance.php" class="sub-item" id="employee-attendance" >Attendance</a>
+                        <div id="employee" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm2-4h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Z"/></svg>
+                        EMPLOYEE<i class="fas fa-angle-right dropdown"></i></a>
+                            <div class="sub-menu">
+                                <a href="Employee-details.php" class="sub-item" id="employee-details">Employee Details</a>
+                                <a href="Employee-attendance.php" class="sub-item" id="employee-attendance" >Attendance</a>
+                            </div>
                         </div>
-                    </div>
-                    <div id="expense" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
-                    EXPENSE<i class="fas fa-angle-right dropdown"></i></a>
-                        <div class="sub-menu">
-                            <a href="Expense-expense.php" class="sub-item" id="expense-expense">Expense</a>
-                            <a href="Expense-employeesalary.php" class="sub-item" id="employee-salary">Employee Salary</a>
+                        <div id="expense" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
+                        EXPENSE<i class="fas fa-angle-right dropdown"></i></a>
+                            <div class="sub-menu">
+                                <a href="Expense-expense.php" class="sub-item" id="expense-expense">Expense</a>
+                                <a href="Expense-employeesalary.php" class="sub-item" id="employee-salary">Employee Salary</a>
+                            </div>
                         </div>
-                    </div>
-                    <div id="account" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
-                    ACCOUNT<i class="fas fa-angle-right dropdown"></i></a>
-                        <div class="sub-menu">
-                            <a href="Account-Type.php" class="sub-item" id="account-type">Account Type</a>
-                            <a href="Account.php" class="sub-item" id="accounts">User Account</a>
-                        </div>            
-                    </div>
-                    <div id="settings" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
-                    SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
-                        <div class="sub-menu">
-                        <a href="Settings-help.php" class="sub-item" id="settings-help">Help</a>
-                        <a href="Settings-datalogs.php" class="sub-item" id="settings-datalogs">Data Logs</a>
-                        <a href="Settings-dataarchive-customers.php" class="sub-item" id="settings-dataarchive">Archive</a>
-                        <a href="Settings-databackup-customers.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
+                        <div id="account" class="item"><a class="sub-btn"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
+                        ACCOUNT<i class="fas fa-angle-right dropdown"></i></a>
+                            <div class="sub-menu">
+                                <a href="Account-Type.php" class="sub-item" id="account-type">Account Type</a>
+                                <a href="Account.php" class="sub-item" id="accounts">User Account</a>
+                            </div>            
+                        </div>
+                        <div id="settings" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
+                        SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
+                            <div class="sub-menu">
+                                <a href="Settings-help.php" class="sub-item" id="settings-help">Help</a>
+                                <a href="Settings-datalogs.php" class="sub-item" id="settings-datalogs">Data Logs</a>
+                                <a href="Settings-dataarchive-customers.php" class="sub-item" id="settings-dataarchive">Archive</a>
+                                <a href="Settings-databackup-customers.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        
             <main>
                 <div class="main-account">
-                    <h1 class="accTitle">ACCOUNT</h1> 
+                    <h1 class="accTitle">INVENTORY</h1> 
                     <div class="sub-tab">
-                        <div class="user-title"> 
-                            <h2> User Account </h2>
-                        </div>
+                        <!-- <div class="user-title"> 
+                            <h2> User Accounts </h2>
+                        </div> -->
                         <div class="newUser-button"> 
-                            <button type="submit" id="add-userbutton" class="add-account">
+                            <button type="submit" id="add-userbutton" class="add-account" onclick="addnewuser();">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                    <h3>Add New User</h3>
+                                    <h3>Add New Item</h3>
                             </button>
                         </div>
                         <div class="search">
@@ -163,48 +161,55 @@ if (isset($_POST['user_id'])){
                                 </button>
                             </div>
                         </div>  
+                        <!-- <div class="popup-addAccount">
+                            
+                        </div> -->
                     </div>
                     <div class="account-container">
                         <table class="table" id="myTable"> 
                             <thead> 
                                 <tr>
                                     <th>ID</th>
-                                    <th>Last Name</th>
-                                    <th>First Name</th>
-                                    <th>Middle Name</th>
-                                    <th>Email</th>
-                                    <th>Contact Number</th>
-                                    <th>Role</th>
-                                    <th>Picture</th>
+                                    <th>Item Name</th>
+                                    <th>Type</th>
+                                    <th>POS</th>
+                                    <th>Reorder Level</th>
+                                    <th>SRP</th>
+                                    <th>Cost</th>
+                                    <th>Supplier</th>
+                                    <th>Image</th>
+                                    <th>Date/Time</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
 
                             <?php
-                                while ($rows = mysqli_fetch_assoc($result))
+                            $inventory = "SELECT * FROM inventory_details"; 
+                            $sql = mysqli_query($con, $inventory);
+                                while ($rows = mysqli_fetch_assoc($sql))
                                 {
                             ?>
                             <tbody>
                                     <tr>
-                                        <td> <?php echo $rows['user_id']; ?></td>
-                                        <td> <?php echo $rows['last_name']; ?></td>
-                                        <td> <?php echo $rows['first_name']; ?></td>
-                                        <td> <?php echo $rows['middle_name']; ?></td>
-                                        <td> <?php echo $rows['email']; ?></td>
-                                        <td> <?php echo $rows['contact_number']; ?></td>
-                                        <td> <?php echo $rows['user_type']; ?></td>
-                                        <td> <img src="<?php echo "uploaded_image/".$rows['profile_image']; ?>" width="50px"></td>
-                                        <td>
-                                            <a href="Account-Action.php?edit=<?php echo $rows['user_id']; ?>" id="edit-action" class="action-btn" name="action">
+                                        <td> <?php echo $rows['inventory_id']; ?></td>
+                                        <td> <?php echo $rows['item_name']; ?></td>
+                                        <td> <?php echo $rows['type']; ?></td>
+                                        <td> <?php echo $rows['pos_item']; ?></td>
+                                        <td> <?php echo $rows['reorder_level']; ?></td>
+                                        <td> <?php echo $rows['selling_price']; ?></td>
+                                        <td> <?php echo $rows['supplier_price']; ?></td>
+                                        <td> <?php echo $rows['supplier']; ?></td>
+                                        <td> <?php echo $rows['image_item']; ?></td>
+                                        <td> <?php echo $rows['date_time']; ?></td>
+                                        <td> 
+                                            <a href="Customer-edit.php?edit=<?php echo $rows['inventory_id']; ?>" id="edit-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
                                             </a>
-                                            <a href="Account-Action-ChangePassword.php?edit=<?php echo $rows['user_id']; ?>" id="cpass-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17q-1.688 0-3.104-.719-1.417-.719-2.375-1.927l1.062-1.083q.75 1.021 1.896 1.625Q8.625 15.5 10 15.5q2.271 0 3.885-1.615Q15.5 12.271 15.5 10t-1.615-3.885Q12.271 4.5 10 4.5q-2.292 0-3.917 1.635-1.625 1.636-1.583 3.99l1.188-1.187L6.75 10l-3 3-3-3 1.062-1.062L3 10.146q-.021-1.5.531-2.813.552-1.312 1.511-2.27Q6 4.104 7.281 3.552 8.562 3 10.021 3q1.437 0 2.708.552 1.271.552 2.219 1.5t1.5 2.219Q17 8.542 17 10q0 2.917-2.042 4.958Q12.917 17 10 17Zm-1.5-4q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
-                                            </a>
-                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['user_id']; ?>" id="archive-action" class="action-btn" name="action">
+                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['inventory_id']; ?>" id="archive-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
                                             </a>
                                         </td>
+                                    </tr>
                                     <tr id="noRecordTR" style="display:none">
                                         <td colspan="9">No Record Found</td>                         
                                     </tr>
@@ -214,16 +219,28 @@ if (isset($_POST['user_id'])){
                                 ?>   
                         </table>     
                     </div>
-                     
+                    <!-- <div class="next-page">
+                        <div class="pagination">
+                            <a href=""><i class="fas fa-chevron-left"></i> PREV</a>
+                            <a href="">1</a>
+                            <a href="">2</a>
+                            <a href="">3</a>
+                            <a href="">4</a>
+                            <a href="">...</a>
+                            <a href="">10</a>
+                            <a href=""> &nbsp;NEXT <i class="fas fa-chevron-right"></i></a>
+                            <div class="bottom_bar"></div>
+                        </div>
+                    </div> -->
                 </div>
             </main>
         
             <div class="top-menu">  
                 <div class="menu-bar">
-                    <button id="menu-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 18v-2h18v2Zm0-5v-2h18v2Zm0-5V6h18v2Z"/></svg>
-                    </button>
-                    <h2 class="accTitle-top">ACCOUNT</h2>
+                    <div class="menu-btn2">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2 class="accTitle-top">INVENTORY</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
@@ -267,66 +284,193 @@ if (isset($_POST['user_id'])){
                         </div>  
                     </div>     
                 </div>
-            </div>
-        </div>      
-        <?php 
-        if(isset($_GET['edit']))
-        {
-          $user_id = $_GET['edit'];  
-          $users = "SELECT * FROM users WHERE user_id='$user_id'";
-          $users_run = mysqli_query($con, $users);
-
-          if(mysqli_num_rows($users_run) > 0)
-          {
-            foreach($users_run as $user)
-            {
-                ?>
-        
-    <form name="cpass" action="" method="post" enctype="multipart/form-data" id="cpassuserFrm">
-        <div class="bg-cpassDropdown" id="cpass-bgdrop">
-          
-            <div class="cpass-container" id="cpass-container">
-
-            <h1 class="cpassnew-title">CHANGE PASSWORD</h1>
-              <?php if (isset($_GET['error'])) { ?>
-                <div class="message"><?php echo $_GET['error']; ?></div>
-            <?php } ?>  
-                <p>Create new password that is at least 8 characters long. Mix with numbers and symbols for a strong security.</p>
-                <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
-
-                <div class="cpass-container2" id="cpass-container2">
-                    <div class="form1-cpass">  
-                        <input type="password" class="newpassword" id="newpass" required="required" name="pass">
-                        <span>New Password</span>
+               
+            </div>      
+  
+        </div> 
+  
+    <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
+        <div class="bg-adduserform" id="bg-addform">
+            <div class="message"></div>
+            <div class="container1">
+            <h1 class="addnew-title">ADD NEW ITEM</h1>
+            <form action="#">
+                <div class="main-user-info">
+                <div class="user-input-box">
+                    <label for="itemname">Item Name</label>
+                    <input type="text"
+                            id="itemname"
+                            name="itemname"
+                            required="required"
+                            placeholder="Enter Item Name"/>
+                </div>
+                <div class="usertype-dropdown">
+                        <select class="select" name="inventorytype" required="" >
+                            <option selected disabled value="">TYPE</option>
+                            <option value="Admin">Container</option>
+                            <option value="Manager">Bottle</option>
+                            <option value="Cashier">Seal</option>
+                            <option value="Cashier">Filter</option>
+                            <option value="Cashier">Caps</option>
+                            <option value="Custom">Other</option>
+                        </select>
                     </div>
-                    <div class="form1-cpass">  
-                    <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass">
+                    <!-- <th>ID</th>
+                                    <th>Item Name</th>
+                                    <th>Type</th>
+                                    <th>POS</th>
+                                    <th>Reorder Level</th>
+                                    <th>SRP</th>
+                                    <th>Cost</th>
+                                    <th>Supplier</th>
+                                    <th>Image</th>
+                                    <th>Date/Time</th>
+                                    <th>Action</th> -->
+                <div class="user-input-box">
+                    <label for="reorder">Reorder Level</label>
+                    <input type="number" min='0' onkeypress='return isNumberKey(event)'
+                            id="reorder"
+                            name="reorder"
+                            placeholder='0'
+                            required="required"/>
+                </div>
+                
+                <div class="user-input-box">
+                    <label for="sellingprice">SRP</label>
+                    <!-- <span class="srp">PHP</span> -->
+                    <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
+                            id="sellingprice"
+                            class="sellingprice"
+                            name="sellingprice"
+                            placeholder="0.00"
+                            required="required"/>
+                </div>
+                <div class="user-input-box">
+                    <label for="suppliercost">Supplier Cost</label>
+                    <!-- <span class="cost">PHP</span> -->
+                    <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
+                            id="suppliercost"
+                            class="suppliercost"
+                            name="suppliercost"
+                            placeholder="0.00"
+                            required="required"/>
+                            
+                </div>
+                <div class="user-input-box">
+                    <label for="supplier">Supplier</label>
+                    <input type="text"
+                            id="supplier"
+                            name="supplier"
+                            placeholder="Enter Supplier"
+                            required="required"/>
+                </div>
+                <div class="line"></div>
+                    <span class="gender-title">Image</span>
+                    <div class="choose-profile">
+                        <input type="file" id="image-profile" name="image_item" accept="image/jpg, image/png, image/jpeg" >
+                    </div>
+                    <span class="gender-title">POS ITEM</span>
+                    <div class="gender-category" >
+                        <input type="radio" name="positem" id="Yes" required="required">
+                        <label for="Yes">Yes</label>
+                        <input type="radio" name="positem" id="No" >
+                        <label for="No">No</label>
+                    </div>
+                <div class="line"></div>
+
+                <div class="bot-buttons">
+                    <div class="CancelButton">
+                        <a href="Inventory-details.php" id="cancel">CANCEL</a>    
+                    </div>
+                    <div class="AddButton">
+                        <button type="submit" id="adduserBtn" name="submit">SAVE</button>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <!-- <div class="form-adduser1" id="form-adduser1">
+                <h1 class="addnew-title">ADD NEW ITEM</h1>
+            
+                <div class="form-adduser2" id="form-adduser2">
+                    <div class="form1">  
+                        <input type="text" id="fill"class="lastname" required="required" name="lastname">
+                        <span>Item Name</span>
+                    </div> 
+                    <div class="usertype-dropdown">
+                        <select class="select" name="usertypes" required="" >
+                            <option selected disabled value="">TYPE</option>
+                            <option value="Admin">CONTAINER</option>
+                            <option value="Manager">BOTTLE</option>
+                            <option value="Cashier">SEAL</option>
+                            <option value="Cashier">FILTER</option>
+                            <option value="Cashier">CAPS</option>
+                            <option value="Custom">OTHER</option>
+                        </select>
+                    </div>
+                    <tr>
+                                    <th>ID</th>
+                                    <th>Item Name</th>
+                                    <th>Type</th>
+                                    <th>POS</th>
+                                    <th>Reorder Level</th>
+                                    <th>SRP</th>
+                                    <th>Cost</th>
+                                    <th>Supplier</th>
+                                    <th>Image</th>
+                                    <th>Date/Time</th>
+                                    <th>Action</th>
+                                </tr>
+                    <div class="form2">  
+                        <input type="text" id="fill"class="middlename" required="" name="middlename">
+                        <span>Middle Name</span>
+                    </div>
+                    <div class="form2">  
+                        <input type="text" id="fill" class="email" required="required" name="email">
+                        <span>Email</span>
+                    </div>
+                    <div class="form4">  
+                        <input type="text" id="fill" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
+                        <span>Contact Number</span>
+                    </div>
+                    
+                   <div class="usertype-dropdown">
+                        <div class="select" id="usertype">
+                            <span class="selected">ROLE</span>
+                            <div class="caret"></div>
+                        </div> 
+                        <ul class="menu" name="usertypes" required="required" >
+                            <li class="active">Admin</li>
+                            <li>Manager</li>
+                            <li>Cashier</li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
+                            Custom</li>
+                        </ul>
+                     -->
+                    <!-- <div class="form4">  
+                        <input type="password" class="password" id="pass" required="required" name="pass">
+                        <span>Password</span>
+                    </div>
+                    <div class="form5">  
+                        <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass">
                         <span>Confirm Password</span>
                     </div>
                     <div class="checker">
                         <input type="checkbox" name="" onclick="myFunctionCP()" >
                         <span>Show password</span>
                     </div>
-                    <div class="cpassButton">
-                        <button type="submit" id="cpassuserBtn" name="change">SAVE</button>
+                    <div class="profile-picture1" >
+                        <h4 >Profile Picture</h4>
                     </div>
-                    <div class="CancelButton-cpass">
-                        <a href="Account.php" id="cancel-cpass">CANCEL</a>   
+                    <div class="choose-profile">
+                        <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
                     </div>
-                </div> 
-            </div>
-        </div>
-    </form>
-    <?php
-                    }
-                }
-                else{
-                ?>
-                <?php
-                }
-                }
-            ?> 
-    <div id="form-registered1">
+                </div>   
+             -->
+                <!-- <div class="AddButton">
+                    <button type="submit" id="adduserBtn" name="submit">SAVE</button>
+                   <input type="submit" value="ADD USER" name="submit" id="sub" onclick="showalert()"> -->
+            </div> 
+            <div id="form-registered">
                 <div id="container-registered">
                     <div class="content">
                         <div class="verify">
@@ -381,56 +525,191 @@ if (isset($_POST['user_id'])){
                             </svg>
                         </div>  
                         <div class="register">  
-                            <h2>PASSWORD CHANGED</h2>
+                            <h2>Item Added Successfully</h2>
                         </div>
                     </div>
                         <div class="pageform">
                             <div class="confirmBtn">
-                                <a href="Account.php" id="registered">CONFIRM</a>   
+                                <a href="Inventory-details.php" id="registered">CONFIRM</a>   
                             </div> 
                         </div>
                 </div>
             </div>
+        </form>
+        </div>
+    
 </body>
 </html>
 <script>
+     // -----------------------------SIDE MENU
+ $(document).ready(function(){
+     //jquery for toggle sub menus
+     $('.sub-btn').click(function(){
+       $(this).next('.sub-menu').slideToggle();
+       $(this).find('.dropdown').toggleClass('rotate');
+     });
+
+     //jquery for expand and collapse the sidebar
+     $('.menu-btn').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn').css("visibility", "visible");
+     });
+     $('.menu-btn2').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn2').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn2').css("visibility", "visible");
+     });
+   });
+//    --------------------------------------------------------------------
+$(function() {
+	const rowsPerPage = 13;
+	const rows = $('#my-table tbody tr');
+	const rowsCount = rows.length;
+	const pageCount = Math.ceil(rowsCount / rowsPerPage); // avoid decimals
+	const numbers = $('#numbers');
+	
+	// Generate the pagination.
+	for (var i = 0; i < pageCount; i++) {
+		numbers.append('<li><a href="#">' + (i+1) + '</a></li>');
+	}
+		
+	// Mark the first page link as active.
+	$('#numbers li:first-child a').addClass('active');
+
+	// Display the first set of rows.
+	displayRows(1);
+	
+	// On pagination click.
+	$('#numbers li a').click(function(e) {
+		var $this = $(this);
+		
+		e.preventDefault();
+		
+		// Remove the active class from the links.
+		$('#numbers li a').removeClass('active');
+		
+		// Add the active class to the current link.
+		$this.addClass('active');
+		
+		// Show the rows corresponding to the clicked page ID.
+		displayRows($this.text());
+	});
+	
+	// Function that displays rows for a specific page.
+	function displayRows(index) {
+		var start = (index - 1) * rowsPerPage;
+		var end = start + rowsPerPage;
+		
+		// Hide all rows.
+		rows.hide();
+		
+		// Show the proper rows for this page.
+		rows.slice(start, end).show();
+	}
+});
     //SHOW PASSWORD-------------------------------------------------
 function myFunctionCP(){
-        var x = document.getElementById("newpass");
+        var x = document.getElementById("pass");
         var y = document.getElementById("cpass");
-        var z = document.getElementById("oldpass");
         if(x.type === 'password'){
             x.type = "text";
             y.type = "text";
-            z.type = "text";
         }else{
             x.type = "password";
             y.type = "password";
-            z.type = "password";
         }
     }
     // EDIT ACCOUNT--------------------------------------------------
-    document.querySelector("#myTable"),addEventListener("click", (e)=>{
-        target = e.target;
-        if(target.classList.contains("action-btn")){
-            selectedRow = target.parentElement.parentElement;
-            document.querySelector("#lastname").value = selectedRow.children[1].textContent;
-            document.querySelector("#firstname").value = selectedRow.children[2].textContent;
-            document.querySelector("#middlename").value = selectedRow.children[3].textContent;
-            document.querySelector("#email").value = selectedRow.children[4].textContent;
-            document.querySelector("#contactnum").value = selectedRow.children[5].textContent;
-            // document.querySelector("#usertype").value = selectedRow.children[6].textContent;
-            // document.querySelector("#image-profile").value = selectedRow.children[7].textContent;
-        }
-    });
+    
+    // document.querySelector("#myTable"),addEventListener("click", (e)=>{
+    //     target = e.target;
+    //     if(target.classList.contains("action-btn")){
+    //         selectedRow = target.parentElement.parentElement;
+    //         document.querySelector("#lastname").value = selectedRow.children[1].textContent;
+    //         document.querySelector("#firstname").value = selectedRow.children[2].textContent;
+    //         document.querySelector("#middlename").value = selectedRow.children[3].textContent;
+    //         document.querySelector("#email").value = selectedRow.children[4].textContent;
+    //         document.querySelector("#contactnum").value = selectedRow.children[5].textContent;
+    //         // document.querySelector("#usertype").value = selectedRow.children[6].textContent;
+    //         // document.querySelector("#image-profile").value = selectedRow.children[7].textContent;
+    //     }
+    // });
+    // // Get the modal
+ 
+    // // // Get the button that opens the modal
+    // // var addbtn = $("#add-userbutton");
 
+    // // // Get the <span> element that closes the modal
+    // var cancelbtn = $("#cancel");
+
+    // $(document).ready(function(){
+    //     // When the user clicks the button, open the modal 
+        // addbtn.on('click', function() {
+        //     bgform.show();
+        // });
+        
+    //     // When the user clicks on <span> (x), close the modal
+    //     cancelbtn.on('click', function() {
+    //         bgform.hide();
+    //     });
+    // // });
+
+    // Add new User Message ----------------------------------------------------------------------------------
     const regForm = document.querySelector(".form-registered");
     const regBtn = document.querySelector(".AddButton");
-    var bgform = $('#form-registered1');
-    var addform = $('#cpass-container');
-    var addbtn = $("#cpassuserBtn");
+    var bgform = $('#form-registered');
+    var addform = $('#form-adduser1');
+    var addbtn = $("#adduserBtn");
     var message = $(".message");
     
+    $(document).ready(function(){
+        $('#adduserFrm').submit(function(e){
+            // e.preventDefault();
+            // $.ajax({
+            //     type: 'post',
+            //     url: 'controllerUserdata.php',
+            //     data: new FormData(this),
+            //     contentType: false, 
+            //     cache: false,
+            //     processData: false,
+            //     // 'submit=1&'+$form.serialize(),
+            //     dataType: 'json',  
+            //     success: function(response){
+            //         $(".message").css("display", "block");
+            //         if(response.status == 1){   
+            //             bgform.show();  
+            //             addform.hide(); 
+            //             message.hide(); 
+            //             $('#adduserFrm')[0].reset();
+            //     }else{
+            //         $(".message").html('<p>'+response.message+'<p>');
+            //     }
+            //         }
+            //     });
+            });
+        //     $("#image-profile").change(function(){
+        //         var file = this.files[0];
+        //         var fileType = file.type;
+        //         var match = ['image/jpeg', 'image/jpg', 'image/png']
+
+        //         if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
+        //             alert("JPEG, JPG, and PNG files only.")
+        //             $("#image-profile").val('');
+        //             return false;
+        //         }
+        // });
+    });
+    
+// 
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
     let inputs = document.querySelectorAll('#fill');
@@ -441,6 +720,9 @@ function myFunctionCP(){
         pass.forEach(input => input.value = '');
         cpass.forEach(input => input.value = '');
     });
+    // btnClear1.addEventListener('click', () => {
+    //     inputs.forEach(input => input.value = '');
+    // });
 
     function isNumberKey(evt){
     var charCode = (evt.which) ? evt.which : evt.keyCode
@@ -460,6 +742,10 @@ function myFunctionCP(){
         // actionsBtn.addEventListener('click', () =>{
         //     actionsForm.style.display = 'block';
         // })
+    function addnewuser(){
+        const addBtn = document.querySelector(".add-account");
+        addForm.style.display = 'flex';
+    }
     function actionFunction(){
         // actionsForm.classList.toggle('bg-actionDropdown')
         actionsForm.style.display = 'flex';
@@ -478,34 +764,51 @@ function myFunctionCP(){
         editForm.style.display = 'flex';
         actionsForm.style.display = 'none';
     }
-    const cpassBtn = document.querySelector(".changepass");
-    const cpassForm = document.querySelector(".bg-cpassDropdown");
-    function cpassAction(){
-        cpassForm.style.display = 'flex';
-        actionsForm.style.display = 'none';
-    }
     const sideMenu = document.querySelector("#aside");
     const addForm = document.querySelector(".bg-adduserform");
+
    
-    // const closeBtn = document.querySelector("#close-btn");
+    const closeBtn = document.querySelector("#close-btn");
     const cancelBtn = document.querySelector("#cancel");
     const addBtn = document.querySelector(".add-account");
-    const adduserBtn = document.querySelector(".AddButton");
     const menuBtn = document.querySelector("#menu-button");
     // const darktheme = document.querySelector('.dark-theme');
     // const checkbox = document.getElementById("checkbox");
         menuBtn.addEventListener('click', () =>{
             sideMenu.style.display = 'block';
         })
-
+        closeBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'none';
+        })
         cancelBtn.addEventListener('click', () =>{
             addForm.style.display = 'none';
         })
-
+        // if(email.value === '' || middlename.value === '' || firstname.value === '' || lastname.value === '' || contactnum.value === '' || role.value === '' || password.value === '' || confirmpassword.value === '' || profilepicture.value === ''){ 
+        // }else{
+            
+        // }
         addBtn.addEventListener('click', () =>{
             addForm.style.display = 'flex';
         })
         
+        // adduserBtn.addEventListener('click', () =>{
+        //     addForm.style.display = 'flex';
+        // })
+        
+        // checkbox.addEventListener( 'change', function() {
+        //     localStorage.setItem('dark-theme',this.checked);
+        //     if(this.checked) {
+        //         body.classList.add('dark-theme')
+        //     } else {
+        //         body.classList.remove('dark-theme')     
+        //     }
+        // });
+        //     document.body.classList.add('dark-theme');
+        // })
+            // if(localStorage.getItem('dark-theme')) {
+            // body.classList.add('dark-theme');
+            // }
+      
        
          function menuToggle(){
             const toggleMenu = document.querySelector('.drop-menu');
@@ -514,9 +817,9 @@ function myFunctionCP(){
 
 
         function tableSearch(){
-    let input, filter, table, tr, lastname,
-     firstname, middlename, email, contactnum, role, i, txtValue;
-  
+    let input, filter, table, tr, itemname,
+     type, positem, reorder, srp, supplier, cost, datetime, i, txtValue;
+
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
     table = document.getElementById("myTable");
@@ -525,27 +828,32 @@ function myFunctionCP(){
 
         for(i = 0; i < tr.length; i++){
            
-            lastname = tr[i].getElementsByTagName("td")[1];
-            firstname = tr[i].getElementsByTagName("td")[2];
-            middlename = tr[i].getElementsByTagName("td")[3];
-            email = tr[i].getElementsByTagName("td")[4];
-            contactnum = tr[i].getElementsByTagName("td")[5];
-            role = tr[i].getElementsByTagName("td")[6];
-            
-            
-            if(lastname || firstname || middlename || email || contactnum || role){
-                var lastname_value = lastname.textContent || lastname.innerText;
-                var firstname_value = firstname.textContent || firstname.innerText;
-                var middlename_value = middlename.textContent || middlename.innerText;
-                var email_value = email.textContent || email.innerText;
-                var contactnum_value = contactnum.textContent || contactnum.innerText;
-                var role_value = role.textContent || role.innerText;
-                if(role_value.toUpperCase().indexOf(filter) > -1 ||
-                contactnum_value.toUpperCase().indexOf(filter) > -1 ||
-                email_value.toUpperCase().indexOf(filter) > -1 ||
-                middlename_value.toUpperCase().indexOf(filter) > -1 ||
-                lastname_value.toUpperCase().indexOf(filter) > -1 ||
-                firstname_value.toUpperCase().indexOf(filter) > -1){
+            itemname = tr[i].getElementsByTagName("td")[1];
+            type = tr[i].getElementsByTagName("td")[2];
+            positem = tr[i].getElementsByTagName("td")[3];
+            reorder = tr[i].getElementsByTagName("td")[4];
+            srp = tr[i].getElementsByTagName("td")[5];
+            cost = tr[i].getElementsByTagName("td")[6];
+            supplier = tr[i].getElementsByTagName("td")[7];
+            datetime = tr[i].getElementsByTagName("td")[9];
+
+     if(itemname || type || positem || reorder || srp || cost || supplier || datetime){
+                var itemname_value = itemname.textContent || itemname.innerText;
+                var type_value = type.textContent || type.innerText;
+                var positem_value = positem.textContent || positem.innerText;
+                var reorder_value = reorder.textContent || reorder.innerText;
+                var srp_value = srp.textContent || srp.innerText;
+                var cost_value = cost.textContent || cost.innerText;
+                var supplier_value = supplier.textContent || supplier.innerText;
+                var datetime_value = datetime.textContent || datetime.innerText;
+                if(itemname_value.toUpperCase().indexOf(filter) > -1 ||
+                type_value.toUpperCase().indexOf(filter) > -1 ||
+                positem_value.toUpperCase().indexOf(filter) > -1 ||
+                reorder_value.toUpperCase().indexOf(filter) > -1 ||
+                srp_value.toUpperCase().indexOf(filter) > -1 ||
+                cost_value.toUpperCase().indexOf(filter) > -1 ||
+                supplier_value.toUpperCase().indexOf(filter) > -1 ||
+                datetime_value.toUpperCase().indexOf(filter) > -1){
                     tr[i].style.display ="";
                 }
                 else{
@@ -564,18 +872,77 @@ function myFunctionCP(){
             }
         }   
 }
+    // $.fn.AddNoRowsFound = function() {
+    //     if($(this).find('tbody tr:not([data-no-results-found]):visible').length > 0) {
+    //     $(this).find('tbody tr[data-no-results-found]').hide();
+    // }
+    // else {
+    //     $(this).find('tbody tr[data-no-results-found]').show();
+    // }
+    // };
+
+    // $('#myTable').AddNoRowsFound();
+
+// function actionToggle(){
+//             const toggleAction = document.querySelector('.menu-action');
+//             toggleAction.classList.toggle('action-dropdown')
+        // }
+        // var smodal = document.getElementByClassName('action-dropdown');
+    // const dropdowns = document.querySelectorAll(".action-dropdown");
+    //     dropdowns.forEach(dropdown =>{
+    //         const select = dropdown.querySelector(".select-action");
+    //         // const caret = dropdown.querySelector(".caret");
+    //         const menu = dropdown.querySelector(".menu-action");   
+            // const options = dropdown.querySelectorAll(".menu-action .li");
+            // const selected = dropdown.querySelector(".selected-action");
 
             // select.addEventListener('click', () => {
             //     select.classList.toggle('select-action-clicked');
+            //     // caret.classList.toggle('caret-rotate');
             //     menu.classList.toggle('menu-action-open');
                 
             // });
-        
+          
+            // options.forEach(option => {
+            //     option.addEventListener('click', () =>{
+            //         select.innerText = option.innerText;
+            //         select.classList.remove('select-action-clicked');
+            //         // caret.classList.remove('caret-rotate');
+            //         menu.classList.remove('menu-action-open');
+
+            //         options.forEach(option => {
+            //             option.classList.remove('active');
+            //         });
+            //         option.classList.add('active');
+            //     });
+            // });
+        // });
+        // window.onclick = function(e){
+        //         if(e.target == smodal){
+        //             modal.style.display = "none"
+        //         }
+        //     }
 // ///////////////////////////////////////////////////////////////////////////////////////////////////
+// $(document).ready(function(){
+//     $("#actionsSelect").on("change", function() {
+//         $(".bg-editDropdown").hide();
+//         $("#" + $(this).val()).fadeIn(200);
+//     }).change();
+// });
+// $(document).ready(function(){
+//     $('#actionsSelect').on('change', function(){
+//     	var demovalue = $(this).val(); 
+//         // $("div.bg-editDropdown").hide();
+//         $("#edit-bgdrop").show();
+//     });
+// });
+// $("#actionsSelect").on("change", function() {
+//         $("#" + $(this).val()).show().siblings();
+//     })
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>     
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>      
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
 <style>
@@ -625,7 +992,7 @@ function myFunctionCP(){
     }
     
 
-    BODY{
+    body{
         background: var(--color-background);
         margin: 0;
         padding: 0;
@@ -636,6 +1003,364 @@ function myFunctionCP(){
         background-size: cover;
         background-attachment: fixed;
     }  
+    
+.container1{
+    width: 100%;
+    max-width: 600px;
+    padding: 28px;
+    margin: 0 28px;
+    border-radius:  0px 0px 20px 20px;
+    background-color: var(--color-white);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-top: 10px solid var(--color-solid-gray);
+}
+
+        
+.form-title{
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 6px;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    border-bottom: solid 1px white;
+}
+
+.main-user-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.usertype-dropdown{
+                width: 48%;
+                margin-top: 1.6rem;
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .select{
+                background: var(--color-solid-gray);
+                color: var(--color-white);
+                align-items: center;
+                border-radius: 13px;
+                padding: 8px 12px;
+                height: 40px;
+                width: 100%;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .action-dropdown{
+                position: relative;
+                margin-top: .5rem;
+                /* left: 10%; */
+                margin-bottom: .5rem
+            }
+.user-input-box:nth-child(2n){
+    justify-content: end;
+}
+
+
+.user-input-box{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    padding-bottom: 15px;
+}
+.user-input-box .srp{
+    position: absolute;
+    left: 51%;
+    padding: 12px;
+    width: 95%;
+    pointer-events: none;
+    font-weight: 600;
+    font-family: 'calibri', sans-serif;
+    font-size: .8em;
+    margin-top: 1.6rem;
+    margin-left: .2rem;
+    color: var(--color-solid-gray);
+}
+.user-input-box .cost{
+    position: absolute;
+    left: 34.65%;
+    padding: 12px;
+    width: 95%;
+    pointer-events: none;
+    font-weight: 600;
+    font-family: 'calibri', sans-serif;
+    font-size: .8em;
+    margin-top: 1.6rem;
+    margin-left: .2rem;
+    color: var(--color-solid-gray);
+}
+/* .user-input-box .sellingprice{
+    text-indent: 35px;
+}
+.user-input-box .suppliercost{
+    text-indent: 35px;
+} */
+.user-input-box label{
+    width: 95%;
+    color: var(--color-solid-gray);
+    font-size: 16px;
+    /* margin-left: .2rem; */
+    margin-bottom: 0.5rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* margin: 5px 0; */
+}
+.user-input-box label:focus{
+    border: 2px solid var(--color-main-3);
+    font-size: 17px;
+    font-weight: 600;
+}
+.user-input-box input::placeholder{
+    font-size: .8em;
+    color:var(--color-solid-gray);
+}
+/* ::placeholder:focus{
+    border: 2px solid var(--color-main-3);
+} */
+.user-input-box input:focus{
+    border: 2px solid var(--color-main-3);
+    background: var(--color-white);
+}
+
+.user-input-box input{
+    height: 40px;
+    width: 95%;
+    border: 2px solid var(--color-solid-gray);
+    border-radius: 15px;
+    outline: none;
+    font-size: 1em;
+    background: var(--color-white);
+    color: var(--color-black);
+    padding: 0 10px;
+}
+.line{
+    width:100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-solid-gray);
+}
+.profile-picture1 h4{
+        display: flex;
+        position: relative;
+        text-align: center;
+        font-size: 1rem;
+        font-family: 'Calibri', sans-serif;
+        color: var(--color-solid-gray);
+        width: 100%;
+        border-bottom: 2px solid var(--color-solid-gray);
+        /* margin-bottom: -5rem; */
+     }   
+       
+    .choose-profile{
+        /* position: relative; */
+        width: 100%;
+        height: 1.32rem;
+        padding: 10px;
+        margin-top: 1rem;
+        background: var(--color-solid-gray);
+        color: var(--color-white);
+        border-radius: 10px;
+        transition: 0.5s;
+        font-family: 'COCOGOOSE', sans-serif;
+        cursor: pointer;
+    }
+
+    #image-profile{
+        cursor: pointer;
+        text-align: center;
+        align-items: center;
+    }
+.gender-title{
+    margin-top: 1rem;
+    font-family: 'Calibri', sans-serif;
+    color: var(--color-solid-gray);
+    width: 100%;
+    font-size: 20px;
+    margin-left: .2rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* border-bottom: 2px solid var(--color-solid-gray); */
+}
+
+.gender-category{
+    margin: 15px 0;
+    color:  var(--color-solid-gray);
+}
+
+.gender-category label{
+    padding: 0 20px 0 5px;
+}
+
+.gender-category label,
+.gender-category input,
+.form-submit-btn input{
+    cursor: pointer;
+}
+
+.form-submit-btn{
+    margin-top: 40px;
+}
+
+.form-submit-btn input{
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 20px;
+    padding: 10px;
+    border:none;
+    border-radius: 3px;
+    color: rgb(209, 209, 209);
+    background: rgba(63, 114, 76, 0.7);
+}
+
+.form-submit-btn input:hover{
+    background: rgba(56, 204, 93, 0.7);
+    color: rgb(255, 255, 255);
+}
+.addnew-title{
+        font-size: min(max(1.9rem, 1.1vw), 2rem);
+        color: var(--color-solid-gray);
+        font-family: 'Malberg Trial', sans-serif;
+        letter-spacing: .09rem;
+        display: flex;
+        padding-top: 1rem;
+        justify-content: center;
+        border-bottom: 2px solid var(--color-solid-gray);
+        width: 100%;
+        padding-bottom: 2px;
+    }
+    .bot-buttons{
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        display: inline-block;
+        margin-top: 1.3rem;
+    }
+    .AddButton button{
+        font-family: 'COCOGOOSE', sans-serif;
+        padding: 10px;
+        width: 15rem;
+        max-height: 60px;
+        outline: none;
+        border: none;
+        font-size: min(max(9px, 1.1vw), 11px);
+        border-radius: 20px;
+        color: white;
+        background:  var(--color-mainbutton); 
+        cursor: pointer; 
+        transition: 0.5s;
+        margin-left: 1rem;
+    }
+    .AddButton button:hover{
+        background: var(--color-button-hover);
+    }
+    .CancelButton{
+        display: inline-block;
+    }
+    .AddButton{
+        display: inline-block;
+        
+    }
+    /* .CloseButton{
+        margin-top: 5.2vh;
+        margin-left: 2.4em;
+        margin-bottom: -2rem;
+    } */
+    #cancel{
+        font-family: 'COCOGOOSE', sans-serif;
+        padding: 10px;
+        padding-left: 60px;
+        padding-right: 60px;
+        text-align: center;
+        width: 10rem;
+        max-height: 70px;
+        outline: none;
+        border: none;
+        font-size: min(max(9px, 1.1vw), 11px);
+        border-radius: 20px;
+        color: white;
+        background: #c44242;
+        cursor: pointer; 
+        transition: 0.5s;
+    }
+    #cancel:hover{
+        background-color: rgb(158, 0, 0);
+        transition: 0.5s; 
+    }
+
+@media(max-width: 600px){
+    .container1{
+        min-width: 280px;
+    }
+    .user-input-box .cost{
+    position: absolute;
+    display: none;
+    left: 10.65%;
+    }
+    .user-input-box .srp{
+    position: absolute;
+    display: none
+    left: 10.65%;
+    }
+    .user-input-box{
+        margin-bottom: 12px;
+        width: 100%;
+    }
+
+    .user-input-box:nth-child(2n){
+        justify-content: space-between;
+    }
+    .usertype-dropdown{
+                width: 95%;
+                margin-bottom: 1rem;
+                margin-top: -.3rem;
+            }
+    .gender-category{
+        display: flex;
+        /* justify-content: space-between; */
+        width: 100%;
+    }
+
+    .main-user-info{
+        max-height: 380px;
+        overflow: auto;
+    }
+
+    .main-user-info::-webkit-scrollbar{
+        width: 0;
+    }
+    .bot-buttons{
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        margin-top: 1.3rem;
+    }
+    .AddButton button:hover{
+        background: var(--color-button-hover);
+    }
+    .CancelButton{
+        position: relative;
+        margin-top: 3rem;
+    }
+    .AddButton{
+        position: relative;
+        margin-top: -4rem;
+        margin-left: -1em;
+
+    }
+    /* .CloseButton{
+        margin-top: 5.2vh;
+        margin-left: 2.4em;
+        margin-bottom: -2rem;
+    } */
+    #cancel{
+        width: 100%;
+    }
+
+}
     .block{
         width: 5rem;
         height: 2rem;
@@ -644,8 +1369,8 @@ function myFunctionCP(){
         display: flex;
         top: 0;
     }
-     /* -----------------------------------------------Side Menu---------------------------------------- */
-     .side-bar{
+      /* -----------------------------------------------Side Menu---------------------------------------- */
+      .side-bar{
         background: var(--color-table-hover);
         backdrop-filter: blur(15px);
         width: 15.5rem;
@@ -717,7 +1442,7 @@ function myFunctionCP(){
         border-radius: 0 10px 10px 0 ;
         box-shadow: 2px 2px 2px rgb(224, 224, 224);
     }
-    #account{
+    #inventory{
         background: var(--color-white);
         box-shadow: 2px 2px 2px rgb(224, 224, 224);
         border-radius: 0 10px 10px 0;
@@ -795,6 +1520,7 @@ function myFunctionCP(){
         display: flex;
         align-items: center; 
         justify-content: center;
+        display: none;
     }
             .action{ 
                 position: absolute;
@@ -859,7 +1585,7 @@ function myFunctionCP(){
                 fill: var(--color-main);
             }
 
-    .bg-cpassDropdown{
+    .bg-adduserform{
         height: 100%; 
         width: 100%;
         background: rgba(0,0,0,0.7);
@@ -868,7 +1594,7 @@ function myFunctionCP(){
         display: flex;
         align-items: center; 
         justify-content: center;
-        display: flex;
+        display: none;
     }
     .bg-editDropdown{
         height: 100%; 
@@ -881,7 +1607,7 @@ function myFunctionCP(){
         justify-content: center;
         display: none;
     }
-    #form-registered1{
+    #form-registered{
         position: absolute;
         top: 50%;
         display: none;
@@ -966,147 +1692,6 @@ function myFunctionCP(){
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-top: 10px solid var(--color-solid-gray);
     }
-    .cpass-container{
-        width: 390px;
-        height: 100%;
-        max-height: 320px;
-        position: relative;
-        align-items: center;
-        text-align: center;
-        border-radius:  0px 0px 20px 20px;
-        background-color: var(--color-white);
-        box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-        border-top: 10px solid var(--color-solid-gray);
-    }
-            .cpass-container2{
-                display: flex;
-                font-size: .7rem;
-                flex-direction: column;
-                font-family: 'Malberg Trial', sans-serif;
-                gap: 10px;
-                margin-bottom: 5rem;
-                align-items: center;
-                min-height: 20vh;
-            }
-            .cpass-container .cpassButton button{
-                font-family: 'COCOGOOSE', sans-serif;
-                padding: 10px;
-                margin-top: .5vh;
-                margin-bottom: 20px;
-                margin-left: 13em;
-                text-align: center;
-                width: 9rem;
-                max-height: 60px;
-                outline: none;
-                border: none;
-                font-size: min(max(9px, 1.1vw), 11px);
-                border-radius: 20px;
-                color: white;
-                background:  var(--color-mainbutton); 
-                cursor: pointer; 
-                transition: 0.5s;
-            }
-            .cpass-container .cpassButton button:hover{
-                background: var(--color-button-hover);
-            }
-            .form1-cpass{
-                position: relative;
-                width: 250px;
-            }
-            .form1-cpass input{
-                width:100%;
-                height: 2.5rem;
-                padding: 10px;
-                border: 2px solid var(--color-solid-gray);
-                border-radius: 15px;
-                outline: none;
-                font-size: 1em;
-                align-items: center;
-                background: var(--color-white);
-                color: var(--color-black);
-            }
-            .form1-cpass span{
-                position: absolute;
-                left: 0;
-                padding: 12px;
-                pointer-events: none;
-                font-size: 1.2em;
-                margin-top: 0.1rem;
-                margin-left: .2rem;
-                color:var(--color-solid-gray);
-            }
-            .form1-cpass input:focus{
-                border: 2px solid var(--color-main-3);
-            }
-            .form1-cpass input:valid ~ span,
-            .form1-cpass input:focus ~ span{
-                color: var(--color-main-3);
-                transform: translateX(10px) translateY(1px);
-                font-size: 0.9em;
-                padding: 0 10px;
-                transition: .3s
-            }
-            .cpassnew-title{
-                font-size: min(max(1.9rem, 1.1vw), 2rem);
-                color: var(--color-solid-gray);
-                font-family: 'Malberg Trial', sans-serif;
-                letter-spacing: .09rem;
-                display: flex;
-                padding-top: .5rem;
-                justify-content: center;
-                border-bottom: 2px solid var(--color-solid-gray);
-                margin: 15px;
-                padding-bottom: 10px;
-            }
-            p{
-                color: hsl(0, 0%, 53%);
-                font-size: min(max(10px, 1.2vw), 12px);
-                letter-spacing: 0.5px;
-                font-family: Helvetica, sans-serif;
-                align-items: center;
-                text-align: center;
-                margin-bottom: 2vh;
-                padding-left: 10px;
-                padding-right: 10px;
-                /* margin-left: 30px; */
-            }
-            .CancelButton-cpass{
-                margin-top: -6vh;
-                margin-left:-10rem;
-            }
-            #cancel-cpass{
-                font-family: 'COCOGOOSE', sans-serif;
-                padding: 10px;
-                padding-left: 40px;
-                padding-right: 40px;
-                text-align: center;
-                max-height: 70px;
-                outline: none;
-                border: none;
-                font-size: min(max(9px, 1.1vw), 11px);
-                border-radius: 20px;
-                color: white;
-                background: #c44242;
-                cursor: pointer; 
-                transition: 0.5s;
-            }
-            #cancel-edit:hover{
-                background-color: rgb(158, 0, 0);
-                transition: 0.5s; 
-            }
-            .checker {
-                text-align: right;
-                align-items: right;
-                margin-right: -10rem;
-            }
-            .checker span {
-                text-decoration: none;
-                color: rgb(3, 80, 3);
-                top: 50%;
-                font-size: min(max(10px, 1.2vw), 12px);
-                font-family: 'Switzer', sans-serif;
-            }
-            /* -------------------------------------------------------------------------------------------------------- */
     .edit-container{
         width: 500px;
         height: 100%;
@@ -1117,20 +1702,6 @@ function myFunctionCP(){
         box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
         border-top: 10px solid var(--color-solid-gray);
     }
-            .error-error{
-                background-color: hsl(0, 100%, 77%);
-                color: #ffffff;
-                padding: 11px;
-                margin-left: 30px;
-                width: 77%;
-                display: none;
-                align-items: center;
-                text-align: center;
-                border-radius: 3px;
-                font-size: min(max(9px, 1.2vw), 11px);
-                letter-spacing: 0.5px;
-                font-family: Helvetica, sans-serif;
-            }
             .edit-container2{
                 display: flex;
                 font-size: .7rem;
@@ -1159,6 +1730,28 @@ function myFunctionCP(){
             }
             .edit-container .EditButton button:hover{
                 background: var(--color-button-hover);
+            }
+            .form-adduser2{
+                display: flex;
+                font-size: .7rem;
+                flex-direction: column;
+                font-family: 'Malberg Trial', sans-serif;
+                gap: 30px;
+                min-height: 20vh;
+            }
+            .error-error{
+                background-color: hsl(0, 100%, 77%);
+                color: #ffffff;
+                display: relative;
+                padding: 11px;
+                width: 70%;
+                border-radius: 6px;
+                align-items: center; 
+                text-align: center;
+                margin-left: 3.55rem;
+                font-size: min(max(9px, 1.2vw), 11px);
+                letter-spacing: 0.5px;
+                font-family: Helvetica, sans-serif;
             }
             .form1{
                 position: relative;
@@ -1218,17 +1811,6 @@ function myFunctionCP(){
                 background: var(--color-white);
                 color: var(--color-black);
             }
-            .form2 .email{
-                width:100%;
-                height: 2.5rem;
-                padding: 10px;
-                border: 2px solid var(--color-solid-gray);
-                border-radius: 15px;
-                outline: none;
-                font-size: 1em;
-                background: var(--color-solid-gray);
-                color: var(--color-white);
-            }
             .form2 span{
                 position: absolute;
                 left: 0;
@@ -1239,32 +1821,11 @@ function myFunctionCP(){
                 margin-left: .2rem;
                 color: var(--color-solid-gray);
             }
-            .form2 .email span{
-                position: absolute;
-                left: 0;
-                /* padding: 12px; */
-                pointer-events: none;
-                font-size: 12.9em;
-                margin-top: -1rem;
-                margin-left: .2rem;
-                color: hsl(0, 100%, 86%);
-            }
-            .form2 .email:focus{
-                border: 2px solid var(--color-solid-gray);
-            }
             .form2 input:focus{
                 border: 2px solid var(--color-main-3);
             }
-            .form2 .email:valid ~ span,
-            .form2 .email:focus ~ span{
-                color:hsl(0, 100%, 86%);
-                transform: translateX(10px) translateY(1px);
-                font-size: 0.9em;
-                padding: 0 10px;
-                transition: .3s
-            }
-            .form2 .middlename:valid ~ span,
-            .form2 .middlename:focus ~ span{
+            .form2 input:valid ~ span,
+            .form2 input:focus ~ span{
                 color:var(--color-main-3);
                 transform: translateX(10px) translateY(1px);
                 font-size: 0.9em;
@@ -1352,6 +1913,19 @@ function myFunctionCP(){
             }
             
             /* --------------------------------------DROP DOWN ACTION------------------------------------- */
+            .actionBtn{
+                background: var(--color-solid-gray);
+                color: var(--color-white);
+                font-size: 18px;
+                font-family: "Font Awesome 5 Free", sans-serif;
+                font-weight: 501;
+                border-radius: 50px;
+                padding: 10px;
+                height: 2.5em;
+                width: 4rem;
+                cursor: pointer;
+                transition: 0.3s;
+            }
             .fa{
                 font-family: "Font Awesome 5 Free", sans-serif;
                 font-weight: 501;
@@ -1360,6 +1934,9 @@ function myFunctionCP(){
             .actionicon{
                 fill:  var(--color-white);
             }
+          
+            /* --------------------------------------DROP DOWN------------------------------------- */
+         
             #edit-action{
                 background: hsl(0, 0%, 37%);
                 color: var(--color-white);
@@ -1381,7 +1958,7 @@ function myFunctionCP(){
                 color: var(--color-white);
             }
             #cpass-action{
-                background: #00aa09;
+                background:#00aa09;
                 position: relative;
                 color: var(--color-white);
                 align-items: center;
@@ -1421,69 +1998,36 @@ function myFunctionCP(){
                 background: var(--color-main);
                 color: var(--color-white);
             }
-            /* --------------------------------------DROP DOWN------------------------------------- */
-            .usertype-dropdown{
-                width: 20em;
-                position: relative;
-                margin-top: 1rem;
-                top: -10.9rem;
-                left: 51%;
-                margin-bottom: -5.39rem;
-            }
-            .select{
-                background: var(--color-solid-gray);
-                color: var(--color-white);
-                align-items: center;
-                border-radius: 13px;
-                padding: 8px 12px;
-                height: 2.9em;
-                width: 12.8rem;
-                cursor: pointer;
-                transition: 0.3s;
-            }
-            .action-dropdown{
-                position: relative;
-                margin-top: .5rem;
-                /* left: 10%; */
-                margin-bottom: .5rem
-            }
-            .action-btn{
-                background: var(--color-solid-gray);
-                color: var(--color-white);
-                align-items: center;
-                border-radius: 20px;
-                height: 5rem;
-                width: 5rem;
-                padding-top: 20px;
-                padding-bottom: 5px;
-                padding-left: 10px;
-                padding-right: 10px;
-                cursor: pointer;
-                transition: 0.3s;
-                border: none;
-                margin-bottom: 6rem
-            }
-            .action-btn:hover{
-                background: var(--color-main);
-                color: var(--color-white);
-            }
+         
+    .checker {
+        text-align: right;
+        align-items: right;
+        margin-right: 3rem;
+        margin-top: -7.5rem;
+        margin-bottom: 5rem;
+    }
+    .checker span {
+        text-decoration: none;
+        color: var(--color-solid-gray);
+        top: 0;
+        font-size: min(max(10px, 1.2vw), 12px);
+        font-family: 'Switzer', sans-serif;
+    }
     /* ------------------------------------------------------------------------------------ */
-    /* ---------------------------------Change Password------------------------------------ */
-    
     .message{
         background-color: hsl(0, 100%, 77%);
         color: #ffffff;
         border-radius: 6px;
-        width: 24rem;
+        width: 25%;
         height: 1.87rem;
-        left: 39.4%;
+        /* margin-left: 3.55rem; */
         letter-spacing: 0.5px;
         font-family: Helvetica, sans-serif;       
-        top: 25.9%;
+        top: 16.9%;
         font-size: .7rem;
         padding: 5px 10px;
         padding-top: 1rem;
-        position: relative;
+        position: absolute;
         align-items: center;
         text-align: center;
         /* justify-content: space-between; */
@@ -1491,6 +2035,7 @@ function myFunctionCP(){
         z-index: 1000;
         display: none;
     }
+
     .message span{
         color:var(--white);
         font-size: .9rem;
@@ -1501,75 +2046,13 @@ function myFunctionCP(){
         font-size: .9rem;
         margin: 0 auto;
         cursor: pointer;
-    } 
-    .profile-picture1 h4{
-        display: flex;
-        font-size: .9rem;
-        position: relative;
-        text-align: center;
-        font-family: 'Calibri', sans-serif;
-        color: var(--color-solid-gray);
-        top: -8rem;
-        margin-left: 2rem;
-        width: 26.7rem;
-        border-bottom: 2px solid var(--color-solid-gray);
-        margin-bottom: -5rem;
-     }   
-    .choose-profile{
-        position: relative;
-        width: 20rem;
-        height: 1.32rem;
-        text-align: right;
-        padding: 10px;
-        margin-left: 5rem; 
-        background: var(--color-solid-gray);
-        color: var(--color-white);
-        top: -6.4rem;
-        margin-bottom: -7.6em;
-        border-radius: 10px;
-        transition: 0.5s;
-        font-family: 'COCOGOOSE', sans-serif;
-        cursor: pointer;
     }
-    #imageprofile{
-        cursor: pointer;
-    }
+    
     .choose-profile:hover{
         background: var(--color-main-2);
         transition: 0.5s;
     }
-    .CancelButton{
-        margin-top: -4.9vh;
-        margin-left: 2.4em;
-    }
-    
-    .CloseButton{
-        margin-top: 5.2vh;
-        margin-left: 2.4em;
-        margin-bottom: -2rem;
-    }
-    #cancel{
-        font-family: 'COCOGOOSE', sans-serif;
-        padding: 10px;
-        padding-left: 60px;
-        padding-right: 60px;
-        text-align: center;
-        width: 10rem;
-        max-height: 70px;
-        outline: none;
-        border: none;
-        font-size: min(max(9px, 1.1vw), 11px);
-        border-radius: 20px;
-        color: white;
-        background: #c44242;
-        cursor: pointer; 
-        transition: 0.5s;
-    }
-    #cancel:hover{
-        background-color: rgb(158, 0, 0);
-        transition: 0.5s; 
-    }
-
+  
     #action_btn {
         font-family: 'calibri', sans-serif;
         /* padding: 10px;
@@ -1594,7 +2077,7 @@ function myFunctionCP(){
     }
   
      /* ----------------------------------------Top bar menu----------------------------------------  */
-     .top-menu{
+    .top-menu{
         margin-top: .7rem;
         position: absolute;
         right: 3%;
@@ -1627,6 +2110,7 @@ function myFunctionCP(){
         text-align: center;
         align-items: center;
     }
+    
     .user-type{
         font-family: 'switzer', sans-serif;
         font-size: 7.5px;
@@ -1661,6 +2145,7 @@ function myFunctionCP(){
         border-radius: 30%;
         width: 50px;
         padding: 4px;
+        margin-top: .3rem;
     }
     .profile-pic{
         align-items: center;
@@ -1741,7 +2226,7 @@ function myFunctionCP(){
     .user2 .drop-menu{
         position: absolute; 
         top: 120px;
-        right: 15px;
+        right: 10px;
         padding: 10px 20px;
         background: var(--color-white);
         width: 110px;
@@ -1752,7 +2237,7 @@ function myFunctionCP(){
         opacity: 0;
     }
     .user2 .drop-menu.user2{
-        top: 100px;
+        top: 80px;
         visibility: visible;
         opacity: 1;
     }
@@ -1760,7 +2245,7 @@ function myFunctionCP(){
         content:'';
         position: absolute;
         top: -5px;
-        right: 46px;
+        right: 15px;
         width: 15px;
         height: 20px;
         background: var(--color-white);
@@ -1870,8 +2355,6 @@ function myFunctionCP(){
         /* ----------------------------------------Sub TAB---------------------------------------- */
         .user-title{
             position: relative;
-            display: inline-block;
-            width: 100%;
         }
         main  h2{
             margin-bottom: -2.2rem;
@@ -1894,7 +2377,7 @@ function myFunctionCP(){
             right: 0;
         }
         .search-bar{
-            width: 18rem;
+            width: 15vw;
             background: var(--color-white);
             display: flex;
             position: relative;
@@ -1933,7 +2416,7 @@ function myFunctionCP(){
         /* ----------------------------------------Add Button---------------------------------------- */
         .newUser-button{
             position: absolute;
-            left: 15%;
+            left: 2%;
         }
         .add-account{
             display: flex;
@@ -1967,15 +2450,56 @@ function myFunctionCP(){
             border-bottom: 4px solid var(--color-maroon);
         }
          /* ----------------------------------------Account Table---------------------------------------- */
-         main .account-container{
-        margin-top: -2rem;
+                .pagination{
+                    background-color: var(--color-white);
+                    display: flex;
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 50px;
+                    width: 40rem;
+                    align-items: center;
+                    text-align: center;
+                    margin: auto;
+                }
+
+                .pagination a{
+                    width: 80px;
+                    height: 60px;
+                    line-height: 60px;
+                    text-align: center;
+                    color: #333;
+                    font-size: 12px;
+                    font-weight: 700;
+                    transition: .3s linear;
+                    font-family: 'Poppins', sans-serif;
+
+                }
+
+                .pagination a:hover{
+                    color: #fff;
+                    background-color: #5271e9;
+                }
+
+                .bottom_bar{
+                    position: absolute;
+                    width: 80px;
+                    height: 4px;
+                    background-color: #000;
+                    bottom: 0;
+                    left: -100px;
+                    transition: .4s;
+                }
+
+    main .account-container{
+        margin-top: -1rem;
         max-height: 650px;
         overflow:auto;
         width: 100%;
+        margin-bottom: 20px;
         /* position: absolute; */
         box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
-        border-top: 8px solid var(--color-table-hover);
-        border-radius: 0px 0px 10px 10px;
+        /* border-top: 8px solid var(--color-table-hover); */
+        border-radius: 20px;
         
     }
      main .account-container table{
@@ -2014,7 +2538,8 @@ function myFunctionCP(){
         cursor: pointer;
         background-color: var(--color-table-hover);
      }
-     .container{
+    /* ----------------------------------------ASIDE---------------------------------------- */
+    .container{
         display: grid;
         width: 96%;
         /* margin: 0 auto; */
