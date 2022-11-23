@@ -7,24 +7,24 @@ $result = mysqli_query($con, $query);
 // $mysqli = new mysqli('localhost', 'root', '','acc_db');
 // $results = mysqli_query($con, "SELECT * FROM users");
 // $row = mysqli_fetch_array($result);  
-if (isset($_POST['id'])){
+if (isset($_POST['user_id'])){
 
-        $id = $_POST['id'];
+        $id = $_POST['user_id'];
         
-        $stmt = $conn->prepare("SELECT * FROM users WHERE id=?");
+        $stmt = $conn->prepare("SELECT * FROM users WHERE user_id=?");
         $stmt->execute([$id]);
         $fetch_profile = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($stmt->rowCount() === 1){
                 $user = $stmt->fetch();
                 
-                $user_id = $user['id'];
+                $user_id = $user['user_id'];
                 $user_email = $user['email'];
                 $user_first_name = $user['first_name'];
                 $user_user_type = $user['user_type'];
                 $user_profile_image = $user['profile_image'];
                 if ($email === $user_email){
 
-                        $_SESSION['user_id'] = $user_id;
+                        $_SESSION['user_user_id'] = $user_id;
                         $_SESSION['user_email'] = $user_email;
                         $_SESSION['user_first_name'] =  $user_first_name;
                         $_SESSION['user_user_type'] =  $user_user_type;
@@ -32,114 +32,6 @@ if (isset($_POST['id'])){
                 }
             }
         }
-        // $id = $_GET['edit'];
-        // $sqls="Select * From users WHERE id=$id";
-        // $results=mysqli_query($con,$sqls);
-        // $rows = mysqli_fetch_assoc($results);
-        // $lastname=$rows['last_name'];
-        // $firstname=$rows['first_name'];
-        // $middlename=$rows['middle_name']; 
-        // $email=$rows['email']; 
-        // $contact=$rows['contact_number']; 
-        // $usertype=$rows['user_type']; 
-        // $image=$rows['profile_image'];
-         
-          
-            
-        // $id = $_GET['edit'];
-        // if (isset($_POST['id'])){
-        //     $id = $_POST['id'];
-
-        //     if(isset($_POST['pass']) || isset($_POST['ecpass'])){
-        //    // if(isset($_POST['change'])){
-        //            // $password = $_POST['password'];
-        //            // $_SESSION['info'] = "";
-
-        //            $new_pass = mysqli_real_escape_string($con, $_POST['pass']);
-        //            $confirm_pass = mysqli_real_escape_string($con, $_POST['ecpass']);
-        //            $select = $conn->prepare("SELECT * FROM `users` WHERE password = ?");
-        //            $select->execute([$password]);
-                   
-        //            // if($select->rowCount() > 0){
-        //            //     $response['message'] =  "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Create new password";
-       
-        //            // }else{
-       
-                       
-        //                if (strlen($_POST['pass']) < 8) {
-        //                    $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols";
-        //                 //    echo "<p class='message' style='display:block'></p>";
-        //                 //    echo "<div class='bg-cpassDropdown' style='display:block'></div>";
-                          
-        //                    // header("Location: Account-changepass-error1.php");
-        //                    // header("Location: Account-Action.php?message=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
-        //                } else {
-        //                    // $id = $_SESSION['id'];
-        //                    if($new_pass !== $confirm_pass){
-        //                     //    echo "<p class='message'> <i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched </p>";
-        //                        $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
-        //                        // header("Location: Account-Password-Changed.php");
-        //                    }else{
-        //                        $encpass = password_hash($new_pass, PASSWORD_BCRYPT);
-        //                        $update_pass = "UPDATE users SET password = '$encpass' WHERE id = '$id'";
-        //                        $run_query = mysqli_query($con, $update_pass);
-        //                        if($run_query){
-        //                            // header("Location: Account-Password-Changed.php");
-        //                            header("Location: Account-Password-Changed.php");
-        //                        }else{
-   
-        //                        }
-        //                    }   
-        //                }   
-        //            }
-        //         }
-        // if(isset($_POST['pass']) || isset($_POST['encpass'])){
-        // if(isset($_POST['change'])){
-        //     // $password = $_POST['password'];
-        //     $_SESSION['info'] = "";
-        //     $new_pass = mysqli_real_escape_string($con, $_POST['pass']);
-        //     $confirm_pass = mysqli_real_escape_string($con, $_POST['encpass']);
-            
-        //     $select = $conn->prepare("SELECT * FROM `users` WHERE password = ?");
-        //     $select->execute([$password]);
-            
-        //     // if($select->rowCount() > 0){
-        //     //     $message[] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Create new password";
-
-        //     // }else{
-
-                
-        //         if (strlen($_POST['pass']) < 8) {
-            
-        //             $message[] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols";
-        //             // echo "$('#message').text(<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols')";
-        //             // echo "<script>$('#message1').css('display','block');</script>";
-        //             // $error = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
-        //             // $_SESSION['status'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
-        //             // $errors['db-error'] = "Use 8 or more characters with a mix of letters, numbers & symbols.";
-        //             // <script><i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
-        //         } else {
-        //             if($new_pass !== $confirm_pass){
-        //                 // echo  "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
-        //                 // echo ' alert("JavaScript Alert Box by PHP")';
-        //                 $message[] ="<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
-        //             //   $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist! ";
-        //                 // $_SESSION['status'] =  "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
-        //                 // $error = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched";
-        //             }else{
-
-        //                 $encpass = password_hash($new_pass, PASSWORD_BCRYPT);
-        //                 $update_pass = "UPDATE users SET password = '$encpass' WHERE id = '$id'";
-        //                 $run_query = mysqli_query($con, $update_pass);
-        //                 if($run_query){
-        //                     header("Location: Account-Password-Changed.php");
-        //                 }else{
-        //                     $errors['db-error'] = "Failed to change your password!";
-        //                 }
-        //             }   
-        //         }   
-        //     }
-        // }
 ?>
 
 <!DOCTYPE html>
@@ -164,133 +56,99 @@ if (isset($_POST['id'])){
     <body >
     
     <div class="container">
-        <div class="menu-tab">     
-            <aside id="aside">
+        <div class="block"></div>
+            <div class="menu">
+                <div class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="side-bar">
+                    <div class="close-btn">
+                        <i class="fas fa-times"></i>
+                    </div>
+                <div class="menu">
                 <div class="title">
                     <div class="titlelogo">
                         <img class="tagslogo" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" >
                     </div>
-                    <div class="close" id="close-btn" onclick="myFunction(this)">
+                    <div class="close" id="close-btn" onclick="myFunctionhp(this)">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
                     </div>
                 </div>
-            <div class="sidebar">
-
-                    <a href="Dashboard.php" class="dashboard">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M13 9V3h8v6ZM3 13V3h8v10Zm10 8V11h8v10ZM3 21v-6h8v6Z"/></svg>
-                        <h3>DASHBOARD</h3>
-                    </a>
-                
-                    <a href="Pointofsales.php" class="pointofsales">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M7 8q-.825 0-1.412-.588Q5 6.825 5 6V4q0-.825.588-1.413Q6.175 2 7 2h10q.825 0 1.413.587Q19 3.175 19 4v2q0 .825-.587 1.412Q17.825 8 17 8Zm0-2h10V4H7v2ZM4 22q-.825 0-1.412-.587Q2 20.825 2 20v-1h20v1q0 .825-.587 1.413Q20.825 22 20 22Zm-2-4 3.475-7.825q.25-.55.738-.863Q6.7 9 7.3 9h9.4q.6 0 1.088.312.487.313.737.863L22 18Zm6.5-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 15 9.5 15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 13 9.5 13h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 11 9.5 11h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Z"/></svg>
-                        <h3>POINT OF SALES</h3>
-                    </a>
-                
-                    <a href="Reports.php" class="reports">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M2 21V3h10v4h10v14Zm2-2h6v-2H4Zm0-4h6v-2H4Zm0-4h6V9H4Zm0-4h6V5H4Zm8 12h8V9h-8Zm2-6v-2h4v2Zm0 4v-2h4v2Z"/></svg>
-                        <h3>REPORTS</h3>
-                    </a>
-            
-                    <a href="Monitoring.php" class="monitoring">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 21v-2l2-2v4Zm4 0v-6l2-2v8Zm4 0v-8l2 2.025V21Zm4 0v-5.975l2-2V21Zm4 0V11l2-2v12ZM3 15.825V13l7-7 4 4 7-7v2.825l-7 7-4-4Z"/></svg>
-                        <h3>MONITORING</h3>
-                    </a>
-                
-                    <a href="Customer.php" class="customers">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
-                        <h3>CUSTOMER</h3>
-                    </a>  
-                
-                    <a href="Inventory.php" class="inventory">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
-                        <h3>INVENTORY</h3>
-                    </a>
-
-                    <a href="Employee.php" class="employee">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm2-4h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Z"/></svg>
-                        <h3>EMPLOYEE</h3>
-                    </a>
-
-                    <a href="Expense.php" class="expense">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
-                        <h3>EXPENSE</h3>
-                    </a>
-            
-                    <a href="Account.php" class="account">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
-                        <h3>ACCOUNT</h3>
-                    </a>
-
-                    <a href="Settings.php" class="settings">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
-                        <h3>SETTINGS</h3>
-                    </a>
-            </div>    
-            </aside>    
-            <aside id="aside2">
-                <div class="title2">
-                    <div class="titlelogo2">
-                        <img class="tagslogo2" src="../Tag-s-Water-Purified-Drinking-Water/Pictures and Icons/tags logo.png" >
+                    <div id="dashboard" class="item"><a href="Dashboard.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M13 9V3h8v6ZM3 13V3h8v10Zm10 8V11h8v10ZM3 21v-6h8v6Z"/></svg>
+                    DASHBOARD</a></div>
+                    <div id="pointofsales" class="item"><a href="Pointofsales.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M7 8q-.825 0-1.412-.588Q5 6.825 5 6V4q0-.825.588-1.413Q6.175 2 7 2h10q.825 0 1.413.587Q19 3.175 19 4v2q0 .825-.587 1.412Q17.825 8 17 8Zm0-2h10V4H7v2ZM4 22q-.825 0-1.412-.587Q2 20.825 2 20v-1h20v1q0 .825-.587 1.413Q20.825 22 20 22Zm-2-4 3.475-7.825q.25-.55.738-.863Q6.7 9 7.3 9h9.4q.6 0 1.088.312.487.313.737.863L22 18Zm6.5-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 15 9.5 15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 13 9.5 13h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 11 9.5 11h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Z"/></svg>
+                    POINT OF SALES</a></div>
+                    <div id="reports" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M2 21V3h10v4h10v14Zm2-2h6v-2H4Zm0-4h6v-2H4Zm0-4h6V9H4Zm0-4h6V5H4Zm8 12h8V9h-8Zm2-6v-2h4v2Zm0 4v-2h4v2Z"/></svg>
+                    REPORTS<i class="fas fa-angle-right dropdown"></i></a>
+                        <div class="sub-menu">
+                            <a href="Reports-sales.php" class="sub-item">Sales</a>
+                            <a href="Reports-deliverywalkin.php" class="sub-item">Delivery/Walk-in</a>
+                            <a href="Reports-datalogs.php" class="sub-item" id="reports-datalogs">Data Logs</a>
+                            <a href="Reports-inventory.php" class="sub-item" id="reports-inventory">Inventory</a>
+                            <a href="Reports-itemissue.php" class="sub-item" id="reports-itemissue">Item Issue</a>
+                            <a href="Reports-inventory.php" class="sub-item" id="reports-attendance">Attendance</a>
+                            <a href="Reports-expense.php" class="sub-item" id="reports-expense">Expense</a>
+                        </div>
+                    </div>
+                    <div id="monitoring" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 21v-2l2-2v4Zm4 0v-6l2-2v8Zm4 0v-8l2 2.025V21Zm4 0v-5.975l2-2V21Zm4 0V11l2-2v12ZM3 15.825V13l7-7 4 4 7-7v2.825l-7 7-4-4Z"/></svg>
+                    MONITORING<i class="fas fa-angle-right dropdown"></i></a>
+                        <div class="sub-menu">
+                            <a href="Monitoring-deliverypickup.php" class="sub-item" id="monitoring-deliverypickup">Delivery/Pick Up</a>
+                            <a href="Monitoring-returncontainer.php" class="sub-item" id="monitoring-returncontainer">Return Container</a>
+                            <a href="Monitoring-customerbalance.php" class="sub-item" id="monitoring-customerbalance">Customer Balance</a>
+                            <a href="Monitoring-scheduling.php" class="sub-item" id="monitoring-scheduling">Scheduling</a>
+                            <a href="Monitoring-itemhistory.php" class="sub-item" id="monitoring-itemhistory">Item History</a>
+                        </div>
+                    </div>
+                    <div id="customer" class="item"><a href="Customer.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
+                    CUSTOMER</a></div>
+                    <div id="inventory" class="item"><a class="sub-btn"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
+                        INVENTORY<i class="fas fa-angle-right dropdown"></i></a>
+                            <div class="sub-menu">
+                                <a href="Inventory-stocks.php" class="sub-item" id="inventory-stocks">Stocks</a>
+                                <a href="Inventory-details.php" class="sub-item" id="inventory-details">Item</a>
+                            </div>
+                        </div>
+                    <div id="employee" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm2-4h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Z"/></svg>
+                    EMPLOYEE<i class="fas fa-angle-right dropdown"></i></a>
+                        <div class="sub-menu">
+                            <a href="Employee-details.php" class="sub-item" id="employee-details">Employee Details</a>
+                            <a href="Employee-attendance.php" class="sub-item" id="employee-attendance" >Attendance</a>
+                        </div>
+                    </div>
+                    <div id="expense" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
+                    EXPENSE<i class="fas fa-angle-right dropdown"></i></a>
+                        <div class="sub-menu">
+                            <a href="Expense-expense.php" class="sub-item" id="expense-expense">Expense</a>
+                            <a href="Expense-employeesalary.php" class="sub-item" id="employee-salary">Employee Salary</a>
+                        </div>
+                    </div>
+                    <div id="account" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
+                    ACCOUNT<i class="fas fa-angle-right dropdown"></i></a>
+                        <div class="sub-menu">
+                            <a href="Account-Type.php" class="sub-item" id="account-type">Account Type</a>
+                            <a href="Account.php" class="sub-item" id="accounts">User Account</a>
+                        </div>            
+                    </div>
+                    <div id="settings" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
+                    SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
+                        <div class="sub-menu">
+                        <a href="Settings-help.php" class="sub-item" id="settings-help">Help</a>
+                        <a href="Settings-datalogs.php" class="sub-item" id="settings-datalogs">Data Logs</a>
+                        <a href="Settings-dataarchive-customers.php" class="sub-item" id="settings-dataarchive">Archive</a>
+                        <a href="Settings-databackup-customers.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
+                        </div>
                     </div>
                 </div>
-            <div class="sidebar2">
-
-                    <a href="Dashboard.php" class="dashboard">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M13 9V3h8v6ZM3 13V3h8v10Zm10 8V11h8v10ZM3 21v-6h8v6Z"/></svg>
-                        <h3>DASHBOARD</h3>
-                    </a>
-                
-                    <a href="Pointofsales.php" class="pointofsales">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M7 8q-.825 0-1.412-.588Q5 6.825 5 6V4q0-.825.588-1.413Q6.175 2 7 2h10q.825 0 1.413.587Q19 3.175 19 4v2q0 .825-.587 1.412Q17.825 8 17 8Zm0-2h10V4H7v2ZM4 22q-.825 0-1.412-.587Q2 20.825 2 20v-1h20v1q0 .825-.587 1.413Q20.825 22 20 22Zm-2-4 3.475-7.825q.25-.55.738-.863Q6.7 9 7.3 9h9.4q.6 0 1.088.312.487.313.737.863L22 18Zm6.5-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 15 9.5 15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 13 9.5 13h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35Q9.7 11 9.5 11h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm3 4h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Zm0-2h1q.2 0 .35-.15.15-.15.15-.35 0-.2-.15-.35-.15-.15-.35-.15h-1q-.2 0-.35.15-.15.15-.15.35 0 .2.15.35.15.15.35.15Z"/></svg>
-                        <h3>POINT OF SALES</h3>
-                    </a>
-                
-                    <a href="Reports.php" class="reports">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M2 21V3h10v4h10v14Zm2-2h6v-2H4Zm0-4h6v-2H4Zm0-4h6V9H4Zm0-4h6V5H4Zm8 12h8V9h-8Zm2-6v-2h4v2Zm0 4v-2h4v2Z"/></svg>
-                        <h3>REPORTS</h3>
-                    </a>
-            
-                    <a href="Monitoring.php" class="monitoring">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 21v-2l2-2v4Zm4 0v-6l2-2v8Zm4 0v-8l2 2.025V21Zm4 0v-5.975l2-2V21Zm4 0V11l2-2v12ZM3 15.825V13l7-7 4 4 7-7v2.825l-7 7-4-4Z"/></svg>
-                        <h3>MONITORING</h3>
-                    </a>
-                
-                    <a href="Customer.php" class="customers">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
-                        <h3>CUSTOMER</h3>
-                    </a>  
-                
-                    <a href="Inventory.php" class="inventory">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
-                        <h3>INVENTORY</h3>
-                    </a>
-
-                    <a href="Employee.php" class="employee">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm2-4h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Z"/></svg>
-                        <h3>EMPLOYEE</h3>
-                    </a>
-
-                    <a href="Expense.php" class="expense">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
-                        <h3>EXPENSE</h3>
-                    </a>
-            
-                    <a href="Account.php" class="account">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
-                        <h3>ACCOUNT</h3>
-                    </a>
-
-                    <a href="Settings.php" class="settings">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
-                        <h3>SETTINGS</h3>
-                    </a>
-            </div>         
-            </aside>
+            </div>
         </div>
             <main>
                 <div class="main-account">
                     <h1 class="accTitle">ACCOUNT</h1> 
                     <div class="sub-tab">
+                        <div class="user-title"> 
+                            <h2> User Account </h2>
+                        </div>
                         <div class="newUser-button"> 
                             <button type="submit" id="add-userbutton" class="add-account">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
@@ -315,7 +173,6 @@ if (isset($_POST['id'])){
                                     <th>First Name</th>
                                     <th>Middle Name</th>
                                     <th>Email</th>
-
                                     <th>Contact Number</th>
                                     <th>Role</th>
                                     <th>Picture</th>
@@ -329,7 +186,7 @@ if (isset($_POST['id'])){
                             ?>
                             <tbody>
                                     <tr>
-                                        <td> <?php echo $rows['id']; ?></td>
+                                        <td> <?php echo $rows['user_id']; ?></td>
                                         <td> <?php echo $rows['last_name']; ?></td>
                                         <td> <?php echo $rows['first_name']; ?></td>
                                         <td> <?php echo $rows['middle_name']; ?></td>
@@ -338,13 +195,13 @@ if (isset($_POST['id'])){
                                         <td> <?php echo $rows['user_type']; ?></td>
                                         <td> <img src="<?php echo "uploaded_image/".$rows['profile_image']; ?>" width="50px"></td>
                                         <td>
-                                            <a href="Account-Action.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                            <a href="Account-Action.php?edit=<?php echo $rows['user_id']; ?>" id="edit-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
                                             </a>
-                                            <a href="Account-Action-ChangePassword.php?edit=<?php echo $rows['id']; ?>" id="cpass-action" class="action-btn" name="action">
+                                            <a href="Account-Action-ChangePassword.php?edit=<?php echo $rows['user_id']; ?>" id="cpass-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17q-1.688 0-3.104-.719-1.417-.719-2.375-1.927l1.062-1.083q.75 1.021 1.896 1.625Q8.625 15.5 10 15.5q2.271 0 3.885-1.615Q15.5 12.271 15.5 10t-1.615-3.885Q12.271 4.5 10 4.5q-2.292 0-3.917 1.635-1.625 1.636-1.583 3.99l1.188-1.187L6.75 10l-3 3-3-3 1.062-1.062L3 10.146q-.021-1.5.531-2.813.552-1.312 1.511-2.27Q6 4.104 7.281 3.552 8.562 3 10.021 3q1.437 0 2.708.552 1.271.552 2.219 1.5t1.5 2.219Q17 8.542 17 10q0 2.917-2.042 4.958Q12.917 17 10 17Zm-1.5-4q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
                                             </a>
-                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
+                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['user_id']; ?>" id="archive-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
                                             </a>
                                         </td>
@@ -442,7 +299,7 @@ if (isset($_POST['id'])){
         if(isset($_GET['edit']))
         {
           $user_id = $_GET['edit'];  
-          $users = "SELECT * FROM users WHERE id='$user_id'";
+          $users = "SELECT * FROM users WHERE user_id='$user_id'";
           $users_run = mysqli_query($con, $users);
 
           if(mysqli_num_rows($users_run) > 0)
@@ -459,7 +316,7 @@ if (isset($_POST['id'])){
                         </div>
                         <h1 class="editnew-title">EDIT ACCOUNT</h1>
                         <div class="edit-container2" id="edit-container2">
-                            <input type="hidden" required="required" name="user_id" value="<?=$user['id'];?>">
+                            <input type="hidden" required="required" name="user_id" value="<?=$user['user_id'];?>">
                             
                             <div class="form1">  
                                 <input type="text" id="lastname"class="lastname" required="required" name="lastname" value="<?=$user['last_name'];?>">
@@ -957,6 +814,155 @@ function myFunctionCP(){
         background-size: cover;
         background-attachment: fixed;
     }  
+    .block{
+        width: 5rem;
+        height: 2rem;
+        background-color: var(--color-background);
+        position: fixed;
+        display: flex;
+        top: 0;
+    }
+     /* -----------------------------------------------Side Menu---------------------------------------- */
+     .side-bar{
+        background: var(--color-table-hover);
+        backdrop-filter: blur(15px);
+        width: 15.5rem;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        /* left: -100%; */
+        overflow-y: auto;
+        transition: 0.6s ease;
+        transition-property: left;
+    }
+    .side-bar .title{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: -1.9rem;
+        }
+        .side-bar .titlelogo{
+            display: flex;
+            gap: 0.8rem;
+        }
+        .side-bar .titlelogo img{
+            width: 5rem;
+            margin-top: -1rem;
+            margin-bottom: 1rem;
+            margin-left: 5.5rem;
+        }
+        .side-bar .close{
+            display: none;
+            font-size: 1rem;
+        }
+    .side-bar.active{
+        left: 0;
+    }
+
+    .side-bar .menu{
+        width: 100%;
+        margin-top: 80px;
+    }
+
+    .side-bar .menu .item{
+        position: relative;
+        cursor: pointer;
+    }
+
+    .side-bar .menu .item a{
+        color: var(--color-tertiary);
+        font-size: 13px;
+        text-decoration: none;
+        display: flex;
+        fill: var(--color-tertiary);
+        margin-left: .5rem;
+        gap: 1rem;
+        align-items: center;
+        position: relative;
+        padding: 0px 20px;
+        line-height: 60px;
+        height: 3.7rem;
+        transition: all 300ms ease;
+    }
+    .side-bar .menu .item .sub-item{
+        height: 2.9rem;
+
+    }
+    .side-bar .menu .item a:hover{
+        background: var(--color-table-hover);
+        transition: 0.6s;
+        margin-left: 0rem;
+        border-radius: 0 10px 10px 0 ;
+        box-shadow: 2px 2px 2px rgb(224, 224, 224);
+    }
+    #account{
+        background: var(--color-white);
+        box-shadow: 2px 2px 2px rgb(224, 224, 224);
+        border-radius: 0 10px 10px 0;
+    }
+    .side-bar .menu .item a .dropdown{
+        position: absolute;
+        right: 0;
+        margin: 20px;
+        transition: 0.3s ease;
+    }
+
+    .side-bar .menu .item .sub-menu{
+        background: var(--color-background);
+        display: none;
+        
+    }
+
+    .side-bar .menu .item .sub-menu a{
+        padding-left: 90px;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: 'switzer', sans-serif;
+        box-shadow: 0px 1px 1px rgb(224, 224, 224);
+
+    }
+
+    .rotate{
+        transform: rotate(90deg);
+    }
+
+    .close-btn{
+        position: absolute;
+        color: var(--color-tertiary);
+        font-size: 14px;
+        right: 0;
+        margin: 25px;
+        margin-top: 50px;
+        display: none;
+        cursor: pointer;
+    }
+
+    .menu-btn{
+        position: absolute;
+        color: var(--color-tertiary);
+        font-size: 20px;
+        margin: 25px;
+        cursor: pointer;
+    }
+    .menu-btn:hover{
+        color: var(--color-main);
+    }
+    .menu-btn2{
+        position: absolute;
+        color: var(--color-tertiary);
+        font-size: 20px;
+        margin: 25px;
+        display: none;
+        left: 0;
+        cursor: pointer;
+    }
+    .menu-btn2:hover{
+        /* position: absolute; */
+        color: var(--color-main);
+        /* font-size: 25px;
+        margin: 30px;
+        cursor: pointer; */
+    }
     /* -----------------------------------------Adduserform------------------------------------------ */
     .bg-actionDropdown{
         height: 100%; 
@@ -2041,6 +2047,8 @@ function myFunctionCP(){
         /* ----------------------------------------Sub TAB---------------------------------------- */
         .user-title{
             position: relative;
+            display: inline-block;
+            width: 100%;
         }
         main  h2{
             margin-bottom: -2.2rem;
@@ -2102,7 +2110,7 @@ function myFunctionCP(){
         /* ----------------------------------------Add Button---------------------------------------- */
         .newUser-button{
             position: absolute;
-            left: 2%;
+            left: 15%;
         }
         .add-account{
             display: flex;
@@ -2136,40 +2144,43 @@ function myFunctionCP(){
             border-bottom: 4px solid var(--color-maroon);
         }
          /* ----------------------------------------Account Table---------------------------------------- */
-    main .account-container{
-        margin-top: 2rem;
-        max-height: 500px;
+         main .account-container{
+        margin-top: -2rem;
+        max-height: 650px;
         overflow:auto;
+        width: 100%;
+        /* position: absolute; */
         box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
         border-top: 8px solid var(--color-table-hover);
-        border-radius: 0px 0px 40px 40px;
+        border-radius: 0px 0px 10px 10px;
+        
     }
      main .account-container table{
         background: var(--color-white);
         font-family: 'Switzer', sans-serif;
-        width: 100%;
+        width: 100%; 
         font-size: 1rem;
         padding-left: 2.5rem;
         padding-right: 2.5rem;
         padding-bottom: 2.5rem;
         text-align: center; 
         transition: all 700ms ease;
-        margin-top: -1rem;
+        /* margin-top: -1rem; */
     }
 
     main .account-container table:hover{
         box-shadow: none;
-        border-top: 8px solid var(--color-main);
+        /* border-top: 8px solid var(--color-main); */
     }
 
     main table tbody td{
-        height: 2.8rem;
+        height: 3.3rem;
         border-bottom: 1px solid var(--color-border-bottom);
         color: var(--color-td); 
         font-size: .8rem;
     }
      th{
-        height: 2.8rem;
+        height: 3.3rem;
         color: var(--color-black); 
         margin:1rem;
         font-size: 1rem;
@@ -2184,272 +2195,48 @@ function myFunctionCP(){
     .container{
         display: grid;
         width: 96%;
-        margin: 0 auto;
+        /* margin: 0 auto; */
         background: var(--color-background);
         gap: 1.8rem;
-        grid-template-columns: 14rem auto;
-    }
-    #aside{
-        height: 100vh;
-        margin-top: -1.9rem;
-        background: var(--color-table-hover);
-        left: 0;
-        border-radius: 0px 30px 30px 0px;
-        display: none;
-    }
-    #aside .title{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 1.9rem;
-    }
-    #aside .titlelogo{
-        display: flex;
-        gap: 0.8rem;
-    }
-    #aside .titlelogo img{
-        width: 5rem;
-        margin-top: 1rem;
-        margin-left: 4.5rem;
-    }
-    #aside .close{
-        display: none;
-        font-size: 1rem;
-    }
-    #aside .sidebar{
-        margin-top: 2rem;
-        display: flex;
-        flex-direction: column;
-        height: 86vh;
-        /* position: relative; */
-    }
-    #aside h3{
-        font-weight: 400;
-    }
-    #aside .sidebar a{
-        display: flex;
-        color: var(--color-tertiary);
-        fill: var(--color-tertiary);
-        margin-left: 2rem;
-        gap: 1rem;
-        align-items: center;
-        position: relative;
-        height: 3.7rem;
-        transition: all 300ms ease;
-        
-    }
-    #aside .sidebar a:focus{
-        background: var(--color-white);
-        transition: 0.6s;
-        color: var(--color-main);
-        fill: var(--color-main);
-        margin-left: 0;
-        padding-left: 1rem;
-        content: "";
-        margin-bottom: 6px;
-        font-size: 9px;
-        border-radius: 0 0 10px 0 ;
-        box-shadow: 1px 3px 1px var(--color-background);
-    }
-    #aside .sidebar .account{
-        background: var(--color-white);
-        transition: 0.6s;
-        color: var(--color-main);
-        fill: var(--color-main);
-        margin-left: 0;
-        padding-left: 1rem;
-        content: "";
-        margin-bottom: 6px;
-        font-size: 9px;
-        border-radius: 0 0 10px 0 ;
-        box-shadow: 1px 3px 1px var(--color-background);
+        grid-template-columns: 16rem auto;
     }
     #menu-button{
         display: none;
     }
     
       /* ----------------------------------------SIDEBAR 2---------------------------------------- */
-    #aside2{
-        height: 100vh;
-        margin-top: -1.9rem;
-        background: var(--color-table-hover);
-        left: 0;
-        border-radius: 0px 30px 30px 0px;
-        position: absolute;
-        width: 14rem;
-        margin-right: 2rem;
-        border-left: 38px solid var(--color-background); 
-    }
-    #aside2 .title2{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 1.9rem;
-    }
-    #aside2 .titlelogo2{
-        display: flex;
-        gap: 0.8rem;
-    }
-    #aside2 .titlelogo2 img{
-        width: 5rem;
-        margin-top: 1rem;
-        margin-left: 4.5rem;
-    }
-    #aside2 .close{
-        display: none;
-        font-size: 1rem;
-    }
-    #aside2 .sidebar2{
-        margin-top: 2rem;
-        display: flex;
-        flex-direction: column;
-        height: 86vh;
-        position: relative;
-    }
-    #aside2 h3{
-        font-weight: 400;
-    }
-    #aside2 .sidebar2 a{
-        display: flex;
-        color: var(--color-tertiary);
-        fill: var(--color-tertiary);
-        margin-left: 2rem;
-        gap: 1rem;
-        align-items: center;
-
-        height: 3.7rem;
-        transition: all 300ms ease;
-        
-    }
-    #aside2 .sidebar2 a:focus{
-        background: var(--color-white);
-        transition: 0.6s;
-        color: var(--color-main);
-        fill: var(--color-main);
-        margin-left: 0;
-        padding-left: 1rem;
-        content: "";
-        margin-bottom: 6px;
-        font-size: 9px;
-        border-radius: 0 0 10px 0 ;
-        box-shadow: 1px 3px 1px var(--color-background);
-    }
-    #aside2 .sidebar2 a:hover{
-        background:  rgb(250, 255, 251);
-        transition: 0.6s;
-        margin-left: 0rem;
-        color: rgb(187, 187, 187);
-        fill: rgb(187, 187, 187);
-        font-weight: bold;
-        padding-left: 1rem;
-        content: "";
-        margin-bottom: 6px;
-        font-size: 9px;
-        border-radius: 0 10px 10px 0 ;
-        box-shadow: 1px 1px 1px rgb(224, 224, 224);
-    }
-
-    #aside2 .sidebar2 .account{
-        background: var(--color-white);
-        transition: 0.6s;
-        color: var(--color-main);
-        fill: var(--color-main);
-        margin-left: 0;
-        padding-left: 1rem;
-        content: "";
-        margin-bottom: 6px;
-        font-size: 9px;
-        border-radius: 0 0 10px 0 ;
-        box-shadow: 1px 3px 1px var(--color-background);
-    }
       @media screen and (max-width: 1600px){
         .container{
             width: 94%;
-            grid-template-columns: 7rem auto 23rem;
-        }
-        #aside .sidebar2 h3{
-            display: none;
-        }
-        #aside2 .sidebar2 h3{
-            display: none;
-        }
-        #aside2 .titlelogo2 img{
-            margin-left: 1.8rem;
-            width: 40%;
-        }
-
-        #aside2 .sidebar2 a{
-            width: 5.95rem;
-        }
-        #aside2 .sidebar2 a:focus{
-            padding-left: 2rem;
-            width: 4rem;
+            grid-template-columns: 16rem auto;
         }
         .top-menu{
             width: 370px;
         }
-        .main-account{
-            position: relative;
-            left: -5%;
-        }
         main .account-container{
-            margin: 2rem 0 0 8.8rem;
-            width: 94%;
-            position: absolute;
-            left: 0;
-            margin-left: 52%;
-            transform: translateX(-50%);
-            margin-top: 3%;
-        }
-        main .account-container table{
-            width: 65vw;
-            padding-left:30px;
-            padding-right:30px;
-        }
-        .accTitle{
-            margin-left: 5%;
-            width: 25vw;
-            font-family: 'Calibri', sans-serif;
+            margin-top: 6rem;
         }
         main  h2{
             margin-left: 10%;
         }
         main .sub-tab{
             margin-bottom: 4rem;
-        }
-        .newUser-button{
-            left: 94%;
-        }
-        .search{
-            left: 55%;
-        }
-        .search-bar{
-            width: 17vw;
         }
     }
     @media screen and (max-width: 1400px){
         .container{
             width: 94%;
-            grid-template-columns: 7rem auto 23rem;
+            grid-template-columns: 4rem auto;
         }
-        #aside .sidebar h3{
-            display: none;
+        .side-bar{
+            z-index: 3;
+            position: fixed;
+            left: -100%;
         }
-        #aside2 .sidebar2 h3{
-            display: none;
-        }
-        #aside2 .titlelogo2 img{
-            margin-left: 1.8rem;
-            width: 40%;
+        .close-btn{
+            display: flex;
         }
 
-        #aside2 .sidebar2 a{
-            width: 5.95rem;
-        }
-        #aside2 .sidebar2 a:focus{
-            padding-left: 2rem;
-            width: 4rem;
-        }
         .top-menu{
             width: 370px;
         }
@@ -2458,22 +2245,7 @@ function myFunctionCP(){
             left: -5%;
         }
         main .account-container{
-            margin: 2rem 0 0 8.8rem;
-            width: 94%;
-            position: absolute;
-            left: 0;
-            margin-left: 52%;
-            transform: translateX(-50%);
-            margin-top: 3%;
-        }
-        main .account-container table{
-            width: 65vw;
-            padding-left:30px;
-            padding-right:30px;
-        }
-        .accTitle{
-            margin-left: 5%;
-            width: 25vw;
+            width: 105%;
         }
         main  h2{
             margin-left: 10%;
@@ -2482,37 +2254,22 @@ function myFunctionCP(){
             margin-bottom: 4rem;
         }
         .newUser-button{
-            left: 99%;
+            left: 2.5%;
         }
         .search{
-            left: 55%;
+            right: -5%;
         }
         .search-bar{
-            width: 17vw;
+            width: 18vw;
         }
     }
     @media screen and (max-width: 1200px){
         .container{
             width: 94%;
-            grid-template-columns: 7rem auto 23rem;
+            grid-template-columns: 4rem auto;
         }
-        #aside .sidebar h3{
-            display: none;
-        }
-        #aside2 .sidebar2 h3{
-            display: none;
-        }
-        #aside2 .titlelogo2 img{
-            margin-left: 1.8rem;
-            width: 40%;
-        }
-
-        #aside2 .sidebar2 a{
-            width: 5.95rem;
-        }
-        #aside2 .sidebar2 a:focus{
-            padding-left: 2rem;
-            width: 4rem;
+        .accTitle{
+            width: 74%;
         }
         .top-menu{
             width: 370px;
@@ -2521,35 +2278,11 @@ function myFunctionCP(){
             position: relative;
             left: -5%;
         }
-        main .account-container{
-            margin: 2rem 0 0 8.8rem;
-            width: 94%;
-            position: absolute;
-            left: 0;
-            margin-left: 50%;
-            transform: translateX(-50%);
-            margin-top: 3%;
-        }
-        main .account-container table{
-            width: 80vw;
-            padding-left:30px;
-            padding-right:30px;
-        }
-        .accTitle{
-            margin-left: 5%;
-            width: 25vw;
-        }
         main  h2{
             margin-left: 10%;
         }
         main .sub-tab{
             margin-bottom: 4rem;
-        }
-        .newUser-button{
-            left: 137%;
-        }
-        .search{
-            left: 77%;
         }
         .search-bar{
             width: 20vw;
@@ -2574,65 +2307,8 @@ function myFunctionCP(){
         .containter{
             width: 100%;
         }
-        #aside2{
-            display: none;
-        }
-        #aside {
-            position: fixed; 
-            left: 0;
-            margin-top: -.2rem;
-            display: none;
-            background: var(--color-white);
-            width: 17rem;
-            z-index: 3;
-            height: 100vh;
-            padding-right: var(--card-padding);
-            animation: sideMenu 400ms ease forwards;
-            box-shadow: 70px 0px 250px rgb(116, 116, 116);
-        }
-        @keyframes sideMenu {
-            to{
-                left: 0;
-            }
-        }
-        #aside .titlelogo img{
-            margin-top: -.6rem;
-            margin-left: 4rem;
-        }
-
-        #aside .sidebar h3{
-            display: inline;
-        }
-        #aside .sidebar a{
-            width: 100%;
-            fill: var(--color-aside-mobile-text);
-            color: var(--color-aside-mobile-text);
-            height: 3.4rem;
-        }
-        #aside .sidebar a:focus{
-            width: 14.95rem;
-            fill: var(--color-white);
-            color: var(--color-white);
-            background: var(--color-aside-mobile-focus);
-            box-shadow: 1px 3px 1px rgb(224, 224, 224);
-        }
-        #aside .close{
-            display: inline-block;
-            margin-right: 18px;
-            margin-top: -1rem;
-            cursor: pointer;
-            fill:  var(--color-tertiary);
-        }
-        #aside .close:hover{
-            display: inline-block;
-            margin-right: 15px;
-            cursor: pointer;
-        }
-        #aside .sidebar .account{
-            width: 15.95rem;
-            fill:  var(--color-white);
-            color:  var(--color-white);
-            background: var(--color-aside-mobile-focus);
+        .menu-btn2{
+            display: flex;
         }
         .top-menu{
             width: 94%;
@@ -2654,30 +2330,22 @@ function myFunctionCP(){
         .top-menu .menu-bar .accTitle-top{
             display: block;
             left: 0;
-            margin-left:18%;
+            margin-left: 4rem;
             position: absolute;
         }
-         .profile .profile-picture{
-            margin-right: 2.4rem;
+         .profile{
+            margin-right: 1.4rem;
         }
         .top-menu .menu-bar .user1{
             display: none;
         }
         .drop-menu .ul .user-type3{
             display: block;
-            left:27.5%;
+            left:22.5%;
             position: absolute; 
             margin-top: -2.3rem;
             margin-bottom: 1.9rem;
         }
-        #menu-button{
-            display: block;
-            left: 1rem;
-            position: absolute;
-            cursor: pointer;
-            fill: var(--color-black);
-        }
-     
         .accTitle{
             display:none;
         }
@@ -2720,35 +2388,22 @@ function myFunctionCP(){
             padding-right:30px;
         }
         main  h2{
-            margin-left: -8rem;
-            width: 89vw;
-            border-top: 2px solid var(--color-solid-gray);
-            position: absolute;
-        }
-        .add-account{
-            width: 12.7vw;
-            align-items: center;
-            text-align: center;
-        }  
-        .add-account h3{
-            display: none;
-        }
-        .newUser-button{
-            position: absolute;
-            top: 4.5rem;
-            margin-left: 43vw;
+            margin-left: 10%;
+            display:none;
         }
         main .sub-tab{
             margin-bottom: 4rem;
         }
+        .newUser-button{
+            left: 137%;
+            display:none;
+        }
         .search{
             left: 77%;
+            display:none;
         }
         .search-bar{
-            width: 60vw;
-            margin-left: -8rem;
-            top: 4.5rem;
-            position: absolute;
+            width: 20vw;
         }
     }
 

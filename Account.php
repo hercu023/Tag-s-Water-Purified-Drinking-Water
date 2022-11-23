@@ -98,8 +98,13 @@ $result = mysqli_query($con, $query);
                     </div>
                     <div id="customer" class="item"><a href="Customer.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
                     CUSTOMER</a></div>
-                    <div id="inventory" class="item"><a href="Inventory.php"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
-                    INVENTORY</a></div>
+                    <div id="inventory" class="item"><a class="sub-btn"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
+                        INVENTORY<i class="fas fa-angle-right dropdown"></i></a>
+                            <div class="sub-menu">
+                                <a href="Inventory-stocks.php" class="sub-item" id="inventory-stocks">Stocks</a>
+                                <a href="Inventory-details.php" class="sub-item" id="inventory-details">Item</a>
+                            </div>
+                        </div>
                     <div id="employee" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm2-4h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Z"/></svg>
                     EMPLOYEE<i class="fas fa-angle-right dropdown"></i></a>
                         <div class="sub-menu">
@@ -266,95 +271,98 @@ $result = mysqli_query($con, $query);
             </div>      
   
         </div> 
-  
-    <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
+  <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
         <div class="bg-adduserform" id="bg-addform">
             <div class="message"></div>
-            <div class="form-adduser1" id="form-adduser1">
-                <h1 class="addnew-title">ADD NEW USER</h1>
-            
-                <div class="form-adduser2" id="form-adduser2">
-                    <div class="form1">  
-                        <input type="text" id="fill"class="lastname" required="required" name="lastname">
-                        <span>Last Name</span>
-                    </div> 
-                    <div class="form1">  
-                        <input type="text" id="fill"class="firstname" required="required" name="firstname">
-                        <span>First Name</span>
-                    </div>
-                    <div class="form2">  
-                        <input type="text" id="fill"class="middlename" required="" name="middlename">
-                        <span>Middle Name</span>
-                    </div>
-                    <div class="form2">  
-                        <input type="text" id="fill" class="email" required="required" name="email">
-                        <span>Email</span>
-                    </div>
-                    <div class="form4">  
-                        <input type="text" id="fill" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
-                        <span>Contact Number</span>
-                    </div>
-                    
-                    <?php
-                        $dropdown_query = "SELECT * FROM account_type";
-                        $result1 = mysqli_query($con, $dropdown_query);
-                    ?>
-
-                    <div class="usertype-dropdown">
-                        <select class="select" name="usertypes" required="" >
-                            <option selected disabled value="">ROLE</option>
-                            <?php while($row2 = mysqli_fetch_array($result1)):;?>
-                            <option><?php echo $row2[1];?></option>
-                            <?php endwhile;?>
-                            <!-- <option value="Admin">ADMIN</option>
-                            <option value="Manager">MANAGER</option>
-                            <option value="Cashier">CASHIER</option>
-                            <option value="Custom"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
-                            CUSTOM</option> -->
+            <div class="container1">
+            <h1 class="addnew-title">ADD NEW ITEM</h1>
+            <form action="#">
+                <div class="main-user-info">
+                <div class="user-input-box">
+                    <label for="itemname">Item Name</label>
+                    <input type="text"
+                            id="itemname"
+                            name="itemname"
+                            required="required"
+                            placeholder="Enter Item Name"/>
+                </div>
+                <div class="usertype-dropdown">
+                        <select class="select" name="inventorytype" required="" >
+                            <option selected disabled value="">TYPE</option>
+                            <option value="Admin">Container</option>
+                            <option value="Manager">Bottle</option>
+                            <option value="Cashier">Seal</option>
+                            <option value="Cashier">Filter</option>
+                            <option value="Cashier">Caps</option>
+                            <option value="Custom">Other</option>
                         </select>
                     </div>
-                    <!-- <div class="usertype-dropdown">
-                        <div class="select" id="usertype">
-                            <span class="selected">ROLE</span>
-                            <div class="caret"></div>
-                        </div> 
-                        <ul class="menu" name="usertypes" required="required" >
-                            <li class="active">Admin</li>
-                            <li>Manager</li>
-                            <li>Cashier</li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
-                            Custom</li>
-                        </ul>
-                     -->
-                    <div class="form4">  
-                        <input type="password" class="password" id="pass" required="required" name="pass">
-                        <span>Password</span>
-                    </div>
-                    <div class="form5">  
-                        <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass">
-                        <span>Confirm Password</span>
-                    </div>
-                    <div class="checker">
-                        <input type="checkbox" name="" onclick="myFunctionCP()" >
-                        <span>Show password</span>
-                    </div>
-                    <div class="profile-picture1" >
-                        <h4 >Profile Picture</h4>
-                    </div>
+                    <!-- <th>ID</th>
+                                    <th>Item Name</th>
+                                    <th>Type</th>
+                                    <th>POS</th>
+                                    <th>Reorder Level</th>
+                                    <th>SRP</th>
+                                    <th>Cost</th>
+                                    <th>Supplier</th>
+                                    <th>Image</th>
+                                    <th>Date/Time</th>
+                                    <th>Action</th> -->
+                <div class="user-input-box">
+                    <label for="reorder">Reorder Level</label>
+                    <input type="number" min='0' onkeypress='return isNumberKey(event)'
+                            id="reorder"
+                            name="reorder"
+                            placeholder='0'
+                            required="required"/>
+                </div>
+                
+                <div class="user-input-box">
+                    <label for="sellingprice">SRP</label>
+                    <!-- <span class="srp">PHP</span> -->
+                    <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
+                            id="sellingprice"
+                            class="sellingprice"
+                            name="sellingprice"
+                            placeholder="0.00"
+                            required="required"/>
+                </div>
+                <div class="user-input-box">
+                    <label for="suppliercost">Supplier Cost</label>
+                    <!-- <span class="cost">PHP</span> -->
+                    <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
+                            id="suppliercost"
+                            class="suppliercost"
+                            name="suppliercost"
+                            placeholder="0.00"
+                            required="required"/>
+                            
+                </div>
+                <div class="user-input-box">
+                    <label for="supplier">Supplier</label>
+                    <input type="text"
+                            id="supplier"
+                            name="supplier"
+                            placeholder="Enter Supplier"
+                            required="required"/>
+                </div>
+                <div class="line"></div>
+                    <span class="gender-title">Profile Picture</span>
                     <div class="choose-profile">
-                        <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
+                        <input type="file" id="image-profile" name="image_item" accept="image/jpg, image/png, image/jpeg" >
                     </div>
-                </div>   
-            
-                <div class="AddButton">
-                    <button type="submit" id="adduserBtn" name="submit">SAVE</button>
-                    <!-- <input type="submit" value="ADD USER" name="submit" id="sub" onclick="showalert()"> -->
-                </div>
-                <div class="CancelButton">
-                <!-- <button type="button" id="cancel" data-dismiss="modal" aria-label="Close">CANCEL</button> -->
-                <a href="Account.php" id="cancel">CANCEL</a>   
+                <div class="line"></div>
 
+                <div class="bot-buttons">
+                    <div class="CancelButton">
+                        <a href="Inventory-details.php" id="cancel">CANCEL</a>    
+                    </div>
+                    <div class="AddButton">
+                        <button type="submit" id="adduserBtn" name="submit">SAVE</button>
+                    </div>
                 </div>
+            </form>
+    <!--  -->
             </div>
             <div id="form-registered">
                 <div id="container-registered">
@@ -837,6 +845,362 @@ function myFunctionCP(){
         background-size: cover;
         background-attachment: fixed;
     }  
+    .container1{
+    width: 100%;
+    max-width: 600px;
+    padding: 28px;
+    margin: 0 28px;
+    border-radius:  0px 0px 20px 20px;
+    background-color: var(--color-white);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-top: 10px solid var(--color-solid-gray);
+}
+
+        
+.form-title{
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 6px;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    border-bottom: solid 1px white;
+}
+
+.main-user-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.usertype-dropdown{
+                width: 48%;
+                margin-top: 1.6rem;
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .select{
+                background: var(--color-solid-gray);
+                color: var(--color-white);
+                align-items: center;
+                border-radius: 13px;
+                padding: 8px 12px;
+                height: 40px;
+                width: 100%;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .action-dropdown{
+                position: relative;
+                margin-top: .5rem;
+                /* left: 10%; */
+                margin-bottom: .5rem
+            }
+.user-input-box:nth-child(2n){
+    justify-content: end;
+}
+
+
+.user-input-box{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    padding-bottom: 15px;
+}
+.user-input-box .srp{
+    position: absolute;
+    left: 51%;
+    padding: 12px;
+    width: 95%;
+    pointer-events: none;
+    font-weight: 600;
+    font-family: 'calibri', sans-serif;
+    font-size: .8em;
+    margin-top: 1.6rem;
+    margin-left: .2rem;
+    color: var(--color-solid-gray);
+}
+.user-input-box .cost{
+    position: absolute;
+    left: 34.65%;
+    padding: 12px;
+    width: 95%;
+    pointer-events: none;
+    font-weight: 600;
+    font-family: 'calibri', sans-serif;
+    font-size: .8em;
+    margin-top: 1.6rem;
+    margin-left: .2rem;
+    color: var(--color-solid-gray);
+}
+/* .user-input-box .sellingprice{
+    text-indent: 35px;
+}
+.user-input-box .suppliercost{
+    text-indent: 35px;
+} */
+.user-input-box label{
+    width: 95%;
+    color: var(--color-solid-gray);
+    font-size: 16px;
+    /* margin-left: .2rem; */
+    margin-bottom: 0.5rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* margin: 5px 0; */
+}
+.user-input-box label:focus{
+    border: 2px solid var(--color-main-3);
+    font-size: 17px;
+    font-weight: 600;
+}
+.user-input-box input::placeholder{
+    font-size: .8em;
+    color:var(--color-solid-gray);
+}
+/* ::placeholder:focus{
+    border: 2px solid var(--color-main-3);
+} */
+.user-input-box input:focus{
+    border: 2px solid var(--color-main-3);
+    background: var(--color-white);
+}
+
+.user-input-box input{
+    height: 40px;
+    width: 95%;
+    border: 2px solid var(--color-solid-gray);
+    border-radius: 15px;
+    outline: none;
+    font-size: 1em;
+    background: var(--color-white);
+    color: var(--color-black);
+    padding: 0 10px;
+}
+.line{
+    width:100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-solid-gray);
+}
+.profile-picture1 h4{
+        display: flex;
+        position: relative;
+        text-align: center;
+        font-size: 1rem;
+        font-family: 'Calibri', sans-serif;
+        color: var(--color-solid-gray);
+        width: 100%;
+        border-bottom: 2px solid var(--color-solid-gray);
+        /* margin-bottom: -5rem; */
+     }   
+       
+    .choose-profile{
+        /* position: relative; */
+        width: 100%;
+        height: 1.32rem;
+        padding: 10px;
+        margin-top: 1rem;
+        background: var(--color-solid-gray);
+        color: var(--color-white);
+        border-radius: 10px;
+        transition: 0.5s;
+        font-family: 'COCOGOOSE', sans-serif;
+        cursor: pointer;
+    }
+
+    #image-profile{
+        cursor: pointer;
+        text-align: center;
+        align-items: center;
+    }
+.gender-title{
+    margin-top: 1rem;
+    font-family: 'Calibri', sans-serif;
+    color: var(--color-solid-gray);
+    width: 100%;
+    font-size: 20px;
+    margin-left: .2rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* border-bottom: 2px solid var(--color-solid-gray); */
+}
+
+.gender-category{
+    margin: 15px 0;
+    color:  var(--color-solid-gray);
+}
+
+.gender-category label{
+    padding: 0 20px 0 5px;
+}
+
+.gender-category label,
+.gender-category input,
+.form-submit-btn input{
+    cursor: pointer;
+}
+
+.form-submit-btn{
+    margin-top: 40px;
+}
+
+.form-submit-btn input{
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 20px;
+    padding: 10px;
+    border:none;
+    border-radius: 3px;
+    color: rgb(209, 209, 209);
+    background: rgba(63, 114, 76, 0.7);
+}
+
+.form-submit-btn input:hover{
+    background: rgba(56, 204, 93, 0.7);
+    color: rgb(255, 255, 255);
+}
+.addnew-title{
+        font-size: min(max(1.9rem, 1.1vw), 2rem);
+        color: var(--color-solid-gray);
+        font-family: 'Malberg Trial', sans-serif;
+        letter-spacing: .09rem;
+        display: flex;
+        padding-top: 1rem;
+        justify-content: center;
+        border-bottom: 2px solid var(--color-solid-gray);
+        width: 100%;
+        padding-bottom: 2px;
+    }
+    .bot-buttons{
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        display: inline-block;
+        margin-top: 1.3rem;
+    }
+    .AddButton button{
+        font-family: 'COCOGOOSE', sans-serif;
+        padding: 10px;
+        width: 15rem;
+        max-height: 60px;
+        outline: none;
+        border: none;
+        font-size: min(max(9px, 1.1vw), 11px);
+        border-radius: 20px;
+        color: white;
+        background:  var(--color-mainbutton); 
+        cursor: pointer; 
+        transition: 0.5s;
+        margin-left: 1rem;
+    }
+    .AddButton button:hover{
+        background: var(--color-button-hover);
+    }
+    .CancelButton{
+        display: inline-block;
+    }
+    .AddButton{
+        display: inline-block;
+        
+    }
+    /* .CloseButton{
+        margin-top: 5.2vh;
+        margin-left: 2.4em;
+        margin-bottom: -2rem;
+    } */
+    #cancel{
+        font-family: 'COCOGOOSE', sans-serif;
+        padding: 10px;
+        padding-left: 60px;
+        padding-right: 60px;
+        text-align: center;
+        width: 10rem;
+        max-height: 70px;
+        outline: none;
+        border: none;
+        font-size: min(max(9px, 1.1vw), 11px);
+        border-radius: 20px;
+        color: white;
+        background: #c44242;
+        cursor: pointer; 
+        transition: 0.5s;
+    }
+    #cancel:hover{
+        background-color: rgb(158, 0, 0);
+        transition: 0.5s; 
+    }
+
+@media(max-width: 600px){
+    .container1{
+        min-width: 280px;
+    }
+    .user-input-box .cost{
+    position: absolute;
+    display: none;
+    left: 10.65%;
+    }
+    .user-input-box .srp{
+    position: absolute;
+    display: none
+    left: 10.65%;
+    }
+    .user-input-box{
+        margin-bottom: 12px;
+        width: 100%;
+    }
+
+    .user-input-box:nth-child(2n){
+        justify-content: space-between;
+    }
+    .usertype-dropdown{
+                width: 95%;
+                margin-bottom: 1rem;
+                margin-top: -.3rem;
+            }
+    .gender-category{
+        display: flex;
+        /* justify-content: space-between; */
+        width: 100%;
+    }
+
+    .main-user-info{
+        max-height: 380px;
+        overflow: auto;
+    }
+
+    .main-user-info::-webkit-scrollbar{
+        width: 0;
+    }
+    .bot-buttons{
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        margin-top: 1.3rem;
+    }
+    .AddButton button:hover{
+        background: var(--color-button-hover);
+    }
+    .CancelButton{
+        position: relative;
+        margin-top: 3rem;
+    }
+    .AddButton{
+        position: relative;
+        margin-top: -4rem;
+        margin-left: -1em;
+
+    }
+    /* .CloseButton{
+        margin-top: 5.2vh;
+        margin-left: 2.4em;
+        margin-bottom: -2rem;
+    } */
+    #cancel{
+        width: 100%;
+    }
+}
     .block{
         width: 5rem;
         height: 2rem;
@@ -1412,31 +1776,6 @@ function myFunctionCP(){
             }
           
             /* --------------------------------------DROP DOWN------------------------------------- */
-            .usertype-dropdown{
-                width: 20em;
-                position: relative;
-                margin-top: 1rem;
-                top: -10.9rem;
-                left: 51%;
-                margin-bottom: -5.39rem;
-            }
-            .select{
-                background: var(--color-solid-gray);
-                color: var(--color-white);
-                align-items: center;
-                border-radius: 13px;
-                padding: 8px 12px;
-                height: 2.9em;
-                width: 12.8rem;
-                cursor: pointer;
-                transition: 0.3s;
-            }
-            .action-dropdown{
-                position: relative;
-                margin-top: .5rem;
-                /* left: 10%; */
-                margin-bottom: .5rem
-            }
             #edit-action{
                 background: hsl(0, 0%, 37%);
                 color: var(--color-white);
@@ -1547,38 +1886,43 @@ function myFunctionCP(){
         margin: 0 auto;
         cursor: pointer;
     }
-    .profile-picture1 h4{
+       
+     .line{
+    width:100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-solid-gray);
+}
+.profile-picture1 h4{
         display: flex;
-        font-size: .9rem;
         position: relative;
         text-align: center;
+        font-size: 1rem;
         font-family: 'Calibri', sans-serif;
         color: var(--color-solid-gray);
-        top: -8rem;
-        margin-left: 2rem;
-        width: 26.7rem;
+        width: 100%;
         border-bottom: 2px solid var(--color-solid-gray);
-        margin-bottom: -5rem;
+        /* margin-bottom: -5rem; */
      }   
        
     .choose-profile{
-        position: relative;
-        width: 20rem;
+        /* position: relative; */
+        width: 100%;
         height: 1.32rem;
-        text-align: right;
         padding: 10px;
-        margin-left: 5rem; 
+        margin-top: 1rem;
         background: var(--color-solid-gray);
         color: var(--color-white);
-        top: -6.4rem;
-        margin-bottom: -7.6em;
         border-radius: 10px;
         transition: 0.5s;
         font-family: 'COCOGOOSE', sans-serif;
         cursor: pointer;
     }
+
     #image-profile{
         cursor: pointer;
+        text-align: center;
+        align-items: center;
     }
     .choose-profile:hover{
         background: var(--color-main-2);
