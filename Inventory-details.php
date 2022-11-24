@@ -1,7 +1,7 @@
 <?php
 require_once 'controllerUserdata_inventory.php';
 include_once('connectionDB.php');
-$query1 = "SELECT inventory_item.id,inventory_item.item_name,category_type.name,inventory_item.pos_item,inventory_item.reorder_level,inventory_item.selling_price,inventory_item.image, inventory_item.created_at, users.first_name FROM inventory_item INNER JOIN category_type  ON inventory_item.category_by_id = category_type.id INNER JOIN users  ON inventory_item.created_by_id = users.user_id";
+$query1 = "SELECT inventory_item.id,inventory_item.item_name,category_type.name,inventory_item.pos_item,inventory_item.reorder_level,inventory_item.selling_price_item,inventory_item.alkaline_refill_price,inventory_item.mineral_refill_price,inventory_item.image, inventory_item.created_at FROM inventory_item INNER JOIN category_type  ON inventory_item.category_by_id = category_type.id";
 // $result = mysqli_query($con, $query);
 $result1 = mysqli_query($con, $query1);
     if (isset($_POST['id'])){
@@ -176,6 +176,8 @@ $result1 = mysqli_query($con, $query1);
                                     <th>POS</th>
                                     <th>Reorder Level</th>
                                     <th>SRP</th>
+                                    <th>Alkaline Price</th>
+                                    <th>Mineral Price</th>
                                     <th>Image</th>
                                     <th>Date/Time Added</th>
                                     <th>Added By</th>
@@ -186,7 +188,7 @@ $result1 = mysqli_query($con, $query1);
                             <?php
                             $inventory = "SELECT * FROM inventory_item"; 
                             $sql = mysqli_query($con, $inventory);
-                                while ($rows = mysqli_fetch_assoc($sql))
+                                while ($rows = mysqli_fetch_assoc($result1))
                                 {
                             ?>
                             <tbody>
@@ -196,10 +198,12 @@ $result1 = mysqli_query($con, $query1);
                                         <td> <?php echo $rows['name']; ?></td>
                                         <td> <?php echo $rows['pos_item']; ?></td>
                                         <td> <?php echo $rows['reorder_level']; ?></td>
-                                        <td> <?php echo $rows['selling_price']; ?></td>
-                                        <td> <?php echo $rows['image']; ?></td>
+                                        <td> <?php echo $rows['selling_price_item']; ?></td>
+                                        <td> <?php echo $rows['alkaline_refill_price']; ?></td>
+                                        <td> <?php echo $rows['mineral_refill_price']; ?></td>
+                                        <td> <img src="<?php echo "uploaded_image/".$rows['image']; ?>" alt='No Image' width="50px"></td>
                                         <td> <?php echo $rows['created_at']; ?></td>
-                                        <td> <?php echo $rows['first_name']; ?></td>
+                                        <td> <?php echo $_SESSION['user_first_name']; ?></td>
                                         <td> 
                                             <a href="Customer-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
@@ -295,6 +299,7 @@ $result1 = mysqli_query($con, $query1);
             <h1 class="addnew-title">ADD NEW ITEM</h1>
             <form action="#">
                 <div class="main-user-info">
+                <input type="hidden" required="required" name="firstname" value="<?php echo $_SESSION['user_first_name']; ?>">
                 <div class="user-input-box">
                     <label for="itemname">Item Name</label>
                     <input type="text"
@@ -311,11 +316,11 @@ $result1 = mysqli_query($con, $query1);
                         <select class="select" name="inventorytype" required="" >
                             <option selected disabled value="">TYPE</option>
                             <?php while($row3 = mysqli_fetch_array($result3)):;?>
-                                <option><?php echo $row3[1];?></option>
+                            <option value="<?php echo $row3['id']?>">
+                                        <?php echo $row3['name'];?></option>
                             <?php endwhile;?>
                         </select>
                     </div>  
-                    <input type="hidden" required="required" name="firstname" value="<?php echo $_SESSION['user_first_name']; ?>">
                          
                     <!-- <th>ID</th>
                                     <th>Item Name</th>
@@ -347,6 +352,26 @@ $result1 = mysqli_query($con, $query1);
                             placeholder="0.00"
                             required="required"/>
                 </div>
+                <div class="user-input-box">
+                    <label for="alkalineprice">Alkaline Price</label>
+                    <!-- <span class="srp">PHP</span> -->
+                    <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
+                            id="alkalineprice"
+                            class="alkalineprice"
+                            name="alkalineprice"
+                            placeholder="0.00"
+                            required="required"/>
+                </div>
+                <div class="user-input-box">
+                    <label for="mineralprice">Mineral Price</label>
+                    <!-- <span class="srp">PHP</span> -->
+                    <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
+                            id="mineralprice"
+                            class="mineralprice"
+                            name="mineralprice"
+                            placeholder="0.00"
+                            required="required"/>
+                </div>
                 <!-- <div class="user-input-box">
                     <label for="suppliercost">Supplier Cost</label>
                     <span class="cost">PHP</span>
@@ -365,10 +390,10 @@ $result1 = mysqli_query($con, $query1);
                     </div>
                     <span class="gender-title">POS ITEM</span>
                     <div class="gender-category" >
-                        <input type="radio" name="positem" id="Yes" required="required">
-                        <label for="Yes">Yes</label>
-                        <input type="radio" name="positem" id="No" >
-                        <label for="No">No</label>
+                        <input type="radio" value="1" name="positem" id="Yes" required="required">
+                        <label for="Yes" >Yes</label>
+                        <input type="radio" value="0" name="positem" id="No" >
+                        <label for="No" >No</label>
                     </div>
                 <div class="line"></div>
 
@@ -382,87 +407,6 @@ $result1 = mysqli_query($con, $query1);
                 </div>
             </form>
             </div>
-            <!-- <div class="form-adduser1" id="form-adduser1">
-                <h1 class="addnew-title">ADD NEW ITEM</h1>
-            
-                <div class="form-adduser2" id="form-adduser2">
-                    <div class="form1">  
-                        <input type="text" id="fill"class="lastname" required="required" name="lastname">
-                        <span>Item Name</span>
-                    </div> 
-                    <div class="usertype-dropdown">
-                        <select class="select" name="usertypes" required="" >
-                            <option selected disabled value="">TYPE</option>
-                            <option value="Admin">CONTAINER</option>
-                            <option value="Manager">BOTTLE</option>
-                            <option value="Cashier">SEAL</option>
-                            <option value="Cashier">FILTER</option>
-                            <option value="Cashier">CAPS</option>
-                            <option value="Custom">OTHER</option>
-                        </select>
-                    </div>
-                    <tr>
-                                    <th>ID</th>
-                                    <th>Item Name</th>
-                                    <th>Type</th>
-                                    <th>POS</th>
-                                    <th>Reorder Level</th>
-                                    <th>SRP</th>
-                                    <th>Cost</th>
-                                    <th>Supplier</th>
-                                    <th>Image</th>
-                                    <th>Date/Time</th>
-                                    <th>Action</th>
-                                </tr>
-                    <div class="form2">  
-                        <input type="text" id="fill"class="middlename" required="" name="middlename">
-                        <span>Middle Name</span>
-                    </div>
-                    <div class="form2">  
-                        <input type="text" id="fill" class="email" required="required" name="email">
-                        <span>Email</span>
-                    </div>
-                    <div class="form4">  
-                        <input type="text" id="fill" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
-                        <span>Contact Number</span>
-                    </div>
-                    
-                   <div class="usertype-dropdown">
-                        <div class="select" id="usertype">
-                            <span class="selected">ROLE</span>
-                            <div class="caret"></div>
-                        </div> 
-                        <ul class="menu" name="usertypes" required="required" >
-                            <li class="active">Admin</li>
-                            <li>Manager</li>
-                            <li>Cashier</li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
-                            Custom</li>
-                        </ul>
-                     -->
-                    <!-- <div class="form4">  
-                        <input type="password" class="password" id="pass" required="required" name="pass">
-                        <span>Password</span>
-                    </div>
-                    <div class="form5">  
-                        <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass">
-                        <span>Confirm Password</span>
-                    </div>
-                    <div class="checker">
-                        <input type="checkbox" name="" onclick="myFunctionCP()" >
-                        <span>Show password</span>
-                    </div>
-                    <div class="profile-picture1" >
-                        <h4 >Profile Picture</h4>
-                    </div>
-                    <div class="choose-profile">
-                        <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
-                    </div>
-                </div>   
-             -->
-                <!-- <div class="AddButton">
-                    <button type="submit" id="adduserBtn" name="submit">SAVE</button>
-                   <input type="submit" value="ADD USER" name="submit" id="sub" onclick="showalert()"> -->
             </div> 
             <div id="form-registered">
                 <div id="container-registered">
@@ -1039,7 +983,7 @@ function myFunctionCP(){
                 border-radius: 13px;
                 padding: 8px 12px;
                 height: 40px;
-                width: 100%;
+                width: 96%;
                 cursor: pointer;
                 transition: 0.3s;
             }
@@ -1057,7 +1001,8 @@ function myFunctionCP(){
 .user-input-box{
     display: flex;
     flex-wrap: wrap;
-    width: 50%;
+    
+    width: 48%;
     padding-bottom: 15px;
 }
 .user-input-box .srp{
@@ -1070,7 +1015,6 @@ function myFunctionCP(){
     font-family: 'calibri', sans-serif;
     font-size: .8em;
     margin-top: 1.6rem;
-    margin-left: .2rem;
     color: var(--color-solid-gray);
 }
 .user-input-box .cost{
@@ -1308,7 +1252,7 @@ function myFunctionCP(){
         justify-content: space-between;
     }
     .usertype-dropdown{
-                width: 95%;
+                width: 99%;
                 margin-bottom: 1rem;
                 margin-top: -.3rem;
             }

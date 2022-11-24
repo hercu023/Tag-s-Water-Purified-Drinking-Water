@@ -373,7 +373,7 @@ include 'connectionDB.php';
                             <th>QTY</th>
                             <th>Total</th>
                             <th>Change</th>
-                            <th>Amount Tentered</th>
+                            <th>Amount Tendered</th>
                             <th>Payment</th>
                             <th>Service</th>
                             <th>Cashier Name</th>
@@ -390,18 +390,22 @@ include 'connectionDB.php';
                                         <tr>
                                             <td> <?php echo $rows['transaction_id']; ?></td>
                                             <td> <?php echo $rows['customer_name']; ?></td>
+                                            <td> <?php echo $rows['name']; ?></td>
                                             <td> <?php echo $rows['item_name']; ?></td>
-                                            <td> <?php echo $rows['water_type']; ?></td>
+                                            <td> <?php echo $rows['name']; ?></td>
+                                            <td> <?php echo $rows['name']; ?></td>
                                             <td> <?php echo $rows['water_service']; ?></td>
-                                            <td> <?php echo $rows['price']; ?></td>
+                                            <td> <?php echo $rows['service_type']; ?></td>
+                                            <td> <?php echo $rows['refill_price']; ?></td>
                                             <td> <?php echo $rows['quantity']; ?></td>
                                             <td> <?php echo $rows['total_amount']; ?></td>
                                             <td> <?php echo $rows['customer_change']; ?></td>
-                                            <td> <?php echo $rows['amount_tentered']; ?></td>
-                                            <td> <?php echo $rows['payment_option']; ?></td>
+                                            <td> <?php echo $rows['amount_tendered']; ?></td>
+                                            <td> <?php echo $rows['option_name']; ?></td>
                                             <td> <?php echo $rows['service_type']; ?></td>
-                                            <td> <?php echo $rows['cashier_name']; ?></td>
-                                            <td> <?php echo $rows['date_time']; ?></td>
+                                            <td> <?php echo $rows['status_name']; ?></td>
+                                            <td> <?php echo $rows['created_by']; ?></td>
+                                            <td> <?php echo $rows['created_at']; ?></td>
                                         <tr id="noRecordTR" style="display:none">
                                             <td colspan="10">No Record Found</td>                         
                                         </tr>
@@ -421,16 +425,30 @@ include 'connectionDB.php';
                         $dropdown_query = "SELECT item_name FROM inventory_item";
                         $result1 = mysqli_query($con, $dropdown_query);
                     ?>
+                    <?php
+                        $dropdown_query = "SELECT name FROM water_type";
+                        $result2 = mysqli_query($con, $dropdown_query);
+                    ?>
                     
     </body>
 </html>
 <script>
+    //-----------------------------------------------------
+    function populate(s1,s2)
+    {
+        var s1 = document.getElementId(s1);
+        var s2 =document.getElementId(s2);
+
+        s2.innerHTML ="";
+
+        if(s1.value == "")
+    }
        // -----------------------------add order table
         $(document).ready(function(){
             $("#selectOrder").click(function(){
                 var addcontrols="<tr>"
                     addcontrols+="<td><button type='button' class='removeBtn'>X</button></td>"
-                    addcontrols+="<td><select class='selectTable-water1'><option value='Alkaline'>Alkaline</option><option value='Mineral'>Mineral</option></select></td>"
+                    addcontrols+="<td><select name='slct1' id='slct1' onchange='populate(this.id,'slct2')' class='selectTable-water1'><?php while($row3 = mysqli_fetch_array($result2)):;?><option><?php echo $row3[1];?></option><?php endwhile;?></select></td>"
                     addcontrols+="<td><select class='selectTable-item'><?php while($row2 = mysqli_fetch_array($result1)):;?><option><?php echo $row2[1];?></option><?php endwhile;?></select></td>"
                     addcontrols+="<td><input type='number' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
                     addcontrols+="<td><input type='number' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'></td>"

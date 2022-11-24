@@ -324,7 +324,7 @@ $result1 = mysqli_query($con, $query1);
                     <input type="text" min='0' onkeypress='return isNumberKey(event)'
                             id="contactnum"
                             name="contactnum"
-                            placeholder='0'
+                            placeholder='Enter Contact Number'
                             required="required"/>
                 </div>
                 
@@ -336,7 +336,8 @@ $result1 = mysqli_query($con, $query1);
                         <select class="select" name="usertypes" required="" >
                             <option selected disabled value="">ROLE</option>
                             <?php while($row3 = mysqli_fetch_array($result3)):;?>
-                                <option><?php echo $row3[1];?></option>
+                            <option value="<?php echo $row3['id']?>">
+                                        <?php echo $row3['user_type'];?></option>
                             <?php endwhile;?>
                         </select>
                     </div>
