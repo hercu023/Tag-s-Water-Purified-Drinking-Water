@@ -29,14 +29,14 @@
     
     if($select->rowCount() > 0){
         $message[] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist!";
-        // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist.");
+        // header("Location: account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist.");
     }else{
         if($pass != $encpass){
             $message[] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password does not matched.";
-            // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password does not matched.");
+            // header("Location: account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password does not matched.");
         }elseif($image_size > 2000000){
             $message[] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.";
-            // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.");
+            // header("Location: account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.");
         }else{
             $cpass = password_hash($pass, PASSWORD_BCRYPT);
             $insert = mysqli_query($con, "INSERT INTO users VALUES('','$lastname', '$firstname', '$middlename', '$email', '$cpass', '$contact', '','$usertype','', '$image')");
@@ -44,7 +44,7 @@
             if($insert){
                 $status = 1;
                 move_uploaded_file($image_tmp_name, $image_folder);
-                // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered successfully.");
+                // header("Location: account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered successfully.");
             
             }
         }

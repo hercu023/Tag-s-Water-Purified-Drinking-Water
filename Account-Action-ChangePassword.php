@@ -1,11 +1,9 @@
 <?php
 require_once 'controllerUserdata_account.php';
 include_once('connectionDB.php');
-$query = "SELECT * FROM users";
-$result = mysqli_query($con, $query);
-// $mysqli = new mysqli('localhost', 'root', '','acc_db');
-// $results = mysqli_query($con, "SELECT * FROM users");
-// $row = mysqli_fetch_array($result);  
+$query1 = "SELECT users.user_id,users.last_name,users.first_name,users.middle_name,users.email,users.contact_number, users.profile_image, account_type.user_type FROM users LEFT JOIN account_type ON users.account_type_id = account_type.id";
+// $result = mysqli_query($con, $query);
+$result1 = mysqli_query($con, $query1);
 if (isset($_POST['user_id'])){
 
         $id = $_POST['user_id'];
@@ -179,9 +177,9 @@ if (isset($_POST['user_id'])){
                                     <th>Action</th>
                                 </tr>
                             </thead>
-
                             <?php
-                                while ($rows = mysqli_fetch_assoc($result))
+                            
+                                while ($rows = mysqli_fetch_assoc($result1))
                                 {
                             ?>
                             <tbody>
@@ -196,17 +194,16 @@ if (isset($_POST['user_id'])){
                                         <td> <img src="<?php echo "uploaded_image/".$rows['profile_image']; ?>" width="50px"></td>
                                         <td>
                                             <a href="Account-Action.php?edit=<?php echo $rows['user_id']; ?>" id="edit-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
                                             </a>
                                             <a href="Account-Action-ChangePassword.php?edit=<?php echo $rows['user_id']; ?>" id="cpass-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17q-1.688 0-3.104-.719-1.417-.719-2.375-1.927l1.062-1.083q.75 1.021 1.896 1.625Q8.625 15.5 10 15.5q2.271 0 3.885-1.615Q15.5 12.271 15.5 10t-1.615-3.885Q12.271 4.5 10 4.5q-2.292 0-3.917 1.635-1.625 1.636-1.583 3.99l1.188-1.187L6.75 10l-3 3-3-3 1.062-1.062L3 10.146q-.021-1.5.531-2.813.552-1.312 1.511-2.27Q6 4.104 7.281 3.552 8.562 3 10.021 3q1.437 0 2.708.552 1.271.552 2.219 1.5t1.5 2.219Q17 8.542 17 10q0 2.917-2.042 4.958Q12.917 17 10 17Zm-1.5-4q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
-                                            </a>
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17.708q-1.979 0-3.604-.864-1.625-.865-2.688-2.323l1.73-1.771q.833 1.229 2.02 1.865 1.188.635 2.542.635 2.188 0 3.719-1.531Q15.25 12.188 15.25 10q0-2.188-1.531-3.719Q12.188 4.75 10 4.75q-2.146 0-3.719 1.521t-1.531 3.75v-.125l1.188-1.188L7.208 10l-3.687 3.688L-.167 10l1.271-1.292 1.188 1.209v.125q-.021-1.604.583-3.021.604-1.417 1.656-2.469Q5.583 3.5 7 2.896q1.417-.604 3.021-.604 1.583 0 2.979.604 1.396.604 2.448 1.656T17.104 7q.604 1.396.604 3 0 3.229-2.239 5.469-2.24 2.239-5.469 2.239ZM8.5 13q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
                                             <a href="Account-Action-Archive.php?edit=<?php echo $rows['user_id']; ?>" id="archive-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
+                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
                                             </a>
                                         </td>
                                     <tr id="noRecordTR" style="display:none">
-                                        <td colspan="9">No Record Found</td>                         
+                                        <td colspan="10">No Record Found</td>                         
                                     </tr>
                             </tbody>
                                     <?php
@@ -281,40 +278,46 @@ if (isset($_POST['user_id'])){
             foreach($users_run as $user)
             {
                 ?>
-        
+    
     <form name="cpass" action="" method="post" enctype="multipart/form-data" id="cpassuserFrm">
         <div class="bg-cpassDropdown" id="cpass-bgdrop">
-          
-            <div class="cpass-container" id="cpass-container">
+            <div class="container1" id="container1">
+                    <h1 class="addnew-title">CHANGE PASSWORD</h1>
+                    
+                    <form action="#">
+                    <?php if (isset($_GET['error'])) { ?>
+                        <div class="message"><?php echo $_GET['error']; ?></div>
+                    <?php } ?>  
+                    <p>Create new password that is at least 8 characters long. Mix with numbers and symbols for a strong security.</p>
+                        <div class="main-user-info">
 
-            <h1 class="cpassnew-title">CHANGE PASSWORD</h1>
-              <?php if (isset($_GET['error'])) { ?>
-                <div class="message"><?php echo $_GET['error']; ?></div>
-            <?php } ?>  
-                <p>Create new password that is at least 8 characters long. Mix with numbers and symbols for a strong security.</p>
-                <div class="message"> <i class='fas fa-times' onclick='this.parentElement.remove();'></i></div>
+                            <div class="user-input-box">
+                                <label for="pass">Password</label>
+                                <input type="password" class="newpassword" id="newpass" required="required" name="pass"
+                                        placeholder="Create Password"/>
+                            </div>
+                            <div class="user-input-box">
+                                <label for="ecpass">Confirm Password</label>
+                                <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass"
+                                        placeholder="Confirm Password"/>
+                            </div>              
+                            <div class="checker">
+                                    <input type="checkbox" name="" onclick="myFunctionCP()" >
+                                    <span>Show password</span>
+                                </div>
+                            <div class="line"></div>
 
-                <div class="cpass-container2" id="cpass-container2">
-                    <div class="form1-cpass">  
-                        <input type="password" class="newpassword" id="newpass" required="required" name="pass">
-                        <span>New Password</span>
-                    </div>
-                    <div class="form1-cpass">  
-                    <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass">
-                        <span>Confirm Password</span>
-                    </div>
-                    <div class="checker">
-                        <input type="checkbox" name="" onclick="myFunctionCP()" >
-                        <span>Show password</span>
-                    </div>
-                    <div class="cpassButton">
-                        <button type="submit" id="cpassuserBtn" name="change">SAVE</button>
-                    </div>
-                    <div class="CancelButton-cpass">
-                        <a href="Account.php" id="cancel-cpass">CANCEL</a>   
-                    </div>
-                </div> 
-            </div>
+                            <div class="bot-buttons">
+                                <div class="CancelButton">
+                                    <a href="Account.php" id="cancel">CANCEL</a>    
+                                </div>
+                                <div class="AddButton">
+                                    <button type="submit" id="cpassuserBtn" name="change">SAVE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
         </div>
     </form>
     <?php
@@ -635,7 +638,145 @@ function myFunctionCP(){
         background-position: center;
         background-size: cover;
         background-attachment: fixed;
+    }    
+.container1{
+    width: 100%;
+    max-width: 600px;
+    padding: 28px;
+    margin: 0 28px;
+    border-radius:  0px 0px 20px 20px;
+    background-color: var(--color-white);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-top: 10px solid var(--color-solid-gray);
+}
+
+.addnew-title{
+        font-size: min(max(1.9rem, 1.1vw), 2rem);
+        color: var(--color-solid-gray);
+        font-family: 'Malberg Trial', sans-serif;
+        letter-spacing: .09rem;
+        display: flex;
+        padding-top: 1rem;
+        justify-content: center;
+        border-bottom: 2px solid var(--color-solid-gray);
+        width: 100%;
+        padding-bottom: 2px;
     }  
+.form-title{
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 6px;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    border-bottom: solid 1px white;
+}
+
+.main-user-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.checker {
+        /* display: flex; */
+        flex-wrap: wrap;
+        width: 100%;
+        padding-bottom: 15px;
+        gap: 5px;
+        text-align: right; 
+        align-items: right;
+    }
+    .checker span {
+        text-decoration: none;
+        color: var(--color-solid-gray);
+        top: 0;
+        font-size: min(max(10px, 1.2vw), 12px);
+        font-family: 'Switzer', sans-serif;
+    }
+.user-input-box{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    padding-bottom: 15px;
+}
+.user-input-box .srp{
+    position: absolute;
+    left: 51%;
+    padding: 12px;
+    width: 95%;
+    pointer-events: none;
+    font-weight: 600;
+    font-family: 'calibri', sans-serif;
+    font-size: .8em;
+    margin-top: 1.6rem;
+    margin-left: .2rem;
+    color: var(--color-solid-gray);
+}
+.user-input-box .cost{
+    position: absolute;
+    left: 34.65%;
+    padding: 12px;
+    width: 95%;
+    pointer-events: none;
+    font-weight: 600;
+    font-family: 'calibri', sans-serif;
+    font-size: .8em;
+    margin-top: 1.6rem;
+    margin-left: .2rem;
+    color: var(--color-solid-gray);
+}
+/* .user-input-box .sellingprice{
+    text-indent: 35px;
+}
+.user-input-box .suppliercost{
+    text-indent: 35px;
+} */
+.user-input-box label{
+    width: 95%;
+    color: var(--color-solid-gray);
+    font-size: 16px;
+    /* margin-left: .2rem; */
+    margin-bottom: 0.5rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* margin: 5px 0; */
+}
+.user-input-box label:focus{
+    border: 2px solid var(--color-main-3);
+    font-size: 17px;
+    font-weight: 600;
+}
+.user-input-box input::placeholder{
+    font-size: .8em;
+    color:var(--color-solid-gray);
+}
+/* ::placeholder:focus{
+    border: 2px solid var(--color-main-3);
+} */
+.user-input-box input:focus{
+    border: 2px solid var(--color-main-3);
+    background: var(--color-white);
+}
+
+.user-input-box input{
+    height: 40px;
+    width: 95%;
+    border: 2px solid var(--color-solid-gray);
+    border-radius: 15px;
+    outline: none;
+    font-size: 1em;
+    background: var(--color-white);
+    color: var(--color-black);
+    padding: 0 10px;
+}
+.line{
+    width:100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-solid-gray);
+}
     .block{
         width: 5rem;
         height: 2rem;
@@ -796,68 +937,7 @@ function myFunctionCP(){
         align-items: center; 
         justify-content: center;
     }
-            .action{ 
-                position: absolute;
-                top: 50%;
-                align-items: center;
-                text-align: center;
-                /* display: none; */
-                left: 50%;
-                height: 13.5rem;
-                min-width: 17rem;
-                
-                transform: translate(-50%, -50%);
-                background-color: var(--color-white);
-                box-shadow: 5px 7px 30px 0px var(--color-shadow-shadow);
-                border-radius: 20px;  
-             }
-             #close-action{
-                position: absolute;
-                margin-top: -5.5rem;
-                left:87%;
-                fill: var(--color-solid-gray);
-             }
-             #close-action:hover{
-                position: absolute;
-                margin-top: -5.5rem;
-                left:87%;
-                fill: #8b0000;
-                transition: .2s;
-             }
-             .action h2{
-                padding-bottom: .5rem;
-                margin-top: .5rem;
-                font-size: min(max(1.9rem, 1.1vw), 2rem);
-                color: var(--color-solid-gray);
-                font-family: 'Malberg Trial', sans-serif;
-                border-bottom:  2px solid var(--color-solid-gray);
-                margin-bottom: 1rem;
-             }
-             .action button{
-                padding-left:1rem;
-                font-family: 'arial', sans-serif;
-                cursor: pointer;
-                transition: .5s;
-                font-size: 12px;
-                display: flex;
-                gap: .8rem;
-                width: 100%;
-                border: none;
-                background: var(--color-white);
-                align-items: center;
-                color: var(--color-solid-gray);
-                fill: var(--color-solid-gray);
-                border-radius: 20px;  
-            }
-            .action button:last-child{
-                border-top:  2px solid var(--color-solid-gray);
-            }
-            
-            .action button:hover{
-                background: linear-gradient(270deg, transparent, var(--color-secondary-main));
-                color: var(--color-main);
-                fill: var(--color-main);
-            }
+           
 
     .bg-cpassDropdown{
         height: 100%; 
@@ -1070,30 +1150,64 @@ function myFunctionCP(){
                 padding-right: 10px;
                 /* margin-left: 30px; */
             }
-            .CancelButton-cpass{
-                margin-top: -6vh;
-                margin-left:-10rem;
-            }
-            #cancel-cpass{
-                font-family: 'COCOGOOSE', sans-serif;
-                padding: 10px;
-                padding-left: 40px;
-                padding-right: 40px;
-                text-align: center;
-                max-height: 70px;
-                outline: none;
-                border: none;
-                font-size: min(max(9px, 1.1vw), 11px);
-                border-radius: 20px;
-                color: white;
-                background: #c44242;
-                cursor: pointer; 
-                transition: 0.5s;
-            }
-            #cancel-edit:hover{
-                background-color: rgb(158, 0, 0);
-                transition: 0.5s; 
-            }
+            .bot-buttons{
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        display: inline-block;
+        margin-top: 1.3rem;
+    }
+    .AddButton button{
+        font-family: 'COCOGOOSE', sans-serif;
+        padding: 10px;
+        width: 15rem;
+        max-height: 60px;
+        outline: none;
+        border: none;
+        font-size: min(max(9px, 1.1vw), 11px);
+        border-radius: 20px;
+        color: white;
+        background:  var(--color-mainbutton); 
+        cursor: pointer; 
+        transition: 0.5s;
+        margin-left: 1rem;
+    }
+    .AddButton button:hover{
+        background: var(--color-button-hover);
+    }
+    .CancelButton{
+        display: inline-block;
+    }
+    .AddButton{
+        display: inline-block;
+        
+    }
+    /* .CloseButton{
+        margin-top: 5.2vh;
+        margin-left: 2.4em;
+        margin-bottom: -2rem;
+    } */
+    #cancel{
+        font-family: 'COCOGOOSE', sans-serif;
+        padding: 10px;
+        padding-left: 80px;
+        padding-right: 80px;
+        text-align: center;
+        width: 30rem;
+        max-height: 70px;
+        outline: none;
+        border: none;
+        font-size: min(max(9px, 1.1vw), 11px);
+        border-radius: 20px;
+        color: white;
+        background: #c44242;
+        cursor: pointer; 
+        transition: 0.5s;
+    }
+    #cancel:hover{
+        background-color: rgb(158, 0, 0);
+        transition: 0.5s; 
+    }
             .checker {
                 text-align: right;
                 align-items: right;
@@ -1474,23 +1588,24 @@ function myFunctionCP(){
         background-color: hsl(0, 100%, 77%);
         color: #ffffff;
         border-radius: 6px;
-        width: 24rem;
         height: 1.87rem;
-        left: 39.4%;
+        /* margin-left: 3.55rem; */
         letter-spacing: 0.5px;
         font-family: Helvetica, sans-serif;       
-        top: 25.9%;
         font-size: .7rem;
-        padding: 5px 10px;
-        padding-top: 1rem;
-        position: relative;
         align-items: center;
         text-align: center;
+        padding-top: 1rem;
         /* justify-content: space-between; */
         gap:3.5rem;
         z-index: 1000;
         display: none;
+        /* display: flex; */
+        flex-wrap: wrap;
+        width: 100%;
+        padding-bottom: .3rem;
     }
+
     .message span{
         color:var(--white);
         font-size: .9rem;
@@ -1501,73 +1616,6 @@ function myFunctionCP(){
         font-size: .9rem;
         margin: 0 auto;
         cursor: pointer;
-    } 
-    .profile-picture1 h4{
-        display: flex;
-        font-size: .9rem;
-        position: relative;
-        text-align: center;
-        font-family: 'Calibri', sans-serif;
-        color: var(--color-solid-gray);
-        top: -8rem;
-        margin-left: 2rem;
-        width: 26.7rem;
-        border-bottom: 2px solid var(--color-solid-gray);
-        margin-bottom: -5rem;
-     }   
-    .choose-profile{
-        position: relative;
-        width: 20rem;
-        height: 1.32rem;
-        text-align: right;
-        padding: 10px;
-        margin-left: 5rem; 
-        background: var(--color-solid-gray);
-        color: var(--color-white);
-        top: -6.4rem;
-        margin-bottom: -7.6em;
-        border-radius: 10px;
-        transition: 0.5s;
-        font-family: 'COCOGOOSE', sans-serif;
-        cursor: pointer;
-    }
-    #imageprofile{
-        cursor: pointer;
-    }
-    .choose-profile:hover{
-        background: var(--color-main-2);
-        transition: 0.5s;
-    }
-    .CancelButton{
-        margin-top: -4.9vh;
-        margin-left: 2.4em;
-    }
-    
-    .CloseButton{
-        margin-top: 5.2vh;
-        margin-left: 2.4em;
-        margin-bottom: -2rem;
-    }
-    #cancel{
-        font-family: 'COCOGOOSE', sans-serif;
-        padding: 10px;
-        padding-left: 60px;
-        padding-right: 60px;
-        text-align: center;
-        width: 10rem;
-        max-height: 70px;
-        outline: none;
-        border: none;
-        font-size: min(max(9px, 1.1vw), 11px);
-        border-radius: 20px;
-        color: white;
-        background: #c44242;
-        cursor: pointer; 
-        transition: 0.5s;
-    }
-    #cancel:hover{
-        background-color: rgb(158, 0, 0);
-        transition: 0.5s; 
     }
 
     #action_btn {

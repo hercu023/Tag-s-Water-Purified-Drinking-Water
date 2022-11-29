@@ -37,7 +37,7 @@ $errors = array();
     
         if($selects->rowCount() > 0){
         $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Customer already exist! ";
-        // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist.");
+        // header("Location: account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist.");
         }else{
             $insert = mysqli_query($con, "INSERT INTO customers VALUES('','$customername', '$address', '$contact', '$note', '$balance','')");
             // $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $address, $image]);

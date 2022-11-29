@@ -340,18 +340,18 @@ if (isset($_POST['user_id'])){
                                 <input type="text" id="contactnum" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum" value="<?=$user['contact_number'];?>">
                                 <span>Contact Number</span>
                             </div>
-                   
                             <div class="usertype-dropdown">
                                 <?php
                                     $dropdown_query1 = "SELECT * FROM account_type";
                                     $result3 = mysqli_query($con, $dropdown_query1);
                                 ?>
-                                <select class="select" name="usertypes" required="" value="<?=$user['user_type'];?>">
-                                    <option selected disabled value="">ROLE</option>
+                                    <select class="select" name="usertypes" required="" value="<?=$user['id'];?>">
+                                        <option selected disabled value="">ROLE</option>
                                         <?php while($row3 = mysqli_fetch_array($result3)):;?>
-                                            <option><?php echo $row3[1];?></option>
+                                        <option value="<?php echo $row3['id']?>">
+                                                    <?php echo $row3['user_type'];?></option>
                                         <?php endwhile;?>
-                                </select>
+                                    </select>
                             </div>
                                     
                                 
@@ -384,38 +384,6 @@ if (isset($_POST['user_id'])){
                 }
                 }
             ?> 
-    <form name="cpass" action="" method="post" enctype="multipart/form-data" id="cpassuserFrm">
-        <div class="bg-cpassDropdown" id="cpass-bgdrop">
-      
-        <div class='message'></div>
-            <div class="cpass-container" id="cpass-container">
-
-            <h1 class="cpassnew-title">CHANGE PASSWORD</h1>
-                <p>Create new password that is at least 8 characters long. Mix with numbers and symbols for a strong security.</p>
-                <div class="cpass-container2" id="cpass-container2">
-                <input type="hidden" id="userid" name="userid" value="<?=$user['id'];?>">
-                    <div class="form1-cpass">  
-                        <input type="password" class="newpassword" id="newpass" required="required" name="pass">
-                        <span>New Password</span>
-                    </div>
-                    <div class="form1-cpass">  
-                    <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass">
-                        <span>Confirm Password</span>
-                    </div>
-                    <div class="checker">
-                        <input type="checkbox" name="" onclick="myFunctionCP()" >
-                        <span>Show password</span>
-                    </div>
-                    <div class="cpassButton">
-                        <button type="submit" id="cpassuserBtn" name="change">SAVE</button>
-                    </div>
-                    <div class="CancelButton-cpass">
-                        <a href="Account.php" id="cancel-cpass">CANCEL</a>   
-                    </div>
-                </div> 
-            </div>
-        </div>
-    </form>
     <div id="form-registered1">
                 <div id="container-registered">
                     <div class="content">

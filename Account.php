@@ -3,7 +3,7 @@ require_once 'controllerUserdata.php';
 include_once('connectionDB.php');
 // $query = "SELECT * FROM users";
 
-$query1 = "SELECT users.user_id,users.last_name,users.first_name,users.middle_name,users.email,users.contact_number, users.profile_image, account_type.user_type FROM users INNER JOIN account_type ON users.account_type_id = account_type.id";
+$query1 = "SELECT users.user_id,users.last_name,users.first_name,users.middle_name,users.email,users.contact_number, users.profile_image, account_type.user_type FROM users LEFT JOIN account_type ON users.account_type_id = account_type.id";
 // $result = mysqli_query($con, $query);
 $result1 = mysqli_query($con, $query1);
 
@@ -11,7 +11,7 @@ $result1 = mysqli_query($con, $query1);
 
             // $id = $_POST['user_id'];
             
-            $stmt = $conn->prepare("SELECT users.user_id,users.last_name,users.first_name,users.middle_name,users.email,users.contact_number, users.profile_image, account_type.user_type FROM users INNER JOIN account_type ON users.account_type_id = account_type.id WHERE user_id=?");
+            $stmt = $conn->prepare("SELECT users.user_id,users.last_name,users.first_name,users.middle_name,users.email,users.contact_number, users.profile_image, account_type.user_type FROM users LEFT JOIN account_type ON users.account_type_id = account_type.id WHERE user_id=?");
             // $stmt1 = $conn->prepare("SELECT user_type FROM account_type WHERE id=?");
             $stmt->execute([$id]);
             // $stmt1->execute([$id]);
@@ -281,102 +281,103 @@ $result1 = mysqli_query($con, $query1);
         </div> 
   <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
         <div class="bg-adduserform" id="bg-addform">
-            <div class="message"></div>
-            <div class="container1">
-            <h1 class="addnew-title">ADD NEW ITEM</h1>
-            <form action="#">
-                <div class="main-user-info">
-                <div class="user-input-box">
-                    <label for="lastname">Last Name</label>
-                    <input type="text"
-                            id="lastname"
-                            name="lastname"
-                            required="required"
-                            placeholder="Enter Last Name"/>
-                </div>
-                <div class="user-input-box">
-                    <label for="firstname">First Name</label>
-                    <input type="text"
-                            id="firstname"
-                            name="firstname"
-                            required="required"
-                            placeholder="Enter First Name"/>
-                </div>
-                <div class="user-input-box">
-                    <label for="middlename">Middle Name</label>
-                    <input type="text"
-                            id="middlename"
-                            name="middlename"
-                            required="required"
-                            placeholder="Enter Middle Name"/>
-                </div>
-                <div class="user-input-box">
-                    <label for="email">Email</label>
-                    <input type="text"
-                            id="email"
-                            name="email"
-                            required="required"
-                            placeholder="Enter Email"/>
-                </div>
+            <div class="container1" id="container1">
+                <h1 class="addnew-title">ADD NEW ITEM</h1>
+                <form action="#">
+                    <div class="message"></div>
 
-                <div class="user-input-box">
-                    <label for="contactnum">Contact Number</label>
-                    <input type="text" min='0' onkeypress='return isNumberKey(event)'
-                            id="contactnum"
-                            name="contactnum"
-                            placeholder='Enter Contact Number'
-                            required="required"/>
-                </div>
-                
-                <div class="usertype-dropdown">
-                    <?php
-                        $dropdown_query1 = "SELECT * FROM account_type";
-                        $result3 = mysqli_query($con, $dropdown_query1);
-                    ?>
-                        <select class="select" name="usertypes" required="" >
-                            <option selected disabled value="">ROLE</option>
-                            <?php while($row3 = mysqli_fetch_array($result3)):;?>
-                            <option value="<?php echo $row3['id']?>">
-                                        <?php echo $row3['user_type'];?></option>
-                            <?php endwhile;?>
-                        </select>
-                    </div>
-                <div class="user-input-box">
-                    <label for="pass">Password</label>
-                    <input type="password"
-                            id="pass"
-                            name="pass"
-                            required="required"
-                            placeholder="Create Password"/>
-                </div>
-                <div class="user-input-box">
-                    <label for="ecpass">Confirm Password</label>
-                    <input type="password"
-                            id="cpass"
-                            name="ecpass"
-                            required="required"
-                            placeholder="Confirm Password"/>
-                </div>              
-                <div class="checker">
-                        <input type="checkbox" name="" onclick="myFunctionCP()" >
-                        <span>Show password</span>
-                    </div>
-                    <span class="gender-title">Profile Picture</span>
-                    <div class="choose-profile">
-                        <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
-                    </div>
-                <div class="line"></div>
+                    <div class="main-user-info">
+                        <div class="user-input-box">
+                            <label for="lastname">Last Name</label>
+                            <input type="text"
+                                    id="lastname"
+                                    name="lastname"
+                                    required="required"
+                                    placeholder="Enter Last Name"/>
+                        </div>
+                        <div class="user-input-box">
+                            <label for="firstname">First Name</label>
+                            <input type="text"
+                                    id="firstname"
+                                    name="firstname"
+                                    required="required"
+                                    placeholder="Enter First Name"/>
+                        </div>
+                        <div class="user-input-box">
+                            <label for="middlename">Middle Name</label>
+                            <input type="text"
+                                    id="middlename"
+                                    name="middlename"
+                                    required="required"
+                                    placeholder="Enter Middle Name"/>
+                        </div>
+                        <div class="user-input-box">
+                            <label for="email">Email</label>
+                            <input type="text"
+                                    id="email"
+                                    name="email"
+                                    required="required"
+                                    placeholder="Enter Email"/>
+                        </div>
 
-                <div class="bot-buttons">
-                    <div class="CancelButton">
-                        <a href="Account.php" id="cancel">CANCEL</a>    
+                        <div class="user-input-box">
+                            <label for="contactnum">Contact Number</label>
+                            <input type="text" min='0' onkeypress='return isNumberKey(event)'
+                                    id="contactnum"
+                                    name="contactnum"
+                                    placeholder='Enter Contact Number'
+                                    required="required"/>
+                        </div>
+                        
+                        <div class="usertype-dropdown">
+                            <?php
+                                $dropdown_query1 = "SELECT * FROM account_type";
+                                $result3 = mysqli_query($con, $dropdown_query1);
+                            ?>
+                                <select class="select" name="usertypes" required="" >
+                                    <option selected disabled value="">ROLE</option>
+                                    <?php while($row3 = mysqli_fetch_array($result3)):;?>
+                                    <option value="<?php echo $row3['id']?>">
+                                                <?php echo $row3['user_type'];?></option>
+                                    <?php endwhile;?>
+                                </select>
+                        </div>
+                        <div class="user-input-box">
+                            <label for="pass">Password</label>
+                            <input type="password"
+                                    id="pass"
+                                    name="pass"
+                                    required="required"
+                                    placeholder="Create Password"/>
+                        </div>
+                        <div class="user-input-box">
+                            <label for="ecpass">Confirm Password</label>
+                            <input type="password"
+                                    id="cpass"
+                                    name="ecpass"
+                                    required="required"
+                                    placeholder="Confirm Password"/>
+                        </div>              
+                        <div class="checker">
+                                <input type="checkbox" name="" onclick="myFunctionCP()" >
+                                <span>Show password</span>
+                            </div>
+                            <span class="gender-title">Profile Picture</span>
+                            <div class="choose-profile">
+                                <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
+                            </div>
+                        <div class="line"></div>
+
+                        <div class="bot-buttons">
+                            <div class="CancelButton">
+                                <a href="Account.php" id="cancel">CANCEL</a>    
+                            </div>
+                            <div class="AddButton">
+                                <button type="submit" id="adduserBtn" name="submit">SAVE</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="AddButton">
-                        <button type="submit" id="adduserBtn" name="submit">SAVE</button>
-                    </div>
-                </div>
-            </form>
-    <!--  -->
+                </form>
             </div>
             <div id="form-registered">
                 <div id="container-registered">
@@ -499,34 +500,34 @@ function myFunctionCP(){
     const regForm = document.querySelector(".form-registered");
     const regBtn = document.querySelector(".AddButton");
     var bgform = $('#form-registered');
-    var addform = $('#form-adduser1');
+    var addform = $('#container1');
     var addbtn = $("#adduserBtn");
     var message = $(".message");
     
     $(document).ready(function(){
         $('#adduserFrm').submit(function(e){
-            // e.preventDefault();
-            // $.ajax({
-            //     type: 'post',
-            //     url: 'controllerUserdata.php',
-            //     data: new FormData(this),
-            //     contentType: false, 
-            //     cache: false,
-            //     processData: false,
-            //     // 'submit=1&'+$form.serialize(),
-            //     dataType: 'json',  
-            //     success: function(response){
-            //         $(".message").css("display", "block");
-            //         if(response.status == 1){   
-            //             bgform.show();  
-            //             addform.hide(); 
-            //             message.hide(); 
-            //             $('#adduserFrm')[0].reset();
-            //     }else{
-            //         $(".message").html('<p>'+response.message+'<p>');
-            //     }
-            //         }
-            //     });
+            e.preventDefault();
+            $.ajax({
+                type: 'post',
+                url: 'controllerUserdata.php',
+                data: new FormData(this),
+                contentType: false, 
+                cache: false,
+                processData: false,
+                // 'submit=1&'+$form.serialize(),
+                dataType: 'json',  
+                success: function(response){
+                    $(".message").css("display", "block");
+                    if(response.status == 1){   
+                        bgform.show();  
+                        addform.hide(); 
+                        message.hide(); 
+                        $('#adduserFrm')[0].reset();
+                }else{
+                    $(".message").html('<p>'+response.message+'<p>');
+                }
+                    }
+                });
             });
         //     $("#image-profile").change(function(){
         //         var file = this.files[0];
@@ -1845,22 +1846,22 @@ function myFunctionCP(){
         background-color: hsl(0, 100%, 77%);
         color: #ffffff;
         border-radius: 6px;
-        width: 25%;
         height: 1.87rem;
         /* margin-left: 3.55rem; */
         letter-spacing: 0.5px;
         font-family: Helvetica, sans-serif;       
-        top: 16.9%;
         font-size: .7rem;
-        padding: 5px 10px;
-        padding-top: 1rem;
-        position: absolute;
         align-items: center;
         text-align: center;
+        padding-top: 1rem;
         /* justify-content: space-between; */
         gap:3.5rem;
         z-index: 1000;
         display: none;
+        /* display: flex; */
+        flex-wrap: wrap;
+        width: 100%;
+        padding-bottom: .3rem;
     }
 
     .message span{

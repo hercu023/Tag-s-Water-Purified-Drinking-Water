@@ -170,7 +170,7 @@ $id = $_GET['edit'];
 //                         // $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols";
 //                         echo "<p class='message'> <i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols </p>";
 //                         // header("Location: Account-changepass-error1.php");
-//                         // header("Location: Account-Action.php?message=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
+//                         // header("Location: account-edit.php?message=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
 //                     } else {
 //                         // $id = $_SESSION['id'];
 //                         if($new_pass !== $confirm_pass){

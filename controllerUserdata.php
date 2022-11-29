@@ -14,7 +14,7 @@ $status = 0;
 
 $errors = array();
 
-if(isset($_POST['code-verfiy'])){
+if(isset($_POST['code-veraafiy'])){
         // $_SESSION['info'] = "";
         $otp_code = mysqli_real_escape_string($con, $_POST['otp']);
         $check_code = "SELECT * FROM users WHERE code = $otp_code";
@@ -29,7 +29,7 @@ if(isset($_POST['code-verfiy'])){
             if($update_res){
                 $_SESSION['full_name'] = $name;
                 $_SESSION['email'] = $email;
-                header('location: changePassword.php');
+                header('location: change-password.php');
                 exit();
             }else {
                 header("Location: code-verification.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while updating code.");
@@ -70,19 +70,19 @@ if(isset($_POST['code-verfiy'])){
                             $message = "We've sent a verification code to your Email <br> <ins><strong>$email</ins></strong>";
 
                             $_SESSION['message'] = $message;
-                            header('location: code-verification.php');
+                            header('Location: code-verification.php');
                         }else{
-                             header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while sending code");
+                             header("Location:./auth/forgot-password.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while sending code");
                         }
                     }else {
-                        header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Something went wrong");
+                        header("Location:./auth/forgot-password.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Something went wrong");
                     
                 }
             }else{
-                header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> This email address does not exist to the system");
+                header("Location:./auth/forgot-password.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> This email address does not exist to the system");
             }
         }else {
-           header("Location: forgot.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while checking email from database");
+           header("Location:/auth/forgot-password.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while checking email from database");
         }
     }
 
@@ -91,10 +91,10 @@ if(isset($_POST['code-verfiy'])){
         $password = mysqli_real_escape_string($con, $_POST['newpassword']);
         $cpassword = mysqli_real_escape_string($con, $_POST['confirmPassword']);
         if (strlen($_POST['newpassword']) < 8) {
-            header("Location: changePassword.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
+            header("Location: change-password.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Use 8 or more characters with a mix of letters, numbers & symbols");
         } else {
             if($password !== $cpassword){
-                header("Location: changePassword.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched");
+                header("Location: change-password.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password don't matched");
             }else{
             
             $code = 0;
@@ -103,7 +103,7 @@ if(isset($_POST['code-verfiy'])){
             $update_pass = "UPDATE users SET code = $code, password = '$encpass' WHERE email = '$email'";
             $run_query = mysqli_query($con, $update_pass);
             if($run_query){
-                header('Location: PwChanged-Confirm.php');
+                header('Location: change-password-confirm.php');
             }else{
                 $errors['db-error'] = "Failed to change your password!";
             }
@@ -150,14 +150,14 @@ if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['midd
     
     if($select->rowCount() > 0){
         $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist! ";
-        // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist.");
+        // header("Location: account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist.");
     }else{
         if($pass != $encpass){
             $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password does not matched.";
-            // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password does not matched.");
+            // header("Location: account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Password does not matched.");
         }elseif($image_size > 2000000){
             $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.";
-            // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.");
+            // header("Location: account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Image is too large.");
         }else{
             $cpass = password_hash($pass, PASSWORD_BCRYPT);
             $insert = mysqli_query($con, "INSERT INTO users VALUES('','$lastname', '$firstname', '$middlename', '$email', '$cpass', '$contact', '$usertype','', '$image','')");
@@ -166,7 +166,7 @@ if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['midd
                 $response['status'] = 1;
                 // $response['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered Successfully!";
                 move_uploaded_file($image_tmp_name, $image_folder);
-                // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered successfully.");
+                // header("Location: account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Registered successfully.");
             }
         }
     }
@@ -236,7 +236,7 @@ if(isset($_POST['lastname']) || isset($_POST['firstname']) || isset($_POST['midd
 
 // if($selects->rowCount() > 0){
 //     $response_customer['message'] = "<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Customer already exist! ";
-//     // header("Location: Account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist.");
+//     // header("Location: account.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Email already exist.");
 // }else{
 //         $inserts = mysqli_query($con, "INSERT INTO customers VALUES('','$customername', '$address', '$contact', '$balance', '$note')");
 //         // $insert->execute([$lastname, $firstname, $middlename, $email, $pass, $contact, $address, $image]);

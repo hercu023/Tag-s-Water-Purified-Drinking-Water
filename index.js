@@ -1,14 +1,14 @@
-// const sideMenu = document.querySelector('#aside');
+// const common = document.querySelector('#aside');
 // const darktheme = document.querySelector('.dark-theme');
 // const closeBtn = document.querySelector('#close-btn');
 // const menuBtn = document.querySelector('#menu-button');
 // const checkbox = document.getElementById('checkbox');
 //     menuBtn.addEventListener('click', () =>{
-//         sideMenu.style.display = 'block';
+//         common.style.display = 'block';
 //     })
 
 //     closeBtn.addEventListener('click', () =>{
-//         sideMenu.style.display = 'none';
+//         common.style.display = 'none';
 //     })
 //     checkbox.addEventListener( 'change', function() {
 //         localStorage.setItem('dark',this.checked);
@@ -132,19 +132,6 @@ function isNumberKey(evt){
     return true;
 }
 //-----------------------------------------------------------------
-//CHANGE PASSWORD-------------------------------------------------
-function myFunctionCP(){
-    var x = document.getElementById("pass");
-    var y = document.getElementById("changepass");
-    if(x.type === 'password'){
-        x.type = "text";
-        y.type = "text";
-    }else{
-        x.type = "password";
-        y.type = "password";
-    }
-}  
-//-----------------------------------------------------------------
 
 //HOME PAGE--------------------------------------------------------
 function tableSearch(){
@@ -162,7 +149,7 @@ function tableSearch(){
         middlename = tr[i].getElementsByTagName("td")[3];
         email = tr[i].getElementsByTagName("td")[4];
         address = tr[i].getElementsByTagName("td")[5];
-        role = tr[i].getElementsByTagName("td")[7];
+        role = tr[i].getElementsByTagName("td")[6];
         if(lastname || firstname || middlename || email || address || role){
             var lastname_value = lastname.textContent || lastname.innerText;
             var firstname_value = firstname.textContent || firstname.innerText;
