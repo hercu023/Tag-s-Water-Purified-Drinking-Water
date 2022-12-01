@@ -78,11 +78,9 @@ require_once '../service/add-inventory-item.php';
                             inventory_item.id,
                             inventory_item.item_name,
                             category_type.name,
-                            inventory_item.pos_item,
+                            pos_item.pos_type,
                             inventory_item.reorder_level,
                             inventory_item.selling_price_item,
-                            water_item_refill_price.alkaline_price,
-                            water_item_refill_price.mineral_price,
                             inventory_item.image, 
                             status_archive.status, 
                             inventory_item.created_at,
@@ -90,11 +88,9 @@ require_once '../service/add-inventory-item.php';
                             users.last_name
                             FROM inventory_item 
                             INNER JOIN category_type  
-                            ON inventory_item.category_by_id = category_type.id 
-                            INNER JOIN water_item_refill_price  
-                            ON inventory_item.alkaline_price_id  = water_item_refill_price.id 
-                            INNER JOIN water_item_refill_price  
-                            ON inventory_item.mineral_price_id = water_item_refill_price.id 
+                            ON inventory_item.category_by_id = category_type.id  
+                            INNER JOIN pos_item  
+                            ON inventory_item.pos_item_id = pos_item.id  
                             INNER JOIN status_archive 
                             ON inventory_item.status_archive_id = status_archive.id
                             INNER JOIN users
