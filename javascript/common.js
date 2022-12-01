@@ -1,5 +1,4 @@
 // -----------------------------SIDE MENU
-
 $(document).ready(function(){
     //jquery for toggle sub menus
     $('.sub-btn').click(function(){

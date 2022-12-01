@@ -1,4 +1,9 @@
-   // -----------------------------SIDE MENU
+// -----------------------------AUTO CLOSE MESSAGE
+        
+    setTimeout(function() {
+        $('#myerror').fadeOut('fast');
+    }, 3000);
+// -----------------------------SIDE MENU
  $(document).ready(function(){
      //jquery for toggle sub menus
      $('.sub-btn').click(function(){
@@ -86,53 +91,7 @@ function myFunctionCP(){
         }
     }
 
-    // Add new User Message ----------------------------------------------------------------------------------
-    const regForm = document.querySelector(".form-registered");
-    const regBtn = document.querySelector(".AddButton");
-    var bgform = $('#form-registered');
-    var addform = $('#form-adduser1');
-    var addbtn = $("#adduserBtn");
-    var message = $(".message");
-    
-    $(document).ready(function(){
-        $('#adduserFrm').submit(function(e){
-            // e.preventDefault();
-            // $.ajax({
-            //     type: 'post',
-            //     url: 'controllerUserdata.php',
-            //     data: new FormData(this),
-            //     contentType: false, 
-            //     cache: false,
-            //     processData: false,
-            //     // 'submit=1&'+$form.serialize(),
-            //     dataType: 'json',  
-            //     success: function(response){
-            //         $(".message").css("display", "block");
-            //         if(response.status == 1){   
-            //             bgform.show();  
-            //             addform.hide(); 
-            //             message.hide(); 
-            //             $('#adduserFrm')[0].reset();
-            //     }else{
-            //         $(".message").html('<p>'+response.message+'<p>');
-            //     }
-            //         }
-            //     });
-            });
-        //     $("#image-profile").change(function(){
-        //         var file = this.files[0];
-        //         var fileType = file.type;
-        //         var match = ['image/jpeg', 'image/jpg', 'image/png']
 
-        //         if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
-        //             alert("JPEG, JPG, and PNG files only.")
-        //             $("#image-profile").val('');
-        //             return false;
-        //         }
-        // });
-    });
-    
-// 
     let btnClear = document.querySelector('#cancel');
     // let btnClear1 = document.querySelector('#registered');
     let inputs = document.querySelectorAll('#fill');
@@ -241,7 +200,7 @@ function myFunctionCP(){
 
         function tableSearch(){
     let input, filter, table, tr, itemname,
-     type, positem, reorder, srp, supplier, cost, datetime, i, txtValue;
+     type, positem, reorder, srp, supplier, cost, datetime, i;
 
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();

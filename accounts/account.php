@@ -34,7 +34,7 @@ require_once '../service/add-account.php';
             <h1 class="accTitle">ACCOUNT</h1>
             <?php
             if (isset($_GET['error'])) {
-                echo '<p class="error-error"> '.$_GET['error'].' </p>';
+                echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
             }
             ?>
             <div class="sub-tab">
@@ -93,7 +93,8 @@ require_once '../service/add-account.php';
                     ON users.account_type_id = account_type.id 
                     INNER JOIN status_archive 
                     ON users.status_archive_id = status_archive.id
-                    WHERE users.status_archive_id = '1'";
+                    WHERE users.status_archive_id = '1'
+                    ORDER BY users.user_id";
                     $result = mysqli_query($con, $query);
                     while ($rows = mysqli_fetch_assoc($result))
                     {
@@ -237,10 +238,21 @@ require_once '../service/add-account.php';
 </form>
 </div>
 </body>
-</html>
+<script src="../javascript/side-menu-toggle.js"></script>
+<script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/account.js"></script>
-<!-- <script src="../index.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+<script>
+    //Add New User
+    function addnewuser(){
+        document.querySelector(".bg-adduserform").style.display = 'flex';
+    }
+    setTimeout(function() {
+        $('#myerror').fadeOut('fast');
+    }, 3000);
+</script>
+</html>
+

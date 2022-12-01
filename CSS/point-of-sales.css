@@ -429,7 +429,7 @@ h3{
     font-family: 'COCOGOOSE', sans-serif;
     letter-spacing: .03rem;
     border-bottom: 2px solid var(--color-main);
-    width: 100%;
+    width: 78%;
 }
 
 /* ----------------------------------------Sub TAB---------------------------------------- */
@@ -1439,6 +1439,7 @@ hr{
     margin-top: 1rem;
     margin-left: 8rem;
     font-size: .8rem;
+    text-align: center;
 }
 .name-cashier{
     display: inline-block;

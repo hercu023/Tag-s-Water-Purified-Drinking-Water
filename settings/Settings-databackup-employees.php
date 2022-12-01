@@ -86,23 +86,23 @@ include 'connectionDB.php';
         <div id="reports" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M2 21V3h10v4h10v14Zm2-2h6v-2H4Zm0-4h6v-2H4Zm0-4h6V9H4Zm0-4h6V5H4Zm8 12h8V9h-8Zm2-6v-2h4v2Zm0 4v-2h4v2Z"/></svg>
         REPORTS<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
-                <a href="../reports/Reports-sales.php" class="sub-item" id="reports-sales">Sales</a>
-                <a href="../reports/Reports-deliverywalkin.php" class="sub-item" id="reports-deliverywalkin">Delivery/Walk-in</a>
+                <a href="../reports/reports-sales.php" class="sub-item" id="reports-sales">Sales</a>
+                <a href="../reports/reports-delivery-walkin.php" class="sub-item" id="reports-deliverywalkin">Delivery/Walk-in</a>
                 <a href="../reports/Reports-datalogs.php" class="sub-item" id="reports-datalogs">Data Logs</a>
-                <a href="../reports/Reports-inventory.php" class="sub-item" id="reports-inventory">Inventory</a>
-                <a href="../reports/Reports-itemissue.php" class="sub-item" id="reports-itemissue">Item Issue</a>
-                <a href="../reports/Reports-inventory.php" class="sub-item" id="reports-attendance">Attendance</a>
-                <a href="../reports/Reports-expense.php" class="sub-item" id="reports-expense">Expense</a>
+                <a href="../reports/reports-inventory.php" class="sub-item" id="reports-inventory">Inventory</a>
+                <a href="../reports/reports-item-issue.php" class="sub-item" id="reports-itemissue">Item Issue</a>
+                <a href="../reports/reports-inventory.php" class="sub-item" id="reports-attendance">Attendance</a>
+                <a href="../reports/reports-expense.php" class="sub-item" id="reports-expense">Expense</a>
             </div>
         </div>
         <div id="monitoring" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 21v-2l2-2v4Zm4 0v-6l2-2v8Zm4 0v-8l2 2.025V21Zm4 0v-5.975l2-2V21Zm4 0V11l2-2v12ZM3 15.825V13l7-7 4 4 7-7v2.825l-7 7-4-4Z"/></svg>
         MONITORING<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
-                <a href="../monitoring/Monitoring-deliverypickup.php" class="sub-item" id="monitoring-deliverypickup">Delivery/Pick Up</a>
-                <a href="../monitoring/Monitoring-returncontainer.php" class="sub-item" id="monitoring-returncontainer">Return Container</a>
-                <a href="../monitoring/Monitoring-customerbalance.php" class="sub-item" id="monitoring-customerbalance">Customer Balance</a>
-                <a href="../monitoring/Monitoring-scheduling.php" class="sub-item" id="monitoring-scheduling">Scheduling</a>
-                <a href="../monitoring/Monitoring-itemhistory.php" class="sub-item" id="monitoring-itemhistory">Item History</a>
+                <a href="../monitoring/monitoring-delivery-pickup.php" class="sub-item" id="monitoring-deliverypickup">Delivery/Pick Up</a>
+                <a href="../monitoring/monitoring-return-container.php" class="sub-item" id="monitoring-returncontainer">Return Container</a>
+                <a href="../monitoring/monitoring-customer-balance.php" class="sub-item" id="monitoring-customerbalance">Customer Balance</a>
+                <a href="../monitoring/monitoring-scheduling.php" class="sub-item" id="monitoring-scheduling">Scheduling</a>
+                <a href="../monitoring/monitoring-item-history.php" class="sub-item" id="monitoring-itemhistory">Item History</a>
             </div>
         </div>
         <div id="customer" class="item"><a href="../customers/customer.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M1 20v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q7.35 13 9 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q17 16.35 17 17.2V20Zm18 0v-3q0-1.1-.612-2.113-.613-1.012-1.738-1.737 1.275.15 2.4.512 1.125.363 2.1.888.9.5 1.375 1.112Q23 16.275 23 17v3ZM9 12q-1.65 0-2.825-1.175Q5 9.65 5 8q0-1.65 1.175-2.825Q7.35 4 9 4q1.65 0 2.825 1.175Q13 6.35 13 8q0 1.65-1.175 2.825Q10.65 12 9 12Zm10-4q0 1.65-1.175 2.825Q16.65 12 15 12q-.275 0-.7-.062-.425-.063-.7-.138.675-.8 1.037-1.775Q15 9.05 15 8q0-1.05-.363-2.025Q14.275 5 13.6 4.2q.35-.125.7-.163Q14.65 4 15 4q1.65 0 2.825 1.175Q19 6.35 19 8ZM3 18h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q10.4 15 9 15t-2.775.337Q4.85 15.675 3.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q11 8.825 11 8t-.587-1.412Q9.825 6 9 6q-.825 0-1.412.588Q7 7.175 7 8t.588 1.412Q8.175 10 9 10Zm0 8ZM9 8Z"/></svg>
@@ -117,16 +117,16 @@ include 'connectionDB.php';
         <div id="employee" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M4 22q-.825 0-1.412-.587Q2 20.825 2 20V9q0-.825.588-1.413Q3.175 7 4 7h5V4q0-.825.588-1.413Q10.175 2 11 2h2q.825 0 1.413.587Q15 3.175 15 4v3h5q.825 0 1.413.587Q22 8.175 22 9v11q0 .825-.587 1.413Q20.825 22 20 22Zm2-4h6v-.45q0-.425-.238-.788-.237-.362-.662-.562-.5-.225-1.012-.337Q9.575 15.75 9 15.75q-.575 0-1.087.113-.513.112-1.013.337-.425.2-.662.562Q6 17.125 6 17.55Zm8-1.5h4V15h-4ZM9 15q.625 0 1.062-.438.438-.437.438-1.062t-.438-1.062Q9.625 12 9 12t-1.062.438Q7.5 12.875 7.5 13.5t.438 1.062Q8.375 15 9 15Zm5-1.5h4V12h-4ZM11 9h2V4h-2Z"/></svg>
         EMPLOYEE<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
-                <a href="../employee/Employee-attendance.php" class="sub-item" id="employee-attendance" >Attendance</a>
-                <a href="../employee/Employee-details.php" class="sub-item" id="employee-details">Employee Details</a>
+                <a href="../employee/employee-attendance.php" class="sub-item" id="employee-attendance" >Attendance</a>
+                <a href="../employee/employee-list.php" class="sub-item" id="employee-details">Employee Details</a>
                 <a href="../employee/Employee-payroll.php" class="sub-item" id="employee-payroll">Payroll</a>
             </div>
         </div>
         <div id="expense" class="item"><a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
         EXPENSE<i class="fas fa-angle-right dropdown"></i></a>
             <div class="sub-menu">
-                <a href="../expense/Expense-expense.php" class="sub-item" id="expense-expense">Expense</a>
-                <a href="../expense/Expense-employeesalary.php" class="sub-item" id="employee-salary">Employee Salary</a>
+                <a href="../expense/expense.php" class="sub-item" id="expense-expense">Expense</a>
+                <a href="../expense/expense-employee-salary.php" class="sub-item" id="employee-salary">Employee Salary</a>
             </div>
         </div>
         <div id="account" class="item"><a href="../accounts/account.php"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M10 12q-1.65 0-2.825-1.175Q6 9.65 6 8q0-1.65 1.175-2.825Q8.35 4 10 4q1.65 0 2.825 1.175Q14 6.35 14 8q0 1.65-1.175 2.825Q11.65 12 10 12Zm-8 8v-2.8q0-.85.425-1.563.425-.712 1.175-1.087 1.5-.75 3.113-1.15Q8.325 13 10 13h.338q.162 0 .312.05-.725 1.725-.588 3.563Q10.2 18.45 11.25 20Zm14 1-.3-1.5q-.3-.125-.563-.262-.262-.138-.537-.338l-1.45.45-1-1.7 1.15-1q-.05-.35-.05-.65 0-.3.05-.65l-1.15-1 1-1.7 1.45.45q.275-.2.537-.338.263-.137.563-.262L16 11h2l.3 1.5q.3.125.563.275.262.15.537.375l1.45-.5 1 1.75-1.15 1q.05.3.05.625t-.05.625l1.15 1-1 1.7-1.45-.45q-.275.2-.537.338-.263.137-.563.262L18 21Zm1-3q.825 0 1.413-.587Q19 16.825 19 16q0-.825-.587-1.413Q17.825 14 17 14q-.825 0-1.412.587Q15 15.175 15 16q0 .825.588 1.413Q16.175 18 17 18Z"/></svg>
@@ -136,7 +136,7 @@ include 'connectionDB.php';
             <div class="sub-menu">
                 <a href="Settings-help.php" class="sub-item" id="settings-help">Help</a>
                 <a href="Settings-datalogs.php" class="sub-item" id="settings-datalogs">Data Logs</a>
-                <a href="Settings-dataarchive-customers.php" class="sub-item" id="settings-dataarchive">Archive</a>
+                <a href="settings-data-archive-customers.php" class="sub-item" id="settings-dataarchive">Archive</a>
                 <a href="Settings-databackup-customers.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
             </div>
         </div>

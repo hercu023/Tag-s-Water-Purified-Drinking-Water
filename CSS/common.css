@@ -94,11 +94,11 @@ BODY{
 }
 
 .side-bar .menu .item a{
-    color: var(--color-tertiary);
+    color: var(--color-solid-gray);
+    fill: var(--color-solid-gray);
     font-size: 13px;
     text-decoration: none;
     display: flex;
-    fill: var(--color-tertiary);
     margin-left: .5rem;
     gap: 1rem;
     align-items: center;
@@ -112,19 +112,6 @@ BODY{
     height: 2.9rem;
 
 }
-/* #dashboard{
-    background: var(--color-white);
-    transition: 0.6s;
-    color: var(--color-main);
-    fill: var(--color-main);
-    margin-left: 0;
-    padding-left: 1rem;
-    content: "";
-    margin-bottom: 6px;
-    font-size: 15px;
-    border-radius: 0 0 10px 0 ;
-    box-shadow: 1px 3px 1px var(--color-background);
-} */
 .side-bar .menu .item a:hover{
     background: var(--color-table-hover);
     transition: 0.6s;
@@ -215,7 +202,7 @@ BODY{
 .top-menu{
     margin-top: 2rem;
     position: absolute;
-    right: 3%;
+    right: 4%;
 }
 .top-menu .menu-bar{
     display: flex;
@@ -294,14 +281,6 @@ a{
     font-family: 'Malberg Trial', sans-serif;
     color: rgb(68, 68, 68);
 }
-.todeliver{
-    margin-bottom: -2.2rem;
-    margin-top: 2rem;
-    color: rgb(117, 117, 117);
-    font-size: 1.3rem;
-    letter-spacing: .1rem;
-    font-family: 'Galhau Display', sans-serif;
-}
 h3{
     font-size: 0.87rem;
 }
@@ -312,10 +291,10 @@ h3{
 .user2 .drop-menu{
     position: absolute;
     top: 120px;
-    right: 15px;
+    right: 10px;
     padding: 10px 20px;
     background: var(--color-white);
-    width: 110px;
+    /* width: 110px; */
     box-sizing: 0 5px 25px rgba(0,0,0,0.1);
     border-radius: 7px;
     transition: 0.5s;
@@ -331,7 +310,7 @@ h3{
     content:'';
     position: absolute;
     top: -5px;
-    right: 33px;
+    right: 25px;
     width: 15px;
     height: 20px;
     background: var(--color-white);
@@ -449,66 +428,6 @@ h3{
 #menu-button{
     display: none;
 }
-@media screen and (max-width: 1600px){
-    .container{
-        width: 94%;
-        grid-template-columns: 16rem auto;
-    }
-
-    #aside .titlelogo2 img{
-        margin-left: 1.8rem;
-        width: 40%;
-    }
-
-    #aside .sidebar2 a{
-        width: 5.95rem;
-    }
-    #aside .sidebar2 a:focus{
-        padding-left: 2rem;
-        width: 4rem;
-    }
-    .top-menu{
-        width: 370px;
-    }
-    .main-dashboard{
-        position: relative;
-        left: -5%;
-    }
-    main .account-container{
-        margin: 2rem 0 0 8.8rem;
-        width: 94%;
-        position: absolute;
-        left: 0;
-        margin-left: 52%;
-        transform: translateX(-50%);
-        margin-top: 3%;
-    }
-    main .account-container table{
-        width: 65vw;
-        padding-left:30px;
-        padding-right:30px;
-    }
-    .dashTitle{
-        margin-left: 5%;
-        width: 78%;
-        margin-top: 3.2rem;
-    }
-    main  h2{
-        margin-left: 10%;
-    }
-    main .sub-tab{
-        margin-bottom: 4rem;
-    }
-    .newUser-button{
-        left: 94%;
-    }
-    .search{
-        left: 55%;
-    }
-    .search-bar{
-        width: 17vw;
-    }
-}
 @media screen and (max-width: 1400px){
     .container{
         width: 94%;
@@ -522,118 +441,25 @@ h3{
     .close-btn{
         display: flex;
     }
-
-    .top-menu{
-        width: 370px;
-    }
-    .main-dashboard{
-        position: relative;
-        left: -5%;
-    }
-    main .account-container{
-        margin: 2rem 0 0 8.8rem;
-        width: 94%;
-        position: absolute;
-        left: 0;
-        margin-left: 52%;
-        transform: translateX(-50%);
-        margin-top: 3%;
-    }
-    main .account-container table{
-        width: 65vw;
-        padding-left:30px;
-        padding-right:30px;
-    }
-    .dashTitle{
-        margin-left: 5%;
-        /* margin-top: 3.5rem; */
-        width: 60vw;
-
-    }
-    main  h2{
-        margin-left: 10%;
-    }
-    main .sub-tab{
-        margin-bottom: 4rem;
-    }
-    .newUser-button{
-        left: 99%;
-    }
-    .search{
-        left: 55%;
-    }
-    .search-bar{
-        width: 17vw;
-    }
 }
 @media screen and (max-width: 1200px){
     .container{
         width: 94%;
-        grid-template-columns: 4rem auto;
-    }
-
-    .top-menu{
-        width: 370px;
+        grid-template-columns: 1rem auto;
     }
     .main-dashboard{
         position: relative;
-        left: -5%;
-    }
-    main .account-container{
-        margin: 2rem 0 0 8.8rem;
-        width: 94%;
-        position: absolute;
-        left: 0;
-        margin-left: 50%;
-        transform: translateX(-50%);
-        margin-top: 3%;
-    }
-    main .account-container table{
-        width: 80vw;
-        padding-left:30px;
-        padding-right:30px;
-    }
-    .dashTitle{
-        margin-left: 5%;
-        width: 60vw;
-    }
-    main  h2{
-        margin-left: 10%;
-    }
-    main .sub-tab{
-        margin-bottom: 4rem;
-    }
-    .newUser-button{
-        left: 137%;
-    }
-    .search{
-        left: 77%;
-    }
-    .search-bar{
-        width: 20vw;
-    }
-    .user2 .drop-menu{
-        right: 13px;
-        margin-top: 2px;
-    }
-    .user2 .drop-menu::before{
-        right: 25px;
-    }
-    .drop-menu .ul{
-        width: 8.5rem;
-        height: 5rem;
-    }
-    .drop-menu .ul a{
-        width: 8.5rem;
     }
 }
 
-@media screen and (max-width: 768px){
-    .containter{
-        width: 100%;
-    }
+ @media screen and (max-width: 500px){
 
-    .menu-btn2{
+        .menu-btn2{
+            display: flex;
+        }
+    
+    }
+  /*  .menu-btn2{
         display: flex;
     }
     .top-menu{
@@ -696,7 +522,7 @@ h3{
     }
     .main-dashboard{
         position: relative;
-        left: -5%;
+    
     }
     main .account-container{
         margin: 2rem 0 0 8.8rem;
@@ -724,37 +550,7 @@ h3{
         left: 137%;
         display:none;
     }
-    .search{
-        left: 77%;
-        display:none;
-    }
     .search-bar{
         width: 20vw;
     }
-}
-
-.menu-tab p{
-    font-size: 20px;
-    font-weight: lighter;
-    margin-left: 10px;
-}
-
-.menu-tab img{
-    width: 15px;
-    margin-right: 10px;
-    margin-left: 20px;
-}
-.menu-tab a:hover{
-    background:  rgb(250, 255, 251);
-    transition: 0.6s;
-    margin-left: 0rem;
-    color: rgb(187, 187, 187);
-    fill: rgb(187, 187, 187);
-    font-weight: bold;
-    padding-left: 1rem;
-    content: "";
-    margin-bottom: 6px;
-    font-size: 9px;
-    border-radius: 0 10px 10px 0 ;
-    box-shadow: 1px 1px 1px rgb(224, 224, 224);
-}
+} */

@@ -34,7 +34,7 @@ require_once '../service/add-customer.php';
             <h1 class="accTitle">CUSTOMERS</h1>
             <?php
             if (isset($_GET['error'])) {
-                echo '<p class="error-error"> '.$_GET['error'].' </p>';
+                    echo '<p id="myerror" class="error-error" > '.$_GET['error'].' </p>';
             }
             ?>
             <div class="sub-tab">
@@ -65,6 +65,7 @@ require_once '../service/add-customer.php';
                         <th>Balance</th>
                         <th>Note</th>
                         <th>Date/Time Added</th>
+                        <th>Added By</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -78,39 +79,48 @@ require_once '../service/add-customer.php';
                                 customers.balance,
                                 customers.note, 
                                 status_archive.status, 
-                                customers.created_at 
+                                customers.created_at,
+                                users.first_name,
+                                users.last_name
                                 FROM customers 
                                 INNER JOIN status_archive 
                                 ON customers.status_archive_id = status_archive.id 
+                                INNER JOIN users
+                                ON customers.created_by = users.user_id
                                 WHERE customers.status_archive_id = '1'";
                     $result = mysqli_query($con, $query);
-                    while ($rows = mysqli_fetch_assoc($result)) {?>
-                        <tbody>
-                        <tr>
-                            <td> <?php echo $rows['id']; ?></td>
-                            <td> <?php echo $rows['customer_name']; ?></td>
-                            <td> <?php echo $rows['address']; ?></td>
-                            <td> <?php echo $rows['contact_number1']; ?></td>
-                            <td> <?php echo $rows['contact_number2']; ?></td>
-                            <td> <?php echo $rows['balance']; ?></td>
-                            <td> <?php echo $rows['note']; ?></td>
-                            <td> <?php echo $rows['created_at']; ?></td>
-                            <td>
-                                <a href="../customers/customer-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
-                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
-                                </a>
-                                <a href="../customers/customer-archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
-                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr id="noRecordTR" style="display:none">
-                            <td colspan="6">No Record Found</td>
-                        </tr>
-                        </tbody>
-                        <?php
-                    }
+                    if(mysqli_num_rows($result) > 0)
+                    {
+                    foreach($result as $rows)
+                    {
                     ?>
+                    <tbody>
+                    <tr>
+                        <td> <?php echo $rows['id']; ?></td>
+                        <td> <?php echo $rows['customer_name']; ?></td>
+                        <td> <?php echo $rows['address']; ?></td>
+                        <td> <?php echo $rows['contact_number1']; ?></td>
+                        <td> <?php echo $rows['contact_number2']; ?></td>
+                        <td> <?php echo $rows['balance']; ?></td>
+                        <td> <?php echo $rows['note']; ?></td>
+                        <td> <?php echo $rows['created_at']; ?></td>
+                        <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
+                        <td>
+                            <a href="../customers/customer-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
+                            </a>
+                            <a href="../customers/customer-archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
+                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                    <?php } else { ?>
+                        <tr id="noRecordTR">
+                            <td colspan="15">No Record(s) Found</td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -172,41 +182,6 @@ require_once '../service/add-customer.php';
                 </div>
             </form>
 
-            <div id="form-registered1">
-                <div id="container-registered">
-                    <div class="content">
-                        <div class="verify">
-                            <svg class="verified" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                 width="916px" height="916px" viewBox="0 0 916 916" style="enable-background:new 0 0 916 916;" xml:space="preserve">
-                            <g>
-                                <g>
-                                    <path d="M97.65,862.3c4.7,31.3,27.1,53.7,54.7,53.7h616c27.6,0,50-22.4,50-50V50c0-27.6-22.4-50-50-50h-616
-                                        c-27.6,0-50,22.4-54.7,46.3V862.3z M712.15,750.2l-62.8,62.8l0,0l-18.3,18.3c-9.8,9.7-25.601,9.7-35.3,0l-18.4-18.3l0,0l-18-17
-                                        c-9.8-9.8-9.8-25.6,0-35.4l0.6-0.6c9.801-9.8,25.601-9.8,35.4,0l18,17l62.8-62.8c9.8-9.8,25.601-9.8,35.4,0l0.6,0.6
-                                        C721.95,724.6,721.95,740.4,712.15,750.2z M727.55,602.1c0,13.801-11.2,25-25,25H631.95c-13.8,0-25-11.199-25-25V601.2
-                                        c0-13.8,11.2-25,25-25h70.601c13.8,0,25,11.2,25,25V602.1z M727.55,470c0,13.8-11.2,25-25,25H631.95c-13.8,0-25-11.2-25-25v-0.9
-                                        c0-13.8,11.2-25,25-25h70.601c13.8,0,25,11.2,25,25V470z M702.55,312c13.8,0,25,11.2,25,25v0.9c0,13.8-11.2,25-25,25H631.95
-                                        c-13.8,0-25-11.2-25-25V337c0-13.8,11.2-25,25-25H702.55z M302.65,156c0-13.8,11.2-25,25-25h265.4c13.8,0,25,11.2,25,25v0.9
-                                        c0,13.8-11.2,25-25,25h-265.4c-13.8,0-25-11.2-25-25V156z M193.15,337c0-13.8,11.2-25,25-25h265.4c13.8,0,25,11.2,25,25v0.9
-                                        c0,13.8-11.2,25-25,25h-265.4c-13.8,0-25-11.2-25-25V337L193.15,337z M193.15,469.1c0-13.8,11.2-25,25-25h265.4
-                                        c13.8,0,25,11.2,25,25v0.9c0,13.8-11.2,25-25,25h-265.4c-13.8,0-25-11.2-25-25V469.1L193.15,469.1z M193.15,601.2
-                                        c0-13.8,11.2-25,25-25h265.4c13.8,0,25,11.2,25,25v0.899c0,13.801-11.2,25-25,25h-265.4c-13.8,0-25-11.199-25-25V601.2
-                                        L193.15,601.2z"/>
-                                </g>
-                            </g>
-                            </svg>
-                        </div>
-                        <div class="register">
-                            <h2>CUSTOMER ADDED SUCCESSFULLY</h2>
-                        </div>
-                    </div>
-                    <div class="pageform">
-                        <div class="confirmBtn">
-                            <a href="../customers/customer.php" id="registered">CONFIRM</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 <script src="../index.js"></script>
@@ -217,8 +192,17 @@ require_once '../service/add-customer.php';
 </html>
 <style>
     .top-menu{
-    margin-top: 1rem;
-    position: absolute;
-    right: 3%;
-}
+        margin-top: 1rem;
+        position: absolute;
+        right: 3%;
+    }
 </style>
+<script>
+    function addnewuser(){
+        const addBtn = document.querySelector(".add-account");
+        addForm.style.display = 'flex';
+    }
+    setTimeout(function() {
+        $('#myerror').fadeOut('fast');
+    }, 3000);
+</script>

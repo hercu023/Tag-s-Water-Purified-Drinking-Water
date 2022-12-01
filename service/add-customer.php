@@ -27,7 +27,7 @@ if (isset($_POST['save-customer'])) {
 
         $note = $_POST['note'];
 
-        // $status = $_POST['status'];
+        $status = $_POST['status'];
 
         $check_query = mysqli_query($con, "SELECT * FROM `customers` WHERE customer_name = '$customer_name'");
 
@@ -44,7 +44,7 @@ if (isset($_POST['save-customer'])) {
                              '$note', 
                              '',
                              '1',
-                             '',
+                             '$user_id',
                              now())");
             if ($insert) {
                 $select = mysqli_query($con, "SELECT * FROM customers WHERE 

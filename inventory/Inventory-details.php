@@ -32,7 +32,7 @@ require_once '../service/add-inventory-item.php';
             <h1 class="accTitle">INVENTORY</h1>
             <?php
             if (isset($_GET['error'])) {
-                echo '<p class="error-error"> '.$_GET['error'].' </p>';
+                echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
             }
             ?>
             <div class="sub-tab">
@@ -81,8 +81,8 @@ require_once '../service/add-inventory-item.php';
                             inventory_item.pos_item,
                             inventory_item.reorder_level,
                             inventory_item.selling_price_item,
-                            inventory_item.alkaline_refill_price,
-                            inventory_item.mineral_refill_price,
+                            water_item_refill_price.alkaline_price,
+                            water_item_refill_price.mineral_price,
                             inventory_item.image, 
                             status_archive.status, 
                             inventory_item.created_at,
@@ -91,6 +91,10 @@ require_once '../service/add-inventory-item.php';
                             FROM inventory_item 
                             INNER JOIN category_type  
                             ON inventory_item.category_by_id = category_type.id 
+                            INNER JOIN water_item_refill_price  
+                            ON inventory_item.alkaline_price_id  = water_item_refill_price.id 
+                            INNER JOIN water_item_refill_price  
+                            ON inventory_item.mineral_price_id = water_item_refill_price.id 
                             INNER JOIN status_archive 
                             ON inventory_item.status_archive_id = status_archive.id
                             INNER JOIN users
@@ -108,8 +112,8 @@ require_once '../service/add-inventory-item.php';
                             <td> <?php echo $rows['pos_item']; ?></td>
                             <td> <?php echo $rows['reorder_level']; ?></td>
                             <td> <?php echo $rows['selling_price_item']; ?></td>
-                            <td> <?php echo $rows['alkaline_refill_price']; ?></td>
-                            <td> <?php echo $rows['mineral_refill_price']; ?></td>
+                            <td> <?php echo $rows['alkaline_price']; ?></td>
+                            <td> <?php echo $rows['mineral_price']; ?></td>
                             <td> <img src="<?php echo "../uploaded_image/".$rows['image']; ?>" alt='No Image' width="50px"></td>
                             <td> <?php echo $rows['created_at']; ?></td>
                             <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
@@ -123,7 +127,7 @@ require_once '../service/add-inventory-item.php';
                             </td>
                         </tr>
                         <tr id="noRecordTR" style="display:none">
-                            <td colspan="9">No Record Found</td>
+                            <td colspan="12">No Record Found</td>
                         </tr>
                         </tbody>
                     <?php } ?>

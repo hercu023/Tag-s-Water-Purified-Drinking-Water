@@ -180,6 +180,8 @@ include_once('../connectionDB.php');
 
 </body>
 </html>
+<script src="../javascript/side-menu-toggle.js"></script>
+<script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/account-type.js"></script>
 <script src="../index.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>

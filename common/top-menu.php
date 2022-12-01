@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <link rel="stylesheet" type="text/css" href="../CSS/common.css">
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
@@ -20,7 +19,7 @@
         <div class="menu-btn2">
             <i class="fas fa-bars"></i>
         </div>
-        <h2 class="dashTitle-top">DASHBOARD</h2>
+        <h2 class="dashTitle-top"></h2>
         <div class="user1">
             <div class="welcome">
                 <h4 > Welcome, </h4>
@@ -67,8 +66,6 @@
 </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-<script src="./index.js"></script>
-<script src="javascript/common.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

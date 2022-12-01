@@ -126,7 +126,7 @@ body{
 .user-input-box{
     display: flex;
     flex-wrap: wrap;
-    width: 48%;
+    width: 50%;
     padding-bottom: 15px;
 }
 
@@ -159,7 +159,7 @@ body{
 
 .user-input-box input{
     height: 40px;
-    width: 95%;
+    width: 100%;
     border: 2px solid var(--color-solid-gray);
     border-radius: 15px;
     outline: none;

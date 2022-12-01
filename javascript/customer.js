@@ -1,3 +1,8 @@
+// -----------------------------AUTO CLOSE MESSAGE
+    
+    setTimeout(function() {
+        $('#myerror').fadeOut('fast');
+    }, 3000);
 // -----------------------------SIDE MENU
 $(document).ready(function(){
     //jquery for toggle sub menus
@@ -27,41 +32,6 @@ $(document).ready(function(){
     });
 });
 //    --------------------------------------------------------------------
-const regForm = document.querySelector(".form-registered");
-const regBtn = document.querySelector(".AddButton");
-var bgform = $('#form-registered1');
-var addform = $('#form-addcustomer1');
-var addbtn = $("#addcustomerBtn");
-var message = $(".message");
-
-// $(document).ready(function(){
-//     $('#addcustomerFrm').submit(function(e){
-//         e.preventDefault();
-
-//         $.ajax({
-//             type: 'post',
-//             url: 'controllerUserdata_customers.php',
-//             data: new FormData(this),
-//             contentType: false,
-//             cache: false,
-//             processData: false,
-//             // 'submit=1&'+$form.serialize(),
-//             dataType: 'json',
-//             success: function(response){
-//                 $(".message").css("display", "block");
-//                 if(response.status == 1){
-//                     $("#form-registered1").css("display", "block");
-//                     addform.hide();
-//                     message.hide();
-//                     $('#addcustomerFrm')[0].reset();
-//             }else{
-//                 $(".message").html('<p>'+response.message+'<p>');
-//             }
-//                 }
-//             });
-//         });
-//     });
-
 
 let btnClear = document.querySelector('#cancel');
 // let btnClear1 = document.querySelector('#registered');
@@ -115,7 +85,7 @@ addBtn.addEventListener('click', () =>{
     addForm.style.display = 'flex';
 })
 function addnewuser(){
-    const addBtn = document.querySelector(".add-customer");
+    // const addBtn = document.querySelector(".add-customer");
     addForm.style.display = 'flex';
 }
 function menuToggle(){
@@ -124,51 +94,52 @@ function menuToggle(){
 }
 
 function tableSearch(){
-    let input, filter, table, tr, lastname,
-        firstname, address, contactnum, i, txtValue;
+    let input, filter, table, tr,
+    customername, address, contactnum1, contactnum2, note; i;
 
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
     table = document.getElementById("myTable");
     tr = table.getElementsByTagName("tr");
 
-    for(let i = 0; i < tr.length; i++){
-        customername = tr[i].getElementsByTagName("td")[1];
-        address = tr[i].getElementsByTagName("td")[2];
-        contactnum = tr[i].getElementsByTagName("td")[3];
-        note = tr[i].getElementsByTagName("td")[5];
-        if(customername || address || contactnum || note){
-            var customername_value = customername.textContent || customername.innerText;
-            var address_value = address.textContent || address.innerText;
-            var contactnum_value = contactnum.textContent || contactnum.innerText;
-            var note_value = note.textContent || note.innerText;
 
-            if(address_value.toUpperCase().indexOf(filter) > -1 ||
-                contactnum_value.toUpperCase().indexOf(filter) > -1 ||
-                note_value.toUpperCase().indexOf(filter) > -1 ||
-                customername_value.toUpperCase().indexOf(filter) > -1){
-                tr[i].style.display ="";
+        for(i = 0; i < tr.length; i++){
+           
+            customername = tr[i].getElementsByTagName("td")[1];
+            address = tr[i].getElementsByTagName("td")[2];
+            contactnum1 = tr[i].getElementsByTagName("td")[3];
+            contactnum2 = tr[i].getElementsByTagName("td")[4];
+            note = tr[i].getElementsByTagName("td")[6];
+
+            if(customername || address || contactnum1 || contactnum2 || note){
+                var customername_value = customername.textContent || customername.innerText;
+                var address_value = address.textContent || address.innerText;
+                var contactnum1_value = contactnum1.textContent || contactnum1.innerText;
+                var contactnum2_value = contactnum2.textContent || contactnum2.innerText;
+                var note_value = note.textContent || note.innerText;
+
+                if(customername_value.toUpperCase().indexOf(filter) > -1||
+                address_value.toUpperCase().indexOf(filter) > -1 ||
+                contactnum1_value.toUpperCase().indexOf(filter) > -1 ||
+                contactnum2_value.toUpperCase().indexOf(filter) > -1 ||
+                note_value.toUpperCase().indexOf(filter) > -1){
+                    tr[i].style.display ="";
+                }
+                else{
+                    tr[i].style.display = "none";
+                }
+                if($('#myTable tbody tr:visible').length === 0) {
+                document.getElementById('noRecordTR').style.display = "";
+            }else{
+                document.getElementById('noRecordTR').style.display = "none";
             }
-            else{
-                tr[i].style.display = "none";
             }
             if($('#myTable tbody tr:visible').length === 0) {
                 document.getElementById('noRecordTR').style.display = "";
             }else{
                 document.getElementById('noRecordTR').style.display = "none";
             }
-        }
-        if($('#myTable tbody tr:visible').length === 0) {
-            document.getElementById('noRecordTR').style.display = "";
-        }else{
-            document.getElementById('noRecordTR').style.display = "none";
-        }
-    }
-    if($('#myTable tbody tr:visible').length === 0) {
-        document.getElementById('noRecordTR').style.display = "";
-    }else{
-        document.getElementById('noRecordTR').style.display = "none";
-    }
+        }   
 }
 const dropdowns = document.querySelectorAll(".usertype-dropdown");
 dropdowns.forEach(dropdown =>{

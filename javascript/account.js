@@ -21,7 +21,6 @@ var addform = $('#form-adduser1');
 var addbtn = $("#adduserBtn");
 var message = $(".message");
 
-
 //
 let btnClear = document.querySelector('#cancel');
 // let btnClear1 = document.querySelector('#registered');
@@ -52,7 +51,6 @@ const actionsBtn = document.querySelector(".action-btn");
 // actionsBtn.addEventListener('click', () =>{
 //     actionsForm.style.display = 'block';
 // })
-
 function addnewuser(){
     const addBtn = document.querySelector(".add-account");
     addForm.style.display = 'flex';
@@ -101,7 +99,6 @@ addBtn.addEventListener('click', () =>{
     addForm.style.display = 'flex';
 })
 
-
 function menuToggle(){
     const toggleMenu = document.querySelector('.drop-menu');
     toggleMenu.classList.toggle('user2')
@@ -127,7 +124,6 @@ function tableSearch(){
         contactnum = tr[i].getElementsByTagName("td")[5];
         role = tr[i].getElementsByTagName("td")[6];
 
-
         if(lastname || firstname || middlename || email || contactnum || role){
             var lastname_value = lastname.textContent || lastname.innerText;
             var firstname_value = firstname.textContent || firstname.innerText;
@@ -135,16 +131,17 @@ function tableSearch(){
             var email_value = email.textContent || email.innerText;
             var contactnum_value = contactnum.textContent || contactnum.innerText;
             var role_value = role.textContent || role.innerText;
+
             if(role_value.toUpperCase().indexOf(filter) > -1 ||
                 contactnum_value.toUpperCase().indexOf(filter) > -1 ||
                 email_value.toUpperCase().indexOf(filter) > -1 ||
                 middlename_value.toUpperCase().indexOf(filter) > -1 ||
                 lastname_value.toUpperCase().indexOf(filter) > -1 ||
                 role_value.toUpperCase().indexOf(filter) > -1 ||
-                firstname_value.toUpperCase().indexOf(filter) > -1){
+                firstname_value.toUpperCase().indexOf(filter) > -1) {
                 tr[i].style.display ="";
             }
-            else{
+            else {
                 tr[i].style.display = "none";
             }
             if($('#myTable tbody tr:visible').length === 0) {

@@ -38,9 +38,9 @@ session_start();
 </div>
 </body>
 </html>
+<script src="../javascript/top-menu-toggle.js"></script>
+<script src="../javascript/side-menu-toggle.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-<!-- <script src="./index.js"></script> -->
-<script src="javascript/common.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

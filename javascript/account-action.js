@@ -13,6 +13,7 @@ function myFunctionCP(){
         z.type = "password";
     }
 }
+
 // EDIT ACCOUNT--------------------------------------------------
 document.querySelector("#myTable"),addEventListener("click", (e)=>{
     target = e.target;
