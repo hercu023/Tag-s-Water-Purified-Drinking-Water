@@ -914,7 +914,7 @@ ALTER TABLE `transaction`
   ADD CONSTRAINT `payment_option_id_constraint` FOREIGN KEY (`payment_option_id`) REFERENCES `payment_option` (`id`),
   ADD CONSTRAINT `status_id_constraint` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON UPDATE CASCADE,
                                                                                                                                                                                                              ADD CONSTRAINT `updated_by_id_contraint` FOREIGN KEY (`updated_by_id`) REFERENCES `users` (`user_id`),
-                                                                                                                                                                                                             ADD CONSTRAINT `water_type_id_constraint` FOREIGN KEY (`water_type_id`) REFERENCES `water_type` (`id`);
+                            --   s                                                                                                                                                                               ADD CONSTRAINT `water_type_id_constraint` FOREIGN KEY (`water_type_id`) REFERENCES `water_type` (`id`);
 
 --
 -- Constraints for table `users`
