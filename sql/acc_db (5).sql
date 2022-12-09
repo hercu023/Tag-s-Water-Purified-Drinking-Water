@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2022 at 04:37 PM
+-- Generation Time: Dec 09, 2022 at 07:19 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -265,7 +265,31 @@ INSERT INTO `audit_trail` (`id`, `module_id`, `user_id`, `status`, `data`, `date
 (429, 1, 1, 0, 'Restricted login, still has an active session.', '2022-12-05 19:29:10'),
 (430, 1, 1, 1, 'Logged in the system', '2022-12-05 19:29:49'),
 (431, 1, 1, 0, 'Incorrect password input', '2022-12-05 22:34:49'),
-(432, 1, 1, 1, 'Logged in the system', '2022-12-05 22:34:53');
+(432, 1, 1, 1, 'Logged in the system', '2022-12-05 22:34:53'),
+(433, 0, 1, 1, 'Archived inventory item with id: 36', '2022-12-06 01:48:17'),
+(434, 1, 1, 0, 'Incorrect password input', '2022-12-06 12:52:48'),
+(435, 1, 1, 0, 'Restricted login, still has an active session.', '2022-12-06 12:52:53'),
+(436, 1, 1, 1, 'Logged in the system', '2022-12-06 12:53:37'),
+(437, 28, 1, 1, 'Restored inventory item with id:36', '2022-12-06 19:08:00'),
+(438, 0, 1, 1, 'Updated inventory item with id:35', '2022-12-06 19:11:30'),
+(439, 0, 1, 1, 'Updated inventory item with id:35', '2022-12-06 19:11:42'),
+(440, 0, 1, 1, 'Updated inventory item with id:26', '2022-12-06 19:14:19'),
+(441, 0, 1, 1, 'Updated inventory item with id:20', '2022-12-06 22:26:56'),
+(442, 0, 1, 1, 'Updated inventory item with id:21', '2022-12-06 22:27:30'),
+(443, 0, 1, 1, 'Updated inventory item with id:23', '2022-12-06 22:27:58'),
+(444, 0, 1, 1, 'Updated inventory item with id:23', '2022-12-06 22:28:07'),
+(445, 0, 1, 1, 'Updated inventory item with id:25', '2022-12-06 22:28:28'),
+(446, 0, 1, 1, 'Updated inventory item with id:28', '2022-12-06 22:28:57'),
+(447, 0, 1, 1, 'Updated inventory item with id:28', '2022-12-06 22:29:28'),
+(448, 0, 1, 1, 'Updated inventory item with id:29', '2022-12-06 22:30:22'),
+(449, 0, 1, 1, 'Updated inventory item with id:30', '2022-12-06 22:30:48'),
+(450, 1, 1, 0, 'Restricted login, still has an active session.', '2022-12-07 15:44:01'),
+(451, 1, 1, 1, 'Logged in the system', '2022-12-07 15:44:36'),
+(452, 0, 1, 1, 'Added new inventory with id:51', '2022-12-07 15:50:22'),
+(453, 0, 1, 1, 'Added new inventory with id:29', '2022-12-07 16:01:56'),
+(454, 1, 1, 1, 'Logged out of the system', '2022-12-08 00:53:39'),
+(455, 1, 1, 1, 'Logged in the system', '2022-12-08 00:53:44'),
+(456, 1, 1, 1, 'Logged out of the system', '2022-12-08 00:53:48');
 
 -- --------------------------------------------------------
 
@@ -464,23 +488,25 @@ CREATE TABLE `inventory_item` (
 --
 
 INSERT INTO `inventory_item` (`id`, `item_name`, `category_by_id`, `reorder_level`, `pos_item_id`, `selling_price_item`, `alkaline_price`, `mineral_price`, `image`, `created_at`, `status_archive_id`, `updated_at`, `created_by`, `updated_by_id`) VALUES
-(20, 'Round - 5 Gallons', 1, 10, 1, 185.00, 35.00, 30.00, '77fce6b86eef912efb10429092fa2273.jfif', '2022-12-01 16:42:17', 1, '2022-12-04 23:56:05', '1', 1),
-(21, 'Slim - 2.5 Gallons', 1, 5, 1, 135.00, 18.00, 13.00, '2faff09308079c871c09df8025884578.jfif', '2022-12-01 16:50:42', 1, '2022-12-05 00:07:14', '1', 1),
-(22, 'Cap with Inner Plug for Round', 5, 10, 1, 10.00, 0.00, 0.00, '205c32cdfc286f5863a216eb6e99f2fe.jfif', '2022-12-01 16:53:13', 1, '2022-12-01 21:33:58', '1', 1),
-(23, 'Slim - 5 Gallons', 1, 10, 1, 220.00, 35.00, 30.00, '5_gallon_slim_plastic_container_1568794578_4c2e969d0_progressive.jfif', '2022-12-01 17:08:57', 1, '2022-12-01 21:20:52', '1', 1),
-(24, 'Faucet Seal', 3, 10, 2, 0.00, 0.00, 0.00, 'c215d9deaf3d1b0a7ff97d90bb16c087.jpg', '2022-12-01 17:12:41', 1, '2022-12-01 18:45:14', '1', 1),
-(25, '1 Liter', 2, 20, 1, 15.00, 10.00, 7.00, '504350773.jpg', '2022-12-01 17:13:44', 1, '2022-12-04 16:27:04', '1', 1),
-(26, 'Faucet - Push Down', 7, 10, 2, 25.00, 0.00, 0.00, '4d7a42f744a6bc863b8c6e13924b1bea.jfif', '2022-12-01 17:19:44', 1, '2022-12-04 16:26:09', '1', 1),
-(27, ' Big Mouth Cap for Slim', 5, 10, 1, 10.00, 0.00, 0.00, '653512388a9235cd5ba921a5d2a9d595.jfif', '2022-12-01 17:46:09', 1, '2022-12-01 21:32:26', '1', 1),
-(28, '500 ml', 2, 10, 1, 12.00, 7.00, 5.00, '504350773.jpg', '2022-12-01 17:46:52', 1, '2022-12-04 22:03:14', '1', 1),
-(29, '350 ml', 2, 10, 1, 10.00, 4.00, 2.00, '504350773.jpg', '2022-12-01 18:30:39', 1, '2022-12-04 22:03:23', '1', 1),
-(30, '6 Liters', 2, 10, 1, 45.00, 13.00, 10.00, 'Screenshot 2022-11-28 145335.png', '2022-12-01 18:43:10', 1, '2022-12-04 22:03:28', '1', 1),
-(31, 'Closed Cap Seal for Round', 3, 10, 2, 0.00, 0.00, 0.00, '139bf86befd4ce5e7a041c9538d2f9b7.jfif', '2022-12-01 18:44:12', 1, '2022-12-01 21:34:59', '1', 1),
-(32, 'Open Cap Seal for Round', 3, 10, 2, 0.00, 0.00, 0.00, 'c215d9deaf3d1b0a7ff97d90bb16c087.jpg', '2022-12-01 18:44:51', 1, '2022-12-01 21:34:51', '1', 1),
-(33, 'Small Cap for Slim', 5, 10, 1, 5.00, 0.00, 0.00, '4b59df78ae3706129cc7f752252765d0.jfif', '2022-12-01 21:31:23', 1, '0000-00-00 00:00:00', '1', 0),
-(34, '1.5 Liters', 10, 0, 1, 0.00, 12.00, 10.00, '', '2022-12-01 22:12:20', 1, '2022-12-04 16:26:42', '1', 1),
-(35, 'Faucet - Rotatable', 7, 5, 2, 0.00, 0.00, 0.00, 'Screenshot 2022-12-04 223707.png', '2022-12-04 22:40:23', 1, '0000-00-00 00:00:00', '1', 0),
-(36, 'Ice Tube', 7, 5, 1, 10.00, 0.00, 0.00, '1000_F_350366345_8Jh0duvK9Q6yVPniIr1GO1VYoCovZASX.jpg', '2022-12-04 22:42:30', 1, '2022-12-05 00:07:20', '1', 1);
+(1, 'Round - 5 Gallons', 1, 10, 1, 0.00, 220.00, 215.00, '77fce6b86eef912efb10429092fa2273.jfif', '2022-12-01 16:42:17', 1, '2022-12-06 22:26:56', '1', 1),
+(2, 'Slim - 2.5 Gallons', 1, 5, 1, 0.00, 135.00, 130.00, '2faff09308079c871c09df8025884578.jfif', '2022-12-01 16:50:42', 1, '2022-12-06 22:27:30', '1', 1),
+(3, 'Cap with Inner Plug for Round', 5, 10, 1, 10.00, 0.00, 0.00, '205c32cdfc286f5863a216eb6e99f2fe.jfif', '2022-12-01 16:53:13', 1, '2022-12-01 21:33:58', '1', 1),
+(4, 'Slim - 5 Gallons', 1, 10, 1, 0.00, 220.00, 215.00, '5_gallon_slim_plastic_container_1568794578_4c2e969d0_progressive.jfif', '2022-12-01 17:08:57', 1, '2022-12-06 22:28:07', '1', 1),
+(5, 'Faucet Seal', 3, 10, 2, 0.00, 0.00, 0.00, 'c215d9deaf3d1b0a7ff97d90bb16c087.jpg', '2022-12-01 17:12:41', 1, '2022-12-01 18:45:14', '1', 1),
+(6, '1 Liter', 2, 20, 1, 0.00, 15.00, 12.00, '504350773.jpg', '2022-12-01 17:13:44', 1, '2022-12-06 22:28:28', '1', 1),
+(7, 'Faucet - Push Down', 7, 10, 1, 25.00, 0.00, 0.00, '4d7a42f744a6bc863b8c6e13924b1bea.jfif', '2022-12-01 17:19:44', 1, '2022-12-06 19:14:19', '1', 1),
+(8, ' Big Mouth Cap for Slim', 5, 10, 1, 10.00, 0.00, 0.00, '653512388a9235cd5ba921a5d2a9d595.jfif', '2022-12-01 17:46:09', 1, '2022-12-01 21:32:26', '1', 1),
+(9, '500 ml', 2, 10, 1, 0.00, 10.00, 8.00, '504350773.jpg', '2022-12-01 17:46:52', 1, '2022-12-06 22:29:28', '1', 1),
+(10, '350 ml', 2, 10, 1, 0.00, 7.00, 5.00, '504350773.jpg', '2022-12-01 18:30:39', 1, '2022-12-06 22:30:22', '1', 1),
+(11, '6 Liters', 2, 10, 1, 0.00, 45.00, 40.00, 'Screenshot 2022-11-28 145335.png', '2022-12-01 18:43:10', 1, '2022-12-06 22:30:48', '1', 1),
+(12, 'Closed Cap Seal for Round', 3, 10, 2, 0.00, 0.00, 0.00, '139bf86befd4ce5e7a041c9538d2f9b7.jfif', '2022-12-01 18:44:12', 1, '2022-12-01 21:34:59', '1', 1),
+(13, 'Open Cap Seal for Round', 3, 10, 2, 0.00, 0.00, 0.00, 'c215d9deaf3d1b0a7ff97d90bb16c087.jpg', '2022-12-01 18:44:51', 1, '2022-12-01 21:34:51', '1', 1),
+(14, 'Small Cap for Slim', 5, 10, 1, 5.00, 0.00, 0.00, '4b59df78ae3706129cc7f752252765d0.jfif', '2022-12-01 21:31:23', 1, '0000-00-00 00:00:00', '1', 0),
+(15, '1.5 Liters', 10, 0, 1, 0.00, 12.00, 10.00, '', '2022-12-01 22:12:20', 1, '2022-12-04 16:26:42', '1', 1),
+(16, 'Faucet - Rotatable', 7, 5, 1, 25.00, 0.00, 0.00, 'Screenshot 2022-12-04 223707.png', '2022-12-04 22:40:23', 1, '2022-12-06 19:11:42', '1', 1),
+(17, 'Ice Tube', 7, 5, 1, 10.00, 0.00, 0.00, '1000_F_350366345_8Jh0duvK9Q6yVPniIr1GO1VYoCovZASX.jpg', '2022-12-04 22:42:30', 1, '2022-12-05 00:07:20', '1', 1),
+(18, 'Small Cap Seal', 3, 5, 2, 0.00, 0.00, 0.00, 'Screenshot 2022-12-07 155001.png', '2022-12-07 15:50:21', 1, '0000-00-00 00:00:00', '1', 0),
+(29, 'Slim - 5 Gallons with Cap and Faucet', 1, 2, 2, 0.00, 0.00, 0.00, '', '2022-12-07 16:01:56', 1, '0000-00-00 00:00:00', '1', 0);
 
 -- --------------------------------------------------------
 
@@ -623,31 +649,6 @@ INSERT INTO `pos_item` (`id`, `pos_type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sales_order`
---
-
-CREATE TABLE `sales_order` (
-  `id` int(11) NOT NULL,
-  `image_item` varchar(255) NOT NULL,
-  `item_name_id` int(11) NOT NULL,
-  `water_type` varchar(255) NOT NULL,
-  `category_type` varchar(255) NOT NULL,
-  `quantity` int(50) NOT NULL,
-  `selling_price_item` float(11,2) NOT NULL,
-  `alkaline_refill_price` float(11,2) NOT NULL,
-  `mineral_refill_price` float(11,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `sales_order`
---
-
-INSERT INTO `sales_order` (`id`, `image_item`, `item_name_id`, `water_type`, `category_type`, `quantity`, `selling_price_item`, `alkaline_refill_price`, `mineral_refill_price`) VALUES
-(1, '', 25, '', 'For Refill', 2, 15.00, 10.00, 7.00);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `status`
 --
 
@@ -737,6 +738,31 @@ CREATE TABLE `transaction` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `transaction_process`
+--
+
+CREATE TABLE `transaction_process` (
+  `id` int(11) NOT NULL,
+  `item_name` varchar(255) NOT NULL,
+  `water_type` varchar(255) DEFAULT NULL,
+  `category_type` varchar(255) NOT NULL,
+  `quantity` int(50) NOT NULL,
+  `price` float(11,2) NOT NULL,
+  `total_price` float(11,2) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `transaction_process`
+--
+
+INSERT INTO `transaction_process` (`id`, `item_name`, `water_type`, `category_type`, `quantity`, `price`, `total_price`, `user_id`) VALUES
+(71, 'Round - 5 Gallons', 'Mineral', 'Container', 1, 215.00, 215.00, 1),
+(72, 'Round - 5 Gallons', 'Mineral', 'Container', 2, 215.00, 430.00, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -779,13 +805,6 @@ CREATE TABLE `user_session` (
   `session_key` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `user_session`
---
-
-INSERT INTO `user_session` (`id`, `user_id`, `session_key`, `status`) VALUES
-(24, 1, '862d7c2353cbdbb01db8', 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -924,13 +943,6 @@ ALTER TABLE `pos_item`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sales_order`
---
-ALTER TABLE `sales_order`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `item_name_id_constraint` (`item_name_id`);
-
---
 -- Indexes for table `status`
 --
 ALTER TABLE `status`
@@ -961,6 +973,12 @@ ALTER TABLE `transaction`
   ADD KEY `created_by_id_constraint` (`created_by_id`),
   ADD KEY `updated_by_id_contraint` (`updated_by_id`),
   ADD KEY `status_id_constraint` (`status_id`);
+
+--
+-- Indexes for table `transaction_process`
+--
+ALTER TABLE `transaction_process`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -1009,7 +1027,7 @@ ALTER TABLE `attendance`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=433;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=457;
 
 --
 -- AUTO_INCREMENT for table `category_type`
@@ -1051,7 +1069,7 @@ ALTER TABLE `inventory`
 -- AUTO_INCREMENT for table `inventory_item`
 --
 ALTER TABLE `inventory_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `inventory_log`
@@ -1084,12 +1102,6 @@ ALTER TABLE `pos_item`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `sales_order`
---
-ALTER TABLE `sales_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `status`
 --
 ALTER TABLE `status`
@@ -1111,7 +1123,13 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `transaction_process`
+--
+ALTER TABLE `transaction_process`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1123,7 +1141,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_session`
 --
 ALTER TABLE `user_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `water_type`
@@ -1174,12 +1192,6 @@ ALTER TABLE `inventory_log`
 --
 ALTER TABLE `login_history`
   ADD CONSTRAINT `user_id_constraint` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
-
---
--- Constraints for table `sales_order`
---
-ALTER TABLE `sales_order`
-  ADD CONSTRAINT `item_name_id_constraint` FOREIGN KEY (`item_name_id`) REFERENCES `inventory_item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transaction`
