@@ -1,5 +1,11 @@
 <?php
 require_once '../service/edit-inventory-item.php';
+require_once "../service/user-access.php";
+
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ITEM')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -129,19 +135,19 @@ if(isset($_GET['edit']))
                     <div class="profile-pic">
                         <img src="../uploaded_image/<?=$inventory_item['image'];?>" alt="">
                     </div>
-                    
+
                     <h1 class="editnew-title">EDIT ITEM</h1>
                     <form action="#">
-                            <span class="gender-title">POS ITEM</span>
-                            <div class="gender-category" >
-                                <input <?php if($inventory_item['pos_item_id'] === '1') echo "checked"; ?>
-                                        type="radio" value="1" name="pos_item" id="Yes" required="required" onclick="mainForm1()">
-                                <label for="Yes" >Yes</label>
-                                <input <?php if($inventory_item['pos_item_id'] === '2') echo "checked"; ?>
-                                        type="radio" value="2" name="pos_item" id="No" onclick="mainForm2()">
-                                <label for="No" >No</label>
-                            </div>
-                            <div class="line"></div>
+                        <span class="gender-title">POS ITEM</span>
+                        <div class="gender-category" >
+                            <input <?php if($inventory_item['pos_item_id'] === '1') echo "checked"; ?>
+                                    type="radio" value="1" name="pos_item" id="Yes" required="required" onclick="mainForm1()">
+                            <label for="Yes" >Yes</label>
+                            <input <?php if($inventory_item['pos_item_id'] === '2') echo "checked"; ?>
+                                    type="radio" value="2" name="pos_item" id="No" onclick="mainForm2()">
+                            <label for="No" >No</label>
+                        </div>
+                        <div class="line"></div>
                         <div class="main-user-info">
                             <input type="hidden" required="required" name="id" value="<?=$inventory_item['id'];?>">
 
@@ -234,6 +240,19 @@ if(isset($_GET['edit']))
 
             </div>
         </form>
+        <?php if($inventory_item['pos_item_id'] === '2') {
+            echo '<script type="text/javascript"> 
+                    const mainform = document.querySelector(".main-user-info");
+                    const srp = document.querySelector("#srpprice_box");
+                    const alkaline = document.querySelector("#alkalineprice_box");
+                    const mineral = document.querySelector("#mineralprice_box");
+                    mainform.style.display = "flex";
+                    srp.style.display = "none";
+                    alkaline.style.display = "none";
+                    mineral.style.display = "none";
+                                      </script>';
+        }
+        ?>
     <?php }}?>
 </body>
 </html>
@@ -244,24 +263,3 @@ if(isset($_GET['edit']))
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="../javascript/inventory-details-edit.js"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
-<script>
-       const mainform = document.querySelector(".main-user-info");
-    const srp = document.querySelector("#srpprice_box");
-    const alkaline = document.querySelector("#alkalineprice_box");
-    const mineral = document.querySelector("#mineralprice_box");
-
-function mainForm1(){
-    mainform.style.display = 'flex';
-    srp.style.display = 'flex'
-    alkaline.style.display = 'flex';
-    mineral.style.display = 'flex';
-}
-// function mainForm2(){
-//     mainform.style.display = 'flex';
-//     srp.style.display = 'none';
-//     alkaline.style.display = 'none';
-//     mineral.style.display = 'none';
-
-// }
-
-</script>

@@ -10,6 +10,16 @@ if (isset($_POST['archive-expense'])) {
         $user_id = $_SESSION['user_user_id'];
         $id = $_POST['id'];
 
+        //Check if the expense record is editable or can be archived
+        $select = mysqli_query($con, "SELECT * FROM expense 
+                            WHERE is_editable = 0
+                            AND id = $id");
+
+        if (mysqli_num_rows($select) > 0) {
+            header("Location: ../expense/expense.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> This expense record can not be archived.");
+            exit();
+        }
+
         $result =mysqli_query($con, "UPDATE expense 
                                         SET status_archive_id = '2' 
                                         WHERE id = $id");

@@ -1,34 +1,12 @@
 <?php
-require_once '../controllerUserdata.php';
-include_once('../connectionDB.php');
-$query = "SELECT * FROM users";
-$result = mysqli_query($con, $query);
-    if (isset($_POST['id'])){
+require_once '../database/connection-db.php';
+require_once '../service/add-inventory-item.php';
+require_once "../service/user-access.php";
 
-        $id = $_POST['id'];
-        
-        $stmt = $conn->prepare("SELECT * FROM users WHERE id=?");
-        $stmt->execute([$id]);
-        $fetch_profile = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($stmt->rowCount() === 1){
-                $user = $stmt->fetch();
-                
-                $user_id = $user['id'];
-                $user_email = $user['email'];
-                $user_first_name = $user['first_name'];
-                $user_user_type = $user['user_type'];
-                $user_profile_image = $user['profile_image'];
-                if ($email === $user_email){
-
-                        $_SESSION['user_id'] = $user_id;
-                        $_SESSION['user_email'] = $user_email;
-                        $_SESSION['user_first_name'] =  $user_first_name;
-                        $_SESSION['user_user_type'] =  $user_user_type;
-                        $_SESSION['user_profile_image'] =  $user_profile_image;
-                }
-            }
-        }
-    
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-STOCKS')) {
+    header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

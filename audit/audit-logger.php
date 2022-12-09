@@ -27,3 +27,4 @@ function get_module_name($con, $module) {
         return $fetch_data['id'];
     }
 }
+

@@ -1,5 +1,11 @@
 <?php
 require_once '../service/archive-employee.php';
+require_once "../service/user-access.php";
+
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-LIST')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

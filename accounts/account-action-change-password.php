@@ -2,6 +2,13 @@
 session_start();
 require_once '../service/account-change-password.php';
 validate_change_password();
+
+require_once "../service/user-access.php";
+
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER_ACCOUNT')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>

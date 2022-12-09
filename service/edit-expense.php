@@ -29,7 +29,7 @@ if (isset($_POST['edit-expense'])) {
 
             if($result['is_editable'] == 0) {
                 log_audit($con, $user_id, $module, 9, 'Expense cannot be modified with id:' .$expense_id);
-                header("Location: ../expense/expense.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> This expense is not modifiable.");
+                header("Location: ../expense/expense.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> This expense record is not modifiable.");
             } else {
 
                 $update =mysqli_query($con, "UPDATE expense SET 

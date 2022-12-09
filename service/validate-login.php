@@ -2,6 +2,8 @@
 session_start();
 require_once "../database/connection-db.php";
 require_once "../audit/audit-logger.php";
+require_once "../service/user-access.php";
+
 $module = 'LOGIN';
 
 if (isset($_POST['email']) && isset($_POST['password'])){
@@ -49,8 +51,41 @@ if (isset($_POST['email']) && isset($_POST['password'])){
                     $_SESSION['user_user_type'] =  $user_user_type;
                     $_SESSION['user_profile_image'] =  $user_profile_image;
 
-                    log_audit($con, $user_id, $module, 1,'Logged in the system');
-                    header("Location: ../common/dashboard.php");
+                    $validate_session = mysqli_query($con, "SELECT * FROM user_session 
+                                                                WHERE user_id = '$user_id'
+                                                                AND status = 'ACTIVE'");
+
+                    if (mysqli_num_rows($validate_session) > 0) {
+                        log_audit($con, $user_id, $module, 0, 'Restricted login, still has an active session.');
+                        header("Location: ../auth/login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> You still have an active session. Please log out previous session.");
+                    } else {
+                        $session_key = bin2hex(openssl_random_pseudo_bytes(10)); //Create 20 chars hexadecimal String
+
+                        $_SESSION['user_user_session_key'] = $session_key;
+
+                        $insert_session = mysqli_query($con, "INSERT INTO user_session VALUES (
+                                 '',
+                                 '$user_id',
+                                 '$session_key',
+                                 'ACTIVE')");
+
+                        if ($insert_session) {
+                            log_audit($con, $user_id, $module, 1,'Logged in the system');
+                            $user_access = get_user_access($con, $user_user_type);
+
+                            while ($access = $user_access) {
+                                if ($access['name'] == 'DASHBOARD') {
+                                    header("Location: ../common/dashboard.php");
+                                    exit();
+                                }
+
+                                if ($access['name'] == 'POS') {
+                                    header("Location: ../pos/point-of-sales.php");
+                                    exit();
+                                }
+                            }
+                        }
+                    }
                 } else {
                     log_audit($con, $user_id, $module, 0, 'Incorrect password input');
                     header("Location: ../auth/login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The password you've entered is incorrect");

@@ -1,3 +1,8 @@
+const mainform = document.querySelector(".main-user-info");
+const srp = document.querySelector("#srpprice_box");
+const alkaline = document.querySelector("#alkalineprice_box");
+const mineral = document.querySelector("#mineralprice_box");
+
 function mainForm1(){
     mainform.style.display = 'flex';
     srp.style.display = 'flex'
@@ -9,8 +14,8 @@ function mainForm2(){
     srp.style.display = 'none';
     alkaline.style.display = 'none';
     mineral.style.display = 'none';
-
 }
+
 // -----------------------------SIDE MENU
   $(document).ready(function(){
     //jquery for toggle sub menus

@@ -5,15 +5,12 @@
 function myFunctionCP(){
     var x = document.getElementById("pass-account");
     var y = document.getElementById("cpass-account");
-    var z = document.getElementById("oldpass");
     if(x.type === 'password'){
         x.type = "text";
         y.type = "text";
-        z.type = "text";
     }else{
         x.type = "password";
         y.type = "password";
-        z.type = "password";
     }
 }
 

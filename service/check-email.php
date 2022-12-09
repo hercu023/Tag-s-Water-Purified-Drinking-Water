@@ -30,8 +30,7 @@ if (isset($_POST['check-email'])) {
 
                 $subject = 'Tags Water System Verification Code';
                 $message = "We received a request to reset your password. Here is the verification code $code";
-                $sender = 'From: narutosasuke454545@gmail.com';
-
+                $sender = 'From: tagswater00@gmail.com';
                 //Send email and
                 if (mail($email, $subject, $message, $sender)) {
 
@@ -42,11 +41,10 @@ if (isset($_POST['check-email'])) {
 
                 } else {
                     log_audit($con, $fetch_user_id, $module, 0,'Error sending code to email');
-                    header('Location: ../auth/code-verification.php');
-                    //header("Location:../auth/forgot-password.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while sending code");
+                    header("Location:../auth/forgot-password.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed while sending code");
                 }
             } else {
-                header("Location:../auth/forgot-password.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Something went wrong");
+                header("Location:../auth/forgot-password.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Something went wrong..");
             }
         } else {
             header("Location:../auth/forgot-password.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> This email address does not exist to the system");

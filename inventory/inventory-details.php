@@ -1,5 +1,12 @@
 <?php
+require_once '../database/connection-db.php';
 require_once '../service/add-inventory-item.php';
+require_once "../service/user-access.php";
+
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ITEM')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,6 +51,16 @@ require_once '../service/add-inventory-item.php';
                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
                         <h3>Add New Item</h3>
                     </button>
+                </div>
+                <div class="newUser-button3">
+                    <a href="../inventory/inventory-details.php" id="add-userbutton" class="add-account3">
+                        <h3>ITEM DETAILS</h3>
+                    </a>
+                </div>
+                <div class="newUser-button4">
+                <a href="../inventory/inventory-details-refill.php" id="add-userbutton" class="add-account4">
+                        <h3>REFILL PRICE</h3>
+                    </a>
                 </div>
                 <div class="search">
                     <div class="search-bar">
@@ -97,7 +114,8 @@ require_once '../service/add-inventory-item.php';
                             ON inventory_item.status_archive_id = status_archive.id
                             INNER JOIN users
                             ON inventory_item.created_by = users.user_id
-                            WHERE inventory_item.status_archive_id = '1'";
+                            WHERE  category_by_id LIKE '%1' OR category_by_id LIKE '%2' OR category_by_id LIKE '%3' OR category_by_id LIKE '%4' OR category_by_id LIKE '%5' OR category_by_id LIKE '%6' OR category_by_id LIKE '%7' OR category_by_id LIKE '%8' OR category_by_id LIKE '%9'
+                            AND inventory_item.status_archive_id = '1'";
                     $result = mysqli_query($con, $query);
                     // $inventory = "SELECT * FROM inventory_item";
                     // $sql = mysqli_query($con, $inventory);
@@ -167,7 +185,7 @@ require_once '../service/add-inventory-item.php';
                     </div>
                     <div class="usertype-dropdown">
                         <?php
-                        $dropdown_query = "SELECT * FROM category_type";
+                        $dropdown_query = "SELECT * FROM category_type WHERE id LIKE '%1' OR id LIKE '%2' OR id LIKE '%3' OR id LIKE '%4' OR id LIKE '%5' OR id LIKE '%6' OR id LIKE '%7' OR id LIKE '%8' OR id LIKE '%9'";
                         $result_category = mysqli_query($con, $dropdown_query);
                         ?>
                         <select class="select" name="category_type" required="" >
@@ -263,6 +281,11 @@ require_once '../service/add-inventory-item.php';
         mineral.style.display = 'none';
 
     }
+    function addnewuser2(){
+        const addForm2 = document.querySelector(".bg-adduserform2");
+
+        addForm2.style.display = 'flex';
+    }
 </script>
 <style>
     .main-account{
@@ -347,7 +370,16 @@ box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
 border-top: 10px solid var(--color-solid-gray);
 }
 
-    
+.container2{
+width: 100%;
+max-width: 600px;
+padding: 28px;
+margin: 0 28px;
+border-radius:  0px 0px 20px 20px;
+background-color: var(--color-white);
+box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+border-top: 10px solid var(--color-solid-gray);
+}
 .form-title{
 font-size: 26px;
 font-weight: 600;
@@ -360,6 +392,12 @@ border-bottom: solid 1px white;
 
 .main-user-info{
 display: none;
+flex-wrap: wrap;
+justify-content: space-between;
+padding: 20px 0;
+}
+.main-user-info3{
+display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
 padding: 20px 0;
@@ -749,6 +787,17 @@ left: 10.65%;
         }
 
 .bg-adduserform{
+    height: 100%; 
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
+    position: absolute;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    display: none;
+}
+.bg-adduserform2{
     height: 100%; 
     width: 100%;
     background: rgba(0,0,0,0.7);
@@ -1264,7 +1313,7 @@ left: 10.65%;
     width: 100%;
 }
 main  h2{
-    margin-bottom: -2.2rem;
+    /* margin-bottom: -2.2rem; */
     margin-top: 1rem;
     color: var(--color-solid-gray);
     font-size: 1.3rem;
@@ -1273,11 +1322,12 @@ main  h2{
     font-family: 'Galhau Display', sans-serif;
 }
 main .sub-tab{
-    margin-bottom: 7rem;
+    margin-bottom: 3rem;
 }
 /* ----------------------------------------Search BAR---------------------------------------- */
 .search{
     position: absolute;
+    display: inline-block;
     gap: 2rem;
     align-items: right;
     text-align: right;
@@ -1322,8 +1372,24 @@ main .sub-tab{
 }
 /* ----------------------------------------Add Button---------------------------------------- */
 .newUser-button{
-    position: absolute;
-    left: 15%;
+    display: inline-block;
+    position: relative;
+    /* left: 15%; */
+}
+.newUser-button2{
+    position: relative;
+    display: inline-block;
+    left: 16%;
+}
+.newUser-button3{
+    position: relative;
+    display: inline-block;
+    left: 17%;
+}
+.newUser-button4{
+    position: relative;
+    display: inline-block;
+    left: 17%;
 }
 .add-account{
     display: flex;
@@ -1355,6 +1421,96 @@ main .sub-tab{
     padding-top: -.2px;
     transition: 0.7s;
     border-bottom: 4px solid var(--color-maroon);
+}
+.add-account2{
+    display: flex;
+    border: none;
+    background-color: var(--color-white);
+    align-items: center;
+    color: var(--color-button);
+    fill: var(--color-button);
+    width: 11.5rem;
+    max-height: 46px;
+    border-radius: 20px;
+    padding: .68rem 1rem;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    gap: 1rem;
+    height: 3.9rem;
+    transition: all 300ms ease;
+    position: relative;
+    margin-top: .2rem;
+    text-transform: uppercase;
+}
+.add-account2 h3{
+    font-size: .8rem;
+}
+.add-account2:hover{
+    background-color: var(--color-main);
+    color: var(--color-white);
+    fill: var(--color-white);
+    padding-top: -.2px;
+    transition: 0.7s;
+    border-bottom: 4px solid var(--color-maroon);
+}
+.add-account3{
+    display: flex;
+    border: none;
+    background-color: var(--color-main);
+    align-items: center;
+    color: var(--color-secondary-main);
+    /* width: 11.5rem; */
+    max-height: 46px;
+    border-radius: 5px;
+    padding: .68rem 1rem;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    gap: 1rem;
+    font-weight: 900;
+    height: 3.9rem;
+    transition: all 300ms ease;
+    position: relative;
+    margin-top: .2rem;
+    text-transform: uppercase;
+    border-left: 7px solid var(--color-tertiary);
+}
+.add-account3 h3{
+    font-size: .8rem;
+}
+.add-account3:hover{
+    background-color: var(--color-main);
+    color: var(--color-secondary-main);
+    padding-top: -.2px;
+    transition: 0.3s;
+    
+}
+.add-account4{
+    display: flex;
+    border: none;
+    background-color: var(--color-solid-gray);
+    align-items: center;
+    color: var(--color-white);
+    /* width: 11.5rem; */
+    max-height: 46px;
+    border-radius: 5px;
+    padding: .68rem 1rem;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    gap: 1rem;
+    height: 3.9rem;
+    transition: all 300ms ease;
+    position: relative;
+    margin-top: .2rem;
+    text-transform: uppercase;
+}
+.add-account4 h3{
+    font-size: .8rem;
+}
+.add-account4:hover{
+    background-color: var(--color-secondary-main);
+    color: var(--color-main);
+    padding-top: -.2px;
+    transition: 0.3s;
 }
      /* ----------------------------------------Account Table---------------------------------------- */
             .pagination{

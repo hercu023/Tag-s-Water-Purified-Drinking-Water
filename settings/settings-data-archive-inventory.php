@@ -1,6 +1,12 @@
 <?php
 session_start();
 include '../database/connection-db.php';
+require_once "../service/user-access.php";
+
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-ARCHIVES')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -47,6 +53,7 @@ include '../database/connection-db.php';
                             <option value="../settings/settings-data-archive-employees.php">Employee</option>
                             <option value="../settings/settings-data-archive-inventory.php" selected>Inventory</option>
                             <option value="../settings/settings-data-archive-expense.php">Expense</option>
+                            <option value="../settings/settings-data-archive-attendance.php">Attendance</option>
                         </select>
                     </div>
                     <div class="newUser-button">
@@ -96,28 +103,30 @@ include '../database/connection-db.php';
 
                             <tbody>
                             <?php
-                            $inventory = "SELECT 
-                                inventory_item.id,
-                                inventory_item.item_name,
-                                category_type.name,
-                                inventory_item.pos_item,
-                                inventory_item.reorder_level,
-                                inventory_item.selling_price_item,
-                                inventory_item.alkaline_refill_price,
-                                inventory_item.mineral_refill_price,
-                                inventory_item.image, 
-                                status_archive.status, 
-                                inventory_item.created_at,
-                                users.first_name,
-                                users.last_name
-                                FROM inventory_item 
-                                INNER JOIN category_type  
-                                ON inventory_item.category_by_id = category_type.id 
-                                INNER JOIN status_archive 
-                                ON inventory_item.status_archive_id = status_archive.id
-                                INNER JOIN users
-                                ON inventory_item.created_by = users.user_id
-                                WHERE inventory_item.status_archive_id = '2'";
+                            $inventory = "SELECT
+                            inventory_item.id,
+                            inventory_item.item_name,
+                            category_type.name,
+                            pos_item.pos_type,
+                            inventory_item.reorder_level,
+                            inventory_item.selling_price_item,
+                            inventory_item.alkaline_price,
+                            inventory_item.mineral_price,
+                            inventory_item.image,
+                            status_archive.status,
+                            inventory_item.created_at,
+                            users.first_name,
+                            users.last_name
+                            FROM inventory_item
+                            INNER JOIN category_type
+                            ON inventory_item.category_by_id = category_type.id
+                            INNER JOIN pos_item
+                            ON inventory_item.pos_item_id = pos_item.id
+                            INNER JOIN status_archive
+                            ON inventory_item.status_archive_id = status_archive.id
+                            INNER JOIN users
+                            ON inventory_item.created_by = users.user_id
+                            WHERE inventory_item.status_archive_id = '2'";
                             $inventory_run = mysqli_query($con, $inventory);
 
                             if(mysqli_num_rows($inventory_run) > 0)

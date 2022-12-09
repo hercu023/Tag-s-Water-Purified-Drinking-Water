@@ -1,6 +1,12 @@
 <?php
 session_start();
 require_once '../service/add-account.php';
+require_once "../service/user-access.php";
+
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER_ACCOUNT')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,9 +71,7 @@ require_once '../service/add-account.php';
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
+                        <th>Name</th>
                         <th>Email</th>
                         <!-- <th>Address</th> -->
                         <th>Contact Number</th>
@@ -102,9 +106,7 @@ require_once '../service/add-account.php';
                         <tbody>
                         <tr>
                             <td> <?php echo $rows['user_id']; ?></td>
-                            <td> <?php echo $rows['last_name']; ?></td>
-                            <td> <?php echo $rows['first_name']; ?></td>
-                            <td> <?php echo $rows['middle_name']; ?></td>
+                            <td> <?php echo $rows['first_name'].' '.$rows['middle_name'].' '.$rows['last_name']; ?></td>
                             <td> <?php echo $rows['email']; ?></td>
                             <td> <?php echo $rows['contact_number']; ?></td>
                             <td> <?php echo $rows['user_type']; ?></td>
@@ -253,7 +255,26 @@ require_once '../service/add-account.php';
     setTimeout(function() {
         $('#myerror').fadeOut('fast');
     }, 3000);
-    
+    function myFunctionCP(){
+    var x = document.getElementById("pass-account");
+    var y = document.getElementById("cpass-account");
+    if(x.type === 'password'){
+        x.type = "text";
+        y.type = "text";
+    }else{
+        x.type = "password";
+        y.type = "password";
+    }
+}
+
 </script>
 </html>
+<style>
+    .user-input-box{
+    display: flex;
+    flex-wrap: wrap;
+    width: 48%;
+    padding-bottom: 15px;
+}
+</style>
 

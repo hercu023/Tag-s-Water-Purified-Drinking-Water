@@ -1,45 +1,12 @@
 <?php
-session_start();
-include '../connectionDB.php';
-    if (isset($_POST['email']) && isset($_POST['password'])){
+@session_start();
+require_once '../database/connection-db.php';
+require_once "../service/user-access.php";
 
-        $email = $_POST['email'];
-        $pass = $_POST['password'];
-        
-        if (empty($email)){
-            // header("Location: login.php?error=Email is required");
-        }else if (empty($pass)){
-            // header("Location: login.php?error=Password is required");
-        }else{
-            $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
-            $stmt->execute([$email]);
-            if ($stmt->rowCount() === 1){
-                $user = $stmt->fetch();
-                
-                $user_id = $user['id'];
-                $user_email = $user['email'];
-                $user_password = $user['password'];
-                $user_first_name = $user['first_name'];
-                $user_user_type = $user['user_type'];
-                $user_profile_image = $user['profile_image'];
-                if ($email === $user_email){
-                    if (password_verify($pass, $user_password)){
-                        $_SESSION['user_id'] = $user_id;
-                        $_SESSION['user_email'] = $user_email;
-                        $_SESSION['user_first_name'] =  $user_first_name;
-                        $_SESSION['user_user_type'] =  $user_user_type;
-                        $_SESSION['user_profile_image'] =  $user_profile_image;
-                    }else{
-                        header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The password you've entered is incorrect");
-                    }
-                }else {
-                    header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The email you entered is not connected to the system");
-                }
-            }else{
-                header("Location: login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The email you entered is not connected to the system");
-            }
-        } 
-    }
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALES')) {
+    header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
+    exit();
+}
 ?> 
 <!DOCTYPE html>
 <html lang="en">

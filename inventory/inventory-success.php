@@ -1,3 +1,13 @@
+<?php
+@session_start();
+require_once "../database/connection-db.php";
+require_once "../service/user-access.php";
+
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ITEM')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

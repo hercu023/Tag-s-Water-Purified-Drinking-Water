@@ -1,5 +1,11 @@
 <?php
 require_once '../service/archive-expense.php';
+require_once "../service/user-access.php";
+
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EXPENSE')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -90,7 +96,7 @@ if(isset($_GET['edit'])) {
     $result = mysqli_query($con, "SELECT * FROM expense WHERE id = '$expense_id'");
 
     if (mysqli_num_rows($result) > 0) {
-        $expense = mysqli_fetch_assoc($result); ?>
+        $expense = mysqli_fetch_assoc($result);?>
 
         <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
             <div class="bg-addcustomerform" id="bg-addform">

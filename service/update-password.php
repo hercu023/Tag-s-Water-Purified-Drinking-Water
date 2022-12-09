@@ -20,10 +20,17 @@ if(isset($_POST['change-password'])){
             $emailCheckResult = mysqli_query($con, $emailCheckQuery);
 
             if ($emailCheckResult) {
+
                 // validate if email matched
                 if (mysqli_num_rows($emailCheckResult) > 0) {
                     $fetch_data = mysqli_fetch_assoc($emailCheckResult);
                     $fetch_user_id = $fetch_data['user_id'];
+                    $fetch_user_password = $fetch_data['password'];
+
+                    if (password_verify($password, $fetch_user_password)) {
+                        header("Location:../auth/change-password.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> New password cannot be same as your previous password");
+                        exit();
+                    }
 
                     $code = 0;
                     $encpass = password_hash($password, PASSWORD_BCRYPT);
@@ -32,6 +39,9 @@ if(isset($_POST['change-password'])){
                     $run_query = mysqli_query($con, $update_pass);
 
                     if($run_query){
+
+                        $delete_session = mysqli_query($con, "DELETE FROM user_session where user_id = '$fetch_user_id'");
+
                         log_audit($con, $fetch_user_id, $module, 1,'Update password successful');
                         header('Location: ../auth/change-password-confirm.php');
                     }else{

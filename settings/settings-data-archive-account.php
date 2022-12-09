@@ -1,6 +1,12 @@
 <?php
 session_start();
 include '../database/connection-db.php';
+require_once "../service/user-access.php";
+
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-ARCHIVES')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,6 +50,7 @@ include '../database/connection-db.php';
                             <option value="../settings/settings-data-archive-employees.php">Employee</option>
                             <option value="../settings/settings-data-archive-inventory.php">Inventory</option>
                             <option value="../settings/settings-data-archive-expense.php">Expense</option>
+                            <option value="../settings/settings-data-archive-attendance.php">Attendance</option>
                         </select>
                     </div>
                     <div class="newUser-button">

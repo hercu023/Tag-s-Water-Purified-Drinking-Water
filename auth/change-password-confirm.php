@@ -29,7 +29,7 @@ unset($_SESSION['verified']);
             <p >You can now log in your account with your new password.</p>
         </div>
         <div class="pageform">
-            <form action="login.php" method="post">
+            <form action="logout.php" method="post">
                 <div class="loginbtn">
                     <input type="submit" value="CONFIRM" name="login-now" id="sub">
                 </div>

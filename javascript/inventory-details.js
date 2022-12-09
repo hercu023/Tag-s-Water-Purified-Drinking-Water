@@ -125,9 +125,9 @@ function myFunctionCP(){
         //     actionsForm.style.display = 'block';
         // })
     function addnewuser(){
-        const addBtn = document.querySelector(".add-account");
         addForm.style.display = 'flex';
     }
+  
     function actionFunction(){
         // actionsForm.classList.toggle('bg-actionDropdown')
         actionsForm.style.display = 'flex';
@@ -153,6 +153,7 @@ function myFunctionCP(){
     const closeBtn = document.querySelector("#close-btn");
     const cancelBtn = document.querySelector("#cancel");
     const addBtn = document.querySelector(".add-account");
+    const addBtn2 = document.querySelector(".add-account2");
     const menuBtn = document.querySelector("#menu-button");
     // const darktheme = document.querySelector('.dark-theme');
     // const checkbox = document.getElementById("checkbox");
@@ -165,12 +166,18 @@ function myFunctionCP(){
         cancelBtn.addEventListener('click', () =>{
             addForm.style.display = 'none';
         })
+        cancelBtn.addEventListener('click', () =>{
+            addForm2.style.display = 'none';
+        })
         // if(email.value === '' || middlename.value === '' || firstname.value === '' || lastname.value === '' || contactnum.value === '' || role.value === '' || password.value === '' || confirmpassword.value === '' || profilepicture.value === ''){ 
         // }else{
             
         // }
         addBtn.addEventListener('click', () =>{
             addForm.style.display = 'flex';
+        })
+        addBtn2.addEventListener('click', () =>{
+            addForm2.style.display = 'flex';
         })
         
         // adduserBtn.addEventListener('click', () =>{

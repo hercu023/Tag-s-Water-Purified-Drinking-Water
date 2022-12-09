@@ -1,6 +1,13 @@
 <?php
 require_once '../service/archive-account.php';
-validate_archive_user($_SESSION['user_user_id'])
+validate_archive_user($_SESSION['user_user_id']);
+
+require_once "../service/user-access.php";
+
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER_ACCOUNT')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>

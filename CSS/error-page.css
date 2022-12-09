@@ -1,0 +1,142 @@
+body{
+    background: #686868;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    /* background-image: url("https://wallpaperaccess.com/full/562838.jpg"); */ 
+    background-repeat: cover;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.content .verify{
+    fill: rgb(178,34,34);
+    margin: 1rem;
+    align-items: center;
+    text-align: center;
+    position: relative;
+
+}
+.error-div{
+    /* margin-bottom: 5rem; */
+    position: relative;
+    /* display: block; */
+    /* align-items: center; */
+    text-align: center;
+    
+}
+.colorbg{
+    overflow-y: hidden;
+    position: absolute;
+    height: 100%;
+    bottom: 0%;
+    width: 100%;
+    background: linear-gradient(270deg, transparent, white);
+    display: flex;
+}
+.lines{
+    position: absolute;
+    bottom: 0%; 
+    width: 100%;
+}
+.line1{
+    position: relative;
+    display: flex;
+    min-height: 75.6vh;
+    clip-path: ellipse(83% 42% at 83% 100%);
+    background: linear-gradient(290deg, transparent, #02661b);
+    background-attachment: fixed;
+}
+.line2{
+    position: relative;
+    display: flex;
+    min-height: 40vh;
+    background: linear-gradient(80deg, transparent, #B22222);
+    clip-path: ellipse(60% 66% at 14% 12%);
+    background-attachment: fixed;
+} 
+.error-error{
+    background-color: hsl(0, 100%, 77%);
+    color: #ffffff;
+    padding: 13px;
+    width: 80%;
+    border-radius: 3px;
+    margin: 2rem;
+    font-size: min(max(9px, 1.2vw), 11px);
+    letter-spacing: 0.5px;
+    font-family: ARIAL, sans-serif;
+    /* gap: 2rem; */
+    position: static;
+
+}
+.pageform{
+    background-color: white;
+    border-radius: 0px 0px 10px 10px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 10rem;
+    position: relative;
+    border-top: 2px solid hsl(0, 0%, 86%);
+}
+.loginbtn{
+    position: relative;
+}
+a{
+    position: static;
+    font-family: 'COCOGOOSE', sans-serif;
+    text-align: center;
+    text-decoration: none;
+    width: 20rem;
+    height: 45px;
+    padding-top: .7rem;
+    padding-bottom: .7rem;
+    padding-left: 10rem;
+    padding-right: 10rem;
+    outline: none;
+    border: none;
+    font-size: 11px;
+    border-radius: 20px;
+    color: white;
+    background: #888888;
+    cursor: pointer; 
+    text-transform: uppercase;
+    transition: 0.5s; 
+}
+a:hover{
+    background: #00690e; 
+     transition: 0.5s; 
+}
+
+
+#container{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 25%;
+    max-height: 300px;
+    transform: translate(-50%, -50%);
+    background: hsl(112, 73%, 90%);
+    border-radius: 10px;
+    box-shadow: 10px 20px 35px rgba(0,0,0,0.55);
+}
+h2{
+    font-family: 'PHANTOM', sans-serif;
+    font-size: 30px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 2px;
+    color: black;
+    margin: 2rem;
+} 
+p{
+    color: hsl(0, 0%, 53%);
+    font-size: min(max(10px, 1.2vw), 12px);
+    letter-spacing: 0.5px;
+    font-family: Helvetica, sans-serif;
+    align-items: center;
+    text-align: center;
+    /* margin-left: 30px; */
+}

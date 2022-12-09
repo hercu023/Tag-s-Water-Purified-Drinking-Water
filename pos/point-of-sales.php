@@ -1,6 +1,10 @@
 <?php
-include '../connectionDB.php';
+include '../database/connection-db.php';
 require_once '../service/pos-add-customer.php';
+
+
+        
+
 ?>
 
 <!DOCTYPE html>
@@ -37,8 +41,8 @@ require_once '../service/pos-add-customer.php';
                 echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
             }
             ?>
-            <div class="top-buttons">
-                <div class="newUser-button">
+            <!-- <div class="top-buttons"> -->
+                <!-- <div class="newUser-button">
                     <button type="button" id="select-customerbutton" class="add-account" onclick="selectcustomer();">
                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.896 17.792-5.125-5.125q-.604.375-1.344.593-.739.219-1.594.219-2.271 0-3.875-1.604T2.354 8q0-2.271 1.604-3.875t3.875-1.604q2.271 0 3.875 1.604T13.312 8q0 .875-.218 1.594-.219.718-.594 1.302l5.146 5.166Zm-8.063-6.771q1.271 0 2.146-.875T10.854 8q0-1.271-.875-2.146t-2.146-.875q-1.271 0-2.145.875-.876.875-.876 2.146t.876 2.146q.874.875 2.145.875Z"/></svg>
                         <h3>SELECT CUSTOMER</h3>
@@ -49,13 +53,13 @@ require_once '../service/pos-add-customer.php';
                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
                         <h3>ADD NEW CUSTOMER</h3>
                     </button>
-                </div>
-                <div class="newUser-button">
+                </div> -->
+                <!-- <div class="newUser-button">
                     <a href="../pos/point-of-sales-add-customer.php" id="return-containerbutton" class="add-account" onclick="addnewuser();">
                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M7.479 15.042 2.417 10l5.062-5.042 1.729 1.73-2.083 2.083h7v-2.25h2.458v4.708H7.125l2.083 2.083Z"/></svg>
                         <h3>RETURN CONTAINER</h3>
                     </a>
-                </div>
+                </div> -->
                 <div class="payment-options">
                     <?php
                         $dropdown_query1 = "SELECT * FROM payment_option";
@@ -68,105 +72,370 @@ require_once '../service/pos-add-customer.php';
                         <?php endwhile;?>
                     </select>
                 </div>
-            </div>
+            <!-- </div> -->
 
 
             <!-- ---------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
             <div class="form-container">
                 <div class="form1">
-                    <p class="selectCustomer-text" id="selectCustomer-text">SELECT CUSTOMER</p>
+                    <!-- <p class="selectCustomer-text" id="selectCustomer-text">SELECT CUSTOMER</p>
                     <div class="delivery-options">
                         <select class="select">
                             <option value="Walk In">Walk In</option>
                             <option value="Delivery">Delivery</option>
                             <option value="Pick Up">Pick Up</option>
                         </select>
-                    </div>
-                    <hr>
+                    </div> -->
                     <div class="form1-ordertype-buttons">
                         <button type="button" class="refillOrder-button" onclick="refillFunction();">Refill</button>
                         <button type="button" class="newOrder-button" onclick="orderFunction();">New</button>
                         <button type="button" class="otherOrder-button" onclick="otherFunction();">Others</button>
                     </div>
+                    <hr>
 
-                    <br>
+                    <!-- <br> -->
              
-                    <div class="form1-details">
-                        <div class="form1-table">
-                  
+                    <div class="form1-table-water">
+                        <label class="selectlabel"> Select Water</label>
+                        <div class="select-dropdown">
+                            <select class='selectTable-water1' id="selectTable-water1" name="select-water" onchange="waterChange(this)">
+                                <option value='Alkaline'>Alkaline</option>
+                                <option value='Mineral'>Mineral</option>
+                            </select>
+                         </div>
+                        <div class="form1-table1" id="form-water1">
+                            <?php
+                                        $dropdown_query1 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2' OR  category_by_id LIKE '%10'";
+                                        $result1 = mysqli_query($con, $dropdown_query1);
+                                ?>
                             <table class="table1" id="myTable1">
-                                <thead>
+                                <thead class="form-table">
                                 <tr>
                                     <th></th>
-                                    <th>IMAGE</th>
-                                    <th>WATER</th>
                                     <th>ITEM</th>
-                                    <th>Qty</th>
-                                    <th>Price</th>
-                                    <th>TOTAL</th>
+                                    <th>TYPE</th>
+                                    <th>WATER</th>
+                                    <th>PRICE</th>
+                                    <!-- <th>MINERAL PRICE</th> -->
+                                    <th></th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
-                                <tfoot>
-                                <tr id="selectorder1" class="selectorder1" style="width:10rem">
-                                    <td colspan="7`5"><input type="button" class="select-order1" id="selectOrder1" value="ADD ORDER"></td>
-                                </tr>
-                                </tfoot>
+                                <form action="../service/add-transaction-order.php" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                    <?php
+                                        $query = "SELECT
+                                                inventory_item.id, 
+                                                inventory_item.image, 
+                                                inventory_item.item_name,
+                                                pos_item.pos_type,
+                                                category_type.name,
+                                                inventory_item.alkaline_price,
+                                                status_archive.status
+                                                FROM inventory_item 
+                                                INNER JOIN category_type  
+                                                ON inventory_item.category_by_id = category_type.id  
+                                                INNER JOIN pos_item  
+                                                ON inventory_item.pos_item_id = pos_item.id  
+                                                INNER JOIN status_archive 
+                                                ON inventory_item.status_archive_id = status_archive.id
+                                                WHERE category_by_id LIKE '%10' 
+                                                AND inventory_item.status_archive_id = '1'
+                                                AND inventory_item.pos_item_id = '1'";
+                                        $inventory_order = mysqli_query($con, $query);
+                                        while ($item_sales = mysqli_fetch_assoc($inventory_order)) {?>
+                                        <tbody>
+                                        <tr>
+                                            <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                                            <td > <?php echo $item_sales['item_name']; ?></td>
+                                            <td > <?php echo $item_sales['name']; ?></td>
+                                            <td > Alkaline</td>
+                                            <td > <?php echo '&#8369'.' '.$item_sales['alkaline_price']; ?></td>
+                                            <td>
+                                             
+                                                <a href="../pos/point-of-sales-edit-alkaline-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                   ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                </a>
+                                            <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
+                                               
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    <?php } ?>
+                                </form>
                             </table>
                         </div>
-                        <div class="form2-table">
-                  
+                        <div class="form1-table2" id="form-water2">
+                            <?php
+                                        $dropdown_query1 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2' OR  category_by_id LIKE '%10'";
+                                        $result1 = mysqli_query($con, $dropdown_query1);
+                                ?>
+                            <table class="table1" id="myTable2">
+                                <thead class="form-table">
+                                <tr>
+                                    <th></th>
+                                    <th>ITEM</th>
+                                    <th>TYPE</th>
+                                    <th>WATER</th>
+                                    <th>PRICE</th>
+                                    <!-- <th>MINERAL PRICE</th> -->
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <form action="../service/add-transaction-order.php" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                    <?php
+                                        $query = "SELECT
+                                                inventory_item.id, 
+                                                inventory_item.image, 
+                                                inventory_item.item_name,
+                                                pos_item.pos_type,
+                                                category_type.name,
+                                                inventory_item.mineral_price,
+                                                status_archive.status
+                                                FROM inventory_item 
+                                                INNER JOIN category_type  
+                                                ON inventory_item.category_by_id = category_type.id  
+                                                INNER JOIN pos_item  
+                                                ON inventory_item.pos_item_id = pos_item.id  
+                                                INNER JOIN status_archive 
+                                                ON inventory_item.status_archive_id = status_archive.id
+                                                WHERE category_by_id LIKE '%10' 
+                                                AND inventory_item.status_archive_id = '1'
+                                                AND inventory_item.pos_item_id = '1'";
+                                        $inventory_order = mysqli_query($con, $query);
+                                        while ($item_sales = mysqli_fetch_assoc($inventory_order)) {?>
+                                        <tbody>
+                                        <tr>
+                                            <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                                            <td > <?php echo $item_sales['item_name']; ?></td>
+                                            <td > <?php echo $item_sales['name']; ?></td>
+                                            <td > Mineral</td>
+                                            <td > <?php echo '&#8369'.' '.$item_sales['mineral_price']; ?></td>
+                                            <td>
+                                             
+                                                <a href="../pos/point-of-sales-edit-mineral-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                   ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                </a>
+                                            <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
+                                               
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    <?php } ?>
+                                </form>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form2-table-water">
+                        <label class="selectlabel"> Select Water</label>
+                        <div class="select-dropdown">
+                            <select class='selectTable-water1' id="selectTable-water1" name="select-water" onchange="waterChange(this)">
+                                <option value='Alkaline'>Alkaline</option>
+                                <option value='Mineral'>Mineral</option>
+                            </select>
+                         </div>
+                        <div class="form2-table1" id="form-water3">
+                            <?php
+                                $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
+                                $result7 = mysqli_query($con, $dropdown_query7);
+                            ?>
+                            <!-- <div class="selectItem">
+                                <select id='selectTable-water2'class='selectTable-water2'>
+                                    <option value='Alkaline'>Alkaline</option>
+                                    <option value='Mineral'>Mineral</option>
+                                </select>
+                            </div> -->
                             <table class="table2" id="myTable2">
-                                <thead>
+                                <thead class="form-table">
                                 <tr>
                                     <th></th>
-                                    <th>IMAGE</th>
+                                    <th>ITEM</th>
+                                    <th>TYPE</th>
                                     <th>WATER</th>
-                                    <th>ITEM</th>
-                                    <th>Qty</th>
-                                    <th>Price</th>
-                                    <th>TOTAL</th>
+                                    <th>PRICE</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
-                                <tfoot>
-                                <tr id="selectorder2" class="selectorder2" style="width:10rem">
-                                    <td colspan="7"><input type="button" class="select-order2" id="selectOrder2" value="ADD ORDER"></td>
-                                </tr>
-                                </tfoot>
+                                    <form action="../service/add-transaction-order.php" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                        <?php
+                                            $query = "SELECT
+                                                    inventory_item.id, 
+                                                    inventory_item.image, 
+                                                    inventory_item.item_name,
+                                                    pos_item.pos_type,
+                                                    category_type.name,
+                                                    inventory_item.selling_price_item,
+                                                    inventory_item.alkaline_price,
+                                                    status_archive.status
+                                                    FROM inventory_item 
+                                                    INNER JOIN category_type  
+                                                    ON inventory_item.category_by_id = category_type.id  
+                                                    INNER JOIN pos_item  
+                                                    ON inventory_item.pos_item_id = pos_item.id  
+                                                    INNER JOIN status_archive 
+                                                    ON inventory_item.status_archive_id = status_archive.id
+                                                    WHERE category_by_id LIKE '%1' 
+                                                    OR category_by_id LIKE '%2' 
+                                                    AND inventory_item.status_archive_id = '1'
+                                                    AND inventory_item.pos_item_id = '1'";
+                                            $inventory_order = mysqli_query($con, $query);
+                                            while ($item_sales = mysqli_fetch_assoc($inventory_order)) {?>
+                                            <tbody>
+                                            <tr>
+                                                <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                                                <td > <?php echo $item_sales['item_name']; ?></td>
+                                                <td > <?php echo $item_sales['name']; ?></td>
+                                                <td > Alkaline</td>
+                                                <td class="alkaline-price"> <?php echo '&#8369'.' '.$item_sales['alkaline_price']; ?></td>
+                                                <td>
+                                                
+                                                    <a href="../pos/point-of-sales-edit-mineral-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                    </a>
+                                                <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
+                                                
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        <?php } ?>
+                                    </form>
                             </table>
                         </div>
-                        <div class="form3-table">
-                  
-                            <table class="table3" id="myTable3">
-                                <thead>
+                        <div class="form2-table2" id="form-water4">
+                            <?php
+                                $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
+                                $result7 = mysqli_query($con, $dropdown_query7);
+                            ?>
+                            <!-- <div class="selectItem">
+                                <select id='selectTable-water2'class='selectTable-water2'>
+                                    <option value='Alkaline'>Alkaline</option>
+                                    <option value='Mineral'>Mineral</option>
+                                </select>
+                            </div> -->
+                            <table class="table2" id="myTable2">
+                                <thead class="form-table">
                                 <tr>
                                     <th></th>
-                                    <th>IMAGE</th>
                                     <th>ITEM</th>
-                                    <th>Qty</th>
-                                    <th>Price</th>
-                                    <th>TOTAL</th>
+                                    <th>TYPE</th>
+                                    <th>WATER</th>
+                                    <th>PRICE</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
-                                <tfoot>
-                                <tr id="selectorder3" class="selectorder3" style="width:10rem">
-                                    <td colspan="6"><input type="button" class="select-order3" id="selectOrder3" value="ADD ORDER"></td>
-                                </tr>
-                                </tfoot>
+                                    <form action="../service/add-transaction-order.php" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                        <?php
+                                            $query = "SELECT
+                                                    inventory_item.id, 
+                                                    inventory_item.image, 
+                                                    inventory_item.item_name,
+                                                    pos_item.pos_type,
+                                                    category_type.name,
+                                                    inventory_item.selling_price_item,
+                                                    inventory_item.mineral_price,
+                                                    status_archive.status
+                                                    FROM inventory_item 
+                                                    INNER JOIN category_type  
+                                                    ON inventory_item.category_by_id = category_type.id  
+                                                    INNER JOIN pos_item  
+                                                    ON inventory_item.pos_item_id = pos_item.id  
+                                                    INNER JOIN status_archive 
+                                                    ON inventory_item.status_archive_id = status_archive.id
+                                                    WHERE category_by_id LIKE '%1' 
+                                                    OR category_by_id LIKE '%2' 
+                                                    AND inventory_item.status_archive_id = '1'
+                                                    AND inventory_item.pos_item_id = '1'";
+                                            $inventory_order = mysqli_query($con, $query);
+                                            while ($item_sales = mysqli_fetch_assoc($inventory_order)) {?>
+                                            <tbody>
+                                            <tr>
+                                                <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                                                <td > <?php echo $item_sales['item_name']; ?></td>
+                                                <td > <?php echo $item_sales['name']; ?></td>
+                                                <td > Mineral</td>
+                                                <td class="mineral-price"> <?php echo '&#8369'.' '.$item_sales['mineral_price']; ?></td>
+                                                <td>
+                                                
+                                                    <a href="../pos/point-of-sales-edit-mineral-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                    </a>
+                                                <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
+                                                
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        <?php } ?>
+                                    </form>
                             </table>
                         </div>
                     </div>
-                    <div class="form1-buttons">
-                        <!-- <button class="addDeliveryFee-button">Add Delivery Fee</button> -->
+
+                            <div class="form3-table">
+                                <?php
+                                    $dropdown_query8 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%5' OR category_by_id LIKE '%7'";
+                                    $result8 = mysqli_query($con, $dropdown_query8);
+                                ?>
+                                <table class="table3" id="myTable3">
+                                    <thead class="form-table">
+                                        <th></th>
+                                        <th>ITEM</th>
+                                        <th>TYPE</th>
+                                        <th>Price</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <form action="../service/add-transaction-order.php" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                        <?php
+                                            $query = "SELECT
+                                                    inventory_item.id, 
+                                                    inventory_item.image, 
+                                                    inventory_item.item_name,
+                                                    pos_item.pos_type,
+                                                    category_type.name,
+                                                    inventory_item.selling_price_item,
+                                                    status_archive.status
+                                                    FROM inventory_item 
+                                                    INNER JOIN category_type  
+                                                    ON inventory_item.category_by_id = category_type.id  
+                                                    INNER JOIN pos_item  
+                                                    ON inventory_item.pos_item_id = pos_item.id  
+                                                    INNER JOIN status_archive 
+                                                    ON inventory_item.status_archive_id = status_archive.id
+                                                    WHERE category_by_id LIKE '%5' 
+                                                    OR category_by_id LIKE '%7' 
+                                                    AND inventory_item.status_archive_id = '1'
+                                                    AND inventory_item.pos_item_id = '1'";
+                                            $inventory_order = mysqli_query($con, $query);
+                                            while ($item_sales = mysqli_fetch_assoc($inventory_order)) {?>
+                                            <tbody>
+                                            <tr>
+                                                <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                                                <td > <?php echo $item_sales['item_name']; ?></td>
+                                                <td > <?php echo $item_sales['name']; ?></td>
+                                                <td > <?php echo '&#8369'.' '.$item_sales['selling_price_item']; ?></td>
+                                                <td>
+                                                
+                                                    <a href="../pos/point-of-sales-edit.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                    </a>
+                                                <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
+                                                
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        <?php } ?>
+                                    </form>
+
+                                </table>
+                            </div>
+                    
+                    <!-- </div> -->
+                     <!-- <div class="form1-buttons">
+                        <button class="addDeliveryFee-button">Add Delivery Fee</button>
                         <button class="addOrder-button" id="addOrder-form">Place Order</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
+            <!-- ------------------------------------------------------------------------------------------------------------------- -->
+           
             <!-- ---------------------------------------------------- Order Summary ------------------------------------------------- -->
 
             <div class="form-container-2">
@@ -194,19 +463,70 @@ require_once '../service/pos-add-customer.php';
                             <table class="tableCheckout" id="sumTable">
                                 <thead>
                                 <tr>
+                                    <th></th>
                                     <th>ITEM</th>
                                     <th>Water</th>
                                     <th>Type</th>
                                     <th>QTY</th>
                                     <th>Price</th>
+                                    <th>TOTAL</th>
                                 </tr>
                                 </thead>
-                            </table>
+                            <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                    <?php
+                                        // if (isset($_GET['update'])) {                   
+                                           $user_id =  $_SESSION['user_user_id'];
+                                            $transaction_process = "SELECT
+                                                    transaction_process.id, 
+                                                    transaction_process.item_name, 
+                                                    transaction_process.water_type,
+                                                    transaction_process.category_type,
+                                                    transaction_process.quantity,
+                                                    transaction_process.price,
+                                                    transaction_process.total_price
+                                                    FROM transaction_process
+                                                    WHERE user_id = '$user_id'";
+                                            $transaction_order = mysqli_query($con, $transaction_process);
+                                            while ($transactions = mysqli_fetch_assoc($transaction_order)) {?>
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="../service/delete-transaction-order.php?delete-order=<?php echo $transactions['id']; ?>" class="delete-rowsButton" class="action-btn" name="action">
+                                                        X<!-- <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.271 17.708q-1.042 0-1.75-.708-.709-.708-.709-1.75V5.729H2.333V3.271h5.188V1.792h4.917v1.479h5.229v2.458h-1.479v9.521q0 1.042-.709 1.75-.708.708-1.75.708Zm1.354-3.729h1.979v-7H7.625Zm2.771 0h1.979v-7h-1.979Z"/></svg> -->
+                                                    </a>
+                                                </td>
+                                                <td> <?php echo $transactions['item_name']; ?></td>
+                                                <td> <?php echo $transactions['water_type']; ?></td>
+                                                <td> <?php echo $transactions['category_type']; ?></td>
+                                                <td> <?php echo $transactions['quantity']; ?></td>
+                                                <td> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
+                                                <td> <?php echo '&#8369'.' '.$transactions['total_price']; ?></td>
+
+                                               
+                                            </tr>
+                                            </tbody>
+                                        <?php }?>
+
+                                            <tfoot>
+                                            <?php $transaction_order1 = mysqli_query($con, "SELECT
+                                                    sum(transaction_process.total_price)
+                                                    FROM transaction_process"); 
+                                                    while ($transactions1 = mysqli_fetch_array($transaction_order1)) {?>
+
+                                                <tr>
+                                                    <th colspan="5" class="totalamount"><p class="orderTotal-text">TOTAL AMOUNT</p></th>
+                                                    <th id="total_order1"> <?php echo '&#8369'?></th>
+                                                    <th id="total_order"> <?php echo $transactions1['sum(transaction_process.total_price)'];  ?></th>
+                                                </tr>
+                                            </tfoot>
+                                        <?php }?>
+                                </table>
+                            </form>
                         </div>
                         <hr>
-                        <div class="totalOrder-amount">
+                        <!-- <div class="totalOrder-amount">
                             <div class="orderTotal1">
-                                <p class="orderTotal-text">Order Total</p>
+                                <p class="orderTotal-text">Total Amount</p>
                             </div>
                             <div class="orderTotal2">
                                 <span class="php">&#8369;</span>
@@ -214,7 +534,7 @@ require_once '../service/pos-add-customer.php';
                                     <input type="text" class="total-order" value="0.00" readonly/>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <hr>
                         <div class="receipt-buttons">
                             <a href="point-of-sales.php" id="cancel">CANCEL</a>
@@ -223,64 +543,65 @@ require_once '../service/pos-add-customer.php';
                     </body>
                 </div>
             </div>
-        </div>
         <!-- ---------------------------------------------------- PREVIOUS TRANSACTIONS ------------------------------------------------- -->
-        <div class="form3">
-            <div class="previous-transaction">
-                <br>
-                <header class="previous-transaction-header">Previous Transaction</header>
-                <hr>
-                <table class="previous-transaction-table">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Customer Name</th>
-                        <th>Item Name</th>
-                        <th>Water</th>
-                        <th>Type</th>
-                        <th>Price</th>
-                        <th>QTY</th>
-                        <th>Total</th>
-                        <th>Change</th>
-                        <th>Amount Tentered</th>
-                        <th>Payment</th>
-                        <th>Service</th>
-                        <th>Cashier Name</th>
-                        <th>Date/Time</th>
-                    </tr>
-                    </thead>
-                    <?php
-                    $dropdown_query2 = "SELECT * FROM transaction";
-                    $result4 = mysqli_query($con, $dropdown_query2);
-                    while ($rows = mysqli_fetch_assoc($result4))
-                    {
-                        ?>
-                        <tbody>
+            <div class="form3">
+                <div class="previous-transaction">
+                    <br>
+                    <header class="previous-transaction-header">Previous Transaction</header>
+                    <hr>
+                    <table class="previous-transaction-table">
+                        <thead>
                         <tr>
-                            <td> <?php echo $rows['transaction_id']; ?></td>
-                            <td> <?php echo $rows['customer_name']; ?></td>
-                            <td> <?php echo $rows['item_name']; ?></td>
-                            <td> <?php echo $rows['water_type']; ?></td>
-                            <td> <?php echo $rows['water_service']; ?></td>
-                            <td> <?php echo '<span>&#8369;</span>'.' '.$rows['price']; ?></td>
-                            <td> <?php echo $rows['quantity']; ?></td>
-                            <td> <?php echo '<span>&#8369;</span>'.' '.$rows['total_amount']; ?></td>
-                            <td> <?php echo '<span>&#8369;</span>'.' '.$rows['customer_change']; ?></td>
-                            <td> <?php echo '<span>&#8369;</span>'.' '.$rows['amount_tentered']; ?></td>
-                            <td> <?php echo $rows['payment_option']; ?></td>
-                            <td> <?php echo $rows['service_type']; ?></td>
-                            <td> <?php echo $_SESSION['user_user_type']; ?></td>
-                            <td> <?php echo $rows['date_time']; ?></td>
-                        <tr id="noRecordTR" style="display:none">
-                            <td colspan="10">No Record Found</td>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Details</th>
+                            <!-- <th>Water</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>QTY</th>
+                            <th>Total</th> -->
+                            <th>Change</th>
+                            <th>Amount Tendered</th>
+                            <th>Payment</th>
+                            <th>Service</th>
+                            <th>Cashier Name</th>
+                            <th>Date/Time</th>
                         </tr>
-                        </tbody>
+                        </thead>
                         <?php
-                    }
-                    ?>
-                </table>
+                        $dropdown_query2 = "SELECT * FROM transaction";
+                        $result4 = mysqli_query($con, $dropdown_query2);
+                        while ($rows = mysqli_fetch_assoc($result4))
+                        {
+                            ?>
+                            <tbody>
+                            <tr>
+                                <td> <?php echo $rows['transaction_id']; ?></td>
+                                <td> <?php echo $rows['customer_name']; ?></td>
+                                <td> <?php echo $rows['item_name'] .' '. $rows['water_type'] .' '. $rows['water_service'] .' '. '<span>&#8369;</span>'.' '.$rows['price'] .' '.$rows['quantity'].' '.'<span>&#8369;</span>'.' '.$rows['total_amount']; ?></td>
+                                <!-- <td> <?php echo $rows['water_type']; ?></td>
+                                <td> <?php echo $rows['water_service']; ?></td>
+                                <td> <?php echo '<span>&#8369;</span>'.' '.$rows['price']; ?></td>
+                                <td> <?php echo $rows['quantity']; ?></td>
+                                <td> <?php echo '<span>&#8369;</span>'.' '.$rows['total_amount']; ?></td> -->
+                                <td> <?php echo '<span>&#8369;</span>'.' '.$rows['customer_change']; ?></td>
+                                <td> <?php echo '<span>&#8369;</span>'.' '.$rows['amount_tentered']; ?></td>
+                                <td> <?php echo $rows['payment_option']; ?></td>
+                                <td> <?php echo $rows['service_type']; ?></td>
+                                <td> <?php echo $_SESSION['user_user_type']; ?></td>
+                                <td> <?php echo $rows['date_time']; ?></td>
+                            <tr id="noRecordTR" style="display:none">
+                                <td colspan="10">No Record Found</td>
+                            </tr>
+                            </tbody>
+                            <?php
+                        }
+                        ?>
+                    </table>
+                </div>
             </div>
         </div>
+
     </main>
     
             <div class="top-menu">
@@ -396,7 +717,7 @@ require_once '../service/pos-add-customer.php';
                     </a>
                 </div>
                 <h1 class="selectnew-title">SELECT CUSTOMER</h1>
-                <!-- <button class="guest-button" id="guest-button" value="Guest" onclick='guestCustomer()'>Guest</button> -->
+                <button class="guest-button" id="guest-button" value="Guest" onclick='guestCustomer()'>Guest</button>
                 <input type="button" onclick='guestCustomer()'class="guest-button" id="guest-button" value="Guest" />
                 <div class="search">
                     <div class="search-bar">
@@ -476,35 +797,60 @@ require_once '../service/pos-add-customer.php';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <!-- <script src="../javascript/point-of-sales.js"></script> -->
-<script type="text/javascript" src="../javascript/jquery-3.6.1.min.js"></script>
 <script>
+
+    function waterChange(answer){
+        if(answer.value == 'Alkaline'){
+            document.getElementById("form-water1").style.display = 'block';
+            document.getElementById("form-water2").style.display = 'none';
+            document.getElementById("form-water3").style.display = 'block';
+            document.getElementById("form-water4").style.display = 'none';
+
+        }else if(answer.value == 'Mineral'){
+            document.getElementById("form-water1").style.display = 'none';
+            document.getElementById("form-water2").style.display = 'block';
+            document.getElementById("form-water3").style.display = 'none';
+            document.getElementById("form-water4").style.display = 'block';
+        }
+    }
+  
     function guestCustomer(){
         var guestTxt = document.getElementById("guest-button");
         var selectLbl = document.getElementById("selectCustomer-text");
-        const container2 = document.querySelector(".bg-selectcustomerform");
+        container2 = document.querySelector(".bg-selectcustomerform");
+
         selectLbl.innerHTML = guestTxt.value;
         container2.style.display = 'none';
-        }
-    function selectCus(){
-        var selectLbl = document.getElementById("selectCustomer-text");
-        var selectCus = document.getElementById("selectCus");
-        selectLbl.innerHTML = <?php echo $rows['customer_name']; ?>.value;
-        const container2 = document.querySelector(".bg-selectcustomerform");
-        container2.style.display = 'none';
-
     }
+    
+    // function selectCus(){
+        var table = document.getElementById('customerTable');
+        container2 = document.querySelector(".bg-selectcustomerform");
+    
+            for(var i = 1; i < table.rows.length; i++)
+                {
+                    table.rows[i].onclick = function()
+                    {
+                        console.log('hello');
+
+                        document.getElementById("selectCustomer-text").innerHTML = this.cells[2].innerHTML;
+                         container2.style.display = 'none';
+                         //rIndex = this.rowIndex;
+                    };
+                }
+            // }
     // -----------------------------SEARCH BAR
     const form3Table = document.querySelector(".form3-table");
-    const form2Table = document.querySelector(".form2-table");
-    const form1Table = document.querySelector(".form1-table");
+    const form2Table = document.querySelector(".form2-table-water");
+    const form1Table = document.querySelector(".form1-table-water");
     function refillFunction(){
-        form1Table.style.display = 'inline-block';
+        form1Table.style.display = 'block';
         form2Table.style.display = 'none';
         form3Table.style.display = 'none';
     }
     function orderFunction(){
         form1Table.style.display = 'none';
-        form2Table.style.display = 'inline-block';
+        form2Table.style.display = 'block';
         form3Table.style.display = 'none';
     }
     function otherFunction(){
@@ -526,70 +872,7 @@ require_once '../service/pos-add-customer.php';
     function addcustomer(){
         addForm.style.display = 'flex';
     }
-// --------------------------------------------------------ADD ORDER TABLE
-                    <?php
-                        $dropdown_query1 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2' OR  category_by_id LIKE '%10'";
-                        $result1 = mysqli_query($con, $dropdown_query1);
-                        $image = mysqli_query($con, "SELECT inventory_item.image FROM inventory_item");
-                        $inventory_image = mysqli_fetch_assoc($image); ?>
-    $(document).ready(function(){
-    $("#selectOrder1").click(function(){
-        var addcontrols="<tr>"
-        addcontrols+="<td><button type='button' class='removeBtn'>X</button></td>"
-        addcontrols+="<td><img style='width:50px;'src='../uploaded_image/<?=$inventory_image['image'];?>' alt=''></td>"
-        addcontrols+="<td><select class='selectTable-water1'><option value='Alkaline'>Alkaline</option><option value='Mineral'>Mineral</option></select></td>"
-        addcontrols+="<td><select id='selectTable-item' class='selectTable-item'><?php while($row1 = mysqli_fetch_array($result1)):;?><option><?php echo $row1[1];?></option></select></td>"
-        addcontrols+="<td><input type='number'id='textBox-table' value='<?php echo $row1[6];?>' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'><?php endwhile;?></td>"
-        addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
-        addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
-        addcontrols+="</tr>";
-        $(".table1 tbody").append(addcontrols);
-    });
-});
-$('.table1 tbody').on('click','.removeBtn',function(){
-    $(this).closest('tr').remove();
-});
-                    <?php
-                        $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
-                        $result7 = mysqli_query($con, $dropdown_query7);
-                    ?>
-    $(document).ready(function(){
-    $("#selectOrder2").click(function(){
-        var addcontrols="<tr>"
-        addcontrols+="<td><button type='button' class='removeBtn'>X</button></td>"
-        addcontrols+="<td><img style='width:50px;'src='../uploaded_image/<?=$inventory_image['image'];?>' alt=''></td>"
-        addcontrols+="<td><select class='selectTable-water1'><option value='Alkaline'>Alkaline</option><option value='Mineral'>Mineral</option></select></td>"
-        addcontrols+="<td><select class='selectTable-item'><?php while($row7 = mysqli_fetch_array($result7)):;?><option><?php echo $row7[1];?></option><?php endwhile;?></select></td>"
-        addcontrols+="<td><input type='number' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
-        addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
-        addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
-        addcontrols+="</tr>";
-        $(".table2 tbody").append(addcontrols);
-    });
-});
-$('.table2 tbody').on('click','.removeBtn',function(){
-    $(this).closest('tr').remove();
-});
-<?php
-                        $dropdown_query8 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%5' OR category_by_id LIKE '%7'";
-                        $result8 = mysqli_query($con, $dropdown_query8);
-                    ?>
-    $(document).ready(function(){
-    $("#selectOrder3").click(function(){
-        var addcontrols="<tr>"
-        addcontrols+="<td><button type='button' class='removeBtn'>X</button></td>"
-        addcontrols+="<td><img style='width:50px;'src='../uploaded_image/<?=$inventory_image['image'];?>' alt=''></td>"
-        addcontrols+="<td><select class='selectTable-item'><?php while($row8 = mysqli_fetch_array($result8)):;?><option><?php echo $row8[1];?></option><?php endwhile;?></select></td>"
-        addcontrols+="<td><input type='number' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
-        addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
-        addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
-        addcontrols+="</tr>";
-        $(".table3 tbody").append(addcontrols);
-    });
-});
-$('.table3 tbody').on('click','.removeBtn',function(){
-    $(this).closest('tr').remove();
-});
+ 
 // ----------------------------------------------------------DROP DOWN PROFILE
     function menuToggle(){
     const toggleMenu = document.querySelector('.drop-menu');
@@ -718,11 +1001,13 @@ function tableSearch(){
     --color-table-border:rgb(226, 226, 229);
     --color-secondary-background:rgb(244, 244, 244);
     --color-lightest-gray:rgb(250,250,250);
+    --color-light-blue: #E0FFFF;
 }
 .dark-theme{
     --color-white: rgb(48, 48, 48);
     --color-tertiary: hsl(0, 0%, 25%);
     --color-black: white;
+    --color-light-blue: #4682B4;
     --color-shadow-shadow: rgb(32, 32, 32);
     --color-aside-mobile-focus: rgb(244, 255, 246);
     --color-table-shadow: rgb(131, 131, 131);
@@ -749,6 +1034,62 @@ BODY{
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
+}
+.select-dropdown{
+    align-items: left;
+    margin-bottom: 1rem;
+    text-align: left;
+    position: relative;
+    display: inline-block;
+    margin-left:2rem;
+}
+.iprice{
+    border: none;
+    width: 5rem;
+    text-align: center;
+    align-items: center;
+    font-family: 'Switzer', sans-serif;
+    color: var(--color-td);
+    font-size: .67rem;
+}
+.iquantity{
+    border: none;
+    align-items: center;
+    width: 2rem;
+    text-align: center;
+    margin-left: 1rem;
+    font-family: 'Switzer', sans-serif;
+    color: var(--color-td);
+    font-size: .67rem;
+}
+.iprice:focus{
+    outline: none;
+}
+.itotal{
+    border: none;
+    align-items: center;
+    width: 2rem;
+    text-align: center;
+    margin-left: 1rem;
+    font-family: 'Switzer', sans-serif;
+    color: var(--color-td);
+    font-size: .67rem;
+}
+.itotal:focus{
+    outline: none;
+}
+
+.iquantity:focus{
+    outline: none;
+
+}
+.selectItem{
+    margin-bottom: 1rem;
+    align-items: left;
+    text-align: left;
+}
+.form-table{
+    /* background-color: var(--color-solid-gray); */
 }
 /* ----------------------------------------------SELECT CUSTOMER------------------------------------- */
 
@@ -1459,7 +1800,7 @@ h3{
     margin-top: 1rem;
     font-size: min(max(1.9rem, 1.1vw), 2rem);
     color: var(--color-main);
-    font-family: 'COCOGOOSE', sans-serif;
+    font-family: 'outfit', sans-serif;
     letter-spacing: .03rem;
     border-bottom: 2px solid var(--color-main);
     width: 65%;
@@ -1554,19 +1895,22 @@ table tbody td{
 th{
     height: 1.8rem;
     color: var(--color-black);
-    margin:1rem;
+    /* margin:1rem; */
     font-size: .8rem;
     letter-spacing: 0.02rem;
     border-bottom: 2px solid var(--color-solid-gray);
 }
 tr:hover td{
     color: var(--color-main);
-    cursor: pointer;
-    background-color: var(--color-table-hover);
+    /* cursor: pointer; */
+    /* background-color: var(--color-table-hover); */
 }
 .php{
     display: inline-block;
     margin-right: 5px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-black);
 }
 /* ----------------------------------------ASIDE---------------------------------------- */
 .container{
@@ -1996,16 +2340,15 @@ hr{
 /* ORDER FORM -------------------------------------------------------------------------------*/
 .form-container{
     display: inline-block;
-    position: relative;
+    /* position: relative; */
     width: 65%;
-    /* align-items: left; */
+    /* height:75rem; */
+    margin-top: 1rem;    /* align-items: left; */
 }
 .form1{
     background-color: var(--color-white);
-    margin-top: 2rem;
     border: none;
-    display: inline-block;
-    height: 71%;
+    height: 65%;
     width: 100%;
     border-radius: 10px;
     position: relative;
@@ -2054,17 +2397,18 @@ hr{
 }
 .form1-ordertype-buttons{
     margin-top: 1rem;
+    padding-bottom: 1.5rem;
     width: 100%;
     /* margin-left: 2rem; */
-    height: 2rem;
-    position: relative;
+    /* height: 10rem; */
+    /* position: relative; */
     text-align: center;
 }
 .refillOrder-button{
     background-color: var(--color-background);
     color: var(--color-main);
     display: inline-block;
-    height: 2rem;
+    height: 3rem;
     width: 18rem;
     font-family: 'calibri', sans-serif;
     text-transform: uppercase;
@@ -2098,7 +2442,7 @@ hr{
     color: var(--color-main);
     display: inline-block;
     padding: 0rem;
-    height: 2rem;
+    height: 3rem;
     width: 18rem;
     font-family: 'calibri', sans-serif;
     text-transform: uppercase;
@@ -2127,7 +2471,7 @@ hr{
     color: var(--color-white);
     display: inline-block;
     padding: 0rem;
-    height: 2rem;
+    height: 3rem;
     width: 10rem;
     font-family: 'calibri', sans-serif;
     text-transform: uppercase;
@@ -2150,13 +2494,6 @@ hr{
     color: var(--color-white);
     transition: 0.3s;
     background-color: var(--color-blue-button);
-}
-.form1-details{
-    width: 100%;
-    margin-top: 0.5rem;
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-    display: inline-block;
 }
 .form1-tableoption-buttons{
     background-color: none;
@@ -2257,32 +2594,56 @@ hr{
     background-color: var(--color-blue-button);
     color: var(--color-white);
 } */
-.form1-table{
+.form1-table-water{
+    display: block;
+
+}
+.form1-table1{
     background-color: var(--color-white);
     padding: 1rem;
     width:94%;
     overflow:auto;
-    margin-bottom: -1rem;
-    display: inline-block;
-    height: 15rem;
-    align-items: right;
-    text-align: right;
+    /* margin-top: -rem; */
+    height: 25rem;
     border: 1px solid var(--color-tertiary);
-    position: relative;
+    margin-left: 1rem;
     border-radius: 10px;
 }
-.form2-table{
+.form1-table2{
     background-color: var(--color-white);
     padding: 1rem;
     width:94%;
     overflow:auto;
-    margin-bottom: -1rem;
     display: none;
-    height: 15rem;
-    align-items: right;
-    text-align: right;
+    /* margin-top: -rem; */
+    height: 25rem;
     border: 1px solid var(--color-tertiary);
-    position: relative;
+    margin-left: 1rem;
+    border-radius: 10px;
+}
+.form2-table-water{
+    display: none;
+
+}
+.form2-table1{
+    background-color: var(--color-white);
+    padding: 1rem;
+    width:94%;
+    overflow:auto;
+    height: 25rem;
+    border: 1px solid var(--color-tertiary);
+    margin-left: 1rem;
+    border-radius: 10px;
+}
+.form2-table2{
+    background-color: var(--color-white);
+    padding: 1rem;
+    width:94%;
+    overflow:auto;
+    display: none;
+    height: 25rem;
+    border: 1px solid var(--color-tertiary);
+    margin-left: 1rem;
     border-radius: 10px;
 }
 .form3-table{
@@ -2290,13 +2651,10 @@ hr{
     padding: 1rem;
     width:94%;
     overflow:auto;
-    margin-bottom: -1rem;
     display: none;
-    height: 15rem;
-    align-items: right;
-    text-align: right;
+    height: 28rem;
     border: 1px solid var(--color-tertiary);
-    position: relative;
+    margin-left: 1rem;
     border-radius: 10px;
 }
 .textBox-table{
@@ -2351,21 +2709,128 @@ hr{
     background: var(--color-main);
     color: var(--color-white);
 }
-.select-order3{
-    width: 36rem;
+.selectlabel{
+    display: inline-block;
+    margin-left: 3rem;
+    color: var(--color-solid-gray);
+    font-weight: 600;
+    font-family: 'century-gothic', sans-serif;
+}
+.selectTable-water1{
+    width: 12rem;
     font-weight: 900;
+    align-items: left;
+    display: inline-block;
     height: 2rem;
-    background: var(--color-secondary-main);
-    color: var(--color-tertiary);
+    font-size: 15px;
+    background: var(--color-light-blue);
+    color: var(--color-black);
     border: none;
     font-family: 'outfit', sans-serif;
     box-shadow: 0px 0px 2px 1px var(--color-tertiary);
-    border-radius: 15px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.selectTable-water1:hover{
+    background: var(--color-solid-gray);
+    transition: 0.5s;
+    color: var(--color-white);
+}
+.selectTable-water2{
+    width: 5rem;
+    font-weight: 700;
+    align-items: left;
+    height: 2rem;
+    font-size: 15px;
+    background: var(--color-light-blue);
+    color: var(--color-black);
+    border: none;
+    font-family: 'outfit', sans-serif;
+    box-shadow: 0px 0px 2px 1px var(--color-tertiary);
+    border-radius: 5px;
+    cursor: pointer;
+}
+.selectTable-water2:hover{
+    background: var(--color-solid-gray);
+    transition: 0.5s;
+    color: var(--color-white);
+}
+.select-order3{
+    width: 30rem;
+    font-weight: 500;
+    align-items: center;
+    height: 2rem;
+    display: inline-block;
+    font-size: 15px;
+    background: var(--color-secondary-main);
+    color: var(--color-black);
+    border: none;
+    font-family: 'outfit', sans-serif;
+    box-shadow: 0px 0px 2px 1px var(--color-tertiary);
+    border-radius: 5px;
     cursor: pointer;
 }
 .select-order3:hover{
-    background: var(--color-main);
+    background: var(--color-solid-gray);
+    transition: 0.5s;
     color: var(--color-white);
+}
+.qty-label{
+    margin-left:2rem;
+    font-family: 'Calibri', sans-serif;
+    font-weight: 600;
+    color: var(--color-black);
+}
+.qty3{
+    width: 5rem;
+    height: 2.3rem;
+    border-radius: 15px;
+    align-items: center;
+    text-align: center;
+    border-color: var(--color-solid-gray);
+    background-color: var(--color-white);
+    color: var(--color-black);
+}
+.add-rowsButton{
+    border: none;
+    border-bottom: 5px solid var(--color-blue-button);
+    background-color: var(--color-solid-gray);
+    color: var(--color-white);
+    /* align-items: center; */
+    fill: var(--color-white);
+    gap: .5rem;
+    padding:5px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 10px;
+    font-family: 'calibri', sans-serif;
+    cursor: pointer;
+}
+.add-rowsButton:hover{
+    filter: brightness(1.2);
+    transition: 0.5s;
+    border-bottom: 5px solid var(--color-tertiary);
+}
+.delete-rowsButton{
+    border: none;
+    background-color: var(--color-maroon);
+    color: var(--color-white);
+    /* align-items: center; */
+    fill: var(--color-white);
+    gap: .5rem;
+    padding:5px;
+    
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 5px;
+    font-family: 'calibri', sans-serif;
+    cursor: pointer;
+}
+.delete-rowsButton:hover{
+    filter: brightness(1.8);
+    transition: 0.2s;
+    /* border-bottom: 5px solid var(--color-tertiary); */
 }
 .form1-buttons{
     /* margin-top: 6rem; */
@@ -2400,6 +2865,8 @@ hr{
     position: relative;
     display: inline-block;
     width: 33%;
+    /* height: 50%; */
+    /* margin-top: -10rem; */
     margin-left:1rem;
 }
 
@@ -2514,8 +2981,8 @@ hr{
     overflow:auto;
     /* display: inline-block; */
     /* margin-left: 1.1rem; */
-    height: 13rem;
-    margin-top: -1rem;
+    height: 31%;
+    /* margin-top: -1rem; */
     /* text-align: right; */
     /* display: flex; */
     border-top: 2px solid var(--color-solid-gray);
@@ -2537,26 +3004,16 @@ hr{
     margin-top: -1rem;
 }
 
-table tbody td{
-    height: 2.8rem;
-    border-bottom: 1px solid var(--color-solid-gray);
-    color: var(--color-td);
-    font-size: .67rem;
-}
 .tableCheckout th{
     height: 1.8rem;
     color: var(--color-solid-gray);
-    margin:1rem;
+    /* margin:1rem; */
     font-size: .8rem;
     letter-spacing: 0.02rem;
     border: none;
     /* border-bottom: 2px solid var(--color-solid-gray); */
 }
-tr:hover td{
-    color: var(--color-main);
-    cursor: pointer;
-    background-color: var(--color-table-hover);
-}
+
 .totalOrder-amount{
     /* width: 100%; */
     position: static;
@@ -2565,13 +3022,34 @@ tr:hover td{
     display: inline-block;
     position: relative;
 }
+.totalamount{
+    align-items: left;
+    text-align: left;
+}
+#total_order{
+    background-color: #FFCFCF;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 1.2rem;
+    border-radius: 1rem;
+    font-family: 'century-gothic', sans-serif;
+    color: var(--color-black);
+}
+#total_order1{
+    /* background-color: #FFCFCF; */
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size:2rem;
+    font-family: 'century-gothic', sans-serif;
+    color: var(--color-black);
+}
 .orderTotal-text{
     color: var(--color-black);
     font-weight: bolder;
-    margin-top: 1rem;
-    margin-left: 1rem;
+    /* margin-top: 1rem; */
+    /* margin-left: 1rem; */
     font-size: 1rem;
-    display: inline-block;
+    /* display: inline-block; */
 }
 .orderTotal2{
     display: inline-block;
@@ -2653,19 +3131,22 @@ tr:hover td{
 
 /* PREVIOUS TRANSACTIONS ------------------------------------------------------------------------------- */
 .form3{
+    /* margin-top: -39rem; */
     width: 100%;
+    /* height: 50rem; */
+    display: inline-block;
     position: relative;
 }
 .previous-transaction{
     background-color: var(--color-white);
     padding-left: 2rem;
     width: 97%;
-    max-height: 600px;
+    /* max-height: 600px; */
     margin-bottom: 2rem;
     margin-top: 2rem;
     border: 1px solid;
     border-color: var(--color-table-border);
-    position: absolute;
+    /* position: relative; */
     overflow:auto;
     border-top: 8px solid var(--color-table-hover);
     border-radius: 0px 0px 20px 20px;
@@ -2688,10 +3169,10 @@ tr:hover td{
     font-size: .8rem;
 }
 .previous-transaction-table th{
-    height: 3.3rem;
+    height: 4rem;
     /* padding: 1rem; */
     color: var(--color-black);
-    margin:1rem;
+    /* margin:1rem; */
     font-size: .8rem;
     letter-spacing: 0.02rem;
     border: none;
