@@ -2,17 +2,6 @@
 include '../connectionDB.php';
 require_once '../service/pos-add-customer.php';
 require_once '../service/add-transaction-order.php';
-
-
-
-        
-if(isset($_POST['delete-order'])){
-    $id=$_POST['id-delete'];
-        
-    $query = "DELETE FROM transaction_process WHERE id='$id'";
-        $query_run = mysqli_query($con, $query);
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -316,115 +305,20 @@ if(isset($_POST['delete-order'])){
         
     </div>
 </div>
-    <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
-        <div class="bg-addcustomerform" id="bg-addform">
-            <div class="container1">
-                <h1 class="addnew-title">ADD NEW CUSTOMER</h1>
-                <form action="#">
-                    <div class="main-user-info">
-                        <div class="user-input-box">
-                            <label for="customer_name">Customer Name</label>
-                            <input type="text"
-                                id="customer_name"
-                                name="customer_name"
-                                required="required"
-                                placeholder="Enter Customer Name"/>
-                        </div>
-                        <div class="user-input-box" id="address-box">
-                            <label for="address">Address</label>
-                            <input type="text"
-                                id="address"
-                                class="address"
-                                required="required" name="address" placeholder="Enter Address"/>
-                        </div>
-                        <div class="user-input-box" >
-                            <label for="contact_num1">Contact Number 1</label>
-                            <input type="text" id="contact_num1" class="contactnum1" onkeypress="return isNumberKey(event)" required="required" name="contact_num1" placeholder="Enter Contact Number"/>
-                        </div>
-                        <div class="user-input-box">
-                            <label for="contact_num2">Contact Number 2</label>
-                            <input type="text" id="contact_num2"class="contactnum2" onkeypress="return isNumberKey(event)"name="contact_num2" placeholder="Enter Contact Number"/>
-                        </div>
-
-                        <div class="user-input-box" id="note-box">
-                            <label for="note">Note</label>
-                            <input type="text"
-                                id="note" class="note" name="note" placeholder="Enter a Note"/>
-                        </div>
-                        <div class="line"></div>
-
-                        <div class="bot-buttons">
-                            <div class="CancelButton">
-                                <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
-                            </div>
-                            <div class="AddButton">
-                                <button type="submit" id="addcustomerBtn" name="save-customer">SAVE</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="bg-selectcustomerform" id="bg-selectform">
-            <div class="container2">
-                <div class="close" id="close-btn" onclick="close(this)">
-                    <a href="../pos/point-of-sales.php" class="close-a">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
-                    </a>
-                </div>
-                <h1 class="selectnew-title">SELECT CUSTOMER</h1>
-                <button class="guest-button" id="guest-button" value="Guest" onclick='guestCustomer()'>Guest</button>
-                <input type="button" onclick='guestCustomer()'class="guest-button" id="guest-button" value="Guest" />
-                <div class="search">
-                    <div class="search-bar">
-                        <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                        <button type="submit" >
-                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                        </button>
-                    </div> 
-                </div>
-                <form action="#">
-                    <div class="customer-container">
-                        <table class="table" id="customerTable">
-                            <thead>
-                            <tr>
-                                <th class="select-label">SELECT</th>
-                                <th>ID</th>
-                                <th>Customer Name</th>
-                                <th>Address</th>
-                                <th>Contact Number 1</th>
-                                <th>Contact Number 2</th>
-                                <th>Balance</th>
-                                <th>Note</th>
-                            </tr>
-                            </thead>
-
-                        
-                            <tbody>
-           
-            
-                  
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </form>
     <?php
-if(isset($_GET['edit']))
+if(isset($_GET['editquantity']))
 {
-    $id = $_GET['edit'];
+    $id = $_GET['editquantity'];
     $result = mysqli_query($con,"SELECT
-            inventory_item.id, 
-            inventory_item.image, 
-            inventory_item.item_name,
-            category_type.name,
-            inventory_item.selling_price_item
-            FROM inventory_item 
-            INNER JOIN category_type  
-            ON inventory_item.category_by_id = category_type.id  
-            WHERE inventory_item.id = '$id'");
+               transaction_process.id, 
+               transaction_process.item_name, 
+               transaction_process.water_type,
+               transaction_process.price,
+               transaction_process.category_type,
+               transaction_process.quantity,
+               transaction_process.total_price
+            FROM transaction_process 
+            WHERE transaction_process.id = '$id'");
 
     if (mysqli_num_rows($result) > 0) {
         $item = mysqli_fetch_assoc($result); ?>
@@ -434,25 +328,21 @@ if(isset($_GET['edit']))
                 <div class="message"></div>
                 <div class="container1">
                    
-                    <h1 class="addnew-title">ADD ORDER</h1>
+                    <h1 class="addnew-title">EDIT QUANTITY</h1>
                     <form action="#">
-                        <input type="hidden" required="required" name="user_id" value="<?=$item['id'];?>">
+                        <input type="hidden" required="required" name="id" value="<?=$item['id'];?>">
                         <div class="main-user-info">
-                        <div class="profile-pic">
-                            <img src="../uploaded_image/<?=$item['image'];?>"name="image" alt="" >
-                            <input type="hidden" id="image-profile" name="image_item" accept="image/jpg, image/png, image/jpeg" value="<?php echo "../uploaded_image/".$item['image']; ?>">
-                        </div>    
                             <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
-                            <input type="hidden" required="required" class="iprice" name="PRICE" value="<?=$item['selling_price_item'];?>">
-                            <input type="hidden" required="required" name="categorytype" value="<?=$item['name'];?>">
-                            <input type="hidden"  name="TOTAL" class="itotal">
+                            <input type="hidden" required="required" class="iprice" name="PRICE" value="<?=$item['price'];?>">
+                            <input type="hidden" required="required" name="categorytype" value="<?=$item['water_type'];?>">
+                            <input type="hidden"  name="TOTAL" class="itotal" value="<?=$item['total_price'];?>">
                             <label for="lastname" class="label-item"><?=$item['item_name'];?></label>
 
                             <div class="user-input-box">
                                 <label for="quantity">Quantity</label>
                                 <input type="number" min='0' 
                                        id="quantity" onkeyup="subTotal();"
-                                       class="iquantity"
+                                       class="iquantity" value="<?=$item['quantity'];?>"
                                        name="quantity"
                                        placeholder='0'
                                        required="required">
@@ -464,7 +354,7 @@ if(isset($_GET['edit']))
                                     <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
                                 </div>
                                 <div class="AddButton">
-                                    <button type="submit" id="adduserBtn" name="add-others" >SAVE</button>
+                                    <button type="submit" id="adduserBtn" name="edit-quantity" >SAVE</button>
                                 </div>
                             </div>
                     </form>

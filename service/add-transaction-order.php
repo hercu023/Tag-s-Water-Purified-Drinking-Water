@@ -1,4 +1,5 @@
 <?php
+
 if(isset($_POST['add-others'])){
     if(isset($_POST['quantity'])
     || isset($_POST['PRICE'])
@@ -101,6 +102,32 @@ if(isset($_POST['add-mineral-water'])){
                     '$user_id')");
                 if($insert){
                     header("Location: ../pos/point-of-sales.php?update=1");
+                }
+            }
+        } 
+        ?>
+
+<?php
+if(isset($_POST['edit-quantity'])){
+    if(isset($_POST['quantity'])
+    ||isset($_POST['PRICE'])
+    ||isset($_POST['total_price'])) {
+        $id = $_POST['id'];
+        
+        $user_id = $_SESSION['user_user_id'];
+        $qty3 = filter_var($_POST['quantity'], FILTER_SANITIZE_STRING);
+        $total = filter_var($_POST['total_price'], FILTER_SANITIZE_STRING);
+        $price = filter_var($_POST['PRICE'], FILTER_SANITIZE_STRING);
+        $total= $qty3 * $price;
+
+        $update = mysqli_query($con,
+        "UPDATE transaction_process SET
+        transaction_process.quantity = '$qty3',
+        transaction_process.price = '$price',
+        transaction_process.total_price = '$total'
+        WHERE transaction_process.id='$id'");
+                if($update){
+                    header("Location: ../pos/point-of-sales.php?");
                 }
             }
         } 

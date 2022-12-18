@@ -329,7 +329,7 @@ if(isset($_POST['delete-order'])){
                             </form>
                         </div>
                         <hr>
-                        <div class="totalOrder-amount">
+                        <div class="totalOrder-amount"> 
                             <div class="orderTotal1">
                                 <p class="orderTotal-text">Order Total</p>
                             </div>
@@ -436,7 +436,8 @@ if(isset($_GET['edit']))
                         <input type="hidden" required="required" name="user_id" value="<?=$item['id'];?>">
                         <div class="main-user-info">
                         <div class="profile-pic">
-                            <img src="../uploaded_image/<?=$item['image'];?>" alt="">
+                            <img src="../uploaded_image/<?=$item['image'];?>"name="image" alt="" > 
+
                         </div>    
                             <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
                             <input type="hidden" required="required" name="mineralprice" value="<?=$item['mineral_price'];?>">

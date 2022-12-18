@@ -76,7 +76,7 @@ require_once "../service/user-access.php";
                     }
                     ?>
                     <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTENDANCE')) {
-                        echo '<a href="../reports/reports-inventory.php" class="sub-item">Attendance</a>';
+                        echo '<a href="../reports/reports-attendance.php" class="sub-item">Attendance</a>';
                     }
                     ?>
                     <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPENSE')) {

@@ -1,17 +1,17 @@
 <?php
-include '../connectionDB.php';
+include '../database/connection-db.php';
 require_once '../service/pos-add-customer.php';
-require_once '../service/add-transaction-order.php';
 
-
-
+// $sum=0;
+// if(isset($_POST['minusquantity'])){
+//     $sum=$_POST=['sumquantity'];
+//     $sum--;
+// }
+// if(isset($_POST['addquantity'])){
+//     $sum=$_POST=['sumquantity'];
+//     $sum++;
+// }
         
-if(isset($_POST['delete-order'])){
-    $id=$_POST['id-delete'];
-        
-    $query = "DELETE FROM transaction_process WHERE id='$id'";
-        $query_run = mysqli_query($con, $query);
-}
 
 ?>
 
@@ -55,17 +55,20 @@ if(isset($_POST['delete-order'])){
                         $result3 = mysqli_query($con, $dropdown_query1);
                     ?>
                     <p class="paymentOptions-text">Payment Option</p>
-                    <select class="paymentOptions-dropdown">
+                    <select class="paymentOptions-dropdown" name="paymentoption">
                         <?php while($row3 = mysqli_fetch_array($result3)):;?>
                             <option><?php echo $row3[1];?></option>
                         <?php endwhile;?>
                     </select>
                 </div>
+            <!-- </div> -->
+
 
             <!-- ---------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
             <div class="form-container">
                 <div class="form1">
-
+                    <!-- <p class="selectCustomer-text" id="selectCustomer-text">SELECT CUSTOMER</p>
+                    -->
                     <div class="form1-ordertype-buttons">
                         <button type="button" class="refillOrder-button" onclick="refillFunction();">Refill</button>
                         <button type="button" class="newOrder-button" onclick="orderFunction();">New</button>
@@ -84,7 +87,10 @@ if(isset($_POST['delete-order'])){
                             </select>
                          </div>
                         <div class="form1-table1" id="form-water1">
-         
+                            <?php
+                                        $dropdown_query1 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2' OR  category_by_id LIKE '%10'";
+                                        $result1 = mysqli_query($con, $dropdown_query1);
+                                ?>
                             <table class="table1" id="myTable1">
                                 <thead class="form-table">
                                 <tr>
@@ -97,16 +103,30 @@ if(isset($_POST['delete-order'])){
                                     <th></th>
                                 </tr>
                                 </thead>
-                             
+                                
                                         <tbody>
-
+                                        <tr>
+                                            <td > </td>
+                                            <td > </td>
+                                            <td > </td>
+                                            <td > </td>
+                                            <td > </td>
+                                            <td>
+                                             
+                                                <a href="../pos/point-of-sales-edit-alkaline-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                   ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                </a>
+                                            <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
+                                               
+                                            </td>
+                                        </tr>
                                         </tbody>
-
+                                    
                                 </form>
                             </table>
                         </div>
                         <div class="form1-table2" id="form-water2">
-       
+                           
                             <table class="table1" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
@@ -115,14 +135,32 @@ if(isset($_POST['delete-order'])){
                                     <th>TYPE</th>
                                     <th>WATER</th>
                                     <th>PRICE</th>
+                                    <!-- <th>MINERAL PRICE</th> -->
                                     <th></th>
                                 </tr>
                                 </thead>
-                               
+                                <form action="../service/add-transaction-order.php" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                
                                         <tbody>
-                                      
+                                        <tr>
+                                            <td ></td>
+                                            <td > </td>
+                                            <td > </td>
+                                            <td ></td>
+                                            <td > </td>
+                                            <td>
+                                                <a href="../pos/point-of-sales-edit-mineral-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                   ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        
+                                                <tr id="noRecordTR">
+                                                    <td colspan="7">No Item(s) Found</td>
+                                                </tr>
+                                            
                                         </tbody>
-                       
+                                    
                                 </form>
                             </table>
                         </div>
@@ -136,7 +174,16 @@ if(isset($_POST['delete-order'])){
                             </select>
                          </div>
                         <div class="form2-table1" id="form-water3">
-                          
+                            <?php
+                                $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
+                                $result7 = mysqli_query($con, $dropdown_query7);
+                            ?>
+                            <!-- <div class="selectItem">
+                                <select id='selectTable-water2'class='selectTable-water2'>
+                                    <option value='Alkaline'>Alkaline</option>
+                                    <option value='Mineral'>Mineral</option>
+                                </select>
+                            </div> -->
                             <table class="table2" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
@@ -148,16 +195,71 @@ if(isset($_POST['delete-order'])){
                                     <th></th>
                                 </tr>
                                 </thead>
-                                
+                                    <form action="../service/add-transaction-order.php" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                        <?php
+                                            $query = "SELECT
+                                                    inventory_item.id, 
+                                                    inventory_item.image, 
+                                                    inventory_item.item_name,
+                                                    pos_item.pos_type,
+                                                    category_type.name,
+                                                    inventory_item.selling_price_item,
+                                                    inventory_item.alkaline_price,
+                                                    status_archive.status
+                                                    FROM inventory_item 
+                                                    INNER JOIN category_type  
+                                                    ON inventory_item.category_by_id = category_type.id  
+                                                    INNER JOIN pos_item  
+                                                    ON inventory_item.pos_item_id = pos_item.id  
+                                                    INNER JOIN status_archive 
+                                                    ON inventory_item.status_archive_id = status_archive.id
+                                                    WHERE category_by_id LIKE '%1' 
+                                                    OR category_by_id LIKE '%2' 
+                                                    AND inventory_item.status_archive_id = '1'
+                                                    AND inventory_item.pos_item_id = '1'";
+                                            $inventory_order = mysqli_query($con, $query);
+                                            if(mysqli_num_rows($inventory_order) > 0)
+                                            {
+                                            foreach($inventory_order as $item_sales)
+                                            {
+                                            ?>
                                             <tbody>
-                                          
+                                            <tr>
+                                                <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                                                <td > <?php echo $item_sales['item_name']; ?></td>
+                                                <td > <?php echo $item_sales['name']; ?></td>
+                                                <td > Alkaline</td>
+                                                <td class="alkaline-price"> <?php echo '&#8369'.' '.$item_sales['alkaline_price']; ?></td>
+                                                <td>
+                                                
+                                                    <a href="../pos/point-of-sales-edit-mineral-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                    </a>
+                                                <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
+                                                
+                                                </td>
+                                            </tr>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <tr id="noRecordTR">
+                                                    <td colspan="7">No Item(s) Found</td>
+                                                </tr>
+                                            <?php } ?>
                                             </tbody>
-                    
-                                   
+                                    </form>
                             </table>
                         </div>
                         <div class="form2-table2" id="form-water4">
-                           
+                            <?php
+                                $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
+                                $result7 = mysqli_query($con, $dropdown_query7);
+                            ?>
+                            <!-- <div class="selectItem">
+                                <select id='selectTable-water2'class='selectTable-water2'>
+                                    <option value='Alkaline'>Alkaline</option>
+                                    <option value='Mineral'>Mineral</option>
+                                </select>
+                            </div> -->
                             <table class="table2" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
@@ -169,17 +271,68 @@ if(isset($_POST['delete-order'])){
                                     <th></th>
                                 </tr>
                                 </thead>
-                                    
+                                    <form action="../service/add-transaction-order.php" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                        <?php
+                                            $query = "SELECT
+                                                    inventory_item.id, 
+                                                    inventory_item.image, 
+                                                    inventory_item.item_name,
+                                                    pos_item.pos_type,
+                                                    category_type.name,
+                                                    inventory_item.selling_price_item,
+                                                    inventory_item.mineral_price,
+                                                    status_archive.status
+                                                    FROM inventory_item 
+                                                    INNER JOIN category_type  
+                                                    ON inventory_item.category_by_id = category_type.id  
+                                                    INNER JOIN pos_item  
+                                                    ON inventory_item.pos_item_id = pos_item.id  
+                                                    INNER JOIN status_archive 
+                                                    ON inventory_item.status_archive_id = status_archive.id
+                                                    WHERE category_by_id LIKE '%1' 
+                                                    OR category_by_id LIKE '%2' 
+                                                    AND inventory_item.status_archive_id = '1'
+                                                    AND inventory_item.pos_item_id = '1'";
+                                            $inventory_order = mysqli_query($con, $query);
+                                            if(mysqli_num_rows($inventory_order) > 0)
+                                            {
+                                            foreach($inventory_order as $item_sales)
+                                            {
+                                            ?>
                                             <tbody>
-                                           
+                                            <tr>
+                                                <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                                                <td > <?php echo $item_sales['item_name']; ?></td>
+                                                <td > <?php echo $item_sales['name']; ?></td>
+                                                <td > Mineral</td>
+                                                <td class="mineral-price"> <?php echo '&#8369'.' '.$item_sales['mineral_price']; ?></td>
+                                                <td>
+                                                
+                                                    <a href="../pos/point-of-sales-edit-mineral-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                    </a>
+                                                <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
+                                                
+                                                </td>
+                                            </tr>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <tr id="noRecordTR">
+                                                    <td colspan="7">No Item(s) Found</td>
+                                                </tr>
+                                            <?php } ?>
                                             </tbody>
-                                   
+                                        
+                                    </form>
                             </table>
                         </div>
                     </div>
 
                             <div class="form3-table">
-                           
+                                <?php
+                                    $dropdown_query8 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%5' OR category_by_id LIKE '%7'";
+                                    $result8 = mysqli_query($con, $dropdown_query8);
+                                ?>
                                 <table class="table3" id="myTable3">
                                     <thead class="form-table">
                                         <th></th>
@@ -189,14 +342,40 @@ if(isset($_POST['delete-order'])){
                                         <th></th>
                                     </tr>
                                     </thead>
-                                   
+                                    <form action="../service/add-transaction-order.php" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                        
                                             <tbody>
+                                            <tr>
+                                                <td > </td>
+                                                <td ></td>
+                                                <td > </td>
+                                                <td > </td>
+                                                <td>
+                                                
+                                                    <a href="../pos/point-of-sales-edit.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                    </a>
+                                                <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
+                                                
+                                                </td>
+                                            </tr>
                                            
+                                                <tr id="noRecordTR">
+                                                    <td colspan="5">No Item(s) Found</td>
+                                                </tr>
+                                            
                                             </tbody>
-                                 
+                                        
+                                    </form>
+
                                 </table>
                             </div>
                     
+                    <!-- </div> -->
+                     <!-- <div class="form1-buttons">
+                        <button class="addDeliveryFee-button">Add Delivery Fee</button>
+                        <button class="addOrder-button" id="addOrder-form">Place Order</button>
+                    </div> -->
                 </div>
             </div>
             <!-- ------------------------------------------------------------------------------------------------------------------- -->
@@ -220,8 +399,15 @@ if(isset($_POST['delete-order'])){
                             <div class="ordersum-text">
                                 <p class="orderSummary-text">Order Summary</p>
                             </div>
+                            <div class="delivery-options">
+                                <select class="select" onchange="deliveryOption(this)" name="deliveryoption">
+                                    <option value="Walk In">Walk In</option>
+                                    <option value="Delivery">Delivery</option>
+                                    <option value="Pick Up">Pick Up</option>
+                                </select>
+                            </div>
                             <div class="cashiersum-text">
-                                <p class="cashier-text">Cashier: <span id="cashier-name"><h5 class="name-cashier"><?php echo $_SESSION['user_first_name']; ?></h5></span></p>
+                                <p class="cashier-text">Cashier: <span id="cashier-name"><input type="text" class="name-cashier" readonly name="cashiername" value="<?php echo $_SESSION['user_first_name']; ?>"></span></p>
                             </div>     
                         </div>
                         <div class="orderSum-table">
@@ -232,31 +418,155 @@ if(isset($_POST['delete-order'])){
                                     <th>ITEM</th>
                                     <th>Water</th>
                                     <th>Type</th>
-                                    <th>QTY</th>
                                     <th>Price</th>
+                                    <th>QTY</th>
                                     <th>TOTAL</th>
                                 </tr>
                                 </thead>
-                          
+                            <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                    <?php
+                                        // if (isset($_GET['update'])) {                   
+                                           $user_id =  $_SESSION['user_user_id'];
+                                            $transaction_process = "SELECT
+                                                    transaction_process.id, 
+                                                    transaction_process.item_name, 
+                                                    transaction_process.water_type,
+                                                    transaction_process.category_type,
+                                                    transaction_process.quantity,
+                                                    transaction_process.price,
+                                                    transaction_process.total_price
+                                                    FROM transaction_process
+                                                    WHERE user_id = '$user_id'";
+                                            $transaction_order = mysqli_query($con, $transaction_process);
+                                            if(mysqli_num_rows($transaction_order) > 0)
+                                            {
+                                            foreach($transaction_order as $transactions)
+                                            {
+                                            ?>
+                                            <!-- while ($transactions = mysqli_fetch_assoc($transaction_order)) {?> -->
                                             <tbody>
-                                           
+                                            <tr>
+                                                <td>
+                                                    <a href="../service/delete-transaction-order.php?delete-order=<?php echo $transactions['id']; ?>" class="delete-rowsButton" class="action-btn" name="action">
+                                                        X<!-- <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.271 17.708q-1.042 0-1.75-.708-.709-.708-.709-1.75V5.729H2.333V3.271h5.188V1.792h4.917v1.479h5.229v2.458h-1.479v9.521q0 1.042-.709 1.75-.708.708-1.75.708Zm1.354-3.729h1.979v-7H7.625Zm2.771 0h1.979v-7h-1.979Z"/></svg> -->
+                                                    </a>
+                                                </td>
+                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
+                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
+                                                <td name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
+                                                <td name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
+                                                <td class="quantity-td" > 
+                                                    <a href="../pos/point-of-sales-edit-quantity.php?editquantity=<?php echo $transactions['id']; ?>" class="addquantity" name="addquantity">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.708 17.958q-1.125 0-1.896-.77-.77-.771-.77-1.896V4.708q0-1.125.77-1.895.771-.771 1.896-.771h10.584q1.125 0 1.896.771.77.77.77 1.895v10.584q0 1.125-.77 1.896-.771.77-1.896.77Zm0-2.666h10.584V4.708L4.708 15.292Zm6.73-.875v-1.521H9.917v-1.458h1.521V9.917h1.458v1.521h1.521v1.458h-1.521v1.521ZM5.229 8.208h4.479V6.729H5.229Z"/></svg>
+                                                    </a>
+                                                    <input type="text" class="quantity-tbl" name="quantity_transaction" readonly value="<?php echo $transactions['quantity'];?>">
+                                                </td>
+                                                <td> <?php echo '&#8369'.' '.$transactions['total_price']; ?></td>
+                                            </tr>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <tr id="noRecordTR">
+                                                    <td colspan="7">No Order(s) Added</td>
+                                                </tr>
+                                            <?php } ?>
                                             </tbody>
+                                        
                                       
+
+                                            <tfoot>
+                                            <?php $transaction_order1 = mysqli_query($con, "SELECT
+                                                    sum(transaction_process.total_price)
+                                                    FROM transaction_process"); 
+                                                    while ($transactions1 = mysqli_fetch_array($transaction_order1)) {?>
+                                                <tr class="trdelivery">
+                                                    <th colspan="6" class="deliveryfee">
+                                                        <!-- <button type="button" id="Delivery-Button" class="addDelivery-fee">Add Delivery Fee</button> -->
+                                                        <div class="gender-category" >
+                                                            <label class="delivery-lbl" id="delivery-lbl">Service Fee</label>    
+                                                            <input type="radio" name="pos_item" id="Yes" value="1" required="required" onclick="mainForm1()">
+                                                            <label class="delivery-yes" id="delivery-yes"for="Yes">Delivery Only</label>
+                                                            <input type="radio" name="pos_item" id="Maybe" value="2" required="required" onclick="mainForm1()">
+                                                            <label class="delivery-yes" id="pickup-yes" for="Yes">Delivery/Pick Up</label>
+                                                            <input type="radio" name="pos_item" id="No" value="3" onclick="mainForm2()">
+                                                            <label class="delivery-no" id="delivery-no" for="No">None</label>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="6" class="totalamount"><p class="orderTotal-text">Order Subtotal</p></th>
+                                                    <!-- <th id="total_order1"> </th> -->
+                                                    <th id="total_order"> <?php echo '&#8369'.' '.$transactions1['sum(transaction_process.total_price)'];  ?></th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="6" class="totaldelivery"><p class="orderTotal-text">Delivery Fee</p></th>
+                                                    <!-- <th id="total_order1"> </th> -->
+                                                    <th id="total_order"> <?php echo '&#8369'.' '.'0.00';  ?></th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="5" class="totaldelivery"><p class="totalAmount-text">TOTAL AMOUNT</p></th>
+                                                    <th id="total_order1">&#8369 </th>
+                                                    <th > <input type="text" name="totalAmount" readonly id="totalAmount_order" value="<?php echo $transactions1['sum(transaction_process.total_price)']; ?>"></th>
+                                                </tr>
                                             </tfoot>
-                                       
+                                        <?php }?>
                                 </table>
-                            
+                            </form>
                         </div>
-                    
+                        <hr>
                         <div class="receipt-buttons">
-                            <a href="point-of-sales.php" id="cancel">CANCEL</a>
-                            <input type="button" class="confirmOrder-button" value="CONFIRM">
+                            <!-- <a href="point-of-sales.php" id="cancel">CANCEL</a> -->
+                            <a href="../pos/point-of-sales-placeorder.php" class="confirmOrder-button" name="placeorder">
+                                PLACE ORDER
+                            </a>
                         </div>
                     </body>
                 </div>
             </div>
         <!-- ---------------------------------------------------- PREVIOUS TRANSACTIONS ------------------------------------------------- -->
-    
+            <div class="form3">
+                <div class="previous-transaction">
+                    <br>
+                    <header class="previous-transaction-header">Previous Transaction</header>
+                    <hr>
+                    <table class="previous-transaction-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Details</th>
+                            <!-- <th>Water</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>QTY</th>
+                            <th>Total</th> -->
+                            <th>Change</th>
+                            <th>Amount Tendered</th>
+                            <th>Payment</th>
+                            <th>Service</th>
+                            <th>Cashier Name</th>
+                            <th>Date/Time</th>
+                        </tr>
+                        </thead>
+                   
+                            <tbody>
+                            <tr>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td></td>
+                            <tr id="noRecordTR" style="display:none">
+                                <td colspan="10">No Record Found</td>
+                            </tr>
+                            </tbody>
+                        
+                    </table>
+                </div>
+            </div>
         </div>
 
     </main>
@@ -354,8 +664,9 @@ if(isset($_POST['delete-order'])){
                         <div class="line"></div>
 
                         <div class="bot-buttons">
-                            <div class="CancelButton">
-                                <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
+                            <div class="CancelButton-add">
+                            <a href="../pos/point-of-sales-placeorder.php" id="cancel" name="cancel-add-customer" >CANCEL</a>
+
                             </div>
                             <div class="AddButton">
                                 <button type="submit" id="addcustomerBtn" name="save-customer">SAVE</button>
@@ -399,11 +710,47 @@ if(isset($_POST['delete-order'])){
                             </tr>
                             </thead>
 
-                        
+                            <?php
+                            $query = "SELECT customers.id,
+                                        customers.customer_name,
+                                        customers.address,
+                                        customers.contact_number1,
+                                        customers.contact_number2,
+                                        customers.balance,
+                                        customers.note, 
+                                        status_archive.status, 
+                                        customers.created_at,
+                                        users.first_name,
+                                        users.last_name
+                                        FROM customers 
+                                        INNER JOIN status_archive 
+                                        ON customers.status_archive_id = status_archive.id 
+                                        INNER JOIN users
+                                        ON customers.created_by = users.user_id
+                                        WHERE customers.status_archive_id = '1'";
+                            $result = mysqli_query($con, $query);
+                            if(mysqli_num_rows($result) > 0)
+                            {
+                            foreach($result as $rows)
+                            {
+                            ?>
                             <tbody>
-           
-            
-                  
+                            <tr>
+                                <td> <button  class="selectCus" id="selectCus" onclick='selectCus()'><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m8.229 14.062-3.521-3.541L5.75 9.479l2.479 2.459 6.021-6L15.292 7Z"/></svg></button> </td>
+                                <td> <?php echo $rows['id']; ?></td>
+                                <td> <?php echo $rows['customer_name']; ?></td>
+                                <td> <?php echo $rows['address']; ?></td>
+                                <td> <?php echo $rows['contact_number1']; ?></td>
+                                <td> <?php echo $rows['contact_number2']; ?></td>
+                                <td> <?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
+                                <td> <?php echo $rows['note']; ?></td>
+                            </tr>
+                            <?php } ?>
+                            <?php } else { ?>
+                                <tr id="noRecordTR">
+                                    <td colspan="7">No Record(s) Found</td>
+                                </tr>
+                            <?php } ?>
                             </tbody>
                         </table>
                     </div>
@@ -411,69 +758,6 @@ if(isset($_POST['delete-order'])){
             </div>
         </div>
     </form>
-    <?php
-if(isset($_GET['edit']))
-{
-    $id = $_GET['edit'];
-    $result = mysqli_query($con,"SELECT
-            inventory_item.id, 
-            inventory_item.image, 
-            inventory_item.item_name,
-            category_type.name,
-            inventory_item.selling_price_item
-            FROM inventory_item 
-            INNER JOIN category_type  
-            ON inventory_item.category_by_id = category_type.id  
-            WHERE inventory_item.id = '$id'");
-
-    if (mysqli_num_rows($result) > 0) {
-        $item = mysqli_fetch_assoc($result); ?>
-
-        <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
-            <div class="bg-adduserform" id="bg-addform">
-                <div class="message"></div>
-                <div class="container1">
-                   
-                    <h1 class="addnew-title">ADD ORDER</h1>
-                    <form action="#">
-                        <input type="hidden" required="required" name="user_id" value="<?=$item['id'];?>">
-                        <div class="main-user-info">
-                        <div class="profile-pic">
-                            <img src="../uploaded_image/<?=$item['image'];?>"name="image" alt="" >
-                            <input type="hidden" id="image-profile" name="image_item" accept="image/jpg, image/png, image/jpeg" value="<?php echo "../uploaded_image/".$item['image']; ?>">
-                        </div>    
-                            <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
-                            <input type="hidden" required="required" class="iprice" name="PRICE" value="<?=$item['selling_price_item'];?>">
-                            <input type="hidden" required="required" name="categorytype" value="<?=$item['name'];?>">
-                            <input type="hidden"  name="TOTAL" class="itotal">
-                            <label for="lastname" class="label-item"><?=$item['item_name'];?></label>
-
-                            <div class="user-input-box">
-                                <label for="quantity">Quantity</label>
-                                <input type="number" min='0' 
-                                       id="quantity" onkeyup="subTotal();"
-                                       class="iquantity"
-                                       name="quantity"
-                                       placeholder='0'
-                                       required="required">
-                            </div>
-                            <div class="line"></div>
-
-                            <div class="bot-buttons">
-                                <div class="CancelButton">
-                                    <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
-                                </div>
-                                <div class="AddButton">
-                                    <button type="submit" id="adduserBtn" name="add-others" >SAVE</button>
-                                </div>
-                            </div>
-                    </form>
-                </div>
-            </div>
-        </form>
-        <?php 
-    }} ?>
-
 </body>
 <script src="../javascript/side-menu-toggle.js"></script>
 <!-- <script src="../javascript/top-menu-toggle.js"></script> -->
@@ -481,7 +765,37 @@ if(isset($_GET['edit']))
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <!-- <script src="../javascript/point-of-sales.js"></script> -->
 <script>
-
+    function deliveryOption(delivery){
+        if(delivery.value == 'Delivery'){
+            document.getElementById("delivery-lbl").style.display = 'inline-block';
+            document.getElementById("delivery-no").style.display = 'inline-block';
+            document.getElementById("delivery-yes").style.display = 'inline-block';
+            document.getElementById("pickup-yes").style.display = 'inline-block';
+            document.getElementById("No").style.display = 'inline-block';
+            document.getElementById("Maybe").style.display = 'inline-block';
+            document.getElementById("Yes").style.display = 'inline-block';
+        }else if(delivery.value == 'Pick Up'){
+            document.getElementById("delivery-lbl").style.display = 'inline-block';
+            document.getElementById("delivery-no").style.display = 'inline-block';
+            document.getElementById("delivery-yes").style.display = 'inline-block';
+            document.getElementById("pickup-yes").style.display = 'inline-block';
+            document.getElementById("No").style.display = 'inline-block';
+            document.getElementById("Yes").style.display = 'inline-block';
+            document.getElementById("Maybe").style.display = 'inline-block';
+            
+        }else if(delivery.value == 'Walk In'){
+            document.getElementById("delivery-lbl").style.display = 'none';
+            document.getElementById("delivery-no").style.display = 'none';
+            document.getElementById("pickup-yes").style.display = 'none';
+            document.getElementById("delivery-yes").style.display = 'none';
+            document.getElementById("No").style.display = 'none';
+            document.getElementById("Maybe").style.display = 'none';
+            document.getElementById("Yes").style.display = 'none';
+            var ele = document.getElementsByName("pos_item");
+            for(var i=0;i<ele.length;i++)
+                ele[i].checked = false;
+        }
+    }
     function waterChange(answer){
         if(answer.value == 'Alkaline'){
             document.getElementById("form-water1").style.display = 'block';
@@ -550,10 +864,22 @@ if(isset($_GET['edit']))
     function selectcustomer(){
         selectForm.style.display = 'flex';
     }
-    // -----------------------------ADD CUSTOMER
     const addForm = document.querySelector(".bg-addcustomerform");
     function addcustomer(){
         addForm.style.display = 'flex';
+        cusForm.style.display = 'none';
+    }
+    // -----------------------------ADD CUSTOMER
+    const cusForm = document.querySelector(".bg-placeorderform");
+    function placeorder(){
+        cusForm.style.display = 'flex';
+    }
+    // const cusForm = document.querySelector(".bg-placeorderform");
+    const canceladdForm = document.querySelector(".bg-addcustomerform");
+    function cancelAddCustomer(){
+        canceladdForm.style.display = 'none';
+        cusForm.style.display = 'flex';
+
     }
  
 // ----------------------------------------------------------DROP DOWN PROFILE
@@ -718,415 +1044,38 @@ BODY{
     background-size: cover;
     background-attachment: fixed;
 }
-.profile-pic{
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    margin-top: 1rem;
-}
-.profile-pic img{
-    background: var(--color-solid-gray);
-    border-radius: 10%;
-    width: 100px;
-    padding: 3px;
-}
-.label-item{
-    height: 100%;
-    font-family: 'calibri', sans-serif;
-    font-size: 20px;
-    font-weight:900;
-
-    justify-content: center;
-    color: var(--color-main);
-}
-.container1{
-    width: 100%;
-    max-width: 600px;
-    padding: 28px;
-    margin: 0 28px;
-    border-radius:  0px 0px 20px 20px;
-    background-color: var(--color-white);
-    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-    border-top: 10px solid var(--color-solid-gray);
-}
-.form-title{
-    font-size: 26px;
-    font-weight: 600;
-    text-align: center;
-    padding-bottom: 6px;
-    color: white;
-    text-shadow: 2px 2px 2px black;
-    border-bottom: solid 1px white;
-}
-
-.main-user-info{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px 0;
-}
-.usertype-dropdown{
-    width: 48%;
-    margin-top: 1.6rem;
-    display: flex;
-    flex-wrap: wrap;
-}
-.select{
-    background: var(--color-solid-gray);
-    color: var(--color-white);
-    align-items: center;
-    border-radius: 13px;
-    padding: 8px 12px;
-    height: 40px;
-    width: 100%;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.action-dropdown{
-    position: relative;
-    margin-top: .5rem;
-    /* left: 10%; */
-    margin-bottom: .5rem
-}
-.user-input-box:nth-child(2n){
-    justify-content: end;
-}
-
-.checker {
-    /* display: flex; */
-    flex-wrap: wrap;
-    width: 100%;
-    padding-bottom: 15px;
-    gap: 5px;
-    text-align: right;
-    align-items: right;
-}
-.checker span {
-    text-decoration: none;
-    color: var(--color-solid-gray);
-    top: 0;
-    font-size: min(max(10px, 1.2vw), 12px);
-    font-family: 'Switzer', sans-serif;
-}
-.user-input-box{
-    display: flex;
-    flex-wrap: wrap;
-    width: 48%;
-    padding-bottom: 15px;
-}
-#email-box input{
-    background-color: var(--color-tertiary);
-    color: var(--color-white);
-}
-#email-box input:hover{
-    border: 2px solid var(--color-maroon);
-}
-.not-edit{
-    font-family: 'Calibri', sans-serif;
-    font-size: 12px;
-    color: var(--color-maroon);
-    display: inline-block;
-    position: static;
-    /* position: relative; */
-    /* padding-bottom: 2rem; */
-    /* left: 0; */
-}
-.user-input-box label{
-    width: 100%;
-    color: var(--color-solid-gray);
-    font-size: 16px;
-    /* margin-left: .2rem; */
-    margin-bottom: 0.5rem;
-    font-family: 'Malberg Trial', sans-serif;
-    font-weight: 550;
-    /* margin: 5px 0; */
-}
-.user-input-box label:focus{
-    border: 2px solid var(--color-main-3);
-    font-size: 17px;
-    font-weight: 600;
-}
-.user-input-box input::placeholder{
-    font-size: .8em;
-    color:var(--color-solid-gray);
-}
-/* ::placeholder:focus{
-    border: 2px solid var(--color-main-3);
-} */
-.user-input-box input:focus{
-    border: 2px solid var(--color-main-3);
-    background: var(--color-white);
-}
-
-.user-input-box input{
-    height: 40px;
-    width: 100%;
-    border: 2px solid var(--color-solid-gray);
-    border-radius: 15px;
-    outline: none;
-    font-size: 1em;
-    background: var(--color-white);
-    color: var(--color-black);
-    padding: 0 10px;
-}
-.line{
-    width:100%;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid var(--color-solid-gray);
-}
-.profile-picture1 h4{
-    display: flex;
-    position: relative;
-    text-align: center;
-    font-size: 1rem;
-    font-family: 'Calibri', sans-serif;
-    color: var(--color-solid-gray);
-    width: 100%;
-    border-bottom: 2px solid var(--color-solid-gray);
-    /* margin-bottom: -5rem; */
-}
-
-.choose-profile{
-    /* position: relative; */
-    width: 97%;
-    height: 1.32rem;
-    padding: 10px;
-    margin-top: 1rem;
-    background: var(--color-solid-gray);
-    color: var(--color-white);
-    border-radius: 10px;
-    transition: 0.5s;
-    font-family: 'COCOGOOSE', sans-serif;
-    cursor: pointer;
-}
-
-#image-profile{
-    cursor: pointer;
-    text-align: center;
-    align-items: center;
-}
-.gender-title{
-    /* margin-top: rem; */
-    font-family: 'Calibri', sans-serif;
-    color: var(--color-solid-gray);
-    width: 100%;
-    font-size: 20px;
-    margin-left: .2rem;
-    font-family: 'Malberg Trial', sans-serif;
-    font-weight: 550;
-    /* border-bottom: 2px solid var(--color-solid-gray); */
-}
-
-.gender-category{
-    margin: 15px 0;
-    color:  var(--color-solid-gray);
-}
-
-.gender-category label{
-    padding: 0 20px 0 5px;
-}
-
-.gender-category label,
-.gender-category input,
-.form-submit-btn input{
-    cursor: pointer;
-}
-
-.form-submit-btn{
-    margin-top: 40px;
-}
-
-.form-submit-btn input{
-    display: block;
-    width: 100%;
-    margin-top: 10px;
-    font-size: 20px;
-    padding: 10px;
-    border:none;
-    border-radius: 3px;
-    color: rgb(209, 209, 209);
-    background: rgba(63, 114, 76, 0.7);
-}
-
-.form-submit-btn input:hover{
-    background: rgba(56, 204, 93, 0.7);
-    color: rgb(255, 255, 255);
-}
-.addnew-title{
-    font-size: min(max(1.9rem, 1.1vw), 2rem);
-    color: var(--color-solid-gray);
-    font-family: 'Malberg Trial', sans-serif;
-    letter-spacing: .09rem;
-    display: flex;
-    padding-top: 1rem;
-    justify-content: center;
-    border-bottom: 2px solid var(--color-solid-gray);
-    width: 100%;
-    padding-bottom: 2px;
-}
-.bot-buttons{
-    width: 100%;
-    align-items: center;
-    text-align: center;
-    display: inline-block;
-    margin-top: 1.3rem;
-}
-.AddButton button{
-    font-family: 'COCOGOOSE', sans-serif;
-    padding: 10px;
-    width: 15rem;
-    max-height: 60px;
-    outline: none;
-    border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
-    border-radius: 20px;
-    color: white;
-    background:  var(--color-mainbutton);
-    cursor: pointer;
-    transition: 0.5s;
-    margin-left: 1rem;
-}
-.AddButton button:hover{
-    background: var(--color-button-hover);
-}
-.CancelButton{
-    display: inline-block;
-}
-.AddButton{
-    display: inline-block;
-
-}
-/* .CloseButton{
-    margin-top: 5.2vh;
-    margin-left: 2.4em;
-    margin-bottom: -2rem;
-} */
-#cancel{
-    font-family: 'COCOGOOSE', sans-serif;
-    padding: 10px;
-    padding-left: 80px;
-    padding-right: 80px;
-    text-align: center;
-    width: 30rem;
-    max-height: 70px;
-    outline: none;
-    border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
-    border-radius: 20px;
-    color: white;
-    background: #c44242;
-    cursor: pointer;
-    transition: 0.5s;
-}
-#cancel:hover{
-    background-color: rgb(158, 0, 0);
-    transition: 0.5s;
-}
-
-@media(max-width: 600px){
-    .container1{
-        min-width: 280px;
-    }
-    .user-input-box .cost{
-        position: absolute;
-        display: none;
-        left: 10.65%;
-    }
-    .user-input-box .srp{
-        position: absolute;
-        display: none;
-        left: 10.65%;
-    }
-    .user-input-box{
-        margin-bottom: 12px;
-        width: 100%;
-    }
-
-    .user-input-box:nth-child(2n){
-        justify-content: space-between;
-    }
-    .usertype-dropdown{
-        width: 95%;
-        margin-bottom: 1rem;
-        margin-top: -.3rem;
-    }
-    .gender-category{
-        display: flex;
-        /* justify-content: space-between; */
-        width: 100%;
-    }
-
-    .main-user-info{
-        max-height: 380px;
-        overflow: auto;
-    }
-
-    .main-user-info::-webkit-scrollbar{
-        width: 0;
-    }
-    .bot-buttons{
-        width: 100%;
-        align-items: center;
-        text-align: center;
-        margin-top: 4.3rem;
-    }
-    .AddButton button:hover{
-        background: var(--color-button-hover);
-    }
-    .CancelButton{
-        position: relative;
-        margin-top: 3rem;
-        padding-top: 2rem;
-        /* padding-right: 2rem; */
-    }
-    .AddButton{
-        position: relative;
-        margin-top: -4rem;
-        margin-left: -1em;
-
-    }
-    /* .CloseButton{
-        margin-top: 5.2vh;
-        margin-left: 2.4em;
-        margin-bottom: -2rem;
-    } */
-    #cancel{
-        width: 100%;
-    }
-}
-.block{
-    width: 5rem;
-    height: 2rem;
-    background-color: var(--color-background);
-    position: fixed;
-    display: flex;
-    top: 0;
-}
-/* -----------------------------------------Adduserform------------------------------------------ */
-.bg-adduserform{
-    height: 100%;
-    width: 100%;
-    background: rgba(0,0,0,0.7);
-    top: 0;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* display: none; */
-}
-.selectItem{
-    margin-bottom: 1rem;
-    align-items: left;
+.deliveryfee{
     text-align: left;
+    align-items: left;
+}
+.delivery-no{
+    display: none;
+}
+.delivery-yes{
+    display: none;
+}
+#Yes{
+    display: none;
+}
+#Maybe{
+    display: none;
+}
+#No{
+    display: none;
+}
+.delivery-lbl{
+    color: var(--color-black);
+    border-bottom: 2px solid var(--color-solid-gray);
+    font-weight: 800;
+    font-size: .8rem;
+    margin-right: 1rem;
+    display: none;
 }
 .addquantity{
-    display: inline-block;
-    position: relative;
     border: none;
     font-weight: 700;
+    fill: var(--color-solid-gray);
     border-radius: 5px;
-    background-color: var(--color-background);
     color: var(--color-solid-gray);
 }
 .minusquantity{
@@ -1135,12 +1084,14 @@ BODY{
     border: none;
     border-radius: 3px;
     font-weight: 600;
-    background-color: var(--color-background);
+    background-color: none;
     color: var(--color-solid-gray);
 }
 .quantity-td{
     min-width: 5rem;
     width: 10%;
+    gap: 1rem;
+    justify-content: center;
 }
 .quantity-tbl{
     width: 30%;
@@ -1407,6 +1358,17 @@ BODY{
     width: 100%;
     background: rgba(0,0,0,0.7);
     top: 0;
+    position: fixed;
+    /* display: none; */
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.bg-placeorderform{
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
     position: absolute;
     display: none;
     align-items: center;
@@ -1441,22 +1403,24 @@ BODY{
     justify-content: space-between;
     padding: 20px 0;
 }
-.select{
-    background: var(--color-solid-gray);
-    color: var(--color-white);
-    align-items: center;
-    border-radius: 13px;
-    padding: 8px 12px;
-    height: 40px;
-    width: 96%;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.action-dropdown{
-    position: relative;
-    margin-top: .5rem;
-    margin-bottom: .5rem
-}
+.usertype-dropdown{
+            width: 48%;
+            margin-top: 1.6rem;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .select{
+            background: var(--color-solid-gray);
+            color: var(--color-white);
+            align-items: center;
+            border-radius: 13px;
+            padding: 8px 12px;
+            height: 40px;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 .user-input-box:nth-child(2n){
     justify-content: end;
 }
@@ -1485,6 +1449,7 @@ BODY{
 #note-box label{
     width: 100%;
 }
+
 .user-input-box{
     display: flex;
     flex-wrap: wrap;
@@ -1568,6 +1533,27 @@ BODY{
     display: inline-block;
     margin-top: 1.3rem;
 }
+.CancelButton-add button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    width: 15rem;
+    max-height: 60px;
+    outline: none;
+    border: none;
+    font-size: min(max(9px, 1.1vw), 11px);
+    border-radius: 20px;
+    color: white;
+    /* background:  var(--color-mainbutton); */
+    cursor: pointer;
+    transition: 0.5s;
+    margin-left: 1rem;
+    display: inline-block;
+    position: relative; 
+    background: var(--color-maroon);
+}
+.CancelButton-add button:hover{
+    background: var(--color-main);
+}
 .AddButton button{
     font-family: 'COCOGOOSE', sans-serif;
     padding: 10px;
@@ -1589,6 +1575,9 @@ BODY{
     background: var(--color-main);
 }
 .CancelButton{
+    display: inline-block;
+}
+.CancelButton-add{
     display: inline-block;
 }
 .AddButton{
@@ -2473,8 +2462,8 @@ hr{
 .delivery-options{
     display: inline-block;
     position: relative;
-    margin-left: 5rem;
-    margin-top: -.7rem;
+    margin-left:2rem;
+
 }
 .select{
     background: var(--color-solid-gray);
@@ -2960,7 +2949,7 @@ hr{
 }
 .order-sum{
     width: 100%;
-    
+    margin-top: 1rem;
 }
 .ordersum-text{
     display: inline-block;
@@ -2995,8 +2984,15 @@ hr{
 .name-cashier{
     display: inline-block;
     color: var(--color-black);
-    margin-left: 1rem;
+    /* margin-left: rem; */
+    width: 6rem;
+    border:none;
+    font-weight: 700;
+    text-align: center;
     margin-bottom: -1rem;
+}
+.name-cashier:focus{
+    outline: none;
 }
 .orderSum-table{
     background-color: var(--color-white);
@@ -3005,7 +3001,7 @@ hr{
     overflow:auto;
     /* display: inline-block; */
     /* margin-left: 1.1rem; */
-    height: 31%;
+    max-height: 18rem;
     /* margin-top: -1rem; */
     /* text-align: right; */
     /* display: flex; */
@@ -3050,13 +3046,28 @@ hr{
     align-items: left;
     text-align: left;
 }
+.totaldelivery{
+    align-items: left;
+    text-align: left;
+}
 #total_order{
-    background-color: #FFCFCF;
+    /* background-color: #FFCFCF;
     padding-left: 20px;
     padding-right: 20px;
-    font-size: 1.2rem;
-    border-radius: 1rem;
+    border-radius: 1rem; */
     font-family: 'century-gothic', sans-serif;
+    font-size: .9rem;
+    color: var(--color-solid-gray);
+}
+#totalAmount_order{
+    background-color: #FFCFCF;
+    /* padding-left: 20px;
+    padding-right: 20px; */
+    text-align: center;
+    border-radius: 1rem;
+    width: 10rem;
+    font-family: 'century-gothic', sans-serif;
+    font-size: 1.5rem;
     color: var(--color-black);
 }
 #total_order1{
@@ -3069,11 +3080,20 @@ hr{
 }
 .orderTotal-text{
     color: var(--color-black);
-    font-weight: bolder;
+    font-weight: 500;
     /* margin-top: 1rem; */
     /* margin-left: 1rem; */
     font-size: 1rem;
     /* display: inline-block; */
+}
+.totalAmount-text{
+    color: var(--color-black);
+    font-weight: bolder;
+    font-size: 1rem;    
+    margin-top: 1rem;
+    margin-left: 1rem;
+    font-size: 1rem;
+    display: inline-block;
 }
 .orderTotal2{
     display: inline-block;
@@ -3111,25 +3131,31 @@ hr{
 }
 
 .confirmOrder-button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding-top: 20px;
+    display: inline-block;
+    /* padding-bottom: -70px; */
+    text-align: center;
+    outline: none;
+    color: var(--color-white);
+    fill: var(--color-white);
+    cursor: pointer;
+    transition: 0.5s;
     background: var(--color-solid-gray);
     border-radius: 5rem;
-    font-size: min(max(9px, 1.1vw), 11px);
-    color: var(--color-white);
+    font-size: .8rem;
     border: none;
     position: relative;
     height: 2.3rem;
-    width: 15rem;
-    margin-left: 1rem;
-    font-family: 'COCOGOOSE', sans-serif;
+    width: 90%;
     text-transform: uppercase;
-    cursor: pointer;
+
 }
 .confirmOrder-button:hover{
     filter: brightness(120%);
     background: var(--color-tertiary);
     transition: 0.5s;
 }
-
 #cancel{
     font-family: 'COCOGOOSE', sans-serif;
     padding: 10px;

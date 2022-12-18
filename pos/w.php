@@ -23,13 +23,13 @@ if(isset($_POST['delete-order'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <!-- <link rel="stylesheet" type="text/css" href="../CSS/point-of-sales.css"> -->
-    <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
+    <!-- <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/rajdhani" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/rajdhani" rel="stylesheet"> -->
     <title>Tag's Water Purified Drinking Water</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
@@ -49,6 +49,25 @@ if(isset($_POST['delete-order'])){
                 echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
             }
             ?>
+            <div class="top-buttons">
+                <div class="newUser-button">
+                    <button type="button" id="select-customerbutton" class="add-account" onclick="selectcustomer();">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.896 17.792-5.125-5.125q-.604.375-1.344.593-.739.219-1.594.219-2.271 0-3.875-1.604T2.354 8q0-2.271 1.604-3.875t3.875-1.604q2.271 0 3.875 1.604T13.312 8q0 .875-.218 1.594-.219.718-.594 1.302l5.146 5.166Zm-8.063-6.771q1.271 0 2.146-.875T10.854 8q0-1.271-.875-2.146t-2.146-.875q-1.271 0-2.145.875-.876.875-.876 2.146t.876 2.146q.874.875 2.145.875Z"/></svg>
+                        <h3>SELECT CUSTOMER</h3>
+                    </button>
+                </div>
+                <div class="newUser-button">
+                    <button type="button" id="new-customerbutton" class="add-account" onclick="addcustomer();">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
+                        <h3>ADD NEW CUSTOMER</h3>
+                    </button>
+                </div>
+                <div class="newUser-button">
+                    <a href="../pos/point-of-sales-add-customer.php" id="return-containerbutton" class="add-account" onclick="addnewuser();">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M7.479 15.042 2.417 10l5.062-5.042 1.729 1.73-2.083 2.083h7v-2.25h2.458v4.708H7.125l2.083 2.083Z"/></svg>
+                        <h3>RETURN CONTAINER</h3>
+                    </a>
+                </div>
                 <div class="payment-options">
                     <?php
                         $dropdown_query1 = "SELECT * FROM payment_option";
@@ -61,19 +80,18 @@ if(isset($_POST['delete-order'])){
                         <?php endwhile;?>
                     </select>
                 </div>
+            </div>
+
 
             <!-- ---------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
             <div class="form-container">
                 <div class="form1">
-
                     <div class="form1-ordertype-buttons">
                         <button type="button" class="refillOrder-button" onclick="refillFunction();">Refill</button>
                         <button type="button" class="newOrder-button" onclick="orderFunction();">New</button>
                         <button type="button" class="otherOrder-button" onclick="otherFunction();">Others</button>
                     </div>
                     <hr>
-
-                    <!-- <br> -->
              
                     <div class="form1-table-water">
                         <label class="selectlabel"> Select Water</label>
@@ -84,7 +102,6 @@ if(isset($_POST['delete-order'])){
                             </select>
                          </div>
                         <div class="form1-table1" id="form-water1">
-         
                             <table class="table1" id="myTable1">
                                 <thead class="form-table">
                                 <tr>
@@ -93,20 +110,15 @@ if(isset($_POST['delete-order'])){
                                     <th>TYPE</th>
                                     <th>WATER</th>
                                     <th>PRICE</th>
-                                    <!-- <th>MINERAL PRICE</th> -->
                                     <th></th>
                                 </tr>
                                 </thead>
-                             
                                         <tbody>
-
                                         </tbody>
-
                                 </form>
                             </table>
                         </div>
                         <div class="form1-table2" id="form-water2">
-       
                             <table class="table1" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
@@ -118,11 +130,8 @@ if(isset($_POST['delete-order'])){
                                     <th></th>
                                 </tr>
                                 </thead>
-                               
                                         <tbody>
-                                      
                                         </tbody>
-                       
                                 </form>
                             </table>
                         </div>
@@ -136,7 +145,10 @@ if(isset($_POST['delete-order'])){
                             </select>
                          </div>
                         <div class="form2-table1" id="form-water3">
-                          
+                            <?php
+                                $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
+                                $result7 = mysqli_query($con, $dropdown_query7);
+                            ?>
                             <table class="table2" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
@@ -148,16 +160,16 @@ if(isset($_POST['delete-order'])){
                                     <th></th>
                                 </tr>
                                 </thead>
-                                
                                             <tbody>
-                                          
                                             </tbody>
-                    
-                                   
+                                    </form>
                             </table>
                         </div>
                         <div class="form2-table2" id="form-water4">
-                           
+                            <?php
+                                $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
+                                $result7 = mysqli_query($con, $dropdown_query7);
+                            ?>
                             <table class="table2" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
@@ -169,17 +181,15 @@ if(isset($_POST['delete-order'])){
                                     <th></th>
                                 </tr>
                                 </thead>
-                                    
+        
                                             <tbody>
-                                           
                                             </tbody>
-                                   
+                                    </form>
                             </table>
                         </div>
                     </div>
 
                             <div class="form3-table">
-                           
                                 <table class="table3" id="myTable3">
                                     <thead class="form-table">
                                         <th></th>
@@ -189,14 +199,18 @@ if(isset($_POST['delete-order'])){
                                         <th></th>
                                     </tr>
                                     </thead>
-                                   
                                             <tbody>
-                                           
                                             </tbody>
-                                 
+                                    </form>
+
                                 </table>
                             </div>
                     
+                    <!-- </div> -->
+                     <!-- <div class="form1-buttons">
+                        <button class="addDeliveryFee-button">Add Delivery Fee</button>
+                        <button class="addOrder-button" id="addOrder-form">Place Order</button>
+                    </div> -->
                 </div>
             </div>
             <!-- ------------------------------------------------------------------------------------------------------------------- -->
@@ -237,17 +251,23 @@ if(isset($_POST['delete-order'])){
                                     <th>TOTAL</th>
                                 </tr>
                                 </thead>
-                          
                                             <tbody>
-                                           
                                             </tbody>
-                                      
-                                            </tfoot>
-                                       
                                 </table>
-                            
                         </div>
-                    
+                        <hr>
+                        <!-- <div class="totalOrder-amount">
+                            <div class="orderTotal1">
+                                <p class="orderTotal-text">Total Amount</p>
+                            </div>
+                            <div class="orderTotal2">
+                                <span class="php">&#8369;</span>
+                                <div class="input-total-amount">
+                                    <input type="text" class="total-order" value="0.00" readonly/>
+                                </div>
+                            </div>
+                        </div> -->
+                        <hr>
                         <div class="receipt-buttons">
                             <a href="point-of-sales.php" id="cancel">CANCEL</a>
                             <input type="button" class="confirmOrder-button" value="CONFIRM">
@@ -256,9 +276,39 @@ if(isset($_POST['delete-order'])){
                 </div>
             </div>
         <!-- ---------------------------------------------------- PREVIOUS TRANSACTIONS ------------------------------------------------- -->
-    
+            <div class="form3">
+                <div class="previous-transaction">
+                    <br>
+                    <header class="previous-transaction-header">Previous Transaction</header>
+                    <hr>
+                    <table class="previous-transaction-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Details</th>
+                            <!-- <th>Water</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>QTY</th>
+                            <th>Total</th> -->
+                            <th>Change</th>
+                            <th>Amount Tendered</th>
+                            <th>Payment</th>
+                            <th>Service</th>
+                            <th>Cashier Name</th>
+                            <th>Date/Time</th>
+                        </tr>
+                        </thead>
+                            <tbody>
+                
+                            </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-
+        <!-- ---------------------------------------------------- PREVIOUS TRANSACTIONS ------------------------------------------------- -->
+        
     </main>
     
             <div class="top-menu">
@@ -316,102 +366,7 @@ if(isset($_POST['delete-order'])){
         
     </div>
 </div>
-    <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
-        <div class="bg-addcustomerform" id="bg-addform">
-            <div class="container1">
-                <h1 class="addnew-title">ADD NEW CUSTOMER</h1>
-                <form action="#">
-                    <div class="main-user-info">
-                        <div class="user-input-box">
-                            <label for="customer_name">Customer Name</label>
-                            <input type="text"
-                                id="customer_name"
-                                name="customer_name"
-                                required="required"
-                                placeholder="Enter Customer Name"/>
-                        </div>
-                        <div class="user-input-box" id="address-box">
-                            <label for="address">Address</label>
-                            <input type="text"
-                                id="address"
-                                class="address"
-                                required="required" name="address" placeholder="Enter Address"/>
-                        </div>
-                        <div class="user-input-box" >
-                            <label for="contact_num1">Contact Number 1</label>
-                            <input type="text" id="contact_num1" class="contactnum1" onkeypress="return isNumberKey(event)" required="required" name="contact_num1" placeholder="Enter Contact Number"/>
-                        </div>
-                        <div class="user-input-box">
-                            <label for="contact_num2">Contact Number 2</label>
-                            <input type="text" id="contact_num2"class="contactnum2" onkeypress="return isNumberKey(event)"name="contact_num2" placeholder="Enter Contact Number"/>
-                        </div>
-
-                        <div class="user-input-box" id="note-box">
-                            <label for="note">Note</label>
-                            <input type="text"
-                                id="note" class="note" name="note" placeholder="Enter a Note"/>
-                        </div>
-                        <div class="line"></div>
-
-                        <div class="bot-buttons">
-                            <div class="CancelButton">
-                                <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
-                            </div>
-                            <div class="AddButton">
-                                <button type="submit" id="addcustomerBtn" name="save-customer">SAVE</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="bg-selectcustomerform" id="bg-selectform">
-            <div class="container2">
-                <div class="close" id="close-btn" onclick="close(this)">
-                    <a href="../pos/point-of-sales.php" class="close-a">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"/></svg>
-                    </a>
-                </div>
-                <h1 class="selectnew-title">SELECT CUSTOMER</h1>
-                <button class="guest-button" id="guest-button" value="Guest" onclick='guestCustomer()'>Guest</button>
-                <input type="button" onclick='guestCustomer()'class="guest-button" id="guest-button" value="Guest" />
-                <div class="search">
-                    <div class="search-bar">
-                        <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                        <button type="submit" >
-                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                        </button>
-                    </div> 
-                </div>
-                <form action="#">
-                    <div class="customer-container">
-                        <table class="table" id="customerTable">
-                            <thead>
-                            <tr>
-                                <th class="select-label">SELECT</th>
-                                <th>ID</th>
-                                <th>Customer Name</th>
-                                <th>Address</th>
-                                <th>Contact Number 1</th>
-                                <th>Contact Number 2</th>
-                                <th>Balance</th>
-                                <th>Note</th>
-                            </tr>
-                            </thead>
-
-                        
-                            <tbody>
-           
-            
-                  
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </form>
-    <?php
+<?php
 if(isset($_GET['edit']))
 {
     $id = $_GET['edit'];
@@ -439,8 +394,7 @@ if(isset($_GET['edit']))
                         <input type="hidden" required="required" name="user_id" value="<?=$item['id'];?>">
                         <div class="main-user-info">
                         <div class="profile-pic">
-                            <img src="../uploaded_image/<?=$item['image'];?>"name="image" alt="" >
-                            <input type="hidden" id="image-profile" name="image_item" accept="image/jpg, image/png, image/jpeg" value="<?php echo "../uploaded_image/".$item['image']; ?>">
+                            <img src="../uploaded_image/<?=$item['image'];?>" alt="">
                         </div>    
                             <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
                             <input type="hidden" required="required" class="iprice" name="PRICE" value="<?=$item['selling_price_item'];?>">
@@ -481,22 +435,28 @@ if(isset($_GET['edit']))
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <!-- <script src="../javascript/point-of-sales.js"></script> -->
 <script>
+    // $(function(){
+    //     $("#selectTable-water2").change(function(){
+    //         var tdWater = $("#selectTable-water2 option:selected").text();
+    //         $("#txt-Water2").val(tdWater);
+    //     });
+    // });
+    // $(function(){
+    //     // var form = quantity.value;
+    //     TOTAL.value = element.value * form.price.value;
+    // });
+    var iprice = document.getElementByClassName('iprice');
+    var iquantity = document.getElementByClassName('iquantity');
+    var itotal = document.getElementByClassName('itotal');
 
-    function waterChange(answer){
-        if(answer.value == 'Alkaline'){
-            document.getElementById("form-water1").style.display = 'block';
-            document.getElementById("form-water2").style.display = 'none';
-            document.getElementById("form-water3").style.display = 'block';
-            document.getElementById("form-water4").style.display = 'none';
-
-        }else if(answer.value == 'Mineral'){
-            document.getElementById("form-water1").style.display = 'none';
-            document.getElementById("form-water2").style.display = 'block';
-            document.getElementById("form-water3").style.display = 'none';
-            document.getElementById("form-water4").style.display = 'block';
-        }
+    function subTotal(){
+        console.log('hello');
+        // var form = element.form;
+        // form.TOTAL.value = element.value * form.PRICE.value;
+        // for(i=0;i<iprice.length;i++){
+        //     itotal[i].innerHTML=(iprice[i].value)*(iquantity[i].value);
+        // }
     }
-  
     function guestCustomer(){
         var guestTxt = document.getElementById("guest-button");
         var selectLbl = document.getElementById("selectCustomer-text");
@@ -524,16 +484,16 @@ if(isset($_GET['edit']))
             // }
     // -----------------------------SEARCH BAR
     const form3Table = document.querySelector(".form3-table");
-    const form2Table = document.querySelector(".form2-table-water");
-    const form1Table = document.querySelector(".form1-table-water");
+    const form2Table = document.querySelector(".form2-table");
+    const form1Table = document.querySelector(".form1-table");
     function refillFunction(){
-        form1Table.style.display = 'block';
+        form1Table.style.display = 'inline-block';
         form2Table.style.display = 'none';
         form3Table.style.display = 'none';
     }
     function orderFunction(){
         form1Table.style.display = 'none';
-        form2Table.style.display = 'block';
+        form2Table.style.display = 'inline-block';
         form3Table.style.display = 'none';
     }
     function otherFunction(){
@@ -555,7 +515,73 @@ if(isset($_GET['edit']))
     function addcustomer(){
         addForm.style.display = 'flex';
     }
- 
+// --------------------------------------------------------ADD ORDER TABLE
+//                     <?php
+//                         $dropdown_query1 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2' OR  category_by_id LIKE '%10'";
+//                         $result1 = mysqli_query($con, $dropdown_query1);
+//                         $image = mysqli_query($con, "SELECT inventory_item.image, alkaline_price FROM inventory_item");
+//                         $inventory_image = mysqli_fetch_assoc($image); ?>
+//     $(document).ready(function(){
+//     $("#selectOrder1").click(function(){
+//         var addcontrols="<tr>"
+//         addcontrols+="<td><button type='button' class='removeBtn'>X</button></td>"
+//         addcontrols+="<td><label style='font-size:15px;'> Refill</label></td>"
+//         addcontrols+="<td><img style='width:50px;'src='../uploaded_image/<?=$inventory_image['image'];?>' alt=''></td>"
+//         addcontrols+="<td><select class='selectTable-water1'><option value='Alkaline'>Alkaline</option><option value='Mineral'>Mineral</option></select></td>"
+//         addcontrols+="<td><select id='selectTable-item' class='selectTable-item'><?php while($row1 = mysqli_fetch_array($result1)):;?><option><?php echo $row1[1];?></option><?php endwhile;?></select></td>"
+//         addcontrols+="<td><input type='number'id='textBox-table' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'></td>" 
+//         addcontrols+="<td><span class='php'>&#8369;</span><input type='text' value='' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
+//         addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
+//         addcontrols+="</tr>";
+//         $(".table1 tbody").append(addcontrols);
+//     });
+// });
+// $('.table1 tbody').on('click','.removeBtn',function(){
+//     $(this).closest('tr').remove();
+// });
+//                     <?php
+//                         $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
+//                         $result7 = mysqli_query($con, $dropdown_query7);
+//                     ?>
+//     $(document).ready(function(){
+//     $("#selectOrder2").click(function(){
+//         var addcontrols="<tr>"
+//         addcontrols+="<td><button type='button' class='removeBtn'>X</button></td>"
+//         addcontrols+="<td><label style='font-size:15px;'> New</label></td>"
+//         addcontrols+="<td><img style='width:50px;'src='../uploaded_image/<?=$inventory_image['image'];?>' alt=''></td>"
+//         addcontrols+="<td><select class='selectTable-water1'><option value='Alkaline'>Alkaline</option><option value='Mineral'>Mineral</option></select></td>"
+//         addcontrols+="<td><select class='selectTable-item'><?php while($row7 = mysqli_fetch_array($result7)):;?><option><?php echo $row7[1];?></option><?php endwhile;?></select></td>"
+//         addcontrols+="<td><input type='number' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
+//         addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
+//         addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
+//         addcontrols+="</tr>";
+//         $(".table2 tbody").append(addcontrols);
+//     });
+// });
+// $('.table2 tbody').on('click','.removeBtn',function(){
+//     $(this).closest('tr').remove();
+// });
+// <?php
+//                         $dropdown_query8 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%5' OR category_by_id LIKE '%7'";
+//                         $result8 = mysqli_query($con, $dropdown_query8);
+//                     ?>
+//     $(document).ready(function(){
+//     $("#selectOrder3").click(function(){
+//         var addcontrols="<tr>"
+//         addcontrols+="<td><button type='button' class='removeBtn'>X</button></td>"
+//         addcontrols+="<td><label style='font-size:15px;'> Others</label></td>"
+//         addcontrols+="<td><img style='width:50px;'src='../uploaded_image/<?=$inventory_image['image'];?>' alt=''></td>"
+//         addcontrols+="<td><select class='selectTable-item'><?php while($row8 = mysqli_fetch_array($result8)):;?><option><?php echo $row8[1];?></option><?php endwhile;?></select></td>"
+//         addcontrols+="<td><input type='number' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
+//         addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
+//         addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
+//         addcontrols+="</tr>";
+//     });
+// });
+// $('.table3 tbody').on('click','.removeBtn',function(){
+//     $(this).closest('tr').remove();
+// });
+// 
 // ----------------------------------------------------------DROP DOWN PROFILE
     function menuToggle(){
     const toggleMenu = document.querySelector('.drop-menu');
@@ -1120,97 +1146,7 @@ BODY{
     align-items: left;
     text-align: left;
 }
-.addquantity{
-    display: inline-block;
-    position: relative;
-    border: none;
-    font-weight: 700;
-    border-radius: 5px;
-    background-color: var(--color-background);
-    color: var(--color-solid-gray);
-}
-.minusquantity{
-    position: relative;
-    display: inline-block;
-    border: none;
-    border-radius: 3px;
-    font-weight: 600;
-    background-color: var(--color-background);
-    color: var(--color-solid-gray);
-}
-.quantity-td{
-    min-width: 5rem;
-    width: 10%;
-}
-.quantity-tbl{
-    width: 30%;
-    color: var(--color-solid-gray);
-    background: none;
-    outline: none;
-    display: inline-block;
-    text-align: center;
-    align-items: center;
-    border: none;
-}
-.quantity-tbl:focus{
-    outline: none;
-}
-.select-dropdown{
-    align-items: left;
-    margin-bottom: 1rem;
-    text-align: left;
-    position: relative;
-    display: inline-block;
-    margin-left:2rem;
-}
-.iprice{
-    border: none;
-    width: 5rem;
-    text-align: center;
-    align-items: center;
-    font-family: 'Switzer', sans-serif;
-    color: var(--color-td);
-    font-size: .67rem;
-}
-.iquantity{
-    border: none;
-    align-items: center;
-    width: 2rem;
-    text-align: center;
-    margin-left: 1rem;
-    font-family: 'Switzer', sans-serif;
-    color: var(--color-td);
-    font-size: .67rem;
-}
-.iprice:focus{
-    outline: none;
-}
-.itotal{
-    border: none;
-    align-items: center;
-    width: 2rem;
-    text-align: center;
-    margin-left: 1rem;
-    font-family: 'Switzer', sans-serif;
-    color: var(--color-td);
-    font-size: .67rem;
-}
-.itotal:focus{
-    outline: none;
-}
 
-.iquantity:focus{
-    outline: none;
-
-}
-.selectItem{
-    margin-bottom: 1rem;
-    align-items: left;
-    text-align: left;
-}
-.form-table{
-    /* background-color: var(--color-solid-gray); */
-}
 /* ----------------------------------------------SELECT CUSTOMER------------------------------------- */
 
 .bg-selectcustomerform{
@@ -1488,7 +1424,7 @@ BODY{
 .user-input-box{
     display: flex;
     flex-wrap: wrap;
-    width: 48%;
+    width: 20%;
     padding-bottom: 15px;
 }
 
@@ -1920,7 +1856,7 @@ h3{
     margin-top: 1rem;
     font-size: min(max(1.9rem, 1.1vw), 2rem);
     color: var(--color-main);
-    font-family: 'outfit', sans-serif;
+    font-family: 'COCOGOOSE', sans-serif;
     letter-spacing: .03rem;
     border-bottom: 2px solid var(--color-main);
     width: 65%;
@@ -2015,15 +1951,15 @@ table tbody td{
 th{
     height: 1.8rem;
     color: var(--color-black);
-    /* margin:1rem; */
+    margin:1rem;
     font-size: .8rem;
     letter-spacing: 0.02rem;
     border-bottom: 2px solid var(--color-solid-gray);
 }
 tr:hover td{
     color: var(--color-main);
-    /* cursor: pointer; */
-    /* background-color: var(--color-table-hover); */
+    cursor: pointer;
+    background-color: var(--color-table-hover);
 }
 .php{
     display: inline-block;
@@ -2364,7 +2300,12 @@ button:hover {
     color: var(--color-white);
     transition: 0.3s;
 }
-
+/* button:hover{
+    filter: brightness(100%);
+    transition: 0.3s;
+    /* font-weight: bolder; */
+/* font-size: 110%; */
+/* } */
 hr{
     width: 95%;
 }

@@ -89,7 +89,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EXPENSE')) {
                                 ON expense.expense_type_id = expense_type.id
                                 INNER JOIN users
                                 ON expense.added_by = users.user_id
-                                WHERE expense.status_archive_id = 1";
+                                WHERE expense.status_archive_id = 1
+                                ORDER BY expense.date ASC";
                     $result = mysqli_query($con, $query);
                     if(mysqli_num_rows($result) > 0)
                     {

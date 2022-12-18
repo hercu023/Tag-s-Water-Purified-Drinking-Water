@@ -53,7 +53,7 @@
             </div>
             <div class="pageform">
                 <div class="confirmBtn">
-                    <a href="../pos/point-of-sales-placeorder.php" id="registered">CONFIRM</a>
+                    <a href="../pos/point-of-sales.php" id="registered">CONFIRM</a>
                 </div>
             </div>
         </div>

@@ -436,7 +436,7 @@ if(isset($_GET['edit']))
                         <input type="hidden" required="required" name="user_id" value="<?=$item['id'];?>">
                         <div class="main-user-info">
                         <div class="profile-pic">
-                            <img src="../uploaded_image/<?=$item['image'];?>" alt="">
+                            <img src="../uploaded_image/<?=$item['image'];?>" name="image" alt="">
                         </div>    
                             <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
                             <input type="hidden" required="required" name="alkalineprice" value="<?=$item['alkaline_price'];?>">
@@ -806,12 +806,12 @@ BODY{
 .label-item{
     /* height: 100%; */
     font-family: 'calibri', sans-serif;
-    font-size: 2rem;
+    font-size: 20px;
     font-weight:900;
     margin-top: 3.1rem;
 
     justify-content: center;
-    color: var(--color-solid-gray);
+    color: var(--color-main);
 }
 .container1{
     width: 100%;
