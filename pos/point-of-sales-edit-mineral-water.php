@@ -113,7 +113,7 @@ if(isset($_POST['delete-order'])){
                                 <select class='selectTable-water1' id="selectTable-water1"><option value='Alkaline'>Alkaline</option><option value='Mineral'>Mineral</option></select>
                                 <select id='selectOrder3' name='' class='select-order3'><?php while($row1 = mysqli_fetch_array($result1)):;?><option><?php echo $row1[1];?></option><?php endwhile;?></select>
                                 <label class="qty-label">QTY</label>
-                                <input type='number'id='qty3' class='qty3' min='0' placeholder='0' onkeypress='return isNumberKey(event)'>
+                                <input type='number'id='qty3' class='qty3' min='1' value='1' onkeypress='return isNumberKey(event)'>
                                 <button class="add-rowsButton" id="add-rowsButton">ADD ORDER</button>   
                             </div>
                             <table class="table1" id="myTable1">
@@ -448,10 +448,10 @@ if(isset($_GET['edit']))
                             
                             <div class="user-input-box">
                                 <label for="quantity" class="quantity-label">Quantity</label>
-                                <input type="number" min='0' onkeypress='return isNumberKey(event)'
+                                <input type="number" min='1' onkeypress='return isNumberKey(event)'
                                        id="quantity"
                                        name="quantity"
-                                       placeholder='0'
+                                       value='1'
                                        required="required">
                                        
                             </div>
@@ -545,73 +545,7 @@ if(isset($_GET['edit']))
     function addcustomer(){
         addForm.style.display = 'flex';
     }
-// --------------------------------------------------------ADD ORDER TABLE
-//                     <?php
-//                         $dropdown_query1 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2' OR  category_by_id LIKE '%10'";
-//                         $result1 = mysqli_query($con, $dropdown_query1);
-//                         $image = mysqli_query($con, "SELECT inventory_item.image, alkaline_price FROM inventory_item");
-//                         $inventory_image = mysqli_fetch_assoc($image); ?>
-//     $(document).ready(function(){
-//     $("#selectOrder1").click(function(){
-//         var addcontrols="<tr>"
-//         addcontrols+="<td><button type='button' class='removeBtn'>X</button></td>"
-//         addcontrols+="<td><label style='font-size:15px;'> Refill</label></td>"
-//         addcontrols+="<td><img style='width:50px;'src='../uploaded_image/<?=$inventory_image['image'];?>' alt=''></td>"
-//         addcontrols+="<td><select class='selectTable-water1'><option value='Alkaline'>Alkaline</option><option value='Mineral'>Mineral</option></select></td>"
-//         addcontrols+="<td><select id='selectTable-item' class='selectTable-item'><?php while($row1 = mysqli_fetch_array($result1)):;?><option><?php echo $row1[1];?></option><?php endwhile;?></select></td>"
-//         addcontrols+="<td><input type='number'id='textBox-table' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'></td>" 
-//         addcontrols+="<td><span class='php'>&#8369;</span><input type='text' value='' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
-//         addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
-//         addcontrols+="</tr>";
-//         $(".table1 tbody").append(addcontrols);
-//     });
-// });
-// $('.table1 tbody').on('click','.removeBtn',function(){
-//     $(this).closest('tr').remove();
-// });
-//                     <?php
-//                         $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
-//                         $result7 = mysqli_query($con, $dropdown_query7);
-//                     ?>
-//     $(document).ready(function(){
-//     $("#selectOrder2").click(function(){
-//         var addcontrols="<tr>"
-//         addcontrols+="<td><button type='button' class='removeBtn'>X</button></td>"
-//         addcontrols+="<td><label style='font-size:15px;'> New</label></td>"
-//         addcontrols+="<td><img style='width:50px;'src='../uploaded_image/<?=$inventory_image['image'];?>' alt=''></td>"
-//         addcontrols+="<td><select class='selectTable-water1'><option value='Alkaline'>Alkaline</option><option value='Mineral'>Mineral</option></select></td>"
-//         addcontrols+="<td><select class='selectTable-item'><?php while($row7 = mysqli_fetch_array($result7)):;?><option><?php echo $row7[1];?></option><?php endwhile;?></select></td>"
-//         addcontrols+="<td><input type='number' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
-//         addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
-//         addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
-//         addcontrols+="</tr>";
-//         $(".table2 tbody").append(addcontrols);
-//     });
-// });
-// $('.table2 tbody').on('click','.removeBtn',function(){
-//     $(this).closest('tr').remove();
-// });
-// <?php
-//                         $dropdown_query8 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%5' OR category_by_id LIKE '%7'";
-//                         $result8 = mysqli_query($con, $dropdown_query8);
-//                     ?>
-//     $(document).ready(function(){
-//     $("#selectOrder3").click(function(){
-//         var addcontrols="<tr>"
-//         addcontrols+="<td><button type='button' class='removeBtn'>X</button></td>"
-//         addcontrols+="<td><label style='font-size:15px;'> Others</label></td>"
-//         addcontrols+="<td><img style='width:50px;'src='../uploaded_image/<?=$inventory_image['image'];?>' alt=''></td>"
-//         addcontrols+="<td><select class='selectTable-item'><?php while($row8 = mysqli_fetch_array($result8)):;?><option><?php echo $row8[1];?></option><?php endwhile;?></select></td>"
-//         addcontrols+="<td><input type='number' class='textBox-table' min='0' placeholder='0' onkeypress='return isNumberKey(event)'></td>"
-//         addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
-//         addcontrols+="<td><span class='php'>&#8369;</span><input type='text' class='textBox-table' min='0' placeholder='0.00' onkeypress='return isNumberKey(event)' readonly></td>"
-//         addcontrols+="</tr>";
-//     });
-// });
-// $('.table3 tbody').on('click','.removeBtn',function(){
-//     $(this).closest('tr').remove();
-// });
-// 
+
 // ----------------------------------------------------------DROP DOWN PROFILE
     function menuToggle(){
     const toggleMenu = document.querySelector('.drop-menu');

@@ -68,7 +68,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
                                     </button>
                                 </div>
                                 <div class="button2">
-                                    <button type="print" id="print-report" class="print-report" onclick="print()">
+                                    <button type="print" id="print" class="print-report" >
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
                                         <h3>Print</h3>
                                     </button>
@@ -76,7 +76,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
                             </div>
                         </div>
                     </div>
-                        <div class="customer-container">
+                        <div class="customer-container" id="customerTable">
                             <table class="table" id="myTable">
                                 <thead>
                                 <tr>
@@ -192,3 +192,22 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/reports-sales.js"></script>
 <script src="../index.js"></script>
+<script>
+    const printBtn = document.getElementById('print');
+printBtn.addEventListener('click', function(){
+  print();
+})
+</script>
+<style>
+    @media print{
+    .top-menu *{
+        display: none;
+    }
+    .container *{
+        display: none;
+    }
+    #customerTable *{
+        display: block;
+    }
+}
+</style>

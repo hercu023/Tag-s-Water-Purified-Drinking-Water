@@ -25,7 +25,8 @@ if(isset($_POST['add-others'])){
                     '$qty3',
                     '$price_item3',
                     '$total',
-                    '$user_id')");
+                    '$user_id',
+                    '0')");
                 if($insert){
                     header("Location: ../pos/point-of-sales.php?update=1");
                 }
@@ -62,7 +63,8 @@ if(isset($_POST['add-alkaline-water'])){
                     '$qty3',
                     '$alkalineprice',
                     '$total',
-                    '$user_id')");
+                    '$user_id',
+                    '0')");
                 if($insert){
                     header("Location: ../pos/point-of-sales.php?update=1");
                 }
@@ -99,7 +101,8 @@ if(isset($_POST['add-mineral-water'])){
                     '$qty3',
                     '$mineralprice',
                     '$total',
-                    '$user_id')");
+                    '$user_id',
+                    ,'0')");
                 if($insert){
                     header("Location: ../pos/point-of-sales.php?update=1");
                 }

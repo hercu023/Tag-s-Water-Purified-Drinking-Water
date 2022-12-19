@@ -340,11 +340,11 @@ if(isset($_GET['editquantity']))
 
                             <div class="user-input-box">
                                 <label for="quantity">Quantity</label>
-                                <input type="number" min='0' 
+                                <input type="number" min='1' 
                                        id="quantity" onkeyup="subTotal();"
                                        class="iquantity" value="<?=$item['quantity'];?>"
                                        name="quantity"
-                                       placeholder='0'
+                                       
                                        required="required">
                             </div>
                             <div class="line"></div>

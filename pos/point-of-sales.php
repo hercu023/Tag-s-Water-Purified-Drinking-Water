@@ -1,7 +1,7 @@
 <?php
 include '../database/connection-db.php';
 require_once '../service/pos-add-customer.php';
-
+// require_once '../service/pos-placeorder.php';
 // $sum=0;
 // if(isset($_POST['minusquantity'])){
 //     $sum=$_POST=['sumquantity'];
@@ -434,12 +434,7 @@ require_once '../service/pos-add-customer.php';
 
                                 </table>
                             </div>
-                    
-                    <!-- </div> -->
-                     <!-- <div class="form1-buttons">
-                        <button class="addDeliveryFee-button">Add Delivery Fee</button>
-                        <button class="addOrder-button" id="addOrder-form">Place Order</button>
-                    </div> -->
+
                 </div>
             </div>
             <!-- ------------------------------------------------------------------------------------------------------------------- -->
@@ -447,10 +442,8 @@ require_once '../service/pos-add-customer.php';
             <!-- ---------------------------------------------------- Order Summary ------------------------------------------------- -->
 
             <div class="form-container-2">
-                
                 <div class="totalOrder">
                     <header class="company-name">Tag's Water Purified Drinking Water</header>
-                    <body>
                         <div class="date-payment">
                             <div class="dateandtime">
                                 <p class="date-Text">Date and Time:
@@ -463,17 +456,14 @@ require_once '../service/pos-add-customer.php';
                             </div>
                             <div class="delivery-options">
                                 <p class="paymentOptions-text">Service</p>
-                                <select class="paymentOptions-dropdown" onchange="deliveryOption(this)" name="deliveryoption">
+                                <select class="paymentOptions-dropdown" onchange="deliveryOption(this)" id="deliveryoption" name="deliveryoption">
                                     <option value="Walk In">Walk In</option>
                                     <option value="Delivery">Delivery</option>
                                     <option value="Pick Up">Pick Up</option>
                                 </select>
                             </div>
                         </div>
-                        <!-- <div class="date-payment">
-                       
-                            
-                         -->
+
                         <hr class="hr1">
                         <div class="order-sum">
                             <div class="ordersum-text">
@@ -496,9 +486,7 @@ require_once '../service/pos-add-customer.php';
                                     <th>TOTAL</th>
                                 </tr>
                                 </thead>
-                            <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
-                                    <?php
-                                        // if (isset($_GET['update'])) {                   
+                                    <?php           
                                            $user_id =  $_SESSION['user_user_id'];
                                             $transaction_process = "SELECT
                                                     transaction_process.id, 
@@ -509,19 +497,20 @@ require_once '../service/pos-add-customer.php';
                                                     transaction_process.price,
                                                     transaction_process.total_price
                                                     FROM transaction_process
-                                                    WHERE user_id = '$user_id'";
+                                                    WHERE user_id = '$user_id' 
+                                                    AND transaction_id = '0'";
                                             $transaction_order = mysqli_query($con, $transaction_process);
                                             if(mysqli_num_rows($transaction_order) > 0)
                                             {
                                             foreach($transaction_order as $transactions)
                                             {
                                             ?>
-                                            <!-- while ($transactions = mysqli_fetch_assoc($transaction_order)) {?> -->
+
                                             <tbody>
                                             <tr>
                                                 <td>
                                                     <a href="../service/delete-transaction-order.php?delete-order=<?php echo $transactions['id']; ?>" class="delete-rowsButton" class="action-btn" name="action">
-                                                        X<!-- <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.271 17.708q-1.042 0-1.75-.708-.709-.708-.709-1.75V5.729H2.333V3.271h5.188V1.792h4.917v1.479h5.229v2.458h-1.479v9.521q0 1.042-.709 1.75-.708.708-1.75.708Zm1.354-3.729h1.979v-7H7.625Zm2.771 0h1.979v-7h-1.979Z"/></svg> -->
+                                                        X
                                                     </a>
                                                 </td>
                                                 <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
@@ -547,55 +536,51 @@ require_once '../service/pos-add-customer.php';
                                       
 
                                             <tfoot>
-                                            <?php $transaction_order1 = mysqli_query($con, "SELECT
+                                           
+                                            </tfoot>
+                                            
+                                </table>
+                        </div>
+                        <div>
+                        <?php $transaction_order1 = mysqli_query($con, "SELECT
                                                     sum(transaction_process.total_price)
                                                     FROM transaction_process"); 
                                                     while ($transactions1 = mysqli_fetch_array($transaction_order1)) {?>
-                                                <tr class="trdelivery">
-                                                    <th colspan="6" class="deliveryfee">
-                                                        <!-- <button type="button" id="Delivery-Button" class="addDelivery-fee">Add Delivery Fee</button> -->
-                                                        <div class="gender-category" >
-                                                            <label class="delivery-lbl" id="delivery-lbl">Service Fee</label>    
-                                                            <input type="radio" name="pos_item" id="Yes" value="1" required="required" onclick="mainForm1()">
-                                                            <label class="delivery-yes" id="delivery-yes"for="Yes">Delivery</label>
-                                                            <input type="radio" name="pos_item" id="Maybe" value="2" required="required" onclick="mainForm1()">
-                                                            <label class="delivery-yes" id="pickup-yes" for="Yes">Delivery/Pick Up</label>
-                                                            <input type="radio" name="pos_item" id="No" value="3" onclick="mainForm2()">
-                                                            <label class="delivery-no" id="delivery-no" for="No">None</label>
-                                                        </div>
-                                                    </th>
-                                                </tr>
-                                                        
-                                                <tr>
-                                                    <th colspan="6" class="totalamount"><p class="orderTotal-text">Order Subtotal</p></th>
-                                                    <!-- <th id="total_order1"> </th> -->
-                                                    <th id="total_order"> <?php echo '&#8369'.' '.number_format($transactions1['sum(transaction_process.total_price)'], '2','.',',');  ?></th>
-                                                </tr>
-                                                <tr>
-                                                    <th colspan="6" class="totaldelivery"><p class="orderTotal-text">Delivery Fee</p></th>
-                                                    <!-- <th id="total_order1"> </th> -->
-                                                    <th id="total_order"> <?php echo '&#8369'.' '.'0.00';  ?></th>
-                                                </tr>
-                                                <tr>
-                                                    <th colspan="6" class="totaldelivery"><p class="totalAmount-text">TOTAL AMOUNT</p></th>
-                                                    
-                                                    <th><label id="total_order1">&#8369</label><input type="text" name="totalAmount" readonly id="totalAmount_order" value="<?php echo number_format($transactions1['sum(transaction_process.total_price)'], '2','.',','); ?>"></th>
-                                                </tr>
-                                                
-                                            </tfoot>
-                                        <?php }?>
-                                </table>
-                        </div>
-                        <hr>
-                        <div class="receipt-buttons">
-                            <!-- <a href="point-of-sales.php" id="cancel">CANCEL</a> -->
-                            <a href="../pos/point-of-sales-placeorder.php" class="confirmOrder-button" name="placeorder">
-                                PLACE ORDER
-                            </a>
-                        </div>
-                        </form>
 
-                    </body>
+            <form action="../service/pos-placeorder.php" method="post" enctype="multipart/form-data" >
+                        <hr>
+                            <div class="totalamount">
+                                <div class="orderTotal-text">Order Subtotal</div>
+                                <div id="orderTotal">  <?php echo '&#8369'.' '.number_format($transactions1['sum(transaction_process.total_price)'], '2','.',',');  ?> </div>
+                            </div>
+                            <div class="totaldelivery">
+                                <div class="orderTotal-text">Delivery Fee</div>
+                            </div>
+                            <div id="delivery-fee"> 
+                                &#8369<input type="number" id="deliveryfee_amount" class="deliveryamount_fee" min="0" value="0.00" onkeyup="deliveryFee();">
+                            </div>
+                            <div id="delivery-fee1"> 
+                            &#8369<label id="deliveryfee_amount1" class="deliveryamount_fee1" min="0" value="0.00"onkeyup="deliveryFee1();"> 0.00</label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="totaldelivery1"><p class="totalAmount-text">TOTAL AMOUNT</p></div>
+                            <div class="total-amount">
+                                <input type="hidden" id="totalamount_value"  value="<?php echo $transactions1['sum(transaction_process.total_price)']; ?>">
+                                <input type="hidden" class="deliveryoption_class" name="option" value="Walk In">
+                                <label id="total_order1">&#8369</label>
+                                <input type="number" name="totalAmount" readonly id="totalAmount_order" value="<?php echo number_format($transactions1['sum(transaction_process.total_price)'], '2','.',','); ?>">
+                            </div>
+                        </div>
+                           
+                        <hr>
+                        <?php }?>
+                        <div class="receipt-buttons">
+                            <button type="submit" class="confirmOrder-button" name="place-order">
+                                PLACE ORDER
+                            </button>
+                        </div>
+            </form>
                 </div>
             </div>
         <!-- ---------------------------------------------------- PREVIOUS TRANSACTIONS ------------------------------------------------- -->
@@ -610,41 +595,62 @@ require_once '../service/pos-add-customer.php';
                             <th>ID</th>
                             <th>Customer Name</th>
                             <th>Order Details</th>
-                            <!-- <th>Water</th>
-                            <th>Type</th>
-                            <th>Price</th>
-                            <th>QTY</th>
-                            <th>Total</th> -->
                             <th>Change</th>
                             <th>Amount Tendered</th>
-                            <th>Payment</th>
+                            <th>Payment Option</th>
                             <th>Service</th>
+                            <th>Note</th>
                             <th>Cashier Name</th>
                             <th>Date/Time</th>
                         </tr>
                         </thead>
                         <?php
-                        $dropdown_query2 = "SELECT * FROM transaction";
+                        $dropdown_query2 = "SELECT 
+                            transaction.id,
+                            transaction.uuid,
+                            customers.customer_name,
+                            transaction.total_amount,
+                            transaction.customer_change,
+                            transaction.amount_tendered,
+                            payment_option.option_name,
+                            transaction.service_type,
+                            transaction.note,
+                            users.first_name,
+                            users.last_name,
+                            transaction.created_at
+                            FROM transaction
+                            INNER JOIN users
+                            ON transaction.created_by_id = users.user_id
+                            INNER JOIN payment_option
+                            ON transaction.payment_option = payment_option.id
+                            LEFT JOIN customers
+                            ON transaction.customer_name = customers.id";
                         $result4 = mysqli_query($con, $dropdown_query2);
                         while ($rows = mysqli_fetch_assoc($result4))
                         {
                             ?>
                             <tbody>
                             <tr>
-                                <td> <?php echo $rows['transaction_id']; ?></td>
-                                <td> <?php echo $rows['customer_name']; ?></td>
-                                <td> <?php echo $rows['item_name'] .' '. $rows['water_type'] .' '. $rows['water_service'] .' '. '<span>&#8369;</span>'.' '.$rows['price'] .' '.$rows['quantity'].' '.'<span>&#8369;</span>'.' '.$rows['total_amount']; ?></td>
+                                <td> <?php echo $rows['id']; ?></td>
+                                <td> <?php if($rows['customer_name']){
+                                    echo $rows['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }
+                                 ?></td>
+                                <td> <a class="viewTransaction" href="../pos/point-of-sales-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
                                 <!-- <td> <?php echo $rows['water_type']; ?></td>
                                 <td> <?php echo $rows['water_service']; ?></td>
                                 <td> <?php echo '<span>&#8369;</span>'.' '.$rows['price']; ?></td>
                                 <td> <?php echo $rows['quantity']; ?></td>
                                 <td> <?php echo '<span>&#8369;</span>'.' '.$rows['total_amount']; ?></td> -->
                                 <td> <?php echo '<span>&#8369;</span>'.' '.$rows['customer_change']; ?></td>
-                                <td> <?php echo '<span>&#8369;</span>'.' '.$rows['amount_tentered']; ?></td>
-                                <td> <?php echo $rows['payment_option']; ?></td>
+                                <td> <?php echo '<span>&#8369;</span>'.' '.$rows['amount_tendered']; ?></td>
+                                <td> <?php echo $rows['option_name']; ?></td>
                                 <td> <?php echo $rows['service_type']; ?></td>
-                                <td> <?php echo $_SESSION['user_user_type']; ?></td>
-                                <td> <?php echo $rows['date_time']; ?></td>
+                                <td> <?php echo $rows['note']; ?></td>
+                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
+                                <td> <?php echo $rows['created_at']; ?></td>
                             <tr id="noRecordTR" style="display:none">
                                 <td colspan="10">No Record Found</td>
                             </tr>
@@ -747,36 +753,60 @@ require_once '../service/pos-add-customer.php';
 <script src="https://code.jquery.com/jquery.min.js"></script>
 <!-- <script src="../javascript/point-of-sales.js"></script> -->
 <script>
+    function deliveryFee(){
+        console.log('ok');
+        // let totalamountvalue = parseInt(document.getElementById("totalamount_value").value);
+        try{
+            console.log('try');
+            let totalamountvalue = parseFloat(document.getElementById("totalamount_value").value);
+            var deliveryfee_value = document.getElementById("deliveryfee_amount").value;
+            let deliveryfee = 0.00;
+            if(!isNaN(deliveryfee_value) && deliveryfee_value !== ''){
+                deliveryfee = parseFloat(document.getElementById("deliveryfee_amount").value);
+            }
+
+            let totalAmount = totalamountvalue;
+            let total = deliveryfee + totalAmount; 
+            document.getElementById("totalAmount_order").value = total.toFixed(2),'.',',';
+            // if(deliveryfee_value == ''){
+            //     document.getElementById("deliveryfee_amount").value = 0.00.toFixed(2);
+            // }
+        }catch(err){
+            console.log('catch');
+    
+        }
+
+        // document.getElementById("deliveryfee_amount").addEventListener('keydown', function(event) {
+        //     // Checking for Backspace.
+        //     if (event.keyCode == 8) {
+        //         console.log('backspace');
+        //     }
+        //     // Checking for Delete.
+        //     if (event.keyCode == 46) {
+        //         console.log('delete');
+        //     }
+        // });
+        
+    }
     function deliveryOption(delivery){
         if(delivery.value == 'Delivery'){
-            document.getElementById("delivery-lbl").style.display = 'inline-block';
-            document.getElementById("delivery-no").style.display = 'inline-block';
-            document.getElementById("delivery-yes").style.display = 'inline-block';
-            document.getElementById("pickup-yes").style.display = 'none';
-            document.getElementById("No").style.display = 'none';
-            document.getElementById("Maybe").style.display = 'inline-block';
-            document.getElementById("Yes").style.display = 'inline-block';
+            document.getElementById("deliveryfee_amount1").style.display = 'none';
+            document.getElementById("delivery-fee").style.display = 'inline-block';
         }else if(delivery.value == 'Pick Up'){
-            document.getElementById("delivery-lbl").style.display = 'inline-block';
-            document.getElementById("delivery-no").style.display = 'inline-block';
-            document.getElementById("delivery-yes").style.display = 'none';
-            document.getElementById("pickup-yes").style.display = 'inline-block';
-            document.getElementById("No").style.display = 'inline-block';
-            document.getElementById("Yes").style.display = 'none';
-            document.getElementById("Maybe").style.display = 'inline-block';
+            document.getElementById("deliveryfee_amount1").style.display = 'none';
+            document.getElementById("delivery-fee").style.display = 'inline-block';
             
         }else if(delivery.value == 'Walk In'){
-            document.getElementById("delivery-lbl").style.display = 'none';
-            document.getElementById("delivery-no").style.display = 'none';
-            document.getElementById("pickup-yes").style.display = 'none';
-            document.getElementById("delivery-yes").style.display = 'none';
-            document.getElementById("No").style.display = 'none';
-            document.getElementById("Maybe").style.display = 'none';
-            document.getElementById("Yes").style.display = 'none';
+            document.getElementById("deliveryfee_amount1").style.display = 'inline-block';
+            document.getElementById("delivery-fee").style.display = 'none';
+            document.getElementById("deliveryfee_amount").value = 0;
             var ele = document.getElementsByName("pos_item");
             for(var i=0;i<ele.length;i++)
                 ele[i].checked = false;
         }
+        selectElement = document.querySelector('#deliveryoption');
+        output = selectElement.value;
+        document.querySelector('.deliveryoption_class').value = output;
     }
     function waterChange(answer){
         if(answer.value == 'Alkaline'){
@@ -1028,8 +1058,35 @@ BODY{
     background-size: cover;
     background-attachment: fixed;
 }
+.deliveryamount_fee{
+    border: none;
+    background-color: var(--color-background);
+    height: 1.5rem;
+    text-align: right;
+    margin-right: 2rem;  
+    font-family: 'century-gothic', sans-serif;
+    font-size: .9rem;
+    width: 6rem;
+    color: var(--color-solid-gray);
+    margin-left: 1rem;
+    border-radius: 5px;
+}
+.viewTransaction{
+    font-family: 'century-gothic', sans-serif;
+    font-size: .7rem;
+    color: var(--color-main);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--color-main);
+    cursor: pointer;
+}
+.viewTransaction:hover{
+    color: var(--color-maroon);
+    border-bottom: 1px solid var(--color-maroon);
+}
 .deliveryfee{
     text-align: left;
+    height: 1rem;
+    margin-left: 2rem;
     align-items: left;
 }
 .delivery-no{
@@ -1046,6 +1103,12 @@ BODY{
 }
 #No{
     display: none;
+}
+.deliveryfee_amount{
+    width: 5rem;
+    position: relative; 
+  
+    display: inline-block;
 }
 .delivery-lbl{
     color: var(--color-black);
@@ -2458,9 +2521,10 @@ hr{
 .form1{
     background-color: var(--color-white);
     border: none;
-    height: 65%;
+    height: 40rem;
     width: 100%;
     border-radius: 10px;
+    display: inline-block;
     position: relative;
     padding-top: 1rem;
 }
@@ -2960,6 +3024,8 @@ hr{
 }
 .order-sum{
     width: 100%;
+    float: left;
+    margin-left: 1rem;
     margin-top: 1rem;
 }
 .ordersum-text{
@@ -2967,11 +3033,11 @@ hr{
 }
 .cashiersum-text{
     display: inline-block;
-    align-items: right;
-    position: absolute;
-    text-align: right;
-    right: 5%;  
+    float: right;
+    /* position: absolute; */
+    /* right: 5%;   */
     padding-top: .5rem;
+    margin-right: 2rem;
 }
 .orderSummary-text{
     color: var(--color-solid-gray);
@@ -3013,8 +3079,8 @@ hr{
     overflow:auto;
     /* display: inline-block; */
     /* margin-left: 1.1rem; */
-    max-height: 18.5rem;
-    height: 18.5rem;
+    max-height: 12rem;
+    height: 12rem;
     /* margin-top: -1rem; */
     /* text-align: right; */
     /* display: flex; */
@@ -3030,7 +3096,7 @@ hr{
     border-radius: 0px 0px 10px 10px;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    padding-bottom: 2.5rem;
+    /* padding-bottom: 2.5rem; */
     text-align: center;
     transition: all 700ms ease;
     overflow: auto;
@@ -3058,18 +3124,72 @@ hr{
 .totalamount{
     align-items: left;
     text-align: left;
+    margin-left: 2rem;
+    margin-bottom: .5rem;
 }
 .totaldelivery{
-    align-items: left;
-    text-align: left;
-    margin-bottom:
+    /* align-items: left;
+    float: left;
+    display: inline-block;*/
+    margin-left: 2rem; 
+    margin-top: .2rem;
+    display: inline-block;
+    /* margin-bottom: */
 }
-#total_order{
+.totaldelivery1{
+    /* align-items: left; */
+    float: left;
+    display: inline-block;
+    margin-left: 1rem;
+    /* margin-bottom: */
+}
+.total-amount{
+    float: right;
+    display: inline-block;
+    /* margin-right: 1rem; */
+}
+#delivery-fee{
     /* background-color: #FFCFCF;
     padding-left: 20px;
     padding-right: 20px;
     border-radius: 1rem; */
     font-family: 'century-gothic', sans-serif;
+    /* margin-right: 6rem; */
+    float: right;
+    /* margin-top: 1.1rem; */
+    /* text-align: right; */
+    display: none;
+    /* margin-top: 1rem; */
+    font-size: .9rem;
+    color: var(--color-solid-gray);
+}
+#delivery-fee1{
+    /* background-color: #FFCFCF;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 1rem; */
+    font-family: 'century-gothic', sans-serif;
+    margin-right: 2rem;
+    float: right;
+    margin-top: .2rem;
+    /* text-align: right; */
+    /* display: inline-block; */
+    /* margin-top: 1rem; */
+    font-size: .9rem;
+    color: var(--color-solid-gray);
+}
+#orderTotal{
+    /* background-color: #FFCFCF;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 1rem; */
+    font-family: 'century-gothic', sans-serif;
+    margin-right: 2rem;
+    /* right: 5%; */
+    float: right;
+    /* margin-top: 1.2rem; */
+    display: inline-block;
+    /* margin-top: 1rem; */
     font-size: .9rem;
     color: var(--color-solid-gray);
 }
@@ -3098,6 +3218,7 @@ hr{
     font-weight: 500;
     /* margin-top: 1rem; */
     /* margin-left: 1rem; */
+    display:inline-block;
     font-size: 1rem;
     /* display: inline-block; */
 }
@@ -3147,7 +3268,7 @@ hr{
 
 .confirmOrder-button{
     font-family: 'COCOGOOSE', sans-serif;
-    padding-top: 20px;
+    /* padding: 20px; */
     display: inline-block;
     /* padding-bottom: -70px; */
     text-align: center;
@@ -3161,7 +3282,7 @@ hr{
     font-size: .8rem;
     border: none;
     position: relative;
-    height: 2.3rem;
+    height: 2.6rem;
     width: 90%;
     text-transform: uppercase;
 
@@ -3199,16 +3320,17 @@ hr{
 .form3{
     /* margin-top: -39rem; */
     width: 100%;
-    /* height: 50rem; */
-    display: inline-block;
-    position: relative;
+    /* height: 100%; */
+    /* display: inline-block;
+    position: relative; */
 }
 .previous-transaction{
     background-color: var(--color-white);
     padding-left: 2rem;
-    width: 97%;
-    /* max-height: 600px; */
-    margin-bottom: 2rem;
+    padding-right: 2rem;
+    width: 95%;
+    /* max-height: 30%; */
+    /* margin-bottom: 2rem; */
     margin-top: 2rem;
     border: 1px solid;
     border-color: var(--color-table-border);

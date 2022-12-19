@@ -46,6 +46,7 @@ BODY{
     background-size: cover;
     background-attachment: fixed;
 }  
+
 .Title-top{
     display: none;
     font-size: min(max(1.2rem, 0.4vw), 1.3rem);

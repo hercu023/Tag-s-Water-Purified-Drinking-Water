@@ -2,7 +2,7 @@
         
     setTimeout(function() {
         $('#myerror').fadeOut('fast');
-    }, 3000);
+    }, 10000);
 // -----------------------------SIDE MENU
  $(document).ready(function(){
      //jquery for toggle sub menus

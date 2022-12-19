@@ -1,3 +1,7 @@
+const printBtn = document.getElementById('print');
+printBtn.addEventListener('click', function(){
+  print();
+})
 const timeElement = document.querySelector(".time");
 const dateElement = document.querySelector(".date");
 
