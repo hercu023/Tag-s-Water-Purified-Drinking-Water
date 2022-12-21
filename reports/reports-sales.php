@@ -193,21 +193,16 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
 <script src="../javascript/reports-sales.js"></script>
 <script src="../index.js"></script>
 <script>
-    const printBtn = document.getElementById('print');
-printBtn.addEventListener('click', function(){
-  print();
-})
+//     const printBtn = document.getElementById('print');
+// printBtn.addEventListener('click', function(){
+//   print();
+// })
+var divToPrint = document.getElementById('print');
+        newWin = window.open("");
+        newWin.document.write(divToPrint.outerHTML);
+        newWin.print();
+        newWin.close();
 </script>
 <style>
-    @media print{
-    .top-menu *{
-        display: none;
-    }
-    .container *{
-        display: none;
-    }
-    #customerTable *{
-        display: block;
-    }
-}
+
 </style>

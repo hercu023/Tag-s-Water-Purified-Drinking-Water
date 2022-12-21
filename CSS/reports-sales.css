@@ -46,7 +46,14 @@ BODY{
     background-size: cover;
     background-attachment: fixed;
 }  
-
+@media print{
+    /* body * {
+        display: none;
+    } */
+    #myTable *{
+        display: block;
+    }
+}
 .Title-top{
     display: none;
     font-size: min(max(1.2rem, 0.4vw), 1.3rem);

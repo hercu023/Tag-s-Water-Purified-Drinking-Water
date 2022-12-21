@@ -11,9 +11,9 @@ if (isset($_POST['save-transaction'])) {
         || isset($_POST['paymentoption'])
         || isset($_POST['serviceoption'])
         || isset($_POST['cashpayment'])
-        // || isset($_POST['totalamount'])
         || isset($_POST['cashbalance'])
-        || isset($_POST['note'])) {
+        || isset($_POST['note'])
+        || isset($_POST['unpaid'])) {
         
         $transaction_uuid = uniqid('', true);
         $user_id = $_SESSION['user_user_id'];
@@ -38,6 +38,14 @@ if (isset($_POST['save-transaction'])) {
 
         $note = $_POST['note'];
         $cashchange = $cashpayment - $totalamount;
+        
+        $status = 1;
+
+        if(isset($_POST['unpaid'])){
+            if($_POST['unpaid'] == 1){
+                $status = 0;
+            }
+        }
 
         if($customer_name == 'GUEST'){
             if($cashpayment < $totalamount){
@@ -47,15 +55,14 @@ if (isset($_POST['save-transaction'])) {
         }else{
             if($cashpayment < $totalamount){
                 $totalbalance = $cashpayment + $cashbalance; 
-                if($totalbalance < $totalamount){
-                    header("Location: ../pos/point-of-sales-placeorder.php?option=".$_POST['option'].'&totalAmount=' .$_POST['totalAmount']. "&error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Insufficient Cash Amount and Balance.");
-                    exit();
+                if(!isset($_POST['unpaid']) && $totalbalance < $totalamount){
+                        header("Location: ../pos/point-of-sales-placeorder-unpaid-confirm.php?option=".$_POST['option'].'&totalAmount='.$_POST['totalAmount'].'&paymentoption='.$_POST['paymentoption'].'&serviceoption='.$_POST['serviceoption'].'&cashpayment='.$_POST['cashpayment'].'&cashbalance='.$_POST['cashbalance'].'&customername='.$_POST['customername'].'&note='.$_POST['note']);
+                        exit();
                 }else{
                     $remainingbalance = $totalbalance - $totalamount;
                     $update = mysqli_query($con, "UPDATE customers 
                                                 SET balance = '$remainingbalance' 
                                                 WHERE id = $customer_name");
-    
                     if ($update) {
                         $cashchange = 0;
                         log_audit($con, $user_id, $module, 1, 'Customer balance adjusted under transaction reference: ' .$transaction_uuid);
@@ -78,7 +85,7 @@ if (isset($_POST['save-transaction'])) {
                              '$cashpayment',
                              '$paymentoption',
                              '$note',
-                             '',
+                             '$status',
                              '$user_id',
                              '$user_id',
                              now(),

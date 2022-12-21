@@ -196,7 +196,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
                             <?php endwhile;?>
                         </select>
                     </div>
-                            
+    
                     <div class="user-input-box">
                         <label for="reorder">Reorder Level</label>
                         <input type="number" min='0' onkeypress='return isNumberKey(event)'
@@ -213,6 +213,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
                                class="sellingprice"
                                name="selling_price"
                                placeholder="0.00"
+                               required="required"
                                />
                     </div>
                     <div class="user-input-box" id="alkalineprice_box">

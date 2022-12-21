@@ -61,9 +61,9 @@ if(isset($_POST['add-inventory'])){
                     '$image',
                     now(),
                     '$status',
-                    '',
+                    now(),
                     '$created_by',
-                    '')");
+                    '$created_by')");
                 if($insert){
 
                     $select = mysqli_query($con, "SELECT * FROM inventory_item WHERE 
@@ -131,7 +131,7 @@ if(isset($_POST['add-refill'])){
                 $insert = mysqli_query($con, "INSERT INTO inventory_item VALUES(
                     '',
                     '$item_name',
-                    '',
+                    '10',
                     '',
                     '$pos_item',
                     '',
@@ -140,9 +140,9 @@ if(isset($_POST['add-refill'])){
                     '$image',
                     now(),
                     '$status',
-                    '',
+                    now(),
                     '$created_by',
-                    '')");
+                    '$created_by')");
                 if($insert){
 
                     $select = mysqli_query($con, "SELECT * FROM inventory_item WHERE 

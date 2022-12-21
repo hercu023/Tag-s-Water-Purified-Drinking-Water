@@ -37,8 +37,6 @@ require_once '../service/pos-add-transaction.php';
     <main>
         <div class="main-pos">
             <h1 class="posTitle">POINT OF SALES</h1>
-            <!-- </div> -->
-
 
             <!-- ---------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
             <div class="form-container">
@@ -358,9 +356,12 @@ require_once '../service/pos-add-transaction.php';
            
             <!-- ---------------------------------------------------- Order Summary ------------------------------------------------- -->
 
+            
             <div class="form-container-2">
-                <div class="totalOrder">
+                
+            <div class="totalOrder">
                     <header class="company-name">Tag's Water Purified Drinking Water</header>
+                    <body>
                         <div class="date-payment">
                             <div class="dateandtime">
                                 <p class="date-Text">Date and Time:
@@ -373,14 +374,14 @@ require_once '../service/pos-add-transaction.php';
                             </div>
                             <div class="delivery-options">
                                 <p class="paymentOptions-text">Service</p>
-                                <select class="paymentOptions-dropdown" onchange="deliveryOption(this)" id="deliveryoption" name="deliveryoption">
+                                <select class="paymentOptions-dropdown" onchange="deliveryOption(this)" name="deliveryoption">
                                     <option value="Walk In">Walk In</option>
                                     <option value="Delivery">Delivery</option>
                                     <option value="Pick Up">Pick Up</option>
                                 </select>
                             </div>
+                            
                         </div>
-
                         <hr class="hr1">
                         <div class="order-sum">
                             <div class="ordersum-text">
@@ -403,101 +404,85 @@ require_once '../service/pos-add-transaction.php';
                                     <th>TOTAL</th>
                                 </tr>
                                 </thead>
-                                    <?php           
-                                           $user_id =  $_SESSION['user_user_id'];
-                                            $transaction_process = "SELECT
-                                                    transaction_process.id, 
-                                                    transaction_process.item_name, 
-                                                    transaction_process.water_type,
-                                                    transaction_process.category_type,
-                                                    transaction_process.quantity,
-                                                    transaction_process.price,
-                                                    transaction_process.total_price
-                                                    FROM transaction_process
-                                                    WHERE user_id = '$user_id' 
-                                                    AND transaction_id = '0'";
-                                            $transaction_order = mysqli_query($con, $transaction_process);
-                                            if(mysqli_num_rows($transaction_order) > 0)
-                                            {
-                                            foreach($transaction_order as $transactions)
-                                            {
+                            <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                    <?php
+                                
                                             ?>
-
+                                            <!-- while ($transactions = mysqli_fetch_assoc($transaction_order)) {?> -->
                                             <tbody>
                                             <tr>
                                                 <td>
-                                                    <a href="../service/delete-transaction-order.php?delete-order=<?php echo $transactions['id']; ?>" class="delete-rowsButton" class="action-btn" name="action">
-                                                        X
+                                                    <a href="../service/delete-transaction-order.php?delete-order=" class="delete-rowsButton" class="action-btn" name="action">
+                                                        X<!-- <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.271 17.708q-1.042 0-1.75-.708-.709-.708-.709-1.75V5.729H2.333V3.271h5.188V1.792h4.917v1.479h5.229v2.458h-1.479v9.521q0 1.042-.709 1.75-.708.708-1.75.708Zm1.354-3.729h1.979v-7H7.625Zm2.771 0h1.979v-7h-1.979Z"/></svg> -->
                                                     </a>
                                                 </td>
-                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
-                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
-                                                <td name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
-                                                <td name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
+                                                <td name="itemname_transaction"></td>
+                                                <td name="watertype_transaction"> </td>
+                                                <td name="categorytype_transaction"></td>
+                                                <td name="price_transaction"> </td>
                                                 <td class="quantity-td" > 
-                                                    <a href="../pos/point-of-sales-edit-quantity.php?editquantity=<?php echo $transactions['id']; ?>" class="addquantity" name="addquantity">
+                                                    <a href="../pos/point-of-sales-edit-quantity.php?editquantity=" class="addquantity" name="addquantity">
                                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.708 17.958q-1.125 0-1.896-.77-.77-.771-.77-1.896V4.708q0-1.125.77-1.895.771-.771 1.896-.771h10.584q1.125 0 1.896.771.77.77.77 1.895v10.584q0 1.125-.77 1.896-.771.77-1.896.77Zm0-2.666h10.584V4.708L4.708 15.292Zm6.73-.875v-1.521H9.917v-1.458h1.521V9.917h1.458v1.521h1.521v1.458h-1.521v1.521ZM5.229 8.208h4.479V6.729H5.229Z"/></svg>
                                                     </a>
-                                                    <?php echo $transactions['quantity'];?>
+                                                    
                                                 </td>
-                                                <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
+                                                <td> </td>
                                             </tr>
-                                            <?php } ?>
-                                            <?php } else { ?>
                                                 <tr id="noRecordTR">
                                                     <td colspan="7">No Order(s) Added</td>
                                                 </tr>
-                                            <?php } ?>
                                             </tbody>
                                         
                                       
 
                                             <tfoot>
-                                           
-                                            </tfoot>
-                                            
-                                </table>
-                        </div>
-                        <div>
-                        <?php $transaction_order1 = mysqli_query($con, "SELECT
+                                            <?php $transaction_order1 = mysqli_query($con, "SELECT
                                                     sum(transaction_process.total_price)
                                                     FROM transaction_process"); 
                                                     while ($transactions1 = mysqli_fetch_array($transaction_order1)) {?>
-
-            <form action="../service/pos-placeorder.php" method="post" enctype="multipart/form-data" >
-                        <hr>
-                            <div class="totalamount">
-                                <div class="orderTotal-text">Order Subtotal</div>
-                                <div id="orderTotal">  <?php echo '&#8369'.' '.number_format($transactions1['sum(transaction_process.total_price)'], '2','.',',');  ?> </div>
-                            </div>
-                            <div class="totaldelivery">
-                                <div class="orderTotal-text">Delivery Fee</div>
-                            </div>
-                            <div id="delivery-fee"> 
-                                &#8369<input type="number" id="deliveryfee_amount" class="deliveryamount_fee" min="0" value="0.00" onkeyup="deliveryFee();">
-                            </div>
-                            <div id="delivery-fee1"> 
-                                <label id="deliveryfee_amount1" class="deliveryamount_fee1" min="0" value="0.00"onkeyup="deliveryFee1();">&#8369 0.00</label>
-                            </div>
+                                                <tr class="trdelivery">
+                                                    <th colspan="6" class="deliveryfee">
+                                                        <!-- <button type="button" id="Delivery-Button" class="addDelivery-fee">Add Delivery Fee</button> -->
+                                                        <div class="gender-category" >
+                                                            <label class="delivery-lbl" id="delivery-lbl">Service Fee</label>    
+                                                            <input type="radio" name="pos_item" id="Yes" value="1" required="required" onclick="mainForm1()">
+                                                            <label class="delivery-yes" id="delivery-yes"for="Yes">Delivery Only</label>
+                                                            <input type="radio" name="pos_item" id="Maybe" value="2" required="required" onclick="mainForm1()">
+                                                            <label class="delivery-yes" id="pickup-yes" for="Yes">Delivery/Pick Up</label>
+                                                            <input type="radio" name="pos_item" id="No" value="3" onclick="mainForm2()">
+                                                            <label class="delivery-no" id="delivery-no" for="No">None</label>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="6" class="totalamount"><p class="orderTotal-text">Order Subtotal</p></th>
+                                                    <!-- <th id="total_order1"> </th> -->
+                                                    <th id="total_order"> <?php echo '&#8369'.' '.number_format($transactions1['sum(transaction_process.total_price)'], '2','.',',');  ?></th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="6" class="totaldelivery"><p class="orderTotal-text">Delivery Fee</p></th>
+                                                    <!-- <th id="total_order1"> </th> -->
+                                                    <th id="total_order"> <?php echo '&#8369'.' '.'0.00';  ?></th>
+                                                </tr>     
+                                                <tr>
+                                                    <th colspan="6" class="totaldelivery"><p class="totalAmount-text">TOTAL AMOUNT</p></th>
+                                                    
+                                                    <th><label id="total_order1">&#8369</label><input type="text" name="totalAmount" readonly id="totalAmount_order" value="<?php echo number_format($transactions1['sum(transaction_process.total_price)'], '2','.',','); ?>"></th>
+                                                </tr>
+                                            </tfoot>
+                                </table>
+                            </form>
                         </div>
-                        <div>
-                            <div class="totaldelivery1"><p class="totalAmount-text">TOTAL AMOUNT</p></div>
-                            <div class="total-amount">
-                                <input type="hidden" id="totalamount_value"  value="<?php echo $transactions1['sum(transaction_process.total_price)']; ?>">
-                                <input type="hidden" class="deliveryoption_class" name="option" value="Walk In">
-                                <label id="total_order1">&#8369</label>
-                                <input type="number" name="totalAmount" readonly id="totalAmount_order" value="<?php echo number_format($transactions1['sum(transaction_process.total_price)'], '2','.',','); ?>">
-                            </div>
-                        </div>
-                           
                         <hr>
                         <?php }?>
+
                         <div class="receipt-buttons">
-                            <button type="submit" class="confirmOrder-button" name="place-order">
+                            <!-- <a href="point-of-sales.php" id="cancel">CANCEL</a> -->
+                            <a href="../pos/point-of-sales-placeorder.php" class="confirmOrder-button" name="placeorder">
                                 PLACE ORDER
-                            </button>
+                            </a>
                         </div>
-            </form>
+                    </body>
                 </div>
             </div>
         <!-- ---------------------------------------------------- PREVIOUS TRANSACTIONS ------------------------------------------------- -->
@@ -512,11 +497,6 @@ require_once '../service/pos-add-transaction.php';
                             <th>ID</th>
                             <th>Customer Name</th>
                             <th>Order Details</th>
-                            <!-- <th>Water</th>
-                            <th>Type</th>
-                            <th>Price</th>
-                            <th>QTY</th>
-                            <th>Total</th> -->
                             <th>Change</th>
                             <th>Amount Tendered</th>
                             <th>Payment</th>
@@ -548,6 +528,7 @@ require_once '../service/pos-add-transaction.php';
         </div>
 
     </main>
+    
     
             <div class="top-menu">
                 <div class="menu-bar">
@@ -608,7 +589,7 @@ require_once '../service/pos-add-transaction.php';
     if(isset($_GET['option'])
     || isset($_GET['totalAmount'])){
         ?>
-        <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
+    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
         <div class="bg-placeorderform" id="bg-placeform">
             <input type="hidden" name="option" value="<?php echo $_GET['option'];?>">
             <input type="hidden" name="totalAmount" value="<?php echo $_GET['totalAmount'];?>">
@@ -669,12 +650,12 @@ require_once '../service/pos-add-transaction.php';
                         <div class="payment-section">
                             <div class="user-input-box-totalamount">
                                 <label for="total-amount2">TOTAL AMOUNT</label>
-                                <input type="text" id="total-amount2" class="total-amount2" onkeypress="return isNumberKey(event)"name="totalamount" value="<?php echo '&#8369'.' '.number_format($_GET['totalAmount'], '2','.',','); ?>"readonly/>
+                                <input type="text" id="total-amount2" class="total-amount2" onkeypress="return isNumberKey(event)"name="totalamount" value="<?php echo '&#8369'.' '.$_GET['totalAmount']; ?>"readonly/>
                             </div>
                             
                             <div class="user-input-box-cashpayment">
                                 <label for="cash-payment2">Cash Payment</label>
-                                <input type="text" id="cash-payment2"class="cash-payment2" required onkeypress="return isNumberKey(event)"name="cashpayment" placeholder="0.00" onkeyup="cashChange();"/>
+                                <input type="text" id="cash-payment2"class="cash-payment2" required onkeypress="return isNumberKey(event)" name="cashpayment" placeholder="0.00" onkeyup="cashChange();"/>
                             </div>
                             <?php $transaction_order1 = mysqli_query($con, "SELECT
                                                     sum(transaction_process.total_price)

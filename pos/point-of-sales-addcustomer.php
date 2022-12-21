@@ -665,7 +665,7 @@ require_once '../service/pos-add-customer.php';
 
                         <div class="bot-buttons">
                             <div class="CancelButton-add">
-                            <a href="../pos/point-of-sales-placeorder.php" id="cancel" name="cancel-add-customer" >CANCEL</a>
+                            <a href="../pos/point-of-sales.php" id="cancel" name="cancel-add-customer" >CANCEL</a>
 
                             </div>
                             <div class="AddButton">

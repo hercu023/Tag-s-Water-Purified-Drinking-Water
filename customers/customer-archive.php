@@ -1,6 +1,5 @@
 <?php
 require_once '../service/archive-customer.php';
-
 require_once "../service/user-access.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) {
@@ -31,7 +30,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
 <div class="container">
 
     <?php
-    include('../common/side-menu.php')
+        include('../common/side-menu.php')
     ?>
 
     <main>

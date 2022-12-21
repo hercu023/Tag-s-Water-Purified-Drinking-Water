@@ -30,19 +30,28 @@ if (isset($_POST['edit-customer'])) {
 
         $note = $_POST['note'];
 
-        $update =mysqli_query($con, "UPDATE customers SET 
-                     customer_name='$customer_name', 
-                     address='$address', 
-                     contact_number1='$contact_num1', 
-                     contact_number2='$contact_num2',
-                     note='$note'
-                 WHERE id='$customer_id'");
-        if($update){
-            log_audit($con, $user_id, $module, 1, 'Updated customer with id:' .$customer_id);
-            header("Location: ../customers/customer-success.php?success=Update Customer Successful!");
-        } else {
-            log_audit($con, $user_id, $module, 0, 'Customer name cannot be a duplicate');
-            header("Location: ../customers/customer.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Customer name cannot be a duplicate");
+        try{
+            $update =mysqli_query($con, "UPDATE customers SET 
+            customer_name='$customer_name', 
+            address='$address', 
+            contact_number1='$contact_num1', 
+            contact_number2='$contact_num2',
+            note='$note'
+            WHERE id='$customer_id'");
+
+            if($update){
+                log_audit($con, $user_id, $module, 1, 'Updated customer with id:' .$customer_id);
+                header("Location: ../customers/customer-success.php?success=Update Customer Successful!");
+            } else {
+                log_audit($con, $user_id, $module, 0, 'Customer name cannot be a duplicate');
+                header("Location: ../customers/customer.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Customer name cannot be a duplicate");
+            }
+
+        }catch(Exception $ex){
+                log_audit($con, $user_id, $module, 0, 'Customer name cannot be a duplicate');
+                header("Location: ../customers/customer.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Customer name cannot be a duplicate");
         }
+    
+       
     }
 }

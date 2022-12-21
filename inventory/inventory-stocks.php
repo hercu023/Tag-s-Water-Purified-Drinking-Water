@@ -40,9 +40,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
                 <div class="main-account">
                     <h1 class="accTitle">INVENTORY</h1> 
                     <div class="sub-tab">
-                        <!-- <div class="user-title"> 
-                            <h2> User Accounts </h2>
-                        </div> -->
+                        <div class="user-title">
+                            <h2>Inventory Stocks  </h2>
+                        </div>
                         <div class="newUser-button"> 
                             <button type="submit" id="add-userbutton" class="add-account" onclick="addnewuser();">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
@@ -71,15 +71,14 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
                                     <th>IN</th>
                                     <th>OUT</th>
                                     <th>On Hand</th>
-                                    <th>Total Amount</th>
-                                    <th>Supplier</th>
-                                    <th>Date/Time</th>
+                                    <th>Total Purchase Amount</th>
+                                    <th>Total Retail Amount</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
 
                             <?php
-                            $inventory = "SELECT * FROM inventory"; 
+                            $inventory = "SELECT * FROM inventory_stock"; 
                             $sql = mysqli_query($con, $inventory);
                                 while ($rows = mysqli_fetch_assoc($sql))
                                 {
@@ -87,20 +86,16 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
                             <tbody>
                                     <tr>
                                         <td> <?php echo $rows['id']; ?></td>
-                                        <td> <?php echo $rows['item_Name']; ?></td>
-                                        <td> <?php echo $rows['type']; ?></td>
-                                        <td> <?php echo $rows['stocks']; ?></td>
-                                        <td> <?php echo $rows['outgoing']; ?></td>
-                                        <td> <?php echo $rows['onhand']; ?></td>
-                                        <td> <?php echo $rows['total_amount']; ?></td>
-                                        <td> <?php echo $rows['supplier']; ?></td>
-                                        <td> <?php echo $rows['DateTime']; ?></td>
+                                        <td> <?php echo $rows['item_name']; ?></td>
+                                        <td> <?php echo $rows['name']; ?></td>
+                                        <td> <?php echo $rows['in_going']; ?></td>
+                                        <td> <?php echo $rows['out_going']; ?></td>
+                                        <td> <?php echo $rows['on_hand']; ?></td>
+                                        <td> <?php echo $rows['total_purchase_amount']; ?></td>
+                                        <td> <?php echo $rows['total_retail_amount']; ?></td>
                                         <td> 
-                                            <a href="../customers/customer-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                            <a href="../inventory/inventory-stocks-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
-                                            </a>
-                                            <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
                                             </a>
                                         </td>
                                     </tr>
@@ -126,150 +121,61 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
         <div class="bg-adduserform" id="bg-addform">
             <div class="message"></div>
             <div class="container1">
-            <h1 class="addnew-title">ADD NEW ITEM</h1>
+            <h1 class="addnew-title">ADD STOCKS</h1>
             <form action="#">
                 <div class="main-user-info">
-                <div class="user-input-box">
-                    <label for="fullName">Item Name</label>
-                    <input type="text"
-                            id="fullName"
-                            name="fullName"
-                            readonly/>
-                    <!-- <div class="usertype-dropdown">
-                        <select class="select" name="usertypes" required="" >
-                            <option selected disabled value="">TYPE</option>
-                            <option value="Admin">Container</option>
-                            <option value="Manager">Bottle</option>
-                            <option value="Cashier">Seal</option>
-                            <option value="Cashier">Filter</option>
-                            <option value="Cashier">Caps</option>
-                            <option value="Custom">Other</option>
+                    <div class="usertype-dropdown">
+                        <?php
+                        $dropdown_query = "SELECT inventory_item.id, inventory_item.item_name, category_by_id FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2' OR category_by_id LIKE '%3' OR category_by_id LIKE '%4' OR category_by_id LIKE '%5' OR category_by_id LIKE '%6' OR category_by_id LIKE '%7' OR category_by_id LIKE '%8' OR category_by_id LIKE '%9'";
+                        $result_item = mysqli_query($con, $dropdown_query);
+                        ?>
+                        <select class="select" name="category_type" required="" >
+                            <option selected disabled value="">SELECT ITEM</option>
+                            <?php while($inventory_item = mysqli_fetch_array($result_item)):;?>
+                                <option value="<?php echo $inventory_item['id']?>">
+                                    <?php echo $inventory_item['item_name'];?></option>
+                            <?php endwhile;?>
                         </select>
-                    </div> -->
-                </div>
-               
-                    <!-- <th>ID</th>
-                                    <th>Item Name</th>
-                                    <th>Type</th>
-                                    <th>POS</th>
-                                    <th>Reorder Level</th>
-                                    <th>SRP</th>
-                                    <th>Cost</th>
-                                    <th>Supplier</th>
-                                    <th>Image</th>
-                                    <th>Date/Time</th>
-                                    <th>Action</th> -->
-                <!-- <div class="user-input-box">
-                    <label for="username">Reorder Level</label>
-                    <input type="number" min='0' onkeypress='return isNumberKey(event)'
-                            id="username"
-                            name="username"
-                            placeholder='0'
-                            required="required"/>
-                </div>
-                 -->
-                <div class="user-input-box">
-                    <label for="Quantity">Quantity</label>
-                    <input type="Quantity" min='0' onkeypress='return isNumberKey(event)'
-                            id="Quantity"
-                            name="Quantity"
-                            placeholder="0"
-                            required="required"/>
-                </div>
-                <div class="line"></div>
-
-                <div class="bot-buttons">
-                    <div class="CancelButton">
-                        <a href="inventory-stocks.php" id="cancel">CANCEL</a>
                     </div>
-                    <div class="AddButton">
-                        <button type="submit" id="adduserBtn" name="submit">SAVE</button>
+
+                   
+                    <div class="user-input-box">
+                        <label for="Supplier">Supplier</label>
+                        <input type="text"
+                                id="Supplier"
+                                name="Supplier"
+                                placeholder="Enter Supplier"
+                                required="required"/>
+                    </div>
+                    <div class="user-input-box">
+                        <label for="Quantity">Quantity</label>
+                        <input type="number" min='0' onkeypress='return isNumberKey(event)'
+                                id="Quantity"
+                                name="Quantity"
+                                placeholder="0"
+                                required="required"/>
+                    </div>
+                    <div class="user-input-box">
+                        <label for="purchaseamount">Purchase Amount</label>
+                        <input type="decimal"
+                                id="purchaseamount"
+                                name="purchaseamount"
+                                placeholder="Enter Purchase Amount"
+                                required="required"/>
+                    </div>
+                    <div class="line"></div>
+
+                    <div class="bot-buttons">
+                        <div class="CancelButton">
+                            <a href="inventory-stocks.php" id="cancel">CANCEL</a>
+                        </div>
+                        <div class="AddButton">
+                            <button type="submit" id="adduserBtn" name="submit">SAVE</button>
+                        </div>
                     </div>
                 </div>
             </form>
-            </div>
-            <!-- <div class="form-adduser1" id="form-adduser1">
-                <h1 class="addnew-title">ADD NEW ITEM</h1>
-            
-                <div class="form-adduser2" id="form-adduser2">
-                    <div class="form1">  
-                        <input type="text" id="fill"class="lastname" required="required" name="lastname">
-                        <span>Item Name</span>
-                    </div> 
-                    <div class="usertype-dropdown">
-                        <select class="select" name="usertypes" required="" >
-                            <option selected disabled value="">TYPE</option>
-                            <option value="Admin">CONTAINER</option>
-                            <option value="Manager">BOTTLE</option>
-                            <option value="Cashier">SEAL</option>
-                            <option value="Cashier">FILTER</option>
-                            <option value="Cashier">CAPS</option>
-                            <option value="Custom">OTHER</option>
-                        </select>
-                    </div>
-                    <tr>
-                                    <th>ID</th>
-                                    <th>Item Name</th>
-                                    <th>Type</th>
-                                    <th>POS</th>
-                                    <th>Reorder Level</th>
-                                    <th>SRP</th>
-                                    <th>Cost</th>
-                                    <th>Supplier</th>
-                                    <th>Image</th>
-                                    <th>Date/Time</th>
-                                    <th>Action</th>
-                                </tr>
-                    <div class="form2">  
-                        <input type="text" id="fill"class="middlename" required="" name="middlename">
-                        <span>Middle Name</span>
-                    </div>
-                    <div class="form2">  
-                        <input type="text" id="fill" class="email" required="required" name="email">
-                        <span>Email</span>
-                    </div>
-                    <div class="form4">  
-                        <input type="text" id="fill" class="contactnum" onkeypress="return isNumberKey(event)" required="required" name="contactnum">
-                        <span>Contact Number</span>
-                    </div>
-                    
-                   <div class="usertype-dropdown">
-                        <div class="select" id="usertype">
-                            <span class="selected">ROLE</span>
-                            <div class="caret"></div>
-                        </div> 
-                        <ul class="menu" name="usertypes" required="required" >
-                            <li class="active">Admin</li>
-                            <li>Manager</li>
-                            <li>Cashier</li>
-                            <li><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 15v-4.25H5v-1.5h4.25V5h1.5v4.25H15v1.5h-4.25V15Z"/></svg>
-                            Custom</li>
-                        </ul>
-                     -->
-                    <!-- <div class="form4">  
-                        <input type="password" class="password" id="pass" required="required" name="pass">
-                        <span>Password</span>
-                    </div>
-                    <div class="form5">  
-                        <input type="password" class="confirm-password" id="cpass" required="required" name="ecpass">
-                        <span>Confirm Password</span>
-                    </div>
-                    <div class="checker">
-                        <input type="checkbox" name="" onclick="myFunctionCP()" >
-                        <span>Show password</span>
-                    </div>
-                    <div class="profile-picture1" >
-                        <h4 >Profile Picture</h4>
-                    </div>
-                    <div class="choose-profile">
-                        <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
-                    </div>
-                </div>   
-             -->
-                <!-- <div class="AddButton">
-                    <button type="submit" id="adduserBtn" name="submit">SAVE</button>
-                   <input type="submit" value="ADD USER" name="submit" id="sub" onclick="showalert()"> -->
-            </div> 
+           
             <div id="form-registered">
                 <div id="container-registered">
                     <div class="content">
@@ -330,7 +236,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
                     </div>
                         <div class="pageform">
                             <div class="confirmBtn">
-                                <a href="inventory-stocks.php" id="registered">CONFIRM</a>
+                                <a href="../inventory/inventory-stocks.php" id="registered">CONFIRM</a>
                             </div> 
                         </div>
                 </div>
@@ -346,9 +252,134 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
 <script src="../javascript/inventory-stocks.js"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
 <style>
-    .top-menu{
+.user-input-box{
+display: flex;
+flex-wrap: wrap;
+width: 45%;
+padding-bottom: 15px;
+}
+
+.user-input-box label{    
+width: 100%;
+color: var(--color-solid-gray);
+font-size: 16px;
+/* margin-left: .2rem; */
+margin-bottom: 0.5rem;
+font-family: 'Malberg Trial', sans-serif;
+font-weight: 550;
+/* margin: 5px 0; */
+}
+.user-input-box label:focus{
+border: 2px solid var(--color-main-3);
+font-size: 17px;
+font-weight: 600;
+}
+.user-input-box input::placeholder{
+font-size: .8em;
+color:var(--color-solid-gray);
+}
+/* ::placeholder:focus{
+border: 2px solid var(--color-main-3);
+} */
+.user-input-box input:focus{
+border: 2px solid var(--color-main-3);
+background: var(--color-white);
+}
+
+.user-input-box input{
+  height: 40px;
+width: 100%;
+border: 2px solid var(--color-solid-gray);
+border-radius: 15px;
+outline: none;
+font-size: 1em;
+background: var(--color-white);
+color: var(--color-black);
+padding: 0 10px;
+}
+.usertype-dropdown{
+            width: 100%;
+            /* margin-top: 1.6rem; */
+            display: flex;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .select{
+            background: var(--color-solid-gray);
+            color: var(--color-white);
+            align-items: center;
+            border-radius: 13px;
+            padding: 8px 12px;
+            height: 40px;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .action-dropdown{
+            position: relative;
+            margin-top: .5rem;
+            /* left: 10%; */
+            margin-bottom: .5rem
+        }
+.top-menu{
     margin-top: 1rem;
     position: absolute;
     right: 3%;
+}
+.user-title{
+    position: absolute;
+    display: inline-block;
+    /* margin-left: 1rem; */
+    width: 100%;
+}
+.newUser-button{
+    position: absolute;
+    display: inline-block;
+    margin-left: 14rem;
+}
+.search{
+    position: absolute;
+    display: inline-block;
+    gap: 2rem;
+    align-items: right;
+    text-align: right;
+    right: 0;
+}
+.search-bar{
+    width: 15vw;
+    background: var(--color-white);
+    display: flex;
+    position: relative;
+    align-items: center;
+    border-radius: 60px;
+    padding: 10px 20px;
+    height: 1.8rem;
+    backdrop-filter: blur(4px) saturate(180%);
+}
+.search-bar input{
+    background: transparent;
+    flex: 1;
+    border: 0;
+    outline: none;
+    padding: 24px 20px;
+    font-size: .8rem;
+    color: var(--color-black);
+    margin-left: -0.95rem;
+}
+::placeholder{
+    color: var(--color-solid-gray);
+
+}
+.search-bar button svg{
+    width: 20px;
+    fill: var(--color-white);
+}
+.search-bar button{
+    border: 0;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    background: var(--color-main);
+    margin-right: -0.55rem;
 }
 </style>

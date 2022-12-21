@@ -95,6 +95,7 @@ padding: 20px 0;
             width: 95%;
             /* margin-top: 1.6rem; */
             display: flex;
+            margin-bottom: 1rem;
             flex-wrap: wrap;
         }
         .select{
@@ -122,7 +123,7 @@ justify-content: end;
 .user-input-box{
 display: flex;
 flex-wrap: wrap;
-width: 50%;
+width: 45%;
 padding-bottom: 15px;
 }
 
@@ -155,7 +156,7 @@ background: var(--color-white);
 
 .user-input-box input{
 height: 40px;
-width: 95%;
+width: 100%;
 border: 2px solid var(--color-solid-gray);
 border-radius: 15px;
 outline: none;
@@ -1336,6 +1337,7 @@ h3{
     /* ----------------------------------------Search BAR---------------------------------------- */
     .search{
         position: absolute;
+        display: inline-block;
         gap: 2rem;
         align-items: right;
         text-align: right;
@@ -1390,7 +1392,7 @@ h3{
         align-items: center;
         color: var(--color-button); 
         fill: var(--color-button); 
-        width: 11rem;
+        width: 10rem;
         max-height: 46px;
         border-radius: 20px;
         padding: .68rem 1rem;

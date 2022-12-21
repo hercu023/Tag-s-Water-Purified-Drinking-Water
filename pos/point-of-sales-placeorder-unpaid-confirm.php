@@ -1,7 +1,5 @@
 <?php
 include '../database/connection-db.php';
-require_once '../service/pos-add-customer.php';
-
 
 ?>
 
@@ -675,141 +673,55 @@ require_once '../service/pos-add-customer.php';
     </div>
 </div>
 <?php
-if(isset($_GET['view']))
-{
-    $uuid = $_GET['view'];
-    $result = mysqli_query($con, "SELECT
-                                customers.customer_name,
-                                transaction.total_amount,
-                                transaction.customer_change,
-                                transaction.amount_tendered,
-                                payment_option.option_name,
-                                transaction.service_type,
-                                transaction.created_at
-                                FROM transaction 
-                                LEFT JOIN customers  
-                                ON transaction.customer_name = customers.id 
-                                LEFT JOIN payment_option  
-                                ON transaction.payment_option = payment_option.id   
-                                WHERE transaction.uuid='$uuid'");
-    if (mysqli_num_rows($result) > 0) {
-    $transaction = mysqli_fetch_assoc($result);
-    ?>
-    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
+    if(isset($_GET['option'])
+    || isset($_GET['totalAmount'])
+    || isset($_GET['customername'])
+    || isset($_GET['paymentoption'])
+    || isset($_GET['serviceoption'])
+    || isset($_GET['cashpayment'])
+    || isset($_GET['cashbalance'])
+    || isset($_GET['note'])){
+        
+        ?>
+    <form action="../service/pos-add-transaction.php" method="post" enctype="multipart/form-data" id="placeorderFrm">
         <div class="bg-placeorderform" id="bg-placeform">
-            <div class="container1">
-                <a href="../pos/point-of-sales.php" class="close">X</a>
-                <h1 class="addnew-title">ORDER DETAILS</h1>
-                <form action="#">
-                    <div class="main-user-info">
-                        <div class="customerName">
-                            <label class="customernameLbl">Customer</label>
-                            <span class="customer_name"><?php if($transaction['customer_name']){
-                                    echo $transaction['customer_name'];
-                                    }else{
-                                        echo 'GUEST';
-                                    }?></span>
-                        </div>
-                        <label class="createdatLbl"><?=$transaction['created_at'];?></label>
+        <div class="message"></div>
+        <div class="container1">
+            <h1 class="addnew-title">PAYMENT CONFIRMATION</h1>
+            <form action="#">
+                <input type="hidden" required="required" name="option" value="<?php echo $_GET['option']?>">
+                <input type="hidden" required="required" name="totalAmount" value="<?php echo $_GET['totalAmount']?>">
+                <input type="hidden" required="required" name="customername" value="<?php echo $_GET['customername']?>">
+                <input type="hidden" required="required" name="paymentoption" value="<?php echo $_GET['paymentoption']?>">
+                <input type="hidden" required="required" name="serviceoption" value="<?php echo $_GET['serviceoption']?>">
+                <input type="hidden" required="required" name="cashpayment" value="<?php echo $_GET['cashpayment']?>">
+                <input type="hidden" required="required" name="cashbalance" value="<?php echo $_GET['cashbalance']?>">
+                <input type="hidden" required="required" name="note" value="<?php echo $_GET['note']?>">
+                <input type="hidden" required="required" name="unpaid" value="1">
 
-                            <div class="payment-options">
-                                <label class="paymentoptionLbl"><?=$transaction['option_name'];?> </label>
-                            </div>
-                 
-                        <?php
-                            }
-                        ?>
-                         <div class="orderSum-Details">
-                            <table class="tableCheckout" id="sumTable">
-                                <thead>
-                                <tr>
-                                    <th>ITEM</th>
-                                    <th>Water</th>
-                                    <th>Type</th>
-                                    <th>Price</th>
-                                    <th>QTY</th>
-                                    <th>TOTAL</th>
-                                </tr>
-                                </thead>
-                                    <?php           
-                                            $transaction_process = "SELECT
-                                                    transaction_process.item_name, 
-                                                    transaction_process.water_type,
-                                                    transaction_process.category_type,
-                                                    transaction_process.quantity,
-                                                    transaction_process.price,
-                                                    transaction_process.total_price
-                                                    FROM transaction_process
-                                                    WHERE transaction_id = '$uuid'";
-                                            $transaction_order = mysqli_query($con, $transaction_process);
-                                            if(mysqli_num_rows($transaction_order) > 0)
-                                            {
-                                            foreach($transaction_order as $transactions)
-                                            {
-                                            ?>
-
-                                            <tbody>
-                                            <tr>
-                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
-                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
-                                                <td name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
-                                                <td name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
-                                                <td class="quantity-td" > 
-                                                    <?php echo $transactions['quantity'];?>
-                                                </td>
-                                                <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
-                                            </tr>
-                                            <?php } ?>
-                                            <?php } else { ?>
-                                                <tr id="noRecordTR">
-                                                    <td colspan="7">No Order(s) Added</td>
-                                                </tr>
-                                            <?php } ?>
-                                            </tbody>
-                                        
-                                      
-
-                                            <tfoot>
-                                           
-                                            </tfoot>
-                                            
-                                </table>
-                        </div>
-                        
-                        <div class="payment-section">
-                            <div class="user-input-box-totalamount">
-                                <label for="total-amount2">TOTAL AMOUNT</label>
-                                <span id="total-amount2" class="total-amount2"><?php echo '&#8369'.' '.number_format($transaction['total_amount'], '2','.',','); ?></span>
-                            </div>
-                            
-                            <div class="user-input-box-cashpayment">
-                                <label for="cash-payment2">Cash Payment</label>
-                                <span id="cash-payment2" class="cash-payment2"><?php echo '&#8369'.' '.number_format($transaction['amount_tendered'], '2','.',','); ?></span>
-                            </div>
-
-                            <div class="user-input-box-cashpayment">
-                                <label for="cash-payment2">Change</label>
-                                <span id="cash-change"class="cash-change"><?php echo '&#8369'.' '.number_format($transaction['customer_change'], '2','.',','); ?></span>
-                            </div>
-                        </div>
-                        <div class="line"></div>
-
-                        <div class="bot-buttons">
-                            <div class="AddButton">
-                                <button type="submit" id="addcustomerBtn" name="save-transaction" onclick="print();">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
-                                    PRINT
-                                </button>
-                            </div>
-                        </div>
-                        
-
+                <div class="a-header">
+                    <label class="archive-header"> Balance and Amount Tendered is insufficient, Transaction will be tagged as Unpaid.</label>
+                </div>
+                <div class="bot-buttons">
+                    <div class="CancelButton">
+                        <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
                     </div>
-                </form>
-            </div>
+                    <div class="AddButton">
+                        <button type="submit" id="addcustomerBtn" name="save-transaction"> PROCEED</button>
+                    </div>
+                </div>
+        </div>
         </div>
     </form> 
     <?php }?>
+    
+    <?php
+// if(isset($_GET['edit'])) {
+// $customer_id = $_GET['edit'];
+// $result = mysqli_query($con, "SELECT * FROM customers WHERE id='$customer_id'");
+
+// if (mysqli_num_rows($result) > 0) {
+// $customer = mysqli_fetch_assoc($result); ?>
 
         <div class="bg-selectcustomerform" id="bg-selectform">
             <div class="container2">
@@ -1055,96 +967,20 @@ BODY{
     background-size: cover;
     background-attachment: fixed;
 }
-.payment-section{
-    width: 100%;
+.a-header{
     align-items: center;
+    text-align: center;
     padding: 20px;
-    margin-top: 1rem;
-    justify-content: center;
-    background-color: var(--color-background);
-    border: none;
-    border-radius: 20px;
 }
-.user-input-box-totalamount label{
-    color: var(--color-solid-gray);
-    text-align: right;
-    font-size: 16px;
-    /* margin-left: .2rem; */
-    margin-bottom: 0.5rem;
-    font-family: 'Malberg Trial', sans-serif;
-    font-weight: 550;
-    /* margin: 5px 0; */
-}
-.user-input-box-totalamount{
-    /* display: inline-block; */
-
-}
-.user-input-box-cashpayment{
-    display: inline-block;
-    margin-top: 1rem;
-}
-.user-input-box-cashpayment label{
-    width: 95%;
-    color: var(--color-solid-gray);
-    font-size: 12px;
-    text-align: right;
-    /* margin-left: .2rem; */
-    margin-bottom: 0.5rem;
-    font-family: 'Malberg Trial', sans-serif;
-    font-weight: 550;
-    /* margin: 5px 0; */
-}
-.user-input-box-totalamount .total-amount2{
-    display: inline-block;
-    text-align: right;
-    outline: none;
-    font-size: 1em;
-    margin-left: 1rem;
+.archive-header{
+    text-align: center;
     color: var(--color-black);
-
-}
-.user-input-box-cashpayment .cash-payment2{
-    display: inline-block;
-    text-align: right;
-    height: 2.5rem;
-    outline: none;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    font-size: .8em;
-    color: var(--color-black);
-}
-.user-input-box-cashpayment .cash-change{
-    display: inline-block;
-    text-align: right;
-    height: 2.5rem;
-    margin-left: 1rem;
-    outline: none;
-    font-size: .8em;
-    color: var(--color-black);
-
+    font-family: 'calibri', sans-serif;
+    font-size: 20px;
 }
 .customernameLbl{
     margin-left: 1rem;
     font-size: .9rem;
-    width: 100%;
-    margin-top: 1rem;
-    color: var(--color-solid-gray);
-    font-weight: 600;
-}
-.paymentoptionLbl{
-    margin-left: 1rem;
-    font-size: .9rem;
-    width: 100%;
-    margin-top: 2rem;
-    color: var(--color-solid-gray);
-    font-weight: 600;
-}
-.createdatLbl{
-    margin-left: 1rem;
-    font-size: .9rem;
-    /* width: 100%; */
-    display: inline-block;
-    /* margin-top: 1rem; */
     color: var(--color-solid-gray);
     font-weight: 600;
 }
@@ -1698,9 +1534,10 @@ BODY{
 }
 .AddButton button{
     font-family: 'COCOGOOSE', sans-serif;
-    padding: 20px;
-    width: 7rem;
-    max-height: 60px;
+    /* padding: 20px; */
+    width: 12rem;
+    height: 2.3rem;
+    /* max-height: 60px; */
     outline: none;
     border: none;
     gap: .5rem;
@@ -1710,8 +1547,7 @@ BODY{
     background:  var(--color-mainbutton);
     cursor: pointer;
     transition: 0.5s;
-    /* margin-left: 1rem; */
-    display: flex;
+    margin-left: 1rem;
     fill: white;
     background: var(--color-solid-gray);
 }
@@ -2572,19 +2408,17 @@ hr{
 }
 .payment-options{
     background-color: none;
-    width: 100%;
-    margin-left:.5rem;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
     /* position: absolute; */
     display: inline-block;
-    text-transform: uppercase;
-    font-size: 16px;
-    text-align: left;
-    margin-top: 1rem;
+    text-align: right;
     /* padding-top: 1rem; */
     /* right: 8%; */
 }
 .paymentOptions-text{
     font-weight: 700;
+    font-size: 13px;
     /* margin-left: 1rem; */
     margin-top:1.7rem;
     color: var(--color-black);

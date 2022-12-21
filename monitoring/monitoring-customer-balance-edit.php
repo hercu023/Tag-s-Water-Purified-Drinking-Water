@@ -38,7 +38,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                     <h1 class="dashTitle">MONITORING</h1> 
                     <div class="sub-tab">
                         <div class="user-title">
-                            <h2>CUSTOMER BALANCE</h2>
+                            <h2>Customer Balance</h2>
                         </div>
                         <div class="newUser-button">
                             <button type="button" id="add-userbutton" class="add-customer" onclick="addnewuser();">
@@ -46,6 +46,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                                 <h3>Add Balance</h3>
                             </button>
                         </div>
+
                         <div class="search">
                             <div class="search-bar"> 
                                 <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
@@ -142,7 +143,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
     <div class="bg-addcustomerform" id="bg-addform">
         <div class="message"></div>
         <div class="container1">
-            <h1 class="addnew-title">ADD BALANCE</h1>
+            <h1 class="addnew-title">EDIT BALANCE</h1>
             <form action="#">
                 <div class="main-user-info">
                         <div class="customerName">
@@ -723,7 +724,7 @@ new TomSelect("#chosen",{
     background: rgba(0,0,0,0.7);
     top: 0;
     position: fixed;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     /* display: flex; */

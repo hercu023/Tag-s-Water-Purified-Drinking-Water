@@ -2,7 +2,7 @@
 require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-CUSTOMER_BALANCE')) {
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-POINT_OF_SALES_TRANSACTION')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
     exit();
 }
@@ -23,8 +23,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
         <title>Tag's Water Purified Drinking Water</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/css/tom-select.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
         <script src="../index.js"></script>
     </head>
     <body>
@@ -38,14 +36,16 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                     <h1 class="dashTitle">MONITORING</h1> 
                     <div class="sub-tab">
                         <div class="user-title">
-                            <h2>CUSTOMER BALANCE</h2>
+                            <h2>POS TRANSACTION</h2>
                         </div>
-                        <div class="newUser-button">
-                            <button type="button" id="add-userbutton" class="add-customer" onclick="addnewuser();">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                <h3>Add Balance</h3>
-                            </button>
-                        </div>
+                        <div class="select-dropdown">
+                                <select class="select">
+                                    <option selected disabled value="">SELECT TYPE</option>
+                                    <option value="All">All</option>
+                                    <option value="Walk-In">Walk-In</option>
+                                    <option value="Delivery">Delivery</option>
+                                </select>
+                            </div>
                         <div class="search">
                             <div class="search-bar"> 
                                 <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
@@ -60,15 +60,21 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                         <div class="sub-tab-container">
                             
                             <div class="totals">
+                                <div class="newUser-button3"> 
+                                <div id="add-userbutton" class="add-account3">
+                                        <h3 class="deliveries">TOTAL TRANSACTION</h3>
+                                        <span class="total-transactions">0</span>
+                                </div>
+                            </div>
                             <div class="newUser-button1"> 
                                 <div id="add-userbutton" class="add-account1">
-                                    <h3 class="deliveries">Customer With Balance</h3>
+                                    <h3 class="deliveries">DELIVERIES</h3>
                                     <span class="total-deliveries">0</span>
                                 </div>
                             </div>
                             <div class="newUser-button2"> 
                                 <div id="add-userbutton" class="add-account2">
-                                    <h3 class="deliveries">Customer With Credit</h3>
+                                    <h3 class="deliveries">WALK IN</h3>
                                     <span class="total-deliveries">0</span>
                                 </div>
                             </div>
@@ -79,58 +85,85 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                     
                         <div class="customer-container" id="customerTable">
                             <br>
-                            <header class="previous-transaction-header">List of Customers with Balance</header>
+                            <header class="previous-transaction-header">Today's Previous Transaction</header>
                             <hr>
                             <table class="table" id="myTable">
                             <thead>
-                            <tr>
-                        <th>ID</th>
-                        <th>Customer Name</th>
-                        <th>Contact Number</th>
-                        <th>Address</th>
-                        <th>Balance</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-
-                    <?php
-                    $query = "SELECT customers.id,
-                                customers.customer_name,
-                                customers.contact_number1,
-                                customers.address, 
-                                customers.balance,
-                                status_archive.status
-                                FROM customers 
-                                INNER JOIN status_archive 
-                                ON customers.status_archive_id = status_archive.id 
-                                WHERE customers.status_archive_id = '1'";
-                    $result = mysqli_query($con, $query);
-                    if(mysqli_num_rows($result) > 0)
-                    {
-                    foreach($result as $rows)
-                    {
-                    ?>
-                    <tbody>
-                    <tr>
-                        <td> <?php echo $rows['id']; ?></td>
-                        <td> <?php echo $rows['customer_name']; ?></td>
-                        <td> <?php echo $rows['contact_number1']; ?></td>
-                        <td> <?php echo $rows['address']; ?></td>
-                        <td> <?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
-                        <td>
-                            <a href="../monitoring/monitoring-customer-balance-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
-                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
-                            </a>
-                        </td>
-                    </tr>
-                    <?php } ?>
-                    <?php } else { ?>
-                        <tr id="noRecordTR">
-                            <td colspan="15">No Record(s) Found</td>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Details</th>
+                            <th>Total Amount</th>
+                            <th>Change</th>
+                            <th>Amount Tendered</th>
+                            <th>Payment Option</th>
+                            <th>Service</th>
+                            <th>Note</th>
+                            <th>Payment Status</th>
+                            <th>Cashier Name</th>
+                            <th>Date/Time</th>
                         </tr>
-                    <?php } ?>
+                        </thead>
+                        <?php
+                        $dropdown_query2 = "SELECT 
+                            transaction.id,
+                            transaction.uuid,
+                            customers.customer_name,
+                            transaction.total_amount,
+                            transaction.customer_change,
+                            transaction.amount_tendered,
+                            payment_option.option_name,
+                            transaction.service_type,
+                            transaction.note,
+                            transaction.status_id,
+                            users.first_name,
+                            users.last_name,
+                            transaction.created_at
+                            FROM transaction
+                            INNER JOIN users
+                            ON transaction.created_by_id = users.user_id
+                            INNER JOIN payment_option
+                            ON transaction.payment_option = payment_option.id
+                            LEFT JOIN customers
+                            ON transaction.customer_name = customers.id
+                            ORDER BY transaction.created_at";
+                        $result4 = mysqli_query($con, $dropdown_query2);
+                        while ($rows = mysqli_fetch_assoc($result4))
+                        {
+                            ?>
+                            <tbody>
+                            <tr>
+                                <td> <?php echo $rows['id']; ?></td>
+                                <td> <?php if($rows['customer_name']){
+                                    echo $rows['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }
+                                 ?></td>
+                                <td> <a class="viewTransaction" href="../pos/point-of-sales-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+
+                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
+                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['customer_change'], '2','.',','); ?></td>
+                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['amount_tendered'], '2','.',','); ?></td>
+                                <td> <?php echo $rows['option_name']; ?></td>
+                                <td> <?php echo $rows['service_type']; ?></td>
+                                <td> <?php echo $rows['note']; ?></td>
+                                <td> <?php 
+                                    if($rows['status_id'] == 0){
+                                        echo 'Unpaid';
+                                    }else{
+                                        echo 'Paid';
+                                    } ?>
+                                </td>
+                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
+                                <td> <?php echo $rows['created_at']; ?></td>
+                            <tr id="noRecordTR" style="display:none">
+                                <td colspan="10">No Record Found</td>
+                            </tr>
                             </tbody>
-                            
+                            <?php
+                        }
+                        ?>
                             </table>
                         </div>
             </main>
@@ -138,73 +171,146 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                 include('../common/top-menu.php')
             ?>    
         </div> 
-        <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
-    <div class="bg-addcustomerform" id="bg-addform">
-        <div class="message"></div>
-        <div class="container1">
-            <h1 class="addnew-title">ADD BALANCE</h1>
-            <form action="#">
-                <div class="main-user-info">
+        <?php
+if(isset($_GET['view']))
+{
+    $uuid = $_GET['view'];
+    $result = mysqli_query($con, "SELECT
+                                customers.customer_name,
+                                transaction.total_amount,
+                                transaction.customer_change,
+                                transaction.amount_tendered,
+                                payment_option.option_name,
+                                transaction.service_type,
+                                transaction.created_at
+                                FROM transaction 
+                                LEFT JOIN customers  
+                                ON transaction.customer_name = customers.id 
+                                LEFT JOIN payment_option  
+                                ON transaction.payment_option = payment_option.id   
+                                WHERE transaction.uuid='$uuid'");
+    if (mysqli_num_rows($result) > 0) {
+    $transaction = mysqli_fetch_assoc($result);
+    ?>
+    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
+        <div class="bg-placeorderform" id="bg-placeform">
+            <div class="container1">
+                <a href="../monitoring/monitoring-point-of-sales-transaction.php" class="close">X</a>
+                <h1 class="addnew-title">ORDER DETAILS</h1>
+                <form action="#">
+                    <div class="main-user-info">
                         <div class="customerName">
-                            <label for="contact_num2">Customer Name</label>
-                            <div class="usertype-dropdown">
-                                <?php
-                                $dropdown_customers = "SELECT * FROM customers";
-                                $result_customers = mysqli_query($con, $dropdown_customers);
-                                ?>
-                                <select id="chosen" class="select-customer" name="customername" required="" onchange="customerBal();">
-                                    <option selected disabled value="">SELECT CUSTOMER</option>
-                                    <?php while($customers = mysqli_fetch_array($result_customers)){?>
-                                        <option value="<?php echo $customers['id']?>">
-                                            <?php echo $customers['customer_name'];?>                                        
-                                        </option>
-                                    <?php }?>
-                                    <!-- <option class="guest-option"value="Guest">GUEST</option> -->
-                                </select>
-                                <?php
-                                $dropdown_customers1 = "SELECT * FROM customers";
-                                $result_customers1 = mysqli_query($con, $dropdown_customers1);
-                                ?>
-                                <?php while($customers1 = mysqli_fetch_array($result_customers1)){?>
-                                    <?php $customers_balance_id = 'customerbalance' . $customers1['id'];?>        
-                                    <input type="hidden"  id="<?php echo $customers_balance_id ?>" value="<?php echo $customers1['balance'];?>">
-                                <?php }?>
+                            <label class="customernameLbl">Customer</label>
+                            <span class="customer_name"><?php if($transaction['customer_name']){
+                                    echo $transaction['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }?></span>
+                        </div>
+                        <label class="customernameLbl"><?=$transaction['created_at'];?></label>
+
+                            <div class="payment-options">
+                                <label class="customernameLbl"><?=$transaction['option_name'];?> </label>
+                            </div>
+                 
+                        <?php
+                            }
+                        ?>
+                         <div class="orderSum-Details">
+                            <table class="tableCheckout" id="sumTable">
+                                <thead>
+                                <tr>
+                                    <th>ITEM</th>
+                                    <th>Water</th>
+                                    <th>Type</th>
+                                    <th>Price</th>
+                                    <th>QTY</th>
+                                    <th>TOTAL</th>
+                                </tr>
+                                </thead>
+                                    <?php           
+                                            $transaction_process = "SELECT
+                                                    transaction_process.item_name, 
+                                                    transaction_process.water_type,
+                                                    transaction_process.category_type,
+                                                    transaction_process.quantity,
+                                                    transaction_process.price,
+                                                    transaction_process.total_price
+                                                    FROM transaction_process
+                                                    WHERE transaction_id = '$uuid'";
+                                            $transaction_order = mysqli_query($con, $transaction_process);
+                                            if(mysqli_num_rows($transaction_order) > 0)
+                                            {
+                                            foreach($transaction_order as $transactions)
+                                            {
+                                            ?>
+
+                                            <tbody>
+                                            <tr>
+                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
+                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
+                                                <td name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
+                                                <td name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
+                                                <td class="quantity-td" > 
+                                                    <?php echo $transactions['quantity'];?>
+                                                </td>
+                                                <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
+                                            </tr>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <tr id="noRecordTR">
+                                                    <td colspan="7">No Order(s) Added</td>
+                                                </tr>
+                                            <?php } ?>
+                                            </tbody>
+                                        
+                                      
+
+                                            <tfoot>
+                                           
+                                            </tfoot>
+                                            
+                                </table>
+                        </div>
+                        
+                        <div class="payment-section">
+                            <div class="user-input-box-totalamount">
+                                <label for="total-amount2">TOTAL AMOUNT</label>
+                                <span id="total-amount2" class="total-amount2"><?php echo '&#8369'.' '.number_format($transaction['total_amount'], '2','.',','); ?></span>
+                            </div>
+                            
+                            <div class="user-input-box-cashpayment">
+                                <label for="cash-payment2">Cash Payment</label>
+                                <span id="cash-payment2" class="cash-payment2"><?php echo '&#8369'.' '.number_format($transaction['amount_tendered'], '2','.',','); ?></span>
+                            </div>
+
+                            <div class="user-input-box-cashpayment">
+                                <label for="cash-payment2">Change</label>
+                                <span id="cash-change"class="cash-change"><?php echo '&#8369'.' '.number_format($transaction['customer_change'], '2','.',','); ?></span>
                             </div>
                         </div>
-                    <div class="user-input-box" id="address-box">
-                        <label for="balance">Advance Payment</label>
-                        <input type="number" step=".01"
-                               id="address" 
-                               class="address"
-                               required="required" name="address" placeholder="0.00"/>
-                    </div>
-                    <div class="line"></div>
+                        <div class="line"></div>
 
-                    <div class="bot-buttons">
-                        <div class="CancelButton">
-                            <a href="../monitoring/monitoring-customer-balance.php" id="cancel">CANCEL</a>
+                        <div class="bot-buttons">
+                            <div class="AddButton">
+                                <button type="submit" id="addcustomerBtn" name="save-transaction" onclick="print();">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
+                                    PRINT
+                                </button>
+                            </div>
                         </div>
-                        <div class="AddButton">
-                            <button type="submit" id="addcustomerBtn" name="save-customer">SAVE</button>
-                        </div>
+                        
+
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
+        </div>
+    </form> 
+    <?php }?>
+
     </body>
 </html>
 <script>
-const addForm = document.querySelector(".bg-addcustomerform");
- function addnewuser(){
-    // const addBtn = document.querySelector(".add-customer");
-    addForm.style.display = 'flex';
-}
-new TomSelect("#chosen",{
-            create: false,
-            sortField: {
-            field: "text",
-            direction: "asc"
-        }
-    });
     // -----------------------------SIDE MENU
  $(document).ready(function(){
      //jquery for toggle sub menus
@@ -286,7 +392,6 @@ new TomSelect("#chosen",{
         --color-maroon: rgb(136, 0, 0);
         --color-secondary-main: rgb(244, 255, 246);
         --color-background: rgb(235, 235, 235);
-        --color-mainbutton: rgb(117, 117, 117);
         --color-solid-gray: rgb(126, 126, 126);
         --color-td:rgb(100, 100, 100);
         --color-button: rgb(117, 117, 117);
@@ -294,7 +399,6 @@ new TomSelect("#chosen",{
         --color-shadow-shadow: rgb(116, 116, 116);
         --color-table-hover: rgb(244, 255, 246);
         --color-aside-mobile-focus: rgb(78, 150, 78);
-        --color-button-hover: rgb(39, 170, 63);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
         
     }
@@ -327,171 +431,382 @@ new TomSelect("#chosen",{
         background-size: cover;
         background-attachment: fixed;
     }  
-    
-    .main-user-info{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px 0;
-}
-.customerName{
-    align-items:center;
+    .bot-buttons{
     width: 100%;
-    margin-top: -2rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-}
-.customerName label{
-    /* width: 95%; */
-    color: var(--color-solid-gray);
-    font-size: 16px;
+    align-items: center;
+    text-align: center;
     display: inline-block;
+    margin-top: 1.3rem;
+}
+    .AddButton button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 20px;
+    width: 7rem;
+    max-height: 60px;
+    outline: none;
+    border: none;
+    gap: .5rem;
+    font-size: min(max(9px, 1.1vw), 11px);
+    border-radius: 20px;
+    color: white;
+    background:  var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+    /* margin-left: 1rem; */
+    display: flex;
+    fill: white;
+    background: var(--color-solid-gray);
+}
+.AddButton button:hover{
+    background: var(--color-main);
+}
+    .close{
+    text-align: right;
+    float: right;
+    color: var(--color-maroon);
+    cursor: pointer;
+}
+
+.close:hover{
+    filter: brightness(2.5);
+}
+    .bg-placeorderform{
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* display: flex; */
+}
+.payment-section{
+    width: 100%;
+    align-items: center;
+    padding: 20px;
+    margin-top: 1rem;
+    justify-content: center;
+    background-color: var(--color-background);
+    border: none;
+    border-radius: 20px;
+}
+.user-input-box-totalamount label{
+    color: var(--color-solid-gray);
+    text-align: right;
+    font-size: 16px;
     /* margin-left: .2rem; */
     margin-bottom: 0.5rem;
     font-family: 'Malberg Trial', sans-serif;
     font-weight: 550;
     /* margin: 5px 0; */
 }
+.user-input-box-totalamount{
+    /* display: inline-block; */
 
-.select-customer{
-    /* background: var(--color-solid-gray); */
-    color: var(--color-black);
-    align-items: center;
-    border-radius: 13px;
-    /* padding: 8px 12px; */
-    height: 40px;
-    width: 100%;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    transition: 0.3s;
 }
-.select{
-            background: var(--color-solid-gray);
-            color: var(--color-white);
-            align-items: center;
-            border-radius: 13px;
-            padding: 8px 12px;
-            height: 40px;
-            width: 100%;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-.usertype-dropdown{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
+.user-input-box-cashpayment{
+    display: inline-block;
+    margin-top: 1rem;
 }
-.select{
-    background: var(--color-solid-gray);
-    color: var(--color-white);
-    align-items: center;
-    border-radius: 13px;
-    padding: 8px 12px;
-    height: 40px;
-    width: 96%;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.action-dropdown{
-    position: relative;
-    margin-top: .5rem;
-    /* left: 10%; */
-    margin-bottom: .5rem
-}
-.user-input-box:nth-child(2n){
-    justify-content: end;
-}
-
-#note-box{
-    /* position: relative; */
-    width: 100%;
-    height: 1.32rem;
-    margin-bottom: 2rem;
-    color: var(--color-white);
-    border-radius: 10px;
-    font-family: 'COCOGOOSE', sans-serif;
-}
-#address-box{
-    /* position: relative; */
-    width: 100%;
-    height: 1.32rem;
-    margin-bottom: 3rem;
-    color: var(--color-white);
-    border-radius: 10px;
-    font-family: 'COCOGOOSE', sans-serif;
-}
-#address-box label{
-    width: 100%;
-}
-#note-box label{
-    width: 100%;
-}
-.user-input-box{
-    flex-wrap: wrap;
-    text-align: center;
-    width: 48%;
-    padding-bottom: 15px;
-}
-
-.user-input-box label{
+.user-input-box-cashpayment label{
     width: 95%;
     color: var(--color-solid-gray);
-    font-size: 16px;
-    margin-right: 1rem;
+    font-size: 12px;
+    text-align: right;
+    /* margin-left: .2rem; */
     margin-bottom: 0.5rem;
     font-family: 'Malberg Trial', sans-serif;
     font-weight: 550;
     /* margin: 5px 0; */
 }
-.user-input-box label:focus{
-    border: 2px solid var(--color-main-3);
-    font-size: 17px;
+.user-input-box-totalamount .total-amount2{
+    display: inline-block;
+    text-align: right;
+    outline: none;
+    font-size: 1em;
+    margin-left: 1rem;
+    color: var(--color-black);
+
+}
+.user-input-box-cashpayment .cash-payment2{
+    display: inline-block;
+    text-align: right;
+    height: 2.5rem;
+    outline: none;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    font-size: .8em;
+    color: var(--color-black);
+}
+.user-input-box-cashpayment .cash-change{
+    display: inline-block;
+    text-align: right;
+    height: 2.5rem;
+    margin-left: 1rem;
+    outline: none;
+    font-size: .8em;
+    color: var(--color-black);
+
+}
+.quantity-td{
+    min-width: 5rem;
+    width: 10%;
+    gap: 1rem;
+    justify-content: center;
+}
+.payment-options{
+    background-color: none;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
+    /* position: absolute; */
+    display: inline-block;
+    text-align: right;
+    /* padding-top: 1rem; */
+    /* right: 8%; */
+}
+.orderSum-Details{
+    background-color: var(--color-white);
+    padding: 1rem;
+    width:100%;
+    overflow:auto;
+    /* display: inline-block; */
+    /* margin-left: 1.1rem; */
+    max-height: 12rem;
+    height: 12rem;
+    margin-top: 1rem;
+    /* text-align: right; */
+    /* display: flex; */
+    border-top: 2px solid var(--color-solid-gray);
+    position: relative;
+    border-radius: 10px;
+}
+.orderSum-table{
+    background-color: var(--color-white);
+    padding: 1rem;
+    /* width:100%; */
+    overflow:auto;
+    /* display: inline-block; */
+    /* margin-left: 1.1rem; */
+    max-height: 12rem;
+    height: 12rem;
+    /* margin-top: -1rem; */
+    /* text-align: right; */
+    /* display: flex; */
+    border-top: 2px solid var(--color-solid-gray);
+    position: relative;
+    border-radius: 10px;
+}
+.tableCheckout table{
+    background: var(--color-white);
+    font-family: 'Switzer', sans-serif;
+    width: 100%;
+    font-size: 0.8rem;
+    border-radius: 0px 0px 10px 10px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    /* padding-bottom: 2.5rem; */
+    text-align: center;
+    transition: all 700ms ease;
+    overflow: auto;
+    margin-top: -1rem;
+}
+
+.tableCheckout th{
+    height: 1.8rem;
+    color: var(--color-solid-gray);
+    /* margin:1rem; */
+    font-size: .8rem;
+    letter-spacing: 0.02rem;
+    border: none;
+    /* border-bottom: 2px solid var(--color-solid-gray); */
+}
+
+.totalOrder-amount{
+    /* width: 100%; */
+    position: static;
+}
+.orderTotal1{
+    display: inline-block;
+    position: relative;
+}
+.totalamount{
+    align-items: left;
+    text-align: left;
+    margin-left: 2rem;
+    margin-bottom: .5rem;
+}
+.totaldelivery{
+    /* align-items: left;
+    float: left;
+    display: inline-block;*/
+    margin-left: 2rem; 
+    margin-top: .2rem;
+    display: inline-block;
+    /* margin-bottom: */
+}
+.totaldelivery1{
+    /* align-items: left; */
+    float: left;
+    display: inline-block;
+    margin-left: 1rem;
+    /* margin-bottom: */
+}
+.total-amount{
+    float: right;
+    display: inline-block;
+    /* margin-right: 1rem; */
+}
+#delivery-fee{
+    /* background-color: #FFCFCF;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 1rem; */
+    font-family: 'century-gothic', sans-serif;
+    /* margin-right: 6rem; */
+    float: right;
+    /* margin-top: 1.1rem; */
+    /* text-align: right; */
+    display: none;
+    /* margin-top: 1rem; */
+    font-size: .9rem;
+    color: var(--color-solid-gray);
+}
+#delivery-fee1{
+    /* background-color: #FFCFCF;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 1rem; */
+    font-family: 'century-gothic', sans-serif;
+    margin-right: 2rem;
+    float: right;
+    margin-top: .2rem;
+    /* text-align: right; */
+    /* display: inline-block; */
+    /* margin-top: 1rem; */
+    font-size: .9rem;
+    color: var(--color-solid-gray);
+}
+#orderTotal{
+    /* background-color: #FFCFCF;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 1rem; */
+    font-family: 'century-gothic', sans-serif;
+    margin-right: 2rem;
+    /* right: 5%; */
+    float: right;
+    /* margin-top: 1.2rem; */
+    display: inline-block;
+    /* margin-top: 1rem; */
+    font-size: .9rem;
+    color: var(--color-solid-gray);
+}
+#totalAmount_order{
+    background-color: var(--color-total-amount);
+    /* padding-left: 20px;*/
+    margin-right: 20px; 
+    text-align: center;
+    border-radius: 1rem;
+    width: 10rem;
+    font-family: 'century-gothic', sans-serif;
+    font-size: 1.5rem;
+    color: var(--color-black);
+}
+
+#total_order1{
+    /* background-color: #FFCFCF; */
+    /* padding-left: 20px; */
+    padding-right: 20px;
+    font-size:1.5rem;
+    font-family: 'century-gothic', sans-serif;
+    color: var(--color-black);
+}
+.orderTotal-text{
+    color: var(--color-black);
+    font-weight: 500;
+    /* margin-top: 1rem; */
+    /* margin-left: 1rem; */
+    display:inline-block;
+    font-size: 1rem;
+    /* display: inline-block; */
+}
+.totalAmount-text{
+    color: var(--color-black);
+    font-weight: bolder;
+    font-size: 1rem;    
+    margin-top: 1rem;
+    margin-left: 1rem;
+    font-size: 1rem;
+    display: inline-block;
+}
+.orderTotal2{
+    display: inline-block;
+    align-items: right;
+    position: absolute;
+    text-align: right;
+    right: 5%;  
+}
+.peso-sign{
+    /* margin-left: 9rem; */
+    display: inline-block;
+    position: relative;
+    color: var(--color-solid-gray);
+}
+.input-total-amount{
+    display: inline-block;
+    position: relative;
+}
+.total-order{
+    margin-left: 1rem;
+    border: none;
+    padding: 7px;
+    border-radius: 10px;
+    background-color: #FFCFCF;
+    font-family: 'Calibri', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    text-align: right;
+    color: var(--color-tertiary);
+} 
+.receipt-buttons{
+    text-align: center;
+    margin-top: 1.3rem;
+    padding-bottom: 1.2rem;
+}
+
+.customernameLbl{
+    margin-left: 1rem;
+    font-size: .9rem;
+    color: var(--color-solid-gray);
     font-weight: 600;
 }
-.user-input-box input::placeholder{
-    font-size: .8em;
-    color:var(--color-solid-gray);
-}
-/* ::placeholder:focus{
-    border: 2px solid var(--color-main-3);
-} */
-.user-input-box input:focus{
-    border: 2px solid var(--color-main);
-    background: var(--color-white);
-}
-
-.user-input-box input{
-    height: 60px;
-    width: 30%;
-    border: 2px solid var(--color-solid-gray);
-    border-radius: 20px;
-    outline: none;
-    text-align: center;
-    align-items: center;
-    font-size: 1.5em;
-    background: var(--color-white);
-    color: var(--color-black);
-    padding: 0 10px;
-}
-.line{
-    width:100%;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid var(--color-solid-gray);
-}
-.profile-picture1 h4{
-    display: flex;
-    position: relative;
-    text-align: center;
+.customer_name{
+    color: var(--color-main);
+    text-transform: uppercase;
+    margin-left: 1.5rem;
+    font-family: 'Cocogoose', sans-serif;
     font-size: 1rem;
-    font-family: 'Calibri', sans-serif;
-    color: var(--color-solid-gray);
-    width: 100%;
-    border-bottom: 2px solid var(--color-solid-gray);
-    /* margin-bottom: -5rem; */
 }
-
-
+.deliveryamount_fee{
+    border: none;
+    background-color: var(--color-background);
+    height: 1.5rem;
+    text-align: right;
+    margin-right: 2rem;  
+    font-family: 'century-gothic', sans-serif;
+    font-size: .9rem;
+    width: 6rem;
+    color: var(--color-solid-gray);
+    margin-left: 1rem;
+    border-radius: 5px;
+}
+.main-user-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0;
+}
 .addnew-title{
     font-size: min(max(1.9rem, 1.1vw), 2rem);
     color: var(--color-solid-gray);
@@ -504,208 +819,6 @@ new TomSelect("#chosen",{
     width: 100%;
     padding-bottom: 2px;
 }
-.bot-buttons{
-    width: 100%;
-    align-items: center;
-    text-align: center;
-    display: inline-block;
-    margin-top: 1.3rem;
-}
-.AddButton button{
-    font-family: 'COCOGOOSE', sans-serif;
-    padding: 10px;
-    width: 15rem;
-    max-height: 60px;
-    outline: none;
-    border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
-    border-radius: 20px;
-    color: white;
-    background:  var(--color-mainbutton);
-    cursor: pointer;
-    transition: 0.5s;
-    margin-left: 1rem;
-}
-.AddButton button:hover{
-    background: var(--color-button-hover);
-}
-.CancelButton{
-    display: inline-block;
-}
-.AddButton{
-    display: inline-block;
-
-}
-/* .CloseButton{
-    margin-top: 5.2vh;
-    margin-left: 2.4em;
-    margin-bottom: -2rem;
-} */
-#cancel{
-    font-family: 'COCOGOOSE', sans-serif;
-    padding: 10px;
-    padding-left: 90px;
-    padding-right: 90px;
-    text-align: center;
-    width: 15rem;
-    max-height: 70px;
-    outline: none;
-    border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
-    border-radius: 20px;
-    color: white;
-    background: #c44242;
-    cursor: pointer;
-    transition: 0.5s;
-}
-#cancel:hover{
-    background-color: rgb(158, 0, 0);
-    transition: 0.5s;
-}
-
-@media(max-width: 600px){
-    .container1{
-        min-width: 280px;
-    }
-    .user-input-box .cost{
-        position: absolute;
-        display: none;
-        left: 10.65%;
-    }
-    .user-input-box .srp{
-        position: absolute;
-        display: none;
-        left: 10.65%;
-    }
-    .user-input-box{
-        margin-bottom: 12px;
-        width: 100%;
-    }
-
-    .user-input-box:nth-child(2n){
-        justify-content: space-between;
-    }
-    .usertype-dropdown{
-        width: 99%;
-        margin-bottom: 1rem;
-        margin-top: -.3rem;
-    }
-
-    .main-user-info{
-        max-height: 380px;
-        overflow: auto;
-    }
-
-    .main-user-info::-webkit-scrollbar{
-        width: 0;
-    }
-    .bot-buttons{
-        width: 100%;
-        align-items: center;
-        text-align: center;
-        margin-top: 1.3rem;
-    }
-    .AddButton button:hover{
-        background: var(--color-button-hover);
-
-    }
-    .CancelButton{
-        position: relative;
-        align-items: center;
-        /* padding-top: 4rem; */
-    }
-    #note-box{
-        margin-bottom: 2rem;
-    }
-    .line{
-        margin-bottom: 3rem;
-    }
-    .AddButton{
-        position: relative;
-        margin-top: -4rem;
-        margin-left: -1em;
-
-    }
-    #cancel{
-        width: 100rem;
-    }
-
-}
-    .actionicon{
-    fill:  var(--color-white);
-}
-#edit-action{
-    background: hsl(0, 0%, 37%);
-    color: var(--color-white);
-    align-items: center;
-    position: relative;
-    border-radius: 3px;
-    height: 100%;
-    width: 70%;
-    margin: 1px;
-    padding-top: 10px;
-    padding-right: 2px;
-    padding-left: 2px;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-#edit-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
-}
-#archive-action{
-    background: hsl(0, 51%, 44%);
-    color: var(--color-white);
-    align-items: center;
-    position: relative;
-    margin: 1px;
-    border-radius: 3px;
-    height: 100%;
-    width: 70%;
-    padding-top: 10px;
-    padding-right: 2px;
-    padding-left: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-#archive-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
-}
-    .add-customer{
-    display: flex;
-    border: none;
-    background-color: var(--color-white);
-    align-items: center;
-    color: var(--color-button);
-    fill: var(--color-button);
-    width: 11rem;
-    max-height: 46px;
-    border-radius: 20px;
-    padding: .68rem 1rem;
-    font-family: 'Outfit', sans-serif;
-    cursor: pointer;
-    gap: 1rem;
-    position: absolute;
-    height: 3.9rem;
-    transition: all 300ms ease;
-    margin-top: .2rem;
-    margin-left: 18rem;
-    text-transform: uppercase;
-}
-.add-customer h3{
-    font-size: .8rem;
-}
-.add-customer:hover{
-    background-color: var(--color-main);
-    color: var(--color-white);
-    fill: var(--color-white);
-    padding-top: -.2px;
-    transition: 0.7s;
-    border-bottom: 4px solid var(--color-maroon);
-}
 .container1{
     width: 100%;
     max-width: 600px;
@@ -717,29 +830,15 @@ new TomSelect("#chosen",{
     border-top: 10px solid var(--color-solid-gray);
 }
 
-    .bg-addcustomerform{
-    height: 100%;
-    width: 100%;
-    background: rgba(0,0,0,0.7);
-    top: 0;
-    position: fixed;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    /* display: flex; */
-}
-#form-registered1{
-    position: absolute;
-    top: 50%;
-    display: none;
-    left: 50%;
-    max-height: 90vh;
-    min-width: 400px;
-    transform: translate(-50%, -50%);
-    background-color: var(--color-white);
-    border-top: 10px solid var(--color-main-3);
-    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-    border-radius:  0px 0px 20px 20px;
+
+.form-title{
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 6px;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    border-bottom: solid 1px white;
 }
     .viewTransaction{
     font-family: 'century-gothic', sans-serif;
@@ -754,7 +853,6 @@ new TomSelect("#chosen",{
     border-bottom: 1px solid var(--color-maroon);
 }
     .main-container{
-    box-shadow: 5px 5px 15px 0px var(--color-solid-gray);
     /* height: 600px; */
     background: var(--color-white);
     width: 101%;
@@ -783,7 +881,7 @@ new TomSelect("#chosen",{
     width: 101%;
     margin-bottom: 1rem;
     /* position: absolute; */
-    box-shadow: 5px 5px 15px 0px var(--color-solid-gray);
+    /* box-shadow: 0px 5px 30px 2px var(--color-table-shadow); */
     border-top: 2px solid var(--color-solid-gray);
     border-radius: 10px 10px 10px 10px;
 
@@ -929,14 +1027,19 @@ tr:hover td{
         position: relative;
     }
     .newUser-button1{
-        position: relative;
         margin-left: 1rem;
+        position: relative;
         display: inline-block;
     }
     .newUser-button2{
         margin-left: 1rem;
         position: relative;
         display: inline-block;
+    }
+    .newUser-button3{
+        position: relative;
+        display: inline-block;
+        
     }
     .add-account1{
         display: flex;
@@ -945,7 +1048,7 @@ tr:hover td{
         align-items: center;
         color: var(--color-button); 
         fill: var(--color-button); 
-        width: 15rem;
+        width: 12rem;
         text-align: center;
         justify-content: center;
         height: 2rem;
@@ -969,7 +1072,7 @@ tr:hover td{
         align-items: center;
         color: var(--color-button); 
         fill: var(--color-button); 
-        width: 15rem;
+        width: 12rem;
         text-align: center;
         justify-content: center;
         height: 2rem;
