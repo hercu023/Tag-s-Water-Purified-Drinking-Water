@@ -85,18 +85,20 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                             </div>
                         </div>
                     </div>
-                        <div class="customer-container" id="customerTable">
+                    <div class="customer-container" id="customerTable">
                             <br>
                             <header class="previous-transaction-header">PENDING DELIVERY/PICK UP</header>
                             <hr>
                             <table class="table" id="myTable">
                             <thead>
                             <tr>
-                        <th>STATUS</th>
+                        <th><span class="statusLbl">STATUS</span></th>
                         <th>ID</th>
                         <th>Customer Name</th>
                         <th>Order Details</th>
                         <th>Payment Option</th>
+                        <th>Payment Status</th>
+                        <th>Service</th>
                         <th>Cashier Name</th>
                         <th>Date/Time</th>
                     </tr>
@@ -116,7 +118,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                     transaction.status_id,
                     users.first_name,
                     users.last_name,
-                    transaction.created_at
+                    transaction.created_at_date,
+                    transaction.created_at_time
                     FROM transaction
                     INNER JOIN users
                     ON transaction.created_by_id = users.user_id
@@ -124,19 +127,14 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                     ON transaction.payment_option = payment_option.id
                     LEFT JOIN customers
                     ON transaction.customer_name = customers.id
-                    ORDER BY transaction.created_at";
+                    WHERE transaction.service_type LIKE '%Delivery' OR service_type LIKE '%Delivery/Pick Up'
+                    ORDER BY transaction.created_at_date";
                     $result = mysqli_query($con, $dropdown_query2);
                     while ($rows = mysqli_fetch_assoc($result))
                         {
                     ?>
                     <tbody>
-                    <td> <?php 
-                                    if($rows['status_id'] == 0){
-                                        echo 'Unpaid';
-                                    }else{
-                                        echo 'Paid';
-                                    } ?>
-                                </td>
+                    <td> <span class="status">TO DELIVER</span></td>
                     <td> <?php echo $rows['id']; ?></td>
                                 <td> <?php if($rows['customer_name']){
                                     echo $rows['customer_name'];
@@ -146,10 +144,18 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                                  ?></td>
                                 <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
 
-                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
-                                <td> <?php echo $rows['option_name']; ?></td>                                
+                                <td> <?php echo $rows['option_name']; ?></td> 
+                                <td> <?php 
+                                    if($rows['status_id'] == 0){
+                                        echo 'Unpaid';
+                                    }else{
+                                        echo 'Paid';
+                                    } ?>
+                                </td>                                    
+                                <td> <?php echo $rows['service_type']; ?></td>                                
                                 <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
-                                <td> <?php echo $rows['created_at']; ?></td>
+                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
+
                             <tr id="noRecordTR" style="display:none">
                                 <td colspan="10">No Record Found</td>
                             </tr>
@@ -432,7 +438,30 @@ const addForm = document.querySelector(".bg-addcustomerform");
         background-size: cover;
         background-attachment: fixed;
     }  
-    
+    .status{
+        font-weight: 800;
+        font-size: 1.1rem;
+        padding: 1rem 2rem;
+        background-color: var(--color-main);
+        color: var(--color-secondary-main);
+        font-family: 'outfit', sans-serif;
+        text-transform: uppercase;
+        border-radius: 3rem;
+        cursor: pointer;
+    }
+    .status:hover{
+        background-color: var(--color-solid-gray);
+        color: var(--color-secondary-main);
+        border-bottom: 5px solid var(--color-main);
+        transition: 0.3s;
+    }
+    .statusLbl{
+        font-weight: 1000;
+        font-size: 1.8rem;
+        width: 3rem;
+        text-transform: uppercase;
+        border-bottom: 2px solid var(--color-main);
+    }
 .customernameLbl{
     margin-left: 1rem;
     font-size: .9rem;
@@ -1257,7 +1286,7 @@ const addForm = document.querySelector(".bg-addcustomerform");
 }
 
 .customer-container table tbody td{
-    height: 2.8rem;
+    height: 4.8rem;
     border-bottom: 1px solid var(--color-solid-gray);
     color: var(--color-td);
     font-size: .8rem;
@@ -1271,8 +1300,6 @@ th{
 }
 tr:hover td{
     color: var(--color-main);
-    cursor: pointer;
-    background-color: var(--color-table-hover);
 }
 .select-dropdown{
     display: inline-block;

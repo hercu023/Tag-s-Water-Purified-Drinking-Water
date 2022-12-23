@@ -441,6 +441,7 @@ require_once '../service/pos-add-customer.php';
                                         <h1 id="time" class="time">00:00:00</h1>
                                         <h1 class="dash">-</h1>
                                         <h1 id="date" class="date">00/00/0000</h1>
+                                        <h1 class="day"><?php echo date("l") ?></h1>
                                     </div>
                                 </p>
                             </div>
@@ -685,7 +686,8 @@ if(isset($_GET['view']))
                                 transaction.amount_tendered,
                                 payment_option.option_name,
                                 transaction.service_type,
-                                transaction.created_at
+                                transaction.created_at_date,
+                                transaction.created_at_time
                                 FROM transaction 
                                 LEFT JOIN customers  
                                 ON transaction.customer_name = customers.id 
@@ -710,7 +712,7 @@ if(isset($_GET['view']))
                                         echo 'GUEST';
                                     }?></span>
                         </div>
-                        <label class="createdatLbl"><?=$transaction['created_at'];?></label>
+                        <label class="createdatLbl"><?=$transaction['created_at_date'].' '.$transaction['created_at_time'];?></label>
 
                             <div class="payment-options">
                                 <label class="paymentoptionLbl"><?=$transaction['option_name'];?> </label>
@@ -2155,11 +2157,7 @@ th{
     letter-spacing: 0.02rem;
     border-bottom: 2px solid var(--color-solid-gray);
 }
-tr:hover td{
-    color: var(--color-main);
-    /* cursor: pointer; */
-    /* background-color: var(--color-table-hover); */
-}
+
 .php{
     display: inline-block;
     margin-right: 5px;
@@ -3093,7 +3091,7 @@ hr{
     border-radius: 0.1rem;
     text-align: center;
     height: 1rem;
-    margin-left: 2rem;
+    margin-left: .5rem;
     border: transparent;
     font-family: 'Rajdhani', sans-serif;
     /* left: 25vw;      */
@@ -3103,14 +3101,21 @@ hr{
 .time{
     /* background-color: var(--color-black); */
     color: var(--color-solid-gray);
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
     display: inline-block;
 }
 .date {
     color: var(--color-solid-gray);
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
+    display: inline-block;
+}
+.day {
+    color: var(--color-solid-gray);
+    font-size: 1rem;
+    font-weight: 900;
+    margin-left: 1rem;
     display: inline-block;
 }
 .dash{
@@ -3479,10 +3484,5 @@ hr{
     font-size: .8rem;
     letter-spacing: 0.02rem;
     border: none;
-}
-.previous-transaction-table tr:hover td{
-    color: var(--color-main);
-    cursor: pointer;
-    background-color: var(--color-table-hover);
 }
 </style>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2022 at 06:03 PM
+-- Generation Time: Dec 23, 2022 at 06:14 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -350,7 +350,32 @@ INSERT INTO `audit_trail` (`id`, `module_id`, `user_id`, `status`, `data`, `date
 (513, 6, 1, 1, 'Added new transaction with transaction reference:63a1a1407239d5.63866452', '2022-12-20 19:49:20'),
 (514, 6, 1, 1, 'Added new transaction with transaction reference:63a1a2504ee125.84824719', '2022-12-20 19:53:52'),
 (515, 6, 1, 1, 'Added new transaction with transaction reference:63a1bd039a9cc7.58854126', '2022-12-20 21:47:47'),
-(516, 6, 1, 1, 'Added new transaction with transaction reference:63a1bd3bdcc167.31868855', '2022-12-20 21:48:44');
+(516, 6, 1, 1, 'Added new transaction with transaction reference:63a1bd3bdcc167.31868855', '2022-12-20 21:48:44'),
+(517, 1, 1, 0, 'Restricted login, still has an active session.', '2022-12-21 21:05:05'),
+(518, 1, 1, 1, 'Logged in the system', '2022-12-21 21:05:22'),
+(519, 1, 1, 0, 'Restricted login, still has an active session.', '2022-12-21 22:46:08'),
+(520, 1, 1, 0, 'Restricted login, still has an active session.', '2022-12-21 22:48:26'),
+(521, 1, 1, 0, 'Restricted login, still has an active session.', '2022-12-21 22:48:29'),
+(522, 1, 1, 1, 'Logged in the system', '2022-12-21 22:48:58'),
+(523, 1, 1, 0, 'Restricted login, still has an active session.', '2022-12-22 22:33:11'),
+(524, 1, 1, 1, 'Logged in the system', '2022-12-22 22:40:41'),
+(525, 0, 1, 1, 'Updated inventory item with id:15', '2022-12-22 22:41:04'),
+(526, 0, 1, 1, 'Updated inventory item with id:15', '2022-12-22 22:53:00'),
+(527, 0, 1, 1, 'Updated inventory item with id:38', '2022-12-22 22:55:12'),
+(528, 0, 1, 1, 'Updated inventory item with id:15', '2022-12-22 23:00:57'),
+(529, 0, 1, 1, 'Archived inventory item with id: 36', '2022-12-22 23:03:13'),
+(530, 6, 1, 1, 'Added new customer with id:12', '2022-12-23 00:19:11'),
+(531, 6, 1, 1, 'Added new transaction with transaction reference:63a48a7129ff43.48113290', '2022-12-23 00:48:49'),
+(532, 6, 1, 1, 'Added new transaction with transaction reference:63a48a8cd08076.98914012', '2022-12-23 00:49:16'),
+(533, 6, 1, 1, 'Added new transaction with transaction reference:63a48acd255b62.84134661', '2022-12-23 00:50:21'),
+(534, 6, 1, 1, 'Added new transaction with transaction reference:63a497f314da24.47507125', '2022-12-23 01:46:27'),
+(535, 6, 1, 1, 'Added new transaction with transaction reference:63a498295257b7.00761730', '2022-12-23 01:47:21'),
+(536, 6, 1, 1, 'Added new transaction with transaction reference:63a498c3caa815.38886021', '2022-12-23 01:49:55'),
+(537, 6, 1, 1, 'Customer balance adjusted under transaction reference: 63a498ef967fa7.38187563', '2022-12-23 01:50:39'),
+(538, 6, 1, 1, 'Added new transaction with transaction reference:63a498ef967fa7.38187563', '2022-12-23 01:50:39'),
+(539, 6, 1, 1, 'Added new transaction with transaction reference:63a4991ae31166.90148506', '2022-12-23 01:51:23'),
+(540, 1, 1, 0, 'Restricted login, still has an active session.', '2022-12-23 12:18:28'),
+(541, 1, 1, 1, 'Logged in the system', '2022-12-23 12:19:06');
 
 -- --------------------------------------------------------
 
@@ -406,10 +431,11 @@ INSERT INTO `customers` (`id`, `customer_name`, `address`, `contact_number1`, `c
 (3, 'Test Name', 'Test ', '1234', '1234', 'Test note', 0.00, 1, '6', '2022-11-30 02:28:56'),
 (4, 'CN', 'ADDRESS', '1234', '1234', 'Test note', 0.00, 1, '6', '2022-11-30 02:34:48'),
 (5, 'Test', 'Test ', '1234', '1234', 'Test note', 0.00, 1, '6', '2022-11-30 02:35:11'),
-(6, 'Jerwinsonn Raphael Quijano', 'B7 L7 Sta.Ana St., Villa Ligaya Subd., Brgy. Dela ', '2', '2', '2', 0.00, 1, '1', '2022-12-11 03:41:02'),
+(6, 'Jerwinsonn Raphael Quijano', 'B7 L7 Sta.Ana St., Villa Ligaya Subd., Brgy. Dela ', '2', '2', '2', -770.00, 1, '1', '2022-12-11 03:41:02'),
 (7, 'Dylan Angelo', 'Sto. Nino St., Brgy. San Isidro', '0989988899', '0937485758', '', 0.00, 1, '1', '2022-12-12 23:59:28'),
 (9, '', '', '', '', '', 0.00, 1, '1', '2022-12-14 21:39:05'),
-(10, 'Jessica Soho', 'Lapu-lapu St., Brgy. Tagbili, Antipolo City', '09992829375', '09283948989', 'Green gate, unang kanan sa dulo.', -5.00, 1, '1', '2022-12-16 22:36:12');
+(10, 'Jessica Soho', 'Lapu-lapu St., Brgy. Tagbili, Antipolo City', '09992829375', '09283948989', 'Green gate, unang kanan sa dulo.', -5.00, 1, '1', '2022-12-16 22:36:12'),
+(12, 'Jonathan Almaranza', 'Celly Boulevard St., Brgy. Sta. Rosa', '09288883949', '09002739485', '', 0.00, 1, '1', '2022-12-23 00:19:11');
 
 -- --------------------------------------------------------
 
@@ -568,13 +594,13 @@ INSERT INTO `inventory_item` (`id`, `item_name`, `category_by_id`, `reorder_leve
 (12, 'Closed Cap Seal for Round', 3, 10, 2, 0.00, 0.00, 0.00, '139bf86befd4ce5e7a041c9538d2f9b7.jfif', '2022-12-01 18:44:12', 1, '2022-12-01 21:34:59', '1', 1),
 (13, 'Open Cap Seal for Round', 3, 10, 2, 0.00, 0.00, 0.00, 'c215d9deaf3d1b0a7ff97d90bb16c087.jpg', '2022-12-01 18:44:51', 1, '2022-12-01 21:34:51', '1', 1),
 (14, 'Small Cap for Slim', 5, 10, 1, 5.00, 0.00, 0.00, '4b59df78ae3706129cc7f752252765d0.jfif', '2022-12-01 21:31:23', 1, '0000-00-00 00:00:00', '1', 0),
-(15, '1.5 Liters', 10, 0, 1, 0.00, 12.00, 8.00, '', '2022-12-01 22:12:20', 1, '2022-12-19 21:45:24', '1', 1),
+(15, '1.5 Liters', 10, 0, 1, 0.00, 12.00, 8.00, '504350773.jpg', '2022-12-01 22:12:20', 1, '2022-12-22 23:00:56', '1', 1),
 (16, 'Faucet - Rotatable', 7, 5, 1, 25.00, 0.00, 0.00, 'Screenshot 2022-12-04 223707.png', '2022-12-04 22:40:23', 1, '2022-12-06 19:11:42', '1', 1),
 (17, 'Ice Tube', 7, 5, 1, 10.00, 0.00, 0.00, '1000_F_350366345_8Jh0duvK9Q6yVPniIr1GO1VYoCovZASX.jpg', '2022-12-04 22:42:30', 1, '2022-12-05 00:07:20', '1', 1),
 (18, 'Small Cap Seal', 3, 5, 2, 0.00, 0.00, 0.00, 'Screenshot 2022-12-07 155001.png', '2022-12-07 15:50:21', 1, '0000-00-00 00:00:00', '1', 0),
 (29, 'Slim - 5 Gallons with Cap and Faucet', 1, 2, 2, 0.00, 0.00, 0.00, '', '2022-12-07 16:01:56', 1, '0000-00-00 00:00:00', '1', 0),
-(36, 'gweq', 5, 22, 1, 222.00, 222.00, 222.00, '', '2022-12-19 21:46:45', 1, '0000-00-00 00:00:00', '1', 0),
-(38, '5 Gallons', 10, 0, 1, 0.00, 35.00, 30.00, '', '2022-12-19 21:53:51', 1, '2022-12-19 21:53:51', '1', 1);
+(36, 'gweq', 5, 22, 1, 222.00, 222.00, 222.00, '', '2022-12-19 21:46:45', 2, '0000-00-00 00:00:00', '1', 0),
+(38, '5 Gallons', 10, 0, 1, 0.00, 35.00, 30.00, '5_gallon_slim_plastic_container_1568794578_4c2e969d0_progressive.jfif', '2022-12-19 21:53:51', 1, '2022-12-22 22:55:12', '1', 1);
 
 -- --------------------------------------------------------
 
@@ -803,6 +829,8 @@ CREATE TABLE `transaction` (
   `id` int(11) NOT NULL,
   `uuid` varchar(50) NOT NULL,
   `customer_name` varchar(255) NOT NULL,
+  `customer_address_id` int(11) NOT NULL,
+  `customer_contact_number_id` int(11) NOT NULL,
   `service_type` varchar(255) NOT NULL,
   `total_amount` float(11,2) NOT NULL,
   `customer_change` float(11,2) NOT NULL,
@@ -812,19 +840,21 @@ CREATE TABLE `transaction` (
   `status_id` int(11) NOT NULL,
   `created_by_id` int(11) NOT NULL,
   `updated_by_id` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `created_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at_date` date NOT NULL DEFAULT current_timestamp(),
+  `created_at_time` time NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `transaction`
 --
 
-INSERT INTO `transaction` (`id`, `uuid`, `customer_name`, `service_type`, `total_amount`, `customer_change`, `amount_tendered`, `payment_option`, `note`, `status_id`, `created_by_id`, `updated_by_id`, `updated_at`, `created_at`) VALUES
-(42, '63a1a1407239d5.63866452', '6', 'Walk In', 59.00, 1.00, 60.00, 1, '', 1, 1, 1, '2022-12-20 19:49:20', '2022-12-20 19:49:20'),
-(43, '63a1a2504ee125.84824719', 'GUEST', 'Walk In', 220.00, 280.00, 500.00, 3, '', 1, 1, 1, '2022-12-20 19:53:52', '2022-12-20 19:53:52'),
-(44, '63a1bd039a9cc7.58854126', '2', 'Walk In', 1.00, 1199.00, 1200.00, 2, '', 1, 1, 1, '2022-12-20 21:47:47', '2022-12-20 21:47:47'),
-(45, '63a1bd3bdcc167.31868855', '10', 'Delivery', 2.00, 2223.00, 2225.00, 1, '', 1, 1, 1, '2022-12-20 21:48:43', '2022-12-20 21:48:43');
+INSERT INTO `transaction` (`id`, `uuid`, `customer_name`, `customer_address_id`, `customer_contact_number_id`, `service_type`, `total_amount`, `customer_change`, `amount_tendered`, `payment_option`, `note`, `status_id`, `created_by_id`, `updated_by_id`, `updated_at`, `created_at_date`, `created_at_time`) VALUES
+(49, '63a497f314da24.47507125', 'GUEST', 0, 0, 'Walk In', 35.00, 0.00, 35.00, 1, '', 1, 1, 1, '2022-12-23 01:46:27', '2022-12-23', '01:46:27'),
+(50, '63a498295257b7.00761730', 'GUEST', 0, 0, 'Walk In', 19.00, 19981.00, 20000.00, 1, '', 1, 1, 1, '2022-12-23 01:47:21', '2022-12-23', '01:47:21'),
+(51, '63a498c3caa815.38886021', '2', 0, 0, 'Walk In', 350.00, 0.00, 350.00, 1, '', 1, 1, 1, '2022-12-23 01:49:55', '2022-12-23', '01:49:55'),
+(52, '63a498ef967fa7.38187563', '6', 0, 0, 'Delivery/Pick Up', 770.00, 0.00, 0.00, 1, '', 0, 1, 1, '2022-12-23 01:50:39', '2022-12-23', '01:50:39'),
+(53, '63a4991ae31166.90148506', '12', 0, 0, 'Delivery', 245.00, 5.00, 250.00, 2, '', 1, 1, 1, '2022-12-23 01:51:22', '2022-12-23', '01:51:22');
 
 -- --------------------------------------------------------
 
@@ -849,14 +879,25 @@ CREATE TABLE `transaction_process` (
 --
 
 INSERT INTO `transaction_process` (`id`, `item_name`, `water_type`, `category_type`, `quantity`, `price`, `total_price`, `user_id`, `transaction_id`) VALUES
-(158, '1.5 Liters', 'Alkaline', 'For Refill', 2, 12.00, 24.00, 1, '63a1bd3bdcc167.31868855'),
-(159, '5 Gallons', 'Alkaline', 'For Refill', 1, 35.00, 35.00, 1, '63a1bd3bdcc167.31868855'),
-(160, 'Round - 5 Gallons', 'Alkaline', 'Container', 1, 220.00, 220.00, 1, '63a1bd3bdcc167.31868855'),
-(162, 'Slim - 5 Gallons', 'Alkaline', 'Container', 2, 220.00, 440.00, 1, '63a1bd3bdcc167.31868855'),
-(163, 'Cap with Inner Plug for Round', '', 'Caps', 23, 10.00, 230.00, 1, '63a1bd3bdcc167.31868855'),
-(164, 'Ice Tube', '', 'Others', 50, 10.00, 500.00, 1, '63a1bd3bdcc167.31868855'),
-(165, 'Round - 5 Gallons', 'Alkaline', 'Container', 10, 220.00, 2200.00, 1, '63a1bd3bdcc167.31868855'),
-(166, '1.5 Liters', 'Alkaline', 'For Refill', 12, 12.00, 144.00, 1, '0');
+(158, '1.5 Liters', 'Alkaline', 'For Refill', 2, 12.00, 24.00, 1, '63a4991ae31166.90148506'),
+(159, '5 Gallons', 'Alkaline', 'For Refill', 1, 35.00, 35.00, 1, '63a4991ae31166.90148506'),
+(160, 'Round - 5 Gallons', 'Alkaline', 'Container', 1, 220.00, 220.00, 1, '63a4991ae31166.90148506'),
+(162, 'Slim - 5 Gallons', 'Alkaline', 'Container', 2, 220.00, 440.00, 1, '63a4991ae31166.90148506'),
+(163, 'Cap with Inner Plug for Round', '', 'Caps', 23, 10.00, 230.00, 1, '63a4991ae31166.90148506'),
+(164, 'Ice Tube', '', 'Others', 50, 10.00, 500.00, 1, '63a4991ae31166.90148506'),
+(165, 'Round - 5 Gallons', 'Alkaline', 'Container', 10, 220.00, 2200.00, 1, '63a4991ae31166.90148506'),
+(168, '5 Gallons', 'Mineral', 'For Refill', 3, 30.00, 90.00, 1, '63a4991ae31166.90148506'),
+(169, 'Round - 5 Gallons', 'Alkaline', 'Container', 1, 220.00, 220.00, 1, '63a4991ae31166.90148506'),
+(170, 'Slim - 2.5 Gallons', 'Alkaline', 'Container', 2, 135.00, 270.00, 1, '63a4991ae31166.90148506'),
+(171, '1.5 Liters', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63a4991ae31166.90148506'),
+(172, '5 Gallons', 'Alkaline', 'For Refill', 1, 35.00, 35.00, 1, '63a4991ae31166.90148506'),
+(173, 'Round - 5 Gallons', 'Alkaline', 'Container', 89, 220.00, 19580.00, 1, '63a4991ae31166.90148506'),
+(174, '5 Gallons', 'Alkaline', 'For Refill', 10, 35.00, 350.00, 1, '63a4991ae31166.90148506'),
+(175, '5 Gallons', 'Alkaline', 'For Refill', 11, 35.00, 385.00, 1, '63a4991ae31166.90148506'),
+(176, '5 Gallons', 'Alkaline', 'For Refill', 11, 35.00, 385.00, 1, '63a4991ae31166.90148506'),
+(177, 'Faucet - Push Down', '', 'Others', 1, 25.00, 25.00, 1, '63a4991ae31166.90148506'),
+(178, 'Round - 5 Gallons', 'Alkaline', 'Container', 1, 220.00, 220.00, 1, '63a4991ae31166.90148506'),
+(179, '1.5 Liters', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '0');
 
 -- --------------------------------------------------------
 
@@ -909,7 +950,7 @@ CREATE TABLE `user_session` (
 --
 
 INSERT INTO `user_session` (`id`, `user_id`, `session_key`, `status`) VALUES
-(34, 1, '2a2844d2b743fe3ecc2a', 'ACTIVE');
+(38, 1, '905b9b0d8dd9f505b200', 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -1129,7 +1170,7 @@ ALTER TABLE `attendance`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=517;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=542;
 
 --
 -- AUTO_INCREMENT for table `category_type`
@@ -1141,7 +1182,7 @@ ALTER TABLE `category_type`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `deliver_price`
@@ -1231,13 +1272,13 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `transaction_process`
 --
 ALTER TABLE `transaction_process`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1249,7 +1290,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_session`
 --
 ALTER TABLE `user_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `water_type`

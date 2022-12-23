@@ -102,7 +102,7 @@ if(isset($_POST['add-mineral-water'])){
                     '$mineralprice',
                     '$total',
                     '$user_id',
-                    ,'0')");
+                    '0')");
                 if($insert){
                     header("Location: ../pos/point-of-sales.php?update=1");
                 }

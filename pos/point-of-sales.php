@@ -517,6 +517,7 @@ require_once '../service/pos-add-customer.php';
                                         <h1 id="time" class="time">00:00:00</h1>
                                         <h1 class="dash">-</h1>
                                         <h1 id="date" class="date">00/00/0000</h1>
+                                        <h1 class="day"><?php echo date("l") ?></h1>
                                     </div>
                                 </p>
                             </div>
@@ -525,7 +526,7 @@ require_once '../service/pos-add-customer.php';
                                 <select class="paymentOptions-dropdown" onchange="deliveryOption(this)" id="deliveryoption" name="deliveryoption">
                                     <option value="Walk In">Walk In</option>
                                     <option value="Delivery">Delivery</option>
-                                    <option value="Pick Up">Pick Up</option>
+                                    <option value="Delivery/Pick Up">Delivery/Pick Up</option>
                                 </select>
                             </div>
                         </div>
@@ -689,7 +690,8 @@ require_once '../service/pos-add-customer.php';
                             transaction.status_id,
                             users.first_name,
                             users.last_name,
-                            transaction.created_at
+                            transaction.created_at_date,
+                            transaction.created_at_time
                             FROM transaction
                             INNER JOIN users
                             ON transaction.created_by_id = users.user_id
@@ -697,7 +699,7 @@ require_once '../service/pos-add-customer.php';
                             ON transaction.payment_option = payment_option.id
                             LEFT JOIN customers
                             ON transaction.customer_name = customers.id
-                            ORDER BY transaction.created_at DESC
+                            ORDER BY transaction.created_at_date DESC
                             LIMIT 5";
                         $result4 = mysqli_query($con, $dropdown_query2);
                         while ($rows = mysqli_fetch_assoc($result4))
@@ -728,7 +730,7 @@ require_once '../service/pos-add-customer.php';
                                     } ?>
                                 </td>
                                 <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
-                                <td> <?php echo $rows['created_at']; ?></td>
+                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
                             <tr id="noRecordTR" style="display:none">
                                 <td colspan="10">No Record Found</td>
                             </tr>
@@ -800,7 +802,7 @@ require_once '../service/pos-add-customer.php';
         if(delivery.value == 'Delivery'){
             document.getElementById("deliveryfee_amount1").style.display = 'none';
             document.getElementById("delivery-fee").style.display = 'inline-block';
-        }else if(delivery.value == 'Pick Up'){
+        }else if(delivery.value == 'Delivery/Pick Up'){
             document.getElementById("deliveryfee_amount1").style.display = 'none';
             document.getElementById("delivery-fee").style.display = 'inline-block';
             
@@ -2074,11 +2076,7 @@ th{
     letter-spacing: 0.02rem;
     border-bottom: 2px solid var(--color-solid-gray);
 }
-tr:hover td{
-    color: var(--color-main);
-    /* cursor: pointer; */
-    /* background-color: var(--color-table-hover); */
-}
+
 .php{
     display: inline-block;
     margin-right: 5px;
@@ -3023,7 +3021,7 @@ hr{
     border-radius: 0.1rem;
     text-align: center;
     height: 1rem;
-    margin-left: 2rem;
+    margin-left: .5rem;
     border: transparent;
     font-family: 'Rajdhani', sans-serif;
     /* left: 25vw;      */
@@ -3033,14 +3031,21 @@ hr{
 .time{
     /* background-color: var(--color-black); */
     color: var(--color-solid-gray);
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
     display: inline-block;
 }
 .date {
     color: var(--color-solid-gray);
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
+    display: inline-block;
+}
+.day {
+    color: var(--color-solid-gray);
+    font-size: 1rem;
+    font-weight: 900;
+    margin-left: 1rem;
     display: inline-block;
 }
 .dash{
@@ -3394,9 +3399,5 @@ hr{
     letter-spacing: 0.02rem;
     border: none;
 }
-.previous-transaction-table tr:hover td{
-    color: var(--color-main);
-    cursor: pointer;
-    background-color: var(--color-table-hover);
-}
+
 </style>

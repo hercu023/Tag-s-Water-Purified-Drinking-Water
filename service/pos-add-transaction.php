@@ -89,6 +89,7 @@ if (isset($_POST['save-transaction'])) {
                              '$user_id',
                              '$user_id',
                              now(),
+                             now(),
                              now())");
             if ($insert) {
                 $update_ordersummary = mysqli_query($con, 

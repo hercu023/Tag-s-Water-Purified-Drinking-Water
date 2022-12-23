@@ -369,6 +369,7 @@ require_once '../service/pos-add-transaction.php';
                                         <h1 id="time" class="time">00:00:00</h1>
                                         <h1 class="dash">-</h1>
                                         <h1 id="date" class="date">00/00/0000</h1>
+                                        <h1 class="day"><?php echo date("l") ?></h1>
                                     </div>
                                 </p>
                             </div>
@@ -657,9 +658,13 @@ require_once '../service/pos-add-transaction.php';
                                 <label for="cash-payment2">Cash Payment</label>
                                 <input type="text" id="cash-payment2"class="cash-payment2" required onkeypress="return isNumberKey(event)" name="cashpayment" placeholder="0.00" onkeyup="cashChange();"/>
                             </div>
-                            <?php $transaction_order1 = mysqli_query($con, "SELECT
+                            <?php 
+                            $user_id =  $_SESSION['user_user_id'];
+                            $transaction_order1 = mysqli_query($con, "SELECT
                                                     sum(transaction_process.total_price)
-                                                    FROM transaction_process"); 
+                                                    FROM transaction_process
+                                                    WHERE user_id = '$user_id' 
+                                                    AND transaction_id = '0'"); 
                                                     while ($transactions1 = mysqli_fetch_array($transaction_order1)) {?>
                             <div class="user-input-box-cashpayment">
                                 <label for="cash-payment2">Available Balance</label>
@@ -726,7 +731,7 @@ require_once '../service/pos-add-transaction.php';
         console.log('bal');
         try{
             console.log('try');
-            let totalamountvalue = parseFloat(document.getElementById("totalamount_value").value);
+            let totalamountvalue = parseFloat(document.getElementById("total-amount2").value);
             var deliveryfee_value = document.getElementById("cash-payment2").value;
             let deliveryfee = 0.00;
             if(!isNaN(deliveryfee_value) && deliveryfee_value !== ''){
@@ -2542,7 +2547,7 @@ hr{
 .service-options{
     position: relative;
     border: none;
-    width: 7rem;
+    width: 12rem;
     align-items: center;
     text-align: center;
     margin-right: 2rem;
@@ -3077,7 +3082,7 @@ hr{
     border-radius: 0.1rem;
     text-align: center;
     height: 1rem;
-    margin-left: 2rem;
+    margin-left: .5rem;
     border: transparent;
     font-family: 'Rajdhani', sans-serif;
     /* left: 25vw;      */
@@ -3087,14 +3092,21 @@ hr{
 .time{
     /* background-color: var(--color-black); */
     color: var(--color-solid-gray);
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
     display: inline-block;
 }
 .date {
     color: var(--color-solid-gray);
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
+    display: inline-block;
+}
+.day {
+    color: var(--color-solid-gray);
+    font-size: 1rem;
+    font-weight: 900;
+    margin-left: 1rem;
     display: inline-block;
 }
 .dash{

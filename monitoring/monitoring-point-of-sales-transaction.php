@@ -118,7 +118,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                             transaction.status_id,
                             users.first_name,
                             users.last_name,
-                            transaction.created_at
+                            transaction.created_at_date,
+                            transaction.created_at_time
                             FROM transaction
                             INNER JOIN users
                             ON transaction.created_by_id = users.user_id
@@ -126,7 +127,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                             ON transaction.payment_option = payment_option.id
                             LEFT JOIN customers
                             ON transaction.customer_name = customers.id
-                            ORDER BY transaction.created_at";
+                            ORDER BY transaction.created_at_date";
                         $result4 = mysqli_query($con, $dropdown_query2);
                         while ($rows = mysqli_fetch_assoc($result4))
                         {
@@ -156,7 +157,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                                     } ?>
                                 </td>
                                 <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
-                                <td> <?php echo $rows['created_at']; ?></td>
+                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
                             <tr id="noRecordTR" style="display:none">
                                 <td colspan="10">No Record Found</td>
                             </tr>
@@ -373,8 +374,7 @@ th{
 }
 tr:hover td{
     color: var(--color-main);
-    cursor: pointer;
-    background-color: var(--color-table-hover);
+
 }
 .select-dropdown{
     display: inline-block;

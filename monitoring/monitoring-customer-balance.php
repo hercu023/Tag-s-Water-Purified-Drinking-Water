@@ -692,7 +692,7 @@ new TomSelect("#chosen",{
     height: 3.9rem;
     transition: all 300ms ease;
     margin-top: .2rem;
-    margin-left: 18rem;
+    margin-left: 20rem;
     text-transform: uppercase;
 }
 .add-customer h3{
@@ -777,7 +777,7 @@ new TomSelect("#chosen",{
 }
 .customer-container{
     /* margin-top: 2rem; */
-    max-height: 650px;
+    max-height: 550px;
     overflow:auto;
     background-color: var(--color-white);
     width: 101%;

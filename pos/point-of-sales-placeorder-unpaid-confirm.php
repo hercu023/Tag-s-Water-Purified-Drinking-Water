@@ -439,6 +439,7 @@ include '../database/connection-db.php';
                                         <h1 id="time" class="time">00:00:00</h1>
                                         <h1 class="dash">-</h1>
                                         <h1 id="date" class="date">00/00/0000</h1>
+                                        <h1 class="day"><?php echo date("l") ?></h1>
                                     </div>
                                 </p>
                             </div>
@@ -2927,7 +2928,7 @@ hr{
     border-radius: 0.1rem;
     text-align: center;
     height: 1rem;
-    margin-left: 2rem;
+    margin-left: .5rem;
     border: transparent;
     font-family: 'Rajdhani', sans-serif;
     /* left: 25vw;      */
@@ -2937,14 +2938,21 @@ hr{
 .time{
     /* background-color: var(--color-black); */
     color: var(--color-solid-gray);
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
     display: inline-block;
 }
 .date {
     color: var(--color-solid-gray);
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 500;
+    display: inline-block;
+}
+.day {
+    color: var(--color-solid-gray);
+    font-size: 1rem;
+    font-weight: 900;
+    margin-left: 1rem;
     display: inline-block;
 }
 .dash{

@@ -69,7 +69,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
             </div>
             <div class="pageform">
                 <div class="confirmBtn">
-                    <a href="../inventory/inventory-details.php" id="registered">CONFIRM</a>
+                    <a href="../inventory/inventory-details-refill.php" id="registered">CONFIRM</a>
                 </div>
             </div>
         </div>
