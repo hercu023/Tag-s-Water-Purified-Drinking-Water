@@ -126,7 +126,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                             INNER JOIN payment_option
                             ON transaction.payment_option = payment_option.id
                             LEFT JOIN customers
-                            ON transaction.customer_name = customers.id
+                            ON transaction.customer_name_id = customers.id
                             ORDER BY transaction.created_at_date";
                         $result4 = mysqli_query($con, $dropdown_query2);
                         while ($rows = mysqli_fetch_assoc($result4))

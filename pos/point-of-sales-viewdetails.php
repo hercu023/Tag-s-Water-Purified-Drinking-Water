@@ -690,7 +690,7 @@ if(isset($_GET['view']))
                                 transaction.created_at_time
                                 FROM transaction 
                                 LEFT JOIN customers  
-                                ON transaction.customer_name = customers.id 
+                                ON transaction.customer_name_id = customers.id 
                                 LEFT JOIN payment_option  
                                 ON transaction.payment_option = payment_option.id   
                                 WHERE transaction.uuid='$uuid'");
@@ -3195,15 +3195,9 @@ hr{
 .orderSum-table{
     background-color: var(--color-white);
     padding: 1rem;
-    /* width:100%; */
     overflow:auto;
-    /* display: inline-block; */
-    /* margin-left: 1.1rem; */
     max-height: 12rem;
     height: 12rem;
-    /* margin-top: -1rem; */
-    /* text-align: right; */
-    /* display: flex; */
     border-top: 2px solid var(--color-solid-gray);
     position: relative;
     border-radius: 10px;

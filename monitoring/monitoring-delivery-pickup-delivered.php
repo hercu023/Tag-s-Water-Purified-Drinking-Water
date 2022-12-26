@@ -41,13 +41,14 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                             <h2>DELIVERY/PICK UP</h2>
                         </div>
                         <div class="select-dropdown">
-                                <select class="select">
-                                    <option selected disabled value="">SELECT SERVICE</option>
-                                    <option value="All">All</option>
-                                    <option value="Delivery">Delivery</option>
-                                    <option value="Delivery/Pick Up">Delivery/Pick Up</option>
-                                </select>
-                            </div>
+                            <select class="select">
+                                <option selected disabled value="">SELECT SERVICE</option>
+                                <option value="All">All</option>
+                                <option value="Delivery">Delivery</option>
+                                <option value="Delivery/Pick Up">Delivery/Pick Up</option>
+                            </select>
+                        </div>
+                        
                         <div class="search">
                             <div class="search-bar"> 
                                 <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
@@ -65,116 +66,88 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                                 <!-- <h2 class="remaining">REMAINING ITEMS</h2> -->
                             <div class="newUser-button2"> 
                                 <div id="add-userbutton" class="add-account2">
-                                    <h3 class="deliveries">To Deliver</h3>
+                                    <h3 class="deliveries">TOTAL DELIVERED ORDERS</h3>
                                     <span class="total-deliveries">0</span>
                                 </div>
                             </div>
-                            <div class="newUser-button1"> 
-                                <div id="add-userbutton" class="add-account1">
-                                    <h3 class="deliveries">To Pick Up</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="newUser-button3"> 
+                            <div class="newUser-button3"> 
                                 <a href="../monitoring/monitoring-delivery-pickup.php" id="add-userbutton" class="batchlist">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 16q-1.042 0-1.771-.729Q2.5 14.542 2.5 13.5H1V5q0-.625.438-1.062Q1.875 3.5 2.5 3.5H14v3h2.5L19 10v3.5h-1.5q0 1.042-.729 1.771Q16.042 16 15 16q-1.042 0-1.771-.729-.729-.729-.729-1.771h-5q0 1.042-.729 1.771Q6.042 16 5 16Zm0-1.5q.417 0 .708-.292Q6 13.917 6 13.5t-.292-.708Q5.417 12.5 5 12.5t-.708.292Q4 13.083 4 13.5t.292.708q.291.292.708.292Zm10 0q.417 0 .708-.292.292-.291.292-.708t-.292-.708Q15.417 12.5 15 12.5t-.708.292Q14 13.083 14 13.5t.292.708q.291.292.708.292Zm-1-4 3.5-.021L15.729 8H14Z"/></svg>
-                                    <h3 class="deliveries">DELIVERY/PICK UP LIST <<</h3>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M14 18q-1.667 0-2.833-1.167Q10 15.667 10 14q0-1.667 1.167-2.833Q12.333 10 14 10q1.667 0 2.833 1.167Q18 12.333 18 14q0 1.667-1.167 2.833Q15.667 18 14 18Zm1.146-2.146.708-.708-1.354-1.354V12h-1v2.208ZM4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.448-1.062Q3.896 3 4.5 3h3.562q.209-.708.709-1.104Q9.271 1.5 10 1.5q.75 0 1.25.396T11.938 3H15.5q.604 0 1.052.438Q17 3.875 17 4.5v4.896q-.354-.229-.719-.406-.364-.178-.781-.282V4.5H14V7H6V4.5H4.5v11h4.208q.146.438.292.792.146.354.396.708ZM10 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q10.312 3 10 3q-.312 0-.531.219-.219.219-.219.531 0 .312.219.531.219.219.531.219Z"/></svg>
+                                    <h3 class="deliveries">PENDING DELIVERY and PICK UP</h3>
                                 </a>
                             </div>
-                        </div>
-                    </div>
-                    <div class="customer-container" id="customerTable">
-                                <br>
-                                <div class="newUser-button4"> 
-                                        <div id="add-userbutton" class="add-account3">
-                                            <h3 class="deliveries">TOTAL PENDING DELIVERY/PICK UP</h3>
-                                            <span class="total-deliveries">0</span>
-                                        </div>
-                                </div>
-                                <div class="card">
-                                        <h1 id="date" class="day"><?php echo date("l")?></h1>
-                                        <h1 class="dash">-</h1>
-                                        <h1 id="date" class="date"><?php echo ' '.date("F j, Y")?></h1>
-                                    </div>
-                                <hr>
-                                <table class="table" id="myTable">
-                                <thead>
-                                <tr>
-                            <th>ID</th>
-                            <th>Customer Name</th>
-                            <!-- <th>Address</th>
-                            <th>Contact Number</th> -->
-                            <th>Payment Status</th>
-                            <th>Time</th>
-                            <th>Transaction Details</th>
-                        </tr>
-                        </thead>
+                        </div> 
+                </div>
+                <div class="customer-container" id="customerTable">
+                            <br>
+                            <header class="previous-transaction-header">DELIVERED ORDERS</header>
+                            <hr>
+                            <table class="table" id="myTable">
+                            <thead>
+                            <tr>
+                        <th>ID</th>
+                        <th>Customer Name</th>
+                        <th>Order Details</th>
+                        <th>Payment Status</th>
+                        <th>Service</th>
+                        <th>Delivered By</th>
+                        <th>Ordered Time</th>
+                    </tr>
+                    </thead>
 
-                        <?php
-                        $dropdown_query2 = "SELECT 
-                        transaction.id,
-                        transaction.uuid,
-                        customers.customer_name,
-                        transaction.total_amount,
-                        transaction.customer_change,
-                        transaction.amount_tendered,
-                        payment_option.option_name,
-                        transaction.service_type,
-                        transaction.note,
-                        transaction.status_id,
-                        users.first_name,
-                        users.last_name,
-                        transaction.created_at_time
-                        FROM transaction
-                        INNER JOIN users
-                        ON transaction.created_by_id = users.user_id
-                        INNER JOIN payment_option
-                        ON transaction.payment_option = payment_option.id
-                        LEFT JOIN customers
-                        ON transaction.customer_name = customers.id
-                        WHERE transaction.service_type LIKE '%Delivery' OR service_type LIKE '%Delivery/Pick Up'
-                        ORDER BY transaction.created_at_date";
-                        $result = mysqli_query($con, $dropdown_query2);
-                        while ($rows = mysqli_fetch_assoc($result))
-                            {
+                    <?php
+                    $dropdown_query2 = "SELECT 
+                    transaction.id,
+                    transaction.uuid,
+                    customers.customer_name,
+                    transaction.total_amount,
+                    transaction.customer_change,
+                    transaction.amount_tendered,
+                    transaction.service_type,
+                    transaction.note,
+                    transaction.status_id,
+                    transaction.created_at_time
+                    FROM transaction
+                    INNER JOIN payment_option
+                    ON transaction.payment_option = payment_option.id
+                    LEFT JOIN customers
+                    ON transaction.customer_name_id = customers.id
+                    WHERE transaction.service_type LIKE '%Delivery' OR service_type LIKE '%Delivery/Pick Up'
+                    ORDER BY transaction.created_at_date";
+                    $result = mysqli_query($con, $dropdown_query2);
+                    while ($rows = mysqli_fetch_assoc($result))
+                        {
+                    ?>
+                    <tbody>
+                    <td> <?php echo $rows['id']; ?></td>
+                                <td> <?php if($rows['customer_name']){
+                                    echo $rows['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }
+                                 ?></td>
+                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+
+                                <td> <?php 
+                                    if($rows['status_id'] == 0){
+                                        echo 'Unpaid';
+                                    }else{
+                                        echo 'Paid';
+                                    } ?>
+                                </td>     
+                                <td> <?php echo $rows['service_type']; ?></td>                         
+                                <td> x</td>                         
+                                <td> <?php echo $rows['created_at_time']; ?></td>
+
+                            <tr id="noRecordTR" style="display:none">
+                                <td colspan="10">No Record Found</td>
+                            </tr>
+                            </tbody>
+                            <?php
+                        }
                         ?>
-                        <tbody>
-                        <td> <?php echo $rows['id']; ?></td>
-                                    <td> <?php if($rows['customer_name']){
-                                        echo $rows['customer_name'];
-                                        }else{
-                                            echo 'GUEST';
-                                        }
-                                    ?></td>
-
-                                    <td> <?php 
-                                        if($rows['status_id'] == 0){
-                                            echo 'Unpaid';
-                                        }else{
-                                            echo 'Paid';
-                                        } ?>
-                                    </td>     
-                                    <td> <?php echo $rows['created_at_time']; ?></td>
-                                    <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
-                                <tr id="noRecordTR" style="display:none">
-                                    <td colspan="10">No Record Found</td>
-                                </tr>
-                                </tbody>
-                                <?php
-                            }
-                            ?>
-                                </table>
-                            </div>
-                    <div class="delivery-container" id="customerTable">
-                        <div class="createDelivery">
-                            <button type="button" class="createDelivery-button" name="create-delivery">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                             Create Delivery List 
-                            </button>
-                        </div>
-                    </div>
+                            </table>
+                </div>
             </main>
             <?php
                 include('../common/top-menu.php')
@@ -280,14 +253,12 @@ const addForm = document.querySelector(".bg-addcustomerform");
         --color-aside-mobile-focus: rgb(78, 150, 78);
         --color-button-hover: rgb(39, 170, 63);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
-        --color-blue-button: rgb(62, 178, 255);
         
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
         --color-tertiary: hsl(0, 0%, 25%);
         --color-black: white;
-        --color-blue-button: rgb(164, 219, 255);
         --color-shadow-shadow: rgb(32, 32, 32);
         --color-aside-mobile-focus: rgb(244, 255, 246);
         --color-table-shadow: rgb(131, 131, 131);
@@ -313,45 +284,10 @@ const addForm = document.querySelector(".bg-addcustomerform");
         background-size: cover;
         background-attachment: fixed;
     }  
-    .card {
-    display: inline-block;
-    /* padding-bottom: 1rem; */
-    /* padding-bottom: 1.6rem; */
-    /* box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.2); */
-    border-radius: 0.1rem;
-    height: 1rem;
-    float: right;
-    margin-right: 2rem;
-    border: transparent;
-    font-family: 'Rajdhani', sans-serif;
-    /* left: 25vw;      */
-    margin-top: .5rem;
-    /* position: absolute; */
-}
-
-.date {
-    color: var(--color-solid-gray);
-    font-size: 1.2rem;
-    font-weight: 500;
-    display: inline-block;
-}
-.dash{
-    display: inline-block;
-    color: var(--color-tertiary);
-    font-size: 1.2rem;
-    font-weight: 500;
-}
-.day {
-    color: var(--color-solid-gray);
-    font-size: 1.2rem;
-    font-weight: 900;
-    display: inline-block;
-    text-transform: uppercase;
-}
-.status{
+    .status{
         font-weight: 800;
-        font-size: 1.1rem;
-        padding: 1rem 2rem;
+        font-size: .9rem;
+        padding: .3rem 1rem;
         background-color: var(--color-main);
         color: var(--color-secondary-main);
         font-family: 'outfit', sans-serif;
@@ -368,7 +304,7 @@ const addForm = document.querySelector(".bg-addcustomerform");
     .statusLbl{
         font-weight: 1000;
         font-size: 1.8rem;
-        width: 3rem;
+        width: rem;
         text-transform: uppercase;
         border-bottom: 2px solid var(--color-main);
     }
@@ -763,7 +699,7 @@ const addForm = document.querySelector(".bg-addcustomerform");
     background: var(--color-white);
     width: 101%;
     border-radius: 10px 10px 10px 10px;
-    margin-bottom: 2rem;
+    margin-top: 5rem;
     position: relative;
 }
 .sub-tab-container{
@@ -773,66 +709,24 @@ const addForm = document.querySelector(".bg-addcustomerform");
     color: var(--color-black);
     font-weight: bold;
     font-size: 1rem;
-    display: inline-block;
-    position: relative;
     text-align: center;
-    margin-left: 4rem;
     text-transform: uppercase;
     font-family: 'COCOGOOSE', sans-serif;
     letter-spacing: 1px;
     margin-bottom:1.5rem;
-}
-.delivery-container{
-    max-height: 650px;
-    width: 40.5%;
-    margin-left: 1rem;
-    background-color: var(--color-white);
-    box-shadow: 5px 5px 15px 0px var(--color-solid-gray);
-    border-radius: 10px 10px 10px 10px;
-    display: inline-block;
-    position: absolute;
-}
-.createDelivery{
-     margin: 2rem;   
-     position: relative;
-
-    }
-.createDelivery-button{
-    width: 17rem;
-    display: flex;
-    gap: 1rem;
-    height: 3rem;
-    padding: 15px;
-    font-family: 'outline', sans-serif;
-    font-size: 1rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    border-radius: 15px;
-    border: none;
-    box-shadow: 2px 2px 5px 0px var(--color-solid-gray);
-    cursor: pointer;
-    color: var(--color-white);
-    fill: var(--color-white);
-    background-color: var(--color-blue-button);
-}
-.createDelivery-button:hover{
-    background-color: var(--color-solid-gray);
-    border-bottom: 5px solid var(--color-blue-button);
-    transition: 0.3s;
 }
 .customer-container{
     /* margin-top: 2rem; */
     max-height: 650px;
     overflow:auto;
     background-color: var(--color-white);
-    width: 50%;
+    width: 100%;
     margin-bottom: 1rem;
     /* position: absolute; */
     box-shadow: 5px 5px 15px 0px var(--color-solid-gray);
     border-top: 2px solid var(--color-solid-gray);
-    position: relative;
-    display: inline-block;
     border-radius: 10px 10px 10px 10px;
+
 }
 .customer-container table{
     background: var(--color-white);
@@ -852,7 +746,7 @@ const addForm = document.querySelector(".bg-addcustomerform");
 }
 
 .customer-container table tbody td{
-    height: 2.8rem;
+    height: 4.8rem;
     border-bottom: 1px solid var(--color-solid-gray);
     color: var(--color-td);
     font-size: .8rem;
@@ -919,7 +813,7 @@ tr:hover td{
         font-family: 'Galhau Display', sans-serif;
     }
     main .sub-tab{
-        margin-bottom: 5rem;
+        margin-bottom: 2rem;
         margin-top: 3rem;
     }
     /* ----------------------------------------Search BAR---------------------------------------- */
@@ -988,13 +882,6 @@ tr:hover td{
     }
     .newUser-button3{
         margin-left: 2rem;
-        position: relative;
-        display: inline-block;
-        float: right;
-    }
-    .newUser-button4{
-        margin-left: 2rem;
-        position: relative;
         display: inline-block;
     }
     .batchlist{
@@ -1004,8 +891,8 @@ tr:hover td{
         align-items: center;
         color: var(--color-secondary-main); 
         fill: var(--color-secondary-main); 
-        width: 15rem;
-        padding: .68rem 1rem;
+        width: 18rem;
+        padding: .68rem .8rem;
         text-align: center;
         justify-content: center;
         height: 1.7rem;
@@ -1015,7 +902,6 @@ tr:hover td{
         font-family: 'ARIAL', sans-serif;
         transition: all 300ms ease;
         position: relative; 
-        margin-top: .2rem;
         text-transform: uppercase;
         cursor: pointer;
     }
@@ -1059,10 +945,10 @@ tr:hover td{
         align-items: center;
         color: var(--color-button); 
         fill: var(--color-button); 
-        width: 10rem;
+        width: 30rem;
         text-align: center;
         justify-content: center;
-        height: 1.7rem;
+        height: 2rem;
         border-radius: 10px;
         padding: .68rem 1rem;
         font-family: 'Outfit', sans-serif;
@@ -1070,10 +956,11 @@ tr:hover td{
         position: relative; 
         margin-top: .2rem;
         text-transform: uppercase;
-        border-bottom: 4px solid #008B8B;
+        border-left: 4px solid var(--color-main);
+        border-right: 4px solid var(--color-main);
     }
     .add-account2 h3{
-        font-size: .8rem;
+        font-size: 1rem;
         margin-right: 1.5rem;
     }
     .add-account3{
@@ -1083,19 +970,18 @@ tr:hover td{
         align-items: center;
         color: var(--color-black); 
         fill: var(--color-button); 
-        width: 20rem;
+        width: 18rem;
         text-align: center;
         justify-content: center;
         height: 2rem;
-        border-radius: 0px 5px 5px 0px;
+        border-radius: 0px 0px 5px 5px;
         padding: .68rem 1rem;
         font-family: 'Outfit', sans-serif;
         transition: all 300ms ease;
         position: relative; 
-        margin-bottom: .9rem;
         margin-top: .2rem;
         text-transform: uppercase;
-        border-left: 7px solid #A9A9A9;
+        border-bottom: 7px solid #A9A9A9;
     }
     .add-account3 h3{
         font-weight: 900;

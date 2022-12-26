@@ -2,7 +2,7 @@
 require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-SCHEDULING')) {
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-CUSTOMER_BALANCE')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
     exit();
 }
@@ -18,12 +18,17 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-S
         <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
-           <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
-        <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-        <title>Tag's Water Purified Drinking Water</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/css/tom-select.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
+        <link rel='stylesheet' href='https://fullcalendar.io/js/fullcalendar-3.1.0/fullcalendar.css' />
+        <script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
+        <script src='//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src='https://fullcalendar.io/js/fullcalendar-3.1.0/fullcalendar.min.js'></script>
         <script src="../index.js"></script>
+        <title>Tag's Water Purified Drinking Water</title>
+
     </head>
     <body>
     
@@ -32,16 +37,551 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-S
             include('../common/side-menu.php')
         ?>
             <main>
-            <div class="main-dashboard">
+                <div class="main-dashboard">
                     <h1 class="dashTitle">MONITORING</h1> 
+                    <div class="sub-tab">
+                        <div class="user-title">
+                            <h2>SCHEDULING</h2>
+                        </div>
+                        <div class="newUser-button">
+                            <button type="button" id="add-userbutton" class="add-customer" onclick="addnewuser();">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
+                                <h3>SET DELIVERY SCHEDULE</h3>
+                            </button>
+                        </div>
+                        <div class="newUser-button1"> 
+                                <div id="add-userbutton" class="add-account1">
+                                    <h3 class="deliveries">Today's Scheduled Delivery</h3>
+                                    <span class="total-deliveries">0</span>
+                                </div>
+                            </div>
+                    </div> 
+                </div>
+                <div class="main-container">
+                    <div class="sub-tab-container">     
+                        <div id="root"></div>
+
+                    </div>
+                </div>
+                    
+                    <div id='calendar'></div>
+
             </main>
             <?php
                 include('../common/top-menu.php')
             ?>    
         </div> 
+        <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+    <div class="bg-addcustomerform" id="bg-addform">
+        <div class="message"></div>
+        <div class="container1">
+            <h1 class="addnew-title">DELIVERY SCHEDULE</h1>
+            <form action="#">
+                <div class="main-user-info">
+                        <div class="customerName">
+                            <label for="contact_num2">Customer Name</label>
+                            <div class="usertype-dropdown">
+                                <?php
+                                $dropdown_customers = "SELECT * FROM customers";
+                                $result_customers = mysqli_query($con, $dropdown_customers);
+                                ?>
+                                <select id="chosen" class="select-customer" name="customername" required="" onchange="customerBal();">
+                                    <option selected disabled value="">SELECT CUSTOMER</option>
+                                    <?php while($customers = mysqli_fetch_array($result_customers)){?>
+                                        <option value="<?php echo $customers['id']?>">
+                                            <?php echo $customers['customer_name'];?>                                        
+                                        </option>
+                                    <?php }?>
+                                    <!-- <option class="guest-option"value="Guest">GUEST</option> -->
+                                </select>
+                                <?php
+                                $dropdown_customers1 = "SELECT * FROM customers";
+                                $result_customers1 = mysqli_query($con, $dropdown_customers1);
+                                ?>
+                                <?php while($customers1 = mysqli_fetch_array($result_customers1)){?>
+                                    <?php $customers_balance_id = 'customerbalance' . $customers1['id'];?>        
+                                    <input type="hidden"  id="<?php echo $customers_balance_id ?>" value="<?php echo $customers1['balance'];?>">
+                                <?php }?>
+                            </div>
+                        </div>
+                    <div class="user-input-box" id="address-box">
+                        <label for="balance">Advance Payment</label>
+                        <input type="number" step=".01"
+                               id="address" 
+                               class="address"
+                               required="required" name="address" placeholder="0.00"/>
+                    </div>
+                    <div class="line"></div>
+
+                    <div class="bot-buttons">
+                        <div class="CancelButton">
+                            <a href="../monitoring/monitoring-customer-balance.php" id="cancel">CANCEL</a>
+                        </div>
+                        <div class="AddButton">
+                            <button type="submit" id="addcustomerBtn" name="save-customer">SAVE</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
     </body>
 </html>
 <script>
+    // ------------------------------SCHEDULING-----------------------------=
+    class Calendar {
+  constructor(root) {
+    this.datetime = new Date()
+    this.config = {
+      color: 'var(--color-solid-gray)',
+      backgroundColor: 'var(--color-white)',
+      highlightColor: 'var(--color-secondary-main)',
+      btnClass: 'c-btn'
+    }
+    this.configGrid = {
+      color: 'var(--color-solid-gray)',
+      backgroundColor: 'var(--color-main)',
+      width: window.innerWidth / 7,
+      height: window.innerWidth / 7,
+      fontSize: window.innerWidth < 757 ? 20 : 30,
+      fontType: 'sans-serif',
+      fontWeight: 'bold',
+      dayNameHeight: 20,
+      padding: '2em',
+      margin: '1em'
+    }
+    this.configDayHeader = {
+      height: this.configGrid.dayNameHeight,
+      width: this.configGrid.width,
+      color: 'var(--color-solid-gray)',
+      fontType: 'sans-serif',
+      fontWeight: 'bold',
+      padding: '2em',
+      margin: '1em'
+    }
+    this.configMonthHeader = {
+      height: this.configGrid.height * 2,
+      width: window.innerWidth,
+      color: 'var(--color-solid-gray)',
+      fontSize: window.innerWidth < 757 ? 20 : 40,
+      fontType: 'sans-serif',
+      fontWeight: 400,
+      padding: '2em',
+      margin: '1em',
+      buttonPadding: '1em',
+    }
+    this.root = document.getElementById(root)
+    window.addEventListener('resize', () => this.reset())
+  }
+
+  reset() {
+    this.configGrid.width = window.innerWidth / 7
+    this.configGrid.height = window.innerWidth / 7
+    this.configGrid.fontSize = window.innerWidth < 757 ? 20 : 30
+    this.configDayHeader.height = this.configGrid.dayNameHeight
+    this.configDayHeader.width = this.configGrid.width
+    this.configMonthHeader.height = this.configGrid.height * 2
+    this.configMonthHeader.width = window.innerWidth
+    this.configMonthHeader.fontSize = window.innerWidth < 757 ? 20 : 40
+    this.render()
+  }
+  /** 
+     * gets the month
+     *
+    */
+  getMonth(month) {
+    return this.datetime.getMonth() + 1
+  }
+
+  /** 
+     * sets the month
+     *
+    */
+  setMonth(month) {
+    this.datetime.setMonth(month - 1)
+  }
+
+  /** 
+     * gets the year
+     *
+    */
+  getYear() {
+    return this.datetime.getFullYear()
+  }
+
+  /** 
+     * sets the year
+     *
+    */
+  setYear(year) {
+    this.datetime.setFullYear(year)
+  }
+
+  /** 
+     * @returns the number of days in a month
+     *
+    */
+  getDaysInMonth() {
+    const month = this.getMonth()
+    return new Date('2022', month, 0).getDate()
+  }
+
+  /** 
+     * @returns the start day of the month
+     *
+    */
+  getStartDayOfMonth() {
+    return new Date(`${this.getMonth()}/01/${this.getYear()}`).getDay()
+  }
+
+  /** 
+     * @returns SVG week header with grid and day names
+     *
+    */
+  componentDayHeader() {
+    const { 
+      color,
+      width,
+      height, 
+      fontType, 
+      fontWeight
+    } = this.configDayHeader
+
+    const { fontSize } = this.configGrid
+
+    let weekDayGrid, weekDayText
+    for (let x = 0; x < 7; x++) {
+      weekDayGrid += `<rect
+          stroke='${color}'
+          width='${this.configGrid.width}'
+          height='${fontSize + height}'
+          x=${width * x}
+          y=0
+        />`
+
+      weekDayText += `<text 
+          x=${width * x + width / 2} 
+          y=${fontSize}
+          style='
+            fill:${color};
+            font:${fontWeight} ${fontSize}px ${fontType};
+            text-anchor:middle;
+            dominant-baseline:middle;
+          '
+        >
+          ${new Date(`01/${x + 1}`).toString().substr(0, 3)}
+        </text>`
+    }
+
+    return {
+      weekDayGrid,
+      weekDayText
+    }
+  }
+
+  /** 
+     * @returns SVG calendar day grid
+     *
+    */
+  componentDayGrid() {
+    const { color, highlightColor } = this.config
+    const { 
+      width,
+      height, 
+      fontSize, 
+      fontType, 
+      fontWeight,
+      dayNameHeight,
+      padding,
+      margin
+    } = this.configGrid
+
+    const start = this.getStartDayOfMonth()
+
+    const today = this.datetime.getDate()
+    const month = this.datetime.getMonth()
+
+    let monthDayGrid, monthDayText, isToday = false, isMonth = false
+    for (let x = 0; x < this.getDaysInMonth() + start; x++) {
+      const day = x + 1 - start
+      isToday = day === new Date().getDate() ? true : false
+      isMonth = month === new Date().getMonth() ? true : false
+      monthDayGrid += `<rect 
+          stroke='${color}'
+          fill='${isToday && isMonth ? highlightColor : 'none'}'
+          width='${width}'
+          height='${height}'
+          x=${width * (x % 7)}
+          y=${Math.floor(x / 7) * width + fontSize + dayNameHeight}
+        />`
+      monthDayGrid += day === 2 ? this.componentEvent(x) : ''
+
+      monthDayText += x >= start ? `<text 
+          x=${width * (x % 7) + 10} 
+          y=${Math.floor(x / 7) * width + fontSize * 2 + dayNameHeight} 
+          style='
+            fill:${color};
+            font:${fontWeight} ${fontSize}px ${fontType};
+          '
+        >
+            ${day}
+        </text>` : ``
+    }
+
+    return {
+      monthDayGrid,
+      monthDayText
+    }
+  }
+
+  /** 
+     * @returns month header components
+     *
+    */
+  componentMonthHeader() {
+    const xmlns = "http://www.w3.org/2000/svg"
+    const { fontSize, fontType, fontWeight, margin } = this.configMonthHeader
+    const buttonStyle = `
+        position:absolute;
+        top:50%;
+        transform:translateY(-50%);
+      `
+    const buttonMonthStyle = `
+        width:${fontSize/1.2}px;
+        right:0;
+      `
+
+    const buttonTodayStyle = `
+        text-align:center;
+        margin-bottom:${margin};
+        color:'var(--color-solid-gray)';
+        font:${fontWeight} ${fontSize /1.5}px ${fontType};
+        left:0;
+        width:${fontSize*2}px;
+      `
+
+    const monthHeadingStyle = `
+        position:relative;
+        text-align:center;
+        margin-bottom:${this.configGrid.padding}px;
+        color:'var(--color-solid-gray)';font:${fontWeight} ${fontSize}px ${fontType}
+      `
+
+    // Previous Button
+    const prevButton = document.createElementNS(xmlns, 'svg')
+    prevButton.setAttributeNS(null, 'viewBox', '0 0 40 40')
+    prevButton.setAttributeNS(null, 'style', `${buttonStyle}${buttonMonthStyle}right:${fontSize};`)
+    prevButton.innerHTML = `<rect 
+        stroke='var(--color-solid-gray)'
+        width='40'
+        height='40'
+        x='2'
+        y='0'
+        stroke-width="2"
+        fill="none"
+      />
+      <polyline 
+        stroke='var(--color-solid-gray)'
+        stroke-width="2"
+        points="30,32 10,19 30,5"
+        fill="none"
+      />`
+    prevButton.addEventListener('click', event => this.handleMonthChange(event, -1))
+    prevButton.classList.add(this.config.btnClass)
+
+    // Next button
+    const nextButton = document.createElementNS(xmlns, 'svg')
+    nextButton.setAttributeNS(null, 'viewBox', `0 0 40 40`)
+    nextButton.setAttributeNS(null, 'style', `${buttonStyle}${buttonMonthStyle}`)
+    nextButton.innerHTML = `<rect 
+        stroke='var(--color-solid-gray)'
+        width='40'
+        height='40'
+        x='2'
+        y='0'
+        stroke-width="2"
+        fill="none"
+      />
+      <polyline 
+        stroke='var(--color-solid-gray)'
+        stroke-width="2"
+        points="10,5 30,19 10,32"
+        fill="none"
+      />`
+
+    nextButton.addEventListener('click', event => this.handleMonthChange(event, 1))
+    nextButton.classList.add(this.config.btnClass)
+
+    // Today button
+    const todayButton = document.createElementNS(xmlns, 'svg')
+    todayButton.setAttributeNS(null, 'viewBox', `0 0 100 40`)
+    todayButton.setAttributeNS(null, 'style', `${buttonStyle}${buttonTodayStyle}`
+                              )
+    todayButton.innerHTML = `<rect 
+        stroke='var(--color-solid-gray)'
+        width='150'
+        height='60'
+
+        fill="none"
+      />
+      <text 
+        style='
+          fill:'var(--color-solid-gray)';
+          font:${fontWeight} 1em ${fontType};
+          text-anchor:middle;
+          dominant-baseline:middle;
+        '
+        x='10%'
+        y='50%'
+      >
+        TODAY
+      </text>`
+
+    todayButton.addEventListener('click', event => this.handleToday(event))
+    todayButton.classList.add(this.config.btnClass)
+
+    const monthHeading = document.createElement('div')
+    monthHeading.setAttribute('style', monthHeadingStyle)
+    const month = this.datetime.toLocaleString('default', { month: 'long' })
+
+    monthHeading.textContent = `${month} ${this.getYear()}`
+    monthHeading.append(prevButton)
+    monthHeading.append(nextButton)
+    monthHeading.prepend(todayButton)
+
+    return monthHeading
+  }
+
+  componentEvent(x) {
+    const { color, highlightColor } = this.config
+    const { 
+      width,
+      height, 
+      fontSize, 
+      fontType, 
+      fontWeight,
+      dayNameHeight,
+      padding,
+      margin
+    } = this.configGrid
+    const title = 'Scuba Diving'
+    return `<rect 
+          stroke='${color}'
+          fill='var(--color-background)'
+          width='${width}'
+          height='${height / 5}'
+          x=${width * (x % 7)}
+          y=${Math.floor(x / 7) * width + fontSize + dayNameHeight + height / 2}
+        />
+        <text 
+          x=${width * (x % 7) + 2}
+          y=${Math.floor(x / 7) * width + fontSize + dayNameHeight + height / 2 + 15}
+          style='
+            fill: var(--color-main);
+            font:${fontWeight} 20px ${fontType};
+          '
+        >
+          Show events
+        </text>
+        `
+  }
+
+  /** 
+     * @returns today mark component
+     *
+    */
+  componentToday() {
+
+    return
+  }
+
+  /** 
+     * @returns CSS component
+     *
+    */
+  componentStyle() {
+    const style = document.createElement('style')
+    style.innerHTML = `
+        .${this.config.btnClass} {
+          background-color: ${this.config.backgroundColor};
+        }
+        .${this.config.btnClass}:hover {
+          background-color: ${this.config.highlightColor};
+          cursor: pointer;
+        }
+      `
+    return style
+  }
+
+  /** 
+     * today button event handler
+     * 
+    */
+  handleToday = (event) => {
+    event.stopPropagation()
+    const today = new Date()
+    this.setMonth(today.getMonth() + 1)
+    this.render()
+  }
+  /** 
+     * month button event handler
+     *
+    */
+  handleMonthChange = (event, increment) => {
+    event.stopPropagation()
+    const month = this.getMonth(), year = this.getYear()
+    let newMonth = month + increment, newYear = year
+    if (newMonth < 1) {
+      newMonth = 12
+      newYear--
+      this.setYear(newYear)
+    }
+    if (newMonth > 12) { 
+      newMonth = 1
+      newYear++
+      this.setYear(newYear)
+    }
+    this.setMonth(newMonth)
+    this.render()
+  }
+
+  render() {
+    // Load components and configuration
+    const { monthDayGrid, monthDayText } = this.componentDayGrid()
+    const { weekDayGrid, weekDayText } = this.componentDayHeader()
+    const { backgroundColor } = this.config
+    const { width, dayNameHeight, fontSize, padding, margin } = this.configGrid
+
+    // Apply root element configuration
+    this.root.setAttribute('style', `background-color:${backgroundColor};padding:${padding};margin:${margin};`)
+
+    // Update root element with components
+    this.root.innerHTML = `
+        <svg viewBox='0 0 ${window.innerWidth} ${width * 5 + dayNameHeight + fontSize}'>
+          ${weekDayGrid}${weekDayText}
+          ${monthDayGrid}${monthDayText}
+        </svg>
+      `
+    this.root.prepend(this.componentMonthHeader())
+    this.root.append(this.componentStyle())
+  }
+}
+
+const calendar = new Calendar('root');
+
+calendar.render()
+
+    // ///////////////////////////////////////////////////////////////////////
+const addForm = document.querySelector(".bg-addcustomerform");
+ function addnewuser(){
+    // const addBtn = document.querySelector(".add-customer");
+    addForm.style.display = 'flex';
+}
+new TomSelect("#chosen",{
+            create: false,
+            sortField: {
+            field: "text",
+            direction: "asc"
+        }
+    });
     // -----------------------------SIDE MENU
  $(document).ready(function(){
      //jquery for toggle sub menus
@@ -123,6 +663,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-S
         --color-maroon: rgb(136, 0, 0);
         --color-secondary-main: rgb(244, 255, 246);
         --color-background: rgb(235, 235, 235);
+        --color-mainbutton: rgb(117, 117, 117);
         --color-solid-gray: rgb(126, 126, 126);
         --color-td:rgb(100, 100, 100);
         --color-button: rgb(117, 117, 117);
@@ -130,6 +671,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-S
         --color-shadow-shadow: rgb(116, 116, 116);
         --color-table-hover: rgb(244, 255, 246);
         --color-aside-mobile-focus: rgb(78, 150, 78);
+        --color-button-hover: rgb(39, 170, 63);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
         
     }
@@ -157,11 +699,720 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-S
         padding: 0;
         height: 100%;
         overflow-x: hidden;
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
         background-position: center;
         background-size: cover;
         background-attachment: fixed;
     }  
+    .fc-event-container {
+        position: relative;
+        width: 100%;
+        text-align: center;
+    }
+    .fc-event {
+        border-radius: 0;
+    }
+    .fc-day-grid-event {
+        margin: 0;
+    }
+    .main-user-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.customerName{
+    align-items:center;
+    width: 100%;
+    margin-top: -2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+.customerName label{
+    /* width: 95%; */
+    color: var(--color-solid-gray);
+    font-size: 16px;
+    display: inline-block;
+    /* margin-left: .2rem; */
+    margin-bottom: 0.5rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* margin: 5px 0; */
+}
+
+.select-customer{
+    /* background: var(--color-solid-gray); */
+    color: var(--color-black);
+    align-items: center;
+    border-radius: 13px;
+    /* padding: 8px 12px; */
+    height: 40px;
+    width: 100%;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.select{
+            background: var(--color-solid-gray);
+            color: var(--color-white);
+            align-items: center;
+            border-radius: 13px;
+            padding: 8px 12px;
+            height: 40px;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+.usertype-dropdown{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.select{
+    background: var(--color-solid-gray);
+    color: var(--color-white);
+    align-items: center;
+    border-radius: 13px;
+    padding: 8px 12px;
+    height: 40px;
+    width: 96%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.action-dropdown{
+    position: relative;
+    margin-top: .5rem;
+    /* left: 10%; */
+    margin-bottom: .5rem
+}
+.user-input-box:nth-child(2n){
+    justify-content: end;
+}
+
+#note-box{
+    /* position: relative; */
+    width: 100%;
+    height: 1.32rem;
+    margin-bottom: 2rem;
+    color: var(--color-white);
+    border-radius: 10px;
+    font-family: 'COCOGOOSE', sans-serif;
+}
+#address-box{
+    /* position: relative; */
+    width: 100%;
+    height: 1.32rem;
+    margin-bottom: 3rem;
+    color: var(--color-white);
+    border-radius: 10px;
+    font-family: 'COCOGOOSE', sans-serif;
+}
+#address-box label{
+    width: 100%;
+}
+#note-box label{
+    width: 100%;
+}
+.user-input-box{
+    flex-wrap: wrap;
+    text-align: center;
+    width: 48%;
+    padding-bottom: 15px;
+}
+
+.user-input-box label{
+    width: 95%;
+    color: var(--color-solid-gray);
+    font-size: 16px;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* margin: 5px 0; */
+}
+.user-input-box label:focus{
+    border: 2px solid var(--color-main-3);
+    font-size: 17px;
+    font-weight: 600;
+}
+.user-input-box input::placeholder{
+    font-size: .8em;
+    color:var(--color-solid-gray);
+}
+/* ::placeholder:focus{
+    border: 2px solid var(--color-main-3);
+} */
+.user-input-box input:focus{
+    border: 2px solid var(--color-main);
+    background: var(--color-white);
+}
+
+.user-input-box input{
+    height: 60px;
+    width: 30%;
+    border: 2px solid var(--color-solid-gray);
+    border-radius: 20px;
+    outline: none;
+    text-align: center;
+    align-items: center;
+    font-size: 1.5em;
+    background: var(--color-white);
+    color: var(--color-black);
+    padding: 0 10px;
+}
+.line{
+    width:100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-solid-gray);
+}
+.profile-picture1 h4{
+    display: flex;
+    position: relative;
+    text-align: center;
+    font-size: 1rem;
+    font-family: 'Calibri', sans-serif;
+    color: var(--color-solid-gray);
+    width: 100%;
+    border-bottom: 2px solid var(--color-solid-gray);
+    /* margin-bottom: -5rem; */
+}
+
+
+.addnew-title{
+    font-size: min(max(1.9rem, 1.1vw), 2rem);
+    color: var(--color-solid-gray);
+    font-family: 'Malberg Trial', sans-serif;
+    letter-spacing: .09rem;
+    display: flex;
+    padding-top: 1rem;
+    justify-content: center;
+    border-bottom: 2px solid var(--color-solid-gray);
+    width: 100%;
+    padding-bottom: 2px;
+}
+.bot-buttons{
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    display: inline-block;
+    margin-top: 1.3rem;
+}
+.AddButton button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    width: 15rem;
+    max-height: 60px;
+    outline: none;
+    border: none;
+    font-size: min(max(9px, 1.1vw), 11px);
+    border-radius: 20px;
+    color: white;
+    background:  var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+    margin-left: 1rem;
+}
+.AddButton button:hover{
+    background: var(--color-button-hover);
+}
+.CancelButton{
+    display: inline-block;
+}
+.AddButton{
+    display: inline-block;
+
+}
+/* .CloseButton{
+    margin-top: 5.2vh;
+    margin-left: 2.4em;
+    margin-bottom: -2rem;
+} */
+#cancel{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    padding-left: 90px;
+    padding-right: 90px;
+    text-align: center;
+    width: 15rem;
+    max-height: 70px;
+    outline: none;
+    border: none;
+    font-size: min(max(9px, 1.1vw), 11px);
+    border-radius: 20px;
+    color: white;
+    background: #c44242;
+    cursor: pointer;
+    transition: 0.5s;
+}
+#cancel:hover{
+    background-color: rgb(158, 0, 0);
+    transition: 0.5s;
+}
+
+@media(max-width: 600px){
+    .container1{
+        min-width: 280px;
+    }
+    .user-input-box .cost{
+        position: absolute;
+        display: none;
+        left: 10.65%;
+    }
+    .user-input-box .srp{
+        position: absolute;
+        display: none;
+        left: 10.65%;
+    }
+    .user-input-box{
+        margin-bottom: 12px;
+        width: 100%;
+    }
+
+    .user-input-box:nth-child(2n){
+        justify-content: space-between;
+    }
+    .usertype-dropdown{
+        width: 99%;
+        margin-bottom: 1rem;
+        margin-top: -.3rem;
+    }
+
+    .main-user-info{
+        max-height: 380px;
+        overflow: auto;
+    }
+
+    .main-user-info::-webkit-scrollbar{
+        width: 0;
+    }
+    .bot-buttons{
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        margin-top: 1.3rem;
+    }
+    .AddButton button:hover{
+        background: var(--color-button-hover);
+
+    }
+    .CancelButton{
+        position: relative;
+        align-items: center;
+        /* padding-top: 4rem; */
+    }
+    #note-box{
+        margin-bottom: 2rem;
+    }
+    .line{
+        margin-bottom: 3rem;
+    }
+    .AddButton{
+        position: relative;
+        margin-top: -4rem;
+        margin-left: -1em;
+
+    }
+    #cancel{
+        width: 100rem;
+    }
+
+}
+    .actionicon{
+    fill:  var(--color-white);
+}
+#edit-action{
+    background: hsl(0, 0%, 37%);
+    color: var(--color-white);
+    align-items: center;
+    position: relative;
+    border-radius: 3px;
+    height: 100%;
+    width: 70%;
+    margin: 1px;
+    padding-top: 10px;
+    padding-right: 2px;
+    padding-left: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+#edit-action:hover{
+    background: var(--color-main);
+    color: var(--color-white);
+}
+#archive-action{
+    background: hsl(0, 51%, 44%);
+    color: var(--color-white);
+    align-items: center;
+    position: relative;
+    margin: 1px;
+    border-radius: 3px;
+    height: 100%;
+    width: 70%;
+    padding-top: 10px;
+    padding-right: 2px;
+    padding-left: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+#archive-action:hover{
+    background: var(--color-main);
+    color: var(--color-white);
+}
+    .add-customer{
+    display: flex;
+    border: none;
+    background-color: var(--color-white);
+    align-items: center;
+    color: var(--color-button);
+    fill: var(--color-button);
+    width: 15rem;
+    max-height: 46px;
+    border-radius: 20px;
+    padding: .68rem 1rem;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    gap: 1rem;
+    position: absolute;
+    height: 3.9rem;
+    transition: all 300ms ease;
+    margin-top: .2rem;
+    margin-left: 15rem;
+    text-transform: uppercase;
+}
+.add-customer h3{
+    font-size: .8rem;
+}
+.add-customer:hover{
+    background-color: var(--color-main);
+    color: var(--color-white);
+    fill: var(--color-white);
+    padding-top: -.2px;
+    transition: 0.7s;
+    border-bottom: 4px solid var(--color-maroon);
+}
+.container1{
+    width: 100%;
+    max-width: 600px;
+    padding: 28px;
+    margin: 0 28px;
+    border-radius:  0px 0px 20px 20px;
+    background-color: var(--color-white);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-top: 10px solid var(--color-solid-gray);
+}
+
+    .bg-addcustomerform{
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
+    position: fixed;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    /* display: flex; */
+}
+#form-registered1{
+    position: absolute;
+    top: 50%;
+    display: none;
+    left: 50%;
+    max-height: 90vh;
+    min-width: 400px;
+    transform: translate(-50%, -50%);
+    background-color: var(--color-white);
+    border-top: 10px solid var(--color-main-3);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-radius:  0px 0px 20px 20px;
+}
+    .viewTransaction{
+    font-family: 'century-gothic', sans-serif;
+    font-size: .7rem;
+    color: var(--color-main);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--color-main);
+    cursor: pointer;
+}
+.viewTransaction:hover{
+    color: var(--color-maroon);
+    border-bottom: 1px solid var(--color-maroon);
+}
+    .main-container{
+    box-shadow: 5px 5px 15px 0px var(--color-solid-gray);
+    height: 670px;
+    overflow: auto;
+    max-height: 670px;
+    background: var(--color-white);
+    width: 101%;
+    border-radius: 10px 10px 10px 10px;
+    margin-bottom: 1rem;
+    position: relative;
+}
+.sub-tab-container{
+    padding: 2rem;
+
+}
+.previous-transaction-header{
+    color: var(--color-black);
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'COCOGOOSE', sans-serif;
+    letter-spacing: 1px;
+    margin-bottom:1.5rem;
+}
+.customer-container{
+    /* margin-top: 2rem; */
+    max-height: 550px;
+    overflow:auto;
+    background-color: var(--color-white);
+    width: 101%;
+    margin-bottom: 1rem;
+    /* position: absolute; */
+    box-shadow: 5px 5px 15px 0px var(--color-solid-gray);
+    border-top: 2px solid var(--color-solid-gray);
+    border-radius: 10px 10px 10px 10px;
+
+}
+.customer-container table{
+    background: var(--color-white);
+    font-family: 'Switzer', sans-serif;
+    width: 100%;
+    font-size: 1rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    padding-bottom: 2.5rem;
+    text-align: center;
+    transition: all 700ms ease;
+    /* margin-top: -1rem; */
+}
+.customer-container table:hover{
+    box-shadow: none;
+    /* border-top: 8px solid var(--color-main); */
+}
+
+.customer-container table tbody td{
+    height: 2.8rem;
+    border-bottom: 1px solid var(--color-solid-gray);
+    color: var(--color-td);
+    font-size: .8rem;
+}
+th{
+    height: 2.8rem;
+    color: var(--color-black);
+    margin:1rem;
+    font-size: 1rem;
+    letter-spacing: 0.02rem;
+}
+tr:hover td{
+    color: var(--color-main);
+    cursor: pointer;
+    background-color: var(--color-table-hover);
+}
+.select-dropdown{
+    display: inline-block;
+    margin-right: 23%;
+    position: relative;
+    float: right;
+    max-height: 50px;
+}
+.select{
+    background-color: var(--color-white);
+    color: var(--color-solid-gray);
+    /* align-items: center; */
+    border-radius: 5px;
+    padding: .80rem 1rem;
+    width: 10.8vw;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+.select:hover{
+    background:  var(--color-solid-gray);
+    color: var(--color-white);
+}
+.main-account{
+    width:100%;
+    position: relative;
+}
+.dashTitle{
+    margin-top: 2rem;
+    font-size: min(max(1.9rem, 1.1vw), 2rem);
+    color: var(--color-main); 
+    font-family: 'COCOGOOSE', sans-serif;
+    letter-spacing: .03rem;
+    border-bottom: 2px solid var(--color-main); 
+    width: 78%;
+}
+
+    /* ----------------------------------------Sub TAB---------------------------------------- */
+    .user-title{
+        position: relative;
+        margin-left: 3rem;
+    }
+    main  h2{
+        margin-bottom: -2.2rem;
+        position: relative;
+        margin-top: 1rem;
+        color: var(--color-solid-gray);
+        font-size: 1.3rem;
+        letter-spacing: .1rem;
+        font-family: 'Galhau Display', sans-serif;
+    }
+    main .sub-tab{
+        margin-bottom: 2rem;
+        margin-top: 3rem;
+    }
+    /* ----------------------------------------Search BAR---------------------------------------- */
+    .search{
+        position: absolute;
+        display: inline-block;
+        gap: 2rem;
+        right: 3%;
+    }
+    .search-bar{
+        width: 15vw;
+        background: var(--color-white);
+        display: flex;
+        position: relative;
+        align-items: center;
+        border-radius: 60px;
+        padding: 10px 20px;
+        height: 1.8rem;
+        backdrop-filter: blur(4px) saturate(180%);
+    }
+    .search-bar input{
+        background: transparent;
+        flex: 1;
+        border: 0;
+        outline: none;
+        padding: 24px 20px;
+        font-size: .8rem;
+        color: var(--color-black); 
+        margin-left: -0.95rem;
+    }
+    .search::placeholder{
+        color: var(--color-solid-gray);
+        font-size: .8rem;
+    }
+    .search-bar button svg{
+        width: 20px;
+        fill: var(--color-white); 
+    }
+    .search-bar button{
+        border: 0;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        background: var(--color-main); 
+        margin-right: -0.55rem;
+    }
+    /* ----------------------------------------Add Button---------------------------------------- */
+    .totals{
+        display: inline-block;
+        margin-left: 1rem;
+        position: relative;
+    }
+    .newUser-button1{
+        position: relative;
+        margin-left: 35rem;
+        display: inline-block;
+    }
+    .newUser-button2{
+        margin-left: 1rem;
+        position: relative;
+        display: inline-block;
+    }
+    .add-account1{
+        display: flex;
+        border: none;
+        background-color: var(--color-secondary-main); 
+        align-items: center;
+        color: var(--color-button); 
+        fill: var(--color-button); 
+        width: 20rem;
+        text-align: center;
+        justify-content: center;
+        height: 3rem;
+        border-radius: 10px;
+        padding: .68rem 1rem;
+        font-family: 'calibri', sans-serif;
+        transition: all 300ms ease;
+        position: relative; 
+        margin-top: .2rem;
+        text-transform: uppercase;
+        border-left: 4px solid var(--color-solid-gray);
+        border-right: 4px solid var(--color-solid-gray);
+    }
+    .add-account1 h3{
+        font-size: 1rem;
+        margin-right: 1.5rem;
+    }
+    .add-account2{
+        display: flex;
+        border: none;
+        background-color: var(--color-white); 
+        align-items: center;
+        color: var(--color-button); 
+        fill: var(--color-button); 
+        width: 15rem;
+        text-align: center;
+        justify-content: center;
+        height: 2rem;
+        border-radius: 10px;
+        padding: .68rem 1rem;
+        font-family: 'Outfit', sans-serif;
+        transition: all 300ms ease;
+        position: relative; 
+        margin-top: .2rem;
+        text-transform: uppercase;
+        border-bottom: 4px solid #008B8B;
+    }
+    .add-account2 h3{
+        font-size: .8rem;
+        margin-right: 1.5rem;
+    }
+    .add-account3{
+        display: flex;
+        border: none;
+        background-color: var(--color-background); 
+        align-items: center;
+        color: var(--color-black); 
+        fill: var(--color-button); 
+        width: 18rem;
+        text-align: center;
+        justify-content: center;
+        height: 2rem;
+        border-radius: 0px 0px 5px 5px;
+        padding: .68rem 1rem;
+        font-family: 'Outfit', sans-serif;
+        transition: all 300ms ease;
+        position: relative; 
+        margin-top: .2rem;
+        text-transform: uppercase;
+        border-bottom: 7px solid #A9A9A9;
+    }
+    .add-account3 h3{
+        font-weight: 900;
+        font-size: .8rem;
+        margin-right: 1.5rem;
+    }
+    .total-deliveries{
+        font-family: 'ARIAL', sans-serif;
+        color: var(--color-button); 
+        font-size: .9rem;
+    }
+    .total-transactions{
+        font-family: 'ARIAL', sans-serif;
+        font-weight: 900;
+        color: var(--color-black); 
+        font-size: 1rem;
+    }
       /* -----------------------------------------------Side Menu---------------------------------------- */
       .side-bar{
         background: var(--color-table-hover);
@@ -531,150 +1782,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-S
         margin-top: 3.2rem;
     }
    
-        /* ----------------------------------------Sub TAB---------------------------------------- */
-        /* .user-title{
-            position: relative;
-        }
-        main  h2{
-            margin-bottom: -2.2rem;
-            margin-top:2rem;
-            color: var(--color-solid-gray);
-            font-size: 1.3rem;
-            margin-left: 3%;
-            letter-spacing: .1rem;
-            font-family: 'Galhau Display', sans-serif;
-        }
-        main .sub-tab{
-            margin-bottom: 4rem;
-        } */
-        /* ----------------------------------------Search BAR---------------------------------------- */
-        /* .search{
-            position: absolute;
-            gap: 2rem;
-            align-items: right;
-            text-align: right;
-            left: 50%;
-        }
-        .search-bar{
-            width: 18rem;
-            background: var(--color-white);
-            display: flex;
-            position: relative;
-            align-items: center;
-            border-radius: 60px;
-            padding: 10px 20px;
-            height: 1.8rem;
-            backdrop-filter: blur(4px) saturate(180%);
-        }
-        .search-bar input{
-            background: transparent;
-            flex: 1;
-            border: 0;
-            outline: none;
-            padding: 24px 20px;
-            font-size: .8rem;
-            color: var(--color-black); 
-            margin-left: -0.95rem;
-        }
-        ::placeholder{
-            color: var(--color-solid-gray);
-            
-        }
-        .search-bar button svg{
-            width: 20px;
-            fill: var(--color-white); 
-        }
-        .search-bar button{
-            border: 0;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            background: var(--color-main); 
-            margin-right: -0.55rem;
-        } */
-        /* ----------------------------------------Add Button---------------------------------------- */
-        /* .newUser-button{
-            position: absolute;
-            left: 68%;
-        }
-        .add-account{
-            display: flex;
-            border: none;
-            background-color: var(--color-white); 
-            align-items: center;
-            color: var(--color-button); 
-            fill: var(--color-button); 
-            width: 11rem;
-            max-height: 46px;
-            border-radius: 20px;
-            padding: .68rem 1rem;
-            font-family: 'Outfit', sans-serif;
-            cursor: pointer; 
-            gap: 1rem;
-            align-items: center;
-            height: 3.7rem;
-            transition: all 300ms ease;
-            position: relative; 
-            margin-top: .2rem;
-            text-transform: uppercase;
-        }
-        .add-account h3{
-            font-size: .8rem;
-        }
-        .add-account:hover{
-            background-color: var(--color-main); 
-            color: var(--color-white);
-            fill: var(--color-white);
-            padding-top: -.2px;
-            transition: 0.7s;
-            border-bottom: 4px solid var(--color-maroon);
-        } */
-         /* ----------------------------------------Dashboard Table---------------------------------------- */
-     /* main .account-container{
-        margin-top: 2rem;
-        height: 500px;
-        
-    }
-     main .account-container table{
-        background: var(--color-white);
-        font-family: 'Switzer', sans-serif;
-        width: 100%;
-        font-size: 0.8rem;
-        border-radius: 0px 0px 10px 10px;
-        padding-left: 2.5rem;
-        padding-right: 2.5rem;
-        padding-bottom: 2.5rem;
-        text-align: center; 
-        box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
-        border-top: 8px solid var(--color-table-hover);
-        transition: all 700ms ease;
-        overflow: auto;
-        margin-top: -1rem;
-    }
-
-    main .account-container table:hover{
-        box-shadow: none;
-        border-top: 8px solid var(--color-main);
-    }
-
-    main table tbody td{
-        height: 2.8rem;
-        border-bottom: 1px solid var(--color-solid-gray);
-        color: var(--color-td); 
-        font-size: .67rem;
-    }
-     th{
-        height: 2.8rem;
-        color: var(--color-black); 
-        margin:1rem;
-        font-size: .8rem;
-        letter-spacing: 0.02rem;
-    }  
-    tr:hover td{
-        color: var(--color-main); 
-        cursor: pointer;
-        background-color: var(--color-table-hover);
-     } */
     /* ----------------------------------------ASIDE---------------------------------------- */
     .container{
         display: grid;

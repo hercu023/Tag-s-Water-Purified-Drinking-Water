@@ -96,7 +96,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                         <th>ID</th>
                         <th>Customer Name</th>
                         <th>Order Details</th>
-                        <th>Payment Option</th>
                         <th>Payment Status</th>
                         <th>Service</th>
                         <th>Cashier Name</th>
@@ -144,8 +143,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                                  ?></td>
                                 <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
 
-                                <td> <?php echo $rows['option_name']; ?></td> 
-                                <td> <?php 
+                                    <td> <?php 
                                     if($rows['status_id'] == 0){
                                         echo 'Unpaid';
                                     }else{
@@ -181,7 +179,8 @@ if(isset($_GET['view']))
                                 transaction.amount_tendered,
                                 payment_option.option_name,
                                 transaction.service_type,
-                                transaction.created_at
+                                transaction.created_at_date,
+                                transaction.created_at_time
                                 FROM transaction 
                                 LEFT JOIN customers  
                                 ON transaction.customer_name = customers.id 
@@ -206,7 +205,7 @@ if(isset($_GET['view']))
                                         echo 'GUEST';
                                     }?></span>
                         </div>
-                        <label class="customernameLbl"><?=$transaction['created_at'];?></label>
+                        <label class="customernameLbl"><?=$transaction['created_at_date'].' '.$transaction['created_at_time'];?></label>
 
                             <div class="payment-options">
                                 <label class="customernameLbl"><?=$transaction['option_name'];?> </label>

@@ -30,9 +30,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
     <body>
     
         <div class="container">
-        <?php
-            include('../common/side-menu.php')
-        ?>
+            <?php
+                include('../common/side-menu.php')
+            ?>
             <main>
                 <div class="main-dashboard">
                     <h1 class="dashTitle">MONITORING</h1> 
@@ -47,7 +47,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                                     <option value="Delivery">Delivery</option>
                                     <option value="Delivery/Pick Up">Delivery/Pick Up</option>
                                 </select>
-                            </div>
+                        </div>
+
                         <div class="search">
                             <div class="search-bar"> 
                                 <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
@@ -59,78 +60,300 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                     </div> 
                 </div>
                 <div class="main-container">
-                        <div class="sub-tab-container">
-                            
-                            <div class="totals">
-                                <!-- <h2 class="remaining">REMAINING ITEMS</h2> -->
-                            <div class="newUser-button2"> 
-                                <div id="add-userbutton" class="add-account2">
-                                    <h3 class="deliveries">To Deliver</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
+                    <div class="sub-tab-container">
+                        <div class="newUser-button2"> 
+                            <div id="add-userbutton" class="add-account2">
+                                <h3 class="deliveries">To Deliver</h3>
+                                <span class="total-deliveries">0</span>
                             </div>
-                            <div class="newUser-button1"> 
-                                <div id="add-userbutton" class="add-account1">
-                                    <h3 class="deliveries">To Pick Up</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                            
                         </div>
-                        <div class="newUser-button3"> 
-                                <a href="../monitoring/monitoring-delivery-pickup-batch.php" id="add-userbutton" class="batchlist">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 16q-1.042 0-1.771-.729Q2.5 14.542 2.5 13.5H1V5q0-.625.438-1.062Q1.875 3.5 2.5 3.5H14v3h2.5L19 10v3.5h-1.5q0 1.042-.729 1.771Q16.042 16 15 16q-1.042 0-1.771-.729-.729-.729-.729-1.771h-5q0 1.042-.729 1.771Q6.042 16 5 16Zm0-1.5q.417 0 .708-.292Q6 13.917 6 13.5t-.292-.708Q5.417 12.5 5 12.5t-.708.292Q4 13.083 4 13.5t.292.708q.291.292.708.292Zm10 0q.417 0 .708-.292.292-.291.292-.708t-.292-.708Q15.417 12.5 15 12.5t-.708.292Q14 13.083 14 13.5t.292.708q.291.292.708.292Zm-1-4 3.5-.021L15.729 8H14Z"/></svg>
-                                    <h3 class="deliveries">DELIVERY BATCH LIST >></h3>
-                                </a>
+                        <div class="newUser-button1"> 
+                            <div id="add-userbutton" class="add-account1">
+                                <h3 class="deliveries">To Pick Up</h3>
+                                <span class="total-deliveries">0</span>
                             </div>
+                        </div>
+                        <div class="createDelivery">
+                            <a href="../monitoring/monitoring-delivery-pickup-delivered.php" id="add-userbutton" class="batchlist">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 16q-1.042 0-1.771-.729Q2.5 14.542 2.5 13.5H1V5q0-.625.438-1.062Q1.875 3.5 2.5 3.5H14v3h2.5L19 10v3.5h-1.5q0 1.042-.729 1.771Q16.042 16 15 16q-1.042 0-1.771-.729-.729-.729-.729-1.771h-5q0 1.042-.729 1.771Q6.042 16 5 16Zm0-1.5q.417 0 .708-.292Q6 13.917 6 13.5t-.292-.708Q5.417 12.5 5 12.5t-.708.292Q4 13.083 4 13.5t.292.708q.291.292.708.292Zm10 0q.417 0 .708-.292.292-.291.292-.708t-.292-.708Q15.417 12.5 15 12.5t-.708.292Q14 13.083 14 13.5t.292.708q.291.292.708.292Zm-1-4 3.5-.021L15.729 8H14Z"/></svg>
+                                <h3 class="deliveries">DELIVERED CUSTOMERS LIST</h3>
+                            </a>
                         </div>
                     </div>
-                        <div class="customer-container" id="customerTable">
-                            <br>
-                            <header class="previous-transaction-header">PENDING DELIVERY/PICK UP</header>
-                            <hr>
-                            <table class="table" id="myTable">
-                            <thead>
-                            <tr>
-                        <th><span class="statusLbl">STATUS</span></th>
-                        <th>ID</th>
-                        <th>Customer Name</th>
-                        <th>Order Details</th>
-                        <th>Payment Option</th>
-                        <th>Payment Status</th>
-                        <th>Service</th>
-                        <th>Date/Time</th>
-                    </tr>
-                    </thead>
+                </div>
 
-                    <?php
-                    $dropdown_query2 = "SELECT 
-                    transaction.id,
-                    transaction.uuid,
-                    customers.customer_name,
-                    transaction.total_amount,
-                    transaction.customer_change,
-                    transaction.amount_tendered,
-                    payment_option.option_name,
-                    transaction.service_type,
-                    transaction.note,
-                    transaction.status_id,
-                    transaction.created_at_date,
-                    transaction.created_at_time
-                    FROM transaction
-                    INNER JOIN payment_option
-                    ON transaction.payment_option = payment_option.id
-                    LEFT JOIN customers
-                    ON transaction.customer_name = customers.id
-                    WHERE transaction.service_type LIKE '%Delivery' OR service_type LIKE '%Delivery/Pick Up'
-                    ORDER BY transaction.created_at_date";
-                    $result = mysqli_query($con, $dropdown_query2);
-                    while ($rows = mysqli_fetch_assoc($result))
+                    <div class="customer-container" id="customerTable">
+                                <br>
+                                <div class="newUser-button4"> 
+                                    <button id="add-userbutton" class="add-account3">
+                                        <h3 class="deliveries">TOTAL PENDING DELIVERY/PICK UP</h3>
+                                        <span class="total-deliveries">0</span>
+                                    </button>
+                                </div>
+                                <div class="card">
+                                     <h1 class="day"><?php echo date("l")?></h1>
+                                    <h1 class="dash">-</h1>
+                                    <h1 class="date"><?php echo ' '.date("F j, Y")?></h1>
+                                </div>
+                                <hr>
+                                <table class="table" id="myTable">
+                                <thead>
+                                        <tr>
+                                            <th><span class="statusLbl">STATUS</span></th>
+                                            <th>ID</th>
+                                            <th>Customer Name</th>
+                                            <!-- <th>Address</th>
+                                            <th>Contact Number</th> -->
+                                            <th>Payment Status</th>
+                                            <th>Date/Time</th>
+                                            <th>Transaction Details</th>
+                                        </tr>
+                                </thead>
+                            <?php
+                            $dropdown_query2 = "SELECT 
+                            transaction.id,
+                            transaction.uuid,
+                            customers.customer_name,
+                            transaction.total_amount,
+                            transaction.customer_change,
+                            transaction.amount_tendered,
+                            payment_option.option_name,
+                            transaction.service_type,
+                            transaction.note,
+                            transaction.status_id,
+                            users.first_name,
+                            users.last_name,
+                            transaction.created_at_date,
+                            transaction.created_at_time
+                            FROM transaction
+                            INNER JOIN users
+                            ON transaction.created_by_id = users.user_id
+                            INNER JOIN payment_option
+                            ON transaction.payment_option = payment_option.id
+                            LEFT JOIN customers
+                            ON transaction.customer_name_id = customers.id
+                            WHERE transaction.service_type LIKE '%Delivery' OR service_type LIKE '%Delivery/Pick Up'
+                            ORDER BY transaction.created_at_time";
+                            $result = mysqli_query($con, $dropdown_query2);
+                            while ($rows = mysqli_fetch_assoc($result))
+                                {
+                            ?>
+                        <tbody>
+                            <td> <span class="status">FOR DELIVERY</span></td>
+                            <td> <?php echo $rows['id']; ?></td>
+                                        <td> <?php if($rows['customer_name']){
+                                            echo $rows['customer_name'];
+                                            }else{
+                                                echo 'GUEST';
+                                            }
+                                        ?></td>
+
+                                        <td> <?php 
+                                            if($rows['status_id'] == 0){
+                                                echo 'Unpaid';
+                                            }else{
+                                                echo 'Paid';
+                                            } ?>
+                                        </td>     
+                                        <td> <?php echo $rows['created_at_date'].' '.$rows['created_at_time']; ?></td>
+                                        <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+                                    <tr id="noRecordTR" style="display:none">
+                                        <td colspan="10">No Record Found</td>
+                                    </tr>
+                        </tbody>
+                                <?php
+                            }
+                            ?>
+                                </table>
+                    </div>
+                    <div class="delivery-container" id="customerTable">
+                        <div class="deliveryboys">
+                            <h4>COURIER</h4>
+                            <div class="usertype-dropdown1">
+                                <?php
+                                $dropdown_query = "SELECT * FROM employee WHERE position_id LIKE '%2'";
+                                $result_category = mysqli_query($con, $dropdown_query);
+                                ?>
+                                <select class="select1" name="category_type" required="" >
+                                    <option selected disabled value="">SELECT DELIVERY BOY</option>
+                                    <?php while($category = mysqli_fetch_array($result_category)):;?>
+                                        <option value="<?php echo $category['id']?>">
+                                            <?php echo $category['first_name'];?></option>
+                                    <?php endwhile;?>
+                                </select>
+                            </div>
+    
+                        </div>
+                        <hr>
+                        <div class="deliveryLbl">
+                            <h2>- DELIVERY LIST -</h2>
+                        </div>
+                        <div class="delivery-details">
+                                    <div class="delivery1">
+                                        <h3>Delivery Boy:</h3>
+                                        <span class="deliveryID1">RICK</span>
+                                    </div>
+
+                                    <div class="delivery3">
+                                        <h3>Time:</h3>
+                                        <span class="deliveryID3" id="time">00:00:00</span>
+                                    </div>
+                        </div>
+                        <div class="deliverylist-table">
+                            <table class="tableCheckout" id="sumTable">
+                                <thead>
+                                <?php           
+                                           $user_id =  $_SESSION['user_user_id'];
+                                            $transaction_process = "SELECT
+                                                    transaction.id,
+                                                    customers.customer_name,
+                                                    transaction.status_id
+                                                    FROM transaction
+                                                    LEFT JOIN customers
+                                                    ON transaction.customer_name_id = customers.id";
+                                            $transaction_order = mysqli_query($con, $transaction_process);
+                                            if(mysqli_num_rows($transaction_order) > 0)
+                                            {$transaction_name = mysqli_fetch_assoc($transaction_order);
+                                            ?>
+                                    <tr>
+                                        <th>Name</th>
+                                        <td colspan="4"><?=$transaction_name['customer_name'];?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Payment Status</th>
+                                        <td> <?php 
+                                            if($transaction_name['status_id'] == 0){
+                                                echo 'Unpaid';
+                                            }else{
+                                                echo 'Paid';
+                                            } ?>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <?php } else { ?>
+                                                <tr id="noRecordTR">
+                                                    <td colspan="4">No Customer Added</td>
+                                                </tr>
+                                            <?php } ?>
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Water</th>
+                                        <th>Qty</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                    <?php           
+                                           $user_id =  $_SESSION['user_user_id'];
+                                            $transaction_process = "SELECT
+                                                    transaction_process.item_name,
+                                                    transaction_process.water_type,
+                                                    transaction_process.quantity,
+                                                    transaction_process.total_price
+                                                    FROM transaction_process
+                                                    WHERE user_id = '$user_id' 
+                                                    AND transaction_id = '0'";
+                                            $transaction_order = mysqli_query($con, $transaction_process);
+                                            if(mysqli_num_rows($transaction_order) > 0)
+                                            {
+                                            foreach($transaction_order as $transactions)
+                                            {
+                                            ?>
+
+                                            <tbody>
+                                            <tr>
+                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
+                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
+                                                <td name="categorytype_transaction"> <?php echo $transactions['quantity']; ?></td>
+                                                <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
+                                            </tr>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <tr id="noRecordTR">
+                                                    <td colspan="4">No Deliveries Added</td>
+                                                </tr>
+                                            <?php } ?>
+                                            </tbody>
+                                            
+                            </table>
+                        </div>
+                        <div>
+                        <?php $transaction_order1 = mysqli_query($con, "SELECT
+                                                    sum(transaction_process.total_price)
+                                                    FROM transaction_process
+                                                    WHERE user_id = '$user_id' 
+                                                    AND transaction_id = '0'"); 
+                                                    while ($transactions1 = mysqli_fetch_array($transaction_order1)) {?>
+
+                        <hr>
+                            <div class="totaldelivery1"><p class="totalAmount-text">TOTAL PAYMENTS</p></div>
+                            <div class="total-amount">
+                                <label id="total_order1">&#8369</label>
+                                <input type="text" name="totalAmount" readonly id="totalAmount_order" value="<?php echo number_format($transactions1['sum(transaction_process.total_price)'], '2','.',','); ?>">
+                            </div>
+                        </div>
+                           
+                        <?php }?>
+                        <div class="receipt-buttons">
+                            <button type="submit" class="confirmOrder-button" name="print" onclick="print();">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
+                                Print
+                            </button>
+                            <button type="submit" class="confirmOrder-button2" name="deliver">
+                                DELIVER
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form3">
+                <div class="todeliver-transaction">
+                    <br>
+                    <header class="todeliver-transaction-header">ONGOING DELIVERY ORDERS</header>
+                    <hr>
+                    <table class="todeliver-transaction-table">
+                        <thead>
+                        <tr>
+                            <th><span class="statusLbl">STATUS</span></th>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Details</th>
+                            <th>Total Remittance</th>
+                            <th>Courier</th>
+                            <th>Date/Time</th>
+                        </tr>
+                        </thead>
+                        <?php
+                        $dropdown_query2 = "SELECT 
+                            transaction.id,
+                            transaction.uuid,
+                            customers.customer_name,
+                            transaction.total_amount,
+                            transaction.customer_change,
+                            transaction.amount_tendered,
+                            payment_option.option_name,
+                            transaction.service_type,
+                            transaction.note,
+                            transaction.status_id,
+                            users.first_name,
+                            users.last_name,
+                            transaction.created_at_date,
+                            transaction.created_at_time
+                            FROM transaction
+                            INNER JOIN users
+                            ON transaction.created_by_id = users.user_id
+                            INNER JOIN payment_option
+                            ON transaction.payment_option = payment_option.id
+                            LEFT JOIN customers
+                            ON transaction.customer_name_id = customers.id
+                            ORDER BY transaction.created_at_date DESC
+                            LIMIT 5";
+                        $result4 = mysqli_query($con, $dropdown_query2);
+                        while ($rows = mysqli_fetch_assoc($result4))
                         {
-                    ?>
-                    <tbody>
-                    <td> <span class="status">TO DELIVER</span></td>
-                    <td> <?php echo $rows['id']; ?></td>
+                            ?>
+                            <tbody>
+                            <tr>
+                                <td> <span class="status1">TO DELIVER</span></td>
+                                <td> <?php echo $rows['id']; ?></td>
                                 <td> <?php if($rows['customer_name']){
                                     echo $rows['customer_name'];
                                     }else{
@@ -138,27 +361,19 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                                     }
                                  ?></td>
                                 <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
-
-                                <td> <?php echo $rows['option_name']; ?></td>                                
-                                <td> <?php 
-                                    if($rows['status_id'] == 0){
-                                        echo 'Unpaid';
-                                    }else{
-                                        echo 'Paid';
-                                    } ?>
-                                </td>     
-                                <td> <?php echo $rows['service_type']; ?></td>                         
+                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
+                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
                                 <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
-
                             <tr id="noRecordTR" style="display:none">
-                                <td colspan="10">No Record Found</td>
+                                <td colspan="7">No Record Found</td>
                             </tr>
                             </tbody>
                             <?php
                         }
                         ?>
-                            </table>
-                        </div>
+                    </table>
+                </div>
+            </div>
             </main>
             <?php
                 include('../common/top-menu.php')
@@ -166,6 +381,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
         </div> 
     </body>
 </html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+<script src="https://code.jquery.com/jquery.min.js"></script>
 <script>
 const addForm = document.querySelector(".bg-addcustomerform");
  function addnewuser(){
@@ -173,8 +391,9 @@ const addForm = document.querySelector(".bg-addcustomerform");
     addForm.style.display = 'flex';
 }
 
+
     // -----------------------------SIDE MENU
- $(document).ready(function(){
+    $(document).ready(function(){
      //jquery for toggle sub menus
      $('.sub-btn').click(function(){
        $(this).next('.sub-menu').slideToggle();
@@ -222,27 +441,8 @@ const addForm = document.querySelector(".bg-addcustomerform");
         //     }
          });
         
-        // if(localStorage.getItem('dark')) {
-        //     body.classList.add('dark');
-        //     }
-    // const sideMenu = document.querySelector("#aside");
-    // const closeBtn = document.querySelector("#close-btn");
-    // const menuBtn = document.querySelector("#menu-button");
-    // const checkbox = document.getElementById("checkbox");
-    //     menuBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'block';
-    //     })
-    //     closeBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'none';
-    //     })
-    //     checkbox.addEventListener('change', () =>{
-    //         document.body.classList.toggle('dark-theme');
-    //     })
+// -----------------------------date and time
 
-    //     function menuToggle(){
-    //         const toggleMenu = document.querySelector('.drop-menu');
-    //         toggleMenu.classList.toggle('user2')
-    //     }
 </script>
 <style>
      :root{
@@ -264,12 +464,14 @@ const addForm = document.querySelector(".bg-addcustomerform");
         --color-aside-mobile-focus: rgb(78, 150, 78);
         --color-button-hover: rgb(39, 170, 63);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
+        --color-blue-button: rgb(62, 178, 255);
         
     }
     .dark-theme{
         --color-white: rgb(48, 48, 48);
         --color-tertiary: hsl(0, 0%, 25%);
         --color-black: white;
+        --color-blue-button: rgb(164, 219, 255);
         --color-shadow-shadow: rgb(32, 32, 32);
         --color-aside-mobile-focus: rgb(244, 255, 246);
         --color-table-shadow: rgb(131, 131, 131);
@@ -295,9 +497,172 @@ const addForm = document.querySelector(".bg-addcustomerform");
         background-size: cover;
         background-attachment: fixed;
     }  
+    .form3{
+    /* margin-top: -39rem; */
+    width: 100%;
+    max-height: 10%;
+    margin-bottom: 1rem;
+    /* display: inline-block;
+    position: relative; */
+}
+.todeliver-transaction{
+    background-color: var(--color-white);
+    padding-left: 2rem;
+    padding-right: 2rem;
+    width: 97%;
+    max-height: 20%;
+    border-color: var(--color-table-border);
+    /* position: relative; */
+    overflow:auto;
+    border-top: 8px solid var(--color-table-hover);
+    border-radius: 0px 0px 20px 20px;
+}
+.todeliver-transaction-header{
+    color: var(--color-black);
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+    margin-left: 1rem;
+    text-transform: uppercase;
+    font-family: 'COCOGOOSE', sans-serif;
+    letter-spacing: 1px;
+    /* margin-bottom:1.5rem; */
+}
+
+.todeliver-transaction-table th{
+    height: 4rem;
+    /* padding: 1rem; */
+    color: var(--color-black);
+    /* margin:1rem; */
+    font-size: .8rem;
+    letter-spacing: 0.02rem;
+    border: none;
+}
+table{
+    background: var(--color-white);
+    font-family: 'Switzer', sans-serif;
+    width: 100%;
+    font-size: 0.8rem;
+    border-radius: 0px 0px 10px 10px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 2.5rem;
+    text-align: center;
+    transition: all 700ms ease;
+    overflow: auto;
+    margin-top: -1rem;
+}
+
+table tbody td{
+    height: 2.8rem;
+    border-bottom: 1px solid var(--color-solid-gray);
+    color: var(--color-td);
+    font-size: .67rem;
+}
+    .receipt-buttons{
+    text-align: center;
+    margin-top: 1.3rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirmOrder-button{
+    font-family: 'COCOGOOSE', sans-serif;
+    gap: 1rem;
+    padding: 10px;
+    display: flex;
+    /* padding-bottom: -70px; */
+    text-align: center;
+    justify-content: center;
+    outline: none;
+    color: var(--color-white);
+    fill: var(--color-white);
+    cursor: pointer;
+    transition: 0.5s;
+    background: var(--color-solid-gray);
+    border-radius:  .5rem .5rem 0rem 0rem;
+    font-size: .8rem;
+    border: none;
+    position: relative;
+    width: 100%;
+    text-transform: uppercase;
+
+}
+.confirmOrder-button:hover{
+    filter: brightness(120%);
+    background: var(--color-tertiary);
+    transition: 0.5s;
+}
+.confirmOrder-button2{
+    font-family: 'COCOGOOSE', sans-serif;
+    gap: 1rem;
+    padding: 10px;
+    display: flex;
+    /* padding-bottom: -70px; */
+    text-align: center;
+    justify-content: center;
+    outline: none;
+    color: var(--color-white);
+    fill: var(--color-white);
+    cursor: pointer;
+    transition: 0.5s;
+    background: var(--color-main);
+    font-size: .8rem;
+    border: none;
+    position: relative;
+    width: 100%;
+    text-transform: uppercase;
+
+}
+.confirmOrder-button2:hover{
+    filter: brightness(120%);
+    background: var(--color-tertiary);
+    transition: 0.5s;
+}
+.totaldelivery1{
+    /* align-items: left; */
+    float: left;
+    display: inline-block;
+    margin-left: 1rem;
+    /* margin-bottom: */
+}
+.total-amount{
+    float: right;
+    display: inline-block;
+    /* margin-right: 1rem; */
+}
+#totalAmount_order{
+    background-color: var(--color-total-amount);
+    /* padding-left: 20px;*/
+    margin-right: 20px; 
+    text-align: center;
+    border-radius: 1rem;
+    width: 10rem;
+    font-family: 'century-gothic', sans-serif;
+    font-size: 1.5rem;
+    color: var(--color-black);
+}
+
+#total_order1{
+    /* background-color: #FFCFCF; */
+    /* padding-left: 20px; */
+    padding-right: 20px;
+    font-size:1.5rem;
+    font-family: 'century-gothic', sans-serif;
+    color: var(--color-black);
+}
+.totalAmount-text{
+    color: var(--color-black);
+    font-weight: bolder;
+    font-size: 1rem;    
+    margin-top: 1rem;
+    margin-left: 1rem;
+    font-size: 1rem;
+    display: inline-block;
+}
     .status{
         font-weight: 800;
-        font-size: .9rem;
+        font-size: .8rem;
         padding: .3rem 1rem;
         background-color: var(--color-main);
         color: var(--color-secondary-main);
@@ -312,13 +677,64 @@ const addForm = document.querySelector(".bg-addcustomerform");
         border-bottom: 5px solid var(--color-main);
         transition: 0.3s;
     }
+    .status1{
+        font-weight: 800;
+        font-size: .8rem;
+        padding: .3rem 1rem;
+        background-color: #87CEFA;
+        color: var(--color-secondary-main);
+        font-family: 'outfit', sans-serif;
+        text-transform: uppercase;
+        border-radius: 3rem;
+        cursor: pointer;
+    }
+    .status1:hover{
+        background-color: var(--color-solid-gray);
+        color: var(--color-secondary-main);
+        border-bottom: 5px solid #87CEFA;
+        transition: 0.3s;
+    }
     .statusLbl{
         font-weight: 1000;
         font-size: 1.8rem;
-        width: rem;
         text-transform: uppercase;
         border-bottom: 2px solid var(--color-main);
     }
+    .card {
+    display: inline-block;
+    /* padding-bottom: 1rem; */
+    /* padding-bottom: 1.6rem; */
+    /* box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.2); */
+    border-radius: 0.1rem;
+    height: 1rem;
+    float: right;
+    margin-right: 2rem;
+    border: transparent;
+    font-family: 'Rajdhani', sans-serif;
+    /* left: 25vw;      */
+    margin-top: .5rem;
+    /* position: absolute; */
+}
+
+.date {
+    color: var(--color-solid-gray);
+    font-size: 1.2rem;
+    font-weight: 500;
+    display: inline-block;
+}
+.dash{
+    display: inline-block;
+    color: var(--color-tertiary);
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.day {
+    color: var(--color-solid-gray);
+    font-size: 1.2rem;
+    font-weight: 900;
+    display: inline-block;
+    text-transform: uppercase;
+}
     .main-user-info{
     display: flex;
     flex-wrap: wrap;
@@ -708,36 +1124,173 @@ const addForm = document.querySelector(".bg-addcustomerform");
     box-shadow: 5px 5px 15px 0px var(--color-solid-gray);
     /* height: 600px; */
     background: var(--color-white);
+    margin-top: 5rem;
     width: 101%;
     border-radius: 10px 10px 10px 10px;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     position: relative;
 }
 .sub-tab-container{
-    padding: 2rem;
+    padding: 1.8rem;
 }
-.previous-transaction-header{
-    color: var(--color-black);
-    font-weight: bold;
-    font-size: 1rem;
+.delivery-container{
+    height: 600px;
+    border-top: 2px solid var(--color-solid-gray);
+    width: 28.3%;
+    margin-left: 1rem;
+    overflow: auto;
+    background-color: var(--color-white);
+    box-shadow: 5px 5px 15px 0px var(--color-solid-gray);
+    border-radius: 10px 10px 10px 10px;
+    display: inline-block;
+    position: absolute;
+}
+.delivery-details{
+    position: relative;
+    width: 100%;
+    margin-top: 2rem;
+    text-align: center; 
+}
+.deliveryboys{
+    width: 100%;
     text-align: center;
+    position: relative;
+}
+.deliveryLbl{
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+.deliveryID{
+    position: relative;
+    display: inline-block;
+}
+.delivery-section1 h3{
+    position: relative;
+    display: inline-block;
+}
+.delivery-section2 h3{
+    position: relative;
+    display: inline-block;
+}
+.delivery-section1{
+    position: relative;
+    display: inline-block;
+}
+.delivery-section2{
+    position: relative;
+    display: inline-block;
+}
+.deliverysection1-label{
+    display: inline-block;
+    margin-left: 1rem;
+}
+.deliverysection2-label{
+    display: inline-block;
+    margin-right: 1rem;
+    float: right;
+}
+.delivery1{
+    display: inline-block;
+    position: relative;
+}
+.delivery1 h3{
+    display: inline-block;
+    position: relative;
+}
+.deliveryID1{
+    display: inline-block;
+    position: relative;
+    font-family: 'calibri', sans-serif;
+    color: var(--color-solid-gray);
+    font-size: 1rem;
+    margin-right: 6rem;
+}
+.delivery2{
+    position: relative;
+    display: inline-block;
+}
+.delivery2 h3{
+    display: inline-block;
+    position: relative;
+}
+.deliveryID2{
+    display: inline-block;
+    position: relative; 
+    font-family: 'calibri', sans-serif;
+    color: var(--color-solid-gray);
+    font-size: 1rem;
+}
+.delivery3{
+    position: relative;
+    display: inline-block;
+}
+.delivery3 h3{
+    display: inline-block;
+    position: relative;
+}
+.deliveryID3{
+    display: inline-block;
+    position: relative;
+    font-family: 'calibri', sans-serif;
+    color: var(--color-solid-gray);
+    font-size: 1rem;
+}
+.deliverylist-table{
+        background-color: var(--color-white);
+        padding: 1rem;
+        height: 20rem;
+        max-height: 20rem;
+        overflow: auto;
+        margin-top: 1rem;
+        border-top: 1px solid var(--color-solid-gray);
+        position: relative;
+    }
+.createDelivery{
+    width: 40%;
+    margin-left: 5rem;   
+    margin-right: 5rem;   
+    position: relative;
+    display: inline-block;
+    }
+.createDelivery-button{
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    height: 5rem;
+    font-family: 'outline', sans-serif;
+    font-size: 1.3rem;
     text-transform: uppercase;
-    font-family: 'COCOGOOSE', sans-serif;
-    letter-spacing: 1px;
-    margin-bottom:1.5rem;
+    font-weight: 700;
+    border-radius: 15px;
+    border: none;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 5px 0px var(--color-solid-gray);
+    cursor: pointer;
+    color: var(--color-white);
+    fill: var(--color-white);
+    background-color: var(--color-blue-button);
+}
+.createDelivery-button:hover{
+    background-color: var(--color-solid-gray);
+    border: 5px solid var(--color-blue-button);
+    transition: 0.3s;
 }
 .customer-container{
     /* margin-top: 2rem; */
-    max-height: 650px;
+    height: 600px;
     overflow:auto;
     background-color: var(--color-white);
-    width: 70%;
+    width: 65%;
     margin-bottom: 1rem;
     /* position: absolute; */
     box-shadow: 5px 5px 15px 0px var(--color-solid-gray);
     border-top: 2px solid var(--color-solid-gray);
+    position: relative;
+    display: inline-block;
     border-radius: 10px 10px 10px 10px;
-
 }
 .customer-container table{
     background: var(--color-white);
@@ -757,7 +1310,7 @@ const addForm = document.querySelector(".bg-addcustomerform");
 }
 
 .customer-container table tbody td{
-    height: 4.8rem;
+    height: 2.8rem;
     border-bottom: 1px solid var(--color-solid-gray);
     color: var(--color-td);
     font-size: .8rem;
@@ -769,8 +1322,10 @@ th{
     font-size: 1rem;
     letter-spacing: 0.02rem;
 }
-tr:hover td{
-    color: var(--color-main);
+
+.deliveryboys h4{
+    display: inline-block;
+    margin-right: 1rem;
 }
 .select-dropdown{
     display: inline-block;
@@ -792,6 +1347,27 @@ tr:hover td{
     border: none;
 }
 .select:hover{
+    background:  var(--color-solid-gray);
+    color: var(--color-white);
+}
+.usertype-dropdown1{
+    display: inline-block;
+
+}
+.select1{
+    background-color: var(--color-solid-gray);
+    color: var(--color-white);
+    /* align-items: center; */
+    padding: 5px;
+    border-radius: 5px;
+    width: 10.8vw;
+    font-size: 14px;
+    height: 2rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+.select1:hover{
     background:  var(--color-solid-gray);
     color: var(--color-white);
 }
@@ -824,7 +1400,7 @@ tr:hover td{
         font-family: 'Galhau Display', sans-serif;
     }
     main .sub-tab{
-        margin-bottom: 5rem;
+        margin-bottom: 2rem;
         margin-top: 3rem;
     }
     /* ----------------------------------------Search BAR---------------------------------------- */
@@ -892,8 +1468,13 @@ tr:hover td{
         display: inline-block;
     }
     .newUser-button3{
+        margin-left: 20rem;
         position: relative;
-        float: right;
+        display: inline-block;
+    }
+    .newUser-button4{
+        margin-left: 2rem;
+        position: relative;
         display: inline-block;
     }
     .batchlist{
@@ -903,8 +1484,8 @@ tr:hover td{
         align-items: center;
         color: var(--color-secondary-main); 
         fill: var(--color-secondary-main); 
-        width: 15rem;
-        padding: .68rem .8rem;
+        width: 16rem;
+        padding: .68rem 1rem;
         text-align: center;
         justify-content: center;
         height: 1.7rem;
@@ -982,18 +1563,19 @@ tr:hover td{
         align-items: center;
         color: var(--color-black); 
         fill: var(--color-button); 
-        width: 18rem;
+        width: 22rem;
         text-align: center;
         justify-content: center;
-        height: 2rem;
-        border-radius: 0px 0px 5px 5px;
+        height:3.5rem;
+        border-radius: 0px 5px 5px 0px;
         padding: .68rem 1rem;
         font-family: 'Outfit', sans-serif;
         transition: all 300ms ease;
         position: relative; 
+        margin-bottom: .9rem;
         margin-top: .2rem;
         text-transform: uppercase;
-        border-bottom: 7px solid #A9A9A9;
+        border-left: 7px solid #A9A9A9;
     }
     .add-account3 h3{
         font-weight: 900;

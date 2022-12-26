@@ -87,7 +87,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                             <br>
                             <header class="previous-transaction-header">Today's Previous Transaction</header>
                             <hr>
-                            <table class="table" id="myTable">
+                            <table class="table" id="myTable">  
                             <thead>
                         <tr>
                             <th>ID</th>
@@ -118,15 +118,16 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                             transaction.status_id,
                             users.first_name,
                             users.last_name,
-                            transaction.created_at
+                            transaction.created_at_date,
+                            transaction.created_at_time
                             FROM transaction
                             INNER JOIN users
                             ON transaction.created_by_id = users.user_id
                             INNER JOIN payment_option
                             ON transaction.payment_option = payment_option.id
                             LEFT JOIN customers
-                            ON transaction.customer_name = customers.id
-                            ORDER BY transaction.created_at";
+                            ON transaction.customer_name_id = customers.id
+                            ORDER BY transaction.created_at_date";
                         $result4 = mysqli_query($con, $dropdown_query2);
                         while ($rows = mysqli_fetch_assoc($result4))
                         {
@@ -156,7 +157,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                                     } ?>
                                 </td>
                                 <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
-                                <td> <?php echo $rows['created_at']; ?></td>
+                                <td> <?php echo $rows['created_at_date']. ' '. $rows['created_at_time']; ?></td>
                             <tr id="noRecordTR" style="display:none">
                                 <td colspan="10">No Record Found</td>
                             </tr>
@@ -182,10 +183,11 @@ if(isset($_GET['view']))
                                 transaction.amount_tendered,
                                 payment_option.option_name,
                                 transaction.service_type,
-                                transaction.created_at
+                                transaction.created_at_date,
+                                transaction.created_at_time
                                 FROM transaction 
                                 LEFT JOIN customers  
-                                ON transaction.customer_name = customers.id 
+                                ON transaction.customer_name_id = customers.id 
                                 LEFT JOIN payment_option  
                                 ON transaction.payment_option = payment_option.id   
                                 WHERE transaction.uuid='$uuid'");
@@ -207,7 +209,7 @@ if(isset($_GET['view']))
                                         echo 'GUEST';
                                     }?></span>
                         </div>
-                        <label class="customernameLbl"><?=$transaction['created_at'];?></label>
+                        <label class="customernameLbl"><?=$transaction['created_at_date'].' '.$transaction['created_at_date'];?></label>
 
                             <div class="payment-options">
                                 <label class="customernameLbl"><?=$transaction['option_name'];?> </label>

@@ -47,16 +47,12 @@ require_once '../service/pos-add-customer.php';
             <!-- ---------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
             <div class="form-container">
                 <div class="form1">
-                    <!-- <p class="selectCustomer-text" id="selectCustomer-text">SELECT CUSTOMER</p>
-                    -->
                     <div class="form1-ordertype-buttons">
                         <button type="button" class="refillOrder-button" onclick="refillFunction();">Refill</button>
                         <button type="button" class="newOrder-button" onclick="orderFunction();">New</button>
                         <button type="button" class="otherOrder-button" onclick="otherFunction();">Others</button>
                     </div>
                     <hr>
-
-                    <!-- <br> -->
              
                     <div class="form1-table-water">
                         <label class="selectlabel"> Select Water</label>
@@ -208,12 +204,7 @@ require_once '../service/pos-add-customer.php';
                                 $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
                                 $result7 = mysqli_query($con, $dropdown_query7);
                             ?>
-                            <!-- <div class="selectItem">
-                                <select id='selectTable-water2'class='selectTable-water2'>
-                                    <option value='Alkaline'>Alkaline</option>
-                                    <option value='Mineral'>Mineral</option>
-                                </select>
-                            </div> -->
+
                             <table class="table2" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
@@ -265,7 +256,7 @@ require_once '../service/pos-add-customer.php';
                                                     <a href="../pos/point-of-sales-edit-alkaline-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                     ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                     </a>
-                                                <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
+
                                                 
                                                 </td>
                                             </tr>
@@ -284,12 +275,7 @@ require_once '../service/pos-add-customer.php';
                                 $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
                                 $result7 = mysqli_query($con, $dropdown_query7);
                             ?>
-                            <!-- <div class="selectItem">
-                                <select id='selectTable-water2'class='selectTable-water2'>
-                                    <option value='Alkaline'>Alkaline</option>
-                                    <option value='Mineral'>Mineral</option>
-                                </select>
-                            </div> -->
+
                             <table class="table2" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
@@ -635,8 +621,6 @@ require_once '../service/pos-add-customer.php';
                         <div>
                             <div class="totaldelivery1"><p class="totalAmount-text">TOTAL AMOUNT</p></div>
                             <div class="total-amount">
-                                <input type="hidden" id="totalamount_value"  value="<?php echo $transactions1['sum(transaction_process.total_price)']; ?>">
-                                <input type="hidden" class="deliveryoption_class" name="option" value="Walk In">
                                 <input type="hidden" name="user_id" value="<?php echo $user_id?>">
                                 <label id="total_order1">&#8369</label>
                                 <input type="text" name="totalAmount" readonly id="totalAmount_order" value="<?php echo number_format($transactions1['sum(transaction_process.total_price)'], '2','.',','); ?>">
@@ -698,7 +682,7 @@ require_once '../service/pos-add-customer.php';
                             INNER JOIN payment_option
                             ON transaction.payment_option = payment_option.id
                             LEFT JOIN customers
-                            ON transaction.customer_name = customers.id
+                            ON transaction.customer_name_id = customers.id
                             ORDER BY transaction.created_at_date DESC
                             LIMIT 5";
                         $result4 = mysqli_query($con, $dropdown_query2);
