@@ -2,7 +2,7 @@
 session_start();
 require "../database/connection-db.php";
 require_once "../audit/audit-logger.php";
-$module = 'INVENTORY';
+$module = 'INVENTORY-ITEM';
 
 if(isset($_POST['add-inventory'])){
     if(isset($_POST['item_name'])
@@ -73,10 +73,23 @@ if(isset($_POST['add-inventory'])){
                     if (mysqli_num_rows($select) > 0) {
                         $fetch_data = mysqli_fetch_assoc($select);
                         $fetch_id = $fetch_data['id'];
-                        log_audit($con, $user_id, $module, 1, 'Added new inventory with id:' .$fetch_id);
 
-                        move_uploaded_file($image_tmp_name, $image_folder);
-                        header("Location: ../inventory/inventory-success.php?success=Add New Item Successful!");
+                        //Add stock item reference to stock table
+                        $insert_stock = mysqli_query($con, "INSERT INTO inventory_stock VALUES(
+                                    '',
+                                    '$fetch_id',
+                                    0,
+                                    0,
+                                    0)");
+
+                        if($insert_stock) {
+                            log_audit($con, $user_id, $module, 1, 'Added new inventory with id:' .$fetch_id);
+                            move_uploaded_file($image_tmp_name, $image_folder);
+                            header("Location: ../inventory/inventory-success.php?success=Add New Item Successful!");
+                        } else {
+                            log_audit($con, $user_id, $module, 0, 'Error processing database.');
+                            header("Location: ../common/error-page.php?error=" . mysqli_error($con));
+                        }
                     } else {
                         log_audit($con, $user_id, $module, 0, 'Error processing database.');
                         header("Location: ../common/error-page.php?error=" . mysqli_error($con));

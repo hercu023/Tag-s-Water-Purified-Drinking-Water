@@ -375,7 +375,7 @@ require_once '../service/pos-add-transaction.php';
                             </div>
                             <div class="delivery-options">
                                 <p class="paymentOptions-text">Service</p>
-                                <select class="paymentOptions-dropdown" onchange="deliveryOption(this)" name="deliveryoption">
+                                <select class="paymentOptions-dropdown" onchange="deliveryOption(this)" name="option">
                                     <option value="Walk In">Walk In</option>
                                     <option value="Delivery">Delivery</option>
                                     <option value="Pick Up">Pick Up</option>
@@ -666,14 +666,15 @@ require_once '../service/pos-add-transaction.php';
                                                     WHERE user_id = '$user_id' 
                                                     AND transaction_id = '0'"); 
                                                     while ($transactions1 = mysqli_fetch_array($transaction_order1)) {?>
+                            
+                            <div class="user-input-box-cashpayment">
+                                <!-- <label for="cash-payment2">Change</label>
+                                <input type="text" id="cash-change"class="cash-change" readonly onkeypress="return isNumberKey(event)"name="cashchange" value="0.00"/> -->
+                            </div>
                             <div class="user-input-box-cashpayment">
                                 <label for="cash-payment2">Available Balance</label>
                                 <input type="hidden" id="totalamount_value"  value="<?php echo $transactions1['sum(transaction_process.total_price)']; ?>">
                                 <input type="text" id="cash-balance"class="cash-balance" readonly onkeypress="return isNumberKey(event)"name="cashbalance" value="0.00"/>
-                            </div>
-                            <div class="user-input-box-cashpayment">
-                                <label for="cash-payment2">Change</label>
-                                <input type="text" id="cash-change"class="cash-change" readonly onkeypress="return isNumberKey(event)"name="cashchange" value="0.00"/>
                             </div>
                         </div>
                         <?php }?>
@@ -1648,16 +1649,20 @@ BODY{
     font-size: min(max(9px, 1.1vw), 11px);
     border-radius: 20px;
     color: white;
+    justify-content: center;
     background:  var(--color-mainbutton);
     cursor: pointer;
     transition: 0.5s;
     margin-left: 1rem;
     position: relative;
-    display: inline-block;
+    display: flex;
     background: var(--color-solid-gray);
 }
 .AddButton button:hover{
-    background: var(--color-main);
+    background: var(--color-secondary-main);
+    box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
+    color: var(--color-main);
+    fill: var(--color-main);
 }
 .or{
     /* margin: 1rem; */
@@ -1670,6 +1675,31 @@ BODY{
     left: 50%;
     position: relative;
 }
+.AddPrintButton button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    width: 10rem;
+    font-size: .7rem;
+    justify-content: center;
+    border: none;
+    gap: .5rem;
+    border-radius: 20px;
+    color: white;
+    margin-top: 1rem;
+    background:  var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+    /* margin-left: 1rem; */
+    display: flex;
+    fill: white;
+    background: var(--color-main);
+}
+.AddPrintButton button:hover{
+    background: var(--color-secondary-main);
+    box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
+    color: var(--color-main);
+    fill: var(--color-main);
+}
 .AddPrintButton{
     /* width: 100%;     */
     align-items: center;
@@ -1677,38 +1707,10 @@ BODY{
     display: inline-block;
     text-align: center;
 }
-.AddPrintButton button{
-    font-family: 'COCOGOOSE', sans-serif;
-    padding: 15px;
-    max-height: 60px;
-    /* left: 33%; */
-    width: 12rem;
-    outline: none;
-    border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
-    box-shadow: 1px 2px 5px 1px var(--color-solid-gray);
-    border-radius: 20px;
-    margin-top: 1rem;
-    color: var(--color-main);
-    fill: var(--color-main);
-    background:  var(--color-mainbutton);
-    cursor: pointer;
-    transition: 0.5s;
-    /* margin-left: 1rem; */
-    text-align: center;
-    display: flex;
-    align-items: center;
-    position: relative;
-    gap: 1.5rem;
-    background: var(--color-background);
-}
-.AddPrintButton button:hover{
-    fill: var(--color-white);
-    background: var(--color-main);
-}
 .CancelButton{
     display: inline-block;
 }
+
 .AddButton{
     display: inline-block;
 }
@@ -3404,6 +3406,7 @@ hr{
 }
 #cancel:hover{
     background-color: rgb(158, 0, 0);
+    box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
     transition: 0.5s;
 }
 

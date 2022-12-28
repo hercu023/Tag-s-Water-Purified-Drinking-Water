@@ -1,6 +1,6 @@
 <?php
 require_once '../database/connection-db.php';
-require_once '../service/add-inventory-item.php';
+require_once '../service/add-stocks.php';
 require_once "../service/user-access.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-STOCKS')) {
@@ -44,10 +44,10 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
                             <h2>Inventory Stocks  </h2>
                         </div>
                         <div class="newUser-button"> 
-                            <button type="submit" id="add-userbutton" class="add-account" onclick="addnewuser();">
+                            <a href="../inventory/inventory-stocks-add.php" type="submit" id="add-userbutton" class="add-account" >
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
                                     <h3>Add Stocks</h3>
-                            </button>
+</a>
                         </div>
                         <div class="search">
                             <div class="search-bar"> 
@@ -68,17 +68,26 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
                                     <th>ID</th>
                                     <th>Item Name</th>
                                     <th>Type</th>
-                                    <th>IN</th>
-                                    <th>OUT</th>
-                                    <th>On Hand</th>
-                                    <th>Total Purchase Amount</th>
-                                    <th>Total Retail Amount</th>
+                                    <th>Total In</th>
+                                    <th>Total Out</th>
+                                    <th>Total On Hand</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
 
                             <?php
-                            $inventory = "SELECT * FROM inventory_stock"; 
+                            $inventory = "SELECT 
+                            inventory_stock.id,
+                            inventory_item.item_name,
+                            category_type.name,
+                            inventory_stock.in_going,
+                            inventory_stock.out_going,
+                            inventory_stock.on_hand
+                            FROM inventory_stock
+                            INNER JOIN inventory_item
+                            ON inventory_stock.item_name_id = inventory_item.id
+                            INNER JOIN category_type
+                            ON inventory_item.category_by_id = category_type.id"; 
                             $sql = mysqli_query($con, $inventory);
                                 while ($rows = mysqli_fetch_assoc($sql))
                                 {
@@ -91,8 +100,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
                                         <td> <?php echo $rows['in_going']; ?></td>
                                         <td> <?php echo $rows['out_going']; ?></td>
                                         <td> <?php echo $rows['on_hand']; ?></td>
-                                        <td> <?php echo $rows['total_purchase_amount']; ?></td>
-                                        <td> <?php echo $rows['total_retail_amount']; ?></td>
                                         <td> 
                                             <a href="../inventory/inventory-stocks-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
@@ -118,131 +125,78 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
         </div> 
   
         <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
-        <div class="bg-adduserform" id="bg-addform">
-            <div class="message"></div>
-            <div class="container1">
-            <h1 class="addnew-title">ADD STOCKS</h1>
-            <form action="#">
-                <div class="main-user-info">
-                    <div class="usertype-dropdown">
-                        <?php
-                        $dropdown_query = "SELECT inventory_item.id, inventory_item.item_name, category_by_id FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2' OR category_by_id LIKE '%3' OR category_by_id LIKE '%4' OR category_by_id LIKE '%5' OR category_by_id LIKE '%6' OR category_by_id LIKE '%7' OR category_by_id LIKE '%8' OR category_by_id LIKE '%9'";
-                        $result_item = mysqli_query($con, $dropdown_query);
-                        ?>
-                        <select class="select" name="category_type" required="" >
-                            <option selected disabled value="">SELECT ITEM</option>
-                            <?php while($inventory_item = mysqli_fetch_array($result_item)):;?>
-                                <option value="<?php echo $inventory_item['id']?>">
-                                    <?php echo $inventory_item['item_name'];?></option>
-                            <?php endwhile;?>
-                        </select>
-                    </div>
+            <div class="bg-adduserform" id="bg-addform">
+                <div class="message"></div>
+                <div class="container1">
+                    <h1 class="addnew-title">ADD STOCKS</h1>
+                    <form action="#">
+                        <div class="main-user-info">
+                            <div class="usertype-dropdown">
+                                <?php
+                                $dropdown_query = "SELECT 
+                                inventory_stock.id,
+                                inventory_item.id, 
+                                inventory_item.item_name, 
+                                category_by_id 
+                                FROM inventory_stock
+                                INNER JOIN inventory_item
+                                ON inventory_stock.item_name_id = inventory_item.id
+                                INNER JOIN category_type
+                                ON inventory_item.category_by_id = category_type.id
+                                WHERE category_type.name != 'For Refill'";
+                                $result_item = mysqli_query($con, $dropdown_query);
+                                ?>
+                                <select class="select" name="category_type" required="" >
+                                    <option selected disabled value="">SELECT ITEM</option>
+                                    <?php while($inventory_item = mysqli_fetch_array($result_item)):;?>
+                                        <option value="<?php echo $inventory_item['id']?>">
+                                            <?php echo $inventory_item['item_name'];?></option>
+                                    <?php endwhile;?>
+                                </select>
+                            </div>
 
-                   
-                    <div class="user-input-box">
-                        <label for="Supplier">Supplier</label>
-                        <input type="text"
-                                id="Supplier"
-                                name="Supplier"
-                                placeholder="Enter Supplier"
-                                required="required"/>
-                    </div>
-                    <div class="user-input-box">
-                        <label for="Quantity">Quantity</label>
-                        <input type="number" min='0' onkeypress='return isNumberKey(event)'
-                                id="Quantity"
-                                name="Quantity"
-                                placeholder="0"
-                                required="required"/>
-                    </div>
-                    <div class="user-input-box">
-                        <label for="purchaseamount">Purchase Amount</label>
-                        <input type="decimal"
-                                id="purchaseamount"
-                                name="purchaseamount"
-                                placeholder="Enter Purchase Amount"
-                                required="required"/>
-                    </div>
-                    <div class="line"></div>
+                        
+                            <div class="user-input-box">
+                                <label for="Supplier">Supplier</label>
+                                <input type="text"
+                                        id="Supplier"
+                                        name="Supplier"
+                                        placeholder="Enter Supplier"
+                                        required="required"/>
+                            </div>
+                            <div class="user-input-box">
+                                <label for="Quantity">Quantity</label>
+                                <input type="number" min='0' onkeypress='return isNumberKey(event)'
+                                        id="Quantity"
+                                        name="Quantity"
+                                        placeholder="0"
+                                        required="required"/>
+                            </div>
+                            <div class="user-input-box">
+                                <label for="purchaseamount">Purchase Amount</label>
+                                <input type="decimal"
+                                        id="purchaseamount"
+                                        name="purchaseamount"
+                                        placeholder="Enter Purchase Amount"
+                                        required="required"/>
+                            </div>
+                            <div class="line"></div>
 
-                    <div class="bot-buttons">
-                        <div class="CancelButton">
-                            <a href="inventory-stocks.php" id="cancel">CANCEL</a>
+                            <div class="bot-buttons">
+                                <div class="CancelButton">
+                                    <a href="../inventory/inventory-stocks.php" id="cancel">CANCEL</a>
+                                </div>
+                                <div class="AddButton">
+                                    <button type="submit" id="adduserBtn" name="add-inventory-stocks" >SAVE</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="AddButton">
-                            <button type="submit" id="adduserBtn" name="submit">SAVE</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-           
-            <div id="form-registered">
-                <div id="container-registered">
-                    <div class="content">
-                        <div class="verify">
-                            <svg class="verified" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                width="916px" height="916px" viewBox="0 0 916 916" style="enable-background:new 0 0 916 916;" xml:space="preserve">
-                            <g>
-                                <g>
-                                    <path d="M97.65,862.3c4.7,31.3,27.1,53.7,54.7,53.7h616c27.6,0,50-22.4,50-50V50c0-27.6-22.4-50-50-50h-616
-                                        c-27.6,0-50,22.4-54.7,46.3V862.3z M712.15,750.2l-62.8,62.8l0,0l-18.3,18.3c-9.8,9.7-25.601,9.7-35.3,0l-18.4-18.3l0,0l-18-17
-                                        c-9.8-9.8-9.8-25.6,0-35.4l0.6-0.6c9.801-9.8,25.601-9.8,35.4,0l18,17l62.8-62.8c9.8-9.8,25.601-9.8,35.4,0l0.6,0.6
-                                        C721.95,724.6,721.95,740.4,712.15,750.2z M727.55,602.1c0,13.801-11.2,25-25,25H631.95c-13.8,0-25-11.199-25-25V601.2
-                                        c0-13.8,11.2-25,25-25h70.601c13.8,0,25,11.2,25,25V602.1z M727.55,470c0,13.8-11.2,25-25,25H631.95c-13.8,0-25-11.2-25-25v-0.9
-                                        c0-13.8,11.2-25,25-25h70.601c13.8,0,25,11.2,25,25V470z M702.55,312c13.8,0,25,11.2,25,25v0.9c0,13.8-11.2,25-25,25H631.95
-                                        c-13.8,0-25-11.2-25-25V337c0-13.8,11.2-25,25-25H702.55z M302.65,156c0-13.8,11.2-25,25-25h265.4c13.8,0,25,11.2,25,25v0.9
-                                        c0,13.8-11.2,25-25,25h-265.4c-13.8,0-25-11.2-25-25V156z M193.15,337c0-13.8,11.2-25,25-25h265.4c13.8,0,25,11.2,25,25v0.9
-                                        c0,13.8-11.2,25-25,25h-265.4c-13.8,0-25-11.2-25-25V337L193.15,337z M193.15,469.1c0-13.8,11.2-25,25-25h265.4
-                                        c13.8,0,25,11.2,25,25v0.9c0,13.8-11.2,25-25,25h-265.4c-13.8,0-25-11.2-25-25V469.1L193.15,469.1z M193.15,601.2
-                                        c0-13.8,11.2-25,25-25h265.4c13.8,0,25,11.2,25,25v0.899c0,13.801-11.2,25-25,25h-265.4c-13.8,0-25-11.199-25-25V601.2
-                                        L193.15,601.2z"/>
-                                </g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            </svg>
-                        </div>  
-                        <div class="register">  
-                            <h2>Stocks Added Successfully</h2>
-                        </div>
-                    </div>
-                        <div class="pageform">
-                            <div class="confirmBtn">
-                                <a href="../inventory/inventory-stocks.php" id="registered">CONFIRM</a>
-                            </div> 
-                        </div>
+                            </form>
                 </div>
             </div>
+
         </form>
-        </div>
+           
     
 </body>
 </html>

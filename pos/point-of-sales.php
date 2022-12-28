@@ -64,7 +64,12 @@ require_once '../service/pos-add-customer.php';
                          </div>
                         <div class="form1-table1" id="form-water1">
                             <?php
-                                        $dropdown_query1 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2' OR  category_by_id LIKE '%10'";
+                                        $dropdown_query1 = "SELECT * 
+                                        FROM inventory_item 
+                                        WHERE category_by_id 
+                                        LIKE '%1' OR category_by_id 
+                                        LIKE '%2' OR  category_by_id 
+                                        LIKE '%10'";
                                         $result1 = mysqli_query($con, $dropdown_query1);
                                 ?>
                             <table class="table1" id="myTable1">
@@ -622,6 +627,8 @@ require_once '../service/pos-add-customer.php';
                             <div class="totaldelivery1"><p class="totalAmount-text">TOTAL AMOUNT</p></div>
                             <div class="total-amount">
                                 <input type="hidden" name="user_id" value="<?php echo $user_id?>">
+                                <input type="hidden" id="totalamount_value"  value="<?php echo $transactions1['sum(transaction_process.total_price)']; ?>">
+                                <input type="hidden" class="deliveryoption_class" name="option" value="Walk In">
                                 <label id="total_order1">&#8369</label>
                                 <input type="text" name="totalAmount" readonly id="totalAmount_order" value="<?php echo number_format($transactions1['sum(transaction_process.total_price)'], '2','.',','); ?>">
                             </div>
@@ -683,7 +690,8 @@ require_once '../service/pos-add-customer.php';
                             ON transaction.payment_option = payment_option.id
                             LEFT JOIN customers
                             ON transaction.customer_name_id = customers.id
-                            ORDER BY transaction.created_at_date DESC
+                            ORDER BY transaction.created_at_date DESC,
+                            transaction.created_at_time DESC
                             LIMIT 5";
                         $result4 = mysqli_query($con, $dropdown_query2);
                         while ($rows = mysqli_fetch_assoc($result4))
@@ -762,21 +770,20 @@ require_once '../service/pos-add-customer.php';
 
     function deliveryFee(){       
         try{
-            let totalamountvalue = parseFloat(document.getElementById("totalamount_value").value);
+            let totalamountvalue = document.getElementById("totalamount_value").value;
+            let totalAmount = 0.00;
+            if(!isNaN(totalamountvalue) && totalamountvalue !== ''){
+                totalAmount = parseFloat(document.getElementById("totalamount_value").value);
+            }
             var deliveryfee_value = document.getElementById("deliveryfee_amount").value;
             let deliveryfee = 0.00;
             if(!isNaN(deliveryfee_value) && deliveryfee_value !== ''){
                 deliveryfee = parseFloat(document.getElementById("deliveryfee_amount").value);
             }
-            // parseFloat(str.replace(/,/g, ''));\
-            let totalAmount = totalamountvalue;
-            console.log(totalAmount);
+            
             let total = deliveryfee + totalAmount; 
-            // const formatted = n.toLocaleString('en-US');
             document.getElementById("totalAmount_order").value = numberWithCommas(total.toFixed(2));
-            // .toFixed(2)
         }catch(err){
-            console.log('catch');
     
         }
 
@@ -873,7 +880,7 @@ require_once '../service/pos-add-customer.php';
     // -----------------------------Automatic close message
     setTimeout(function() {
         $('#myerror').fadeOut('fast');
-    }, 3000);
+    }, 10000);
     // -----------------------------SELECT CUSTOMER
     const selectForm = document.querySelector(".bg-selectcustomerform");
     function selectcustomer(){
@@ -1962,7 +1969,7 @@ h3{
     font-family: 'outfit', sans-serif;
     letter-spacing: .03rem;
     border-bottom: 2px solid var(--color-main);
-    width: 65%;
+    width: 80%;
     /* margin-bottom: .5rem; */
 }
 

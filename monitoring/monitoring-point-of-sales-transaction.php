@@ -14,7 +14,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-        <!-- <link rel="stylesheet" type="text/css" href="../TAG-S-WATER-PURIFIED-DRINKING-WATER/CSS/Dashboard.css"> -->
         <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
         <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
@@ -62,20 +61,41 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                             <div class="totals">
                             <div class="newUser-button3"> 
                                 <div id="add-userbutton" class="add-account3">
+                                    <?php
+                                    $total_transaction = "SELECT id
+                                    FROM transaction";
+
+                                    if($total_transaction_result = mysqli_query($con, $total_transaction))
+                                $rowcount = mysqli_num_rows( $total_transaction_result );
+                                ?>
                                         <h3 class="deliveries">TOTAL TRANSACTION</h3>
-                                        <span class="total-transactions">0</span>
+                                        <span class="total-transactions"><?php echo $rowcount;?></span>
                                 </div>
                             </div>
                             <div class="newUser-button1"> 
+                                <?php
+                                    $total_transaction = "SELECT id
+                                    FROM transaction WHERE service_type = 'Delivery'";
+
+                                    if($total_transaction_result = mysqli_query($con, $total_transaction))
+                                $rowcount = mysqli_num_rows( $total_transaction_result );
+                                ?>
                                 <div id="add-userbutton" class="add-account1">
                                     <h3 class="deliveries">DELIVERY</h3>
-                                    <span class="total-deliveries">0</span>
+                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
                                 </div>
                             </div>
                             <div class="newUser-button2"> 
+                            <?php
+                                    $total_transaction = "SELECT id
+                                    FROM transaction WHERE service_type = 'Walk In'";
+
+                                    if($total_transaction_result = mysqli_query($con, $total_transaction))
+                                $rowcount = mysqli_num_rows( $total_transaction_result );
+                                ?>
                                 <div id="add-userbutton" class="add-account2">
                                     <h3 class="deliveries">WALK IN</h3>
-                                    <span class="total-deliveries">0</span>
+                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
                                 </div>
                             </div>
                             
@@ -94,8 +114,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                             <th>Customer Name</th>
                             <th>Order Details</th>
                             <th>Total Amount</th>
-                            <th>Change</th>
-                            <th>Amount Tendered</th>
                             <th>Payment Option</th>
                             <th>Service</th>
                             <th>Note</th>
@@ -105,29 +123,55 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                         </tr>
                         </thead>
                         <?php
-                        $dropdown_query2 = "SELECT 
-                            transaction.id,
-                            transaction.uuid,
-                            customers.customer_name,
-                            transaction.total_amount,
-                            transaction.customer_change,
-                            transaction.amount_tendered,
-                            payment_option.option_name,
-                            transaction.service_type,
-                            transaction.note,
-                            transaction.status_id,
-                            users.first_name,
-                            users.last_name,
-                            transaction.created_at_date,
-                            transaction.created_at_time
-                            FROM transaction
-                            INNER JOIN users
-                            ON transaction.created_by_id = users.user_id
-                            INNER JOIN payment_option
-                            ON transaction.payment_option = payment_option.id
-                            LEFT JOIN customers
-                            ON transaction.customer_name_id = customers.id
-                            ORDER BY transaction.created_at_date";
+                        $dropdown_query2 = "";
+                            if(isset($_GET['customer_id'])) {
+                                $customer_id = $_GET['customer_id'];
+                                $dropdown_query2 = "SELECT 
+                                transaction.id,
+                                transaction.uuid,
+                                customers.customer_name,
+                                transaction.total_amount,
+                                payment_option.option_name,
+                                transaction.service_type,
+                                transaction.note,
+                                transaction.status_id,
+                                users.first_name,
+                                users.last_name,
+                                transaction.created_at_date,
+                                transaction.created_at_time
+                                FROM transaction
+                                INNER JOIN users
+                                ON transaction.created_by_id = users.user_id
+                                INNER JOIN payment_option
+                                ON transaction.payment_option = payment_option.id
+                                LEFT JOIN customers
+                                ON transaction.customer_name_id = customers.id
+                                WHERE customers.id = $customer_id
+                                AND transaction.status_id = 0
+                                ORDER BY transaction.created_at_date";
+                            } else {
+                                $dropdown_query2 = "SELECT 
+                                transaction.id,
+                                transaction.uuid,
+                                customers.customer_name,
+                                transaction.total_amount,
+                                payment_option.option_name,
+                                transaction.service_type,
+                                transaction.note,
+                                transaction.status_id,
+                                users.first_name,
+                                users.last_name,
+                                transaction.created_at_date,
+                                transaction.created_at_time
+                                FROM transaction
+                                INNER JOIN users
+                                ON transaction.created_by_id = users.user_id
+                                INNER JOIN payment_option
+                                ON transaction.payment_option = payment_option.id
+                                LEFT JOIN customers
+                                ON transaction.customer_name_id = customers.id
+                                ORDER BY transaction.created_at_date";
+                            }
                         $result4 = mysqli_query($con, $dropdown_query2);
                         while ($rows = mysqli_fetch_assoc($result4))
                         {
@@ -144,8 +188,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                                 <td> <a class="viewTransaction" href="../monitoring/monitoring-point-of-sales-transaction-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
 
                                 <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
-                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['customer_change'], '2','.',','); ?></td>
-                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['amount_tendered'], '2','.',','); ?></td>
                                 <td> <?php echo $rows['option_name']; ?></td>
                                 <td> <?php echo $rows['service_type']; ?></td>
                                 <td> <?php echo $rows['note']; ?></td>

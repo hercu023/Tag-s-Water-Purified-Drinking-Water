@@ -1,5 +1,6 @@
 <?php
 require_once '../database/connection-db.php';
+require_once '../service/edit-customer-balance.php';
 require_once "../service/user-access.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-CUSTOMER_BALANCE')) {
@@ -77,7 +78,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                         </div>
                         </div>
                     </div>
-                    
                         <div class="customer-container" id="customerTable">
                             <br>
                             <header class="previous-transaction-header">List of Customers with Balance</header>
@@ -93,44 +93,16 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                         <th>Action</th>
                     </tr>
                     </thead>
-
-                    <?php
-                    $query = "SELECT customers.id,
-                                customers.customer_name,
-                                customers.contact_number1,
-                                customers.address, 
-                                customers.balance,
-                                status_archive.status
-                                FROM customers 
-                                INNER JOIN status_archive 
-                                ON customers.status_archive_id = status_archive.id 
-                                WHERE customers.status_archive_id = '1'";
-                    $result = mysqli_query($con, $query);
-                    if(mysqli_num_rows($result) > 0)
-                    {
-                    foreach($result as $rows)
-                    {
-                    ?>
                     <tbody>
                     <tr>
-                        <td> <?php echo $rows['id']; ?></td>
-                        <td> <?php echo $rows['customer_name']; ?></td>
-                        <td> <?php echo $rows['contact_number1']; ?></td>
-                        <td> <?php echo $rows['address']; ?></td>
-                        <td> <?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
-                        <td>
-                            <a href="../monitoring/monitoring-customer-balance-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
-                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
-                            </a>
-                        </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td></td>
                     </tr>
-                    <?php } ?>
-                    <?php } else { ?>
-                        <tr id="noRecordTR">
-                            <td colspan="15">No Record(s) Found</td>
-                        </tr>
-                    <?php } ?>
-                            </tbody>
+                    </tbody>
                             
                             </table>
                         </div>
@@ -139,6 +111,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                 include('../common/top-menu.php')
             ?>    
         </div> 
+
+<?php if(isset($_GET['edit'])) { ?>
         <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
     <div class="bg-addcustomerform" id="bg-addform">
         <div class="message"></div>
@@ -150,26 +124,16 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                             <label for="contact_num2">Customer Name</label>
                             <div class="usertype-dropdown">
                                 <?php
-                                $dropdown_customers = "SELECT * FROM customers";
+                                $id = $_GET['edit'];
+                                $dropdown_customers = "SELECT * FROM customers where id = '$id'";
                                 $result_customers = mysqli_query($con, $dropdown_customers);
+                                $customers = mysqli_fetch_assoc($result_customers);
                                 ?>
                                 <select id="chosen" class="select-customer" name="customername" required="" onchange="customerBal();">
-                                    <option selected disabled value="">SELECT CUSTOMER</option>
-                                    <?php while($customers = mysqli_fetch_array($result_customers)){?>
-                                        <option value="<?php echo $customers['id']?>">
+                                        <option selected value="<?php echo $customers['id']?>">
                                             <?php echo $customers['customer_name'];?>                                        
                                         </option>
-                                    <?php }?>
-                                    <!-- <option class="guest-option"value="Guest">GUEST</option> -->
                                 </select>
-                                <?php
-                                $dropdown_customers1 = "SELECT * FROM customers";
-                                $result_customers1 = mysqli_query($con, $dropdown_customers1);
-                                ?>
-                                <?php while($customers1 = mysqli_fetch_array($result_customers1)){?>
-                                    <?php $customers_balance_id = 'customerbalance' . $customers1['id'];?>        
-                                    <input type="hidden"  id="<?php echo $customers_balance_id ?>" value="<?php echo $customers1['balance'];?>">
-                                <?php }?>
                             </div>
                         </div>
                     <div class="user-input-box" id="address-box">
@@ -177,7 +141,10 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                         <input type="number" step=".01"
                                id="address" 
                                class="address"
-                               required="required" name="address" placeholder="0.00"/>
+                               required="required" 
+                               name="balance" 
+                               placeholder="0.00"
+                               value = "<?php echo $customers['balance'];?>"/>
                     </div>
                     <div class="line"></div>
 
@@ -186,11 +153,12 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                             <a href="../monitoring/monitoring-customer-balance.php" id="cancel">CANCEL</a>
                         </div>
                         <div class="AddButton">
-                            <button type="submit" id="addcustomerBtn" name="save-customer">SAVE</button>
+                            <button type="submit" id="addcustomerBtn" name="edit-balance">SAVE</button>
                         </div>
                     </div>
                 </div>
             </form>
+<?php } ?>
     </body>
 </html>
 <script>

@@ -108,7 +108,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
                             ON inventory_item.status_archive_id = status_archive.id
                             INNER JOIN users
                             ON inventory_item.created_by = users.user_id
-                            WHERE category_by_id LIKE '%10' AND inventory_item.status_archive_id = '1'";
+                            WHERE category_by_id = '10' AND inventory_item.status_archive_id = '1'
+                            ORDER BY inventory_item.id ASC";
                     $result = mysqli_query($con, $query);
                     // $inventory = "SELECT * FROM inventory_item";
                     // $sql = mysqli_query($con, $inventory);

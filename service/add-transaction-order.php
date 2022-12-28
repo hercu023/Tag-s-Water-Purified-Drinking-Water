@@ -1,23 +1,25 @@
 <?php
+require_once "../database/connection-db.php";
+require_once "../service/validate-stock-quantity.php";
 
 if(isset($_POST['add-others'])){
     if(isset($_POST['quantity'])
-    || isset($_POST['PRICE'])
-    || isset($_POST['categorytype'])
-    || isset($_POST['itemname'])
+        || isset($_POST['PRICE'])
+        || isset($_POST['categorytype'])
+        || isset($_POST['itemname'])
     ) {
-        
+
         $item_name3 = filter_var($_POST['itemname'], FILTER_SANITIZE_STRING);
         $category_name3 = filter_var($_POST['categorytype'], FILTER_SANITIZE_STRING);
         $price_item3 = filter_var($_POST['PRICE'], FILTER_SANITIZE_STRING);
         $user_id = $_SESSION['user_user_id'];
         $qty3 = filter_var($_POST['quantity'], FILTER_SANITIZE_STRING);
 
-        // header("Location: ../common/error-page.php?error=". $item_id .','. $item_name3.','.$category_name3 .','. $price_item3.','. $qty3);
-        // exit();
         $total= $qty3 * $price_item3;
-        
-        $insert = mysqli_query($con, "INSERT INTO transaction_process VALUES(
+
+
+        if (validate_quantity($con, $item_name3, $qty3)) {
+            $insert = mysqli_query($con, "INSERT INTO transaction_process VALUES(
                     '',
                     '$item_name3',
                     '',
@@ -27,22 +29,26 @@ if(isset($_POST['add-others'])){
                     '$total',
                     '$user_id',
                     '0')");
-                if($insert){
-                    header("Location: ../pos/point-of-sales.php?update=1");
-                }
+            if($insert){
+                header("Location: ../pos/point-of-sales.php?update=1");
             }
-        } 
-        ?>
+        } else {
+            header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+        }
+
+    }
+}
+?>
 <?php
 if(isset($_POST['add-alkaline-water'])){
     if(isset($_POST['quantity'])
-    || isset($_POST['alkalineprice'])
-    // || isset($_POST['mineralprice'])
-    || isset($_POST['alkaline-label'])
-    || isset($_POST['categorytype'])
-    || isset($_POST['itemname'])
+        || isset($_POST['alkalineprice'])
+        // || isset($_POST['mineralprice'])
+        || isset($_POST['alkaline-label'])
+        || isset($_POST['categorytype'])
+        || isset($_POST['itemname'])
     ) {
-        
+
         $item_name3 = filter_var($_POST['itemname'], FILTER_SANITIZE_STRING);
         $category_name3 = filter_var($_POST['categorytype'], FILTER_SANITIZE_STRING);
         $selectwater = filter_var($_POST['alkaline-label'], FILTER_SANITIZE_STRING);
@@ -51,11 +57,10 @@ if(isset($_POST['add-alkaline-water'])){
         $user_id = $_SESSION['user_user_id'];
         $qty3 = filter_var($_POST['quantity'], FILTER_SANITIZE_STRING);
 
-        // header("Location: ../common/error-page.php?error=". $item_id .','. $item_name3.','.$category_name3 .','. $price_item3.','. $qty3);
-        // exit();
         $total= $qty3 * $alkalineprice;
 
-        $insert = mysqli_query($con, "INSERT INTO transaction_process VALUES(
+        if (validate_quantity($con, $item_name3, $qty3)) {
+            $insert = mysqli_query($con, "INSERT INTO transaction_process VALUES(
                     '',
                     '$item_name3',
                     '$selectwater',
@@ -65,22 +70,25 @@ if(isset($_POST['add-alkaline-water'])){
                     '$total',
                     '$user_id',
                     '0')");
-                if($insert){
-                    header("Location: ../pos/point-of-sales.php?update=1");
-                }
+            if($insert){
+                header("Location: ../pos/point-of-sales.php?update=1");
             }
-        } 
-        ?>
+        } else {
+            header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+        }
+    }
+}
+?>
 <?php
 if(isset($_POST['add-mineral-water'])){
     if(isset($_POST['quantity'])
-    // || isset($_POST['alkalineprice'])
-    || isset($_POST['mineralprice'])
-    || isset($_POST['mineral-label'])
-    || isset($_POST['categorytype'])
-    || isset($_POST['itemname'])
+        // || isset($_POST['alkalineprice'])
+        || isset($_POST['mineralprice'])
+        || isset($_POST['mineral-label'])
+        || isset($_POST['categorytype'])
+        || isset($_POST['itemname'])
     ) {
-        
+
         $item_name3 = filter_var($_POST['itemname'], FILTER_SANITIZE_STRING);
         $category_name3 = filter_var($_POST['categorytype'], FILTER_SANITIZE_STRING);
         $selectwater = filter_var($_POST['mineral-label'], FILTER_SANITIZE_STRING);
@@ -93,7 +101,9 @@ if(isset($_POST['add-mineral-water'])){
 
         // header("Location: ../common/error-page.php?error=". $item_id .','. $item_name3.','.$category_name3 .','. $price_item3.','. $qty3);
         // exit();
-        $insert = mysqli_query($con, "INSERT INTO transaction_process VALUES(
+
+        if (validate_quantity($con, $item_name3, $qty3)) {
+            $insert = mysqli_query($con, "INSERT INTO transaction_process VALUES(
                     '',
                     '$item_name3',
                     '$selectwater',
@@ -103,35 +113,55 @@ if(isset($_POST['add-mineral-water'])){
                     '$total',
                     '$user_id',
                     '0')");
-                if($insert){
-                    header("Location: ../pos/point-of-sales.php?update=1");
-                }
+            if($insert){
+                header("Location: ../pos/point-of-sales.php?update=1");
             }
-        } 
-        ?>
+        } else {
+            header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+        }
+    }
+}
+?>
 
 <?php
 if(isset($_POST['edit-quantity'])){
     if(isset($_POST['quantity'])
-    ||isset($_POST['PRICE'])
-    ||isset($_POST['total_price'])) {
+        ||isset($_POST['PRICE'])
+        ||isset($_POST['total_price'])) {
         $id = $_POST['id'];
-        
+
         $user_id = $_SESSION['user_user_id'];
         $qty3 = filter_var($_POST['quantity'], FILTER_SANITIZE_STRING);
         $total = filter_var($_POST['total_price'], FILTER_SANITIZE_STRING);
         $price = filter_var($_POST['PRICE'], FILTER_SANITIZE_STRING);
         $total= $qty3 * $price;
 
-        $update = mysqli_query($con,
-        "UPDATE transaction_process SET
-        transaction_process.quantity = '$qty3',
-        transaction_process.price = '$price',
-        transaction_process.total_price = '$total'
-        WHERE transaction_process.id='$id'");
+        $validate_item = mysqli_query($con, "SELECT item_name
+                            FROM transaction_process 
+                            WHERE id = $id");
+        if (mysqli_num_rows($validate_item) > 0) {
+            $item_name = mysqli_fetch_assoc($validate_item);
+            $item_name3 = $item_name['item_name'];
+
+            if (validate_quantity($con, $item_name3, $qty3)) {
+                $update = mysqli_query($con,
+                    "UPDATE transaction_process SET
+                        transaction_process.quantity = '$qty3',
+                        transaction_process.price = '$price',
+                        transaction_process.total_price = '$total'
+                        WHERE transaction_process.id='$id'");
+
                 if($update){
                     header("Location: ../pos/point-of-sales.php?");
                 }
+            } else {
+                header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
             }
-        } 
-        ?>
+
+        } else {
+
+        }
+
+    }
+}
+?>

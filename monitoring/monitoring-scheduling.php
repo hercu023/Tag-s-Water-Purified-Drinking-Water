@@ -44,9 +44,15 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                             <h2>SCHEDULING</h2>
                         </div>
                         <div class="newUser-button">
-                            <button type="button" id="add-userbutton" class="add-customer" onclick="addnewuser();">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                <h3>SET DELIVERY SCHEDULE</h3>
+                            <button type="button" id="add-userbutton" class="add-customer1" onclick="addnewuser();">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.75 11.5q-.312 0-.531-.219Q6 11.062 6 10.75q0-.312.219-.531Q6.438 10 6.75 10q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm3.25 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531Q9.688 10 10 10q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm3.25 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531.219-.219.531-.219.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219ZM4.5 18q-.625 0-1.062-.448Q3 17.104 3 16.5v-11q0-.604.438-1.052Q3.875 4 4.5 4H6V2h1.5v2h5V2H14v2h1.5q.625 0 1.062.448Q17 4.896 17 5.5v11q0 .604-.438 1.052Q16.125 18 15.5 18Zm0-1.5h11V9h-11v7.5Z"/></svg>
+                                <h3>WEEKLY SCHEDULE</h3>
+                            </button>
+                        </div>
+                        <div class="newUser-button">
+                            <button type="button" id="add-userbutton" class="add-customer2" onclick="addnewuser();">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M12 15q-.833 0-1.417-.583Q10 13.833 10 13q0-.833.583-1.417Q11.167 11 12 11q.833 0 1.417.583Q14 12.167 14 13q0 .833-.583 1.417Q12.833 15 12 15Zm-7.5 3q-.625 0-1.062-.448Q3 17.104 3 16.5v-11q0-.604.438-1.052Q3.875 4 4.5 4H6V2h1.5v2h5V2H14v2h1.5q.625 0 1.062.448Q17 4.896 17 5.5v11q0 .604-.438 1.052Q16.125 18 15.5 18Zm0-1.5h11V9h-11v7.5Z"/></svg>
+                                <h3>DELIVERY SCHEDULE</h3>
                             </button>
                         </div>
                         <div class="newUser-button1"> 
@@ -57,15 +63,120 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                             </div>
                     </div> 
                 </div>
-                <div class="main-container">
-                    <div class="sub-tab-container">     
-                        <div id="root"></div>
-
-                    </div>
-                </div>
                     
-                    <div id='calendar'></div>
+                <div class="customer-container" id="customerTable">
+                            <br>
+                            <header class="previous-transaction-header">SCHEDULED DATE OF DELIVERY</header>
+                            <hr>
+                            <table class="table" id="myTable">
+                            <thead>
+                            <tr>
+                        <th><span class="statusLbl">DAY(s) of DELIVERY</span></th>
+                        <th>ID</th>
+                        <th>Customer Name</th>
+                        <th>Contact Number</th>
+                        <th>Address</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
 
+                    <?php
+                    $query = "SELECT 
+                                customers.id,
+                                customers.customer_name,
+                                customers.contact_number1,
+                                customers.address, 
+                                customers.balance
+                                FROM customers
+                                -- INNER JOIN transaction_history
+                                -- ON customers.transaction_id = transaction_history.transaction_uuid
+                                WHERE customers.status_archive_id = 1";
+                    $result = mysqli_query($con, $query);
+                    if(mysqli_num_rows($result) > 0)
+                    {
+                    foreach($result as $rows)
+                    {
+                    ?>
+                    <tbody>
+                    <tr>
+                        <td> MONDAY</td>
+                        <td> <?php echo $rows['id']; ?></td>
+                        <td> <?php echo $rows['customer_name']; ?></td>
+                        <td> <?php echo $rows['contact_number1']; ?></td>
+                        <td> <?php echo $rows['address']; ?></td>
+                        <td>
+                            <a href="../monitoring/monitoring-customer-balance-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                    <?php } else { ?>
+                        <tr id="noRecordTR">
+                            <td colspan="15">No Record(s) Found</td>
+                        </tr>
+                    <?php } ?>
+                            </tbody>
+                            
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="customer-container" id="customerTable">
+                            <br>
+                            <header class="previous-transaction-header">WEEKLY SCHEDULE OF CUSTOMERS</header>
+                            <hr>
+                            <table class="table" id="myTable">
+                            <thead>
+                            <tr>
+                        <th><span class="statusLbl">DATE of DELIVERY</span></th>
+                        <th>ID</th>
+                        <th>Customer Name</th>
+                        <th>Contact Number</th>
+                        <th>Address</th>
+                        <th>Balance</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <?php
+                    $query = "SELECT 
+                                customers.id,
+                                customers.customer_name,
+                                customers.contact_number1,
+                                customers.address, 
+                                customers.balance
+                                FROM customers
+                                WHERE customers.status_archive_id = 1";
+                    $result = mysqli_query($con, $query);
+                    if(mysqli_num_rows($result) > 0)
+                    {
+                    foreach($result as $rows)
+                    {
+                    ?>
+                    <tbody>
+                    <tr>
+                        <td> November 23, 2023</td>
+                        <td> <?php echo $rows['id']; ?></td>
+                        <td> <?php echo $rows['customer_name']; ?></td>
+                        <td> <?php echo $rows['contact_number1']; ?></td>
+                        <td> <?php echo $rows['address']; ?></td>
+                        <td> <?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
+                        <td>
+                            <a href="../monitoring/monitoring-customer-balance-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                    <?php } else { ?>
+                        <tr id="noRecordTR">
+                            <td colspan="15">No Record(s) Found</td>
+                        </tr>
+                    <?php } ?>
+                            </tbody>
+                            
+                            </table>
+                        </div>
             </main>
             <?php
                 include('../common/top-menu.php')
@@ -104,18 +215,20 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                                 <?php }?>
                             </div>
                         </div>
-                    <div class="user-input-box" id="address-box">
-                        <label for="balance">Advance Payment</label>
-                        <input type="number" step=".01"
-                               id="address" 
-                               class="address"
-                               required="required" name="address" placeholder="0.00"/>
+                    <div class="user-input-box">
+                        <label for="dateofattendance">DATE of Delivery</label>
+                        <input type="date"
+                               class="date"
+                               id="dateofattendance"
+                               name="date_of_attendance"
+                               required="required"
+                               onchange="console.log(this.value);" />
                     </div>
                     <div class="line"></div>
 
                     <div class="bot-buttons">
                         <div class="CancelButton">
-                            <a href="../monitoring/monitoring-customer-balance.php" id="cancel">CANCEL</a>
+                            <a href="../monitoring/monitoring-scheduling.php" id="cancel">CANCEL</a>
                         </div>
                         <div class="AddButton">
                             <button type="submit" id="addcustomerBtn" name="save-customer">SAVE</button>
@@ -127,448 +240,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
 </html>
 <script>
     // ------------------------------SCHEDULING-----------------------------=
-    class Calendar {
-  constructor(root) {
-    this.datetime = new Date()
-    this.config = {
-      color: 'var(--color-solid-gray)',
-      backgroundColor: 'var(--color-white)',
-      highlightColor: 'var(--color-secondary-main)',
-      btnClass: 'c-btn'
-    }
-    this.configGrid = {
-      color: 'var(--color-solid-gray)',
-      backgroundColor: 'var(--color-main)',
-      width: window.innerWidth / 7,
-      height: window.innerWidth / 7,
-      fontSize: window.innerWidth < 757 ? 20 : 30,
-      fontType: 'sans-serif',
-      fontWeight: 'bold',
-      dayNameHeight: 20,
-      padding: '2em',
-      margin: '1em'
-    }
-    this.configDayHeader = {
-      height: this.configGrid.dayNameHeight,
-      width: this.configGrid.width,
-      color: 'var(--color-solid-gray)',
-      fontType: 'sans-serif',
-      fontWeight: 'bold',
-      padding: '2em',
-      margin: '1em'
-    }
-    this.configMonthHeader = {
-      height: this.configGrid.height * 2,
-      width: window.innerWidth,
-      color: 'var(--color-solid-gray)',
-      fontSize: window.innerWidth < 757 ? 20 : 40,
-      fontType: 'sans-serif',
-      fontWeight: 400,
-      padding: '2em',
-      margin: '1em',
-      buttonPadding: '1em',
-    }
-    this.root = document.getElementById(root)
-    window.addEventListener('resize', () => this.reset())
-  }
-
-  reset() {
-    this.configGrid.width = window.innerWidth / 7
-    this.configGrid.height = window.innerWidth / 7
-    this.configGrid.fontSize = window.innerWidth < 757 ? 20 : 30
-    this.configDayHeader.height = this.configGrid.dayNameHeight
-    this.configDayHeader.width = this.configGrid.width
-    this.configMonthHeader.height = this.configGrid.height * 2
-    this.configMonthHeader.width = window.innerWidth
-    this.configMonthHeader.fontSize = window.innerWidth < 757 ? 20 : 40
-    this.render()
-  }
-  /** 
-     * gets the month
-     *
-    */
-  getMonth(month) {
-    return this.datetime.getMonth() + 1
-  }
-
-  /** 
-     * sets the month
-     *
-    */
-  setMonth(month) {
-    this.datetime.setMonth(month - 1)
-  }
-
-  /** 
-     * gets the year
-     *
-    */
-  getYear() {
-    return this.datetime.getFullYear()
-  }
-
-  /** 
-     * sets the year
-     *
-    */
-  setYear(year) {
-    this.datetime.setFullYear(year)
-  }
-
-  /** 
-     * @returns the number of days in a month
-     *
-    */
-  getDaysInMonth() {
-    const month = this.getMonth()
-    return new Date('2022', month, 0).getDate()
-  }
-
-  /** 
-     * @returns the start day of the month
-     *
-    */
-  getStartDayOfMonth() {
-    return new Date(`${this.getMonth()}/01/${this.getYear()}`).getDay()
-  }
-
-  /** 
-     * @returns SVG week header with grid and day names
-     *
-    */
-  componentDayHeader() {
-    const { 
-      color,
-      width,
-      height, 
-      fontType, 
-      fontWeight
-    } = this.configDayHeader
-
-    const { fontSize } = this.configGrid
-
-    let weekDayGrid, weekDayText
-    for (let x = 0; x < 7; x++) {
-      weekDayGrid += `<rect
-          stroke='${color}'
-          width='${this.configGrid.width}'
-          height='${fontSize + height}'
-          x=${width * x}
-          y=0
-        />`
-
-      weekDayText += `<text 
-          x=${width * x + width / 2} 
-          y=${fontSize}
-          style='
-            fill:${color};
-            font:${fontWeight} ${fontSize}px ${fontType};
-            text-anchor:middle;
-            dominant-baseline:middle;
-          '
-        >
-          ${new Date(`01/${x + 1}`).toString().substr(0, 3)}
-        </text>`
-    }
-
-    return {
-      weekDayGrid,
-      weekDayText
-    }
-  }
-
-  /** 
-     * @returns SVG calendar day grid
-     *
-    */
-  componentDayGrid() {
-    const { color, highlightColor } = this.config
-    const { 
-      width,
-      height, 
-      fontSize, 
-      fontType, 
-      fontWeight,
-      dayNameHeight,
-      padding,
-      margin
-    } = this.configGrid
-
-    const start = this.getStartDayOfMonth()
-
-    const today = this.datetime.getDate()
-    const month = this.datetime.getMonth()
-
-    let monthDayGrid, monthDayText, isToday = false, isMonth = false
-    for (let x = 0; x < this.getDaysInMonth() + start; x++) {
-      const day = x + 1 - start
-      isToday = day === new Date().getDate() ? true : false
-      isMonth = month === new Date().getMonth() ? true : false
-      monthDayGrid += `<rect 
-          stroke='${color}'
-          fill='${isToday && isMonth ? highlightColor : 'none'}'
-          width='${width}'
-          height='${height}'
-          x=${width * (x % 7)}
-          y=${Math.floor(x / 7) * width + fontSize + dayNameHeight}
-        />`
-      monthDayGrid += day === 2 ? this.componentEvent(x) : ''
-
-      monthDayText += x >= start ? `<text 
-          x=${width * (x % 7) + 10} 
-          y=${Math.floor(x / 7) * width + fontSize * 2 + dayNameHeight} 
-          style='
-            fill:${color};
-            font:${fontWeight} ${fontSize}px ${fontType};
-          '
-        >
-            ${day}
-        </text>` : ``
-    }
-
-    return {
-      monthDayGrid,
-      monthDayText
-    }
-  }
-
-  /** 
-     * @returns month header components
-     *
-    */
-  componentMonthHeader() {
-    const xmlns = "http://www.w3.org/2000/svg"
-    const { fontSize, fontType, fontWeight, margin } = this.configMonthHeader
-    const buttonStyle = `
-        position:absolute;
-        top:50%;
-        transform:translateY(-50%);
-      `
-    const buttonMonthStyle = `
-        width:${fontSize/1.2}px;
-        right:0;
-      `
-
-    const buttonTodayStyle = `
-        text-align:center;
-        margin-bottom:${margin};
-        color:'var(--color-solid-gray)';
-        font:${fontWeight} ${fontSize /1.5}px ${fontType};
-        left:0;
-        width:${fontSize*2}px;
-      `
-
-    const monthHeadingStyle = `
-        position:relative;
-        text-align:center;
-        margin-bottom:${this.configGrid.padding}px;
-        color:'var(--color-solid-gray)';font:${fontWeight} ${fontSize}px ${fontType}
-      `
-
-    // Previous Button
-    const prevButton = document.createElementNS(xmlns, 'svg')
-    prevButton.setAttributeNS(null, 'viewBox', '0 0 40 40')
-    prevButton.setAttributeNS(null, 'style', `${buttonStyle}${buttonMonthStyle}right:${fontSize};`)
-    prevButton.innerHTML = `<rect 
-        stroke='var(--color-solid-gray)'
-        width='40'
-        height='40'
-        x='2'
-        y='0'
-        stroke-width="2"
-        fill="none"
-      />
-      <polyline 
-        stroke='var(--color-solid-gray)'
-        stroke-width="2"
-        points="30,32 10,19 30,5"
-        fill="none"
-      />`
-    prevButton.addEventListener('click', event => this.handleMonthChange(event, -1))
-    prevButton.classList.add(this.config.btnClass)
-
-    // Next button
-    const nextButton = document.createElementNS(xmlns, 'svg')
-    nextButton.setAttributeNS(null, 'viewBox', `0 0 40 40`)
-    nextButton.setAttributeNS(null, 'style', `${buttonStyle}${buttonMonthStyle}`)
-    nextButton.innerHTML = `<rect 
-        stroke='var(--color-solid-gray)'
-        width='40'
-        height='40'
-        x='2'
-        y='0'
-        stroke-width="2"
-        fill="none"
-      />
-      <polyline 
-        stroke='var(--color-solid-gray)'
-        stroke-width="2"
-        points="10,5 30,19 10,32"
-        fill="none"
-      />`
-
-    nextButton.addEventListener('click', event => this.handleMonthChange(event, 1))
-    nextButton.classList.add(this.config.btnClass)
-
-    // Today button
-    const todayButton = document.createElementNS(xmlns, 'svg')
-    todayButton.setAttributeNS(null, 'viewBox', `0 0 100 40`)
-    todayButton.setAttributeNS(null, 'style', `${buttonStyle}${buttonTodayStyle}`
-                              )
-    todayButton.innerHTML = `<rect 
-        stroke='var(--color-solid-gray)'
-        width='150'
-        height='60'
-
-        fill="none"
-      />
-      <text 
-        style='
-          fill:'var(--color-solid-gray)';
-          font:${fontWeight} 1em ${fontType};
-          text-anchor:middle;
-          dominant-baseline:middle;
-        '
-        x='10%'
-        y='50%'
-      >
-        TODAY
-      </text>`
-
-    todayButton.addEventListener('click', event => this.handleToday(event))
-    todayButton.classList.add(this.config.btnClass)
-
-    const monthHeading = document.createElement('div')
-    monthHeading.setAttribute('style', monthHeadingStyle)
-    const month = this.datetime.toLocaleString('default', { month: 'long' })
-
-    monthHeading.textContent = `${month} ${this.getYear()}`
-    monthHeading.append(prevButton)
-    monthHeading.append(nextButton)
-    monthHeading.prepend(todayButton)
-
-    return monthHeading
-  }
-
-  componentEvent(x) {
-    const { color, highlightColor } = this.config
-    const { 
-      width,
-      height, 
-      fontSize, 
-      fontType, 
-      fontWeight,
-      dayNameHeight,
-      padding,
-      margin
-    } = this.configGrid
-    const title = 'Scuba Diving'
-    return `<rect 
-          stroke='${color}'
-          fill='var(--color-background)'
-          width='${width}'
-          height='${height / 5}'
-          x=${width * (x % 7)}
-          y=${Math.floor(x / 7) * width + fontSize + dayNameHeight + height / 2}
-        />
-        <text 
-          x=${width * (x % 7) + 2}
-          y=${Math.floor(x / 7) * width + fontSize + dayNameHeight + height / 2 + 15}
-          style='
-            fill: var(--color-main);
-            font:${fontWeight} 20px ${fontType};
-          '
-        >
-          Show events
-        </text>
-        `
-  }
-
-  /** 
-     * @returns today mark component
-     *
-    */
-  componentToday() {
-
-    return
-  }
-
-  /** 
-     * @returns CSS component
-     *
-    */
-  componentStyle() {
-    const style = document.createElement('style')
-    style.innerHTML = `
-        .${this.config.btnClass} {
-          background-color: ${this.config.backgroundColor};
-        }
-        .${this.config.btnClass}:hover {
-          background-color: ${this.config.highlightColor};
-          cursor: pointer;
-        }
-      `
-    return style
-  }
-
-  /** 
-     * today button event handler
-     * 
-    */
-  handleToday = (event) => {
-    event.stopPropagation()
-    const today = new Date()
-    this.setMonth(today.getMonth() + 1)
-    this.render()
-  }
-  /** 
-     * month button event handler
-     *
-    */
-  handleMonthChange = (event, increment) => {
-    event.stopPropagation()
-    const month = this.getMonth(), year = this.getYear()
-    let newMonth = month + increment, newYear = year
-    if (newMonth < 1) {
-      newMonth = 12
-      newYear--
-      this.setYear(newYear)
-    }
-    if (newMonth > 12) { 
-      newMonth = 1
-      newYear++
-      this.setYear(newYear)
-    }
-    this.setMonth(newMonth)
-    this.render()
-  }
-
-  render() {
-    // Load components and configuration
-    const { monthDayGrid, monthDayText } = this.componentDayGrid()
-    const { weekDayGrid, weekDayText } = this.componentDayHeader()
-    const { backgroundColor } = this.config
-    const { width, dayNameHeight, fontSize, padding, margin } = this.configGrid
-
-    // Apply root element configuration
-    this.root.setAttribute('style', `background-color:${backgroundColor};padding:${padding};margin:${margin};`)
-
-    // Update root element with components
-    this.root.innerHTML = `
-        <svg viewBox='0 0 ${window.innerWidth} ${width * 5 + dayNameHeight + fontSize}'>
-          ${weekDayGrid}${weekDayText}
-          ${monthDayGrid}${monthDayText}
-        </svg>
-      `
-    this.root.prepend(this.componentMonthHeader())
-    this.root.append(this.componentStyle())
-  }
-}
-
-const calendar = new Calendar('root');
-
-calendar.render()
-
+ 
     // ///////////////////////////////////////////////////////////////////////
 const addForm = document.querySelector(".bg-addcustomerform");
  function addnewuser(){
@@ -704,6 +376,16 @@ new TomSelect("#chosen",{
         background-size: cover;
         background-attachment: fixed;
     }  
+    .statusLbl{
+        font-weight: 1000;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        border-bottom: 2px solid var(--color-main);
+    }
+    .hr{
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
     .fc-event-container {
         position: relative;
         width: 100%;
@@ -816,16 +498,17 @@ new TomSelect("#chosen",{
 .user-input-box{
     flex-wrap: wrap;
     text-align: center;
-    width: 48%;
+    justify-content: center;
+    width: 50%;
     padding-bottom: 15px;
 }
 
 .user-input-box label{
-    width: 95%;
+    width: 100%;
     color: var(--color-solid-gray);
     font-size: 16px;
     margin-right: 1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     font-family: 'Malberg Trial', sans-serif;
     font-weight: 550;
     /* margin: 5px 0; */
@@ -848,13 +531,12 @@ new TomSelect("#chosen",{
 }
 
 .user-input-box input{
-    height: 60px;
-    width: 30%;
+    height: 40px;
+    width: 100%;
     border: 2px solid var(--color-solid-gray);
-    border-radius: 20px;
-    outline: none;
-    text-align: center;
-    align-items: center;
+    border-radius: 10px;
+    text-align: left;
+    align-items: left;
     font-size: 1.5em;
     background: var(--color-white);
     color: var(--color-black);
@@ -1061,31 +743,66 @@ new TomSelect("#chosen",{
     background: var(--color-main);
     color: var(--color-white);
 }
-    .add-customer{
+.newUser-button{
+    display: inline-block;
+}
+    .add-customer1{
     display: flex;
     border: none;
     background-color: var(--color-white);
     align-items: center;
     color: var(--color-button);
     fill: var(--color-button);
-    width: 15rem;
+    width: 12.8rem;
     max-height: 46px;
     border-radius: 20px;
     padding: .68rem 1rem;
     font-family: 'Outfit', sans-serif;
     cursor: pointer;
     gap: 1rem;
-    position: absolute;
+    position: relative;
+    height: 3.9rem;
+    transition: all 300ms ease;
+    margin-left: 15rem;
+    margin-top: .2rem;
+    text-transform: uppercase;
+}
+.add-customer1 h3{
+    font-size: .8rem;
+}
+.add-customer1:hover{
+    background-color: var(--color-main);
+    color: var(--color-white);
+    fill: var(--color-white);
+    padding-top: -.2px;
+    transition: 0.7s;
+    border-bottom: 4px solid var(--color-maroon);
+}
+.add-customer2{
+    display: flex;
+    border: none;
+    background-color: var(--color-white);
+    align-items: center;
+    color: var(--color-button);
+    fill: var(--color-button);
+    margin-left: 1rem;
+    width: 13.4rem;
+    max-height: 46px;
+    border-radius: 20px;
+    padding: .68rem 1rem;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    gap: 1rem;
+    position: relative;
     height: 3.9rem;
     transition: all 300ms ease;
     margin-top: .2rem;
-    margin-left: 15rem;
     text-transform: uppercase;
 }
-.add-customer h3{
+.add-customer2 h3{
     font-size: .8rem;
 }
-.add-customer:hover{
+.add-customer2:hover{
     background-color: var(--color-main);
     color: var(--color-white);
     fill: var(--color-white);
@@ -1320,7 +1037,7 @@ tr:hover td{
     }
     .newUser-button1{
         position: relative;
-        margin-left: 35rem;
+        margin-left: 3rem;
         display: inline-block;
     }
     .newUser-button2{

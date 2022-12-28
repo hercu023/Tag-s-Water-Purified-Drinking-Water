@@ -1,9 +1,9 @@
 <?php
 require_once '../database/connection-db.php';
-require_once "../service/add-customer-balance.php";
 require_once "../service/user-access.php";
+require_once '../service/pos-update-transaction.php';
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-CUSTOMER_BALANCE')) {
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-POINT_OF_SALES_TRANSACTION')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
     exit();
 }
@@ -24,8 +24,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
         <title>Tag's Water Purified Drinking Water</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/css/tom-select.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
         <script src="../index.js"></script>
     </head>
     <body>
@@ -39,14 +37,16 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                     <h1 class="dashTitle">MONITORING</h1> 
                     <div class="sub-tab">
                         <div class="user-title">
-                            <h2>CUSTOMER BALANCE</h2>
+                            <h2>POS TRANSACTION</h2>
                         </div>
-                        <div class="newUser-button">
-                            <button type="button" id="add-userbutton" class="add-customer" onclick="addnewuser();">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                <h3>Add Balance</h3>
-                            </button>
-                        </div>
+                        <div class="select-dropdown">
+                                <select class="select">
+                                    <option selected disabled value="">SELECT TYPE</option>
+                                    <option value="All">All</option>
+                                    <option value="Walk-In">Walk-In</option>
+                                    <option value="Delivery">Delivery</option>
+                                </select>
+                            </div>
                         <div class="search">
                             <div class="search-bar"> 
                                 <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
@@ -59,179 +59,107 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                 </div>
                 <div class="main-container">
                         <div class="sub-tab-container">
+                            
                             <div class="totals">
+                            <div class="newUser-button3"> 
+                                <div id="add-userbutton" class="add-account3">
+                                        <h3 class="deliveries">TOTAL TRANSACTION</h3>
+                                        <span class="total-transactions">0</span>
+                                </div>
+                            </div>
                             <div class="newUser-button1"> 
                                 <div id="add-userbutton" class="add-account1">
-                                <?php
-                                    $total_customer_with_balance = "SELECT id
-                                    FROM customers
-                                    WHERE balance > 0";
-
-                                    if($total_customer_with_balance_result = mysqli_query($con, $total_customer_with_balance))
-                                    $rowcount = mysqli_num_rows($total_customer_with_balance_result);
-                                    ?>
-                                    <h3 class="deliveries">Customer With Balance</h3>
-                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
+                                    <h3 class="deliveries">DELIVERY</h3>
+                                    <span class="total-deliveries">0</span>
                                 </div>
                             </div>
                             <div class="newUser-button2"> 
                                 <div id="add-userbutton" class="add-account2">
-                                <?php
-                                    $total_customer_with_credit = "SELECT 
-                                    t.id,
-                                    SUM(t.unpaid_amount) as credit
-                                    FROM
-                                    (SELECT
-                                    customers.id,
-                                    customers.customer_name,
-                                    customers.contact_number1,
-                                    customers.address, 
-                                    customers.balance,
-                                    transaction_history.transaction_uuid,
-                                    MIN(transaction_history.unpaid_amount) as unpaid_amount
-                                    FROM transaction_history
-                                    INNER JOIN transaction
-                                    ON transaction.uuid = transaction_history.transaction_uuid
-                                    INNER JOIN customers
-                                    on transaction.customer_name_id = customers.id
-                                    WHERE customers.status_archive_id = 1
-                                    GROUP BY transaction_history.transaction_uuid) 
-                                    t
-                                    GROUP BY t.customer_name
-                                    HAVING SUM(t.unpaid_amount) > 0";
-
-                                    if($total_customer_with_credit_result = mysqli_query($con, $total_customer_with_credit))
-                                    $rowcount = mysqli_num_rows($total_customer_with_credit_result);
-                                    ?>
-                                    <h3 class="deliveries">Customer With Credit</h3>
-                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
+                                    <h3 class="deliveries">WALK IN</h3>
+                                    <span class="total-deliveries">0</span>
                                 </div>
-                            </div>  
+                            </div>
+                            
                         </div>
                         </div>
                     </div>
                     
                         <div class="customer-container" id="customerTable">
                             <br>
-                            <header class="previous-transaction-header">List of Customers with Credit</header>
+                            <header class="previous-transaction-header">Today's Previous Transaction</header>
                             <hr>
                             <table class="table" id="myTable">
                             <thead>
-                            <tr>
-                        <th>ID</th>
-                        <th>Customer Name</th>
-                        <th>Contact Number</th>
-                        <th>Address</th>
-                        <th>Balance</th>
-                        <th>Credit</th>
-                    </tr>
-                    </thead>
-
-                    <?php
-                    $query = "SELECT 
-                                t.id,
-                                t.customer_name,
-                                t.contact_number1,
-                                t.address, 
-                                t.balance,
-                                SUM(t.unpaid_amount) as credit
-                                FROM
-                                (SELECT
-                                customers.id,
-                                customers.customer_name,
-                                customers.contact_number1,
-                                customers.address, 
-                                customers.balance,
-                                transaction_history.transaction_uuid,
-                                MIN(transaction_history.unpaid_amount) as unpaid_amount
-                                FROM transaction_history
-                                INNER JOIN transaction
-                                ON transaction.uuid = transaction_history.transaction_uuid
-                                INNER JOIN customers
-                                on transaction.customer_name_id = customers.id
-                                WHERE customers.status_archive_id = 1
-                                GROUP BY transaction_history.transaction_uuid) 
-                                t 
-                                GROUP BY t.customer_name
-                                HAVING SUM(t.unpaid_amount) > 0";
-                    $result = mysqli_query($con, $query);
-                    if(mysqli_num_rows($result) > 0)
-                    {
-                    foreach($result as $rows)
-                    {
-                    ?>
-                    <tbody>
-                    <tr>
-                        <td><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo $rows['id']; ?></td>
-                        <td><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo $rows['customer_name']; ?></td>
-                        <td><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo $rows['contact_number1']; ?></td>
-                        <td><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo $rows['address']; ?></td>
-                        <td><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
-                        <td><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo '<span>&#8369;</span>'.' '.$rows['credit']; ?></td>
-                    </tr>
-                    <?php } ?>
-                    <?php } else { ?>
-                        <tr id="noRecordTR">
-                            <td colspan="15">No Record(s) Found</td>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Details</th>
+                            <th>Total Amount</th>
+                            <th>Payment Option</th>
+                            <th>Service</th>
+                            <th>Note</th>
+                            <th>Payment Status</th>
+                            <th>Cashier Name</th>
+                            <th>Date/Time</th>
                         </tr>
-                    <?php } ?>
-                            </tbody>
-                            
-                            </table>
-                        </div>
-
-                        <div class="customer-container" id="customerTable">
-                            <br>
-                            <header class="previous-transaction-header">List of Customer's Available Balance</header>
-                            <hr>
-                            <table class="table" id="myTable">
-                            <thead>
+                        </thead>
+                        <?php
+                        $dropdown_query2 = "SELECT 
+                            transaction.id,
+                            transaction.uuid,
+                            customers.customer_name,
+                            transaction.total_amount,
+                            payment_option.option_name,
+                            transaction.service_type,
+                            transaction.note,
+                            transaction.status_id,
+                            users.first_name,
+                            users.last_name,
+                            transaction.created_at_date,
+                            transaction.created_at_time
+                            FROM transaction
+                            INNER JOIN users
+                            ON transaction.created_by_id = users.user_id
+                            INNER JOIN payment_option
+                            ON transaction.payment_option = payment_option.id
+                            LEFT JOIN customers
+                            ON transaction.customer_name_id = customers.id
+                            ORDER BY transaction.created_at_date";
+                        $result4 = mysqli_query($con, $dropdown_query2);
+                        while ($rows = mysqli_fetch_assoc($result4))
+                        {
+                            ?>
+                            <tbody>
                             <tr>
-                        <th>ID</th>
-                        <th>Customer Name</th>
-                        <th>Contact Number</th>
-                        <th>Address</th>
-                        <th>Balance</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
+                                <td> <?php echo $rows['id']; ?></td>
+                                <td> <?php if($rows['customer_name']){
+                                    echo $rows['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }
+                                 ?></td>
+                                <td> <a class="viewTransaction" href="../monitoring/monitoring-point-of-sales-transaction-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
 
-                    <?php
-                    $query = "SELECT 
-                                customers.id,
-                                customers.customer_name,
-                                customers.contact_number1,
-                                customers.address, 
-                                customers.balance
-                                FROM customers
-                                WHERE customers.status_archive_id = 1";
-                    $result = mysqli_query($con, $query);
-                    if(mysqli_num_rows($result) > 0)
-                    {
-                    foreach($result as $rows)
-                    {
-                    ?>
-                    <tbody>
-                    <tr>
-                        <td> <?php echo $rows['id']; ?></td>
-                        <td> <?php echo $rows['customer_name']; ?></td>
-                        <td> <?php echo $rows['contact_number1']; ?></td>
-                        <td> <?php echo $rows['address']; ?></td>
-                        <td> <?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
-                        <td>
-                            <a href="../monitoring/monitoring-customer-balance-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
-                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
-                            </a>
-                        </td>
-                    </tr>
-                    <?php } ?>
-                    <?php } else { ?>
-                        <tr id="noRecordTR">
-                            <td colspan="15">No Record(s) Found</td>
-                        </tr>
-                    <?php } ?>
+                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
+                                <td> <?php echo $rows['option_name']; ?></td>
+                                <td> <?php echo $rows['service_type']; ?></td>
+                                <td> <?php echo $rows['note']; ?></td>
+                                <td> <?php 
+                                    if($rows['status_id'] == 0){
+                                        echo 'Unpaid';
+                                    }else{
+                                        echo 'Paid';
+                                    } ?>
+                                </td>
+                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
+                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
+                            <tr id="noRecordTR" style="display:none">
+                                <td colspan="10">No Record Found</td>
+                            </tr>
                             </tbody>
-                            
+                            <?php
+                        }
+                        ?>
                             </table>
                         </div>
             </main>
@@ -239,65 +167,112 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                 include('../common/top-menu.php')
             ?>    
         </div> 
-        <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
-    <div class="bg-addcustomerform" id="bg-addform">
-        <div class="message"></div>
-        <div class="container1">
-            <h1 class="addnew-title">ADD BALANCE</h1>
-            <form action="#">
-                <div class="main-user-info">
+        <?php
+    if(isset($_GET['uuid'])){
+        $uuid = $_GET['uuid'];
+    $result = mysqli_query($con, "SELECT
+                                customers.id AS customerid,
+                                customers.customer_name,
+                                customers.balance,
+                                transaction.total_amount,
+                                payment_option.option_name,
+                                transaction.service_type,
+                                transaction.created_at_date,
+                                transaction.created_at_time
+                                FROM transaction 
+                                LEFT JOIN customers  
+                                ON transaction.customer_name_id = customers.id 
+                                LEFT JOIN payment_option  
+                                ON transaction.payment_option = payment_option.id   
+                                WHERE transaction.uuid='$uuid'");
+        $transaction = mysqli_fetch_assoc($result);
+        ?>
+    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
+        <div class="bg-placeorderform" id="bg-placeform">
+            <input type="hidden" name="uuid" value="<?php echo $uuid; ?>">
+            <div class="container1">
+                <h1 class="addnew-title">PAYMENT DETAILS</h1>
+                <?php
+                    if (isset($_GET['error'])) {
+                            echo '<p id="myerror" class="error-error" > '.$_GET['error'].' </p>';
+                    }
+                ?>
+                <form action="#">
+                    <div class="main-user-info">
                         <div class="customerName">
                             <label for="contact_num2">Customer Name</label>
-                            <div class="usertype-dropdown">
-                                <?php
-                                $dropdown_customers = "SELECT * FROM customers";
-                                $result_customers = mysqli_query($con, $dropdown_customers);
+                            <input type="hidden" name="customername" value="<?php echo $transaction['customerid']?>"/>
+                            <span class="customer_name"><?php echo $transaction['customer_name']?></span>
+                        </div>
+                            <div class="payment-options1">
+                                <p class="paymentOptions-text">Payment Option</p>
+                                <input type="text" name="serviceoption" readonly class="service-options"value="<?php echo $transaction['option_name']?>"></input>
+                            </div>
+                            <div class="payment-options2">
+                                <p class="paymentOptions-text">Service</p>
+                                <input name="serviceoption" readonly class="service-options"value="<?php echo $transaction['service_type']?>">
+                            </div>
+                            <?php 
+                                    $transaction_unpaid = "SELECT
+                                    transaction_history.unpaid_amount
+                                    FROM transaction_history
+                                    WHERE transaction_uuid = '$uuid'
+                                    ORDER BY transaction_history.created_at DESC 
+                                    LIMIT 1";
+                                    $transaction_unpaid_history = mysqli_query($con, $transaction_unpaid);
+                                    if(mysqli_num_rows($transaction_unpaid_history) > 0)
+                                    {
+                                        $unpaid_amount = mysqli_fetch_assoc($transaction_unpaid_history)['unpaid_amount'];
                                 ?>
-                                <select id="chosen" class="select-customer" name="customername" required="";">
-                                    <option selected disabled value="">SELECT CUSTOMER</option>
-                                    <?php while($customers = mysqli_fetch_array($result_customers)){?>
-                                        <option value="<?php echo $customers['id']?>">
-                                            <?php echo $customers['customer_name'];?>                                        
-                                        </option>
-                                    <?php }?>
-                                </select>
+                        <div class="payment-section">
+                            <div class="user-input-box-totalamount">
+                                <label for="total-amount2">TOTAL UNPAID AMOUNT</label>
+                                <input type="text" id="total-amount2" class="total-amount2" onkeypress="return isNumberKey(event)"name="totalAmount" value="<?php echo $unpaid_amount ?>"readonly/>
+                            </div>
+                            
+                            <div class="user-input-box-cashpayment">
+                                <label for="cash-payment2">Cash Payment</label>
+                                <input type="text" id="cash-payment2"class="cash-payment2" required onkeypress="return isNumberKey(event)" name="cashpayment" placeholder="0.00" onkeyup="cashChange();"/>
+                            </div>
+                        <?php }?>
+                            
+                            <div class="user-input-box-cashpayment">
+                        
+                            </div>
+                            <div class="user-input-box-cashpayment">
+                                <label for="cash-payment2">Available Balance</label>
+                                <input type="text" id="cash-balance"class="cash-balance" value="<?php echo $transaction['balance']; ?>" readonly onkeypress="return isNumberKey(event)"name="cashbalance"/>
                             </div>
                         </div>
-                    <div class="user-input-box" id="address-box">
-                        <label for="balance">Advance Payment</label>
-                        <input type="number" step=".01"
-                               id="address" 
-                               class="address"
-                               required="required" 
-                               name="balance" 
-                               placeholder="0.00"/>
-                    </div>
-                    <div class="line"></div>
-                    <div class="bot-buttons">
-                        <div class="CancelButton">
-                            <a href="../monitoring/monitoring-customer-balance.php" id="cancel">CANCEL</a>
+                        <?php }?>
+                        
+                       
+                        <div class="line"></div>
+
+                        <div class="bot-buttons">
+                            <div class="CancelButton">
+                                <a href="../monitoring/monitoring-point-of-sales-transaction.php" id="cancel">CANCEL</a>
+                            </div>
+                            <div class="AddButton">
+                                <button type="submit" id="addcustomerBtn" name="monitoring-update-transaction">SAVE ONLY</button>
+                            </div>
+                            <div class="AddPrintButton">
+                                <button type="submit" id="addcustomerBtn" name="monitoring-update-transaction" onclick="print();">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
+                                    SAVE AND PRINT
+                                </button>
+                            </div>
                         </div>
-                        <div class="AddButton">
-                            <button type="submit" id="addcustomerBtn" name="add-balance">SAVE</button>
-                        </div>
+                        
+
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
+        </div>
+    </form>
     </body>
 </html>
 <script>
-const addForm = document.querySelector(".bg-addcustomerform");
- function addnewuser(){
-    // const addBtn = document.querySelector(".add-customer");
-    addForm.style.display = 'flex';
-}
-new TomSelect("#chosen",{
-            create: false,
-            sortField: {
-            field: "text",
-            direction: "asc"
-        }
-    });
     // -----------------------------SIDE MENU
  $(document).ready(function(){
      //jquery for toggle sub menus
@@ -379,7 +354,6 @@ new TomSelect("#chosen",{
         --color-maroon: rgb(136, 0, 0);
         --color-secondary-main: rgb(244, 255, 246);
         --color-background: rgb(235, 235, 235);
-        --color-mainbutton: rgb(117, 117, 117);
         --color-solid-gray: rgb(126, 126, 126);
         --color-td:rgb(100, 100, 100);
         --color-button: rgb(117, 117, 117);
@@ -387,7 +361,6 @@ new TomSelect("#chosen",{
         --color-shadow-shadow: rgb(116, 116, 116);
         --color-table-hover: rgb(244, 255, 246);
         --color-aside-mobile-focus: rgb(78, 150, 78);
-        --color-button-hover: rgb(39, 170, 63);
         --color-aside-mobile-text: hsl(0, 0%, 57%);
         
     }
@@ -420,8 +393,264 @@ new TomSelect("#chosen",{
         background-size: cover;
         background-attachment: fixed;
     }  
-    
-    .main-user-info{
+    /* -------------------------------------update transaction---------------------- */
+    .bg-placeorderform{
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.container1{
+    width: 100%;
+    max-width: 600px;
+    padding: 28px;
+    margin: 0 28px;
+    border-radius:  0px 0px 20px 20px;
+    background-color: var(--color-white);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-top: 10px solid var(--color-solid-gray);
+}
+#cancel{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    padding-left: 70px;
+    position: relative;
+    padding-right: 70px;
+    text-align: center;
+    width: 1rem;
+    height: 2rem;
+    outline: none;
+    border: none;
+    font-size: min(max(9px, 1.1vw), 11px);
+    border-radius: 20px;
+    color: white;
+    background: #c44242;
+    cursor: pointer;
+    transition: 0.5s;
+}
+#cancel:hover{
+    box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
+    background-color: rgb(158, 0, 0);
+    transition: 0.5s;
+}
+.AddPrintButton{
+    /* width: 100%;     */
+    align-items: center;
+    justify-content: center;
+    display: inline-block;
+    text-align: center;
+}
+.AddPrintButton button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    width: 10rem;
+    font-size: .7rem;
+    justify-content: center;
+    border: none;
+    gap: .5rem;
+    border-radius: 20px;
+    color: white;
+    margin-top: 1rem;
+    background:  var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+    /* margin-left: 1rem; */
+    display: flex;
+    fill: white;
+    background: var(--color-main);
+}
+.AddPrintButton button:hover{
+    background: var(--color-secondary-main);
+    box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
+    color: var(--color-main);
+    fill: var(--color-main);
+}
+.CancelButton{
+    display: inline-block;
+}
+.AddButton{
+    display: inline-block;
+}
+
+.bot-buttons{
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    /* display: inline-block; */
+    margin-top: 1.3rem;
+    margin-bottom: -1rem;
+}
+.AddButton button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    width: 15rem;
+    max-height: 60px;
+    outline: none;
+    border: none;
+    font-size: min(max(9px, 1.1vw), 11px);
+    border-radius: 20px;
+    color: white;
+    justify-content: center;
+    background:  var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+    margin-left: 1rem;
+    position: relative;
+    display: flex;
+    background: var(--color-solid-gray);
+}
+.AddButton button:hover{
+    background: var(--color-secondary-main);
+    box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
+    color: var(--color-main);
+    fill: var(--color-main);
+}
+.line{
+    width:100%;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-solid-gray);
+}
+.user-input-box-cashpayment{
+    display: inline-block;
+    flex-wrap: wrap;
+    text-align: right;
+    width: 49%;
+    padding-bottom: 15px;
+}
+.user-input-box-cashpayment label{
+    width: 95%;
+    color: var(--color-solid-gray);
+    font-size: 12px;
+    text-align: right;
+    /* margin-left: .2rem; */
+    margin-bottom: 0.5rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* margin: 5px 0; */
+}
+.user-input-box-cashpayment .cash-balance{
+    width: 50%;
+    display: inline-block;
+    text-align: right;
+    border-radius: 10px;
+    height: 2.5rem;
+    border: 2px solid var(--color-main);
+    outline: none;
+    font-size: 1em;
+    background: var(--color-secondary-main);
+    color: var(--color-main);
+    padding: 0 10px;
+}
+.user-input-box-totalamount{
+    display: inline-block;
+    flex-wrap: wrap;
+    text-align: right;
+    width: 49%;
+    padding-bottom: 15px;
+}
+.user-input-box-totalamount label{
+    width: 95%;
+    color: var(--color-solid-gray);
+    text-align: right;
+    font-size: 16px;
+    /* margin-left: .2rem; */
+    margin-bottom: 0.5rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* margin: 5px 0; */
+}
+.user-input-box-cashpayment .cash-payment2{
+    width: 50%;
+    display: inline-block;
+    text-align: right;
+    border-radius: 10px;
+    height: 2.5rem;
+    border: 2px solid var(--color-solid-gray);
+    outline: none;
+    font-size: 1em;
+    background: var(--color-white);
+    color: var(--color-black);
+    padding: 0 10px;
+}
+.user-input-box-totalamount .total-amount2{
+    width: 90%;
+    border-radius: 10px;
+    display: inline-block;
+    text-align: right;
+    height: 3rem;
+    border: 2px solid var(--color-solid-gray);
+    outline: none;
+    font-size: 1em;
+    background: var(--color-solid-gray);
+    color: var(--color-white);
+    padding: 0 10px;
+}
+.payment-section{
+    width: 100%;
+    align-items: center;
+    padding: 20px;
+    margin-top: 1rem;
+    justify-content: center;
+    background-color: var(--color-background);
+    border: none;
+    border-radius: 20px;
+}
+.payment-options1{
+    background-color: none;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
+    /* position: absolute; */
+    display: inline-block;
+    position: relative;
+    /* padding-top: 1rem; */
+    /* right: 8%; */
+}
+.payment-options2{
+    background-color: none;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
+    /* position: absolute; */
+    display: inline-block;
+    position: relative;
+    /* padding-top: 1rem; */
+    /* right: 8%; */
+}
+.service-options{
+    position: relative;
+    border: none;
+    width: 11rem;
+    align-items: center;
+    text-align: center;
+    margin-right: 2rem;
+    font-family: 'cocogoose', sans-serif;
+    font-size: .8rem;
+    color: var(--color-secondary-main);
+    border-radius: 10px;
+    margin-top: 1rem;
+    border-bottom: 2px solid var(--color-main);
+    text-transform: uppercase;
+    background-color: var(--color-solid-gray);
+}
+.service-options:focus{
+    outline: none;
+}
+.paymentOptions-text{
+    font-weight: 700;
+    font-size: 13px;
+    /* margin-left: 1rem; */
+    margin-top:1.7rem;
+    color: var(--color-black);
+    display: inline-block;
+    position: relative;
+    font-family: arial, sans-serif;
+
+}
+.main-user-info{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -430,7 +659,7 @@ new TomSelect("#chosen",{
 .customerName{
     align-items:center;
     width: 100%;
-    margin-top: -2rem;
+    margin-top: -1rem;
     margin-left: 1rem;
     margin-right: 1rem;
 }
@@ -445,146 +674,13 @@ new TomSelect("#chosen",{
     font-weight: 550;
     /* margin: 5px 0; */
 }
-
-.select-customer{
-    /* background: var(--color-solid-gray); */
-    color: var(--color-black);
-    align-items: center;
-    border-radius: 13px;
-    /* padding: 8px 12px; */
-    height: 40px;
-    width: 100%;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.select{
-            background: var(--color-solid-gray);
-            color: var(--color-white);
-            align-items: center;
-            border-radius: 13px;
-            padding: 8px 12px;
-            height: 40px;
-            width: 100%;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-.usertype-dropdown{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-}
-.select{
-    background: var(--color-solid-gray);
-    color: var(--color-white);
-    align-items: center;
-    border-radius: 13px;
-    padding: 8px 12px;
-    height: 40px;
-    width: 96%;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.action-dropdown{
-    position: relative;
-    margin-top: .5rem;
-    /* left: 10%; */
-    margin-bottom: .5rem
-}
-.user-input-box:nth-child(2n){
-    justify-content: end;
-}
-
-#note-box{
-    /* position: relative; */
-    width: 100%;
-    height: 1.32rem;
-    margin-bottom: 2rem;
-    color: var(--color-white);
-    border-radius: 10px;
-    font-family: 'COCOGOOSE', sans-serif;
-}
-#address-box{
-    /* position: relative; */
-    width: 100%;
-    height: 1.32rem;
-    margin-bottom: 3rem;
-    color: var(--color-white);
-    border-radius: 10px;
-    font-family: 'COCOGOOSE', sans-serif;
-}
-#address-box label{
-    width: 100%;
-}
-#note-box label{
-    width: 100%;
-}
-.user-input-box{
-    flex-wrap: wrap;
-    text-align: center;
-    width: 48%;
-    padding-bottom: 15px;
-}
-
-.user-input-box label{
-    width: 95%;
-    color: var(--color-solid-gray);
-    font-size: 16px;
-    margin-right: 1rem;
-    margin-bottom: 0.5rem;
-    font-family: 'Malberg Trial', sans-serif;
-    font-weight: 550;
-    /* margin: 5px 0; */
-}
-.user-input-box label:focus{
-    border: 2px solid var(--color-main-3);
-    font-size: 17px;
-    font-weight: 600;
-}
-.user-input-box input::placeholder{
-    font-size: .8em;
-    color:var(--color-solid-gray);
-}
-/* ::placeholder:focus{
-    border: 2px solid var(--color-main-3);
-} */
-.user-input-box input:focus{
-    border: 2px solid var(--color-main);
-    background: var(--color-white);
-}
-
-.user-input-box input{
-    height: 60px;
-    width: 30%;
-    border: 2px solid var(--color-solid-gray);
-    border-radius: 20px;
-    outline: none;
-    text-align: center;
-    align-items: center;
-    font-size: 1.5em;
-    background: var(--color-white);
-    color: var(--color-black);
-    padding: 0 10px;
-}
-.line{
-    width:100%;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid var(--color-solid-gray);
-}
-.profile-picture1 h4{
-    display: flex;
-    position: relative;
-    text-align: center;
+.customer_name{
+    color: var(--color-main);
+    text-transform: uppercase;
+    margin-left: 1.5rem;
+    font-family: 'Cocogoose', sans-serif;
     font-size: 1rem;
-    font-family: 'Calibri', sans-serif;
-    color: var(--color-solid-gray);
-    width: 100%;
-    border-bottom: 2px solid var(--color-solid-gray);
-    /* margin-bottom: -5rem; */
 }
-
-
 .addnew-title{
     font-size: min(max(1.9rem, 1.1vw), 2rem);
     color: var(--color-solid-gray);
@@ -596,243 +692,6 @@ new TomSelect("#chosen",{
     border-bottom: 2px solid var(--color-solid-gray);
     width: 100%;
     padding-bottom: 2px;
-}
-.bot-buttons{
-    width: 100%;
-    align-items: center;
-    text-align: center;
-    display: inline-block;
-    margin-top: 1.3rem;
-}
-.AddButton button{
-    font-family: 'COCOGOOSE', sans-serif;
-    padding: 10px;
-    width: 15rem;
-    max-height: 60px;
-    outline: none;
-    border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
-    border-radius: 20px;
-    color: white;
-    background:  var(--color-mainbutton);
-    cursor: pointer;
-    transition: 0.5s;
-    margin-left: 1rem;
-}
-.AddButton button:hover{
-    background: var(--color-button-hover);
-}
-.CancelButton{
-    display: inline-block;
-}
-.AddButton{
-    display: inline-block;
-
-}
-/* .CloseButton{
-    margin-top: 5.2vh;
-    margin-left: 2.4em;
-    margin-bottom: -2rem;
-} */
-#cancel{
-    font-family: 'COCOGOOSE', sans-serif;
-    padding: 10px;
-    padding-left: 90px;
-    padding-right: 90px;
-    text-align: center;
-    width: 15rem;
-    max-height: 70px;
-    outline: none;
-    border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
-    border-radius: 20px;
-    color: white;
-    background: #c44242;
-    cursor: pointer;
-    transition: 0.5s;
-}
-#cancel:hover{
-    background-color: rgb(158, 0, 0);
-    transition: 0.5s;
-}
-
-@media(max-width: 600px){
-    .container1{
-        min-width: 280px;
-    }
-    .user-input-box .cost{
-        position: absolute;
-        display: none;
-        left: 10.65%;
-    }
-    .user-input-box .srp{
-        position: absolute;
-        display: none;
-        left: 10.65%;
-    }
-    .user-input-box{
-        margin-bottom: 12px;
-        width: 100%;
-    }
-
-    .user-input-box:nth-child(2n){
-        justify-content: space-between;
-    }
-    .usertype-dropdown{
-        width: 99%;
-        margin-bottom: 1rem;
-        margin-top: -.3rem;
-    }
-
-    .main-user-info{
-        max-height: 380px;
-        overflow: auto;
-    }
-
-    .main-user-info::-webkit-scrollbar{
-        width: 0;
-    }
-    .bot-buttons{
-        width: 100%;
-        align-items: center;
-        text-align: center;
-        margin-top: 1.3rem;
-    }
-    .AddButton button:hover{
-        background: var(--color-button-hover);
-
-    }
-    .CancelButton{
-        position: relative;
-        align-items: center;
-        /* padding-top: 4rem; */
-    }
-    #note-box{
-        margin-bottom: 2rem;
-    }
-    .line{
-        margin-bottom: 3rem;
-    }
-    .AddButton{
-        position: relative;
-        margin-top: -4rem;
-        margin-left: -1em;
-
-    }
-    #cancel{
-        width: 100rem;
-    }
-
-}
-    .actionicon{
-    fill:  var(--color-white);
-}
-#edit-action{
-    background: hsl(0, 0%, 37%);
-    color: var(--color-white);
-    align-items: center;
-    position: relative;
-    border-radius: 3px;
-    height: 100%;
-    width: 70%;
-    margin: 1px;
-    padding-top: 10px;
-    padding-right: 2px;
-    padding-left: 2px;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-#edit-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
-}
-#archive-action{
-    background: hsl(0, 51%, 44%);
-    color: var(--color-white);
-    align-items: center;
-    position: relative;
-    margin: 1px;
-    border-radius: 3px;
-    height: 100%;
-    width: 70%;
-    padding-top: 10px;
-    padding-right: 2px;
-    padding-left: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-#archive-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
-}
-    .add-customer{
-    display: flex;
-    border: none;
-    background-color: var(--color-white);
-    align-items: center;
-    color: var(--color-button);
-    fill: var(--color-button);
-    width: 11rem;
-    max-height: 46px;
-    border-radius: 20px;
-    padding: .68rem 1rem;
-    font-family: 'Outfit', sans-serif;
-    cursor: pointer;
-    gap: 1rem;
-    position: absolute;
-    height: 3.9rem;
-    transition: all 300ms ease;
-    margin-top: .2rem;
-    margin-left: 20rem;
-    text-transform: uppercase;
-}
-.add-customer h3{
-    font-size: .8rem;
-}
-.add-customer:hover{
-    background-color: var(--color-main);
-    color: var(--color-white);
-    fill: var(--color-white);
-    padding-top: -.2px;
-    transition: 0.7s;
-    border-bottom: 4px solid var(--color-maroon);
-}
-.container1{
-    width: 100%;
-    max-width: 600px;
-    padding: 28px;
-    margin: 0 28px;
-    border-radius:  0px 0px 20px 20px;
-    background-color: var(--color-white);
-    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-    border-top: 10px solid var(--color-solid-gray);
-}
-
-    .bg-addcustomerform{
-    height: 100%;
-    width: 100%;
-    background: rgba(0,0,0,0.7);
-    top: 0;
-    position: fixed;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    /* display: flex; */
-}
-#form-registered1{
-    position: absolute;
-    top: 50%;
-    display: none;
-    left: 50%;
-    max-height: 90vh;
-    min-width: 400px;
-    transform: translate(-50%, -50%);
-    background-color: var(--color-white);
-    border-top: 10px solid var(--color-main-3);
-    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-    border-radius:  0px 0px 20px 20px;
 }
     .viewTransaction{
     font-family: 'century-gothic', sans-serif;
@@ -870,7 +729,7 @@ new TomSelect("#chosen",{
 }
 .customer-container{
     /* margin-top: 2rem; */
-    max-height: 550px;
+    max-height: 650px;
     overflow:auto;
     background-color: var(--color-white);
     width: 101%;
@@ -904,13 +763,6 @@ new TomSelect("#chosen",{
     color: var(--color-td);
     font-size: .8rem;
 }
-.customer-container table tbody td a{
-    font-family: 'Switzer', sans-serif;
-    text-decoration: none;
-    height: 2.8rem;
-    color: var(--color-td);
-    font-size: .8rem;
-}
 th{
     height: 2.8rem;
     color: var(--color-black);
@@ -920,8 +772,7 @@ th{
 }
 tr:hover td{
     color: var(--color-main);
-    cursor: pointer;
-    background-color: var(--color-table-hover);
+
 }
 .select-dropdown{
     display: inline-block;
@@ -1038,6 +889,11 @@ tr:hover td{
         position: relative;
         display: inline-block;
     }
+    .newUser-button3{
+        position: relative;
+        display: inline-block;
+        
+    }
     .add-account1{
         display: flex;
         border: none;
@@ -1045,7 +901,7 @@ tr:hover td{
         align-items: center;
         color: var(--color-button); 
         fill: var(--color-button); 
-        width: 15rem;
+        width: 12rem;
         text-align: center;
         justify-content: center;
         height: 2rem;
@@ -1069,7 +925,7 @@ tr:hover td{
         align-items: center;
         color: var(--color-button); 
         fill: var(--color-button); 
-        width: 15rem;
+        width: 12rem;
         text-align: center;
         justify-content: center;
         height: 2rem;

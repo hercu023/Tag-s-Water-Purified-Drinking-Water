@@ -1,14 +1,13 @@
 <?php
-session_start();
-include '../database/connection-db.php';
+@session_start();
+require_once "../database/connection-db.php";
 require_once "../service/user-access.php";
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-ARCHIVES')) {
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ITEM')) {
     header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
     exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,16 +54,16 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-ARC
                 </div>
                 <div class="register">
                     <?php
-                    if(isset($_GET['restore_success']))
+                    if(isset($_GET['success']))
                     {
-                        echo '<h2> '.$_GET['restore_success'].' </h2>';
+                        echo '<h2> '.$_GET['success'].' </h2>';
                     }
                     ?>
                 </div>
             </div>
             <div class="pageform">
                 <div class="confirmBtn">
-                    <a href="../settings/settings-data-archive.php" id="registered">CONFIRM</a>
+                    <a href="../inventory/inventory-stocks.php" id="registered">CONFIRM</a>
                 </div>
             </div>
         </div>

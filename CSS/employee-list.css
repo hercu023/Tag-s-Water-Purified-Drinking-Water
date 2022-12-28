@@ -53,6 +53,11 @@ BODY{
     background-size: cover;
     background-attachment: fixed;
 }
+#tooltipText{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .7rem;
+    color: var(--color-white);
+}
 .container1{
     width: 100%;
     max-width: 600px;
@@ -497,6 +502,8 @@ BODY{
     width: 5rem;
     padding-top: 20px;
     padding-bottom: 5px;
+    display: flex;
+    gap: .7rem;
     padding-left: 10px;
     padding-right: 10px;
     cursor: pointer;
