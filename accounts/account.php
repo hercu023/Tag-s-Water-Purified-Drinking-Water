@@ -45,7 +45,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
             ?>
             <div class="sub-tab">
                 <div class="user-title">
-                    <h2> User Account </h2>
+                    <h2> USER ACCOUNT </h2>
                 </div>
                 <div class="sub-tab2">
                     <div class="newUser-button">
@@ -111,15 +111,19 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
                             <td> <?php echo $rows['contact_number']; ?></td>
                             <td> <?php echo $rows['user_type']; ?></td>
                             <td> <img src="<?php echo "../uploaded_image/".$rows['profile_image']; ?>" width="50px"></td>
-                            <td>
-                                <a href="account-edit.php?edit=<?php echo $rows['user_id']; ?>" id="edit-action" class="action-btn" name="action">
+                            <td class="hrefa">
+                                <a href="account-edit.php?edit=<?php echo $rows['user_id']; ?>" id="edit-action" class="edit-action" name="action">
                                     <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
+                                    <span class="tooltipText">EDIT</span>       
                                 </a>
-                                <a href="../accounts/account-action-change-password.php?edit=<?php echo $rows['user_id']; ?>" id="cpass-action" class="action-btn" name="action">
+                                <a href="../accounts/account-action-change-password.php?edit=<?php echo $rows['user_id']; ?>" id="cpass-action" class="cpass-action" name="action">
                                     <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17.708q-1.979 0-3.604-.864-1.625-.865-2.688-2.323l1.73-1.771q.833 1.229 2.02 1.865 1.188.635 2.542.635 2.188 0 3.719-1.531Q15.25 12.188 15.25 10q0-2.188-1.531-3.719Q12.188 4.75 10 4.75q-2.146 0-3.719 1.521t-1.531 3.75v-.125l1.188-1.188L7.208 10l-3.687 3.688L-.167 10l1.271-1.292 1.188 1.209v.125q-.021-1.604.583-3.021.604-1.417 1.656-2.469Q5.583 3.5 7 2.896q1.417-.604 3.021-.604 1.583 0 2.979.604 1.396.604 2.448 1.656T17.104 7q.604 1.396.604 3 0 3.229-2.239 5.469-2.24 2.239-5.469 2.239ZM8.5 13q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
-                                    <a href="../accounts/account-action-archive.php?edit=<?php echo $rows['user_id']; ?>" id="archive-action" class="action-btn" name="action">
-                                        <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
-                                    </a>
+                                    <span class="tooltipText">CHANGE PASSWORD</span>       
+                                </a>
+                                <a href="../accounts/account-action-archive.php?edit=<?php echo $rows['user_id']; ?>" id="archive-action" class="archive-action" name="action">
+                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
+                                    <span class="tooltipText">ARCHIVE</span>       
+                                </a>
                             </td>
                         <tr id="noRecordTR" style="display:none">
                             <td colspan="10">No Record Found</td>
@@ -266,15 +270,5 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
         y.type = "password";
     }
 }
-
 </script>
 </html>
-<style>
-    .user-input-box{
-    display: flex;
-    flex-wrap: wrap;
-    width: 48%;
-    padding-bottom: 15px;
-}
-</style>
-

@@ -46,7 +46,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-LIS
             ?>
             <div class="sub-tab">
                 <div class="user-title">
-                    <h2> Employee List </h2>
+                    <h2> EMPLOYEE LIST </h2>
                 </div>
                 <div class="sub-tab2">
                     <div class="newUser-button">

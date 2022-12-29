@@ -43,7 +43,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-ATT
             ?>
             <div class="sub-tab">
                 <div class="user-title">
-                    <h2> Attendance </h2>
+                    <h2> ATTENDANCE </h2>
                 </div>
                 <div class="sub-tab2">
                     <div class="newUser-button">
@@ -148,12 +148,15 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-ATT
                                         <td>
                                             <a href="../employee/employee-attendance-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
+                                                <span id="tooltipText">EDIT</span>       
                                             </a>
                                             <a href="../employee/employee-attendance-archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
+                                                <span id="tooltipText">ARCHIVE</span>       
                                             </a>
-                                            <a href="../employee/employee-attendance-payroll.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
+                                            <a href="../employee/employee-attendance-payroll.php?edit=<?php echo $rows['id']; ?>" id="payroll-action" class="action-btn" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M3.5 10h13V7h-13ZM16 18v-2.5h-2.5V14H16v-2.5h1.5V14H20v1.5h-2.5V18ZM3.5 16q-.604 0-1.052-.438Q2 15.125 2 14.5v-9q0-.625.448-1.062Q2.896 4 3.5 4h13q.604 0 1.052.438Q18 4.875 18 5.5V10h-2.188q-1.666 0-2.739 1.177T12 13.958V16Z"/></svg>
+                                                <span id="tooltipText">PAYROLL</span>       
                                             </a>
                                         </td>
                                     </tr>

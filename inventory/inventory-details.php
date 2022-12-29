@@ -186,7 +186,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
                     </div>
                     <div class="usertype-dropdown">
                         <?php
-                        $dropdown_query = "SELECT * FROM category_type WHERE id LIKE '%1' OR id LIKE '%2' OR id LIKE '%3' OR id LIKE '%4' OR id LIKE '%5' OR id LIKE '%6' OR id LIKE '%7' OR id LIKE '%8' OR id LIKE '%9'";
+                        $dropdown_query = "SELECT * FROM 
+                        category_type 
+                        WHERE id != 10";
                         $result_category = mysqli_query($con, $dropdown_query);
                         ?>
                         <select class="select" name="category_type" required="" >

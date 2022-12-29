@@ -27,26 +27,7 @@ $(document).ready(function(){
     });
 });
 //    --------------------------------------------------------------------
-const selectBtn = document.querySelector(".select-btn"),
-      items = document.querySelectorAll(".item");
 
-selectBtn.addEventListener("click", () => {
-                           selectBtn.classList.toggle("open");
-                           });
-items.forEach(item => {
-  item.addEventListener("click", () => {
-    item.classList.toggle("checked");
-    
-    let checked = document.querySelectorAll(".checked"),
-        btnText = document.querySelector(".btn-text");
-    
-    if(checked && checked.length > 0){
-      btnText.innerText = `${checked.length} Selected`
-    }else{
-      btnText.innerText = "Select Language"
-    }
-  });
-})
 //SHOW PASSWORD-------------------------------------------------
 function myFunctionCP(){
     var x = document.getElementById("pass");
@@ -95,50 +76,6 @@ function myFunctionCP(){
 // // });
 
 // Add new User Message ----------------------------------------------------------------------------------
-const regForm = document.querySelector(".form-registered");
-const regBtn = document.querySelector(".AddButton");
-var bgform = $('#form-registered');
-var addform = $('#form-adduser1');
-var addbtn = $("#adduserBtn");
-var message = $(".message");
-
-$(document).ready(function(){
-    $('#adduserFrm').submit(function(e){
-        e.preventDefault();
-        $.ajax({
-            type: 'post',
-            url: 'controllerUserdata.php',
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData: false,
-            // 'submit=1&'+$form.serialize(),
-            dataType: 'json',
-            success: function(response){
-                $(".message").css("display", "block");
-                if(response.status == 1){
-                    bgform.show();
-                    addform.hide();
-                    message.hide();
-                    $('#adduserFrm')[0].reset();
-                }else{
-                    $(".message").html('<p>'+response.message+'<p>');
-                }
-            }
-        });
-    });
-    //     $("#image-profile").change(function(){
-    //         var file = this.files[0];
-    //         var fileType = file.type;
-    //         var match = ['image/jpeg', 'image/jpg', 'image/png']
-
-    //         if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))){
-    //             alert("JPEG, JPG, and PNG files only.")
-    //             $("#image-profile").val('');
-    //             return false;
-    //         }
-    // });
-});
 
 //
 let btnClear = document.querySelector('#cancel');
@@ -172,9 +109,9 @@ const actionsForm = document.querySelector(".bg-actionDropdown");
 const actionsBtn = document.querySelector(".action-btn");
 // actionsBtn.addEventListener('click', () =>{
 //     actionsForm.style.display = 'block';
-// })
+const addBtn = document.querySelector(".add-account");
+    // })
 function addnewuser(){
-    const addBtn = document.querySelector(".add-account");
     addForm.style.display = 'flex';
 }
 function actionFunction(){

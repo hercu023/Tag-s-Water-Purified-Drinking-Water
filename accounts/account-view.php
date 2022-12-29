@@ -1,4 +1,212 @@
-.user-input-box{
+<?php
+session_start();
+require_once '../service/add-account.php';
+require_once "../service/user-access.php";
+
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER_ACCOUNT')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
+    exit();
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <!-- <link rel="stylesheet" type="text/css" href="../CSS/account.css"> -->
+    <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Tag's Water Purified Drinking Water</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="block"></div>
+
+    <?php
+    include('../common/side-menu.php')
+    ?>
+
+    <main>
+        <div class="main-account">
+            <h1 class="accTitle">ACCOUNT</h1>
+            <?php
+            if (isset($_GET['error'])) {
+                echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
+            }
+            ?>
+            <div class="sub-tab">
+                <div class="user-title">
+                    <h2> User Account </h2>
+                </div>
+                <div class="sub-tab2">
+                    <div class="newUser-button">
+                        <button type="submit" id="add-userbutton" class="add-account" onclick="addnewuser();">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
+                            <h3>Add New User</h3>
+                        </button>
+                    </div>
+                </div>
+                <div class="search">
+                    <div class="search-bar">
+                        <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+                        <button type="submit" >
+                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="account-container">
+                <table class="table" id="myTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <!-- <th>Address</th> -->
+                        <th>Contact Number</th>
+                        <th>Role</th>
+                        <th>Picture</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    
+                        ?>
+                        <tbody>
+                        <tr>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td>
+                                <a href="account-edit.php?edit=" id="edit-action" class="edit-action" name="action">
+                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
+                                </a>
+                                <a href="../accounts/account-action-change-password.php?edit=" id="cpass-action" class="cpass-action" name="action">
+                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17.708q-1.979 0-3.604-.864-1.625-.865-2.688-2.323l1.73-1.771q.833 1.229 2.02 1.865 1.188.635 2.542.635 2.188 0 3.719-1.531Q15.25 12.188 15.25 10q0-2.188-1.531-3.719Q12.188 4.75 10 4.75q-2.146 0-3.719 1.521t-1.531 3.75v-.125l1.188-1.188L7.208 10l-3.687 3.688L-.167 10l1.271-1.292 1.188 1.209v.125q-.021-1.604.583-3.021.604-1.417 1.656-2.469Q5.583 3.5 7 2.896q1.417-.604 3.021-.604 1.583 0 2.979.604 1.396.604 2.448 1.656T17.104 7q.604 1.396.604 3 0 3.229-2.239 5.469-2.24 2.239-5.469 2.239ZM8.5 13q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
+                                    <a href="../accounts/account-action-archive.php?edit=" id="archive-action" class="archive-action" name="action">
+                                        <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
+                                    </a>
+                            </td>
+                        <tr id="noRecordTR" style="display:none">
+                            <td colspan="10">No Record Found</td>
+                        </tr>
+                        </tbody>
+                </table>
+            </div>
+
+        </div>
+    </main>
+
+    <?php
+    include('../common/top-menu.php')
+    ?>
+
+</div>
+<?php 
+    if(isset($_GET['view']))
+{
+    $id = $_GET['view'];
+    $result = mysqli_query($con, "SELECT 
+            users.user_id,
+            users.last_name,
+            users.first_name,
+            users.middle_name,
+            users.email,
+            users.contact_number,
+            users.profile_image, 
+            account_type.user_type 
+            FROM users 
+            INNER JOIN account_type 
+            ON users.account_type_id = account_type.id
+            WHERE user_id='$id'");
+
+    if (mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
+         ?>
+
+    <div class="bg-adduserform" id="bg-addform">
+        <div class="container1">
+            <input type="hidden" required="required" name="user_id" value="<?=$user['user_id'];?>">
+            <a href="../accounts/account.php" class="close">X</a>
+            <div class="profile-pic">
+                <img src="../uploaded_image/<?=$user['profile_image'];?>" alt="">
+            </div>
+            <h1 class="addnew-title"><?=$user['first_name'].' '.$user['middle_name'].' '.$user['last_name'];?></h1>
+            <h4 class="addnew-type"><?=$user['user_type'];?></h1>
+            <div class="content">
+                
+                <div class="information">
+                    <label class="info">
+                        INFORMATION
+                    </label>
+                    <label class="email">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M14 11h7V6h-7Zm3.5-1.25L15 8V7l2.5 1.75L20 7v1ZM2 21q-.825 0-1.412-.587Q0 19.825 0 19V5q0-.825.588-1.413Q1.175 3 2 3h20q.825 0 1.413.587Q24 4.175 24 5v14q0 .825-.587 1.413Q22.825 21 22 21Zm7-7q1.25 0 2.125-.875T12 11q0-1.25-.875-2.125T9 8q-1.25 0-2.125.875T6 11q0 1.25.875 2.125T9 14Zm-6.9 5h13.8q-1.05-1.875-2.9-2.938Q11.15 15 9 15t-4 1.062Q3.15 17.125 2.1 19Z"/></svg>
+                        <?=$user['email'];?>
+                    </label>
+                    <label class="contactNum">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M19.95 21q-3.225 0-6.287-1.438-3.063-1.437-5.425-3.8-2.363-2.362-3.8-5.425Q3 7.275 3 4.05q0-.45.3-.75t.75-.3H8.1q.35 0 .625.225t.325.575l.65 3.5q.05.35-.012.637-.063.288-.288.513L7 10.9q1.05 1.8 2.625 3.375T13.1 17l2.35-2.35q.225-.225.588-.338.362-.112.712-.062l3.45.7q.35.075.575.337.225.263.225.613v4.05q0 .45-.3.75t-.75.3Z"/></svg>
+                        <?=$user['contact_number'];?>
+                    </label>
+                </div>
+            </div>
+            <div class="bot-buttons">
+                <div class="AddButton">
+                    <a href="../accounts/account-edit.php?edit=<?php echo $user['user_id']; ?>" id="addcustomerBtn" name="save-transaction">EDIT DETAILS</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php 
+}} 
+?>
+
+</div>
+</body>
+<script src="../javascript/side-menu-toggle.js"></script>
+<script src="../javascript/top-menu-toggle.js"></script>
+<script src="../javascript/account.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+<script>
+    //Add New User
+    function addnewuser(){
+        document.querySelector(".bg-adduserform").style.display = 'flex';
+    }
+    setTimeout(function() {
+        $('#myerror').fadeOut('fast');
+    }, 3000);
+    function myFunctionCP(){
+    var x = document.getElementById("pass-account");
+    var y = document.getElementById("cpass-account");
+    if(x.type === 'password'){
+        x.type = "text";
+        y.type = "text";
+    }else{
+        x.type = "password";
+        y.type = "password";
+    }
+}
+
+</script>
+</html>
+<style>
+    .user-input-box{
     display: flex;
     flex-wrap: wrap;
     width: 48%;
@@ -60,93 +268,77 @@ body{
     background-size: cover;
     background-attachment: fixed;
 }
+.bot-buttons{
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    display: inline-block;
+    margin-top: 1.3rem;
+    margin-bottom: 1.3rem;
+}
+.AddButton a{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    max-height: 70px;
+    padding-left: 80px;
+    padding-right: 80px;
+    outline: none;
+    border: none;
+    font-size: .8rem;
+    border-radius: 20px;
+    color: white;
+    background:  var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+    margin-left: 1rem;
+}
+.AddButton a:hover{
+    background: var(--color-secondary-main);
+    box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
+    color: var(--color-main);
+    fill: var(--color-main);
+}
+.close{
+    text-align: right;
+    float: right;
+    color: var(--color-maroon);
+    cursor: pointer;
+}
+
+.close:hover{
+    filter: brightness(2.5);
+}
+.profile-pic{
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+.profile-pic img{
+    border-radius: 50%;
+    box-shadow: 2px 2px 10px 1px  var(--color-solid-gray);
+    width: 200px;
+}
 .container1{
     width: 100%;
-    max-width: 600px;
+    max-width: 700px;
     padding: 28px;
+    align-items: center;
+    justify-content: center;
     margin: 0 28px;
     border-radius:  0px 0px 20px 20px;
-    background-color: var(--color-white);
+    background-color: var(--color-background);
     box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
     border-top: 10px solid var(--color-solid-gray);
 }
-.tooltipText{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: .7rem;
-    color: var(--color-white);
-}
-.edit-action{
-    background: hsl(0, 0%, 37%);
-    color: var(--color-white);
-    align-items: center;
-    text-align:center;
-    justify-content: center;
-    float: center;
-    position: relative;
-    border-radius: 3px;
-    display: flex;
-    width: 60%;
-    padding: 5px;
-    margin: 1px;
-    gap: .3rem;
-    left: 20%;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-.edit-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
-}
-.archive-action{
-    background: hsl(0, 51%, 44%);
-    color: var(--color-white);
-    align-items: center;
-    text-align:center;
-    justify-content: center;
-    float: center;
-    position: relative;
-    border-radius: 3px;
-    display: flex;
-    left: 20%;
-    width: 60%;
-    padding: 5px;
-    margin: 5px;
-    justify-content: center;
-    margin: 1px;
-    gap: .3rem;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-.archive-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
-}
-.cpass-action{
-    background:#00aa09;
-    color: var(--color-white);
-    align-items: center;
-    text-align:center;
-    justify-content: center;
-    float: center;
-    left: 20%;
-    position: relative;
-    border-radius: 3px;
-    display: flex;
-    width: 60%;
-    padding: 5px;
-    margin: 5px;
-    justify-content: center;
-    margin: 1px;
-    gap: .3rem;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-.cpass-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
+.form-title{
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 6px;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    border-bottom: solid 1px white;
 }
 
 .main-user-info{
@@ -327,6 +519,58 @@ body{
     background: rgba(56, 204, 93, 0.7);
     color: rgb(255, 255, 255);
 }
+.content{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.information{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    margin-bottom: 1rem;
+    border-radius: 20px;
+    background-color: var(--color-white);
+    padding-bottom: 40px;
+    padding-top: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.info{
+    font-family: 'calibri', sans-serif;
+    font-size: 1.8rem;
+    color: var(--color-solid-gray);
+    fill: var(--color-solid-gray);
+    justify-content: center;
+    display: flex;
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-solid-gray);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.email{
+    font-family: 'calibri', sans-serif;
+    font-size: 1.4rem;
+    color: var(--color-solid-gray);
+    fill: var(--color-solid-gray);
+    justify-content: center;
+    display: flex;
+    gap: 1rem;
+    text-align: center;
+}
+.contactNum{
+    font-family: 'calibri', sans-serif;
+    font-size: 1.4rem;
+    color: var(--color-solid-gray);
+    fill: var(--color-solid-gray);
+    justify-content: center;
+    display: flex;
+    margin-top: 1rem;
+    gap: 1rem;
+    text-align: center;
+}
 .addnew-title{
     font-size: min(max(1.9rem, 1.1vw), 2rem);
     color: var(--color-solid-gray);
@@ -335,16 +579,18 @@ body{
     display: flex;
     padding-top: 1rem;
     justify-content: center;
-    border-bottom: 2px solid var(--color-solid-gray);
-    width: 100%;
-    padding-bottom: 2px;
 }
-.bot-buttons{
+.addnew-type{
+    font-size: 1.5rem;
+    color: var(--color-main);
+    font-family: 'COCOGOOSE', sans-serif;
+    letter-spacing: .09rem;
+    display: flex;
+    border-top: 2px solid var(--color-main);
+    padding-top: 2px;
+    justify-content: center;
+    margin-top: -.5rem;
     width: 100%;
-    align-items: center;
-    text-align: center;
-    display: inline-block;
-    margin-top: 1.3rem;
 }
 
 .side-bar .menu #account{
@@ -360,7 +606,7 @@ body{
     border-radius: 0 0 10px 0 ;
     box-shadow: 1px 3px 1px var(--color-background);
 }
-.AddButton button:hover{
+.AddButton a:hover{
     background: var(--color-button-hover);
 }
 .CancelButton{
@@ -487,7 +733,6 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    display: none;
 }
 .bg-editDropdown{
     height: 100%;
@@ -647,7 +892,19 @@ body{
     font-family: Helvetica, sans-serif;
 }
 /* --------------------------------------DROP DOWN ACTION------------------------------------- */
-
+.actionBtn{
+    background: var(--color-solid-gray);
+    color: var(--color-white);
+    font-size: 18px;
+    font-family: "Font Awesome 5 Free", sans-serif;
+    font-weight: 501;
+    border-radius: 50px;
+    padding: 10px;
+    height: 2.5em;
+    width: 4rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
 .fa{
     font-family: "Font Awesome 5 Free", sans-serif;
     font-weight: 501;
@@ -659,6 +916,81 @@ body{
 
 /* --------------------------------------DROP DOWN------------------------------------- */
 
+#tooltipText{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .7rem;
+    color: var(--color-white);
+}
+#edit-action{
+    background: hsl(0, 0%, 37%);
+    color: var(--color-white);
+    align-items: center;
+    text-align:center;
+    justify-content: center;
+    float: center;
+    position: relative;
+    border-radius: 3px;
+    display: flex;
+    width: 60%;
+    margin: 1px;
+    gap: .3rem;
+    left: 20%;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+#edit-action:hover{
+    background: var(--color-main);
+    color: var(--color-white);
+}
+#archive-action{
+    background: hsl(0, 51%, 44%);
+    color: var(--color-white);
+    align-items: center;
+    text-align:center;
+    justify-content: center;
+    float: center;
+    position: relative;
+    border-radius: 3px;
+    display: flex;
+    left: 20%;
+    width: 60%;
+    margin: 5px;
+    justify-content: center;
+    margin: 1px;
+    gap: .3rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+#archive-action:hover{
+    background: var(--color-main);
+    color: var(--color-white);
+}
+#cpass-action{
+    background:#00aa09;
+    color: var(--color-white);
+    align-items: center;
+    text-align:center;
+    justify-content: center;
+    float: center;
+    left: 20%;
+    position: relative;
+    border-radius: 3px;
+    display: flex;
+    width: 60%;
+    margin: 5px;
+    justify-content: center;
+    margin: 1px;
+    gap: .3rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+#cpass-action:hover{
+    background: var(--color-main);
+    color: var(--color-white);
+}
 
 
 /* ------------------------------------------------------------------------------------ */
@@ -705,7 +1037,7 @@ body{
 .profile-picture1 h4{
     display: flex;
     position: relative;
-    text-align: center;
+    text-align: left;
     font-size: 1rem;
     font-family: 'Calibri', sans-serif;
     color: var(--color-solid-gray);
@@ -790,7 +1122,28 @@ body{
     transition: 0.5s;
 }
 
+#action_btn {
+    font-family: 'calibri', sans-serif;
+    /* padding: 10px;
 
+    margin-bottom: 20px;
+    margin-left: 20em; */
+    text-align: center;
+    margin-top: .5vh;
+    margin-bottom: .5vh;
+    width: 3rem;
+    height: 40px;
+    outline: none;
+    border: none;
+    font-size: min(max(10px, 1.2vw), 12px);
+    border-radius: 20px;
+    background: var(--color-solid-gray);
+    cursor: pointer;
+    transition: 0.5s;
+}
+#action_btn:hover{
+    background: var(--color-button-hover);
+}
 
 /* ----------------------------------------MAIN---------------------------------------- */
 .main-account{
@@ -919,7 +1272,6 @@ main .account-container{
     border-radius: 0px 0px 10px 10px;
 
 }
-
 main .account-container table{
     background: var(--color-white);
     font-family: 'Switzer', sans-serif;
@@ -1197,3 +1549,5 @@ tr:hover td{
     border-radius: 0 10px 10px 0 ;
     box-shadow: 1px 1px 1px rgb(224, 224, 224);
 } */
+</style>
+

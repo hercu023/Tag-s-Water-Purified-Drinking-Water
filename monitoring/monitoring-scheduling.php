@@ -1,8 +1,9 @@
 <?php
 require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
+require_once "../service/save-weekly-schedule.php";
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-CUSTOMER_BALANCE')) {
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-SCHEDULING')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
     exit();
 }
@@ -44,15 +45,15 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                             <h2>SCHEDULING</h2>
                         </div>
                         <div class="newUser-button">
-                            <button type="button" id="add-userbutton" class="add-customer1" onclick="addnewuser();">
+                            <button type="button" id="add-userbutton" class="add-customer1" onclick="addnewuser1();">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.75 11.5q-.312 0-.531-.219Q6 11.062 6 10.75q0-.312.219-.531Q6.438 10 6.75 10q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm3.25 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531Q9.688 10 10 10q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm3.25 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531.219-.219.531-.219.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219ZM4.5 18q-.625 0-1.062-.448Q3 17.104 3 16.5v-11q0-.604.438-1.052Q3.875 4 4.5 4H6V2h1.5v2h5V2H14v2h1.5q.625 0 1.062.448Q17 4.896 17 5.5v11q0 .604-.438 1.052Q16.125 18 15.5 18Zm0-1.5h11V9h-11v7.5Z"/></svg>
                                 <h3>WEEKLY SCHEDULE</h3>
                             </button>
                         </div>
                         <div class="newUser-button">
-                            <button type="button" id="add-userbutton" class="add-customer2" onclick="addnewuser();">
+                            <button type="button" id="add-userbutton" class="add-customer2" onclick="addnewuser2();">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M12 15q-.833 0-1.417-.583Q10 13.833 10 13q0-.833.583-1.417Q11.167 11 12 11q.833 0 1.417.583Q14 12.167 14 13q0 .833-.583 1.417Q12.833 15 12 15Zm-7.5 3q-.625 0-1.062-.448Q3 17.104 3 16.5v-11q0-.604.438-1.052Q3.875 4 4.5 4H6V2h1.5v2h5V2H14v2h1.5q.625 0 1.062.448Q17 4.896 17 5.5v11q0 .604-.438 1.052Q16.125 18 15.5 18Zm0-1.5h11V9h-11v7.5Z"/></svg>
-                                <h3>DELIVERY SCHEDULE</h3>
+                                <h3>DATE SCHEDULE</h3>
                             </button>
                         </div>
                         <div class="newUser-button1"> 
@@ -66,13 +67,29 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                     
                 <div class="customer-container" id="customerTable">
                             <br>
-                            <header class="previous-transaction-header">SCHEDULED DATE OF DELIVERY</header>
+                            <form method="POST" action="">
+                                <div class="select-dropdown">
+                                    <select name="option" class="select" onchange="this.form.submit()">
+                                        <option selected disabled value="">SELECT DAY</option>
+                                        <option value="ALL">All</option>
+                                        <option value="MONDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "MONDAY") { echo 'selected'; }?>>MONDAY</option>
+                                        <option value="TUESDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "TUESDAY") { echo 'selected'; }?>>TUESDAY</option>
+                                        <option value="WEDNESDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "WEDNESDAY") { echo 'selected'; }?>>WEDNESDAY</option>
+                                        <option value="THURSDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "THURSDAY") { echo 'selected'; }?>>THURSDAY</option>
+                                        <option value="FRIDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "FRIDAY") { echo 'selected'; }?>>FRIDAY</option>
+                                        <option value="SATURDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "SATURDAY") { echo 'selected'; }?>>SATURDAY</option>
+                                        <option value="SUNDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "SUNDAY") { echo 'selected'; }?>>SUNDAY</option>
+                                    </select>
+                                </div>
+                            </form>
+         
+                            <header class="previous-transaction-header">SCHEDULED DATE OF DELIVERY(DAY OF THE WEEK)</header>
                             <hr>
                             <table class="table" id="myTable">
                             <thead>
                             <tr>
-                        <th><span class="statusLbl">DAY(s) of DELIVERY</span></th>
                         <th>ID</th>
+                        <th><span class="statusLbl">DAY(s) of DELIVERY</span></th>
                         <th>Customer Name</th>
                         <th>Contact Number</th>
                         <th>Address</th>
@@ -88,8 +105,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                                 customers.address, 
                                 customers.balance
                                 FROM customers
-                                -- INNER JOIN transaction_history
-                                -- ON customers.transaction_id = transaction_history.transaction_uuid
                                 WHERE customers.status_archive_id = 1";
                     $result = mysqli_query($con, $query);
                     if(mysqli_num_rows($result) > 0)
@@ -99,8 +114,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                     ?>
                     <tbody>
                     <tr>
-                        <td> MONDAY</td>
                         <td> <?php echo $rows['id']; ?></td>
+                        <td> MONDAY</td>
                         <td> <?php echo $rows['customer_name']; ?></td>
                         <td> <?php echo $rows['contact_number1']; ?></td>
                         <td> <?php echo $rows['address']; ?></td>
@@ -123,13 +138,14 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                         <hr>
                         <div class="customer-container" id="customerTable">
                             <br>
-                            <header class="previous-transaction-header">WEEKLY SCHEDULE OF CUSTOMERS</header>
+                            
+                            <header class="previous-transaction-header">SCHEDULED DATE OF DELIVERY</header>
                             <hr>
                             <table class="table" id="myTable">
                             <thead>
                             <tr>
+                            <th>ID</th>
                         <th><span class="statusLbl">DATE of DELIVERY</span></th>
-                        <th>ID</th>
                         <th>Customer Name</th>
                         <th>Contact Number</th>
                         <th>Address</th>
@@ -155,8 +171,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                     ?>
                     <tbody>
                     <tr>
-                        <td> November 23, 2023</td>
                         <td> <?php echo $rows['id']; ?></td>
+                        <td> November 23, 2023</td>
                         <td> <?php echo $rows['customer_name']; ?></td>
                         <td> <?php echo $rows['contact_number1']; ?></td>
                         <td> <?php echo $rows['address']; ?></td>
@@ -182,11 +198,11 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                 include('../common/top-menu.php')
             ?>    
         </div> 
-        <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+        
     <div class="bg-addcustomerform" id="bg-addform">
-        <div class="message"></div>
         <div class="container1">
-            <h1 class="addnew-title">DELIVERY SCHEDULE</h1>
+        <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+            <h1 class="addnew-title">DATE SCHEDULE</h1>
             <form action="#">
                 <div class="main-user-info">
                         <div class="customerName">
@@ -196,7 +212,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                                 $dropdown_customers = "SELECT * FROM customers";
                                 $result_customers = mysqli_query($con, $dropdown_customers);
                                 ?>
-                                <select id="chosen" class="select-customer" name="customername" required="" onchange="customerBal();">
+                                <select id="chosen1" class="select-customer" name="customername" required="" onchange="customerBal();">
                                     <option selected disabled value="">SELECT CUSTOMER</option>
                                     <?php while($customers = mysqli_fetch_array($result_customers)){?>
                                         <option value="<?php echo $customers['id']?>">
@@ -216,7 +232,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                             </div>
                         </div>
                     <div class="user-input-box">
-                        <label for="dateofattendance">DATE of Delivery</label>
+                        <label class="monday">DATE of Delivery</label>
                         <input type="date"
                                class="date"
                                id="dateofattendance"
@@ -235,7 +251,103 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
+            </form>            
+            <div class="container2">
+            <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                <h1 class="addnew-title">WEEKLY SCHEDULE</h1>
+                <form action="#">
+                    <div class="main-user-info">
+                            <div class="customerName">
+                                <label for="contact_num2">Customer Name</label>
+                                <div class="usertype-dropdown">
+                                    <?php
+                                    $dropdown_customers = "SELECT * FROM customers";
+                                    $result_customers = mysqli_query($con, $dropdown_customers);
+                                    ?>
+                                    <select id="chosen2" class="select-customer" name="customername" required="" onchange="customerBal();">
+                                        <option selected disabled value="">SELECT CUSTOMER</option>
+                                        <?php while($customers = mysqli_fetch_array($result_customers)){?>
+                                            <option value="<?php echo $customers['id']?>">
+                                                <?php echo $customers['customer_name'];?>                                        
+                                            </option>
+                                        <?php }?>
+                                        <!-- <option class="guest-option"value="Guest">GUEST</option> -->
+                                    </select>
+                                    <?php
+                                    $dropdown_customers1 = "SELECT * FROM customers";
+                                    $result_customers1 = mysqli_query($con, $dropdown_customers1);
+                                    ?>
+                                    <?php while($customers1 = mysqli_fetch_array($result_customers1)){?>
+                                        <?php $customers_balance_id = 'customerbalance' . $customers1['id'];?>        
+                                        <input type="hidden"  id="<?php echo $customers_balance_id ?>" value="<?php echo $customers1['balance'];?>">
+                                    <?php }?>
+                                </div>
+                            </div>
+                        <label class="dateofattendance" >SELECT DAY(S)</label>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" >
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday" >MONDAY</label>
+                        </div>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" >
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday" >TUESDAY</label>
+                        </div>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" >
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday" >WEDNESDAY</label>
+                        </div>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" >
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday" >THURSDAY</label>
+                        </div>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" >
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday" >FRIDAY</label>
+                        </div>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" name="saturday">
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday" >SATURDAY</label>
+                        </div>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" >
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday" >SUNDAY</label>
+                        </div>
+
+                        <div class="line"></div>
+
+                        <div class="bot-buttons">
+                            <div class="CancelButton">
+                                <a href="../monitoring/monitoring-scheduling.php" id="cancel">CANCEL</a>
+                            </div>
+                            <div class="AddButton">
+                                <button type="submit" id="addcustomerBtn" name="save-weekly-schedule">SAVE</button>
+                            </div>
+                        </div>
+                    </div>
+            </div>     
+        </form>
     </body>
 </html>
 <script>
@@ -243,11 +355,28 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
  
     // ///////////////////////////////////////////////////////////////////////
 const addForm = document.querySelector(".bg-addcustomerform");
- function addnewuser(){
+const container1 = document.querySelector(".container1");
+const container2 = document.querySelector(".container2");
+ function addnewuser1(){
     // const addBtn = document.querySelector(".add-customer");
     addForm.style.display = 'flex';
+    container2.style.display = 'block';
+    container1.style.display = 'none';
 }
-new TomSelect("#chosen",{
+function addnewuser2(){
+    // const addBtn = document.querySelector(".add-customer");
+    addForm.style.display = 'flex';
+    container2.style.display = 'none';
+    container1.style.display = 'block';
+}
+new TomSelect("#chosen1",{
+            create: false,
+            sortField: {
+            field: "text",
+            direction: "asc"
+        }
+    });
+    new TomSelect("#chosen2",{
             create: false,
             sortField: {
             field: "text",
@@ -376,6 +505,100 @@ new TomSelect("#chosen",{
         background-size: cover;
         background-attachment: fixed;
     }  
+    /* --------------------------------toggle button-------------------- */
+    .user-checkbox{
+    flex-wrap: wrap;
+    display: inline-block;
+    width: 30%;
+    padding-bottom: 15px;
+}
+
+.dateofattendance{
+    width: 100%;
+    color: var(--color-solid-gray);
+    font-size: 16px;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* margin: 5px 0; */
+}
+    .user-checkbox input{
+    height: 40px;
+    border: 2px solid var(--color-solid-gray);
+    border-radius: 10px;
+    font-size: 1.5em;
+    background: var(--color-white);
+    color: var(--color-black);
+    padding: 0 10px;
+}
+.monday{
+    font-size: 13px;
+    font-family: 'Malberg Trial', sans-serif;
+    margin-left: .5rem;
+    color: var(--color-solid-gray);
+    display: inline-block;
+}
+    .switch {
+    position: relative;
+    display: inline-block;
+    width: 33px;
+    height: 18px;
+    }
+
+    .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+    }
+
+    .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+
+    .slider:before {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+
+    input:checked + .slider {
+    background-color: var(--color-main);
+    }
+
+    input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+    -webkit-transform: translateX(15px);
+    -ms-transform: translateX(15px);
+    transform: translateX(15px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+    border-radius: 34px;
+    }
+
+    .slider.round:before {
+    border-radius: 50%;
+    }
+    /* -------------------------------------------------------------------- */
     .statusLbl{
         font-weight: 1000;
         font-size: 1.5rem;
@@ -499,16 +722,17 @@ new TomSelect("#chosen",{
     flex-wrap: wrap;
     text-align: center;
     justify-content: center;
-    width: 50%;
+    width: 96%;
     padding-bottom: 15px;
 }
 
 .user-input-box label{
-    width: 100%;
     color: var(--color-solid-gray);
     font-size: 16px;
     margin-right: 1rem;
+    border-bottom: 2px solid var(--color-main);
     margin-bottom: 1rem;
+    padding-bottom: .4rem;
     font-family: 'Malberg Trial', sans-serif;
     font-weight: 550;
     /* margin: 5px 0; */
@@ -530,16 +754,18 @@ new TomSelect("#chosen",{
     background: var(--color-white);
 }
 
+
 .user-input-box input{
     height: 40px;
     width: 100%;
     border: 2px solid var(--color-solid-gray);
+    display: inline-block;
     border-radius: 10px;
     text-align: left;
     align-items: left;
     font-size: 1.5em;
     background: var(--color-white);
-    color: var(--color-black);
+    color: var(--color-solid-gray);
     padding: 0 10px;
 }
 .line{
@@ -583,7 +809,7 @@ new TomSelect("#chosen",{
 .AddButton button{
     font-family: 'COCOGOOSE', sans-serif;
     padding: 10px;
-    width: 15rem;
+    width: 12rem;
     max-height: 60px;
     outline: none;
     border: none;
@@ -613,10 +839,10 @@ new TomSelect("#chosen",{
 #cancel{
     font-family: 'COCOGOOSE', sans-serif;
     padding: 10px;
-    padding-left: 90px;
-    padding-right: 90px;
+    padding-left: 50px;
+    padding-right: 50px;
     text-align: center;
-    width: 15rem;
+    width: 10rem;
     max-height: 70px;
     outline: none;
     border: none;
@@ -764,7 +990,6 @@ new TomSelect("#chosen",{
     height: 3.9rem;
     transition: all 300ms ease;
     margin-left: 15rem;
-    margin-top: .2rem;
     text-transform: uppercase;
 }
 .add-customer1 h3{
@@ -786,7 +1011,7 @@ new TomSelect("#chosen",{
     color: var(--color-button);
     fill: var(--color-button);
     margin-left: 1rem;
-    width: 13.4rem;
+    width: 11.4rem;
     max-height: 46px;
     border-radius: 20px;
     padding: .68rem 1rem;
@@ -796,7 +1021,6 @@ new TomSelect("#chosen",{
     position: relative;
     height: 3.9rem;
     transition: all 300ms ease;
-    margin-top: .2rem;
     text-transform: uppercase;
 }
 .add-customer2 h3{
@@ -820,7 +1044,16 @@ new TomSelect("#chosen",{
     box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
     border-top: 10px solid var(--color-solid-gray);
 }
-
+.container2{
+    width: 100%;
+    max-width: 450px;
+    padding: 28px;
+    margin: 0 28px;
+    border-radius:  0px 0px 20px 20px;
+    background-color: var(--color-white);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-top: 10px solid var(--color-solid-gray);
+}
     .bg-addcustomerform{
     height: 100%;
     width: 100%;
@@ -932,18 +1165,17 @@ tr:hover td{
 }
 .select-dropdown{
     display: inline-block;
-    margin-right: 23%;
+    margin-left: 1rem;
     position: relative;
-    float: right;
     max-height: 50px;
 }
 .select{
-    background-color: var(--color-white);
-    color: var(--color-solid-gray);
+    background-color: var(--color-solid-gray);
+    color: var(--color-white);
     /* align-items: center; */
     border-radius: 5px;
     padding: .80rem 1rem;
-    width: 10.8vw;
+    width: 20.8vw;
     font-size: 14px;
     cursor: pointer;
     transition: 0.3s;
@@ -1061,7 +1293,6 @@ tr:hover td{
         font-family: 'calibri', sans-serif;
         transition: all 300ms ease;
         position: relative; 
-        margin-top: .2rem;
         text-transform: uppercase;
         border-left: 4px solid var(--color-solid-gray);
         border-right: 4px solid var(--color-solid-gray);
@@ -1070,55 +1301,8 @@ tr:hover td{
         font-size: 1rem;
         margin-right: 1.5rem;
     }
-    .add-account2{
-        display: flex;
-        border: none;
-        background-color: var(--color-white); 
-        align-items: center;
-        color: var(--color-button); 
-        fill: var(--color-button); 
-        width: 15rem;
-        text-align: center;
-        justify-content: center;
-        height: 2rem;
-        border-radius: 10px;
-        padding: .68rem 1rem;
-        font-family: 'Outfit', sans-serif;
-        transition: all 300ms ease;
-        position: relative; 
-        margin-top: .2rem;
-        text-transform: uppercase;
-        border-bottom: 4px solid #008B8B;
-    }
-    .add-account2 h3{
-        font-size: .8rem;
-        margin-right: 1.5rem;
-    }
-    .add-account3{
-        display: flex;
-        border: none;
-        background-color: var(--color-background); 
-        align-items: center;
-        color: var(--color-black); 
-        fill: var(--color-button); 
-        width: 18rem;
-        text-align: center;
-        justify-content: center;
-        height: 2rem;
-        border-radius: 0px 0px 5px 5px;
-        padding: .68rem 1rem;
-        font-family: 'Outfit', sans-serif;
-        transition: all 300ms ease;
-        position: relative; 
-        margin-top: .2rem;
-        text-transform: uppercase;
-        border-bottom: 7px solid #A9A9A9;
-    }
-    .add-account3 h3{
-        font-weight: 900;
-        font-size: .8rem;
-        margin-right: 1.5rem;
-    }
+   
+  
     .total-deliveries{
         font-family: 'ARIAL', sans-serif;
         color: var(--color-button); 

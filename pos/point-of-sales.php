@@ -101,7 +101,7 @@ require_once '../service/pos-add-customer.php';
                                                 ON inventory_item.pos_item_id = pos_item.id  
                                                 INNER JOIN status_archive 
                                                 ON inventory_item.status_archive_id = status_archive.id
-                                                WHERE category_by_id LIKE '%10' 
+                                                WHERE category_by_id = 10
                                                 AND inventory_item.status_archive_id = '1'
                                                 AND inventory_item.pos_item_id = '1'";
                                         $inventory_order = mysqli_query($con, $query);
@@ -161,7 +161,7 @@ require_once '../service/pos-add-customer.php';
                                                 ON inventory_item.pos_item_id = pos_item.id  
                                                 INNER JOIN status_archive 
                                                 ON inventory_item.status_archive_id = status_archive.id
-                                                WHERE category_by_id LIKE '%10' 
+                                                WHERE category_by_id = 10
                                                 AND inventory_item.status_archive_id = '1'
                                                 AND inventory_item.pos_item_id = '1'";
                                         $inventory_order = mysqli_query($con, $query);
@@ -239,8 +239,8 @@ require_once '../service/pos-add-customer.php';
                                                     ON inventory_item.pos_item_id = pos_item.id  
                                                     INNER JOIN status_archive 
                                                     ON inventory_item.status_archive_id = status_archive.id
-                                                    WHERE category_by_id LIKE '%1' 
-                                                    OR category_by_id LIKE '%2' 
+                                                    WHERE category_by_id = 1
+                                                    OR category_by_id = 2
                                                     AND inventory_item.status_archive_id = '1'
                                                     AND inventory_item.pos_item_id = '1'";
                                             $inventory_order = mysqli_query($con, $query);
@@ -310,8 +310,8 @@ require_once '../service/pos-add-customer.php';
                                                     ON inventory_item.pos_item_id = pos_item.id  
                                                     INNER JOIN status_archive 
                                                     ON inventory_item.status_archive_id = status_archive.id
-                                                    WHERE category_by_id LIKE '%1' 
-                                                    OR category_by_id LIKE '%2' 
+                                                    WHERE category_by_id = 1
+                                                    OR category_by_id = 2
                                                     AND inventory_item.status_archive_id = '1'
                                                     AND inventory_item.pos_item_id = '1'";
                                             $inventory_order = mysqli_query($con, $query);
@@ -349,7 +349,9 @@ require_once '../service/pos-add-customer.php';
                         </div>
                         <div class="form2-table3" id="form-category">
                             <?php
-                                $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
+                                $dropdown_query7 = "SELECT * 
+                                FROM inventory_item 
+                                WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
                                 $result7 = mysqli_query($con, $dropdown_query7);
                             ?>
                             <!-- <div class="selectItem">
@@ -385,8 +387,8 @@ require_once '../service/pos-add-customer.php';
                                                     ON inventory_item.pos_item_id = pos_item.id  
                                                     INNER JOIN status_archive 
                                                     ON inventory_item.status_archive_id = status_archive.id
-                                                    WHERE category_by_id LIKE '%1' 
-                                                    OR category_by_id LIKE '%2' 
+                                                    WHERE category_by_id = 1
+                                                    OR category_by_id = 2
                                                     AND inventory_item.status_archive_id = '1'
                                                     AND inventory_item.pos_item_id = '1'";
                                             $inventory_order = mysqli_query($con, $query);
@@ -454,8 +456,8 @@ require_once '../service/pos-add-customer.php';
                                                     ON inventory_item.pos_item_id = pos_item.id  
                                                     INNER JOIN status_archive 
                                                     ON inventory_item.status_archive_id = status_archive.id
-                                                    WHERE category_by_id LIKE '%5' 
-                                                    OR category_by_id LIKE '%7' 
+                                                    WHERE category_by_id = 5
+                                                    OR category_by_id = 7
                                                     AND inventory_item.status_archive_id = '1'
                                                     AND inventory_item.pos_item_id = '1'";
                                             $inventory_order = mysqli_query($con, $query);
@@ -657,8 +659,6 @@ require_once '../service/pos-add-customer.php';
                             <th>Customer Name</th>
                             <th>Order Details</th>
                             <th>Total Amount</th>
-                            <th>Change</th>
-                            <th>Amount Tendered</th>
                             <th>Payment Option</th>
                             <th>Service</th>
                             <th>Note</th>
@@ -673,8 +673,6 @@ require_once '../service/pos-add-customer.php';
                             transaction.uuid,
                             customers.customer_name,
                             transaction.total_amount,
-                            transaction.customer_change,
-                            transaction.amount_tendered,
                             payment_option.option_name,
                             transaction.service_type,
                             transaction.note,
@@ -709,8 +707,6 @@ require_once '../service/pos-add-customer.php';
                                 <td> <a class="viewTransaction" href="../pos/point-of-sales-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
 
                                 <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
-                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['customer_change'], '2','.',','); ?></td>
-                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['amount_tendered'], '2','.',','); ?></td>
                                 <td> <?php echo $rows['option_name']; ?></td>
                                 <td> <?php echo $rows['service_type']; ?></td>
                                 <td> <?php echo $rows['note']; ?></td>
@@ -3022,19 +3018,19 @@ hr{
 .time{
     /* background-color: var(--color-black); */
     color: var(--color-solid-gray);
-    font-size: 1rem;
+    font-size: .8rem;
     font-weight: 500;
     display: inline-block;
 }
 .date {
     color: var(--color-solid-gray);
-    font-size: 1rem;
+    font-size: .8rem;
     font-weight: 500;
     display: inline-block;
 }
 .day {
     color: var(--color-solid-gray);
-    font-size: 1rem;
+    font-size: .8rem;
     font-weight: 900;
     margin-left: 1rem;
     display: inline-block;
