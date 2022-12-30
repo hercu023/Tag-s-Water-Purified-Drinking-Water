@@ -26,325 +26,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
         <script src="../index.js"></script>
     </head>
-    <body>
-    
-        <div class="container">
-        <?php
-            include('../common/side-menu.php')
-        ?>
-            <main>
-                <div class="main-dashboard">
-                    <h1 class="dashTitle">MONITORING</h1> 
-                    <div class="sub-tab">
-                        <div class="user-title">
-                            <h2>POS TRANSACTION</h2>
-                        </div>
-                        <div class="select-dropdown">
-                                <select class="select">
-                                    <option selected disabled value="">SELECT TYPE</option>
-                                    <option value="All">All</option>
-                                    <option value="Walk-In">Walk-In</option>
-                                    <option value="Delivery">Delivery</option>
-                                </select>
-                            </div>
-                        <div class="search">
-                            <div class="search-bar"> 
-                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                                <button type="submit" >
-                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                                </button>
-                            </div>
-                        </div>  
-                    </div> 
-                </div>
-                <div class="main-container">
-                        <div class="sub-tab-container">
-                            
-                            <div class="totals">
-                            <div class="newUser-button3"> 
-                                <div id="add-userbutton" class="add-account3">
-                                        <h3 class="deliveries">TOTAL TRANSACTION</h3>
-                                        <span class="total-transactions">0</span>
-                                </div>
-                            </div>
-                            <div class="newUser-button1"> 
-                                <div id="add-userbutton" class="add-account1">
-                                    <h3 class="deliveries">DELIVERY</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                            <div class="newUser-button2"> 
-                                <div id="add-userbutton" class="add-account2">
-                                    <h3 class="deliveries">WALK IN</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        </div>
-                    </div>
-                    
-                        <div class="customer-container" id="customerTable">
-                            <br>
-                            <header class="previous-transaction-header">Today's Previous Transaction</header>
-                            <hr>
-                            <table class="table" id="myTable">
-                            <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Customer Name</th>
-                            <th>Order Details</th>
-                            <th>Total Amount</th>
-                            <th>Payment Option</th>
-                            <th>Service</th>
-                            <th>Note</th>
-                            <th>Payment Status</th>
-                            <th>Cashier Name</th>
-                            <th>Date/Time</th>
-                        </tr>
-                        </thead>
-                        <?php
-                        $dropdown_query2 = "SELECT 
-                            transaction.id,
-                            transaction.uuid,
-                            customers.customer_name,
-                            transaction.total_amount,
-                            payment_option.option_name,
-                            transaction.service_type,
-                            transaction.note,
-                            transaction.status_id,
-                            users.first_name,
-                            users.last_name,
-                            transaction.created_at_date,
-                            transaction.created_at_time
-                            FROM transaction
-                            INNER JOIN users
-                            ON transaction.created_by_id = users.user_id
-                            INNER JOIN payment_option
-                            ON transaction.payment_option = payment_option.id
-                            LEFT JOIN customers
-                            ON transaction.customer_name_id = customers.id
-                            ORDER BY transaction.created_at_date";
-                        $result4 = mysqli_query($con, $dropdown_query2);
-                        while ($rows = mysqli_fetch_assoc($result4))
-                        {
-                            ?>
-                            <tbody>
-                            <tr>
-                                <td> <?php echo $rows['id']; ?></td>
-                                <td> <?php if($rows['customer_name']){
-                                    echo $rows['customer_name'];
-                                    }else{
-                                        echo 'GUEST';
-                                    }
-                                 ?></td>
-                                <td> <a class="viewTransaction" href="../monitoring/monitoring-point-of-sales-transaction-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
-
-                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
-                                <td> <?php echo $rows['option_name']; ?></td>
-                                <td> <?php echo $rows['service_type']; ?></td>
-                                <td> <?php echo $rows['note']; ?></td>
-                                <td> <?php 
-                                    if($rows['status_id'] == 0){
-                                        echo 'Unpaid';
-                                    }else{
-                                        echo 'Paid';
-                                    } ?>
-                                </td>
-                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
-                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
-                            <tr id="noRecordTR" style="display:none">
-                                <td colspan="10">No Record Found</td>
-                            </tr>
-                            </tbody>
-                            <?php
-                        }
-                        ?>
-                            </table>
-                        </div>
-            </main>
-            <?php
-                include('../common/top-menu.php')
-            ?>    
-        </div> 
-        <?php
-    if(isset($_GET['uuid'])){
-        $uuid = $_GET['uuid'];
-    $result = mysqli_query($con, "SELECT
-                                customers.id AS customerid,
-                                customers.customer_name,
-                                customers.balance,
-                                transaction.total_amount,
-                                payment_option.option_name,
-                                transaction.service_type,
-                                transaction.created_at_date,
-                                transaction.created_at_time
-                                FROM transaction 
-                                LEFT JOIN customers  
-                                ON transaction.customer_name_id = customers.id 
-                                LEFT JOIN payment_option  
-                                ON transaction.payment_option = payment_option.id   
-                                WHERE transaction.uuid='$uuid'");
-        $transaction = mysqli_fetch_assoc($result);
-        ?>
-    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
-        <div class="bg-placeorderform" id="bg-placeform">
-            <input type="hidden" name="uuid" value="<?php echo $uuid; ?>">
-            <div class="container1">
-                <h1 class="addnew-title">PAYMENT DETAILS</h1>
-                <?php
-                    if (isset($_GET['error'])) {
-                            echo '<p id="myerror" class="error-error" > '.$_GET['error'].' </p>';
-                    }
-                ?>
-                <form action="#">
-                    <div class="main-user-info">
-                        <div class="customerName">
-                            <label for="contact_num2">Customer Name</label>
-                            <input type="hidden" name="customername" value="<?php echo $transaction['customerid']?>"/>
-                            <span class="customer_name"><?php echo $transaction['customer_name']?></span>
-                        </div>
-                            <div class="payment-options1">
-                                <p class="paymentOptions-text">Payment Option</p>
-                                <input type="text" name="serviceoption" readonly class="service-options"value="<?php echo $transaction['option_name']?>"></input>
-                            </div>
-                            <div class="payment-options2">
-                                <p class="paymentOptions-text">Service</p>
-                                <input name="serviceoption" readonly class="service-options"value="<?php echo $transaction['service_type']?>">
-                            </div>
-                            <?php 
-                                    $transaction_unpaid = "SELECT
-                                    transaction_history.unpaid_amount
-                                    FROM transaction_history
-                                    WHERE transaction_uuid = '$uuid'
-                                    ORDER BY transaction_history.created_at DESC 
-                                    LIMIT 1";
-                                    $transaction_unpaid_history = mysqli_query($con, $transaction_unpaid);
-                                    if(mysqli_num_rows($transaction_unpaid_history) > 0)
-                                    {
-                                        $unpaid_amount = mysqli_fetch_assoc($transaction_unpaid_history)['unpaid_amount'];
-                                ?>
-                        <div class="payment-section">
-                            <div class="user-input-box-totalamount">
-                                <label for="total-amount2">TOTAL UNPAID AMOUNT</label>
-                                <input type="text" id="total-amount2" class="total-amount2" onkeypress="return isNumberKey(event)"name="totalAmount" value="<?php echo $unpaid_amount ?>"readonly/>
-                            </div>
-                            
-                            <div class="user-input-box-cashpayment">
-                                <label for="cash-payment2">Cash Payment</label>
-                                <input type="text" id="cash-payment2"class="cash-payment2" required onkeypress="return isNumberKey(event)" name="cashpayment" placeholder="0.00" onkeyup="cashChange();"/>
-                            </div>
-                        <?php }?>
-                            
-                            <div class="user-input-box-cashpayment">
-                        
-                            </div>
-                            <div class="user-input-box-cashpayment">
-                                <label for="cash-payment2">Available Balance</label>
-                                <input type="text" id="cash-balance"class="cash-balance" value="<?php echo $transaction['balance']; ?>" readonly onkeypress="return isNumberKey(event)"name="cashbalance"/>
-                            </div>
-                        </div>
-                        <?php }?>
-                        
-                       
-                        <div class="line"></div>
-
-                        <div class="bot-buttons">
-                            <div class="CancelButton">
-                                <a href="../monitoring/monitoring-point-of-sales-transaction.php" id="cancel">CANCEL</a>
-                            </div>
-                            <div class="AddButton">
-                                <button type="submit" id="addcustomerBtn" name="monitoring-update-transaction">SAVE ONLY</button>
-                            </div>
-                            <div class="AddPrintButton">
-                                <button type="submit" id="addcustomerBtn" name="monitoring-update-transaction" onclick="print();">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
-                                    SAVE AND PRINT
-                                </button>
-                            </div>
-                        </div>
-                        
-
-                    </div>
-                </form>
-            </div>
-        </div>
-    </form>
-    </body>
-</html>
-<script>
-    // -----------------------------SIDE MENU
- $(document).ready(function(){
-     //jquery for toggle sub menus
-     $('.sub-btn').click(function(){
-       $(this).next('.sub-menu').slideToggle();
-       $(this).find('.dropdown').toggleClass('rotate');
-     });
-
-     //jquery for expand and collapse the sidebar
-     $('.menu-btn').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn').css("visibility", "visible");
-     });
-     $('.menu-btn2').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn2').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn2').css("visibility", "visible");
-     });
-   });
-//    --------------------------------------------------------------------
-    const sideMenu = document.querySelector('#aside');
-    const closeBtn = document.querySelector('#close-btn');
-    const menuBtn = document.querySelector('#menu-button');
-    const checkbox = document.getElementById('checkbox');
-        menuBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'block';
-        })
-
-        closeBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'none';
-        })
-         checkbox.addEventListener( 'change', () =>{
-             document.body.classList.toggle('dark-theme');
-        //     if(this.checked) {
-        //         body.classList.add('dark')
-        //     } else {
-        //         body.classList.remove('dark')     
-        //     }
-         });
-        
-        // if(localStorage.getItem('dark')) {
-        //     body.classList.add('dark');
-        //     }
-    // const sideMenu = document.querySelector("#aside");
-    // const closeBtn = document.querySelector("#close-btn");
-    // const menuBtn = document.querySelector("#menu-button");
-    // const checkbox = document.getElementById("checkbox");
-    //     menuBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'block';
-    //     })
-    //     closeBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'none';
-    //     })
-    //     checkbox.addEventListener('change', () =>{
-    //         document.body.classList.toggle('dark-theme');
-    //     })
-
-    //     function menuToggle(){
-    //         const toggleMenu = document.querySelector('.drop-menu');
-    //         toggleMenu.classList.toggle('user2')
-    //     }
-</script>
-<style>
+    <style>
      :root{
         --color-main: rgb(2, 80, 2);
         --color-white: white;
@@ -1732,3 +1414,321 @@ tr:hover td{
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
 </style>
+    <body>
+    
+        <div class="container">
+        <?php
+            include('../common/side-menu.php')
+        ?>
+            <main>
+                <div class="main-dashboard">
+                    <h1 class="dashTitle">MONITORING</h1> 
+                    <div class="sub-tab">
+                        <div class="user-title">
+                            <h2>POS TRANSACTION</h2>
+                        </div>
+                        <div class="select-dropdown">
+                                <select class="select">
+                                    <option selected disabled value="">SELECT TYPE</option>
+                                    <option value="All">All</option>
+                                    <option value="Walk-In">Walk-In</option>
+                                    <option value="Delivery">Delivery</option>
+                                </select>
+                            </div>
+                        <div class="search">
+                            <div class="search-bar"> 
+                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+                                <button type="submit" >
+                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+                                </button>
+                            </div>
+                        </div>  
+                    </div> 
+                </div>
+                <div class="main-container">
+                        <div class="sub-tab-container">
+                            
+                            <div class="totals">
+                            <div class="newUser-button3"> 
+                                <div id="add-userbutton" class="add-account3">
+                                        <h3 class="deliveries">TOTAL TRANSACTION</h3>
+                                        <span class="total-transactions">0</span>
+                                </div>
+                            </div>
+                            <div class="newUser-button1"> 
+                                <div id="add-userbutton" class="add-account1">
+                                    <h3 class="deliveries">DELIVERY</h3>
+                                    <span class="total-deliveries">0</span>
+                                </div>
+                            </div>
+                            <div class="newUser-button2"> 
+                                <div id="add-userbutton" class="add-account2">
+                                    <h3 class="deliveries">WALK IN</h3>
+                                    <span class="total-deliveries">0</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        </div>
+                    </div>
+                    
+                        <div class="customer-container" id="customerTable">
+                            <br>
+                            <header class="previous-transaction-header">Previous Transactions</header>
+                            <hr>
+                            <table class="table" id="myTable">
+                            <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Details</th>
+                            <th>Total Amount</th>
+                            <th>Payment Option</th>
+                            <th>Service</th>
+                            <th>Note</th>
+                            <th>Payment Status</th>
+                            <th>Cashier Name</th>
+                            <th>Date/Time</th>
+                        </tr>
+                        </thead>
+                        <?php
+                        $dropdown_query2 = "SELECT 
+                            transaction.id,
+                            transaction.uuid,
+                            customers.customer_name,
+                            transaction.total_amount,
+                            payment_option.option_name,
+                            transaction.service_type,
+                            transaction.note,
+                            transaction.status_id,
+                            users.first_name,
+                            users.last_name,
+                            transaction.created_at_date,
+                            transaction.created_at_time
+                            FROM transaction
+                            INNER JOIN users
+                            ON transaction.created_by_id = users.user_id
+                            INNER JOIN payment_option
+                            ON transaction.payment_option = payment_option.id
+                            LEFT JOIN customers
+                            ON transaction.customer_name_id = customers.id
+                            ORDER BY transaction.created_at_date";
+                        $result4 = mysqli_query($con, $dropdown_query2);
+                        while ($rows = mysqli_fetch_assoc($result4))
+                        {
+                            ?>
+                            <tbody>
+                            <tr>
+                                <td> <?php echo $rows['id']; ?></td>
+                                <td> <?php if($rows['customer_name']){
+                                    echo $rows['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }
+                                 ?></td>
+                                <td> <a class="viewTransaction" href="../monitoring/monitoring-point-of-sales-transaction-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+
+                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
+                                <td> <?php echo $rows['option_name']; ?></td>
+                                <td> <?php echo $rows['service_type']; ?></td>
+                                <td> <?php echo $rows['note']; ?></td>
+                                <td> <?php 
+                                    if($rows['status_id'] == 0){
+                                        echo 'Unpaid';
+                                    }else{
+                                        echo 'Paid';
+                                    } ?>
+                                </td>
+                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
+                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
+                            <tr id="noRecordTR" style="display:none">
+                                <td colspan="10">No Record Found</td>
+                            </tr>
+                            </tbody>
+                            <?php
+                        }
+                        ?>
+                            </table>
+                        </div>
+            </main>
+            <?php
+                include('../common/top-menu.php')
+            ?>    
+        </div> 
+        <?php
+    if(isset($_GET['uuid'])){
+        $uuid = $_GET['uuid'];
+    $result = mysqli_query($con, "SELECT
+                                customers.id AS customerid,
+                                customers.customer_name,
+                                customers.balance,
+                                transaction.total_amount,
+                                payment_option.option_name,
+                                transaction.service_type,
+                                transaction.created_at_date,
+                                transaction.created_at_time
+                                FROM transaction 
+                                LEFT JOIN customers  
+                                ON transaction.customer_name_id = customers.id 
+                                LEFT JOIN payment_option  
+                                ON transaction.payment_option = payment_option.id   
+                                WHERE transaction.uuid='$uuid'");
+        $transaction = mysqli_fetch_assoc($result);
+        ?>
+    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
+        <div class="bg-placeorderform" id="bg-placeform">
+            <input type="hidden" name="uuid" value="<?php echo $uuid; ?>">
+            <div class="container1">
+                <h1 class="addnew-title">PAYMENT DETAILS</h1>
+                <?php
+                    if (isset($_GET['error'])) {
+                            echo '<p id="myerror" class="error-error" > '.$_GET['error'].' </p>';
+                    }
+                ?>
+                <form action="#">
+                    <div class="main-user-info">
+                        <div class="customerName">
+                            <label for="contact_num2">Customer Name</label>
+                            <input type="hidden" name="customername" value="<?php echo $transaction['customerid']?>"/>
+                            <span class="customer_name"><?php echo $transaction['customer_name']?></span>
+                        </div>
+                            <div class="payment-options1">
+                                <p class="paymentOptions-text">Payment Option</p>
+                                <input type="text" name="serviceoption" readonly class="service-options"value="<?php echo $transaction['option_name']?>"></input>
+                            </div>
+                            <div class="payment-options2">
+                                <p class="paymentOptions-text">Service</p>
+                                <input name="serviceoption" readonly class="service-options"value="<?php echo $transaction['service_type']?>">
+                            </div>
+                            <?php 
+                                    $transaction_unpaid = "SELECT
+                                    transaction_history.unpaid_amount
+                                    FROM transaction_history
+                                    WHERE transaction_uuid = '$uuid'
+                                    ORDER BY transaction_history.created_at DESC 
+                                    LIMIT 1";
+                                    $transaction_unpaid_history = mysqli_query($con, $transaction_unpaid);
+                                    if(mysqli_num_rows($transaction_unpaid_history) > 0)
+                                    {
+                                        $unpaid_amount = mysqli_fetch_assoc($transaction_unpaid_history)['unpaid_amount'];
+                                ?>
+                        <div class="payment-section">
+                            <div class="user-input-box-totalamount">
+                                <label for="total-amount2">TOTAL UNPAID AMOUNT</label>
+                                <input type="text" id="total-amount2" class="total-amount2" onkeypress="return isNumberKey(event)"name="totalAmount" value="<?php echo $unpaid_amount ?>"readonly/>
+                            </div>
+                            
+                            <div class="user-input-box-cashpayment">
+                                <label for="cash-payment2">Cash Payment</label>
+                                <input type="text" id="cash-payment2"class="cash-payment2" required onkeypress="return isNumberKey(event)" name="cashpayment" placeholder="0.00" onkeyup="cashChange();"/>
+                            </div>
+                        <?php }?>
+                            
+                            <div class="user-input-box-cashpayment">
+                        
+                            </div>
+                            <div class="user-input-box-cashpayment">
+                                <label for="cash-payment2">Available Balance</label>
+                                <input type="text" id="cash-balance"class="cash-balance" value="<?php echo $transaction['balance']; ?>" readonly onkeypress="return isNumberKey(event)"name="cashbalance"/>
+                            </div>
+                        </div>
+                        <?php }?>
+                        
+                       
+                        <div class="line"></div>
+
+                        <div class="bot-buttons">
+                            <div class="CancelButton">
+                                <a href="../monitoring/monitoring-point-of-sales-transaction.php" id="cancel">CANCEL</a>
+                            </div>
+                            <div class="AddButton">
+                                <button type="submit" id="addcustomerBtn" name="monitoring-update-transaction">SAVE ONLY</button>
+                            </div>
+                            <div class="AddPrintButton">
+                                <button type="submit" id="addcustomerBtn" name="monitoring-update-transaction" onclick="print();">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
+                                    SAVE AND PRINT
+                                </button>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </form>
+    </body>
+</html>
+<script>
+    // -----------------------------SIDE MENU
+ $(document).ready(function(){
+     //jquery for toggle sub menus
+     $('.sub-btn').click(function(){
+       $(this).next('.sub-menu').slideToggle();
+       $(this).find('.dropdown').toggleClass('rotate');
+     });
+
+     //jquery for expand and collapse the sidebar
+     $('.menu-btn').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn').css("visibility", "visible");
+     });
+     $('.menu-btn2').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn2').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn2').css("visibility", "visible");
+     });
+   });
+//    --------------------------------------------------------------------
+    const sideMenu = document.querySelector('#aside');
+    const closeBtn = document.querySelector('#close-btn');
+    const menuBtn = document.querySelector('#menu-button');
+    const checkbox = document.getElementById('checkbox');
+        menuBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'block';
+        })
+
+        closeBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'none';
+        })
+         checkbox.addEventListener( 'change', () =>{
+             document.body.classList.toggle('dark-theme');
+        //     if(this.checked) {
+        //         body.classList.add('dark')
+        //     } else {
+        //         body.classList.remove('dark')     
+        //     }
+         });
+        
+        // if(localStorage.getItem('dark')) {
+        //     body.classList.add('dark');
+        //     }
+    // const sideMenu = document.querySelector("#aside");
+    // const closeBtn = document.querySelector("#close-btn");
+    // const menuBtn = document.querySelector("#menu-button");
+    // const checkbox = document.getElementById("checkbox");
+    //     menuBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'block';
+    //     })
+    //     closeBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'none';
+    //     })
+    //     checkbox.addEventListener('change', () =>{
+    //         document.body.classList.toggle('dark-theme');
+    //     })
+
+    //     function menuToggle(){
+    //         const toggleMenu = document.querySelector('.drop-menu');
+    //         toggleMenu.classList.toggle('user2')
+    //     }
+</script>

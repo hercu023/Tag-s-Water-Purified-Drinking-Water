@@ -27,196 +27,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-I
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
     <script src="../index.js"></script>
 </head>
-<body>
-
-<div class="container">
-    <?php
-    include('../common/side-menu.php')
-    ?>
-    <main>
-        <div class="main-dashboard">
-            <h1 class="dashTitle">MONITORING</h1>
-            <div class="sub-tab">
-                <div class="user-title">
-                    <h2>ITEM HISTORY</h2>
-                </div>
-                <div class="search">
-                    <div class="search-bar">
-                        <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                        <button type="submit" >
-                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="main-container">
-            <div class="sub-tab-container">
-
-                <div class="totals">
-                    <h2 class="remaining">REMAINING ITEMS</h2>
-                    <div class="newUser-button2">
-                        <div id="add-userbutton" class="add-account2">
-                            <h3 class="deliveries">Round - 5 Gallons</h3>
-                            <span class="total-deliveries">0</span>
-                        </div>
-                    </div>
-                    <div class="newUser-button2">
-                        <div id="add-userbutton" class="add-account2">
-                            <h3 class="deliveries">Slim - 5 Gallons</h3>
-                            <span class="total-deliveries">0</span>
-                        </div>
-                    </div>
-                    <div class="newUser-button1">
-                        <div id="add-userbutton" class="add-account1">
-                            <h3 class="deliveries">Slim - 2.5 Gallons</h3>
-                            <span class="total-deliveries">0</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="customer-container" id="customerTable">
-            <br>
-            <table class="table" id="myTable">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Item Name</th>
-                    <th>Details</th>
-                    <th>Action</th>
-                    <th>Quantity</th>
-                    <th>Added By</th>
-                    <th>Date</th>
-                </tr>
-                </thead>
-
-                <?php
-                $query = "SELECT inventory_log.id,
-                                inventory_item.item_name,
-                                inventory_log.details,
-                                inventory_log.action,
-                                inventory_log.quantity,
-                                users.first_name,
-                                users.last_name,
-                                inventory_log.created_at
-                                FROM inventory_log
-                                INNER JOIN inventory_item 
-                                ON inventory_log.inventory_id = inventory_item.id
-                                INNER JOIN users
-                                ON inventory_log.created_by = users.user_id";
-                $result = mysqli_query($con, $query);
-                if(mysqli_num_rows($result) > 0)
-                {
-                foreach($result as $rows)
-                {
-                ?>
-                <tbody>
-                <tr>
-                    <td> <?php echo $rows['id']; ?></td>
-                    <td> <?php echo $rows['item_name']; ?></td>
-                    <td> <?php echo $rows['details']; ?></td>
-                    <td> <?php echo $rows['action']; ?></td>
-                    <td> <?php echo $rows['quantity']; ?></td>
-                    <td> <?php echo $rows['first_name'].' '.$rows['last_name']; ?></td>
-                    <td> <?php echo $rows['created_at']; ?></td>
-                </tr>
-                <?php } ?>
-                <?php } else { ?>
-                    <tr id="noRecordTR">
-                        <td colspan="7">No Record(s) Found</td>
-                    </tr>
-                <?php } ?>
-                </tbody>
-
-            </table>
-        </div>
-    </main>
-    <?php
-    include('../common/top-menu.php')
-    ?>
-</div>
-</body>
-</html>
-<script>
-    const addForm = document.querySelector(".bg-addcustomerform");
-    function addnewuser(){
-        // const addBtn = document.querySelector(".add-customer");
-        addForm.style.display = 'flex';
-    }
-
-    // -----------------------------SIDE MENU
-    $(document).ready(function(){
-        //jquery for toggle sub menus
-        $('.sub-btn').click(function(){
-            $(this).next('.sub-menu').slideToggle();
-            $(this).find('.dropdown').toggleClass('rotate');
-        });
-
-        //jquery for expand and collapse the sidebar
-        $('.menu-btn').click(function(){
-            $('.side-bar').addClass('active');
-            $('.menu-btn').css("visibility", "hidden");
-        });
-
-        $('.close-btn').click(function(){
-            $('.side-bar').removeClass('active');
-            $('.menu-btn').css("visibility", "visible");
-        });
-        $('.menu-btn2').click(function(){
-            $('.side-bar').addClass('active');
-            $('.menu-btn2').css("visibility", "hidden");
-        });
-
-        $('.close-btn').click(function(){
-            $('.side-bar').removeClass('active');
-            $('.menu-btn2').css("visibility", "visible");
-        });
-    });
-    //    --------------------------------------------------------------------
-    const sideMenu = document.querySelector('#aside');
-    const closeBtn = document.querySelector('#close-btn');
-    const menuBtn = document.querySelector('#menu-button');
-    const checkbox = document.getElementById('checkbox');
-    menuBtn.addEventListener('click', () =>{
-        sideMenu.style.display = 'block';
-    })
-
-    closeBtn.addEventListener('click', () =>{
-        sideMenu.style.display = 'none';
-    })
-    checkbox.addEventListener( 'change', () =>{
-        document.body.classList.toggle('dark-theme');
-        //     if(this.checked) {
-        //         body.classList.add('dark')
-        //     } else {
-        //         body.classList.remove('dark')     
-        //     }
-    });
-
-    // if(localStorage.getItem('dark')) {
-    //     body.classList.add('dark');
-    //     }
-    // const sideMenu = document.querySelector("#aside");
-    // const closeBtn = document.querySelector("#close-btn");
-    // const menuBtn = document.querySelector("#menu-button");
-    // const checkbox = document.getElementById("checkbox");
-    //     menuBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'block';
-    //     })
-    //     closeBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'none';
-    //     })
-    //     checkbox.addEventListener('change', () =>{
-    //         document.body.classList.toggle('dark-theme');
-    //     })
-
-    //     function menuToggle(){
-    //         const toggleMenu = document.querySelector('.drop-menu');
-    //         toggleMenu.classList.toggle('user2')
-    //     }
-</script>
 <style>
     :root{
         --color-main: rgb(2, 80, 2);
@@ -1721,3 +1531,193 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-I
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
 </style>
+<body>
+
+<div class="container">
+    <?php
+    include('../common/side-menu.php')
+    ?>
+    <main>
+        <div class="main-dashboard">
+            <h1 class="dashTitle">MONITORING</h1>
+            <div class="sub-tab">
+                <div class="user-title">
+                    <h2>ITEM HISTORY</h2>
+                </div>
+                <div class="search">
+                    <div class="search-bar">
+                        <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+                        <button type="submit" >
+                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="sub-tab-container">
+
+                <div class="totals">
+                    <h2 class="remaining">REMAINING ITEMS</h2>
+                    <div class="newUser-button2">
+                        <div id="add-userbutton" class="add-account2">
+                            <h3 class="deliveries">Round - 5 Gallons</h3>
+                            <span class="total-deliveries">0</span>
+                        </div>
+                    </div>
+                    <div class="newUser-button2">
+                        <div id="add-userbutton" class="add-account2">
+                            <h3 class="deliveries">Slim - 5 Gallons</h3>
+                            <span class="total-deliveries">0</span>
+                        </div>
+                    </div>
+                    <div class="newUser-button1">
+                        <div id="add-userbutton" class="add-account1">
+                            <h3 class="deliveries">Slim - 2.5 Gallons</h3>
+                            <span class="total-deliveries">0</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="customer-container" id="customerTable">
+            <br>
+            <table class="table" id="myTable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Item Name</th>
+                    <th>Details</th>
+                    <th>Action</th>
+                    <th>Quantity</th>
+                    <th>Added By</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+
+                <?php
+                $query = "SELECT inventory_log.id,
+                                inventory_item.item_name,
+                                inventory_log.details,
+                                inventory_log.action,
+                                inventory_log.quantity,
+                                users.first_name,
+                                users.last_name,
+                                inventory_log.created_at
+                                FROM inventory_log
+                                INNER JOIN inventory_item 
+                                ON inventory_log.inventory_id = inventory_item.id
+                                INNER JOIN users
+                                ON inventory_log.created_by = users.user_id";
+                $result = mysqli_query($con, $query);
+                if(mysqli_num_rows($result) > 0)
+                {
+                foreach($result as $rows)
+                {
+                ?>
+                <tbody>
+                <tr>
+                    <td> <?php echo $rows['id']; ?></td>
+                    <td> <?php echo $rows['item_name']; ?></td>
+                    <td> <?php echo $rows['details']; ?></td>
+                    <td> <?php echo $rows['action']; ?></td>
+                    <td> <?php echo $rows['quantity']; ?></td>
+                    <td> <?php echo $rows['first_name'].' '.$rows['last_name']; ?></td>
+                    <td> <?php echo $rows['created_at']; ?></td>
+                </tr>
+                <?php } ?>
+                <?php } else { ?>
+                    <tr id="noRecordTR">
+                        <td colspan="7">No Record(s) Found</td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+
+            </table>
+        </div>
+    </main>
+    <?php
+    include('../common/top-menu.php')
+    ?>
+</div>
+</body>
+</html>
+<script>
+    const addForm = document.querySelector(".bg-addcustomerform");
+    function addnewuser(){
+        // const addBtn = document.querySelector(".add-customer");
+        addForm.style.display = 'flex';
+    }
+
+    // -----------------------------SIDE MENU
+    $(document).ready(function(){
+        //jquery for toggle sub menus
+        $('.sub-btn').click(function(){
+            $(this).next('.sub-menu').slideToggle();
+            $(this).find('.dropdown').toggleClass('rotate');
+        });
+
+        //jquery for expand and collapse the sidebar
+        $('.menu-btn').click(function(){
+            $('.side-bar').addClass('active');
+            $('.menu-btn').css("visibility", "hidden");
+        });
+
+        $('.close-btn').click(function(){
+            $('.side-bar').removeClass('active');
+            $('.menu-btn').css("visibility", "visible");
+        });
+        $('.menu-btn2').click(function(){
+            $('.side-bar').addClass('active');
+            $('.menu-btn2').css("visibility", "hidden");
+        });
+
+        $('.close-btn').click(function(){
+            $('.side-bar').removeClass('active');
+            $('.menu-btn2').css("visibility", "visible");
+        });
+    });
+    //    --------------------------------------------------------------------
+    const sideMenu = document.querySelector('#aside');
+    const closeBtn = document.querySelector('#close-btn');
+    const menuBtn = document.querySelector('#menu-button');
+    const checkbox = document.getElementById('checkbox');
+    menuBtn.addEventListener('click', () =>{
+        sideMenu.style.display = 'block';
+    })
+
+    closeBtn.addEventListener('click', () =>{
+        sideMenu.style.display = 'none';
+    })
+    checkbox.addEventListener( 'change', () =>{
+        document.body.classList.toggle('dark-theme');
+        //     if(this.checked) {
+        //         body.classList.add('dark')
+        //     } else {
+        //         body.classList.remove('dark')     
+        //     }
+    });
+
+    // if(localStorage.getItem('dark')) {
+    //     body.classList.add('dark');
+    //     }
+    // const sideMenu = document.querySelector("#aside");
+    // const closeBtn = document.querySelector("#close-btn");
+    // const menuBtn = document.querySelector("#menu-button");
+    // const checkbox = document.getElementById("checkbox");
+    //     menuBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'block';
+    //     })
+    //     closeBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'none';
+    //     })
+    //     checkbox.addEventListener('change', () =>{
+    //         document.body.classList.toggle('dark-theme');
+    //     })
+
+    //     function menuToggle(){
+    //         const toggleMenu = document.querySelector('.drop-menu');
+    //         toggleMenu.classList.toggle('user2')
+    //     }
+</script>

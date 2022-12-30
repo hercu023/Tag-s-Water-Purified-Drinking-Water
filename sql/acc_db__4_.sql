@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2022 at 09:27 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 7.4.33
+-- Generation Time: Dec 30, 2022 at 12:15 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,84 +29,81 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `account_module_access` (
   `id` int(11) NOT NULL,
-  `can_view` tinyint(1) NOT NULL,
-  `can_create` tinyint(1) NOT NULL,
-  `can_update` tinyint(1) NOT NULL,
-  `can_delete` tinyint(1) NOT NULL,
   `account_type_id` int(11) NOT NULL,
   `module_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `account_module_access`
 --
 
-INSERT INTO `account_module_access` (`id`, `can_view`, `can_create`, `can_update`, `can_delete`, `account_type_id`, `module_id`) VALUES
-(1, 1, 1, 1, 1, 1, 5),
-(2, 1, 1, 1, 1, 1, 6),
-(3, 1, 1, 1, 1, 1, 7),
-(4, 1, 1, 1, 1, 1, 8),
-(5, 1, 1, 1, 1, 1, 9),
-(6, 1, 1, 1, 1, 1, 10),
-(7, 1, 1, 1, 1, 1, 11),
-(8, 1, 1, 1, 1, 1, 12),
-(9, 1, 1, 1, 1, 1, 13),
-(10, 1, 1, 1, 1, 1, 14),
-(11, 1, 1, 1, 1, 1, 15),
-(12, 1, 1, 1, 1, 1, 16),
-(13, 1, 1, 1, 1, 1, 17),
-(14, 1, 1, 1, 1, 1, 18),
-(15, 1, 1, 1, 1, 1, 19),
-(16, 1, 1, 1, 1, 1, 20),
-(17, 1, 1, 1, 1, 1, 21),
-(18, 1, 1, 1, 1, 1, 22),
-(19, 1, 1, 1, 1, 1, 23),
-(20, 1, 1, 1, 1, 1, 24),
-(21, 1, 1, 1, 1, 1, 25),
-(22, 1, 1, 1, 1, 1, 26),
-(23, 1, 1, 1, 1, 1, 27),
-(24, 1, 1, 1, 1, 1, 28),
-(25, 1, 1, 1, 1, 1, 29),
-(26, 1, 1, 1, 1, 2, 5),
-(27, 1, 1, 1, 1, 2, 6),
-(28, 1, 1, 1, 1, 2, 7),
-(29, 1, 1, 1, 1, 2, 8),
-(30, 1, 1, 1, 1, 2, 9),
-(31, 1, 1, 1, 1, 2, 10),
-(32, 1, 1, 1, 1, 2, 11),
-(33, 1, 1, 1, 1, 2, 12),
-(34, 1, 1, 1, 1, 2, 13),
-(35, 1, 1, 1, 1, 2, 14),
-(36, 1, 1, 1, 1, 2, 15),
-(37, 1, 1, 1, 1, 2, 16),
-(38, 1, 1, 1, 1, 2, 17),
-(39, 1, 1, 1, 1, 2, 18),
-(40, 1, 1, 1, 1, 2, 19),
-(41, 1, 1, 1, 1, 2, 20),
-(42, 1, 1, 1, 1, 2, 21),
-(43, 1, 1, 1, 1, 2, 22),
-(44, 1, 1, 1, 1, 3, 6),
-(45, 1, 1, 1, 1, 1, 30);
+INSERT INTO account_module_access (id, account_type_id, module_id) VALUES
+(1, 1, 5),
+(2, 1, 6),
+(3, 1, 7),
+(4, 1, 8),
+(5, 1, 9),
+(6, 1, 10),
+(7, 1, 11),
+(8, 1, 12),
+(9, 1, 13),
+(10, 1, 14),
+(11, 1, 15),
+(12, 1, 16),
+(13, 1, 17),
+(14, 1, 18),
+(15, 1, 19),
+(16, 1, 20),
+(17, 1, 21),
+(18, 1, 22),
+(19, 1, 23),
+(20, 1, 24),
+(21, 1, 25),
+(22, 1, 26),
+(23, 1, 27),
+(24, 1, 28),
+(25, 1, 29),
+(26, 2, 5),
+(27, 2, 6),
+(28, 2, 7),
+(29, 2, 8),
+(30, 2, 9),
+(31, 2, 10),
+(32, 2, 11),
+(33, 2, 12),
+(34, 2, 13),
+(35, 2, 14),
+(36, 2, 15),
+(37, 2, 16),
+(38, 2, 17),
+(39, 2, 18),
+(40, 2, 19),
+(41, 2, 20),
+(42, 2, 21),
+(43, 2, 22),
+(105, 3, 6),
+(108, 2, 23);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `account_type`
+-- Table structure for table account_type
 --
 
-CREATE TABLE `account_type` (
-  `id` int(50) NOT NULL,
-  `user_type` varchar(255) DEFAULT NULL
+CREATE TABLE account_type (
+  id int(50) NOT NULL,
+  user_type varchar(255) DEFAULT NULL,
+  is_deleted int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `account_type`
+-- Dumping data for table account_type
 --
 
-INSERT INTO `account_type` (`id`, `user_type`) VALUES
-(1, 'ADMIN'),
-(3, 'CASHIER'),
-(2, 'MANAGER');
+INSERT INTO account_type (id, user_type, is_deleted) VALUES
+(1, 'ADMIN', 0),
+(2, 'MANAGER', 0),
+(3, 'CASHIER', 0);
 
 -- --------------------------------------------------------
 
@@ -130,7 +127,7 @@ CREATE TABLE `attendance` (
   `updated_by` int(11) NOT NULL,
   `date_updated` datetime NOT NULL,
   `status_archive_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -145,7 +142,7 @@ CREATE TABLE `audit_trail` (
   `status` int(11) NOT NULL,
   `data` varchar(255) NOT NULL,
   `date_log` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -156,7 +153,7 @@ CREATE TABLE `audit_trail` (
 CREATE TABLE `category_type` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `category_type`
@@ -189,7 +186,7 @@ CREATE TABLE `customers` (
   `status_archive_id` int(11) NOT NULL,
   `created_by` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `customers`
@@ -210,6 +207,70 @@ INSERT INTO `customers` (`id`, `customer_name`, `address`, `contact_number1`, `c
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `date_scheduling`
+--
+
+CREATE TABLE `date_scheduling` (
+  `id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `customer_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `date_scheduling`
+--
+
+INSERT INTO `date_scheduling` (`id`, `date`, `customer_id`) VALUES
+(1, '2022-12-29', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `delivery_list`
+--
+
+CREATE TABLE `delivery_list` (
+  `id` int(11) NOT NULL,
+  `uuid` varchar(250) NOT NULL,
+  `delivery_status` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `delivery_boy_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `delivery_list`
+--
+
+INSERT INTO `delivery_list` (`id`, `uuid`, `delivery_status`, `user_id`, `delivery_boy_id`) VALUES
+(37, '63adec37d0ab25.33071269', 3, 1, 6),
+(41, '63adf42a59d698.62897437', 2, 1, 6),
+(47, '63adc22bc2cab3.50151600', 4, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `delivery_status`
+--
+
+CREATE TABLE `delivery_status` (
+  `id` int(11) NOT NULL,
+  `status` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `delivery_status`
+--
+
+INSERT INTO `delivery_status` (`id`, `status`) VALUES
+(1, 'For Delivery'),
+(2, 'Ongoing Delivery'),
+(3, 'Delivered'),
+(4, 'For Pick Up'),
+(5, 'Ongoing Pickup');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `deliver_price`
 --
 
@@ -217,7 +278,7 @@ CREATE TABLE `deliver_price` (
   `id` int(11) NOT NULL,
   `service` varchar(255) NOT NULL,
   `price` float(11,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `deliver_price`
@@ -248,7 +309,7 @@ CREATE TABLE `employee` (
   `updated_by` int(11) NOT NULL,
   `date_updated` datetime NOT NULL,
   `status_archive_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `employee`
@@ -290,7 +351,7 @@ CREATE TABLE `expense` (
   `date_updated` datetime NOT NULL,
   `is_editable` int(11) NOT NULL,
   `status_archive_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `expense`
@@ -300,7 +361,11 @@ INSERT INTO `expense` (`id`, `expense_type_id`, `date`, `amount`, `description`,
 (2, 4, '2022-11-15', 2000.00, 'Trust me, this is really a zoan fruit', 6, '2022-11-30 23:51:10', 6, '2022-11-30 23:51:35', 1, 1),
 (3, 4, '2022-11-28', 1000.00, 'Test', 6, '2022-12-01 00:11:14', 6, '2022-12-01 00:11:14', 1, 1),
 (4, 3, '2022-11-28', 123.00, '123', 6, '2022-12-01 00:11:36', 6, '2022-12-01 00:11:36', 1, 1),
-(5, 4, '2022-12-28', 5000.00, 'Purchased inventory items for item id: 6, quantity: 1000', 6, '2022-12-28 02:54:44', 6, '2022-12-28 02:54:44', 0, 1);
+(5, 4, '2022-12-28', 5000.00, 'Purchased inventory items for item id: 6, quantity: 1000', 6, '2022-12-28 02:54:44', 6, '2022-12-28 02:54:44', 0, 1),
+(6, 4, '2022-12-30', 555.00, 'Purchased inventory stocks for item id: 6, quantity: 1000', 1, '2022-12-30 02:51:09', 1, '2022-12-30 02:51:09', 0, 1),
+(7, 4, '2022-12-30', 500.00, 'Purchased inventory stocks for item id: 9, quantity: 1000', 1, '2022-12-30 15:14:44', 1, '2022-12-30 15:14:44', 0, 1),
+(8, 4, '2022-12-30', 1000.00, 'Purchased inventory stocks for item id: 10, quantity: 1000', 1, '2022-12-30 15:14:55', 1, '2022-12-30 15:14:55', 0, 1),
+(9, 4, '2022-12-30', 1000.00, 'Purchased inventory stocks for item id: 11, quantity: 500', 1, '2022-12-30 15:15:22', 1, '2022-12-30 15:15:22', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -311,7 +376,7 @@ INSERT INTO `expense` (`id`, `expense_type_id`, `date`, `amount`, `description`,
 CREATE TABLE `expense_type` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `expense_type`
@@ -344,35 +409,31 @@ CREATE TABLE `inventory_item` (
   `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` varchar(255) NOT NULL,
   `updated_by_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `inventory_item`
 --
 
 INSERT INTO `inventory_item` (`id`, `item_name`, `category_by_id`, `reorder_level`, `pos_item_id`, `selling_price_item`, `alkaline_price`, `mineral_price`, `image`, `created_at`, `status_archive_id`, `updated_at`, `created_by`, `updated_by_id`) VALUES
-(1, 'Round - 5 Gallons', 1, 10, 1, 0.00, 220.00, 215.00, '77fce6b86eef912efb10429092fa2273.jfif', '2022-12-01 16:42:17', 1, '2022-12-06 22:26:56', '1', 1),
-(2, 'Slim - 2.5 Gallons', 1, 5, 1, 0.00, 135.00, 130.00, '2faff09308079c871c09df8025884578.jfif', '2022-12-01 16:50:42', 1, '2022-12-06 22:27:30', '1', 1),
+(1, 'Round - 5 Gallons', 1, 10, 1, 185.00, 220.00, 215.00, '77fce6b86eef912efb10429092fa2273.jfif', '2022-12-01 16:42:17', 1, '2022-12-30 15:07:43', '1', 1),
+(2, 'Slim - 2.5 Gallons', 1, 5, 1, 120.00, 155.00, 150.00, '2faff09308079c871c09df8025884578.jfif', '2022-12-01 16:50:42', 1, '2022-12-30 15:08:42', '1', 1),
 (3, 'Cap with Inner Plug for Round', 5, 10, 1, 10.00, 0.00, 0.00, '205c32cdfc286f5863a216eb6e99f2fe.jfif', '2022-12-01 16:53:13', 1, '2022-12-01 21:33:58', '1', 1),
-(4, 'Slim - 5 Gallons', 1, 10, 1, 0.00, 220.00, 215.00, '5_gallon_slim_plastic_container_1568794578_4c2e969d0_progressive.jfif', '2022-12-01 17:08:57', 1, '2022-12-06 22:28:07', '1', 1),
+(4, 'Slim - 5 Gallons', 1, 10, 1, 185.00, 220.00, 215.00, '5_gallon_slim_plastic_container_1568794578_4c2e969d0_progressive.jfif', '2022-12-01 17:08:57', 1, '2022-12-30 15:08:54', '1', 1),
 (5, 'Faucet Seal', 3, 10, 2, 0.00, 0.00, 0.00, 'c215d9deaf3d1b0a7ff97d90bb16c087.jpg', '2022-12-01 17:12:41', 1, '2022-12-01 18:45:14', '1', 1),
-(6, '1 Liter', 2, 20, 1, 0.00, 15.00, 12.00, '504350773.jpg', '2022-12-01 17:13:44', 1, '2022-12-06 22:28:28', '1', 1),
+(6, '1 Liter', 2, 20, 1, 10.00, 15.00, 12.00, '504350773.jpg', '2022-12-01 17:13:44', 1, '2022-12-30 15:09:26', '1', 1),
 (7, 'Faucet - Push Down', 7, 10, 1, 25.00, 0.00, 0.00, '4d7a42f744a6bc863b8c6e13924b1bea.jfif', '2022-12-01 17:19:44', 1, '2022-12-06 19:14:19', '1', 1),
 (8, ' Big Mouth Cap for Slim', 5, 10, 1, 10.00, 0.00, 0.00, '653512388a9235cd5ba921a5d2a9d595.jfif', '2022-12-01 17:46:09', 1, '2022-12-01 21:32:26', '1', 1),
-(9, '500 ml', 2, 10, 1, 0.00, 10.00, 8.00, '504350773.jpg', '2022-12-01 17:46:52', 1, '2022-12-06 22:29:28', '1', 1),
-(10, '350 ml', 2, 10, 1, 0.00, 7.00, 5.00, '504350773.jpg', '2022-12-01 18:30:39', 1, '2022-12-06 22:30:22', '1', 1),
-(11, '6 Liters', 2, 10, 1, 0.00, 45.00, 40.00, 'Screenshot 2022-11-28 145335.png', '2022-12-01 18:43:10', 1, '2022-12-06 22:30:48', '1', 1),
+(9, '500 ml', 2, 10, 1, 5.00, 10.00, 8.00, '504350773.jpg', '2022-12-01 17:46:52', 1, '2022-12-30 15:09:39', '1', 1),
+(10, '350 ml', 2, 10, 1, 3.00, 7.00, 5.00, '504350773.jpg', '2022-12-01 18:30:39', 1, '2022-12-30 15:09:46', '1', 1),
+(11, '6 Liters', 2, 10, 1, 20.00, 45.00, 40.00, 'Screenshot 2022-11-28 145335.png', '2022-12-01 18:43:10', 1, '2022-12-30 15:09:55', '1', 1),
 (12, 'Closed Cap Seal for Round', 3, 10, 2, 0.00, 0.00, 0.00, '139bf86befd4ce5e7a041c9538d2f9b7.jfif', '2022-12-01 18:44:12', 1, '2022-12-01 21:34:59', '1', 1),
 (13, 'Open Cap Seal for Round', 3, 10, 2, 0.00, 0.00, 0.00, 'c215d9deaf3d1b0a7ff97d90bb16c087.jpg', '2022-12-01 18:44:51', 1, '2022-12-01 21:34:51', '1', 1),
 (14, 'Small Cap for Slim', 5, 10, 1, 5.00, 0.00, 0.00, '4b59df78ae3706129cc7f752252765d0.jfif', '2022-12-01 21:31:23', 1, '0000-00-00 00:00:00', '1', 0),
-(15, '1.5 Liters', 10, 0, 1, 0.00, 12.00, 8.00, '504350773.jpg', '2022-12-01 22:12:20', 1, '2022-12-22 23:00:56', '1', 1),
+(15, '1.5 Liters - Refill', 10, 0, 1, 0.00, 12.00, 8.00, '504350773.jpg', '2022-12-01 22:12:20', 1, '2022-12-30 15:11:24', '1', 1),
 (16, 'Faucet - Rotatable', 7, 5, 1, 25.00, 0.00, 0.00, 'Screenshot 2022-12-04 223707.png', '2022-12-04 22:40:23', 1, '2022-12-06 19:11:42', '1', 1),
 (17, 'Ice Tube', 7, 5, 1, 10.00, 0.00, 0.00, '1000_F_350366345_8Jh0duvK9Q6yVPniIr1GO1VYoCovZASX.jpg', '2022-12-04 22:42:30', 1, '2022-12-05 00:07:20', '1', 1),
-(18, 'Small Cap Seal', 3, 5, 2, 0.00, 0.00, 0.00, 'Screenshot 2022-12-07 155001.png', '2022-12-07 15:50:21', 1, '0000-00-00 00:00:00', '1', 0),
-(29, 'Slim - 5 Gallons with Cap and Faucet', 1, 2, 2, 0.00, 0.00, 0.00, '', '2022-12-07 16:01:56', 1, '0000-00-00 00:00:00', '1', 0),
-(36, 'gweq', 5, 22, 1, 222.00, 222.00, 222.00, '', '2022-12-19 21:46:45', 2, '0000-00-00 00:00:00', '1', 0),
-(38, '5 Gallons', 10, 0, 1, 0.00, 35.00, 30.00, '5_gallon_slim_plastic_container_1568794578_4c2e969d0_progressive.jfif', '2022-12-19 21:53:51', 1, '2022-12-22 22:55:12', '1', 1),
-(39, 'Test', 2, 1, 1, 12.00, 12.00, 12.00, '', '2022-12-27 23:12:08', 1, '2022-12-27 23:12:08', '6', 6);
+(18, 'Small Cap Seal', 3, 5, 2, 0.00, 0.00, 0.00, 'Screenshot 2022-12-07 155001.png', '2022-12-07 15:50:21', 1, '0000-00-00 00:00:00', '1', 0);
 
 -- --------------------------------------------------------
 
@@ -388,7 +449,19 @@ CREATE TABLE `inventory_log` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` varchar(255) NOT NULL,
   `action` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `inventory_log`
+--
+
+INSERT INTO `inventory_log` (`id`, `inventory_id`, `details`, `quantity`, `created_at`, `created_by`, `action`) VALUES
+(12, 6, 'Supplier Details: Aquastar', 1000, '2022-12-30 02:51:09', '1', 'IN'),
+(13, 6, 'POS Transaction Reference: 63ade6a5d628d1.10946512', 1, '2022-12-30 03:12:37', '1', 'OUT'),
+(14, 9, 'Supplier Details: Aquastar', 1000, '2022-12-30 15:14:44', '1', 'IN'),
+(15, 10, 'Supplier Details: Aquastar', 1000, '2022-12-30 15:14:55', '1', 'IN'),
+(16, 11, 'Supplier Details: Aquastar', 500, '2022-12-30 15:15:22', '1', 'IN'),
+(17, 6, 'POS Transaction Reference: 63aeb9931ff251.28969312', 1, '2022-12-30 18:12:35', '1', 'OUT');
 
 -- --------------------------------------------------------
 
@@ -402,22 +475,22 @@ CREATE TABLE `inventory_stock` (
   `in_going` int(11) NOT NULL,
   `out_going` int(11) NOT NULL,
   `on_hand` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `inventory_stock`
 --
 
 INSERT INTO `inventory_stock` (`id`, `item_name_id`, `in_going`, `out_going`, `on_hand`) VALUES
-(1, 6, 0, 0, 0),
-(2, 2, 0, 0, 0),
+(1, 6, 1000, 2, 998),
+(2, 2, 1000, 0, 1000),
 (3, 39, 0, 0, 0),
 (4, 1, 0, 0, 0),
 (5, 4, 0, 0, 0),
 (6, 29, 0, 0, 0),
-(7, 9, 0, 0, 0),
-(8, 10, 0, 0, 0),
-(9, 11, 0, 0, 0),
+(7, 9, 1000, 0, 1000),
+(8, 10, 1000, 0, 1000),
+(9, 11, 500, 0, 500),
 (10, 5, 0, 0, 0),
 (11, 12, 0, 0, 0),
 (12, 13, 0, 0, 0),
@@ -428,7 +501,8 @@ INSERT INTO `inventory_stock` (`id`, `item_name_id`, `in_going`, `out_going`, `o
 (17, 36, 0, 0, 0),
 (18, 7, 0, 0, 0),
 (19, 16, 0, 0, 0),
-(20, 17, 0, 0, 0);
+(20, 17, 0, 0, 0),
+(21, 40, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -443,7 +517,7 @@ CREATE TABLE `login_history` (
   `first_name` varchar(255) DEFAULT NULL,
   `activity` varchar(255) DEFAULT NULL,
   `date_time` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -454,43 +528,42 @@ CREATE TABLE `login_history` (
 CREATE TABLE `module` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `module`
 --
 
-INSERT INTO `module` (`id`, `name`) VALUES
-(24, 'ACCOUNT-ACCOUNT_TYPE'),
-(25, 'ACCOUNT-USER_ACCOUNT'),
+INSERT INTO module (id, name) VALUES
+(1, 'LOGIN'),
+(2, 'FORGOT_PASSWORD'),
 (3, 'CHANGE_PASSWORD'),
 (4, 'CODE_VERIFICATION'),
-(18, 'CUSTOMER'),
 (5, 'DASHBOARD'),
+(6, 'POS'),
+(7, 'REPORTS-SALES'),
+(8, 'REPORTS-DELIVERY_WALKIN'),
+(9, 'REPORTS-INVENTORY'),
+(10, 'REPORTS-ITEM_ISSUE'),
+(11, 'REPORTS-ATTENDANCE'),
+(12, 'REPORTS-EXPENSE'),
+(13, 'MONITORING-POINT_OF_SALES_TRANSACTION'),
+(14, 'MONITORING-DELIVERY_PICKUP'),
+(15, 'MONITORING-CUSTOMER_BALANCE'),
+(16, 'MONITORING-SCHEDULING'),
+(17, 'MONITORING-ITEM_HISTORY'),
+(18, 'CUSTOMER'),
+(19, 'INVENTORY-STOCKS'),
+(20, 'INVENTORY-ITEM'),
 (21, 'EMPLOYEE-ATTENDANCE'),
 (22, 'EMPLOYEE-LIST'),
 (23, 'EXPENSE'),
-(2, 'FORGOT_PASSWORD'),
-(20, 'INVENTORY-ITEM'),
-(19, 'INVENTORY-STOCKS'),
-(1, 'LOGIN'),
-(15, 'MONITORING-CUSTOMER_BALANCE'),
-(13, 'MONITORING-DELIVERY_PICKUP'),
-(17, 'MONITORING-ITEM_HISTORY'),
-(30, 'MONITORING-POINT_OF_SALES_TRANSACTION'),
-(14, 'MONITORING-RETURN_CONTAINER'),
-(16, 'MONITORING-SCHEDULING'),
-(6, 'POS'),
-(11, 'REPORTS-ATTENDANCE'),
-(8, 'REPORTS-DELIVERY_WALKIN'),
-(12, 'REPORTS-EXPENSE'),
-(9, 'REPORTS-INVENTORY'),
-(10, 'REPORTS-ITEM_ISSUE'),
-(7, 'REPORTS-SALES'),
-(28, 'SETTINGS-ARCHIVES'),
-(29, 'SETTINGS-BACKUP_RESTORE'),
+(24, 'ACCOUNT-ACCOUNT_TYPE'),
+(25, 'ACCOUNT-USER_ACCOUNT'),
+(26, 'SETTINGS-HELP'),
 (27, 'SETTINGS-DATA_LOGS'),
-(26, 'SETTINGS-HELP');
+(28, 'SETTINGS-ARCHIVES'),
+(29, 'SETTINGS-BACKUP_RESTORE');
 
 -- --------------------------------------------------------
 
@@ -501,7 +574,7 @@ INSERT INTO `module` (`id`, `name`) VALUES
 CREATE TABLE `payment_option` (
   `id` int(50) NOT NULL,
   `option_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payment_option`
@@ -521,7 +594,7 @@ INSERT INTO `payment_option` (`id`, `option_name`) VALUES
 CREATE TABLE `position_type` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `position_type`
@@ -542,7 +615,7 @@ INSERT INTO `position_type` (`id`, `name`) VALUES
 CREATE TABLE `pos_item` (
   `id` int(11) NOT NULL,
   `pos_type` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pos_item`
@@ -561,7 +634,7 @@ INSERT INTO `pos_item` (`id`, `pos_type`) VALUES
 CREATE TABLE `status` (
   `id` int(11) NOT NULL,
   `status_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `status`
@@ -583,7 +656,7 @@ INSERT INTO `status` (`id`, `status_name`) VALUES
 CREATE TABLE `status_archive` (
   `id` int(11) NOT NULL,
   `status` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `status_archive`
@@ -604,7 +677,7 @@ CREATE TABLE `supplier` (
   `supplier` varchar(255) NOT NULL,
   `contact_number` bigint(100) NOT NULL,
   `address` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `supplier`
@@ -633,7 +706,7 @@ CREATE TABLE `transaction` (
   `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_at_date` date NOT NULL DEFAULT current_timestamp(),
   `created_at_time` time NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `transaction`
@@ -645,7 +718,16 @@ INSERT INTO `transaction` (`id`, `uuid`, `customer_name_id`, `service_type`, `to
 (107, '63abcd3ed13407.16147320', 10, 'Walk In', 1200.00, 1, '', 0, 6, 6, '2022-12-28 14:48:51', '2022-12-28', '12:59:42'),
 (108, '63abcd6d5251a7.06711961', 1, 'Walk In', 2400.00, 1, '', 0, 6, 0, '2022-12-28 13:00:42', '2022-12-28', '13:00:29'),
 (109, '63abce4a681640.32895925', 10, 'Walk In', 350.00, 1, '', 0, 6, 6, '2022-12-28 13:04:10', '2022-12-28', '13:04:10'),
-(110, '63abf9aa8cc234.16453602', 4, 'Walk In', 1200.00, 1, '', 1, 6, 6, '2022-12-28 16:09:14', '2022-12-28', '16:09:14');
+(110, '63abf9aa8cc234.16453602', 4, 'Walk In', 1200.00, 1, '', 1, 6, 6, '2022-12-28 16:09:14', '2022-12-28', '16:09:14'),
+(111, '63adc22bc2cab3.50151600', 12, 'Delivery/Pick Up', 175.00, 1, '', 0, 1, 1, '2022-12-30 00:36:59', '2022-12-30', '00:36:59'),
+(112, '63addfb7cd26a6.70637328', 12, 'Delivery', 105.00, 1, '', 1, 1, 1, '2022-12-30 02:43:03', '2022-12-30', '02:43:03'),
+(113, '63ade6a5d628d1.10946512', 0, 'Walk In', 15.00, 1, '', 1, 1, 1, '2022-12-30 03:12:38', '2022-12-30', '03:12:38'),
+(114, '63adec262f9905.93241386', 10, 'Walk In', 35.00, 1, '', 1, 1, 1, '2022-12-30 03:36:06', '2022-12-30', '03:36:06'),
+(115, '63adec37d0ab25.33071269', 10, 'Delivery', 35.00, 1, '', 1, 1, 1, '2022-12-30 03:36:23', '2022-12-30', '03:36:23'),
+(116, '63adf3fa867f21.35929436', 12, 'Walk In', 47.00, 1, '', 1, 1, 1, '2022-12-30 04:09:30', '2022-12-30', '04:09:30'),
+(117, '63adf42a59d698.62897437', 12, 'Delivery', 47.00, 1, '', 1, 1, 1, '2022-12-30 04:10:18', '2022-12-30', '04:10:18'),
+(118, '63ae81665d4ba6.86096893', 0, 'Walk In', 12.00, 1, '', 1, 1, 1, '2022-12-30 14:12:54', '2022-12-30', '14:12:54'),
+(119, '63aeb9931ff251.28969312', 2, 'Delivery', 15.00, 1, '', 1, 1, 1, '2022-12-30 18:12:35', '2022-12-30', '18:12:35');
 
 -- --------------------------------------------------------
 
@@ -663,7 +745,7 @@ CREATE TABLE `transaction_history` (
   `unpaid_amount` float(11,2) NOT NULL,
   `created_by_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `transaction_history`
@@ -678,7 +760,16 @@ INSERT INTO `transaction_history` (`id`, `transaction_uuid`, `amount_tendered`, 
 (46, '63abce4a681640.32895925', 150.00, 0.00, 0.00, 0.00, 200.00, 6, '2022-12-28 13:04:10'),
 (47, '63abcd3ed13407.16147320', 400.00, 0.00, 0.00, 0.00, 300.00, 6, '2022-12-28 14:16:38'),
 (48, '63abcd3ed13407.16147320', 100.00, 0.00, 0.00, 0.00, 200.00, 6, '2022-12-28 14:48:51'),
-(49, '63abf9aa8cc234.16453602', 0.00, 0.00, 400.00, 1600.00, 0.00, 6, '2022-12-28 16:09:14');
+(49, '63abf9aa8cc234.16453602', 0.00, 0.00, 400.00, 1600.00, 0.00, 6, '2022-12-28 16:09:14'),
+(50, '63adc22bc2cab3.50151600', 0.00, 0.00, 0.00, 0.00, 175.00, 1, '2022-12-30 00:36:59'),
+(51, '63addfb7cd26a6.70637328', 105.00, 0.00, 0.00, 0.00, 0.00, 1, '2022-12-30 02:43:03'),
+(52, '63ade6a5d628d1.10946512', 15.00, 0.00, 0.00, 0.00, 0.00, 1, '2022-12-30 03:12:38'),
+(53, '63adec262f9905.93241386', 35.00, 0.00, 325.50, 325.50, 0.00, 1, '2022-12-30 03:36:06'),
+(54, '63adec37d0ab25.33071269', 35.00, 0.00, 325.50, 325.50, 0.00, 1, '2022-12-30 03:36:23'),
+(55, '63adf3fa867f21.35929436', 50.00, 3.00, 0.00, 0.00, 0.00, 1, '2022-12-30 04:09:30'),
+(56, '63adf42a59d698.62897437', 50.00, 3.00, 0.00, 0.00, 0.00, 1, '2022-12-30 04:10:18'),
+(57, '63ae81665d4ba6.86096893', 12.00, 0.00, 0.00, 0.00, 0.00, 1, '2022-12-30 14:12:54'),
+(58, '63aeb9931ff251.28969312', 15.00, 0.00, 0.00, 0.00, 0.00, 1, '2022-12-30 18:12:35');
 
 -- --------------------------------------------------------
 
@@ -696,7 +787,7 @@ CREATE TABLE `transaction_process` (
   `total_price` float(11,2) NOT NULL,
   `user_id` int(11) NOT NULL,
   `transaction_id` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `transaction_process`
@@ -708,7 +799,18 @@ INSERT INTO `transaction_process` (`id`, `item_name`, `water_type`, `category_ty
 (259, '1.5 Liters', 'Alkaline', 'For Refill', 100, 12.00, 1200.00, 6, '63abcd3ed13407.16147320'),
 (260, '1.5 Liters', 'Alkaline', 'For Refill', 200, 12.00, 2400.00, 6, '63abcd6d5251a7.06711961'),
 (261, '5 Gallons', 'Alkaline', 'For Refill', 10, 35.00, 350.00, 6, '63abce4a681640.32895925'),
-(262, '1.5 Liters', 'Alkaline', 'For Refill', 100, 12.00, 1200.00, 6, '63abf9aa8cc234.16453602');
+(262, '1.5 Liters', 'Alkaline', 'For Refill', 100, 12.00, 1200.00, 6, '63abf9aa8cc234.16453602'),
+(263, '5 Gallons', 'Alkaline', 'For Refill', 5, 35.00, 175.00, 1, '63adc22bc2cab3.50151600'),
+(264, '5 Gallons', 'Alkaline', 'For Refill', 3, 35.00, 105.00, 1, '63addfb7cd26a6.70637328'),
+(265, '1 Liter', 'Alkaline', 'Bottle', 1, 15.00, 15.00, 1, '63ade6a5d628d1.10946512'),
+(266, '5 Gallons', 'Alkaline', 'For Refill', 1, 35.00, 35.00, 1, '63adec262f9905.93241386'),
+(267, '5 Gallons', 'Alkaline', 'For Refill', 1, 35.00, 35.00, 1, '63adec37d0ab25.33071269'),
+(268, '5 Gallons', 'Alkaline', 'For Refill', 1, 35.00, 35.00, 1, '63adf3fa867f21.35929436'),
+(269, '1.5 Liters', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63adf3fa867f21.35929436'),
+(270, '1.5 Liters', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63adf42a59d698.62897437'),
+(271, '5 Gallons', 'Alkaline', 'For Refill', 1, 35.00, 35.00, 1, '63adf42a59d698.62897437'),
+(272, '1.5 Liters', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63ae81665d4ba6.86096893'),
+(281, '1 Liter', 'Alkaline', 'Bottle', 1, 15.00, 15.00, 1, '63aeb9931ff251.28969312');
 
 -- --------------------------------------------------------
 
@@ -729,7 +831,7 @@ CREATE TABLE `users` (
   `profile_image` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `status_archive_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
@@ -754,14 +856,14 @@ CREATE TABLE `user_session` (
   `user_id` int(11) NOT NULL,
   `session_key` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_session`
 --
 
 INSERT INTO `user_session` (`id`, `user_id`, `session_key`, `status`) VALUES
-(49, 6, 'bab721488a6c191d6126', 'ACTIVE');
+(53, 1, '090a1cde2f2c59e92651', 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -772,7 +874,7 @@ INSERT INTO `user_session` (`id`, `user_id`, `session_key`, `status`) VALUES
 CREATE TABLE `water_type` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `water_type`
@@ -781,6 +883,31 @@ CREATE TABLE `water_type` (
 INSERT INTO `water_type` (`id`, `name`) VALUES
 (1, 'Alkaline'),
 (2, 'Mineral');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `weekly_scheduling`
+--
+
+CREATE TABLE `weekly_scheduling` (
+  `id` int(11) NOT NULL,
+  `day` varchar(50) NOT NULL,
+  `customer_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `weekly_scheduling`
+--
+
+INSERT INTO `weekly_scheduling` (`id`, `day`, `customer_id`) VALUES
+(12, 'THURSDAY', 4),
+(14, 'SUNDAY', 4),
+(20, 'TUESDAY', 7),
+(21, 'WEDNESDAY', 7),
+(23, 'FRIDAY', 7),
+(24, 'SATURDAY', 7),
+(26, 'TUESDAY', 6);
 
 --
 -- Indexes for dumped tables
@@ -827,6 +954,24 @@ ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `customer_name` (`customer_name`),
   ADD KEY `status_customers_constraint` (`status_archive_id`);
+
+--
+-- Indexes for table `date_scheduling`
+--
+ALTER TABLE `date_scheduling`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `delivery_list`
+--
+ALTER TABLE `delivery_list`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `delivery_status`
+--
+ALTER TABLE `delivery_status`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `deliver_price`
@@ -961,6 +1106,12 @@ ALTER TABLE `water_type`
   ADD UNIQUE KEY `water_type_name_index` (`name`);
 
 --
+-- Indexes for table `weekly_scheduling`
+--
+ALTER TABLE `weekly_scheduling`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -986,7 +1137,7 @@ ALTER TABLE `attendance`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=754;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=800;
 
 --
 -- AUTO_INCREMENT for table `category_type`
@@ -999,6 +1150,24 @@ ALTER TABLE `category_type`
 --
 ALTER TABLE `customers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `date_scheduling`
+--
+ALTER TABLE `date_scheduling`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `delivery_list`
+--
+ALTER TABLE `delivery_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+
+--
+-- AUTO_INCREMENT for table `delivery_status`
+--
+ALTER TABLE `delivery_status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `deliver_price`
@@ -1016,7 +1185,7 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT for table `expense`
 --
 ALTER TABLE `expense`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `expense_type`
@@ -1028,19 +1197,19 @@ ALTER TABLE `expense_type`
 -- AUTO_INCREMENT for table `inventory_item`
 --
 ALTER TABLE `inventory_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `inventory_log`
 --
 ALTER TABLE `inventory_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `inventory_stock`
 --
 ALTER TABLE `inventory_stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `login_history`
@@ -1088,19 +1257,19 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT for table `transaction_history`
 --
 ALTER TABLE `transaction_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `transaction_process`
 --
 ALTER TABLE `transaction_process`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=263;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=282;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1112,13 +1281,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_session`
 --
 ALTER TABLE `user_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `water_type`
 --
 ALTER TABLE `water_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `weekly_scheduling`
+--
+ALTER TABLE `weekly_scheduling`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Constraints for dumped tables
@@ -1145,11 +1320,7 @@ ALTER TABLE `inventory_item`
   ADD CONSTRAINT `pos_item_id` FOREIGN KEY (`pos_item_id`) REFERENCES `pos_item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `status_inventory_item_constraint` FOREIGN KEY (`status_archive_id`) REFERENCES `status_archive` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `inventory_stock`
---
-ALTER TABLE `inventory_stock`
-  ADD CONSTRAINT `item_name_id_constraint` FOREIGN KEY (`item_name_id`) REFERENCES `inventory_item` (`id`);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

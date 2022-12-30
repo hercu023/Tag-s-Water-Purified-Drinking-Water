@@ -27,213 +27,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
         <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
         <script src="../index.js"></script>
     </head>
-    <body>
-    
-        <div class="container">
-        <?php
-            include('../common/side-menu.php')
-        ?>
-            <main>
-                <div class="main-dashboard">
-                    <h1 class="dashTitle">MONITORING</h1> 
-                    <div class="sub-tab">
-                        <div class="user-title">
-                            <h2>DELIVERY/PICK UP</h2>
-                        </div>
-                        <div class="select-dropdown">
-                            <select class="select">
-                                <option selected disabled value="">SELECT SERVICE</option>
-                                <option value="All">All</option>
-                                <option value="Delivery">Delivery</option>
-                                <option value="Delivery/Pick Up">Delivery/Pick Up</option>
-                            </select>
-                        </div>
-                        
-                        <div class="search">
-                            <div class="search-bar"> 
-                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                                <button type="submit" >
-                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                                </button>
-                            </div>
-                        </div>  
-                    </div> 
-                </div>
-                <div class="main-container">
-                        <div class="sub-tab-container">
-                            
-                            <div class="totals">
-                                <!-- <h2 class="remaining">REMAINING ITEMS</h2> -->
-                            <div class="newUser-button2"> 
-                                <div id="add-userbutton" class="add-account2">
-                                    <h3 class="deliveries">TOTAL DELIVERED ORDERS</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                            <div class="newUser-button3"> 
-                                <a href="../monitoring/monitoring-delivery-pickup.php" id="add-userbutton" class="batchlist">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M14 18q-1.667 0-2.833-1.167Q10 15.667 10 14q0-1.667 1.167-2.833Q12.333 10 14 10q1.667 0 2.833 1.167Q18 12.333 18 14q0 1.667-1.167 2.833Q15.667 18 14 18Zm1.146-2.146.708-.708-1.354-1.354V12h-1v2.208ZM4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.448-1.062Q3.896 3 4.5 3h3.562q.209-.708.709-1.104Q9.271 1.5 10 1.5q.75 0 1.25.396T11.938 3H15.5q.604 0 1.052.438Q17 3.875 17 4.5v4.896q-.354-.229-.719-.406-.364-.178-.781-.282V4.5H14V7H6V4.5H4.5v11h4.208q.146.438.292.792.146.354.396.708ZM10 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q10.312 3 10 3q-.312 0-.531.219-.219.219-.219.531 0 .312.219.531.219.219.531.219Z"/></svg>
-                                    <h3 class="deliveries">PENDING DELIVERY and PICK UP</h3>
-                                </a>
-                            </div>
-                        </div> 
-                </div>
-                <div class="customer-container" id="customerTable">
-                            <br>
-                            <header class="previous-transaction-header">DELIVERED ORDERS</header>
-                            <hr>
-                            <table class="table" id="myTable">
-                            <thead>
-                            <tr>
-                        <th>ID</th>
-                        <th>Customer Name</th>
-                        <th>Order Details</th>
-                        <th>Payment Status</th>
-                        <th>Service</th>
-                        <th>Delivered By</th>
-                        <th>Ordered Time</th>
-                    </tr>
-                    </thead>
-
-                    <?php
-                    $dropdown_query2 = "SELECT 
-                    transaction.id,
-                    transaction.uuid,
-                    customers.customer_name,
-                    transaction.total_amount,
-                    transaction.customer_change,
-                    transaction.amount_tendered,
-                    transaction.service_type,
-                    transaction.note,
-                    transaction.status_id,
-                    transaction.created_at_time
-                    FROM transaction
-                    INNER JOIN payment_option
-                    ON transaction.payment_option = payment_option.id
-                    LEFT JOIN customers
-                    ON transaction.customer_name_id = customers.id
-                    WHERE transaction.service_type LIKE '%Delivery' OR service_type LIKE '%Delivery/Pick Up'
-                    ORDER BY transaction.created_at_date";
-                    $result = mysqli_query($con, $dropdown_query2);
-                    while ($rows = mysqli_fetch_assoc($result))
-                        {
-                    ?>
-                    <tbody>
-                    <td> <?php echo $rows['id']; ?></td>
-                                <td> <?php if($rows['customer_name']){
-                                    echo $rows['customer_name'];
-                                    }else{
-                                        echo 'GUEST';
-                                    }
-                                 ?></td>
-                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
-
-                                <td> <?php 
-                                    if($rows['status_id'] == 0){
-                                        echo 'Unpaid';
-                                    }else{
-                                        echo 'Paid';
-                                    } ?>
-                                </td>     
-                                <td> <?php echo $rows['service_type']; ?></td>                         
-                                <td> x</td>                         
-                                <td> <?php echo $rows['created_at_time']; ?></td>
-
-                            <tr id="noRecordTR" style="display:none">
-                                <td colspan="10">No Record Found</td>
-                            </tr>
-                            </tbody>
-                            <?php
-                        }
-                        ?>
-                            </table>
-                </div>
-            </main>
-            <?php
-                include('../common/top-menu.php')
-            ?>    
-        </div> 
-    </body>
-</html>
-<script>
-const addForm = document.querySelector(".bg-addcustomerform");
- function addnewuser(){
-    // const addBtn = document.querySelector(".add-customer");
-    addForm.style.display = 'flex';
-}
-
-    // -----------------------------SIDE MENU
- $(document).ready(function(){
-     //jquery for toggle sub menus
-     $('.sub-btn').click(function(){
-       $(this).next('.sub-menu').slideToggle();
-       $(this).find('.dropdown').toggleClass('rotate');
-     });
-
-     //jquery for expand and collapse the sidebar
-     $('.menu-btn').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn').css("visibility", "visible");
-     });
-     $('.menu-btn2').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn2').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn2').css("visibility", "visible");
-     });
-   });
-//    --------------------------------------------------------------------
-    const sideMenu = document.querySelector('#aside');
-    const closeBtn = document.querySelector('#close-btn');
-    const menuBtn = document.querySelector('#menu-button');
-    const checkbox = document.getElementById('checkbox');
-        menuBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'block';
-        })
-
-        closeBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'none';
-        })
-         checkbox.addEventListener( 'change', () =>{
-             document.body.classList.toggle('dark-theme');
-        //     if(this.checked) {
-        //         body.classList.add('dark')
-        //     } else {
-        //         body.classList.remove('dark')     
-        //     }
-         });
-        
-        // if(localStorage.getItem('dark')) {
-        //     body.classList.add('dark');
-        //     }
-    // const sideMenu = document.querySelector("#aside");
-    // const closeBtn = document.querySelector("#close-btn");
-    // const menuBtn = document.querySelector("#menu-button");
-    // const checkbox = document.getElementById("checkbox");
-    //     menuBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'block';
-    //     })
-    //     closeBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'none';
-    //     })
-    //     checkbox.addEventListener('change', () =>{
-    //         document.body.classList.toggle('dark-theme');
-    //     })
-
-    //     function menuToggle(){
-    //         const toggleMenu = document.querySelector('.drop-menu');
-    //         toggleMenu.classList.toggle('user2')
-    //     }
-</script>
-<style>
+    <style>
      :root{
         --color-main: rgb(2, 80, 2);
         --color-white: white;
@@ -1753,3 +1547,219 @@ tr:hover td{
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
 </style>
+    <body>
+    
+        <div class="container">
+        <?php
+            include('../common/side-menu.php')
+        ?>
+            <main>
+                <div class="main-dashboard">
+                    <h1 class="dashTitle">MONITORING</h1> 
+                    <div class="sub-tab">
+                        <div class="user-title">
+                            <h2>DELIVERY/PICK UP</h2>
+                        </div>
+                        <div class="select-dropdown">
+                            <select class="select">
+                                <option selected disabled value="">SELECT SERVICE</option>
+                                <option value="All">All</option>
+                                <option value="Delivery">Delivery</option>
+                                <option value="Delivery/Pick Up">Delivery/Pick Up</option>
+                            </select>
+                        </div>
+                        
+                        <div class="search">
+                            <div class="search-bar"> 
+                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+                                <button type="submit" >
+                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+                                </button>
+                            </div>
+                        </div>  
+                    </div> 
+                </div>
+                <div class="main-container">
+                        <div class="sub-tab-container">
+                            
+                            <div class="totals">
+                                <!-- <h2 class="remaining">REMAINING ITEMS</h2> -->
+                            <div class="newUser-button2"> 
+                                <div id="add-userbutton" class="add-account2">
+                                    <h3 class="deliveries">TOTAL DELIVERED ORDERS</h3>
+                                    <span class="total-deliveries">0</span>
+                                </div>
+                            </div>
+                            <div class="newUser-button3"> 
+                                <a href="../monitoring/monitoring-delivery-pickup.php" id="add-userbutton" class="batchlist">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M14 18q-1.667 0-2.833-1.167Q10 15.667 10 14q0-1.667 1.167-2.833Q12.333 10 14 10q1.667 0 2.833 1.167Q18 12.333 18 14q0 1.667-1.167 2.833Q15.667 18 14 18Zm1.146-2.146.708-.708-1.354-1.354V12h-1v2.208ZM4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.448-1.062Q3.896 3 4.5 3h3.562q.209-.708.709-1.104Q9.271 1.5 10 1.5q.75 0 1.25.396T11.938 3H15.5q.604 0 1.052.438Q17 3.875 17 4.5v4.896q-.354-.229-.719-.406-.364-.178-.781-.282V4.5H14V7H6V4.5H4.5v11h4.208q.146.438.292.792.146.354.396.708ZM10 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q10.312 3 10 3q-.312 0-.531.219-.219.219-.219.531 0 .312.219.531.219.219.531.219Z"/></svg>
+                                    <h3 class="deliveries">PENDING DELIVERY and PICK UP</h3>
+                                </a>
+                            </div>
+                        </div> 
+                </div>
+                <div class="customer-container" id="customerTable">
+                            <br>
+                            <header class="previous-transaction-header">DELIVERED ORDERS</header>
+                            <hr>
+                            <table class="table" id="myTable">
+                            <thead>
+                            <tr>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Details</th>
+                            <th>Total Amount</th>
+                            <th>Payment Status</th>
+                            <th>Delivery Boy</th>
+                            <th>Date/Time</th>
+                    </tr>
+                    </thead>
+
+                    <?php
+                            $dropdown_query2 = "SELECT 
+                            transaction.id,
+                            transaction.uuid,
+                            customers.customer_name,
+                            transaction.status_id,
+                            transaction.total_amount,
+                            transaction.created_at_date,
+                            transaction.created_at_time,
+                            employee.first_name,
+                            employee.last_name
+                            FROM transaction
+                            INNER JOIN delivery_list
+                            ON transaction.uuid = delivery_list.uuid
+                            INNER JOIN employee
+                            ON delivery_list.delivery_boy_id = employee.id
+                            INNER JOIN payment_option
+                            ON transaction.payment_option = payment_option.id
+                            LEFT JOIN customers
+                            ON transaction.customer_name_id = customers.id
+                            WHERE transaction.service_type != 'Walk In'
+                            AND transaction.uuid IN (SELECT uuid FROM delivery_list)
+                            AND delivery_list.delivery_status = 3
+                            ORDER BY transaction.created_at_time";
+                        $result4 = mysqli_query($con, $dropdown_query2);
+                        while ($rows = mysqli_fetch_assoc($result4))
+                        {
+                    ?>
+                     <tbody>
+                            <tr>
+                                <td> <?php echo $rows['id']; ?></td>
+                                <td> <?php if($rows['customer_name']){
+                                    echo $rows['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }
+                                 ?></td>
+                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
+                                <td>         
+                                    <?php
+                                        if($rows['status_id'] == 0){
+                                            echo 'Unpaid';
+                                        }else{
+                                            echo 'Paid';
+                                        } 
+                                    ?>
+                                </td>
+                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
+                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
+                                <td>    <a href="../service/delete-transaction-order.php?delete-list=<?php echo $rows['uuid']; ?>" class="delete-rowsButton" class="action-btn" name="action">
+                                            X
+                                        </a>
+                                </td>
+                            <tr id="noRecordTR" style="display:none">
+                                <td colspan="7">No Record Found</td>
+                            </tr>
+                            </tbody>
+                            <?php
+                        }
+                        ?>
+                            </table>
+                </div>
+            </main>
+            <?php
+                include('../common/top-menu.php')
+            ?>    
+        </div> 
+    </body>
+</html>
+<script>
+const addForm = document.querySelector(".bg-addcustomerform");
+ function addnewuser(){
+    // const addBtn = document.querySelector(".add-customer");
+    addForm.style.display = 'flex';
+}
+
+    // -----------------------------SIDE MENU
+ $(document).ready(function(){
+     //jquery for toggle sub menus
+     $('.sub-btn').click(function(){
+       $(this).next('.sub-menu').slideToggle();
+       $(this).find('.dropdown').toggleClass('rotate');
+     });
+
+     //jquery for expand and collapse the sidebar
+     $('.menu-btn').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn').css("visibility", "visible");
+     });
+     $('.menu-btn2').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn2').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn2').css("visibility", "visible");
+     });
+   });
+//    --------------------------------------------------------------------
+    const sideMenu = document.querySelector('#aside');
+    const closeBtn = document.querySelector('#close-btn');
+    const menuBtn = document.querySelector('#menu-button');
+    const checkbox = document.getElementById('checkbox');
+        menuBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'block';
+        })
+
+        closeBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'none';
+        })
+         checkbox.addEventListener( 'change', () =>{
+             document.body.classList.toggle('dark-theme');
+        //     if(this.checked) {
+        //         body.classList.add('dark')
+        //     } else {
+        //         body.classList.remove('dark')     
+        //     }
+         });
+        
+        // if(localStorage.getItem('dark')) {
+        //     body.classList.add('dark');
+        //     }
+    // const sideMenu = document.querySelector("#aside");
+    // const closeBtn = document.querySelector("#close-btn");
+    // const menuBtn = document.querySelector("#menu-button");
+    // const checkbox = document.getElementById("checkbox");
+    //     menuBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'block';
+    //     })
+    //     closeBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'none';
+    //     })
+    //     checkbox.addEventListener('change', () =>{
+    //         document.body.classList.toggle('dark-theme');
+    //     })
+
+    //     function menuToggle(){
+    //         const toggleMenu = document.querySelector('.drop-menu');
+    //         toggleMenu.classList.toggle('user2')
+    //     }
+</script>

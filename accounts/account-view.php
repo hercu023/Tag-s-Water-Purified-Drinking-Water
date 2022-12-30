@@ -45,7 +45,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
             ?>
             <div class="sub-tab">
                 <div class="user-title">
-                    <h2> User Account </h2>
+                    <h2> USER ACCOUNT </h2>
                 </div>
                 <div class="sub-tab2">
                     <div class="newUser-button">
@@ -80,9 +80,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
                         <th>Action</th>
                     </tr>
                     </thead>
-
-                    
-                        ?>
                         <tbody>
                         <tr>
                             <td> </td>

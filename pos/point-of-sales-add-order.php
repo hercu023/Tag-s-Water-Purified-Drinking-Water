@@ -2,6 +2,7 @@
 include '../database/connection-db.php';
 require_once '../service/pos-add-customer.php';
 require_once '../service/add-transaction-order.php';
+
         
 
 ?>
@@ -504,7 +505,7 @@ BODY{
     width: 100%;
     background: rgba(0,0,0,0.7);
     top: 0;
-    position: absolute;
+    position: fixed;
     display: none;
     align-items: center;
     justify-content: center;
@@ -595,6 +596,7 @@ BODY{
 #note-box label{
     width: 100%;
 }
+
 
 .user-input-box{
     display: flex;
@@ -771,11 +773,6 @@ BODY{
     }
     .user-input-box:nth-child(2n){
         justify-content: space-between;
-    }
-    .usertype-dropdown{
-        width: 99%;
-        margin-bottom: 1rem;
-        margin-top: -.3rem;
     }
 
     .main-user-info{
@@ -2507,7 +2504,7 @@ hr{
 }
 .label-item3{
     font-family: 'calibri', sans-serif;
-    font-size: 1.2rem;
+    font-size: 2rem;
     font-weight:900;
     text-transform: uppercase;
     display: inline-block;
@@ -2524,7 +2521,7 @@ hr{
     margin-top: .1rem;
     justify-content: center;
     color: var(--color-main);
-} 
+}
 </style>
 
 <body>
@@ -2615,7 +2612,7 @@ hr{
                                             <td > <?php echo '&#8369'.' '.$item_sales['alkaline_price']; ?></td>
                                             <td>
                                              
-                                                <a href="../pos/point-of-sales.php?addalkaline=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                <a href="../pos/point-of-sales-add-order.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                 </a>
                                             <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
@@ -2680,7 +2677,7 @@ hr{
                                             <td > Mineral</td>
                                             <td > <?php echo '&#8369'.' '.$item_sales['mineral_price']; ?></td>
                                             <td>
-                                                <a href="../pos/point-of-sales.php?addmineral=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                <a href="../pos/point-of-sales-edit-mineral-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                 </a>
                                             </td>
@@ -2762,7 +2759,7 @@ hr{
                                                 <td class="alkaline-price"> <?php echo '&#8369'.' '.$item_sales['alkaline_price']; ?></td>
                                                 <td>
                                                 
-                                                    <a href="../pos/point-of-sales.php?addalkaline=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    <a href="../pos/point-of-sales-edit-alkaline-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                     ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                     </a>
 
@@ -2835,11 +2832,9 @@ hr{
                                                 <td class="mineral-price"> <?php echo '&#8369'.' '.$item_sales['mineral_price']; ?></td>
                                                 <td>
                                                 
-                                                    <a href="../pos/point-of-sales.php?addmineral=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
-                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
-                                                    </a>
-                                                <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
-                                                
+                                                    <a href="../pos/point-of-sales-edit-mineral-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    ADD ORDER
+
                                                 </td>
                                             </tr>
                                             <?php } ?>
@@ -2911,7 +2906,7 @@ hr{
                                                 <td class="mineral-price"> <?php echo '&#8369'.' '.$item_sales['selling_price_item']; ?></td>
                                                 <td>
                                                 
-                                                    <a href="../pos/point-of-sales.php?addothers=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    <a href="../pos/point-of-sales-edit-mineral-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                     ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                     </a>
                                                 <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
@@ -2982,7 +2977,7 @@ hr{
                                                 <td > <?php echo '&#8369'.' '.$item_sales['selling_price_item']; ?></td>
                                                 <td>
                                                 
-                                                    <a href="../pos/point-of-sales.php?addothers=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    <a href="../pos/point-of-sales-edit.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                     ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                     </a>
                                                 <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
@@ -3086,7 +3081,7 @@ hr{
                                                 <td name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
                                                 <td name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
                                                 <td class="quantity-td" > 
-                                                    <a href="../pos/point-of-sales.php?editquantity=<?php echo $transactions['id']; ?>" class="addquantity" name="addquantity">
+                                                    <a href="../pos/point-of-sales-edit-quantity.php?editquantity=<?php echo $transactions['id']; ?>" class="addquantity" name="addquantity">
                                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.708 17.958q-1.125 0-1.896-.77-.77-.771-.77-1.896V4.708q0-1.125.77-1.895.771-.771 1.896-.771h10.584q1.125 0 1.896.771.77.77.77 1.895v10.584q0 1.125-.77 1.896-.771.77-1.896.77Zm0-2.666h10.584V4.708L4.708 15.292Zm6.73-.875v-1.521H9.917v-1.458h1.521V9.917h1.458v1.521h1.521v1.458h-1.521v1.521ZM5.229 8.208h4.479V6.729H5.229Z"/></svg>
                                                     </a>
                                                     <?php echo $transactions['quantity'];?>
@@ -3245,6 +3240,7 @@ hr{
     include('../common/top-menu.php')
     ?>
             
+</div>
 <!-- =======================================================add alkaline refill===================================================== -->
 
 <?php
@@ -3473,66 +3469,6 @@ if(isset($_GET['addothers']))
             </div>
         </div>
     </form>
-    <!-- =======================================================edit quantity===================================================== -->
-
-    <?php
-if(isset($_GET['editquantity']))
-{
-    $id = $_GET['editquantity'];
-    $result = mysqli_query($con,"SELECT
-               transaction_process.id, 
-               transaction_process.item_name, 
-               transaction_process.water_type,
-               transaction_process.price,
-               transaction_process.category_type,
-               transaction_process.quantity,
-               transaction_process.total_price
-            FROM transaction_process 
-            WHERE transaction_process.id = '$id'");
-
-    if (mysqli_num_rows($result) > 0) {
-        $item = mysqli_fetch_assoc($result); ?>
-
-        <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
-            <div class="bg-adduserform" id="bg-addform">
-                <div class="message"></div>
-                <div class="container1">
-                   
-                    <h1 class="addnew-title">EDIT QUANTITY</h1>
-                    <form action="#">
-                        <input type="hidden" required="required" name="id" value="<?=$item['id'];?>">
-                        <div class="main-user-info">
-                            <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
-                            <input type="hidden" required="required" class="iprice" name="PRICE" value="<?=$item['price'];?>">
-                            <input type="hidden" required="required" name="categorytype" value="<?=$item['water_type'];?>">
-                            <input type="hidden"  name="TOTAL" class="itotal" value="<?=$item['total_price'];?>">
-                            <label for="lastname" class="label-item"><?=$item['item_name'];?></label>
-
-                            <div class="user-input-box">
-                                <label for="quantity">Quantity</label>
-                                <input type="number" min='1' 
-                                       id="quantity" onkeyup="subTotal();"
-                                       class="iquantity" value="<?=$item['quantity'];?>"
-                                       name="quantity"
-                                       
-                                       required="required">
-                            </div>
-                            <div class="line"></div>
-
-                            <div class="bot-buttons">
-                                <div class="CancelButton">
-                                    <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
-                                </div>
-                                <div class="AddButton">
-                                    <button type="submit" id="adduserBtn" name="edit-quantity" >SAVE</button>
-                                </div>
-                            </div>
-                    </form>
-                </div>
-            </div>
-        </form>
-        <?php 
-    }} ?>
 
 </body>
 

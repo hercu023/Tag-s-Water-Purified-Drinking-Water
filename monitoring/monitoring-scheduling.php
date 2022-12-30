@@ -2,11 +2,13 @@
 require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
 require_once "../service/save-weekly-schedule.php";
+require_once "../service/save-date-schedule.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-SCHEDULING')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
     exit();
 }
+
 ?> 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,430 +33,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-S
         <title>Tag's Water Purified Drinking Water</title>
 
     </head>
-    <body>
-    
-        <div class="container">
-        <?php
-            include('../common/side-menu.php')
-        ?>
-            <main>
-                <div class="main-dashboard">
-                    <h1 class="dashTitle">MONITORING</h1> 
-                    <div class="sub-tab">
-                        <div class="user-title">
-                            <h2>SCHEDULING</h2>
-                        </div>
-                        <div class="newUser-button">
-                            <button type="button" id="add-userbutton" class="add-customer1" onclick="addnewuser1();">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.75 11.5q-.312 0-.531-.219Q6 11.062 6 10.75q0-.312.219-.531Q6.438 10 6.75 10q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm3.25 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531Q9.688 10 10 10q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm3.25 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531.219-.219.531-.219.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219ZM4.5 18q-.625 0-1.062-.448Q3 17.104 3 16.5v-11q0-.604.438-1.052Q3.875 4 4.5 4H6V2h1.5v2h5V2H14v2h1.5q.625 0 1.062.448Q17 4.896 17 5.5v11q0 .604-.438 1.052Q16.125 18 15.5 18Zm0-1.5h11V9h-11v7.5Z"/></svg>
-                                <h3>WEEKLY SCHEDULE</h3>
-                            </button>
-                        </div>
-                        <div class="newUser-button">
-                            <button type="button" id="add-userbutton" class="add-customer2" onclick="addnewuser2();">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M12 15q-.833 0-1.417-.583Q10 13.833 10 13q0-.833.583-1.417Q11.167 11 12 11q.833 0 1.417.583Q14 12.167 14 13q0 .833-.583 1.417Q12.833 15 12 15Zm-7.5 3q-.625 0-1.062-.448Q3 17.104 3 16.5v-11q0-.604.438-1.052Q3.875 4 4.5 4H6V2h1.5v2h5V2H14v2h1.5q.625 0 1.062.448Q17 4.896 17 5.5v11q0 .604-.438 1.052Q16.125 18 15.5 18Zm0-1.5h11V9h-11v7.5Z"/></svg>
-                                <h3>DATE SCHEDULE</h3>
-                            </button>
-                        </div>
-                        <div class="newUser-button1"> 
-                                <div id="add-userbutton" class="add-account1">
-                                    <h3 class="deliveries">Today's Scheduled Delivery</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                    </div> 
-                </div>
-                    
-                <div class="customer-container" id="customerTable">
-                            <br>
-                            <form method="POST" action="">
-                                <div class="select-dropdown">
-                                    <select name="option" class="select" onchange="this.form.submit()">
-                                        <option selected disabled value="">SELECT DAY</option>
-                                        <option value="ALL">All</option>
-                                        <option value="MONDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "MONDAY") { echo 'selected'; }?>>MONDAY</option>
-                                        <option value="TUESDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "TUESDAY") { echo 'selected'; }?>>TUESDAY</option>
-                                        <option value="WEDNESDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "WEDNESDAY") { echo 'selected'; }?>>WEDNESDAY</option>
-                                        <option value="THURSDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "THURSDAY") { echo 'selected'; }?>>THURSDAY</option>
-                                        <option value="FRIDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "FRIDAY") { echo 'selected'; }?>>FRIDAY</option>
-                                        <option value="SATURDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "SATURDAY") { echo 'selected'; }?>>SATURDAY</option>
-                                        <option value="SUNDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "SUNDAY") { echo 'selected'; }?>>SUNDAY</option>
-                                    </select>
-                                </div>
-                            </form>
-         
-                            <header class="previous-transaction-header">SCHEDULED DATE OF DELIVERY(DAY OF THE WEEK)</header>
-                            <hr>
-                            <table class="table" id="myTable">
-                            <thead>
-                            <tr>
-                        <th>ID</th>
-                        <th><span class="statusLbl">DAY(s) of DELIVERY</span></th>
-                        <th>Customer Name</th>
-                        <th>Contact Number</th>
-                        <th>Address</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
 
-                    <?php
-                    $query = "SELECT 
-                                customers.id,
-                                customers.customer_name,
-                                customers.contact_number1,
-                                customers.address, 
-                                customers.balance
-                                FROM customers
-                                WHERE customers.status_archive_id = 1";
-                    $result = mysqli_query($con, $query);
-                    if(mysqli_num_rows($result) > 0)
-                    {
-                    foreach($result as $rows)
-                    {
-                    ?>
-                    <tbody>
-                    <tr>
-                        <td> <?php echo $rows['id']; ?></td>
-                        <td> MONDAY</td>
-                        <td> <?php echo $rows['customer_name']; ?></td>
-                        <td> <?php echo $rows['contact_number1']; ?></td>
-                        <td> <?php echo $rows['address']; ?></td>
-                        <td>
-                            <a href="../monitoring/monitoring-customer-balance-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
-                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
-                            </a>
-                        </td>
-                    </tr>
-                    <?php } ?>
-                    <?php } else { ?>
-                        <tr id="noRecordTR">
-                            <td colspan="15">No Record(s) Found</td>
-                        </tr>
-                    <?php } ?>
-                            </tbody>
-                            
-                            </table>
-                        </div>
-                        <hr>
-                        <div class="customer-container" id="customerTable">
-                            <br>
-                            
-                            <header class="previous-transaction-header">SCHEDULED DATE OF DELIVERY</header>
-                            <hr>
-                            <table class="table" id="myTable">
-                            <thead>
-                            <tr>
-                            <th>ID</th>
-                        <th><span class="statusLbl">DATE of DELIVERY</span></th>
-                        <th>Customer Name</th>
-                        <th>Contact Number</th>
-                        <th>Address</th>
-                        <th>Balance</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-
-                    <?php
-                    $query = "SELECT 
-                                customers.id,
-                                customers.customer_name,
-                                customers.contact_number1,
-                                customers.address, 
-                                customers.balance
-                                FROM customers
-                                WHERE customers.status_archive_id = 1";
-                    $result = mysqli_query($con, $query);
-                    if(mysqli_num_rows($result) > 0)
-                    {
-                    foreach($result as $rows)
-                    {
-                    ?>
-                    <tbody>
-                    <tr>
-                        <td> <?php echo $rows['id']; ?></td>
-                        <td> November 23, 2023</td>
-                        <td> <?php echo $rows['customer_name']; ?></td>
-                        <td> <?php echo $rows['contact_number1']; ?></td>
-                        <td> <?php echo $rows['address']; ?></td>
-                        <td> <?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
-                        <td>
-                            <a href="../monitoring/monitoring-customer-balance-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
-                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
-                            </a>
-                        </td>
-                    </tr>
-                    <?php } ?>
-                    <?php } else { ?>
-                        <tr id="noRecordTR">
-                            <td colspan="15">No Record(s) Found</td>
-                        </tr>
-                    <?php } ?>
-                            </tbody>
-                            
-                            </table>
-                        </div>
-            </main>
-            <?php
-                include('../common/top-menu.php')
-            ?>    
-        </div> 
-        
-    <div class="bg-addcustomerform" id="bg-addform">
-        <div class="container1">
-        <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
-            <h1 class="addnew-title">DATE SCHEDULE</h1>
-            <form action="#">
-                <div class="main-user-info">
-                        <div class="customerName">
-                            <label for="contact_num2">Customer Name</label>
-                            <div class="usertype-dropdown">
-                                <?php
-                                $dropdown_customers = "SELECT * FROM customers";
-                                $result_customers = mysqli_query($con, $dropdown_customers);
-                                ?>
-                                <select id="chosen1" class="select-customer" name="customername" required="" onchange="customerBal();">
-                                    <option selected disabled value="">SELECT CUSTOMER</option>
-                                    <?php while($customers = mysqli_fetch_array($result_customers)){?>
-                                        <option value="<?php echo $customers['id']?>">
-                                            <?php echo $customers['customer_name'];?>                                        
-                                        </option>
-                                    <?php }?>
-                                    <!-- <option class="guest-option"value="Guest">GUEST</option> -->
-                                </select>
-                                <?php
-                                $dropdown_customers1 = "SELECT * FROM customers";
-                                $result_customers1 = mysqli_query($con, $dropdown_customers1);
-                                ?>
-                                <?php while($customers1 = mysqli_fetch_array($result_customers1)){?>
-                                    <?php $customers_balance_id = 'customerbalance' . $customers1['id'];?>        
-                                    <input type="hidden"  id="<?php echo $customers_balance_id ?>" value="<?php echo $customers1['balance'];?>">
-                                <?php }?>
-                            </div>
-                        </div>
-                    <div class="user-input-box">
-                        <label class="monday">DATE of Delivery</label>
-                        <input type="date"
-                               class="date"
-                               id="dateofattendance"
-                               name="date_of_attendance"
-                               required="required"
-                               onchange="console.log(this.value);" />
-                    </div>
-                    <div class="line"></div>
-
-                    <div class="bot-buttons">
-                        <div class="CancelButton">
-                            <a href="../monitoring/monitoring-scheduling.php" id="cancel">CANCEL</a>
-                        </div>
-                        <div class="AddButton">
-                            <button type="submit" id="addcustomerBtn" name="save-customer">SAVE</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </form>            
-            <div class="container2">
-            <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
-                <h1 class="addnew-title">WEEKLY SCHEDULE</h1>
-                <form action="#">
-                    <div class="main-user-info">
-                            <div class="customerName">
-                                <label for="contact_num2">Customer Name</label>
-                                <div class="usertype-dropdown">
-                                    <?php
-                                    $dropdown_customers = "SELECT * FROM customers";
-                                    $result_customers = mysqli_query($con, $dropdown_customers);
-                                    ?>
-                                    <select id="chosen2" class="select-customer" name="customername" required="" onchange="customerBal();">
-                                        <option selected disabled value="">SELECT CUSTOMER</option>
-                                        <?php while($customers = mysqli_fetch_array($result_customers)){?>
-                                            <option value="<?php echo $customers['id']?>">
-                                                <?php echo $customers['customer_name'];?>                                        
-                                            </option>
-                                        <?php }?>
-                                        <!-- <option class="guest-option"value="Guest">GUEST</option> -->
-                                    </select>
-                                    <?php
-                                    $dropdown_customers1 = "SELECT * FROM customers";
-                                    $result_customers1 = mysqli_query($con, $dropdown_customers1);
-                                    ?>
-                                    <?php while($customers1 = mysqli_fetch_array($result_customers1)){?>
-                                        <?php $customers_balance_id = 'customerbalance' . $customers1['id'];?>        
-                                        <input type="hidden"  id="<?php echo $customers_balance_id ?>" value="<?php echo $customers1['balance'];?>">
-                                    <?php }?>
-                                </div>
-                            </div>
-                        <label class="dateofattendance" >SELECT DAY(S)</label>
-                        <div class="user-checkbox">
-                            <label class="switch">
-                                <input type="checkbox" >
-                                <span class="slider round"></span>
-                            </label>
-                            <label class="monday" >MONDAY</label>
-                        </div>
-                        <div class="user-checkbox">
-                            <label class="switch">
-                                <input type="checkbox" >
-                                <span class="slider round"></span>
-                            </label>
-                            <label class="monday" >TUESDAY</label>
-                        </div>
-                        <div class="user-checkbox">
-                            <label class="switch">
-                                <input type="checkbox" >
-                                <span class="slider round"></span>
-                            </label>
-                            <label class="monday" >WEDNESDAY</label>
-                        </div>
-                        <div class="user-checkbox">
-                            <label class="switch">
-                                <input type="checkbox" >
-                                <span class="slider round"></span>
-                            </label>
-                            <label class="monday" >THURSDAY</label>
-                        </div>
-                        <div class="user-checkbox">
-                            <label class="switch">
-                                <input type="checkbox" >
-                                <span class="slider round"></span>
-                            </label>
-                            <label class="monday" >FRIDAY</label>
-                        </div>
-                        <div class="user-checkbox">
-                            <label class="switch">
-                                <input type="checkbox" name="saturday">
-                                <span class="slider round"></span>
-                            </label>
-                            <label class="monday" >SATURDAY</label>
-                        </div>
-                        <div class="user-checkbox">
-                            <label class="switch">
-                                <input type="checkbox" >
-                                <span class="slider round"></span>
-                            </label>
-                            <label class="monday" >SUNDAY</label>
-                        </div>
-
-                        <div class="line"></div>
-
-                        <div class="bot-buttons">
-                            <div class="CancelButton">
-                                <a href="../monitoring/monitoring-scheduling.php" id="cancel">CANCEL</a>
-                            </div>
-                            <div class="AddButton">
-                                <button type="submit" id="addcustomerBtn" name="save-weekly-schedule">SAVE</button>
-                            </div>
-                        </div>
-                    </div>
-            </div>     
-        </form>
-    </body>
-</html>
-<script>
-    // ------------------------------SCHEDULING-----------------------------=
- 
-    // ///////////////////////////////////////////////////////////////////////
-const addForm = document.querySelector(".bg-addcustomerform");
-const container1 = document.querySelector(".container1");
-const container2 = document.querySelector(".container2");
- function addnewuser1(){
-    // const addBtn = document.querySelector(".add-customer");
-    addForm.style.display = 'flex';
-    container2.style.display = 'block';
-    container1.style.display = 'none';
-}
-function addnewuser2(){
-    // const addBtn = document.querySelector(".add-customer");
-    addForm.style.display = 'flex';
-    container2.style.display = 'none';
-    container1.style.display = 'block';
-}
-new TomSelect("#chosen1",{
-            create: false,
-            sortField: {
-            field: "text",
-            direction: "asc"
-        }
-    });
-    new TomSelect("#chosen2",{
-            create: false,
-            sortField: {
-            field: "text",
-            direction: "asc"
-        }
-    });
-    // -----------------------------SIDE MENU
- $(document).ready(function(){
-     //jquery for toggle sub menus
-     $('.sub-btn').click(function(){
-       $(this).next('.sub-menu').slideToggle();
-       $(this).find('.dropdown').toggleClass('rotate');
-     });
-
-     //jquery for expand and collapse the sidebar
-     $('.menu-btn').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn').css("visibility", "visible");
-     });
-     $('.menu-btn2').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn2').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn2').css("visibility", "visible");
-     });
-   });
-//    --------------------------------------------------------------------
-    const sideMenu = document.querySelector('#aside');
-    const closeBtn = document.querySelector('#close-btn');
-    const menuBtn = document.querySelector('#menu-button');
-    const checkbox = document.getElementById('checkbox');
-        menuBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'block';
-        })
-
-        closeBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'none';
-        })
-         checkbox.addEventListener( 'change', () =>{
-             document.body.classList.toggle('dark-theme');
-        //     if(this.checked) {
-        //         body.classList.add('dark')
-        //     } else {
-        //         body.classList.remove('dark')     
-        //     }
-         });
-        
-        // if(localStorage.getItem('dark')) {
-        //     body.classList.add('dark');
-        //     }
-    // const sideMenu = document.querySelector("#aside");
-    // const closeBtn = document.querySelector("#close-btn");
-    // const menuBtn = document.querySelector("#menu-button");
-    // const checkbox = document.getElementById("checkbox");
-    //     menuBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'block';
-    //     })
-    //     closeBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'none';
-    //     })
-    //     checkbox.addEventListener('change', () =>{
-    //         document.body.classList.toggle('dark-theme');
-    //     })
-
-    //     function menuToggle(){
-    //         const toggleMenu = document.querySelector('.drop-menu');
-    //         toggleMenu.classList.toggle('user2')
-    //     }
-</script>
-<style>
+    <style>
      :root{
         --color-main: rgb(2, 80, 2);
         --color-white: white;
@@ -2041,7 +1621,6 @@ tr:hover td{
             width: 20vw;
         }
     }
-    
     .menu-tab p{
         font-size: 20px;
         font-weight: lighter;
@@ -2067,4 +1646,477 @@ tr:hover td{
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
+
+    .error-error{
+        background-color: hsl(0, 100%, 77%);
+        color: #ffffff;
+        display: relative;
+        padding: 11px;
+        width: 70%;
+        border-radius: 6px;
+        align-items: center;
+        text-align: center;
+        margin-left: 3.55rem;
+        font-size: min(max(9px, 1.2vw), 11px);
+        letter-spacing: 0.5px;
+        font-family: Helvetica, sans-serif;
+    }
 </style>
+    <body>
+    
+        <div class="container">
+        <?php
+            include('../common/side-menu.php')
+        ?>
+            <main>
+                <div class="main-dashboard">
+                    <h1 class="dashTitle">MONITORING</h1> 
+                    <?php
+                    if (isset($_GET['error'])) {
+                        echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
+                    }
+                    ?>
+                    <div class="sub-tab">
+                        <div class="user-title">
+                            <h2>SCHEDULING</h2>
+                        </div>
+                        <div class="newUser-button">
+                            <button type="button" id="add-userbutton" class="add-customer1" onclick="addnewuser1();">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.75 11.5q-.312 0-.531-.219Q6 11.062 6 10.75q0-.312.219-.531Q6.438 10 6.75 10q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm3.25 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531Q9.688 10 10 10q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm3.25 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531.219-.219.531-.219.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219ZM4.5 18q-.625 0-1.062-.448Q3 17.104 3 16.5v-11q0-.604.438-1.052Q3.875 4 4.5 4H6V2h1.5v2h5V2H14v2h1.5q.625 0 1.062.448Q17 4.896 17 5.5v11q0 .604-.438 1.052Q16.125 18 15.5 18Zm0-1.5h11V9h-11v7.5Z"/></svg>
+                                <h3>WEEKLY SCHEDULE</h3>
+                            </button>
+                        </div>
+                        <div class="newUser-button">
+                            <button type="button" id="add-userbutton" class="add-customer2" onclick="addnewuser2();">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M12 15q-.833 0-1.417-.583Q10 13.833 10 13q0-.833.583-1.417Q11.167 11 12 11q.833 0 1.417.583Q14 12.167 14 13q0 .833-.583 1.417Q12.833 15 12 15Zm-7.5 3q-.625 0-1.062-.448Q3 17.104 3 16.5v-11q0-.604.438-1.052Q3.875 4 4.5 4H6V2h1.5v2h5V2H14v2h1.5q.625 0 1.062.448Q17 4.896 17 5.5v11q0 .604-.438 1.052Q16.125 18 15.5 18Zm0-1.5h11V9h-11v7.5Z"/></svg>
+                                <h3>DATE SCHEDULE</h3>
+                            </button>
+                        </div>
+                        <div class="newUser-button1"> 
+                                <div id="add-userbutton" class="add-account1">
+                                    <h3 class="deliveries">Today's Scheduled Delivery</h3>
+                                    <span class="total-deliveries">0</span>
+                                </div>
+                            </div>
+                    </div> 
+                </div>
+                    
+                <div class="customer-container" id="customerTable">
+                            <br>
+                            <form method="POST" action="">
+                                <div class="select-dropdown">
+                                    <select name="option" class="select" onchange="this.form.submit()">
+                                        <option selected disabled value="">SELECT DAY</option>
+                                        <option value="ALL" <?php if(isset($_POST['option']) && $_POST['option'] == "ALL") { echo 'selected'; }?>>ALL</option>
+                                        <option value="MONDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "MONDAY") { echo 'selected'; }?>>MONDAY</option>
+                                        <option value="TUESDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "TUESDAY") { echo 'selected'; }?>>TUESDAY</option>
+                                        <option value="WEDNESDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "WEDNESDAY") { echo 'selected'; }?>>WEDNESDAY</option>
+                                        <option value="THURSDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "THURSDAY") { echo 'selected'; }?>>THURSDAY</option>
+                                        <option value="FRIDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "FRIDAY") { echo 'selected'; }?>>FRIDAY</option>
+                                        <option value="SATURDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "SATURDAY") { echo 'selected'; }?>>SATURDAY</option>
+                                        <option value="SUNDAY" <?php if(isset($_POST['option']) && $_POST['option'] == "SUNDAY") { echo 'selected'; }?>>SUNDAY</option>
+                                    </select>
+                                </div>
+                            </form>
+         
+                            <header class="previous-transaction-header">SCHEDULED DATE OF DELIVERY(DAY OF THE WEEK)</header>
+                            <hr>
+                            <table class="table" id="myTable">
+                            <thead>
+                            <tr>
+                        <th><span class="statusLbl">DAY(s) of DELIVERY</span></th>
+                        <th>Customer Name</th>
+                        <th>Contact Number</th>
+                        <th>Address</th>
+                    </tr>
+                    </thead>
+
+                    <?php
+
+                    if(isset($_POST['option']) && $_POST['option'] != 'ALL') {
+                       $day = $_POST['option'];
+                       $query = "SELECT 
+                            weekly_scheduling.day,
+                            customers.customer_name,
+                            customers.contact_number1,
+                            customers.address, 
+                            customers.balance
+                            FROM customers
+                            INNER JOIN weekly_scheduling
+                            ON customers.id = weekly_scheduling.customer_id
+                            WHERE weekly_scheduling.day = '$day'
+                            AND customers.status_archive_id = 1";
+                    
+                    } else {
+                        $query = "SELECT 
+                        weekly_scheduling.day,
+                        customers.customer_name,
+                        customers.contact_number1,
+                        customers.address, 
+                        customers.balance
+                        FROM customers
+                        INNER JOIN weekly_scheduling
+                        ON customers.id = weekly_scheduling.customer_id
+                        WHERE customers.status_archive_id = 1";
+                    }
+                    
+                    $result = mysqli_query($con, $query);
+                    if(mysqli_num_rows($result) > 0)
+                    {
+                    foreach($result as $rows)
+                    {
+                    ?>
+                    <tbody>
+                    <tr>
+                        <td> <?php echo $rows['day']; ?></td>
+                        <td> <?php echo $rows['customer_name']; ?></td>
+                        <td> <?php echo $rows['contact_number1']; ?></td>
+                        <td> <?php echo $rows['address']; ?></td>
+                    </tr>
+                    <?php } ?>
+                    <?php } else { ?>
+                        <tr id="noRecordTR">
+                            <td colspan="15">No Record(s) Found</td>
+                        </tr>
+                    <?php } ?>
+                            </tbody>
+                            
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="customer-container" id="customerTable">
+                            <br>
+                            
+                            <header class="previous-transaction-header">SCHEDULED DATE OF DELIVERY</header>
+                            <hr>
+                            <table class="table" id="myTable">
+                            <thead>
+                            <tr>
+                        <th><span class="statusLbl">DATE of DELIVERY</span></th>
+                        <th>Customer Name</th>
+                        <th>Contact Number</th>
+                        <th>Address</th>
+                        <th>Balance</th>
+                    </tr>
+                    </thead>
+
+                    <?php
+                    $query = "SELECT 
+                            date_scheduling.date,
+                            customers.id,
+                            customers.customer_name,
+                            customers.contact_number1,
+                            customers.address, 
+                            customers.balance
+                            FROM customers
+                            INNER JOIN date_scheduling
+                            ON customers.id = date_scheduling.customer_id
+                            WHERE customers.status_archive_id = 1
+                            ORDER BY date_scheduling.date ASC";
+                    $result = mysqli_query($con, $query);
+                    if(mysqli_num_rows($result) > 0)
+                    {
+                    foreach($result as $rows)
+                    {
+                    ?>
+                    <tbody>
+                    <tr>
+                        <td> <?php echo $rows['date']; ?></td>
+                        <td> <?php echo $rows['customer_name']; ?></td>
+                        <td> <?php echo $rows['contact_number1']; ?></td>
+                        <td> <?php echo $rows['address']; ?></td>
+                        <td> <?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
+                    </tr>
+                    <?php } ?>
+                    <?php } else { ?>
+                        <tr id="noRecordTR">
+                            <td colspan="15">No Record(s) Found</td>
+                        </tr>
+                    <?php } ?>
+                            </tbody>
+                            
+                            </table>
+                        </div>
+            </main>
+            <?php
+                include('../common/top-menu.php')
+            ?>    
+        </div> 
+        
+    <div class="bg-addcustomerform" id="bg-addform">
+        <div class="container1">
+        <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+            <h1 class="addnew-title">DATE SCHEDULE</h1>
+            <form action="#">
+                <div class="main-user-info">
+                        <div class="customerName">
+                                <label for="contact_num2">Customer Name</label>
+                                <div class="usertype-dropdown">
+                                    <?php
+                                    $dropdown_customers = "SELECT * FROM customers";
+                                    $result_customers = mysqli_query($con, $dropdown_customers);
+                                    ?>
+                                    <select id="chosen1" class="select-customer" name="customername" required="">
+                                        <option selected disabled value="">SELECT CUSTOMER</option>
+                                        <?php while($customers = mysqli_fetch_array($result_customers)){?>
+                                            <option value="<?php echo $customers['id']?>">
+                                                <?php echo $customers['customer_name'];?>                                        
+                                            </option>
+                                        <?php }?>
+                                    </select>
+                                </div>
+                        </div>
+                    <div class="user-input-box">
+                        <label class="monday">DATE of Delivery</label>
+                        <input type="date"
+                               class="date"
+                               id="dateofattendance"
+                               name="date_schedule"
+                               required="required"
+                               onchange="console.log(this.value);" />
+                    </div>
+                    <div class="line"></div>
+
+                    <div class="bot-buttons">
+                        <div class="CancelButton">
+                            <a href="../monitoring/monitoring-scheduling.php" id="cancel">CANCEL</a>
+                        </div>
+                        <div class="AddButton">
+                            <button type="submit" id="addcustomerBtn" name="save-date-schedule">SAVE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>            
+            <div class="container2">
+            <?php 
+            $customer_id = 0;
+            if(isset($_POST['customer_id'])) {
+                    echo '<script type="text/JavaScript"> 
+                    const addForm = document.querySelector(".bg-addcustomerform");
+                    const container1 = document.querySelector(".container1");
+                    const container2 = document.querySelector(".container2");
+
+                    addForm.style.display = "flex";
+                    container2.style.display = "block";
+                    container1.style.display = "none";
+                    </script>';
+                    $customer_id = $_POST['customer_id'];
+            }
+            
+            ?>
+            <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                <h1 class="addnew-title">WEEKLY SCHEDULE</h1>
+                <form action="#">
+                    <div class="main-user-info">
+                            <div class="customerName">
+                            <form method="POST" action="">
+                                <label for="contact_num2">Customer Name</label>
+                                <div class="usertype-dropdown">
+                                    <?php
+                                    $dropdown_customers = "SELECT * FROM customers";
+                                    $result_customers = mysqli_query($con, $dropdown_customers);
+                                    ?>
+                                    <select id="chosen2" class="select-customer" name="customer_id" required="" onchange="this.form.submit()">
+                                        <option selected disabled value="">SELECT CUSTOMER</option>
+                                        <?php while($customers = mysqli_fetch_array($result_customers)){?>
+                                            <option 
+                                            <?php if(isset($_POST['customer_id']) && $customers['id'] == $_POST['customer_id']) echo 'selected'; ?>
+                                            value="<?php echo $customers['id']?>">
+                                                <?php echo $customers['customer_name'];?>                                        
+                                            </option>
+                                        <?php }?>
+                                    </select>
+                                </div>
+                            </form>
+                            </div>
+                        <label class="dateofattendance">SELECT DAY(S)</label>
+                        <?php 
+                        $has_monday = false;
+                        $has_tuesday = false;
+                        $has_wednesday = false;
+                        $has_thursday = false;
+                        $has_friday = false;
+                        $has_saturday = false;
+                        $has_sunday = false;
+                        if(isset($_POST['customer_id'])) {
+                            $has_monday = has_day($con, 'MONDAY', $customer_id);
+                            $has_tuesday = has_day($con, 'TUESDAY', $customer_id);
+                            $has_wednesday = has_day($con, 'WEDNESDAY', $customer_id);
+                            $has_thursday = has_day($con, 'THURSDAY', $customer_id);
+                            $has_friday = has_day($con, 'FRIDAY', $customer_id);
+                            $has_saturday = has_day($con, 'SATURDAY', $customer_id);
+                            $has_sunday = has_day($con, 'SUNDAY', $customer_id);
+                            echo '<input type="hidden" name="customername" value="'.$_POST['customer_id'].'">';
+                        }
+                        ?>
+
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" name="monday" <?php if($has_monday) echo 'checked'?>>
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday">MONDAY</label>
+                        </div>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" name="tuesday" <?php if($has_tuesday) echo 'checked'?>>
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday">TUESDAY</label>
+                        </div>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" name="wednesday" <?php if($has_wednesday) echo 'checked'?>>
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday">WEDNESDAY</label>
+                        </div>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" name="thursday" <?php if($has_thursday) echo 'checked'?>>
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday">THURSDAY</label>
+                        </div>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" name="friday" <?php if($has_friday) echo 'checked'?>>
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday">FRIDAY</label>
+                        </div>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" name="saturday" <?php if($has_saturday) echo 'checked'?>>
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday">SATURDAY</label>
+                        </div>
+                        <div class="user-checkbox">
+                            <label class="switch">
+                                <input type="checkbox" name="sunday" <?php if($has_sunday) echo 'checked'?>>
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="monday">SUNDAY</label>
+                        </div>
+
+                        <div class="line"></div>
+
+                        <div class="bot-buttons">
+                            <div class="CancelButton">
+                                <a href="../monitoring/monitoring-scheduling.php" id="cancel">CANCEL</a>
+                            </div>
+                            <div class="AddButton">
+                                <button type="submit" id="addcustomerBtn" name="save-weekly-schedule">SAVE</button>
+                            </div>
+                        </div>
+                    </div>
+            </div>     
+        </form>
+    </body>
+</html>
+<script>
+    // ------------------------------SCHEDULING-----------------------------=
+ 
+    // ///////////////////////////////////////////////////////////////////////
+const addForm = document.querySelector(".bg-addcustomerform");
+const container1 = document.querySelector(".container1");
+const container2 = document.querySelector(".container2");
+ function addnewuser1(){
+    // const addBtn = document.querySelector(".add-customer");
+    addForm.style.display = 'flex';
+    container2.style.display = 'block';
+    container1.style.display = 'none';
+}
+function addnewuser2(){
+    // const addBtn = document.querySelector(".add-customer");
+    addForm.style.display = 'flex';
+    container2.style.display = 'none';
+    container1.style.display = 'block';
+}
+new TomSelect("#chosen1",{
+            create: false,
+            sortField: {
+            field: "text",
+            direction: "asc"
+        }
+    });
+    new TomSelect("#chosen2",{
+            create: false,
+            sortField: {
+            field: "text",
+            direction: "asc"
+        }
+    });
+    // -----------------------------SIDE MENU
+ $(document).ready(function(){
+     //jquery for toggle sub menus
+     $('.sub-btn').click(function(){
+       $(this).next('.sub-menu').slideToggle();
+       $(this).find('.dropdown').toggleClass('rotate');
+     });
+
+     //jquery for expand and collapse the sidebar
+     $('.menu-btn').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn').css("visibility", "visible");
+     });
+     $('.menu-btn2').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn2').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn2').css("visibility", "visible");
+     });
+   });
+//    --------------------------------------------------------------------
+    const sideMenu = document.querySelector('#aside');
+    const closeBtn = document.querySelector('#close-btn');
+    const menuBtn = document.querySelector('#menu-button');
+    const checkbox = document.getElementById('checkbox');
+        menuBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'block';
+        })
+
+        closeBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'none';
+        })
+         checkbox.addEventListener( 'change', () =>{
+             document.body.classList.toggle('dark-theme');
+        //     if(this.checked) {
+        //         body.classList.add('dark')
+        //     } else {
+        //         body.classList.remove('dark')     
+        //     }
+         });
+        
+        // if(localStorage.getItem('dark')) {
+        //     body.classList.add('dark');
+        //     }
+    // const sideMenu = document.querySelector("#aside");
+    // const closeBtn = document.querySelector("#close-btn");
+    // const menuBtn = document.querySelector("#menu-button");
+    // const checkbox = document.getElementById("checkbox");
+    //     menuBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'block';
+    //     })
+    //     closeBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'none';
+    //     })
+    //     checkbox.addEventListener('change', () =>{
+    //         document.body.classList.toggle('dark-theme');
+    //     })
+
+    //     function menuToggle(){
+    //         const toggleMenu = document.querySelector('.drop-menu');
+    //         toggleMenu.classList.toggle('user2')
+    //     }
+</script>

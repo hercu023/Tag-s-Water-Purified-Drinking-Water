@@ -29,6 +29,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
 
 </head>
 <body>
+    
 <div class="container">
 
     <?php
@@ -187,23 +188,95 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
                     </div>
                 </div>
             </form>
-
+  
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-<script src="../index.js"></script>
-<script src="../javascript/customer.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-</html>
 <style>
     .top-menu{
         margin-top: 1rem;
         position: absolute;
         right: 3%;
     }
+    .loader-wrapper{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top:0;
+    left:0;
+    background-color: var(--color-tertiary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.loader {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  border: 4px solid #Fff;
+  top: 50%;
+  animation: loader 2s infinite ease;
+}
+
+.loader-inner {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  background-color: #fff;
+  animation: loader-inner 2s infinite ease-in;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  25% {
+    transform: rotate(180deg);
+  }
+  
+  50% {
+    transform: rotate(180deg);
+  }
+  
+  75% {
+    transform: rotate(360deg);
+  }
+  
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-inner {
+  0% {
+    height: 0%;
+  }
+  
+  25% {
+    height: 0%;
+  }
+  
+  50% {
+    height: 100%;
+  }
+  
+  75% {
+    height: 100%;
+  }
+  
+  100% {
+    height: 0%;
+  }
+}
 </style>
 <script>
+    $(window).on("load",function(){
+        $(".loader-wrapper").fadeOut("slow");
+    })
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     function addnewuser(){
         const addBtn = document.querySelector(".add-account");
         addForm.style.display = 'flex';
@@ -212,3 +285,10 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
         $('#myerror').fadeOut('fast');
     }, 3000);
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+<script src="../index.js"></script>
+<script src="../javascript/customer.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</html>

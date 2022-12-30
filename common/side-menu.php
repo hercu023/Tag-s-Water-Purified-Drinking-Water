@@ -105,9 +105,6 @@ require_once "../service/user-access.php";
                         <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-DELIVERY_PICKUP')) {?>
                             <a href="../monitoring/monitoring-delivery-pickup.php" class="sub-item">Delivery/Pick Up</a>
                         <?php } ?>
-                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-RETURN_CONTAINER')) {?>
-                            <a href="../monitoring/monitoring-return-container.php" class="sub-item">Return Container</a>
-                        <?php } ?>
                         <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-CUSTOMER_BALANCE')) {?>
                             <a href="../monitoring/monitoring-customer-balance.php" class="sub-item">Customer Balance</a>
                         <?php } ?>

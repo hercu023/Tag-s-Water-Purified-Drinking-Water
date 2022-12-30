@@ -8,6 +8,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-ACCO
     header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
     exit();
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +78,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-ACCO
                     </thead>
 
                     <?php
-                    $query = "SELECT * FROM account_type WHERE is_deleted = 0";
+                    $query = "SELECT * FROM account_type where user_type != 'ADMIN'";
                     $result = mysqli_query($con, $query);
                     while ($rows = mysqli_fetch_assoc($result))
                     {
@@ -85,10 +87,10 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-ACCO
                         <tr>
                             <td> <?php echo $rows['user_type']; ?></td>
                             <td>
-                                <a href="../accounts/account-type-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                <a href="account-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
                                     <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
                                 </a>
-                                <a href="../accounts/account-type-remove.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                <a href="Account-Action-Archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
                                     <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
                                 </a>
                             </td>
@@ -110,18 +112,32 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-ACCO
     ?>
 </div>
 
+<?php
+if(isset($_GET['edit']))
+{
+    $account_type_id = $_GET['edit'];
+    $select_account_type = mysqli_query($con, "SELECT * FROM account_type 
+                                                where id='$account_type_id'");
+
+    $account_type = mysqli_fetch_assoc($select_account_type);
+
+    $user_type = $account_type['user_type'];
+?>
 <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
-    <div class="bg-adduserform" id="bg-addform">`
+    <input type="hidden" name="update" value="1">
+    <div class="bg-adduserform" id="bg-addform">
+        <?php echo '<script type="text/javascript">document.querySelector(".bg-adduserform").style.display = "flex";</script>';?>
         <div class="message"></div>
         <div class="container1">
             <h1 class="addnew-title">ADD NEW ACCOUNT</h1>
             <form action="#">
             <div class="user-input-box">
                                 <label for="Supplier">Role Description</label>
-                                <input type="text"
+                                <input type="text" readonly
                                         id="Supplier"
                                         name="role_description"
                                         placeholder="Enter Role Description"
+                                        value = "<?php echo $user_type ?>"
                                         required="required"/>
                             </div>
                 <div class="main-user-info">
@@ -136,10 +152,13 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-ACCO
                     $result = mysqli_query($con, $query);
                     while ($rows = mysqli_fetch_assoc($result))
                     {
+                        $module_id =  $rows['id'];
+
+                        $status = has_access($con, $module_id, $account_type_id);
                         ?>
                         <div class="user-checkbox">
                             <label class="switch">
-                                <input type="checkbox" name="<?php echo $rows['name'] ?>">
+                                <input type="checkbox" name="<?php echo $rows['name']?>" <?php if($status) echo 'checked'?> <?php if($user_type == 'ADMIN') echo 'disabled'?> >
                                 <span class="slider round"></span>
                             </label>
                             <label class="monday" ><?php echo $rows['name']; ?></label>
@@ -164,6 +183,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-ACCO
             </form>
         </div>
 </form>
+<?php } ?>
 </div>
 
 </body>

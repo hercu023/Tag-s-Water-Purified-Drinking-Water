@@ -1,8 +1,9 @@
 <?php
 require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
+require_once "../service/add-delivery.php";
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-CUSTOMER_BALANCE')) {
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-DELIVERY_PICKUP')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
     exit();
 }
@@ -27,261 +28,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
         <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
         <script src="../index.js"></script>
     </head>
-    <body>
-    
-        <div class="container">
-        <?php
-            include('../common/side-menu.php')
-        ?>
-            <main>
-                <div class="main-dashboard">
-                    <h1 class="dashTitle">MONITORING</h1> 
-                    <div class="sub-tab">
-                        <div class="user-title">
-                            <h2>RETURN CONTAINER</h2>
-                        </div>
-                        <div class="newUser-button">
-                            <button type="button" id="add-userbutton" class="add-customer" onclick="addnewuser();">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                <h3>Return Container</h3>
-                            </button>
-                        </div>
-                        <div class="search">
-                            <div class="search-bar"> 
-                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                                <button type="submit" >
-                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                                </button>
-                            </div>
-                        </div>  
-                    </div> 
-                </div>
-                <div class="main-container">
-                        <div class="sub-tab-container">
-                            
-                            <div class="totals">
-                            <div class="newUser-button1"> 
-                                <div id="add-userbutton" class="add-account1">
-                                    <h3 class="deliveries">TOTAL SLIM CONTAINER</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                            <div class="newUser-button2"> 
-                                <div id="add-userbutton" class="add-account2">
-                                    <h3 class="deliveries">TOTAL ROUND CONTAINER</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                            <div class="newUser-button2"> 
-                                <div id="add-userbutton" class="add-account3">
-                                    <h3 class="deliveries">TOTAL BORROWED CONTAINER</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    
-                        <div class="customer-container" id="customerTable">
-                            <br>
-                            <header class="previous-transaction-header">Previous Borrowed Transaction</header>
-                            <hr>
-                            <table class="table" id="myTable">
-                            <thead>
-                            <tr>
-                        <th>ID</th>
-                        <th>Customer Name</th>
-                        <th>Contact Number</th>
-                        <th>Address</th>
-                        <th>Balance</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-
-                    <?php
-                    $query = "SELECT customers.id,
-                                customers.customer_name,
-                                customers.contact_number1,
-                                customers.address, 
-                                customers.balance,
-                                status_archive.status
-                                FROM customers 
-                                INNER JOIN status_archive 
-                                ON customers.status_archive_id = status_archive.id 
-                                WHERE customers.status_archive_id = '1'";
-                    $result = mysqli_query($con, $query);
-                    if(mysqli_num_rows($result) > 0)
-                    {
-                    foreach($result as $rows)
-                    {
-                    ?>
-                    <tbody>
-                    <tr>
-                        <td> <?php echo $rows['id']; ?></td>
-                        <td> <?php echo $rows['customer_name']; ?></td>
-                        <td> <?php echo $rows['contact_number1']; ?></td>
-                        <td> <?php echo $rows['address']; ?></td>
-                        <td> <?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
-                        <td>
-                            <a href="../monitoring/monitoring-customer-balance-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
-                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
-                            </a>
-                        </td>
-                    </tr>
-                    <?php } ?>
-                    <?php } else { ?>
-                        <tr id="noRecordTR">
-                            <td colspan="15">No Record(s) Found</td>
-                        </tr>
-                    <?php } ?>
-                            </tbody>
-                            
-                            </table>
-                        </div>
-            </main>
-            <?php
-                include('../common/top-menu.php')
-            ?>    
-        </div> 
-        <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
-    <div class="bg-addcustomerform" id="bg-addform">
-        <div class="message"></div>
-        <div class="container1">
-            <h1 class="addnew-title">ADD BALANCE</h1>
-            <form action="#">
-                <div class="main-user-info">
-                        <div class="customerName">
-                            <label for="contact_num2">Customer Name</label>
-                            <div class="usertype-dropdown">
-                                <?php
-                                $dropdown_customers = "SELECT * FROM customers";
-                                $result_customers = mysqli_query($con, $dropdown_customers);
-                                ?>
-                                <select id="chosen" class="select-customer" name="customername" required="" onchange="customerBal();">
-                                    <option selected disabled value="">SELECT CUSTOMER</option>
-                                    <?php while($customers = mysqli_fetch_array($result_customers)){?>
-                                        <option value="<?php echo $customers['id']?>">
-                                            <?php echo $customers['customer_name'];?>                                        
-                                        </option>
-                                    <?php }?>
-                                    <!-- <option class="guest-option"value="Guest">GUEST</option> -->
-                                </select>
-                                <?php
-                                $dropdown_customers1 = "SELECT * FROM customers";
-                                $result_customers1 = mysqli_query($con, $dropdown_customers1);
-                                ?>
-                                <?php while($customers1 = mysqli_fetch_array($result_customers1)){?>
-                                    <?php $customers_balance_id = 'customerbalance' . $customers1['id'];?>        
-                                    <input type="hidden"  id="<?php echo $customers_balance_id ?>" value="<?php echo $customers1['balance'];?>">
-                                <?php }?>
-                            </div>
-                        </div>
-                    <div class="user-input-box" id="address-box">
-                        <label for="balance">Advance Payment</label>
-                        <input type="number" step=".01"
-                               id="address" 
-                               class="address"
-                               required="required" name="address" placeholder="0.00"/>
-                    </div>
-                    <div class="line"></div>
-
-                    <div class="bot-buttons">
-                        <div class="CancelButton">
-                            <a href="../monitoring/monitoring-return-container.php" id="cancel">CANCEL</a>
-                        </div>
-                        <div class="AddButton">
-                            <button type="submit" id="addcustomerBtn" name="save-customer">SAVE</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-    </body>
-</html>
-<script>
-const addForm = document.querySelector(".bg-addcustomerform");
- function addnewuser(){
-    // const addBtn = document.querySelector(".add-customer");
-    addForm.style.display = 'flex';
-}
-new TomSelect("#chosen",{
-            create: false,
-            sortField: {
-            field: "text",
-            direction: "asc"
-        }
-    });
-    // -----------------------------SIDE MENU
- $(document).ready(function(){
-     //jquery for toggle sub menus
-     $('.sub-btn').click(function(){
-       $(this).next('.sub-menu').slideToggle();
-       $(this).find('.dropdown').toggleClass('rotate');
-     });
-
-     //jquery for expand and collapse the sidebar
-     $('.menu-btn').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn').css("visibility", "visible");
-     });
-     $('.menu-btn2').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn2').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn2').css("visibility", "visible");
-     });
-   });
-//    --------------------------------------------------------------------
-    const sideMenu = document.querySelector('#aside');
-    const closeBtn = document.querySelector('#close-btn');
-    const menuBtn = document.querySelector('#menu-button');
-    const checkbox = document.getElementById('checkbox');
-        menuBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'block';
-        })
-
-        closeBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'none';
-        })
-         checkbox.addEventListener( 'change', () =>{
-             document.body.classList.toggle('dark-theme');
-        //     if(this.checked) {
-        //         body.classList.add('dark')
-        //     } else {
-        //         body.classList.remove('dark')     
-        //     }
-         });
-        
-        // if(localStorage.getItem('dark')) {
-        //     body.classList.add('dark');
-        //     }
-    // const sideMenu = document.querySelector("#aside");
-    // const closeBtn = document.querySelector("#close-btn");
-    // const menuBtn = document.querySelector("#menu-button");
-    // const checkbox = document.getElementById("checkbox");
-    //     menuBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'block';
-    //     })
-    //     closeBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'none';
-    //     })
-    //     checkbox.addEventListener('change', () =>{
-    //         document.body.classList.toggle('dark-theme');
-    //     })
-
-    //     function menuToggle(){
-    //         const toggleMenu = document.querySelector('.drop-menu');
-    //         toggleMenu.classList.toggle('user2')
-    //     }
-</script>
-<style>
+    <style>
      :root{
         --color-main: rgb(2, 80, 2);
         --color-white: white;
@@ -332,7 +79,67 @@ new TomSelect("#chosen",{
         background-size: cover;
         background-attachment: fixed;
     }  
-    
+    .status1{
+        font-weight: 800;
+        font-size: .8rem;
+        padding: .3rem 1rem;
+        background-color: #87CEFA;
+        color: var(--color-secondary-main);
+        font-family: 'outfit', sans-serif;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 3rem;
+        cursor: pointer;
+    }
+    .status1:hover{
+        background-color: var(--color-solid-gray);
+        color: var(--color-secondary-main);
+        border-bottom: 5px solid #87CEFA;
+        transition: 0.3s;
+    }
+    .status3{
+        font-weight: 800;
+        font-size: .8rem;
+        margin-bottom: .5rem;
+        padding: .3rem 1rem;
+        background-color: var(--color-main);
+        color: var(--color-secondary-main);
+        font-family: 'outfit', sans-serif;
+        text-transform: uppercase;
+        border-radius: 3rem;
+        cursor: pointer;
+        border: none;
+    }
+    .status3:hover{
+        background-color: var(--color-solid-gray);
+        color: var(--color-secondary-main);
+        border-bottom: 5px solid var(--color-main);
+        transition: 0.3s;
+    }
+    .status{
+        font-weight: 800;
+        font-size: .9rem;
+        padding: .3rem 1rem;
+        background-color: var(--color-main);
+        color: var(--color-secondary-main);
+        font-family: 'outfit', sans-serif;
+        text-transform: uppercase;
+        border-radius: 3rem;
+        cursor: pointer;
+    }
+    .status:hover{
+        background-color: var(--color-solid-gray);
+        color: var(--color-secondary-main);
+        border-bottom: 5px solid var(--color-main);
+        transition: 0.3s;
+    }
+    .statusLbl{
+        font-weight: 1000;
+        font-size: 1.8rem;
+        width: rem;
+        text-transform: uppercase;
+        border-bottom: 2px solid var(--color-main);
+    }
     .main-user-info{
     display: flex;
     flex-wrap: wrap;
@@ -356,46 +163,6 @@ new TomSelect("#chosen",{
     font-family: 'Malberg Trial', sans-serif;
     font-weight: 550;
     /* margin: 5px 0; */
-}
-
-.select-customer{
-    /* background: var(--color-solid-gray); */
-    color: var(--color-black);
-    align-items: center;
-    border-radius: 13px;
-    /* padding: 8px 12px; */
-    height: 40px;
-    width: 100%;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.select{
-            background: var(--color-solid-gray);
-            color: var(--color-white);
-            align-items: center;
-            border-radius: 13px;
-            padding: 8px 12px;
-            height: 40px;
-            width: 100%;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-.usertype-dropdown{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-}
-.select{
-    background: var(--color-solid-gray);
-    color: var(--color-white);
-    align-items: center;
-    border-radius: 13px;
-    padding: 8px 12px;
-    height: 40px;
-    width: 96%;
-    cursor: pointer;
-    transition: 0.3s;
 }
 .action-dropdown{
     position: relative;
@@ -686,7 +453,7 @@ new TomSelect("#chosen",{
     align-items: center;
     color: var(--color-button);
     fill: var(--color-button);
-    width: 13rem;
+    width: 11rem;
     max-height: 46px;
     border-radius: 20px;
     padding: .68rem 1rem;
@@ -697,7 +464,7 @@ new TomSelect("#chosen",{
     height: 3.9rem;
     transition: all 300ms ease;
     margin-top: .2rem;
-    margin-left: 20rem;
+    margin-left: 18rem;
     text-transform: uppercase;
 }
 .add-customer h3{
@@ -764,7 +531,7 @@ new TomSelect("#chosen",{
     background: var(--color-white);
     width: 101%;
     border-radius: 10px 10px 10px 10px;
-    margin-bottom: 1rem;
+    margin-top: 5rem;
     position: relative;
 }
 .sub-tab-container{
@@ -782,10 +549,10 @@ new TomSelect("#chosen",{
 }
 .customer-container{
     /* margin-top: 2rem; */
-    max-height: 550px;
+    max-height: 650px;
     overflow:auto;
     background-color: var(--color-white);
-    width: 101%;
+    width: 100%;
     margin-bottom: 1rem;
     /* position: absolute; */
     box-shadow: 5px 5px 15px 0px var(--color-solid-gray);
@@ -811,7 +578,7 @@ new TomSelect("#chosen",{
 }
 
 .customer-container table tbody td{
-    height: 2.8rem;
+    height: 4.8rem;
     border-bottom: 1px solid var(--color-solid-gray);
     color: var(--color-td);
     font-size: .8rem;
@@ -825,15 +592,12 @@ th{
 }
 tr:hover td{
     color: var(--color-main);
-    cursor: pointer;
-    background-color: var(--color-table-hover);
 }
 .select-dropdown{
     display: inline-block;
     margin-right: 23%;
     position: relative;
     float: right;
-    max-height: 50px;
 }
 .select{
     background-color: var(--color-white);
@@ -843,6 +607,7 @@ tr:hover td{
     padding: .80rem 1rem;
     width: 10.8vw;
     font-size: 14px;
+    height: 3rem;
     cursor: pointer;
     transition: 0.3s;
     border: none;
@@ -880,7 +645,7 @@ tr:hover td{
         font-family: 'Galhau Display', sans-serif;
     }
     main .sub-tab{
-        margin-bottom: 5rem;
+        margin-bottom: 2rem;
         margin-top: 3rem;
     }
     /* ----------------------------------------Search BAR---------------------------------------- */
@@ -933,6 +698,10 @@ tr:hover td{
         margin-left: 1rem;
         position: relative;
     }
+    .remaining{
+        position: relative;
+        display: inline-block;
+    }
     .newUser-button1{
         position: relative;
         margin-left: 1rem;
@@ -943,6 +712,40 @@ tr:hover td{
         position: relative;
         display: inline-block;
     }
+    .newUser-button3{
+        margin-left: 2rem;
+        display: inline-block;
+    }
+    .batchlist{
+        display: flex;
+        border: none;
+        background-color: var(--color-solid-gray); 
+        align-items: center;
+        color: var(--color-secondary-main); 
+        fill: var(--color-secondary-main); 
+        width: 18rem;
+        padding: .68rem .8rem;
+        text-align: center;
+        justify-content: center;
+        height: 1.7rem;
+        gap: 1rem;
+        font-weight: 700;
+        border-radius: 20px;
+        font-family: 'ARIAL', sans-serif;
+        transition: all 300ms ease;
+        position: relative; 
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+    .batchlist h3{
+        font-size: .8rem;
+        margin-right: 1.5rem;
+    }
+    .batchlist:hover{
+        background-color: #8FBC8F;
+        color: white;
+        fill: white;
+    }
     .add-account1{
         display: flex;
         border: none;
@@ -950,10 +753,10 @@ tr:hover td{
         align-items: center;
         color: var(--color-button); 
         fill: var(--color-button); 
-        width: 15rem;
+        width: 10rem;
         text-align: center;
         justify-content: center;
-        height: 2rem;
+        height: 1.7rem;
         border-radius: 10px;
         padding: .68rem 1rem;
         font-family: 'Outfit', sans-serif;
@@ -974,7 +777,7 @@ tr:hover td{
         align-items: center;
         color: var(--color-button); 
         fill: var(--color-button); 
-        width: 15rem;
+        width: 30rem;
         text-align: center;
         justify-content: center;
         height: 2rem;
@@ -985,10 +788,11 @@ tr:hover td{
         position: relative; 
         margin-top: .2rem;
         text-transform: uppercase;
-        border-bottom: 4px solid #008B8B;
+        border-left: 4px solid var(--color-main);
+        border-right: 4px solid var(--color-main);
     }
     .add-account2 h3{
-        font-size: .8rem;
+        font-size: 1rem;
         margin-right: 1.5rem;
     }
     .add-account3{
@@ -1781,3 +1585,321 @@ tr:hover td{
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
 </style>
+    <body>
+    
+        <div class="container">
+        <?php
+            include('../common/side-menu.php')
+        ?>
+            <main>
+                <div class="main-dashboard">
+                    <h1 class="dashTitle">MONITORING</h1> 
+                    <div class="sub-tab">
+                        <div class="user-title">
+                            <h2>DELIVERY/PICK UP</h2>
+                        </div>
+                        <div class="select-dropdown">
+                            <select class="select">
+                                <option selected disabled value="">SELECT SERVICE</option>
+                                <option value="All">All</option>
+                                <option value="Delivery">Delivery</option>
+                                <option value="Delivery/Pick Up">Delivery/Pick Up</option>
+                            </select>
+                        </div>
+                        
+                        <div class="search">
+                            <div class="search-bar"> 
+                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+                                <button type="submit" >
+                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+                                </button>
+                            </div>
+                        </div>  
+                    </div> 
+                </div>
+                <div class="main-container">
+                        <div class="sub-tab-container">
+                            
+                            <div class="totals">
+                                <!-- <h2 class="remaining">REMAINING ITEMS</h2> -->
+                            <div class="newUser-button2"> 
+                                <div id="add-userbutton" class="add-account2">
+                                    <h3 class="deliveries">TOTAL PICK UP ORDERS</h3>
+                                    <span class="total-deliveries">0</span>
+                                </div>
+                            </div>
+                            <div class="newUser-button3"> 
+                                <a href="../monitoring/monitoring-delivery-pickup.php" id="add-userbutton" class="batchlist">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M14 18q-1.667 0-2.833-1.167Q10 15.667 10 14q0-1.667 1.167-2.833Q12.333 10 14 10q1.667 0 2.833 1.167Q18 12.333 18 14q0 1.667-1.167 2.833Q15.667 18 14 18Zm1.146-2.146.708-.708-1.354-1.354V12h-1v2.208ZM4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.448-1.062Q3.896 3 4.5 3h3.562q.209-.708.709-1.104Q9.271 1.5 10 1.5q.75 0 1.25.396T11.938 3H15.5q.604 0 1.052.438Q17 3.875 17 4.5v4.896q-.354-.229-.719-.406-.364-.178-.781-.282V4.5H14V7H6V4.5H4.5v11h4.208q.146.438.292.792.146.354.396.708ZM10 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q10.312 3 10 3q-.312 0-.531.219-.219.219-.219.531 0 .312.219.531.219.219.531.219Z"/></svg>
+                                    <h3 class="deliveries">PENDING DELIVERY and PICK UP</h3>
+                                </a>
+                            </div>
+                        </div> 
+                </div>
+                <div class="customer-container" id="customerTable">
+                            <br>
+                            <header class="previous-transaction-header">PICK UP LIST ORDERS</header>
+                            <hr>
+                            <table class="table" id="myTable">
+                            <thead>
+                            <tr>
+                            <th><span class="statusLbl">STATUS</span></th>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Details</th>
+                            <th>Total Amount</th>
+                            <th>Payment Status</th>
+                            <th>Date/Time</th>
+                            <th>Delivery Boy</th>
+                    </tr>
+                    </thead>
+
+                    <?php
+                            $dropdown_query2 = "SELECT 
+                            transaction.id,
+                            transaction.uuid,
+                            customers.customer_name,
+                            transaction.status_id,
+                            transaction.total_amount,
+                            transaction.created_at_date,
+                            transaction.created_at_time
+                            FROM transaction
+                            INNER JOIN delivery_list
+                            ON transaction.uuid = delivery_list.uuid
+                            INNER JOIN payment_option
+                            ON transaction.payment_option = payment_option.id
+                            LEFT JOIN customers
+                            ON transaction.customer_name_id = customers.id
+                            WHERE transaction.service_type != 'Walk In'
+                            AND transaction.uuid IN (SELECT uuid FROM delivery_list)
+                            AND delivery_list.delivery_status = 4
+                            ORDER BY transaction.created_at_time";
+                        $result4 = mysqli_query($con, $dropdown_query2);
+                        while ($rows = mysqli_fetch_assoc($result4))
+                        {
+                    ?>
+                     <tbody>
+                        <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
+                            <tr>
+                                <td> <button type="submit" name="add-to-ongoing-pickup" class="status1">ADD TO ONGOING PICK UP</button></td>
+                                    <input type="hidden" value="<?php echo $rows['uuid'];?>" name="uuid">
+                                <td> <?php echo $rows['id']; ?></td>
+                                <td> <?php if($rows['customer_name']){
+                                    echo $rows['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }
+                                 ?></td>
+                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
+                                <td>         
+                                    <?php
+                                        if($rows['status_id'] == 0){
+                                            echo 'Unpaid';
+                                        }else{
+                                            echo 'Paid';
+                                        } 
+                                    ?>
+                                </td>
+                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
+                                <td>    
+                                        <div class="usertype-dropdown1">
+                                        <?php
+                                        $dropdown_query = "SELECT * FROM employee WHERE position_id LIKE '%2'";
+                                        $result_category = mysqli_query($con, $dropdown_query);
+                                        ?>
+                                        <select class="select1" name="delivery_boy" required="" >
+                                            <option selected disabled value="">SELECT DELIVERY BOY</option>
+                                            <?php while($category = mysqli_fetch_array($result_category)):;?>
+                                                <option value="<?php echo $category['id']?>">
+                                                    <?php echo $category['first_name'].' '.$category['last_name'];?></option>
+                                            <?php endwhile;?>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>    <a href="../service/delete-transaction-order.php?delete-list=<?php echo $rows['uuid']; ?>" class="delete-rowsButton" class="action-btn" name="action">
+                                            X
+                                        </a>
+                                </td>
+                            <tr id="noRecordTR" style="display:none">
+                                <td colspan="7">No Record Found</td>
+                            </tr>
+                        </form>
+                            </tbody>
+                            <?php
+                        }
+                        ?>
+                            </table>
+                </div>
+                <div class="customer-container" id="customerTable">
+                            <br>
+                            <header class="previous-transaction-header">ONGOING PICK UP</header>
+                            <hr>
+                            <table class="table" id="myTable">
+                            <thead>
+                            <tr>
+                            <th><span class="statusLbl">STATUS</span></th>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Details</th>
+                            <th>Total Amount</th>
+                            <th>Payment Status</th>
+                            <th>Date/Time</th>
+                            <th>Delivery Boy</th>
+                    </tr>
+                    </thead>
+
+                    <?php
+                            $dropdown_query2 = "SELECT 
+                            transaction.id,
+                            transaction.uuid,
+                            customers.customer_name,
+                            transaction.status_id,
+                            transaction.total_amount,
+                            transaction.created_at_date,
+                            transaction.created_at_time,
+                            employee.first_name,
+                            employee.last_name
+                            FROM transaction
+                            INNER JOIN delivery_list
+                            ON transaction.uuid = delivery_list.uuid
+                            INNER JOIN employee
+                            ON delivery_list.delivery_boy_id = employee.id
+                            INNER JOIN payment_option
+                            ON transaction.payment_option = payment_option.id
+                            LEFT JOIN customers
+                            ON transaction.customer_name_id = customers.id
+                            WHERE transaction.service_type != 'Walk In'
+                            AND transaction.uuid IN (SELECT uuid FROM delivery_list)
+                            AND delivery_list.delivery_status = 5
+                            ORDER BY transaction.created_at_time";
+                        $result4 = mysqli_query($con, $dropdown_query2);
+                        while ($rows = mysqli_fetch_assoc($result4))
+                        {
+                    ?>
+                     <tbody>
+                            <tr>
+                                <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
+                                    <td> <button type="submit" name="add-as-already-pickup" class="status3">ALREADY PICK UP</button></td>
+                                    <input type="hidden" value="<?php echo $rows['uuid'];?>" name="uuid">
+                                </form>
+                                <td> <?php echo $rows['id']; ?></td>
+                                <td> <?php if($rows['customer_name']){
+                                    echo $rows['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }
+                                 ?></td>
+                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
+                                <td>         
+                                    <?php
+                                        if($rows['status_id'] == 0){
+                                            echo 'Unpaid';
+                                        }else{
+                                            echo 'Paid';
+                                        } 
+                                    ?>
+                                </td>
+                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
+                                <td>    
+                                    <?php echo $rows['first_name'] .' '. $rows['last_name']; ?>
+                                </td>
+                                <td>    <a href="../service/delete-transaction-order.php?delete-list=<?php echo $rows['uuid']; ?>" class="delete-rowsButton" class="action-btn" name="action">
+                                            X
+                                        </a>
+                                </td>
+                            <tr id="noRecordTR" style="display:none">
+                                <td colspan="7">No Record Found</td>
+                            </tr>
+                            </tbody>
+                            <?php
+                        }
+                        ?>
+                            </table>
+                </div>
+            </main>
+            <?php
+                include('../common/top-menu.php')
+            ?>    
+        </div> 
+    </body>
+</html>
+<script>
+const addForm = document.querySelector(".bg-addcustomerform");
+ function addnewuser(){
+    // const addBtn = document.querySelector(".add-customer");
+    addForm.style.display = 'flex';
+}
+
+    // -----------------------------SIDE MENU
+ $(document).ready(function(){
+     //jquery for toggle sub menus
+     $('.sub-btn').click(function(){
+       $(this).next('.sub-menu').slideToggle();
+       $(this).find('.dropdown').toggleClass('rotate');
+     });
+
+     //jquery for expand and collapse the sidebar
+     $('.menu-btn').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn').css("visibility", "visible");
+     });
+     $('.menu-btn2').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn2').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn2').css("visibility", "visible");
+     });
+   });
+//    --------------------------------------------------------------------
+    const sideMenu = document.querySelector('#aside');
+    const closeBtn = document.querySelector('#close-btn');
+    const menuBtn = document.querySelector('#menu-button');
+    const checkbox = document.getElementById('checkbox');
+        menuBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'block';
+        })
+
+        closeBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'none';
+        })
+         checkbox.addEventListener( 'change', () =>{
+             document.body.classList.toggle('dark-theme');
+        //     if(this.checked) {
+        //         body.classList.add('dark')
+        //     } else {
+        //         body.classList.remove('dark')     
+        //     }
+         });
+        
+        // if(localStorage.getItem('dark')) {
+        //     body.classList.add('dark');
+        //     }
+    // const sideMenu = document.querySelector("#aside");
+    // const closeBtn = document.querySelector("#close-btn");
+    // const menuBtn = document.querySelector("#menu-button");
+    // const checkbox = document.getElementById("checkbox");
+    //     menuBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'block';
+    //     })
+    //     closeBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'none';
+    //     })
+    //     checkbox.addEventListener('change', () =>{
+    //         document.body.classList.toggle('dark-theme');
+    //     })
+
+    //     function menuToggle(){
+    //         const toggleMenu = document.querySelector('.drop-menu');
+    //         toggleMenu.classList.toggle('user2')
+    //     }
+</script>

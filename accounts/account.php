@@ -193,7 +193,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
 
                     <div class="usertype-dropdown">
                         <?php
-                        $dropdown_query = "SELECT * FROM account_type";
+                        $dropdown_query = "SELECT * FROM account_type WHERE is_deleted = 0";
                         $account_type_result = mysqli_query($con, $dropdown_query);
                         ?>
                         <select class="select" name="user_types" required="" >

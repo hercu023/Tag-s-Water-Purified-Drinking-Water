@@ -27,366 +27,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
         <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
         <script src="../index.js"></script>
     </head>
-    <body>
-    
-        <div class="container">
-        <?php
-            include('../common/side-menu.php')
-        ?>
-            <main>
-                <div class="main-dashboard">
-                    <h1 class="dashTitle">MONITORING</h1> 
-                    <div class="sub-tab">
-                        <div class="user-title">
-                            <h2>DELIVERY/PICK UP</h2>
-                        </div>
-                        <div class="select-dropdown">
-                                <select class="select">
-                                    <option selected disabled value="">SELECT SERVICE</option>
-                                    <option value="All">All</option>
-                                    <option value="Delivery">Delivery</option>
-                                    <option value="PickUp">Pick Up</option>
-                                </select>
-                            </div>
-                        <div class="search">
-                            <div class="search-bar"> 
-                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                                <button type="submit" >
-                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                                </button>
-                            </div>
-                        </div>  
-                    </div> 
-                </div>
-                <div class="main-container">
-                        <div class="sub-tab-container">
-                            
-                            <div class="totals">
-                                <!-- <h2 class="remaining">REMAINING ITEMS</h2> -->
-                            <div class="newUser-button2"> 
-                                <div id="add-userbutton" class="add-account2">
-                                    <h3 class="deliveries">To Deliver</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                            <div class="newUser-button1"> 
-                                <div id="add-userbutton" class="add-account1">
-                                    <h3 class="deliveries">To Pick Up</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="newUser-button3"> 
-                                <div id="add-userbutton" class="batchlist">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 16q-1.042 0-1.771-.729Q2.5 14.542 2.5 13.5H1V5q0-.625.438-1.062Q1.875 3.5 2.5 3.5H14v3h2.5L19 10v3.5h-1.5q0 1.042-.729 1.771Q16.042 16 15 16q-1.042 0-1.771-.729-.729-.729-.729-1.771h-5q0 1.042-.729 1.771Q6.042 16 5 16Zm0-1.5q.417 0 .708-.292Q6 13.917 6 13.5t-.292-.708Q5.417 12.5 5 12.5t-.708.292Q4 13.083 4 13.5t.292.708q.291.292.708.292Zm10 0q.417 0 .708-.292.292-.291.292-.708t-.292-.708Q15.417 12.5 15 12.5t-.708.292Q14 13.083 14 13.5t.292.708q.291.292.708.292Zm-1-4 3.5-.021L15.729 8H14Z"/></svg>
-                                    <h3 class="deliveries">DELIVERY BATCH</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="customer-container" id="customerTable">
-                            <br>
-                            <header class="previous-transaction-header">PENDING DELIVERY/PICK UP</header>
-                            <hr>
-                            <table class="table" id="myTable">
-                            <thead>
-                            <tr>
-                        <th><span class="statusLbl">STATUS</span></th>
-                        <th>ID</th>
-                        <th>Customer Name</th>
-                        <th>Order Details</th>
-                        <th>Payment Status</th>
-                        <th>Service</th>
-                        <th>Cashier Name</th>
-                        <th>Date/Time</th>
-                    </tr>
-                    </thead>
-
-                    <?php
-                    $dropdown_query2 = "SELECT 
-                    transaction.id,
-                    transaction.uuid,
-                    customers.customer_name,
-                    transaction.total_amount,
-                    transaction.customer_change,
-                    transaction.amount_tendered,
-                    payment_option.option_name,
-                    transaction.service_type,
-                    transaction.note,
-                    transaction.status_id,
-                    users.first_name,
-                    users.last_name,
-                    transaction.created_at_date,
-                    transaction.created_at_time
-                    FROM transaction
-                    INNER JOIN users
-                    ON transaction.created_by_id = users.user_id
-                    INNER JOIN payment_option
-                    ON transaction.payment_option = payment_option.id
-                    LEFT JOIN customers
-                    ON transaction.customer_name = customers.id
-                    WHERE transaction.service_type LIKE '%Delivery' OR service_type LIKE '%Delivery/Pick Up'
-                    ORDER BY transaction.created_at_date";
-                    $result = mysqli_query($con, $dropdown_query2);
-                    while ($rows = mysqli_fetch_assoc($result))
-                        {
-                    ?>
-                    <tbody>
-                    <td> <span class="status">TO DELIVER</span></td>
-                    <td> <?php echo $rows['id']; ?></td>
-                                <td> <?php if($rows['customer_name']){
-                                    echo $rows['customer_name'];
-                                    }else{
-                                        echo 'GUEST';
-                                    }
-                                 ?></td>
-                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
-
-                                    <td> <?php 
-                                    if($rows['status_id'] == 0){
-                                        echo 'Unpaid';
-                                    }else{
-                                        echo 'Paid';
-                                    } ?>
-                                </td>                                    
-                                <td> <?php echo $rows['service_type']; ?></td>                                
-                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
-                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
-
-                            <tr id="noRecordTR" style="display:none">
-                                <td colspan="10">No Record Found</td>
-                            </tr>
-                            </tbody>
-                            <?php
-                        }
-                        ?>
-                            </table>
-                        </div>
-            </main>
-            <?php
-                include('../common/top-menu.php')
-            ?>    
-        </div> 
-        <?php
-if(isset($_GET['view']))
-{
-    $uuid = $_GET['view'];
-    $result = mysqli_query($con, "SELECT
-                                customers.customer_name,
-                                transaction.total_amount,
-                                transaction.customer_change,
-                                transaction.amount_tendered,
-                                payment_option.option_name,
-                                transaction.service_type,
-                                transaction.created_at_date,
-                                transaction.created_at_time
-                                FROM transaction 
-                                LEFT JOIN customers  
-                                ON transaction.customer_name = customers.id 
-                                LEFT JOIN payment_option  
-                                ON transaction.payment_option = payment_option.id   
-                                WHERE transaction.uuid='$uuid'");
-    if (mysqli_num_rows($result) > 0) {
-    $transaction = mysqli_fetch_assoc($result);
-    ?>
-    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
-        <div class="bg-placeorderform" id="bg-placeform">
-            <div class="container1">
-                <a href="../monitoring/monitoring-delivery-pickup.php" class="close">X</a>
-                <h1 class="addnew-title">ORDER DETAILS</h1>
-                <form action="#">
-                    <div class="main-user-info">
-                        <div class="customerName">
-                            <label class="customernameLbl">Customer</label>
-                            <span class="customer_name"><?php if($transaction['customer_name']){
-                                    echo $transaction['customer_name'];
-                                    }else{
-                                        echo 'GUEST';
-                                    }?></span>
-                        </div>
-                        <label class="customernameLbl"><?=$transaction['created_at_date'].' '.$transaction['created_at_time'];?></label>
-
-                            <div class="payment-options">
-                                <label class="customernameLbl"><?=$transaction['option_name'];?> </label>
-                            </div>
-                 
-                        <?php
-                            }
-                        ?>
-                         <div class="orderSum-Details">
-                            <table class="tableCheckout" id="sumTable">
-                                <thead>
-                                <tr>
-                                    <th>ITEM</th>
-                                    <th>Water</th>
-                                    <th>Type</th>
-                                    <th>Price</th>
-                                    <th>QTY</th>
-                                    <th>TOTAL</th>
-                                </tr>
-                                </thead>
-                                    <?php           
-                                            $transaction_process = "SELECT
-                                                    transaction_process.item_name, 
-                                                    transaction_process.water_type,
-                                                    transaction_process.category_type,
-                                                    transaction_process.quantity,
-                                                    transaction_process.price,
-                                                    transaction_process.total_price
-                                                    FROM transaction_process
-                                                    WHERE transaction_id = '$uuid'";
-                                            $transaction_order = mysqli_query($con, $transaction_process);
-                                            if(mysqli_num_rows($transaction_order) > 0)
-                                            {
-                                            foreach($transaction_order as $transactions)
-                                            {
-                                            ?>
-
-                                            <tbody>
-                                            <tr>
-                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
-                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
-                                                <td name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
-                                                <td name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
-                                                <td class="quantity-td" > 
-                                                    <?php echo $transactions['quantity'];?>
-                                                </td>
-                                                <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
-                                            </tr>
-                                            <?php } ?>
-                                            <?php } else { ?>
-                                                <tr id="noRecordTR">
-                                                    <td colspan="7">No Order(s) Added</td>
-                                                </tr>
-                                            <?php } ?>
-                                            </tbody>
-                                        
-                                      
-
-                                            <tfoot>
-                                           
-                                            </tfoot>
-                                            
-                                </table>
-                        </div>
-                        
-                        <div class="payment-section">
-                            <div class="user-input-box-totalamount">
-                                <label for="total-amount2">TOTAL AMOUNT</label>
-                                <span id="total-amount2" class="total-amount2"><?php echo '&#8369'.' '.number_format($transaction['total_amount'], '2','.',','); ?></span>
-                            </div>
-                            
-                            <div class="user-input-box-cashpayment">
-                                <label for="cash-payment2">Cash Payment</label>
-                                <span id="cash-payment2" class="cash-payment2"><?php echo '&#8369'.' '.number_format($transaction['amount_tendered'], '2','.',','); ?></span>
-                            </div>
-
-                            <div class="user-input-box-cashpayment">
-                                <label for="cash-payment2">Change</label>
-                                <span id="cash-change"class="cash-change"><?php echo '&#8369'.' '.number_format($transaction['customer_change'], '2','.',','); ?></span>
-                            </div>
-                        </div>
-                        <div class="line"></div>
-
-                        <div class="bot-buttons">
-                            <div class="AddButton">
-                                <button type="submit" id="addcustomerBtn" name="save-transaction" onclick="print();">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
-                                    PRINT
-                                </button>
-                            </div>
-                        </div>
-                        
-
-                    </div>
-                </form>
-            </div>
-        </div>
-    </form> 
-    <?php }?>
-
-    </body>
-</html>
-<script>
-const addForm = document.querySelector(".bg-addcustomerform");
- function addnewuser(){
-    // const addBtn = document.querySelector(".add-customer");
-    addForm.style.display = 'flex';
-}
-
-    // -----------------------------SIDE MENU
- $(document).ready(function(){
-     //jquery for toggle sub menus
-     $('.sub-btn').click(function(){
-       $(this).next('.sub-menu').slideToggle();
-       $(this).find('.dropdown').toggleClass('rotate');
-     });
-
-     //jquery for expand and collapse the sidebar
-     $('.menu-btn').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn').css("visibility", "visible");
-     });
-     $('.menu-btn2').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn2').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn2').css("visibility", "visible");
-     });
-   });
-//    --------------------------------------------------------------------
-    const sideMenu = document.querySelector('#aside');
-    const closeBtn = document.querySelector('#close-btn');
-    const menuBtn = document.querySelector('#menu-button');
-    const checkbox = document.getElementById('checkbox');
-        menuBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'block';
-        })
-
-        closeBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'none';
-        })
-         checkbox.addEventListener( 'change', () =>{
-             document.body.classList.toggle('dark-theme');
-        //     if(this.checked) {
-        //         body.classList.add('dark')
-        //     } else {
-        //         body.classList.remove('dark')     
-        //     }
-         });
-        
-        // if(localStorage.getItem('dark')) {
-        //     body.classList.add('dark');
-        //     }
-    // const sideMenu = document.querySelector("#aside");
-    // const closeBtn = document.querySelector("#close-btn");
-    // const menuBtn = document.querySelector("#menu-button");
-    // const checkbox = document.getElementById("checkbox");
-    //     menuBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'block';
-    //     })
-    //     closeBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'none';
-    //     })
-    //     checkbox.addEventListener('change', () =>{
-    //         document.body.classList.toggle('dark-theme');
-    //     })
-
-    //     function menuToggle(){
-    //         const toggleMenu = document.querySelector('.drop-menu');
-    //         toggleMenu.classList.toggle('user2')
-    //     }
-</script>
-<style>
+    <style>
      :root{
         --color-main: rgb(2, 80, 2);
         --color-white: white;
@@ -437,6 +78,66 @@ const addForm = document.querySelector(".bg-addcustomerform");
         background-size: cover;
         background-attachment: fixed;
     }  
+    .createdatLbl{
+    margin-left: 5rem;
+    font-size: .9rem;
+    /* width: 100%; */
+    display: inline-block;
+    /* margin-top: 1rem; */
+    color: var(--color-main);
+    font-weight: 600;
+}
+.payment-service{
+    width: 100%;
+    text-align: center;
+}
+.service-options{
+    position: relative;
+    border: none;
+    width: 15rem;
+    padding: 10px;
+    align-items: center;
+    text-align: center;
+    margin-right: 2rem;
+    font-family: 'cocogoose', sans-serif;
+    font-size: .8rem;
+    color: var(--color-secondary-main);
+    border-radius: 10px;
+    margin-top: 1rem;
+    border-bottom: 2px solid var(--color-main);
+    text-transform: uppercase;
+    background-color: var(--color-solid-gray);
+}
+.paymentOptions-text{
+    font-weight: 700;
+    font-size: 13px;
+    /* margin-left: 1rem; */
+    margin-top:1.7rem;
+    color: var(--color-black);
+    display: inline-block;
+    position: relative;
+    font-family: arial, sans-serif;
+}
+.payment-options1{
+    background-color: none;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
+    /* position: absolute; */
+    display: inline-block;
+    position: relative;
+    /* padding-top: 1rem; */
+    /* right: 8%; */
+}
+.payment-options2{
+    background-color: none;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
+    /* position: absolute; */
+    display: inline-block;
+    position: relative;
+    /* padding-top: 1rem; */
+    /* right: 8%; */
+}
     .status{
         font-weight: 800;
         font-size: 1.1rem;
@@ -500,6 +201,7 @@ const addForm = document.querySelector(".bg-addcustomerform");
     letter-spacing: .09rem;
     display: flex;
     padding-top: 1rem;
+    margin-bottom: -.3rem;
     justify-content: center;
     border-bottom: 2px solid var(--color-solid-gray);
     width: 100%;
@@ -576,13 +278,12 @@ const addForm = document.querySelector(".bg-addcustomerform");
     border-radius: 20px;
 }
 .user-input-box-totalamount label{
-    color: var(--color-solid-gray);
+    color: var(--color-black);
     text-align: right;
-    font-size: 16px;
+    font-size: 25px;
     /* margin-left: .2rem; */
-    margin-bottom: 0.5rem;
-    font-family: 'Malberg Trial', sans-serif;
-    font-weight: 550;
+    font-family: 'century gothic', sans-serif;
+    font-weight: 750;
     /* margin: 5px 0; */
 }
 .user-input-box-totalamount{
@@ -592,6 +293,13 @@ const addForm = document.querySelector(".bg-addcustomerform");
 .user-input-box-cashpayment{
     display: inline-block;
     margin-top: 1rem;
+}
+.remaining-amount2{
+    color: var(--color-black);
+    font-family: 'calibri', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-left: .5rem;
 }
 .user-input-box-cashpayment label{
     width: 95%;
@@ -604,14 +312,11 @@ const addForm = document.querySelector(".bg-addcustomerform");
     font-weight: 550;
     /* margin: 5px 0; */
 }
-.user-input-box-totalamount .total-amount2{
-    display: inline-block;
-    text-align: right;
-    outline: none;
-    font-size: 1em;
-    margin-left: 1rem;
+.total-amount2{
     color: var(--color-black);
-
+    font-family: 'calibri', sans-serif;
+    font-size: 25px;
+    float: right;
 }
 .user-input-box-cashpayment .cash-payment2{
     display: inline-block;
@@ -704,6 +409,13 @@ const addForm = document.querySelector(".bg-addcustomerform");
     letter-spacing: 0.02rem;
     border: none;
     /* border-bottom: 2px solid var(--color-solid-gray); */
+}
+table tbody td{
+    height: 1.8rem;
+    text-align: center;
+    border-bottom: 1px solid var(--color-main);
+    color: var(--color-main);
+    font-size: .67rem;
 }
 
 .totalOrder-amount{
@@ -831,30 +543,7 @@ const addForm = document.querySelector(".bg-addcustomerform");
     text-align: right;
     right: 5%;  
 }
-    .main-user-info{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px 0;
-}
-.customerName{
-    align-items:center;
-    width: 100%;
-    margin-top: -2rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-}
-.customerName label{
-    /* width: 95%; */
-    color: var(--color-solid-gray);
-    font-size: 16px;
-    display: inline-block;
-    /* margin-left: .2rem; */
-    margin-bottom: 0.5rem;
-    font-family: 'Malberg Trial', sans-serif;
-    font-weight: 550;
-    /* margin: 5px 0; */
-}
+
 
 .select-customer{
     /* background: var(--color-solid-gray); */
@@ -994,19 +683,6 @@ const addForm = document.querySelector(".bg-addcustomerform");
     /* margin-bottom: -5rem; */
 }
 
-
-.addnew-title{
-    font-size: min(max(1.9rem, 1.1vw), 2rem);
-    color: var(--color-solid-gray);
-    font-family: 'Malberg Trial', sans-serif;
-    letter-spacing: .09rem;
-    display: flex;
-    padding-top: 1rem;
-    justify-content: center;
-    border-bottom: 2px solid var(--color-solid-gray);
-    width: 100%;
-    padding-bottom: 2px;
-}
 
 .CancelButton{
     display: inline-block;
@@ -2293,3 +1969,382 @@ tr:hover td{
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
 </style>
+    <body>
+    
+        <div class="container">
+        <?php
+            include('../common/side-menu.php')
+        ?>
+            <main>
+                <div class="main-dashboard">
+                    <h1 class="dashTitle">MONITORING</h1> 
+                    <div class="sub-tab">
+                        <div class="user-title">
+                            <h2>DELIVERY/PICK UP</h2>
+                        </div>
+                        <div class="select-dropdown">
+                                <select class="select">
+                                    <option selected disabled value="">SELECT SERVICE</option>
+                                    <option value="All">All</option>
+                                    <option value="Delivery">Delivery</option>
+                                    <option value="PickUp">Pick Up</option>
+                                </select>
+                            </div>
+                        <div class="search">
+                            <div class="search-bar"> 
+                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+                                <button type="submit" >
+                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+                                </button>
+                            </div>
+                        </div>  
+                    </div> 
+                </div>
+                <div class="main-container">
+                        <div class="sub-tab-container">
+                            
+                            <div class="totals">
+                                <!-- <h2 class="remaining">REMAINING ITEMS</h2> -->
+                            <div class="newUser-button2"> 
+                                <div id="add-userbutton" class="add-account2">
+                                    <h3 class="deliveries">To Deliver</h3>
+                                    <span class="total-deliveries">0</span>
+                                </div>
+                            </div>
+                            <div class="newUser-button1"> 
+                                <div id="add-userbutton" class="add-account1">
+                                    <h3 class="deliveries">To Pick Up</h3>
+                                    <span class="total-deliveries">0</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="newUser-button3"> 
+                                <div id="add-userbutton" class="batchlist">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 16q-1.042 0-1.771-.729Q2.5 14.542 2.5 13.5H1V5q0-.625.438-1.062Q1.875 3.5 2.5 3.5H14v3h2.5L19 10v3.5h-1.5q0 1.042-.729 1.771Q16.042 16 15 16q-1.042 0-1.771-.729-.729-.729-.729-1.771h-5q0 1.042-.729 1.771Q6.042 16 5 16Zm0-1.5q.417 0 .708-.292Q6 13.917 6 13.5t-.292-.708Q5.417 12.5 5 12.5t-.708.292Q4 13.083 4 13.5t.292.708q.291.292.708.292Zm10 0q.417 0 .708-.292.292-.291.292-.708t-.292-.708Q15.417 12.5 15 12.5t-.708.292Q14 13.083 14 13.5t.292.708q.291.292.708.292Zm-1-4 3.5-.021L15.729 8H14Z"/></svg>
+                                    <h3 class="deliveries">DELIVERY BATCH</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="customer-container" id="customerTable">
+                            <br>
+                            <header class="previous-transaction-header">PENDING DELIVERY/PICK UP</header>
+                            <hr>
+                            <table class="table" id="myTable">
+                            <thead>
+                            <tr>
+                        <th><span class="statusLbl">STATUS</span></th>
+                        <th>ID</th>
+                        <th>Customer Name</th>
+                        <th>Order Details</th>
+                        <th>Payment Status</th>
+                        <th>Service</th>
+                        <th>Cashier Name</th>
+                        <th>Date/Time</th>
+                    </tr>
+                    </thead>
+
+                    <?php
+                    $dropdown_query2 = "SELECT 
+                    transaction.id,
+                    transaction.uuid,
+                    customers.customer_name,
+                    transaction.total_amount,
+                    payment_option.option_name,
+                    transaction.service_type,
+                    transaction.note,
+                    transaction.status_id,
+                    users.first_name,
+                    users.last_name,
+                    transaction.created_at_date,
+                    transaction.created_at_time
+                    FROM transaction
+                    INNER JOIN users
+                    ON transaction.created_by_id = users.user_id
+                    INNER JOIN payment_option
+                    ON transaction.payment_option = payment_option.id
+                    LEFT JOIN customers
+                    ON transaction.customer_name_id = customers.id
+                    WHERE transaction.service_type = 'Delivery' OR service_type = 'Delivery/Pick Up'
+                    ORDER BY transaction.created_at_date";
+                    $result = mysqli_query($con, $dropdown_query2);
+                    while ($rows = mysqli_fetch_assoc($result))
+                        {
+                    ?>
+                    <tbody>
+                    <td> <span class="status">TO DELIVER</span></td>
+                    <td> <?php echo $rows['id']; ?></td>
+                                <td> <?php if($rows['customer_name']){
+                                    echo $rows['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }
+                                 ?></td>
+                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+
+                                    <td> <?php 
+                                    if($rows['status_id'] == 0){
+                                        echo 'Unpaid';
+                                    }else{
+                                        echo 'Paid';
+                                    } ?>
+                                </td>                                    
+                                <td> <?php echo $rows['service_type']; ?></td>                                
+                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
+                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
+
+                            <tr id="noRecordTR" style="display:none">
+                                <td colspan="10">No Record Found</td>
+                            </tr>
+                            </tbody>
+                            <?php
+                        }
+                        ?>
+                            </table>
+                        </div>
+            </main>
+            <?php
+                include('../common/top-menu.php')
+            ?>    
+        </div> 
+        <?php
+if(isset($_GET['view']))
+{
+    $uuid = $_GET['view'];
+    $result = mysqli_query($con, "SELECT
+                                customers.customer_name,
+                                transaction.total_amount,
+                                payment_option.option_name,
+                                transaction.service_type,
+                                transaction.created_at_date,
+                                transaction.created_at_time
+                                FROM transaction 
+                                LEFT JOIN customers  
+                                ON transaction.customer_name_id = customers.id 
+                                LEFT JOIN payment_option  
+                                ON transaction.payment_option = payment_option.id   
+                                WHERE transaction.uuid='$uuid'");
+    if (mysqli_num_rows($result) > 0) {
+    $transaction = mysqli_fetch_assoc($result);
+    ?>
+    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
+        <div class="bg-placeorderform" id="bg-placeform">
+            <div class="container1">
+                <a href="../monitoring/monitoring-delivery-pickup.php" class="close">X</a>
+                <h1 class="addnew-title">TRANSACTION DETAILS</h1>
+                <form action="#">
+                    <div class="main-user-info">
+                        <div class="customerName">
+                            <label class="customernameLbl">Customer</label>
+                            <span class="customer_name"><?php if($transaction['customer_name']){
+                                    echo $transaction['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }?></span>
+                            <span class="createdatLbl"><?= 'DATE :'.' '. $transaction['created_at_date'];?></span>
+                            <span class="createdatLbl"><?=  'TIME :'.' '.$transaction['created_at_time'];?></span>
+                        </div>
+
+                         
+                        <div class="payment-service">
+                            <div class="payment-options1">
+                                <p class="paymentOptions-text">Payment Option</p>
+                                <label class="service-options"><?=$transaction['option_name'];?> </label>
+                            </div>
+                            <div class="payment-options2">
+                                <p class="paymentOptions-text">Service</p>
+                                <label class="service-options"><?=$transaction['service_type'];?> </label>
+                            </div>
+                        </div>
+                        <?php
+                            }
+                        ?>
+                         <div class="orderSum-Details">
+                            <table class="tableCheckout" id="sumTable">
+                                <thead>
+                                <tr>
+                                    <th>ITEM</th>
+                                    <th>Water</th>
+                                    <th>Type</th>
+                                    <th>Price</th>
+                                    <th>QTY</th>
+                                    <th>TOTAL</th>
+                                </tr>
+                                </thead>
+                                    <?php           
+                                            $transaction_process = "SELECT
+                                                    transaction_process.item_name, 
+                                                    transaction_process.water_type,
+                                                    transaction_process.category_type,
+                                                    transaction_process.quantity,
+                                                    transaction_process.price,
+                                                    transaction_process.total_price
+                                                    FROM transaction_process
+                                                    WHERE transaction_id = '$uuid'";
+                                            $transaction_order = mysqli_query($con, $transaction_process);
+                                            if(mysqli_num_rows($transaction_order) > 0)
+                                            {
+                                            foreach($transaction_order as $transactions)
+                                            {
+                                            ?>
+
+                                            <tbody>
+                                            <tr>
+                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
+                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
+                                                <td name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
+                                                <td name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
+                                                <td class="quantity-td" > 
+                                                    <?php echo $transactions['quantity'];?>
+                                                </td>
+                                                <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
+                                            </tr>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <tr id="noRecordTR">
+                                                    <td colspan="7">No Order(s) Added</td>
+                                                </tr>
+                                            <?php } ?>
+                                            </tbody>
+                                        
+                                      
+
+                                            <tfoot>
+                                           
+                                            </tfoot>
+                                            
+                                </table>
+                        </div>
+                        <?php $transaction_history = "SELECT
+                                                    transaction_history.amount_tendered, 
+                                                    transaction_history.customer_change,
+                                                    transaction_history.remaining_balance,
+                                                    transaction_history.previous_balance,
+                                                    transaction_history.unpaid_amount,
+                                                    transaction_history.created_at
+                                                    FROM transaction_history
+                                                    WHERE transaction_uuid = '$uuid'";
+                                            $transaction_order_history = mysqli_query($con, $transaction_history);
+                                            if(mysqli_num_rows($transaction_order_history) > 0)
+                                            {
+                                            foreach($transaction_order_history as $transactions_history)
+                                            {
+                                                ?>
+                        <div class="payment-section">
+                            <div class="user-input-box-totalamount">
+                                <label for="total-amount2">TOTAL AMOUNT</label>
+                                <span id="total-amount2" class="total-amount2"><?php echo '&#8369'.' '.number_format($transaction['total_amount'], '2','.',','); ?></span>
+                            </div>
+                            
+                            <div class="user-input-box-cashpayment">
+                                <label for="cash-payment2">Cash Payment</label>
+                                <span id="cash-payment2" class="remaining-amount2"><?php echo '&#8369'.' '.number_format($transactions_history['amount_tendered'], '2','.',','); ?></span>
+                            </div>
+
+                            <div class="user-input-box-cashpayment">
+                                <label for="cash-payment2">Change</label>
+                                <span id="cash-change"class="remaining-amount2"><?php echo '&#8369'.' '.number_format($transactions_history['customer_change'], '2','.',','); ?></span>
+                            </div>
+                        </div>
+                        <?php }} ?>
+
+                        <div class="line"></div>
+
+                        <div class="bot-buttons">
+                            <div class="AddButton">
+                                <button type="submit" id="addcustomerBtn" name="save-transaction" onclick="print();">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
+                                    PRINT
+                                </button>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </form> 
+    <?php }?>
+
+    </body>
+</html>
+<script>
+const addForm = document.querySelector(".bg-addcustomerform");
+ function addnewuser(){
+    // const addBtn = document.querySelector(".add-customer");
+    addForm.style.display = 'flex';
+}
+
+    // -----------------------------SIDE MENU
+ $(document).ready(function(){
+     //jquery for toggle sub menus
+     $('.sub-btn').click(function(){
+       $(this).next('.sub-menu').slideToggle();
+       $(this).find('.dropdown').toggleClass('rotate');
+     });
+
+     //jquery for expand and collapse the sidebar
+     $('.menu-btn').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn').css("visibility", "visible");
+     });
+     $('.menu-btn2').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn2').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn2').css("visibility", "visible");
+     });
+   });
+//    --------------------------------------------------------------------
+    const sideMenu = document.querySelector('#aside');
+    const closeBtn = document.querySelector('#close-btn');
+    const menuBtn = document.querySelector('#menu-button');
+    const checkbox = document.getElementById('checkbox');
+        menuBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'block';
+        })
+
+        closeBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'none';
+        })
+         checkbox.addEventListener( 'change', () =>{
+             document.body.classList.toggle('dark-theme');
+        //     if(this.checked) {
+        //         body.classList.add('dark')
+        //     } else {
+        //         body.classList.remove('dark')     
+        //     }
+         });
+        
+        // if(localStorage.getItem('dark')) {
+        //     body.classList.add('dark');
+        //     }
+    // const sideMenu = document.querySelector("#aside");
+    // const closeBtn = document.querySelector("#close-btn");
+    // const menuBtn = document.querySelector("#menu-button");
+    // const checkbox = document.getElementById("checkbox");
+    //     menuBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'block';
+    //     })
+    //     closeBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'none';
+    //     })
+    //     checkbox.addEventListener('change', () =>{
+    //         document.body.classList.toggle('dark-theme');
+    //     })
+
+    //     function menuToggle(){
+    //         const toggleMenu = document.querySelector('.drop-menu');
+    //         toggleMenu.classList.toggle('user2')
+    //     }
+</script>

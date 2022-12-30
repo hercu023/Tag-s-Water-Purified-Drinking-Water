@@ -83,6 +83,129 @@ if (isset($_POST['email']) && isset($_POST['password'])){
                                     header("Location: ../pos/point-of-sales.php");
                                     exit();
                                 }
+
+                                if($access['name'] == 'REPORTS-SALES') {
+                                    header("Location: ../reports/reports-sales.php");
+                                    exit();
+                                }
+        
+                                if($access['name'] == 'REPORTS-DELIVERY_WALKIN') {
+                                    header("Location: ../reports/reports-delivery-walkin.php");
+                                    exit();
+                                }
+
+                                if($access['name'] == 'REPORTS-INVENTORY') {
+                                    header("Location: ../reports/reports-inventory.php");
+                                    exit();
+                                }
+                                
+                
+                                if($access['name'] == 'REPORTS-ITEM_ISSUE') {
+                                    header("Location: ../reports/reports-item-issue.php");
+                                    exit();
+                                }
+
+                                if($access['name'] == 'REPORTS-EXPENSE') {
+                                    header("Location: ../reports/reports-expense.php");
+                                    exit();
+                                }
+                                
+                                if($access['name'] == 'REPORTS-ATTENDANCE') {
+                                    header("Location: ../reports/reports-attendance.php");
+                                    exit();
+                                }
+                               
+                                if($access['name'] == 'ACCOUNT-ACCOUNT_TYPE') {
+                                    header("Location: ../accounts/account-type.php");
+                                    exit();
+                                }
+                                
+                                if($access['name'] == 'ACCOUNT-USER_ACCOUNT') {
+                                    header("Location: ../accounts/account.php");
+                                    exit();
+                                }
+                                
+                                if($access['name'] == 'CUSTOMER') {
+                                    header("Location: ../customers/customer.php");
+                                    exit();
+                                }
+
+                                if($access['name'] == 'EMPLOYEE-ATTENDANCE') {
+                                    header("Location: ../employee/employee-attendance.php");
+                                    exit();
+                                }
+                                
+                
+                                if($access['name'] == 'EMPLOYEE-LIST') {
+                                    header("Location: ../employee/employee-list.php");
+                                    exit();
+                                }
+                                
+                
+                                if($access['name'] == 'EXPENSE') {
+                                    header("Location: ../expense/expense.php");
+                                    exit();
+                                }
+                                
+                
+                                if($access['name'] == 'INVENTORY-ITEM') {
+                                    header("Location: ../inventory/inventory-details.php");
+                                    exit();
+                                }
+                                
+                
+                                if($access['name'] == 'INVENTORY-STOCKS') {
+                                    header("Location: ../inventory/inventory-stocks.php");
+                                    exit();
+                                }
+                                
+                             
+                                if($access['name'] == 'MONITORING-CUSTOMER_BALANCE') {
+                                    header("Location: ../monitoring/monitoring-customer-balance.php");
+                                    exit();
+                                }
+                                
+                
+                                if($access['name'] == 'MONITORING-DELIVERY_PICKUP') {
+                                    header("Location: ../monitoring/monitoring-delivery-pickup.php");
+                                    exit();
+                                }
+                                
+                                if($access['name'] == 'MONITORING-ITEM_HISTORY') {
+                                    header("Location: ../monitoring/monitoring-item-history.php");
+                                    exit();
+                                }
+                            
+                                if($access['name'] == 'MONITORING-POINT_OF_SALES_TRANSACTION') {
+                                    header("Location: ../monitoring/monitoring-point-of-sales-transaction.php");
+                                    exit();
+                                }
+                                
+                                if($access['name'] == 'MONITORING-SCHEDULING') {
+                                    header("Location: ../monitoring/monitoring-scheduling.php");
+                                    exit();
+                                }
+
+                                if($access['name'] == 'SETTINGS-ARCHIVES') {
+                                    header("Location: ../settings/settings-data-archive.php");
+                                    exit();
+                                }
+
+                                if($access['name'] == 'SETTINGS-BACKUP_RESTORE') {
+                                    header("Location: ../settings/settings-databackup-customers.php");
+                                    exit();
+                                }
+
+                                if($access['name'] == 'SETTINGS-DATA_LOGS') {
+                                    header("Location: ../settings/settings-datalogs.php");
+                                    exit();
+                                }
+                
+                                if($access['name'] == 'SETTINGS-HELP') {
+                                    header("Location: ../settings/settings-help.php");
+                                    exit();
+                                }
+                                
                             }
                         }
                     }

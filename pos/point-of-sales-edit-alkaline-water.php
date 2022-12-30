@@ -408,67 +408,7 @@ if(isset($_POST['delete-order'])){
         
     </div>
 </div>
-<?php
-if(isset($_GET['edit']))
-{
-    $id = $_GET['edit'];
-    $result = mysqli_query($con,"SELECT
-            inventory_item.id, 
-            inventory_item.image, 
-            inventory_item.item_name,
-            category_type.name,
-            inventory_item.alkaline_price
-            FROM inventory_item 
-            INNER JOIN category_type  
-            ON inventory_item.category_by_id = category_type.id  
-            WHERE inventory_item.id = '$id'");
 
-    if (mysqli_num_rows($result) > 0) {
-        $item = mysqli_fetch_assoc($result); ?>
-
-        <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
-            <div class="bg-adduserform" id="bg-addform">
-                <div class="message"></div>
-                <div class="container1">
-                   
-                    <h1 class="addnew-title">ADD ORDER</h1>
-                    <form action="#">
-                        <input type="hidden" required="required" name="user_id" value="<?=$item['id'];?>">
-                        <div class="main-user-info">
-                        <div class="profile-pic">
-                            <img src="../uploaded_image/<?=$item['image'];?>" name="image" alt="">
-                        </div>    
-                            <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
-                            <input type="hidden" required="required" name="alkalineprice" value="<?=$item['alkaline_price'];?>">
-                            <input type="hidden" required="required" name="categorytype" value="<?=$item['name'];?>">
-                            <input type="text" class="label-item2"  name="alkaline-label" value="Alkaline"> 
-                            <label for="lastname" class="label-item"><?=$item['item_name'];?></label>
-                            
-                            <div class="user-input-box">
-                                <label for="quantity" class="quantity-label">Quantity</label>
-                                <input type="number" min='1' onkeypress='return isNumberKey(event)'
-                                       id="quantity"
-                                       name="quantity"
-                                       value='1'
-                                       required="required">
-                                       
-                            </div>
-                            <div class="line"></div>
-
-                            <div class="bot-buttons">
-                                <div class="CancelButton">
-                                    <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
-                                </div>
-                                <div class="AddButton">
-                                    <button type="submit" id="adduserBtn" name="add-alkaline-water">SAVE</button>
-                                </div>
-                            </div>
-                    </form>
-                </div>
-            </div>
-        </form>
-        <?php 
-    }} ?>
 
 </body>
 <script src="../javascript/side-menu-toggle.js"></script>

@@ -594,8 +594,6 @@ require_once '../service/pos-update-transaction.php';
                                 customers.customer_name,
                                 customers.balance,
                                 transaction.total_amount,
-                                transaction.customer_change,
-                                transaction.amount_tendered,
                                 payment_option.option_name,
                                 transaction.service_type,
                                 transaction.created_at_date,

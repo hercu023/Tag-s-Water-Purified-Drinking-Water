@@ -1,6 +1,8 @@
 <?php
 require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
+require_once "../service/add-delivery.php";
+require_once "../service/delete-transaction-order.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-DELIVERY_PICKUP')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
@@ -27,424 +29,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
         <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
         <script src="../index.js"></script>
     </head>
-    <body>
-    
-        <div class="container">
-            <?php
-                include('../common/side-menu.php')
-            ?>
-            <main>
-                <div class="main-dashboard">
-                    <h1 class="dashTitle">MONITORING</h1> 
-                    <div class="sub-tab">
-                        <div class="user-title">
-                            <h2>DELIVERY/PICK UP</h2>
-                        </div>
-                        <div class="select-dropdown">
-                                <select class="select">
-                                    <option selected disabled value="">SELECT SERVICE</option>
-                                    <option value="All">All</option>
-                                    <option value="Delivery">Delivery</option>
-                                    <option value="Delivery/Pick Up">Delivery/Pick Up</option>
-                                </select>
-                        </div>
-
-                        <div class="search">
-                            <div class="search-bar"> 
-                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                                <button type="submit" >
-                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                                </button>
-                            </div>
-                        </div>  
-                    </div> 
-                </div>
-                <div class="main-container">
-                    <div class="sub-tab-container">
-                        <div class="newUser-button2"> 
-                            <div id="add-userbutton" class="add-account2">
-                                <h3 class="deliveries">To Deliver</h3>
-                                <span class="total-deliveries">0</span>
-                            </div>
-                        </div>
-                        <div class="newUser-button1"> 
-                            <div id="add-userbutton" class="add-account1">
-                                <h3 class="deliveries">To Pick Up</h3>
-                                <span class="total-deliveries">0</span>
-                            </div>
-                        </div>
-                        <div class="createDelivery">
-                            <a href="../monitoring/monitoring-delivery-pickup-delivered.php" id="add-userbutton" class="batchlist">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 16q-1.042 0-1.771-.729Q2.5 14.542 2.5 13.5H1V5q0-.625.438-1.062Q1.875 3.5 2.5 3.5H14v3h2.5L19 10v3.5h-1.5q0 1.042-.729 1.771Q16.042 16 15 16q-1.042 0-1.771-.729-.729-.729-.729-1.771h-5q0 1.042-.729 1.771Q6.042 16 5 16Zm0-1.5q.417 0 .708-.292Q6 13.917 6 13.5t-.292-.708Q5.417 12.5 5 12.5t-.708.292Q4 13.083 4 13.5t.292.708q.291.292.708.292Zm10 0q.417 0 .708-.292.292-.291.292-.708t-.292-.708Q15.417 12.5 15 12.5t-.708.292Q14 13.083 14 13.5t.292.708q.291.292.708.292Zm-1-4 3.5-.021L15.729 8H14Z"/></svg>
-                                <h3 class="deliveries">DELIVERED CUSTOMERS LIST</h3>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                    <div class="customer-container" id="customerTable">
-                                <br>
-                                <div class="newUser-button4"> 
-                                    <button id="add-userbutton" class="add-account3">
-                                        <h3 class="deliveries">TOTAL PENDING DELIVERY/PICK UP</h3>
-                                        <span class="total-deliveries">0</span>
-                                    </button>
-                                </div>
-                                <div class="card">
-                                     <h1 class="day"><?php echo date("l")?></h1>
-                                    <h1 class="dash">-</h1>
-                                    <h1 class="date"><?php echo ' '.date("F j, Y")?></h1>
-                                </div>
-                                <hr>
-                                <table class="table" id="myTable">
-                                <thead>
-                                        <tr>
-                                            <th><span class="statusLbl">STATUS</span></th>
-                                            <th>ID</th>
-                                            <th>Customer Name</th>
-                                            <!-- <th>Address</th>
-                                            <th>Contact Number</th> -->
-                                            <th>Payment Status</th>
-                                            <th>Date/Time</th>
-                                            <th>Transaction Details</th>
-                                        </tr>
-                                </thead>
-                            <?php
-                            $dropdown_query2 = "SELECT 
-                            transaction.id,
-                            transaction.uuid,
-                            customers.customer_name,
-                            transaction.total_amount,
-                            transaction.customer_change,
-                            transaction.amount_tendered,
-                            payment_option.option_name,
-                            transaction.service_type,
-                            transaction.note,
-                            transaction.status_id,
-                            users.first_name,
-                            users.last_name,
-                            transaction.created_at_date,
-                            transaction.created_at_time
-                            FROM transaction
-                            INNER JOIN users
-                            ON transaction.created_by_id = users.user_id
-                            INNER JOIN payment_option
-                            ON transaction.payment_option = payment_option.id
-                            LEFT JOIN customers
-                            ON transaction.customer_name_id = customers.id
-                            WHERE transaction.service_type LIKE '%Delivery' OR service_type LIKE '%Delivery/Pick Up'
-                            ORDER BY transaction.created_at_time";
-                            $result = mysqli_query($con, $dropdown_query2);
-                            while ($rows = mysqli_fetch_assoc($result))
-                                {
-                            ?>
-                        <tbody>
-                            <td> <span class="status">FOR DELIVERY</span></td>
-                            <td> <?php echo $rows['id']; ?></td>
-                                        <td> <?php if($rows['customer_name']){
-                                            echo $rows['customer_name'];
-                                            }else{
-                                                echo 'GUEST';
-                                            }
-                                        ?></td>
-
-                                        <td> <?php 
-                                            if($rows['status_id'] == 0){
-                                                echo 'Unpaid';
-                                            }else{
-                                                echo 'Paid';
-                                            } ?>
-                                        </td>     
-                                        <td> <?php echo $rows['created_at_date'].' '.$rows['created_at_time']; ?></td>
-                                        <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
-                                    <tr id="noRecordTR" style="display:none">
-                                        <td colspan="10">No Record Found</td>
-                                    </tr>
-                        </tbody>
-                                <?php
-                            }
-                            ?>
-                                </table>
-                    </div>
-                    <div class="delivery-container" id="customerTable">
-                        <div class="deliveryboys">
-                            <h4>COURIER</h4>
-                            <div class="usertype-dropdown1">
-                                <?php
-                                $dropdown_query = "SELECT * FROM employee WHERE position_id LIKE '%2'";
-                                $result_category = mysqli_query($con, $dropdown_query);
-                                ?>
-                                <select class="select1" name="category_type" required="" >
-                                    <option selected disabled value="">SELECT DELIVERY BOY</option>
-                                    <?php while($category = mysqli_fetch_array($result_category)):;?>
-                                        <option value="<?php echo $category['id']?>">
-                                            <?php echo $category['first_name'];?></option>
-                                    <?php endwhile;?>
-                                </select>
-                            </div>
-    
-                        </div>
-                        <hr>
-                        <div class="deliveryLbl">
-                            <h2>- DELIVERY LIST -</h2>
-                        </div>
-                        <div class="delivery-details">
-                                    <div class="delivery1">
-                                        <h3>Delivery Boy:</h3>
-                                        <span class="deliveryID1">RICK</span>
-                                    </div>
-
-                                    <div class="delivery3">
-                                        <h3>Time:</h3>
-                                        <span class="deliveryID3" id="time">00:00:00</span>
-                                    </div>
-                        </div>
-                        <div class="deliverylist-table">
-                            <table class="tableCheckout" id="sumTable">
-                                <thead>
-                                <?php           
-                                           $user_id =  $_SESSION['user_user_id'];
-                                            $transaction_process = "SELECT
-                                                    transaction.id,
-                                                    customers.customer_name,
-                                                    transaction.status_id
-                                                    FROM transaction
-                                                    LEFT JOIN customers
-                                                    ON transaction.customer_name_id = customers.id";
-                                            $transaction_order = mysqli_query($con, $transaction_process);
-                                            if(mysqli_num_rows($transaction_order) > 0)
-                                            {$transaction_name = mysqli_fetch_assoc($transaction_order);
-                                            ?>
-                                    <tr>
-                                        <th>Name</th>
-                                        <td colspan="4"><?=$transaction_name['customer_name'];?></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Payment Status</th>
-                                        <td> <?php 
-                                            if($transaction_name['status_id'] == 0){
-                                                echo 'Unpaid';
-                                            }else{
-                                                echo 'Paid';
-                                            } ?>
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <?php } else { ?>
-                                                <tr id="noRecordTR">
-                                                    <td colspan="4">No Customer Added</td>
-                                                </tr>
-                                            <?php } ?>
-                                <thead>
-                                    <tr>
-                                        <th>Order</th>
-                                        <th>Water</th>
-                                        <th>Qty</th>
-                                        <th>Amount</th>
-                                    </tr>
-                                </thead>
-                                    <?php           
-                                           $user_id =  $_SESSION['user_user_id'];
-                                            $transaction_process = "SELECT
-                                                    transaction_process.item_name,
-                                                    transaction_process.water_type,
-                                                    transaction_process.quantity,
-                                                    transaction_process.total_price
-                                                    FROM transaction_process
-                                                    WHERE user_id = '$user_id' 
-                                                    AND transaction_id = '0'";
-                                            $transaction_order = mysqli_query($con, $transaction_process);
-                                            if(mysqli_num_rows($transaction_order) > 0)
-                                            {
-                                            foreach($transaction_order as $transactions)
-                                            {
-                                            ?>
-
-                                            <tbody>
-                                            <tr>
-                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
-                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
-                                                <td name="categorytype_transaction"> <?php echo $transactions['quantity']; ?></td>
-                                                <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
-                                            </tr>
-                                            <?php } ?>
-                                            <?php } else { ?>
-                                                <tr id="noRecordTR">
-                                                    <td colspan="4">No Deliveries Added</td>
-                                                </tr>
-                                            <?php } ?>
-                                            </tbody>
-                                            
-                            </table>
-                        </div>
-                        <div>
-                        <?php $transaction_order1 = mysqli_query($con, "SELECT
-                                                    sum(transaction_process.total_price)
-                                                    FROM transaction_process
-                                                    WHERE user_id = '$user_id' 
-                                                    AND transaction_id = '0'"); 
-                                                    while ($transactions1 = mysqli_fetch_array($transaction_order1)) {?>
-
-                        <hr>
-                            <div class="totaldelivery1"><p class="totalAmount-text">TOTAL PAYMENTS</p></div>
-                            <div class="total-amount">
-                                <label id="total_order1">&#8369</label>
-                                <input type="text" name="totalAmount" readonly id="totalAmount_order" value="<?php echo number_format($transactions1['sum(transaction_process.total_price)'], '2','.',','); ?>">
-                            </div>
-                        </div>
-                           
-                        <?php }?>
-                        <div class="receipt-buttons">
-                            <button type="submit" class="confirmOrder-button" name="print" onclick="print();">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
-                                Print
-                            </button>
-                            <button type="submit" class="confirmOrder-button2" name="deliver">
-                                DELIVER
-                            </button>
-                        </div>
-                    </div>
-                    <div class="form3">
-                <div class="todeliver-transaction">
-                    <br>
-                    <header class="todeliver-transaction-header">ONGOING DELIVERY ORDERS</header>
-                    <hr>
-                    <table class="todeliver-transaction-table">
-                        <thead>
-                        <tr>
-                            <th><span class="statusLbl">STATUS</span></th>
-                            <th>ID</th>
-                            <th>Customer Name</th>
-                            <th>Order Details</th>
-                            <th>Total Remittance</th>
-                            <th>Courier</th>
-                            <th>Date/Time</th>
-                        </tr>
-                        </thead>
-                        <?php
-                        $dropdown_query2 = "SELECT 
-                            transaction.id,
-                            transaction.uuid,
-                            customers.customer_name,
-                            transaction.total_amount,
-                            transaction.customer_change,
-                            transaction.amount_tendered,
-                            payment_option.option_name,
-                            transaction.service_type,
-                            transaction.note,
-                            transaction.status_id,
-                            users.first_name,
-                            users.last_name,
-                            transaction.created_at_date,
-                            transaction.created_at_time
-                            FROM transaction
-                            INNER JOIN users
-                            ON transaction.created_by_id = users.user_id
-                            INNER JOIN payment_option
-                            ON transaction.payment_option = payment_option.id
-                            LEFT JOIN customers
-                            ON transaction.customer_name_id = customers.id
-                            ORDER BY transaction.created_at_date DESC
-                            LIMIT 5";
-                        $result4 = mysqli_query($con, $dropdown_query2);
-                        while ($rows = mysqli_fetch_assoc($result4))
-                        {
-                            ?>
-                            <tbody>
-                            <tr>
-                                <td> <span class="status1">TO DELIVER</span></td>
-                                <td> <?php echo $rows['id']; ?></td>
-                                <td> <?php if($rows['customer_name']){
-                                    echo $rows['customer_name'];
-                                    }else{
-                                        echo 'GUEST';
-                                    }
-                                 ?></td>
-                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
-                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
-                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
-                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
-                            <tr id="noRecordTR" style="display:none">
-                                <td colspan="7">No Record Found</td>
-                            </tr>
-                            </tbody>
-                            <?php
-                        }
-                        ?>
-                    </table>
-                </div>
-            </div>
-            </main>
-            <?php
-                include('../common/top-menu.php')
-            ?>    
-        </div> 
-    </body>
-</html>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-<script src="https://code.jquery.com/jquery.min.js"></script>
-<script>
-const addForm = document.querySelector(".bg-addcustomerform");
- function addnewuser(){
-    // const addBtn = document.querySelector(".add-customer");
-    addForm.style.display = 'flex';
-}
-
-
-    // -----------------------------SIDE MENU
-    $(document).ready(function(){
-     //jquery for toggle sub menus
-     $('.sub-btn').click(function(){
-       $(this).next('.sub-menu').slideToggle();
-       $(this).find('.dropdown').toggleClass('rotate');
-     });
-
-     //jquery for expand and collapse the sidebar
-     $('.menu-btn').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn').css("visibility", "visible");
-     });
-     $('.menu-btn2').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn2').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn2').css("visibility", "visible");
-     });
-   });
-//    --------------------------------------------------------------------
-    const sideMenu = document.querySelector('#aside');
-    const closeBtn = document.querySelector('#close-btn');
-    const menuBtn = document.querySelector('#menu-button');
-    const checkbox = document.getElementById('checkbox');
-        menuBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'block';
-        })
-
-        closeBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'none';
-        })
-         checkbox.addEventListener( 'change', () =>{
-             document.body.classList.toggle('dark-theme');
-        //     if(this.checked) {
-        //         body.classList.add('dark')
-        //     } else {
-        //         body.classList.remove('dark')     
-        //     }
-         });
-        
-// -----------------------------date and time
-
-</script>
-<style>
+    <style>
      :root{
         --color-main: rgb(2, 80, 2);
         --color-white: white;
@@ -497,6 +82,78 @@ const addForm = document.querySelector(".bg-addcustomerform");
         background-size: cover;
         background-attachment: fixed;
     }  
+    .td-input{
+        border: none;
+        background: none;
+        color: var(--color-td);
+        font-size: .67rem;
+    }
+    .dateandtime{
+        position: relative;
+        justify-content: center;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        margin-left: 1rem;
+        display: inline-block;
+    }
+    .card-live {
+        display: inline-block;
+        border-radius: 0.1rem;
+        height: 1rem;
+        margin-left: .5rem;
+        border: transparent;
+        font-family: 'Rajdhani', sans-serif;
+
+    }
+    .time{
+        /* background-color: var(--color-black); */
+        color: var(--color-solid-gray);
+        font-size: .8rem;
+        font-weight: 500;
+        text-align: center;
+        display: inline-block;
+    }
+    .date-Text{
+        font-weight: 900;
+        font-size: 13px;
+        /* margin-left: 2rem; */
+        /* margin-top:1.7rem; */
+        color: var(--color-black);
+        display: inline-block;
+        text-align: center;
+        position: relative;
+    }
+    .date-live {
+        color: var(--color-solid-gray);
+        text-align: center;
+        font-size: .8rem;
+        font-weight: 500;
+        display: inline-block;
+    }
+
+    .dash{
+        display: inline-block;
+        color: var(--color-tertiary);
+    }
+    .nameTd{
+        font-size: .9rem;
+        font-family: 'Century Gothic', sans-serif;
+        color: var(--color-solid-gray);
+        float: left;
+        border-left: 1px solid var(--color-solid-gray);
+        padding-left: 1rem;
+    }
+    .th-name{
+        height: 2rem;
+    }
+    .td-name{
+        font-size: 1.2rem;
+        height: 2rem;
+        font-weight: 600;
+        font-family: 'arial', sans-serif;
+        color: var(--color-main);
+    }
     .form3{
     /* margin-top: -39rem; */
     width: 100%;
@@ -660,9 +317,30 @@ table tbody td{
     font-size: 1rem;
     display: inline-block;
 }
-    .status{
+.delete-rowsButton{
+    border: none;
+    background-color: var(--color-maroon);
+    color: var(--color-white);
+    /* align-items: center; */
+    fill: var(--color-white);
+    gap: .5rem;
+    padding:5px;
+    
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 5px;
+    font-family: 'calibri', sans-serif;
+    cursor: pointer;
+}
+.delete-rowsButton:hover{
+    filter: brightness(1.8);
+    transition: 0.2s;
+    /* border-bottom: 5px solid var(--color-tertiary); */
+}
+    .status3{
         font-weight: 800;
         font-size: .8rem;
+        margin-bottom: .5rem;
         padding: .3rem 1rem;
         background-color: var(--color-main);
         color: var(--color-secondary-main);
@@ -670,8 +348,28 @@ table tbody td{
         text-transform: uppercase;
         border-radius: 3rem;
         cursor: pointer;
+        border: none;
     }
-    .status:hover{
+    .status3:hover{
+        background-color: var(--color-solid-gray);
+        color: var(--color-secondary-main);
+        border-bottom: 5px solid var(--color-main);
+        transition: 0.3s;
+    }
+    .status2{
+        font-weight: 800;
+        font-size: .8rem;
+        margin-bottom: .5rem;
+        padding: .3rem 1rem;
+        background-color: yellow;
+        color: var(--color-solid-gray);
+        font-family: 'outfit', sans-serif;
+        text-transform: uppercase;
+        border-radius: 3rem;
+        cursor: pointer;
+        border: none;
+    }
+    .status2:hover{
         background-color: var(--color-solid-gray);
         color: var(--color-secondary-main);
         border-bottom: 5px solid var(--color-main);
@@ -1158,6 +856,7 @@ table tbody td{
 }
 .deliveryLbl{
     width: 100%;
+    margin-bottom: 3rem;
     position: relative;
     text-align: center;
 }
@@ -2347,3 +2046,520 @@ th{
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
 </style>
+    <body>
+    
+        <div class="container">
+            <?php
+                include('../common/side-menu.php')
+            ?>
+            <main>
+                <div class="main-dashboard">
+                    <h1 class="dashTitle">MONITORING</h1> 
+                    <?php
+                    if (isset($_GET['error'])) {
+                        echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
+                    }
+                    ?>
+                    <div class="sub-tab">
+                        <div class="user-title">
+                            <h2>DELIVERY/PICK UP</h2>
+                        </div>
+                        <div class="select-dropdown">
+                                <select class="select">
+                                    <option selected disabled value="">SELECT SERVICE</option>
+                                    <option value="All">All</option>
+                                    <option value="Delivery">Delivery</option>
+                                    <option value="Delivery/Pick Up">Delivery/Pick Up</option>
+                                </select>
+                        </div>
+
+                        <div class="search">
+                            <div class="search-bar"> 
+                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+                                <button type="submit" >
+                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+                                </button>
+                            </div>
+                        </div>  
+                    </div> 
+                </div>
+                <div class="main-container">
+                    <div class="sub-tab-container">
+                        <div class="newUser-button2"> 
+                            <div id="add-userbutton" class="add-account2">
+                                <h3 class="deliveries">To Deliver</h3>
+                                <span class="total-deliveries">0</span>
+                            </div>
+                        </div>
+                        <div class="newUser-button1"> 
+                            <div id="add-userbutton" class="add-account1">
+                                <h3 class="deliveries">To Pick Up</h3>
+                                <span class="total-deliveries">0</span>
+                            </div>
+                        </div>
+                        <div class="createDelivery">
+                            <a href="../monitoring/monitoring-delivery-pickup-delivered.php" id="add-userbutton" class="batchlist">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 16q-1.042 0-1.771-.729Q2.5 14.542 2.5 13.5H1V5q0-.625.438-1.062Q1.875 3.5 2.5 3.5H14v3h2.5L19 10v3.5h-1.5q0 1.042-.729 1.771Q16.042 16 15 16q-1.042 0-1.771-.729-.729-.729-.729-1.771h-5q0 1.042-.729 1.771Q6.042 16 5 16Zm0-1.5q.417 0 .708-.292Q6 13.917 6 13.5t-.292-.708Q5.417 12.5 5 12.5t-.708.292Q4 13.083 4 13.5t.292.708q.291.292.708.292Zm10 0q.417 0 .708-.292.292-.291.292-.708t-.292-.708Q15.417 12.5 15 12.5t-.708.292Q14 13.083 14 13.5t.292.708q.291.292.708.292Zm-1-4 3.5-.021L15.729 8H14Z"/></svg>
+                                <h3 class="deliveries">DELIVERED CUSTOMERS LIST</h3>
+                            </a>
+                        </div>
+                        <div class="createDelivery">
+                            <a href="../monitoring/monitoring-delivery-pickup-list.php" id="add-userbutton" class="batchlist">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 16q-1.042 0-1.771-.729Q2.5 14.542 2.5 13.5H1V5q0-.625.438-1.062Q1.875 3.5 2.5 3.5H14v3h2.5L19 10v3.5h-1.5q0 1.042-.729 1.771Q16.042 16 15 16q-1.042 0-1.771-.729-.729-.729-.729-1.771h-5q0 1.042-.729 1.771Q6.042 16 5 16Zm0-1.5q.417 0 .708-.292Q6 13.917 6 13.5t-.292-.708Q5.417 12.5 5 12.5t-.708.292Q4 13.083 4 13.5t.292.708q.291.292.708.292Zm10 0q.417 0 .708-.292.292-.291.292-.708t-.292-.708Q15.417 12.5 15 12.5t-.708.292Q14 13.083 14 13.5t.292.708q.291.292.708.292Zm-1-4 3.5-.021L15.729 8H14Z"/></svg>
+                                <h3 class="deliveries">PICK UP LIST</h3>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                    <div class="customer-container" id="customerTable">
+                                <br>
+                                <div class="newUser-button4"> 
+                                    <button id="add-userbutton" class="add-account3">
+                                        <h3 class="deliveries">TOTAL PENDING DELIVERY/PICK UP</h3>
+                                        <span class="total-deliveries">0</span>
+                                    </button>
+                                </div>
+                                <div class="card">
+                                     <h1 class="day"><?php echo date("l")?></h1>
+                                    <h1 class="dash">-</h1>
+                                    <h1 class="date"><?php echo ' '.date("F j, Y")?></h1>
+                                </div>
+                                <hr>
+                                <table class="table" id="myTable">
+                                <thead>
+                                        <tr>
+                                            <th><span class="statusLbl">STATUS</span></th>
+                                            <th>ID</th>
+                                            <th>Customer Name</th>
+                                            <!-- <th>Address</th>
+                                            <th>Contact Number</th> -->
+                                            <th>Payment Status</th>
+                                            <th>Date/Time Listed</th>
+                                            <th>Transaction Details</th>
+                                        </tr>
+                                </thead>
+                            <?php
+                            $dropdown_query2 = "SELECT 
+                            transaction.id,
+                            transaction.uuid,
+                            customers.customer_name,
+                            transaction.status_id,
+                            users.first_name,
+                            users.last_name,
+                            transaction.created_at_date,
+                            transaction.service_type,
+                            transaction.created_at_time
+                            FROM transaction
+                            INNER JOIN users
+                            ON transaction.created_by_id = users.user_id
+                            INNER JOIN payment_option
+                            ON transaction.payment_option = payment_option.id
+                            LEFT JOIN customers
+                            ON transaction.customer_name_id = customers.id
+                            WHERE transaction.service_type != 'Walk In'
+                            AND transaction.uuid NOT IN (SELECT uuid FROM delivery_list)
+                            ORDER BY transaction.created_at_time";
+                            $result = mysqli_query($con, $dropdown_query2);
+                            while ($rows = mysqli_fetch_assoc($result))
+                                {
+                            ?>
+                        <tbody>
+                            <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
+                                <td>
+                                    <?php 
+                                        if($rows['service_type'] == 'Delivery/Pick Up'){
+                                    ?>
+                                        <button type="submit" name="add-for-pickup" class="status2">ADD FOR PICK UP</button>
+                                    <?php
+                                        }else{
+                                    ?>
+                                            <button type="submit" name="add-for-delivery" class="status3">ADD FOR DELIVERY</button>
+                                    <?php
+                                        }
+                                    ?>
+                                </td>
+                                <td> <?php echo $rows['id']; ?></td>
+                                            <td >
+                                                <input type="hidden" name="customername" value="<?php echo $rows['customer_name']; ?>"/>
+                                                <?php echo $rows['customer_name'];?>
+                                            </td>
+
+                                            <td >
+                                                <input type="hidden" name="status" value="<?php echo $rows['status_id']; ?>"/>
+                                                <?php
+                                                    if($rows['status_id'] == 0){
+                                                        echo 'Unpaid';
+                                                    }else{
+                                                        echo 'Paid';
+                                                    } 
+                                                ?>
+                                            </td>     
+                                            <td> 
+                                                <?php echo $rows['created_at_date'].' '.$rows['created_at_time']; ?></td>
+                                            <td >
+                                                <input type="hidden" name="uuid" value="<?php echo $rows['uuid'];?>"/>
+                                                <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a>
+                                            </td>
+                                        <tr id="noRecordTR" style="display:none">
+                                            <td colspan="10">No Record Found</td>
+                                        </tr>
+                            </form>
+                        </tbody>
+                                <?php
+                            }
+                            ?>
+                                </table>
+                    </div>
+
+                        <div class="delivery-container" id="customerTable">
+                        
+                            <div class="dateandtime">
+                                <p class="date-Text">Date and Time:</p>
+                                <div class="card-live">
+                                    <h1 id="time" class="time">00:00:00</h1>
+                                    <h1 class="dash">-</h1>
+                                    <h1 id="date" class="date-live">00/00/0000</h1>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="deliveryLbl">
+                                <h2>- DELIVERY LIST -</h2>
+                            </div>
+                    <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
+                            <div class="deliveryboys">
+                                <h4>COURIER</h4>
+                                <div class="usertype-dropdown1">
+                                    <?php
+                                    $dropdown_query = "SELECT * FROM employee WHERE position_id LIKE '%2'";
+                                    $result_category = mysqli_query($con, $dropdown_query);
+                                    ?>
+                                    <select class="select1" name="delivery_boy" required="" >
+                                        <option selected disabled value="">SELECT DELIVERY BOY</option>
+                                        <?php while($category = mysqli_fetch_array($result_category)):;?>
+                                            <option value="<?php echo $category['id']?>">
+                                                <?php echo $category['first_name'].' '.$category['last_name'];?></option>
+                                        <?php endwhile;?>
+                                    </select>
+                                </div>
+                            </div>
+        
+                            <div class="deliverylist-table">
+                            <?php 
+                            // per customer
+                                    $user_id = $_SESSION['user_user_id'];
+                                    $transaction_process = "SELECT
+                                                customers.customer_name,
+                                                sum(transaction.total_amount) AS total
+                                                FROM delivery_list
+                                                INNER JOIN transaction
+                                                ON delivery_list.uuid = transaction.uuid
+                                                INNER JOIN customers
+                                                ON transaction.customer_name_id = customers.id
+                                                WHERE delivery_list.user_id = '$user_id'
+                                                AND delivery_list.delivery_status = 1
+                                                GROUP BY customers.customer_name";
+                                    $transaction_order = mysqli_query($con, $transaction_process);
+                                    if(mysqli_num_rows($transaction_order) > 0)
+                                    { 
+                                        foreach($transaction_order as $transaction_name)
+                                        {
+                            ?>
+                                <table class="tableCheckout" id="sumTable">
+                                    <thead>
+                                        <tr>
+                                            <th class="th-name"><span class="nameTd">Name</span></th>
+                                            <td colspan="3"><?php echo $transaction_name['customer_name'];?></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="th-name"><span class="nameTd">Total Amount</span></th>
+                                            <td colspan="3"><?php echo $transaction_name['total'];?></td>
+                                        </tr>
+                                    </thead>
+                                    <?php  
+                                    // per uuid per customer 
+                                        $customer_name = $transaction_name['customer_name'];    
+                                                $transaction_uuid = "SELECT
+                                                        delivery_list.uuid
+                                                        FROM delivery_list
+                                                        INNER JOIN transaction
+                                                        ON delivery_list.uuid = transaction.uuid
+                                                        INNER JOIN customers
+                                                        ON transaction.customer_name_id = customers.id
+                                                        WHERE customers.customer_name = '$customer_name'
+                                                        AND delivery_list.delivery_status = 1
+                                                        AND delivery_list.user_id = $user_id";
+                                                $transaction_uuid_result = mysqli_query($con, $transaction_uuid);
+                                                if(mysqli_num_rows($transaction_uuid_result) > 0)
+                                                {?>
+                                    <tbody>
+                                        <?php
+                                        foreach($transaction_uuid_result as $transactions_uuid)
+                                        {
+                                        ?>  
+                                        <thead>
+                                            <tr>
+                                                <th>ORDER</th>
+                                                <th>WATER</th>
+                                                <th>QTY</th>
+                                                <th>AMOUNT</th>
+                                                <th>     
+                                                    <a href="../service/delete-transaction-order.php?delete-list=<?php echo $transactions_uuid['uuid']; ?>" class="delete-rowsButton" class="action-btn" name="action">
+                                                        X
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead> 
+                                        <?php
+                                            $uuid = $transactions_uuid['uuid'];
+                                            $transaction_process = "SELECT
+                                            transaction_process.item_name, 
+                                            transaction_process.water_type,
+                                            transaction_process.category_type,
+                                            transaction_process.quantity,
+                                            transaction_process.price,
+                                            transaction_process.total_price
+                                            FROM transaction_process
+                                            INNER JOIN transaction
+                                            ON transaction_process.transaction_id = transaction.uuid
+                                            INNER JOIN delivery_list
+                                            ON delivery_list.uuid = transaction.uuid
+                                            WHERE transaction_id = '$uuid'
+                                            AND delivery_list.delivery_status = 1
+                                            AND delivery_list.user_id = '$user_id'";
+                                            $transaction_order = mysqli_query($con, $transaction_process);
+                                            if(mysqli_num_rows($transaction_order) > 0)
+                                            {
+                                        foreach($transaction_order as $transactions){
+                                        ?>  
+                                                    <tr>
+                                                        <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
+                                                        <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
+                                                        <td name="categorytype_transaction"> <?php echo $transactions['quantity']; ?></td>
+                                                        <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
+                                                    </tr>
+                                                    <?php } ?> 
+                                                    <?php } else { ?> 
+                                                        <tr id="noRecordTR"><td colspan="4">No Deliveries Added</td></tr>
+                                                    <?php }}}}}?>
+                                                </tbody>
+                                                
+                                </table>
+                            </div>
+                            <div>
+                            <?php
+                            $transaction_order1 = mysqli_query($con, "SELECT sum(transaction.total_amount) 
+                            AS total
+                            FROM transaction
+                            INNER JOIN delivery_list 
+                            ON transaction.uuid = delivery_list.uuid
+                            WHERE delivery_list.user_id = '$user_id'
+                            AND delivery_list.delivery_status = 1"); 
+                                                
+                                                $transactions1 = mysqli_fetch_assoc($transaction_order1);
+
+                                                            ?>
+
+                            <hr>
+                                <div class="totaldelivery1"><p class="totalAmount-text">TOTAL PAYMENTS</p></div>
+                                <div class="total-amount">
+                                    <label id="total_order1">&#8369</label>
+                                    <input type="text" name="totalAmount" readonly id="totalAmount_order" value="<?php echo number_format($transactions1['total'], '2','.',','); ?>">
+                                </div>
+                            </div>
+                            
+        
+                            <div class="receipt-buttons">
+                                <button type="submit" class="confirmOrder-button" name="print" onclick="print();">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
+                                    Print
+                                </button>
+                                <button type="submit" class="confirmOrder-button2" name="deliver">
+                                    DELIVER
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form3">
+                <div class="todeliver-transaction">
+                    <br>
+                    <header class="todeliver-transaction-header">ONGOING DELIVERY ORDERS</header>
+                    <hr>
+                    <table class="todeliver-transaction-table">
+                        <thead>
+                        <tr>
+                            <th><span class="statusLbl">STATUS</span></th>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Details</th>
+                            <th>Total Amount</th>
+                            <th>Payment Status</th>
+                            <th>Delivery Boy</th>
+                            <th>Date/Time</th>
+                        </tr>
+                        </thead>
+                        <?php
+                            $dropdown_query2 = "SELECT 
+                            transaction.id,
+                            transaction.uuid,
+                            customers.customer_name,
+                            transaction.status_id,
+                            transaction.total_amount,
+                            transaction.created_at_date,
+                            transaction.created_at_time,
+                            employee.first_name,
+                            employee.last_name
+                            FROM transaction
+                            INNER JOIN delivery_list
+                            ON transaction.uuid = delivery_list.uuid
+                            INNER JOIN employee
+                            ON delivery_list.delivery_boy_id = employee.id
+                            INNER JOIN payment_option
+                            ON transaction.payment_option = payment_option.id
+                            LEFT JOIN customers
+                            ON transaction.customer_name_id = customers.id
+                            WHERE transaction.service_type != 'Walk In'
+                            AND transaction.uuid IN (SELECT uuid FROM delivery_list)
+                            AND delivery_list.delivery_status = 2
+                            ORDER BY transaction.created_at_time";
+                        $result4 = mysqli_query($con, $dropdown_query2);
+                        while ($rows = mysqli_fetch_assoc($result4))
+                        {
+                            ?>
+                            <tbody>
+                            <tr>
+                            <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
+                                <td> <button type="submit" name="add-as-delivered" class="status1">ADD AS DELIVERED</button></td>
+                                <input type="hidden" value="<?php echo $rows['uuid'];?>" name="uuid">
+                            </form>
+                                <td> <?php echo $rows['id']; ?></td>
+                                <td> <?php if($rows['customer_name']){
+                                    echo $rows['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }
+                                 ?></td>
+                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
+                                <td>         
+                                    <?php
+                                        if($rows['status_id'] == 0){
+                                            echo 'Unpaid';
+                                        }else{
+                                            echo 'Paid';
+                                        } 
+                                    ?>
+                                </td>
+                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
+                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
+                                <td>    <a href="../service/delete-transaction-order.php?delete-list=<?php echo $rows['uuid']; ?>" class="delete-rowsButton" class="action-btn" name="action">
+                                            X
+                                        </a>
+                                </td>
+                            <tr id="noRecordTR" style="display:none">
+                                <td colspan="7">No Record Found</td>
+                            </tr>
+                            </tbody>
+                            <?php
+                        }
+                        ?>
+                    </table>
+                </div>
+            </div>
+            </main>
+            <?php
+                include('../common/top-menu.php')
+            ?>    
+        </div> 
+    </body>
+</html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script>
+const addForm = document.querySelector(".bg-addcustomerform");
+ function addnewuser(){
+    // const addBtn = document.querySelector(".add-customer");
+    addForm.style.display = 'flex';
+}
+
+var today = new Date();
+var day = today.getDate();
+var month = today.getMonth() + 1;
+
+function appendZero(value) {
+    return "0" + value;
+}
+
+function theTime() {
+    var d = new Date();
+    document.getElementById("time").innerHTML = d.toLocaleTimeString("en-US");
+}
+
+if (day < 10) {
+    day = appendZero(day);
+}
+
+if (month < 10) {
+    month = appendZero(month);
+}
+
+today = day + "/" + month + "/" + today.getFullYear();
+
+document.getElementById("date").innerHTML = today;
+
+var myVar = setInterval(function () {
+    theTime();
+}, 1000);
+
+    // -----------------------------SIDE MENU
+    $(document).ready(function(){
+     //jquery for toggle sub menus
+     $('.sub-btn').click(function(){
+       $(this).next('.sub-menu').slideToggle();
+       $(this).find('.dropdown').toggleClass('rotate');
+     });
+
+     //jquery for expand and collapse the sidebar
+     $('.menu-btn').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn').css("visibility", "visible");
+     });
+     $('.menu-btn2').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn2').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn2').css("visibility", "visible");
+     });
+   });
+//    --------------------------------------------------------------------
+    const sideMenu = document.querySelector('#aside');
+    const closeBtn = document.querySelector('#close-btn');
+    const menuBtn = document.querySelector('#menu-button');
+    const checkbox = document.getElementById('checkbox');
+        menuBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'block';
+        })
+
+        closeBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'none';
+        })
+         checkbox.addEventListener( 'change', () =>{
+             document.body.classList.toggle('dark-theme');
+        //     if(this.checked) {
+        //         body.classList.add('dark')
+        //     } else {
+        //         body.classList.remove('dark')     
+        //     }
+         });
+        
+// -----------------------------date and time
+
+</script>

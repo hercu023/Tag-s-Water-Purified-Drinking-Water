@@ -27,447 +27,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
         <script src="../index.js"></script>
     </head>
-    <body>
-    
-        <div class="container">
-        <?php
-            include('../common/side-menu.php')
-        ?>
-            <main>
-                <div class="main-dashboard">
-                    <h1 class="dashTitle">MONITORING</h1> 
-                    <?php
-                    if (isset($_GET['error'])) {
-                        echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
-                    }
-                    ?>
-                    <div class="sub-tab">
-                        <div class="user-title">
-                            <h2>POS TRANSACTION</h2>
-                        </div>
-                        <div class="select-dropdown">
-                                <select class="select">
-                                    <option selected disabled value="">SELECT TYPE</option>
-                                    <option value="All">All</option>
-                                    <option value="Walk-In">Walk-In</option>
-                                    <option value="Delivery">Delivery</option>
-                                </select>
-                            </div>
-                        <div class="search">
-                            <div class="search-bar"> 
-                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                                <button type="submit" >
-                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                                </button>
-                            </div>
-                        </div>  
-                    </div> 
-                </div>
-                <div class="main-container">
-                        <div class="sub-tab-container">
-                            
-                            <div class="totals">
-                                <div class="newUser-button3"> 
-                                <div id="add-userbutton" class="add-account3">
-                                        <h3 class="deliveries">TOTAL TRANSACTION</h3>
-                                        <span class="total-transactions">0</span>
-                                </div>
-                            </div>
-                            <div class="newUser-button1"> 
-                                <div id="add-userbutton" class="add-account1">
-                                    <h3 class="deliveries">DELIVERIES</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                            <div class="newUser-button2"> 
-                                <div id="add-userbutton" class="add-account2">
-                                    <h3 class="deliveries">WALK IN</h3>
-                                    <span class="total-deliveries">0</span>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        </div>
-                    </div>
-                    
-                        <div class="customer-container" id="customerTable">
-                            <br>
-                            <header class="previous-transaction-header">Today's Previous Transaction</header>
-                            <hr>
-                            <table class="table" id="myTable">  
-                            <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Customer Name</th>
-                            <th>Order Details</th>
-                            <th>Total Amount</th>
-                            <th>Payment Option</th>
-                            <th>Service</th>
-                            <th>Note</th>
-                            <th>Payment Status</th>
-                            <th>Cashier Name</th>
-                            <th>Date/Time</th>
-                        </tr>
-                        </thead>
-                        <?php
-                        $dropdown_query2 = "SELECT 
-                            transaction.id,
-                            transaction.uuid,
-                            customers.customer_name,
-                            transaction.total_amount,
-                            payment_option.option_name,
-                            transaction.service_type,
-                            transaction.note,
-                            transaction.status_id,
-                            users.first_name,
-                            users.last_name,
-                            transaction.created_at_date,
-                            transaction.created_at_time
-                            FROM transaction
-                            INNER JOIN users
-                            ON transaction.created_by_id = users.user_id
-                            INNER JOIN payment_option
-                            ON transaction.payment_option = payment_option.id
-                            LEFT JOIN customers
-                            ON transaction.customer_name_id = customers.id
-                            ORDER BY transaction.created_at_date";
-                        $result4 = mysqli_query($con, $dropdown_query2);
-                        while ($rows = mysqli_fetch_assoc($result4))
-                        {
-                            ?>
-                            <tbody>
-                            <tr>
-                                <td> <?php echo $rows['id']; ?></td>
-                                <td> <?php if($rows['customer_name']){
-                                    echo $rows['customer_name'];
-                                    }else{
-                                        echo 'GUEST';
-                                    }
-                                 ?></td>
-                                <td> <a class="viewTransaction" href="../pos/point-of-sales-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
-
-                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
-                                <td> <?php echo $rows['option_name']; ?></td>
-                                <td> <?php echo $rows['service_type']; ?></td>
-                                <td> <?php echo $rows['note']; ?></td>
-                                <td> <?php 
-                                    if($rows['status_id'] == 0){
-                                        echo 'Unpaid';
-                                    }else{
-                                        echo 'Paid';
-                                    } ?>
-                                </td>
-                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
-                                <td> <?php echo $rows['created_at_date']. ' '. $rows['created_at_time']; ?></td>
-                            <tr id="noRecordTR" style="display:none">
-                                <td colspan="10">No Record Found</td>
-                            </tr>
-                            </tbody>
-                            <?php
-                        }
-                        ?>
-                            </table>
-                        </div>
-            </main>
-            <?php
-                include('../common/top-menu.php')
-            ?>    
-        </div> 
-        <?php
-if(isset($_GET['view']))
-{
-    $uuid = $_GET['view'];
-    $result = mysqli_query($con, "SELECT
-                                customers.customer_name,
-                                transaction.total_amount,                   
-                                payment_option.option_name,
-                                transaction.service_type,
-                                transaction.created_at_date,
-                                transaction.created_at_time
-                                FROM transaction 
-                                LEFT JOIN customers  
-                                ON transaction.customer_name_id = customers.id 
-                                LEFT JOIN payment_option  
-                                ON transaction.payment_option = payment_option.id   
-                                WHERE transaction.uuid='$uuid'");
-    if (mysqli_num_rows($result) > 0) {
-    $transaction = mysqli_fetch_assoc($result);
-    ?>
-    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
-        <div class="bg-placeorderform" id="bg-placeform">
-            <div class="container1">
-                <a href="../monitoring/monitoring-point-of-sales-transaction.php" class="close">X</a>
-                <h1 class="addnew-title">TRANSACTION DETAILS</h1>
-                <?php
-                    if (isset($_GET['message'])) {
-                        echo '<p class="transaction_success"> '.$_GET['message'].' </p>';
-                    }
-                ?>
-                <form action="#">
-                    <div class="main-user-info">
-                        <div class="customerName">
-                            <label class="customernameLbl">Customer</label>
-                            <span class="customer_name"><?php if($transaction['customer_name']){
-                                    echo $transaction['customer_name'];
-                                    }else{
-                                        echo 'GUEST';
-                                    }?></span>
-                        </div>
-                        <label class="createdatLbl"><?= 'DATE :'.' '. $transaction['created_at_date'];?></label>
-                        <label class="createdatLbl"><?=  'TIME :'.' '.$transaction['created_at_time'];?></label>
-                         
-                        <div class="payment-service">
-                            <div class="payment-options1">
-                                <p class="paymentOptions-text">Payment Option</p>
-                                <label class="service-options"><?=$transaction['option_name'];?> </label>
-                            </div>
-                            <div class="payment-options2">
-                                <p class="paymentOptions-text">Service</p>
-                                <label class="service-options"><?=$transaction['service_type'];?> </label>
-                            </div>
-                        </div>
-                 
-                        <?php
-                            }
-                        ?>
-                         <div class="orderSum-Details">
-                            <table class="tableCheckout" id="sumTable">
-                                <thead>
-                                <tr>
-                                    <th>ITEM</th>
-                                    <th>Water</th>
-                                    <th>Type</th>
-                                    <th>Price</th>
-                                    <th>QTY</th>
-                                    <th>TOTAL</th>
-                                </tr>
-                                </thead>
-                                    <?php           
-                                            $transaction_process = "SELECT
-                                                    transaction_process.item_name, 
-                                                    transaction_process.water_type,
-                                                    transaction_process.category_type,
-                                                    transaction_process.quantity,
-                                                    transaction_process.price,
-                                                    transaction_process.total_price
-                                                    FROM transaction_process
-                                                    WHERE transaction_id = '$uuid'";
-                                            $transaction_order = mysqli_query($con, $transaction_process);
-                                            if(mysqli_num_rows($transaction_order) > 0)
-                                            {
-                                            foreach($transaction_order as $transactions)
-                                            {
-                                            ?>
-
-                                            <tbody>
-                                            <tr>
-                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
-                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
-                                                <td name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
-                                                <td name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
-                                                <td class="quantity-td" > 
-                                                    <?php echo $transactions['quantity'];?>
-                                                </td>
-                                                <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
-                                            </tr>
-                                            <?php } ?>
-                                            <?php } else { ?>
-                                                <tr id="noRecordTR">
-                                                    <td colspan="7">No Order(s) Added</td>
-                                                </tr>
-                                            <?php } ?>
-                                            </tbody>
-                                        
-                                      
-
-                                            <tfoot>
-                                           
-                                            </tfoot>
-                                            
-                                </table>
-                        </div>
-                        <div class="totalamount-Details">
-                            <table class="tableCheckout" id="sumTable">
-                                <thead>
-                                <tr>
-                                    <th>Amount Tendered</th>
-                                    <th>Change</th>
-                                    <th>Previous Balance</th>
-                                    <th>Remaining Balance</th>
-                                    <th>Unpaid Amount</th>
-                                    <th>Date Created</th>
-                                </tr>
-                                </thead>
-                                    <?php           
-                                            $transaction_history = "SELECT
-                                                    transaction_history.amount_tendered, 
-                                                    transaction_history.customer_change,
-                                                    transaction_history.remaining_balance,
-                                                    transaction_history.previous_balance,
-                                                    transaction_history.unpaid_amount,
-                                                    transaction_history.created_at
-                                                    FROM transaction_history
-                                                    WHERE transaction_uuid = '$uuid'";
-                                            $transaction_order_history = mysqli_query($con, $transaction_history);
-                                            if(mysqli_num_rows($transaction_order_history) > 0)
-                                            {
-                                            foreach($transaction_order_history as $transactions_history)
-                                            {
-                                            ?>
-
-                                            <tbody>
-                                            <tr>
-                                                <td> <?php echo '&#8369'.' '.$transactions_history['amount_tendered']; ?></td>
-                                                <td> <?php echo '&#8369'.' '.$transactions_history['customer_change']; ?></td>
-                                                <td> <?php echo '&#8369'.' '.$transactions_history['previous_balance']; ?></td>
-                                                <td> <?php echo '&#8369'.' '.$transactions_history['remaining_balance']; ?></td>
-                                                <td> <?php echo '&#8369'.' '. $transactions_history['unpaid_amount']; ?></td>
-                                                <td> <?php echo $transactions_history['created_at']; ?></td>
-                                            </tr>
-                                            <?php } ?>
-                                            <?php } else { ?>
-                                                <tr id="noRecordTR">
-                                                    <td colspan="5">No Order(s) Added</td>
-                                                </tr>
-                                            <?php } ?>
-                                            </tbody>
-                                        
-                                      
-
-                                            <tfoot>
-                                           
-                                            </tfoot>
-                                            
-                                </table>
-                        </div>
-                        <div class="payment-section">
-                            <div class="user-input-box-totalamount">
-                            <?php 
-                                    $transaction_unpaid = "SELECT
-                                    transaction_history.unpaid_amount
-                                    FROM transaction_history
-                                    WHERE transaction_uuid = '$uuid'
-                                    ORDER BY transaction_history.created_at DESC
-                                    LIMIT 1";
-                                    $transaction_unpaid_history = mysqli_query($con, $transaction_unpaid);
-                                    if(mysqli_num_rows($transaction_unpaid_history) > 0)
-                                    {
-                                        $unpaid_amount = mysqli_fetch_assoc($transaction_unpaid_history)['unpaid_amount'];
-                                        $total_paid_amount = $transaction['total_amount'] - $unpaid_amount;
-                                ?>
-                                <label class="remaining-amountLbl">Remaining Paid Amount</label>
-                                <span id="remaining-amount2" class="remaining-amount2"><?php echo '&#8369'.' '.number_format($unpaid_amount, '2','.',','); ?></span>
-                            </div>
-                            <div class="user-input-box-totalamount">
-                         
-                                <label for="total-amount2">TOTAL PAID AMOUNT</label>
-                                <span id="total-amount2" class="total-amount2"><?php echo '&#8369'.' '.number_format($total_paid_amount, '2','.',','); ?></span>
-                            </div>
-                            
-                        </div>
-                        <?php } ?>
-                        
-                        <div class="line"></div>
-
-                        <div class="bot-buttons">
-                            <div class="AddButton1">
-                                <button type="submit" id="addcustomerBtn" name="save-transaction" onclick="print();">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
-                                    PRINT
-                                </button>
-                            </div>
-                            <input type="hidden" name="uuid" value="<?php echo $uuid?>">
-                            <div class="AddButton2">
-                                <button type="submit" id="addcustomerBtn" name="monitoring-pos-unpaid">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M2.5 16q-.625 0-1.062-.438Q1 15.125 1 14.5V6h1.5v8.5h14V16Zm3-3q-.625 0-1.062-.438Q4 12.125 4 11.5v-6q0-.604.438-1.052Q4.875 4 5.5 4h12q.604 0 1.052.448Q19 4.896 19 5.5v6q0 .625-.448 1.062Q18.104 13 17.5 13ZM7 11.5q0-.604-.448-1.052Q6.104 10 5.5 10v1.5Zm9 0h1.5V10q-.625 0-1.062.448Q16 10.896 16 11.5Zm-4.5-.5q1.042 0 1.771-.719Q14 9.562 14 8.5q0-1.042-.729-1.771Q12.542 6 11.5 6q-1.062 0-1.781.729Q9 7.458 9 8.5q0 1.062.719 1.781.719.719 1.781.719Zm-6-4q.604 0 1.052-.438Q7 6.125 7 5.5H5.5Zm12 0V5.5H16q0 .625.438 1.062Q16.875 7 17.5 7Z"/></svg>
-                                PAYMENT
-                                </button>
-                            </div>
-                        </div>
-                        
-
-                    </div>
-                </form>
-            </div>
-        </div>
-    </form> 
-    <?php }?>
-
-    </body>
-</html>
-<script>
-    // -----------------------------SIDE MENU
- $(document).ready(function(){
-     //jquery for toggle sub menus
-     $('.sub-btn').click(function(){
-       $(this).next('.sub-menu').slideToggle();
-       $(this).find('.dropdown').toggleClass('rotate');
-     });
-
-     //jquery for expand and collapse the sidebar
-     $('.menu-btn').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn').css("visibility", "visible");
-     });
-     $('.menu-btn2').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn2').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn2').css("visibility", "visible");
-     });
-   });
-//    --------------------------------------------------------------------
-    const sideMenu = document.querySelector('#aside');
-    const closeBtn = document.querySelector('#close-btn');
-    const menuBtn = document.querySelector('#menu-button');
-    const checkbox = document.getElementById('checkbox');
-        menuBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'block';
-        })
-
-        closeBtn.addEventListener('click', () =>{
-            sideMenu.style.display = 'none';
-        })
-         checkbox.addEventListener( 'change', () =>{
-             document.body.classList.toggle('dark-theme');
-        //     if(this.checked) {
-        //         body.classList.add('dark')
-        //     } else {
-        //         body.classList.remove('dark')     
-        //     }
-         });
-        
-        // if(localStorage.getItem('dark')) {
-        //     body.classList.add('dark');
-        //     }
-    // const sideMenu = document.querySelector("#aside");
-    // const closeBtn = document.querySelector("#close-btn");
-    // const menuBtn = document.querySelector("#menu-button");
-    // const checkbox = document.getElementById("checkbox");
-    //     menuBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'block';
-    //     })
-    //     closeBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'none';
-    //     })
-    //     checkbox.addEventListener('change', () =>{
-    //         document.body.classList.toggle('dark-theme');
-    //     })
-
-    //     function menuToggle(){
-    //         const toggleMenu = document.querySelector('.drop-menu');
-    //         toggleMenu.classList.toggle('user2')
-    //     }
-</script>
-<style>
+    <style>
      :root{
         --color-main: rgb(2, 80, 2);
         --color-white: white;
@@ -844,6 +404,7 @@ th{
 .customernameLbl{
     margin-left: 1rem;
     font-size: .9rem;
+    display: inline-block;
     color: var(--color-solid-gray);
     font-weight: 600;
 }
@@ -1945,3 +1506,443 @@ tr:hover td{
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
 </style>
+    <body>
+    
+        <div class="container">
+        <?php
+            include('../common/side-menu.php')
+        ?>
+            <main>
+                <div class="main-dashboard">
+                    <h1 class="dashTitle">MONITORING</h1> 
+                    <?php
+                    if (isset($_GET['error'])) {
+                        echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
+                    }
+                    ?>
+                    <div class="sub-tab">
+                        <div class="user-title">
+                            <h2>POS TRANSACTION</h2>
+                        </div>
+                        <div class="select-dropdown">
+                                <select class="select">
+                                    <option selected disabled value="">SELECT TYPE</option>
+                                    <option value="All">All</option>
+                                    <option value="Walk-In">Walk-In</option>
+                                    <option value="Delivery">Delivery</option>
+                                </select>
+                            </div>
+                        <div class="search">
+                            <div class="search-bar"> 
+                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+                                <button type="submit" >
+                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+                                </button>
+                            </div>
+                        </div>  
+                    </div> 
+                </div>
+                <div class="main-container">
+                        <div class="sub-tab-container">
+                            
+                            <div class="totals">
+                                <div class="newUser-button3"> 
+                                <div id="add-userbutton" class="add-account3">
+                                        <h3 class="deliveries">TOTAL TRANSACTION</h3>
+                                        <span class="total-transactions">0</span>
+                                </div>
+                            </div>
+                            <div class="newUser-button1"> 
+                                <div id="add-userbutton" class="add-account1">
+                                    <h3 class="deliveries">DELIVERIES</h3>
+                                    <span class="total-deliveries">0</span>
+                                </div>
+                            </div>
+                            <div class="newUser-button2"> 
+                                <div id="add-userbutton" class="add-account2">
+                                    <h3 class="deliveries">WALK IN</h3>
+                                    <span class="total-deliveries">0</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        </div>
+                    </div>
+                    
+                        <div class="customer-container" id="customerTable">
+                            <br>
+                            <header class="previous-transaction-header">Previous Transactions</header>
+                            <hr>
+                            <table class="table" id="myTable">  
+                            <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Order Details</th>
+                            <th>Total Amount</th>
+                            <th>Payment Option</th>
+                            <th>Service</th>
+                            <th>Note</th>
+                            <th>Payment Status</th>
+                            <th>Cashier Name</th>
+                            <th>Date/Time</th>
+                        </tr>
+                        </thead>
+                        <?php
+                        $dropdown_query2 = "SELECT 
+                            transaction.id,
+                            transaction.uuid,
+                            customers.customer_name,
+                            transaction.total_amount,
+                            payment_option.option_name,
+                            transaction.service_type,
+                            transaction.note,
+                            transaction.status_id,
+                            users.first_name,
+                            users.last_name,
+                            transaction.created_at_date,
+                            transaction.created_at_time
+                            FROM transaction
+                            INNER JOIN users
+                            ON transaction.created_by_id = users.user_id
+                            INNER JOIN payment_option
+                            ON transaction.payment_option = payment_option.id
+                            LEFT JOIN customers
+                            ON transaction.customer_name_id = customers.id
+                            ORDER BY transaction.created_at_date";
+                        $result4 = mysqli_query($con, $dropdown_query2);
+                        while ($rows = mysqli_fetch_assoc($result4))
+                        {
+                            ?>
+                            <tbody>
+                            <tr>
+                                <td> <?php echo $rows['id']; ?></td>
+                                <td> <?php if($rows['customer_name']){
+                                    echo $rows['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }
+                                 ?></td>
+                                <td> <a class="viewTransaction" href="../pos/point-of-sales-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+
+                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
+                                <td> <?php echo $rows['option_name']; ?></td>
+                                <td> <?php echo $rows['service_type']; ?></td>
+                                <td> <?php echo $rows['note']; ?></td>
+                                <td> <?php 
+                                    if($rows['status_id'] == 0){
+                                        echo 'Unpaid';
+                                    }else{
+                                        echo 'Paid';
+                                    } ?>
+                                </td>
+                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
+                                <td> <?php echo $rows['created_at_date']. ' '. $rows['created_at_time']; ?></td>
+                            <tr id="noRecordTR" style="display:none">
+                                <td colspan="10">No Record Found</td>
+                            </tr>
+                            </tbody>
+                            <?php
+                        }
+                        ?>
+                            </table>
+                        </div>
+            </main>
+            <?php
+                include('../common/top-menu.php')
+            ?>    
+        </div> 
+        <?php
+if(isset($_GET['view']))
+{
+    $uuid = $_GET['view'];
+    $result = mysqli_query($con, "SELECT
+                                customers.customer_name,
+                                transaction.total_amount,                   
+                                payment_option.option_name,
+                                transaction.service_type,
+                                transaction.created_at_date,
+                                transaction.created_at_time
+                                FROM transaction 
+                                LEFT JOIN customers  
+                                ON transaction.customer_name_id = customers.id 
+                                LEFT JOIN payment_option  
+                                ON transaction.payment_option = payment_option.id   
+                                WHERE transaction.uuid='$uuid'");
+    if (mysqli_num_rows($result) > 0) {
+    $transaction = mysqli_fetch_assoc($result);
+    ?>
+    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
+        <div class="bg-placeorderform" id="bg-placeform">
+            <div class="container1">
+                <a href="../monitoring/monitoring-point-of-sales-transaction.php" class="close">X</a>
+                <h1 class="addnew-title">TRANSACTION DETAILS</h1>
+                <?php
+                    if (isset($_GET['message'])) {
+                        echo '<p class="transaction_success"> '.$_GET['message'].' </p>';
+                    }
+                ?>
+                <form action="#">
+                    <div class="main-user-info">
+                        <div class="customerName">
+                            <label class="customernameLbl">Customer</label>
+                            <span class="customer_name"><?php if($transaction['customer_name']){
+                                    echo $transaction['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }?></span>
+                        </div>
+                        <label class="createdatLbl"><?= 'DATE :'.' '. $transaction['created_at_date'];?></label>
+                        <label class="createdatLbl"><?=  'TIME :'.' '.$transaction['created_at_time'];?></label>
+                         
+                        <div class="payment-service">
+                            <div class="payment-options1">
+                                <p class="paymentOptions-text">Payment Option</p>
+                                <label class="service-options"><?=$transaction['option_name'];?> </label>
+                            </div>
+                            <div class="payment-options2">
+                                <p class="paymentOptions-text">Service</p>
+                                <label class="service-options"><?=$transaction['service_type'];?> </label>
+                            </div>
+                        </div>
+                 
+                        <?php
+                            }
+                        ?>
+                         <div class="orderSum-Details">
+                            <table class="tableCheckout" id="sumTable">
+                                <thead>
+                                <tr>
+                                    <th>ITEM</th>
+                                    <th>Water</th>
+                                    <th>Type</th>
+                                    <th>Price</th>
+                                    <th>QTY</th>
+                                    <th>TOTAL</th>
+                                </tr>
+                                </thead>
+                                    <?php           
+                                            $transaction_process = "SELECT
+                                                    transaction_process.item_name, 
+                                                    transaction_process.water_type,
+                                                    transaction_process.category_type,
+                                                    transaction_process.quantity,
+                                                    transaction_process.price,
+                                                    transaction_process.total_price
+                                                    FROM transaction_process
+                                                    WHERE transaction_id = '$uuid'";
+                                            $transaction_order = mysqli_query($con, $transaction_process);
+                                            if(mysqli_num_rows($transaction_order) > 0)
+                                            {
+                                            foreach($transaction_order as $transactions)
+                                            {
+                                            ?>
+
+                                            <tbody>
+                                            <tr>
+                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
+                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
+                                                <td name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
+                                                <td name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
+                                                <td class="quantity-td" > 
+                                                    <?php echo $transactions['quantity'];?>
+                                                </td>
+                                                <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
+                                            </tr>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <tr id="noRecordTR">
+                                                    <td colspan="7">No Order(s) Added</td>
+                                                </tr>
+                                            <?php } ?>
+                                            </tbody>
+                                        
+                                      
+
+                                            <tfoot>
+                                           
+                                            </tfoot>
+                                            
+                                </table>
+                        </div>
+                        <div class="totalamount-Details">
+                            <table class="tableCheckout" id="sumTable">
+                                <thead>
+                                <tr>
+                                    <th>Amount Tendered</th>
+                                    <th>Change</th>
+                                    <th>Previous Balance</th>
+                                    <th>Remaining Balance</th>
+                                    <th>Unpaid Amount</th>
+                                    <th>Date Created</th>
+                                </tr>
+                                </thead>
+                                    <?php           
+                                            $transaction_history = "SELECT
+                                                    transaction_history.amount_tendered, 
+                                                    transaction_history.customer_change,
+                                                    transaction_history.remaining_balance,
+                                                    transaction_history.previous_balance,
+                                                    transaction_history.unpaid_amount,
+                                                    transaction_history.created_at
+                                                    FROM transaction_history
+                                                    WHERE transaction_uuid = '$uuid'";
+                                            $transaction_order_history = mysqli_query($con, $transaction_history);
+                                            if(mysqli_num_rows($transaction_order_history) > 0)
+                                            {
+                                            foreach($transaction_order_history as $transactions_history)
+                                            {
+                                            ?>
+
+                                            <tbody>
+                                            <tr>
+                                                <td> <?php echo '&#8369'.' '.$transactions_history['amount_tendered']; ?></td>
+                                                <td> <?php echo '&#8369'.' '.$transactions_history['customer_change']; ?></td>
+                                                <td> <?php echo '&#8369'.' '.$transactions_history['previous_balance']; ?></td>
+                                                <td> <?php echo '&#8369'.' '.$transactions_history['remaining_balance']; ?></td>
+                                                <td> <?php echo '&#8369'.' '. $transactions_history['unpaid_amount']; ?></td>
+                                                <td> <?php echo $transactions_history['created_at']; ?></td>
+                                            </tr>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <tr id="noRecordTR">
+                                                    <td colspan="5">No Order(s) Added</td>
+                                                </tr>
+                                            <?php } ?>
+                                            </tbody>
+                                        
+                                      
+
+                                            <tfoot>
+                                           
+                                            </tfoot>
+                                            
+                                </table>
+                        </div>
+                        <div class="payment-section">
+                            <div class="user-input-box-totalamount">
+                            <?php 
+                                    $transaction_unpaid = "SELECT
+                                    transaction_history.unpaid_amount
+                                    FROM transaction_history
+                                    WHERE transaction_uuid = '$uuid'
+                                    ORDER BY transaction_history.created_at DESC
+                                    LIMIT 1";
+                                    $transaction_unpaid_history = mysqli_query($con, $transaction_unpaid);
+                                    if(mysqli_num_rows($transaction_unpaid_history) > 0)
+                                    {
+                                        $unpaid_amount = mysqli_fetch_assoc($transaction_unpaid_history)['unpaid_amount'];
+                                        $total_paid_amount = $transaction['total_amount'] - $unpaid_amount;
+                                ?>
+                                <label class="remaining-amountLbl">Remaining Paid Amount</label>
+                                <span id="remaining-amount2" class="remaining-amount2"><?php echo '&#8369'.' '.number_format($unpaid_amount, '2','.',','); ?></span>
+                            </div>
+                            <div class="user-input-box-totalamount">
+                         
+                                <label for="total-amount2">TOTAL PAID AMOUNT</label>
+                                <span id="total-amount2" class="total-amount2"><?php echo '&#8369'.' '.number_format($total_paid_amount, '2','.',','); ?></span>
+                            </div>
+                            
+                        </div>
+                        <?php } ?>
+                        
+                        <div class="line"></div>
+
+                        <div class="bot-buttons">
+                            <div class="AddButton1">
+                                <button type="submit" id="addcustomerBtn" name="save-transaction" onclick="print();">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
+                                    PRINT
+                                </button>
+                            </div>
+                            <input type="hidden" name="uuid" value="<?php echo $uuid?>">
+                            <div class="AddButton2">
+                                <button type="submit" id="addcustomerBtn" name="monitoring-pos-unpaid">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M2.5 16q-.625 0-1.062-.438Q1 15.125 1 14.5V6h1.5v8.5h14V16Zm3-3q-.625 0-1.062-.438Q4 12.125 4 11.5v-6q0-.604.438-1.052Q4.875 4 5.5 4h12q.604 0 1.052.448Q19 4.896 19 5.5v6q0 .625-.448 1.062Q18.104 13 17.5 13ZM7 11.5q0-.604-.448-1.052Q6.104 10 5.5 10v1.5Zm9 0h1.5V10q-.625 0-1.062.448Q16 10.896 16 11.5Zm-4.5-.5q1.042 0 1.771-.719Q14 9.562 14 8.5q0-1.042-.729-1.771Q12.542 6 11.5 6q-1.062 0-1.781.729Q9 7.458 9 8.5q0 1.062.719 1.781.719.719 1.781.719Zm-6-4q.604 0 1.052-.438Q7 6.125 7 5.5H5.5Zm12 0V5.5H16q0 .625.438 1.062Q16.875 7 17.5 7Z"/></svg>
+                                PAYMENT
+                                </button>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </form> 
+    <?php }?>
+
+    </body>
+</html>
+<script>
+    // -----------------------------SIDE MENU
+ $(document).ready(function(){
+     //jquery for toggle sub menus
+     $('.sub-btn').click(function(){
+       $(this).next('.sub-menu').slideToggle();
+       $(this).find('.dropdown').toggleClass('rotate');
+     });
+
+     //jquery for expand and collapse the sidebar
+     $('.menu-btn').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn').css("visibility", "visible");
+     });
+     $('.menu-btn2').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn2').css("visibility", "hidden");
+     });
+
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn2').css("visibility", "visible");
+     });
+   });
+//    --------------------------------------------------------------------
+    const sideMenu = document.querySelector('#aside');
+    const closeBtn = document.querySelector('#close-btn');
+    const menuBtn = document.querySelector('#menu-button');
+    const checkbox = document.getElementById('checkbox');
+        menuBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'block';
+        })
+
+        closeBtn.addEventListener('click', () =>{
+            sideMenu.style.display = 'none';
+        })
+         checkbox.addEventListener( 'change', () =>{
+             document.body.classList.toggle('dark-theme');
+        //     if(this.checked) {
+        //         body.classList.add('dark')
+        //     } else {
+        //         body.classList.remove('dark')     
+        //     }
+         });
+        
+        // if(localStorage.getItem('dark')) {
+        //     body.classList.add('dark');
+        //     }
+    // const sideMenu = document.querySelector("#aside");
+    // const closeBtn = document.querySelector("#close-btn");
+    // const menuBtn = document.querySelector("#menu-button");
+    // const checkbox = document.getElementById("checkbox");
+    //     menuBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'block';
+    //     })
+    //     closeBtn.addEventListener('click', () =>{
+    //         sideMenu.style.display = 'none';
+    //     })
+    //     checkbox.addEventListener('change', () =>{
+    //         document.body.classList.toggle('dark-theme');
+    //     })
+
+    //     function menuToggle(){
+    //         const toggleMenu = document.querySelector('.drop-menu');
+    //         toggleMenu.classList.toggle('user2')
+    //     }
+</script>

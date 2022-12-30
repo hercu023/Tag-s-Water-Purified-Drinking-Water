@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once '../service/edit-account.php';
-
 require_once "../service/user-access.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER_ACCOUNT')) {
@@ -187,7 +186,7 @@ if(isset($_GET['edit']))
 
                             <div class="usertype-dropdown">
                                 <?php
-                                $dropdown_query = "SELECT * FROM account_type";
+                                $dropdown_query = "SELECT * FROM account_type WHERE is_deleted = 0";
                                 $account_type_result = mysqli_query($con, $dropdown_query);
                                 ?>
                                 <select class="select" name="user_types" required="">
@@ -223,7 +222,10 @@ if(isset($_GET['edit']))
                 </div>
             </div>
         </form>
-    <?php }} ?>
+        
+    <?php }}else{
+           echo '<script> location.replace("../accounts/account.php"); </script>';
+    } ?>
 </body>
 </html>
 <script src="../javascript/account-type.js"></script>

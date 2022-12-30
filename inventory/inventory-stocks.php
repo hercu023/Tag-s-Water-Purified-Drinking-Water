@@ -47,7 +47,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
                             <a href="../inventory/inventory-stocks-add.php" type="submit" id="add-userbutton" class="add-account" >
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
                                     <h3>Add Stocks</h3>
-</a>
+                            </a>
                         </div>
                         <div class="search">
                             <div class="search-bar"> 
@@ -101,8 +101,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
                                         <td> <?php echo $rows['out_going']; ?></td>
                                         <td> <?php echo $rows['on_hand']; ?></td>
                                         <td> 
-                                            <a href="../inventory/inventory-stocks-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
+                                            <a href="../inventory/inventory-stocks-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="edit-action    " name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
+                                                EDIT
                                             </a>
                                         </td>
                                     </tr>
@@ -336,4 +337,57 @@ padding: 0 10px;
     background: var(--color-main);
     margin-right: -0.55rem;
 }
+.edit-action{
+    background: hsl(0, 0%, 37%);
+    color: var(--color-white);
+    align-items: center;
+    text-align:center;
+    justify-content: center;
+    float: center;
+    position: relative;
+    border-radius: 3px;
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    gap: .3rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+.edit-action:hover{
+    background: var(--color-main);
+    color: var(--color-white);
+}
+.add-account{
+        display: flex;
+        border: none;
+        background-color: var(--color-white); 
+        align-items: center;
+        color: var(--color-button); 
+        fill: var(--color-button); 
+        max-height: 30px;
+        border-radius: 20px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        justify-content: center;
+        font-family: 'Outfit', sans-serif;
+        cursor: pointer; 
+        gap: .5rem;
+        height: 3.9rem;
+        transition: all 300ms ease;
+        position: relative; 
+        margin-top: .2rem;
+        text-transform: uppercase;
+    }
+    .add-account h3{
+        font-size: .8rem;
+    }
+    .add-account:hover{
+        background-color: var(--color-main); 
+        color: var(--color-white);
+        fill: var(--color-white);
+        padding-top: -.2px;
+        transition: 0.7s;
+        border-bottom: 4px solid var(--color-maroon);
+    }
 </style>
