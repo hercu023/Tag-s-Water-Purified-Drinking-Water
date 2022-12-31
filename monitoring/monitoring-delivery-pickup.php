@@ -946,13 +946,44 @@ table tbody td{
         position: relative;
     }
 .createDelivery{
-    width: 40%;
-    margin-left: 5rem;   
-    margin-right: 5rem;   
+    margin-left: 2rem;   
+    margin-right: 2rem;   
+    float: right;
     position: relative;
     display: inline-block;
     }
 .createDelivery-button{
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    height: 5rem;
+    font-family: 'outline', sans-serif;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 15px;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 5px 0px var(--color-solid-gray);
+    cursor: pointer;
+    color: var(--color-white);
+    fill: var(--color-white);
+    background-color: var(--color-blue-button);
+}
+.createDelivery-button:hover{
+    background-color: var(--color-solid-gray);
+    border: 5px solid var(--color-blue-button);
+    transition: 0.3s;
+}
+.pickup{
+    margin-left: 2rem;   
+    margin-right: 2rem;   
+    float: right;
+    position: relative;
+    display: inline-block;
+    }
+.pickup-button{
     width: 100%;
     display: flex;
     gap: 1rem;
@@ -972,11 +1003,75 @@ table tbody td{
     fill: var(--color-white);
     background-color: var(--color-blue-button);
 }
-.createDelivery-button:hover{
+.pickup-button:hover{
     background-color: var(--color-solid-gray);
     border: 5px solid var(--color-blue-button);
     transition: 0.3s;
 }
+.pickuplist{
+        display: flex;
+        border: none;
+        background-color: var(--color-solid-gray); 
+        align-items: center;
+        color: var(--color-secondary-main); 
+        fill: var(--color-secondary-main); 
+        width: 9rem;
+        padding:.7rem;
+        padding-left:1.7rem;
+        text-align: center;
+        justify-content: center;
+        height: 1.7rem;
+        gap: 1rem;
+        font-weight: 700;
+        border-radius: 20px;
+        font-family: 'ARIAL', sans-serif;
+        transition: all 300ms ease;
+        position: relative; 
+        margin-top: .2rem;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+    .pickuplist h3{
+        font-size: .8rem;
+        margin-right: 1.5rem;
+    }
+    .pickuplist:hover{
+        background-color: #8FBC8F;
+        color: white;
+        fill: white;
+    }
+    .batchlist{
+        display: flex;
+        border: none;
+        background-color: var(--color-solid-gray); 
+        align-items: center;
+        color: var(--color-secondary-main); 
+        fill: var(--color-secondary-main); 
+        width: 16rem;
+        padding:.7rem;
+        padding-left:1.7rem;
+        text-align: center;
+        justify-content: center;
+        height: 1.7rem;
+        gap: 1rem;
+        font-weight: 700;
+        border-radius: 20px;
+        font-family: 'ARIAL', sans-serif;
+        transition: all 300ms ease;
+        position: relative; 
+        margin-top: .2rem;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+    .batchlist h3{
+        font-size: .8rem;
+        margin-right: 1.5rem;
+    }
+    .batchlist:hover{
+        background-color: #8FBC8F;
+        color: white;
+        fill: white;
+    }
 .customer-container{
     /* margin-top: 2rem; */
     height: 600px;
@@ -1176,37 +1271,7 @@ th{
         position: relative;
         display: inline-block;
     }
-    .batchlist{
-        display: flex;
-        border: none;
-        background-color: var(--color-solid-gray); 
-        align-items: center;
-        color: var(--color-secondary-main); 
-        fill: var(--color-secondary-main); 
-        width: 16rem;
-        padding: .68rem 1rem;
-        text-align: center;
-        justify-content: center;
-        height: 1.7rem;
-        gap: 1rem;
-        font-weight: 700;
-        border-radius: 20px;
-        font-family: 'ARIAL', sans-serif;
-        transition: all 300ms ease;
-        position: relative; 
-        margin-top: .2rem;
-        text-transform: uppercase;
-        cursor: pointer;
-    }
-    .batchlist h3{
-        font-size: .8rem;
-        margin-right: 1.5rem;
-    }
-    .batchlist:hover{
-        background-color: #8FBC8F;
-        color: white;
-        fill: white;
-    }
+
     .add-account1{
         display: flex;
         border: none;
@@ -2087,14 +2152,36 @@ th{
                     <div class="sub-tab-container">
                         <div class="newUser-button2"> 
                             <div id="add-userbutton" class="add-account2">
-                                <h3 class="deliveries">To Deliver</h3>
-                                <span class="total-deliveries">0</span>
+                                <?php
+                                    $delivery_query = "SELECT 
+                                    count(transaction.id) as count
+                                    FROM transaction
+                                    WHERE transaction.service_type = 'Delivery'
+                                    AND transaction.uuid NOT IN (SELECT uuid FROM delivery_list)";
+                                    $delivery_result = mysqli_query($con, $delivery_query);
+                                    $delivery = mysqli_fetch_assoc($delivery_result);
+                                    $count_of_for_delivery = $delivery['count'];
+                                
+                                ?>
+                                <h3 class="deliveries">For Delivery</h3>
+                                <span class="total-deliveries"><?php echo $count_of_for_delivery ?></span>
                             </div>
                         </div>
                         <div class="newUser-button1"> 
                             <div id="add-userbutton" class="add-account1">
-                                <h3 class="deliveries">To Pick Up</h3>
-                                <span class="total-deliveries">0</span>
+                                <?php
+                                    $delivery_pickup_query = "SELECT 
+                                    count(transaction.id) as count
+                                    FROM transaction
+                                    WHERE transaction.service_type = 'Delivery/Pick Up'
+                                    AND transaction.uuid NOT IN (SELECT uuid FROM delivery_list)";
+                                    $delivery_pickup_result = mysqli_query($con, $delivery_pickup_query);
+                                    $delivery_pickup = mysqli_fetch_assoc($delivery_pickup_result);
+                                    $count_of_for_delivery_pickup = $delivery_pickup['count'];
+                                
+                                ?>
+                                <h3 class="deliveries">For Pick Up</h3>
+                                <span class="total-deliveries"><?php echo $count_of_for_delivery_pickup ?></span>
                             </div>
                         </div>
                         <div class="createDelivery">
@@ -2103,9 +2190,9 @@ th{
                                 <h3 class="deliveries">DELIVERED CUSTOMERS LIST</h3>
                             </a>
                         </div>
-                        <div class="createDelivery">
-                            <a href="../monitoring/monitoring-delivery-pickup-list.php" id="add-userbutton" class="batchlist">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 16q-1.042 0-1.771-.729Q2.5 14.542 2.5 13.5H1V5q0-.625.438-1.062Q1.875 3.5 2.5 3.5H14v3h2.5L19 10v3.5h-1.5q0 1.042-.729 1.771Q16.042 16 15 16q-1.042 0-1.771-.729-.729-.729-.729-1.771h-5q0 1.042-.729 1.771Q6.042 16 5 16Zm0-1.5q.417 0 .708-.292Q6 13.917 6 13.5t-.292-.708Q5.417 12.5 5 12.5t-.708.292Q4 13.083 4 13.5t.292.708q.291.292.708.292Zm10 0q.417 0 .708-.292.292-.291.292-.708t-.292-.708Q15.417 12.5 15 12.5t-.708.292Q14 13.083 14 13.5t.292.708q.291.292.708.292Zm-1-4 3.5-.021L15.729 8H14Z"/></svg>
+                        <div class="pickup">
+                            <a href="../monitoring/monitoring-delivery-pickup-list.php" id="add-userbutton" class="pickuplist">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m7 16.5-1.062-1.062 2.187-2.188H2v-1.5h6.125L5.938 9.562 7 8.5l4 4Zm6-5-4-4 4-4 1.062 1.062-2.187 2.188H18v1.5h-6.125l2.187 2.188Z"/></svg>
                                 <h3 class="deliveries">PICK UP LIST</h3>
                             </a>
                         </div>

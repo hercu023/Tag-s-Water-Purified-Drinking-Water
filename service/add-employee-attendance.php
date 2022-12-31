@@ -44,10 +44,11 @@ if (isset($_POST['add-employee-attendance'])) {
         if (mysqli_num_rows($check_query) > 0) {
             log_audit($con, $user_id, $module, 0, 'Date of attendance with the same employee already exist');
             header("Location: ../employee/employee-attendance.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Date of attendance for employee already exist!");
+            exit();
         } else {
 
             $is_whole_day_value = 0;
-            if ($is_whole_day === 'YES') {
+            if ($is_whole_day == 'Yes') {
                 $is_whole_day_value = 1;
             }
 
@@ -62,6 +63,7 @@ if (isset($_POST['add-employee-attendance'])) {
                              '$additional_bonus',
                              '$note',
                              '0',
+                             '0',
                              '$user_id',
                              now(),
                              '$user_id',
@@ -69,11 +71,13 @@ if (isset($_POST['add-employee-attendance'])) {
                              '1')
                              ");
             if ($insert) {
-                log_audit($con, $user_id, $module, 1, 'Added new attendance with details[employee_id ='.$employee_id.','.$date_of_attendance.']');
+                log_audit($con, $user_id, $module, 1, 'Added new attendance with details: employee_id ='.$employee_id.','.$date_of_attendance);
                 header("Location: ../employee/employee-attendance-success.php?success=Add New Attendance Successful!");
+                exit();
             } else {
-                log_audit($con, $user_id, $module, 0, 'Error processing database.');
-                header("Location: ../common/error-page.php?error=" . mysqli_error($con));
+                log_audit($con, $user_id, $module, 0, 'Error adding new attendance on database.');
+                header("Location: ../employee/employee-attendance.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed adding attendance record in database. Try again.");
+                exit();
             }
 
         }

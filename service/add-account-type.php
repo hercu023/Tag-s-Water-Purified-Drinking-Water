@@ -21,7 +21,8 @@ if(isset($_POST['save-account-type'])) {
         
         //Validate if user role name already exists.
         $validate_role = mysqli_query($con, "SELECT * FROM account_type
-                                                WHERE user_type = '$role'");
+                                                WHERE user_type = '$role'
+                                                AND is_deleted = '0'");
 
         if(mysqli_num_rows($validate_role) > 0 && $for_update_only == 0) {
             header("Location: ../accounts/account-type.php?error= <i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Role already exist.");
@@ -33,7 +34,8 @@ if(isset($_POST['save-account-type'])) {
             if ($for_update_only == 0) {
                 $insert_role = mysqli_query($con, "INSERT INTO account_type VALUES(
                     '',
-                    '$role')");
+                    '$role',
+                    '0')");
             }
             
             if($insert_role) {

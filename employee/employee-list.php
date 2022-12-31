@@ -108,7 +108,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-LIS
                         <td> <?php echo $rows['id']; ?></td>
                         <td> <?php echo $rows['first_name'].' '.$rows['middle_name'].' '.$rows['last_name']; ?></td>
                         <td> <?php echo $rows['name']; ?></td>
-                        <td> <?php echo $rows['daily_rate']; ?></td>
+                        <td> <?php echo '<span>&#8369;</span>' .' '. $rows['daily_rate']; ?></td>
                         <td> <?php echo $rows['date_of_birth']; ?></td>
                         <td> <?php echo $rows['email_address']; ?></td>
                         <td> <?php echo $rows['contact_number']; ?></td>

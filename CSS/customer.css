@@ -117,6 +117,9 @@ BODY{
     border-radius: 10px;
     font-family: 'COCOGOOSE', sans-serif;
 }
+#note-box label{
+    width: 100%;
+}
 #address-box{
     /* position: relative; */
     width: 100%;
@@ -129,9 +132,7 @@ BODY{
 #address-box label{
     width: 100%;
 }
-#note-box label{
-    width: 100%;
-}
+
 .user-input-box{
     display: flex;
     flex-wrap: wrap;

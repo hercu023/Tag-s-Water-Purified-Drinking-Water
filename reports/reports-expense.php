@@ -1,7 +1,7 @@
 <?php
 require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
-require_once "../service/filter-reports-expense.php";
+require_once "../service/filter-reports.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPENSE')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
@@ -54,21 +54,23 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
                 <div class="main-container">
                     <div class="sub-tab-container">
                         <form action="" method="post">
+                            <div class="select-dropdown">
+                                <select class="select" name="option" onchange="location = '../reports/reports-expense.php?option=' + this.value;">
+                                    <option value="Daily" <?php if(isset($_GET['option']) && $_GET['option'] == "Daily") { echo 'selected'; }?>>Daily</option>
+                                    <option value="Monthly" <?php if(isset($_GET['option']) && $_GET['option'] == "Monthly") { echo 'selected'; }?>>Monthly</option>
+                                    <option value="Yearly" <?php if(isset($_GET['option']) && $_GET['option'] == "Yearly") { echo 'selected'; }?>>Yearly</option>
+                                </select>
+                            </div>
                             <span class="span-from"> FROM:</span>
-                            <input type="date" class="date" id="date-from" name="date-from" onchange="console.log(this.value);"/>
+                            <input type="date" class="date" id="date-from" name="date-from" onchange="console.log(this.value);" <?php if(isset($_GET['option']) && $_GET['option'] != 'Daily') { echo 'disabled=true';} ?>/>
                             <span class="span-to"> TO:</span>
-                            <input type="date" class="date" id="date-to" name="date-to" onchange="console.log(this.value);" />
+                            <input type="date" class="date" id="date-to" name="date-to" onchange="console.log(this.value);" <?php if(isset($_GET['option']) && $_GET['option'] != 'Daily') { echo 'disabled=true';} ?>/>
                             <div class="newUser-button">
                                 <div class="button1">
-                                    <button type="submit" id="add-userbutton" class="add-account" name="filter-expense">
+                                    <input type="hidden" name="module" value="expense">
+                                    <button type="submit" id="add-userbutton" class="add-account" name="filter-report">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.5 16q-.208 0-.354-.146T9 15.5v-4.729L4.104 4.812q-.187-.25-.052-.531Q4.188 4 4.5 4h11q.312 0 .448.281.135.281-.052.531L11 10.771V15.5q0 .208-.146.354T10.5 16Zm.5-6.375L13.375 5.5H6.604Zm0 0Z"/></svg>
                                         <h3>Filter</h3>
-                                    </button>
-                                </div>
-                                <div class="button2">
-                                    <button type="print" id="print-report" class="print-report" onclick="print()">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
-                                        <h3>Print</h3>
                                     </button>
                                 </div>
                             </div>
@@ -79,7 +81,15 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
                     <table class="table" id="myTable">
                         <thead>
                         <tr>
-                            <th>Date</th>
+                            <?php
+                            if(isset($_GET['option']) && $_GET['option'] == "Daily") {
+                                echo "<th>Date</th>";
+                            } else if (isset($_GET['option']) && $_GET['option'] == "Monthly") {
+                                echo "<th>Month</th>";
+                            } else {
+                                echo "<th>Year</th>";
+                            }
+                            ?>
                             <th>Details</th>
                             <th>Description</th>
                             <th>Total Amount</th>
@@ -87,26 +97,54 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
                         </thead>
 
                         <?php
-                        $query = "SELECT
-                                    expense.date,
-                                    SUM(expense.amount) as total
-                                FROM expense 
-                                WHERE expense.status_archive_id = 1
-                                GROUP BY expense.date
-                                ORDER BY expense.date DESC";
-
-                        if (isset($_GET['from']) && isset($_GET['to'])) {
-                            $from = $_GET['from'];
-                            $to = $_GET['to'];
-                            $query = "SELECT 
-                                    expense.date,
-                                    SUM(expense.amount) as total
-                                FROM expense 
-                                WHERE expense.status_archive_id = 1
-                                AND expense.date BETWEEN '$from' AND '$to'
-                                GROUP BY expense.date
-                                ORDER BY expense.date ASC";
+                        $query = "";
+                        if(isset($_GET['option']) && $_GET['option'] == "Daily") {
+                            $query = "SELECT
+                            expense.date,
+                            SUM(expense.amount) as total
+                            FROM expense 
+                            WHERE expense.status_archive_id = 1
+                            GROUP BY expense.date
+                            ORDER BY expense.date DESC";
+                        } else if (isset($_GET['option']) && $_GET['option'] == "Monthly") {
+                            $query = "SELECT
+                            YEAR(expense.date) AS year,
+                            MONTHNAME(expense.date) AS month,
+                            SUM(expense.amount) as total
+                            FROM expense 
+                            WHERE expense.status_archive_id = 1
+                            GROUP BY MONTH(expense.date)
+                            ORDER BY YEAR(expense.date), 
+                            MONTH(expense.date) DESC";
+                        } else if(isset($_GET['option']) && $_GET['option'] == "Yearly") {
+                            $query = "SELECT
+                            YEAR(expense.date) AS year,
+                            SUM(expense.amount) as total
+                            FROM expense 
+                            WHERE expense.status_archive_id = 1
+                            GROUP BY YEAR(expense.date)
+                            ORDER BY YEAR(expense.date) DESC";
+                        } else {
+                            echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
                         }
+                    
+                        if (isset($_GET['from']) && isset($_GET['to'])) {
+                            if(isset($_GET['option']) && $_GET['option'] == "Daily") {
+                                $from = $_GET['from'];
+                                $to = $_GET['to'];
+                                $query = "SELECT 
+                                    expense.date,
+                                    SUM(expense.amount) as total
+                                    FROM expense 
+                                    WHERE expense.status_archive_id = 1
+                                    AND expense.date BETWEEN '$from' AND '$to'
+                                    GROUP BY expense.date
+                                    ORDER BY expense.date DESC";
+                            } else {
+                                echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                            }
+                        }
+
                         $result = mysqli_query($con, $query);
 
                         if(mysqli_num_rows($result) <= 0) { ?>
@@ -120,24 +158,40 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
                             <tbody>
                             <tr>
                                 <td>
-                                    <a href="../reports/reports-expense-view-details.php?view=<?php echo $rows['date']; ?>">
+                                    <?php if(isset($_GET['option']) && $_GET['option'] == "Daily") { ?>
                                         <?php echo $rows['date']; ?>
-                                    </a>
+                                    <?php } else if (isset($_GET['option']) && $_GET['option'] == "Monthly") { ?>
+                                        <?php echo $rows['month'].' '.$rows['year']; ?>
+                                    <?php } else { ?>
+                                        <?php echo $rows['year']; ?>
+                                    <?php } ?>
                                 </td>
                                 <td>
-                                    <a href="../reports/reports-expense-view-details.php?view=<?php echo $rows['date']; ?>"> 
-                                        View Details 
-                                    </a>
+                                    <?php if(isset($_GET['option']) && $_GET['option'] == "Daily") { ?>
+                                            <a href="../reports/reports-expense-view-details.php?view=<?php echo $rows['date']; ?>">
+                                                View Details 
+                                            </a>
+                                    <?php } else if (isset($_GET['option']) && $_GET['option'] == "Monthly") { ?>
+                                            <a href="../reports/reports-expense-view-details.php?month=<?php echo $rows['month'].'&year='.$rows['year']; ?>">
+                                                View Details 
+                                            </a>
+                                    <?php } else { ?>
+                                            <a href="../reports/reports-expense-view-details.php?year=<?php echo $rows['year'];?>">
+                                                View Details 
+                                            </a>
+                                    <?php } ?>
                                 </td>
                                 <td>
-                                    <a href="../reports/reports-expense-view-details.php?view=<?php echo $rows['date']; ?>">
+                                    <?php if(isset($_GET['option']) && $_GET['option'] == "Daily") { ?>
                                         <?php echo 'Expense Report Details For Date: '.$rows['date']; ?>
-                                    </a>
+                                    <?php } else if (isset($_GET['option']) && $_GET['option'] == "Monthly") { ?>
+                                        <?php echo 'Expense Report Details For The Month: '.$rows['month'].' '.$rows['year']; ?>
+                                    <?php } else { ?>
+                                        <?php echo 'Expense Report Details For Year: '.$rows['year']; ?>
+                                    <?php } ?>
                                 </td>
                                 <td>
-                                    <a href="../reports/reports-expense-view-details.php?view=<?php echo $rows['date']; ?>">
-                                        <?php echo 'PHP '.$rows['total']; ?>
-                                    </a>
+                                    <?php echo '<span>&#8369;</span>' .' '. $rows['total']; ?>
                                 </td>
                             </tr>
                             </tbody>

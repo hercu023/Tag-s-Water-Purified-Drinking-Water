@@ -1594,6 +1594,11 @@ tr:hover td{
             <main>
                 <div class="main-dashboard">
                     <h1 class="dashTitle">MONITORING</h1> 
+                    <?php
+                    if (isset($_GET['error'])) {
+                        echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
+                    }
+                    ?>
                     <div class="sub-tab">
                         <div class="user-title">
                             <h2>DELIVERY/PICK UP</h2>

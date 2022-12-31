@@ -90,6 +90,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-ATT
                                 <th>Deduction</th>
                                 <th>Bonus</th>
                                 <th>Note</th>
+                                <th>Total</th>
                                 <th>Status</th>
                                 <th>Added By</th>
                                 <th>Action</th>
@@ -106,7 +107,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-ATT
                         attendance.time_out,
                         attendance.deduction,
                         attendance.bonus, 
-                        attendance.note, 
+                        attendance.note,
+                        attendance.total_amount,
                         attendance.payroll_status, 
                         attendance.added_by,
                         employee.first_name as emp_first_name,
@@ -123,7 +125,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-ATT
                         INNER JOIN users
                         ON attendance.added_by = users.user_id
                         WHERE attendance.status_archive_id = 1
-                        ORDER BY attendance.date ASC";
+                        ORDER BY attendance.date DESC";
                             $attendance_run = mysqli_query($con, $attendance);
 
                             if(mysqli_num_rows($attendance_run) > 0)
@@ -140,9 +142,10 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-ATT
                                         <td> <?php echo $rows['date']; ?></td>
                                         <td> <?php echo $rows['time_in']; ?></td>
                                         <td> <?php echo $rows['time_out']; ?></td>
-                                        <td> <?php echo 'PHP '.$rows['deduction']; ?></td>
-                                        <td> <?php echo 'PHP '.$rows['bonus']; ?></td>
+                                        <td> <?php echo '<span>&#8369;</span>' .' '. $rows['deduction']; ?></td>
+                                        <td> <?php echo '<span>&#8369;</span>' .' '. $rows['bonus']; ?></td>
                                         <td> <?php echo $rows['note']; ?></td>
+                                        <td> <?php echo '<span>&#8369;</span>' .' '. $rows['total_amount']; ?></td>
                                         <td> <?php  if ($rows['payroll_status'] == 1) { echo 'PAID'; } else echo 'UNPAID'; ?></td>
                                         <td> <?php echo $rows['usr_first_name'].' '.$rows['usr_last_name']; ?></td>
                                         <td>

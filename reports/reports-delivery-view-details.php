@@ -3,10 +3,11 @@ require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
 require_once "../service/filter-reports.php";
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPENSE')) {
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELIVERY_WALKIN')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
     exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -837,7 +838,7 @@ tr:hover td{
             ?>
             <div class="sub-tab">
                 <div class="user-title">
-                    <h2> Expenses Report </h2>
+                    <h2> Delivery Report </h2>
                 </div>
                 <?php if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) { ?>
                     <h3 class="for-date"> For Date <h2 class="date"><?php echo $_GET['view']?></h3></h2>
@@ -848,7 +849,7 @@ tr:hover td{
                 <?php } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) { ?>
                     <h3 class="for-date"> For Year <h2 class="date"><?php echo $_GET['year']?></h3></h2>
 
-                <?php } else { echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>'; } ?>
+                <?php } else { echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>'; } ?>
                 
                 <div class="main-container">
                         <div class="sub-tab-container">
@@ -856,165 +857,115 @@ tr:hover td{
                             <div class="newUser-button1"> 
                                 <div id="add-userbutton" class="add-account1">
                             <?php
-                                $salary_count = "";
+                                $in_quantity = "";
                                 if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                                     $date = $_GET['view'];
-                                    $salary_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Salary'
-                                    AND expense.date = '$date'";
+                                    $in_quantity = "SELECT
+                                    SUM(quantity) as total
+                                    FROM inventory_log
+                                    WHERE action = 'IN'
+                                    AND DATE(inventory_log.created_at) = '$date'";
                                 } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                                     $month = $_GET['month'];
                                     $year = $_GET['year'];
-                                    $salary_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Salary'
-                                    AND MONTHNAME(expense.date) = '$month'
-                                    AND YEAR(expense.date) = '$year'";
+                                    $in_quantity = "SELECT
+                                    SUM(quantity) as total
+                                    FROM inventory_log
+                                    WHERE action = 'IN'
+                                    AND MONTHNAME(inventory_log.created_at) = '$month'
+                                    AND YEAR(inventory_log.created_at) = '$year'";
                                 } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                                     $year = $_GET['year'];
-                                    $salary_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Salary'
-                                    AND YEAR(expense.date) = '$year'";
+                                    $in_quantity = "SELECT 
+                                    SUM(quantity) as total
+                                    FROM inventory_log
+                                    WHERE action = 'IN'
+                                    AND YEAR(inventory_log.created_at) = '$year'";
                                 } else {
-                                    echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                                    echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>';
                                 }
                                     
-
-                                    if($salary_count_result = mysqli_query($con, $salary_count))
-                                    $rowcount = mysqli_num_rows($salary_count_result);
+                                    if($in_quantity_result = mysqli_query($con, $in_quantity))
+                                    $in_count = mysqli_fetch_assoc($in_quantity_result);
                                     ?>
-                                    <h3 class="deliveries">Salary Expense</h3>
-                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
+                                    <h3 class="deliveries">Ingoing</h3>
+                                    <span class="total-deliveries"><?php echo $in_count['total'];?></span>
                                 </div>
                             </div>
                             <div class="newUser-button2"> 
                                 <div id="add-userbutton" class="add-account2">
                                 <?php
-                                $utilities_count = "";
+                                $out_quantity = "";
                                 if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                                     $date = $_GET['view'];
-                                    $utilities_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Utilities'
-                                    AND expense.date = '$date'";
+                                    $out_quantity = "SELECT
+                                    SUM(quantity) as total
+                                    FROM inventory_log
+                                    WHERE action = 'OUT'
+                                    AND DATE(inventory_log.created_at) = '$date'";
                                 } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                                     $month = $_GET['month'];
                                     $year = $_GET['year'];
-                                    $utilities_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Utilities'
-                                    AND MONTHNAME(expense.date) = '$month'
-                                    AND YEAR(expense.date) = '$year'";
+                                    $out_quantity = "SELECT
+                                    SUM(quantity) as total
+                                    FROM inventory_log
+                                    WHERE action = 'OUT'
+                                    AND MONTHNAME(inventory_log.created_at) = '$month'
+                                    AND YEAR(inventory_log.created_at) = '$year'";
                                 } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                                     $year = $_GET['year'];
-                                    $utilities_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Utilities'
-                                    AND YEAR(expense.date) = '$year'";
+                                    $out_quantity = "SELECT 
+                                    SUM(quantity) as total
+                                    FROM inventory_log
+                                    WHERE action = 'OUT'
+                                    AND YEAR(inventory_log.created_at) = '$year'";
                                 } else {
-                                    echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                                    echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>';
                                 }
-                                    if($utilities_count_result = mysqli_query($con, $utilities_count))
-                                    $rowcount = mysqli_num_rows($utilities_count_result);
+                                    
+                                    if($out_quantity_result = mysqli_query($con, $out_quantity))
+                                    $out_count = mysqli_fetch_assoc($out_quantity_result);
                                     ?>
-                                    <h3 class="deliveries">Utilities Expense</h3>
-                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
+                                    <h3 class="deliveries">Outgoing</h3>
+                                    <span class="total-deliveries"><?php echo $out_count['total'];?></span>
                                 </div>
                             </div>  
                             <div class="newUser-button3"> 
                                 <div id="add-userbutton" class="add-account3">
                                 <?php
-                                $maintenance_count = "";
+                                $total_amount = "";
                                 if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                                     $date = $_GET['view'];
-                                    $maintenance_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Maintenance'
-                                    AND expense.date = '$date'";
-
+                                    $total_amount = "SELECT
+                                    SUM(amount) as total
+                                    FROM inventory_log
+                                    WHERE action = 'IN'
+                                    AND DATE(inventory_log.created_at) = '$date'";
                                 } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                                     $month = $_GET['month'];
                                     $year = $_GET['year'];
-                                    $maintenance_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Maintenance'
-                                    AND MONTHNAME(expense.date) = '$month'
-                                    AND YEAR(expense.date) = '$year'";
-
+                                    $total_amount = "SELECT
+                                    SUM(amount) as total
+                                    FROM inventory_log
+                                    WHERE action = 'IN'
+                                    AND MONTHNAME(inventory_log.created_at) = '$month'
+                                    AND YEAR(inventory_log.created_at) = '$year'";
                                 } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                                     $year = $_GET['year'];
-                                    $maintenance_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Maintenance'
-                                    AND YEAR(expense.date) = '$year'";
+                                    $total_amount = "SELECT 
+                                    SUM(amount) as total
+                                    FROM inventory_log
+                                    WHERE action = 'IN'
+                                    AND YEAR(inventory_log.created_at) = '$year'";
                                 } else {
-                                    echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                                    echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>';
                                 }
-                                    if($maintenance_count_result = mysqli_query($con, $maintenance_count))
-                                    $rowcount = mysqli_num_rows($maintenance_count_result);
+                                    
+                                    if($total_amount_result = mysqli_query($con, $total_amount))
+                                    $total_amount_value = mysqli_fetch_assoc($total_amount_result);
                                     ?>
-                                    <h3 class="deliveries">Maintenance Expense</h3>
-                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
-                                </div>
-                            </div>  
-                            <div class="newUser-button4"> 
-                                <div id="add-userbutton" class="add-account4">
-                                <?php
-                                $other_expenses_count = "";
-                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
-                                    $date = $_GET['view'];
-                                    $other_expenses_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Other Expenses'
-                                    AND expense.date = '$date'";
-                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
-                                    $month = $_GET['month'];
-                                    $year = $_GET['year'];
-                                    $other_expenses_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Other Expenses'
-                                    AND MONTHNAME(expense.date) = '$month'
-                                    AND YEAR(expense.date) = '$year'";
-                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
-                                    $year = $_GET['year'];
-                                    $other_expenses_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Other Expenses'
-                                    AND YEAR(expense.date) = '$year'";
-                                } else {
-                                    echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
-                                }
-                                    if($other_expenses_count_result = mysqli_query($con, $other_expenses_count))
-                                    $rowcount = mysqli_num_rows($other_expenses_count_result);
-                                    ?>
-                                    <h3 class="deliveries">Other Expense</h3>
-                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
+                                    <h3 class="deliveries">Purchases</h3>
+                                    <span class="total-deliveries"><?php echo 'Php '.$total_amount_value['total'];?></span>
                                 </div>
                             </div>  
                         </div>
@@ -1025,11 +976,9 @@ tr:hover td{
                         <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Created By</th>
-                            <th>Date/Time Added</th>
+                            <th>Total IN</th>
+                            <th>Total Out</th>
+                            <th>Total Purchase Amount</th>
                         </tr>
                         </thead>
 
@@ -1037,62 +986,59 @@ tr:hover td{
                         $query = "";
                         if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                             $date = $_GET['view'];
-                            $query = "SELECT 
-                                    expense.date,
-                                    expense_type.name,
-                                    expense.description,
-                                    expense.amount,
-                                    users.first_name,
-                                    users.last_name,
-                                    expense.date_created
-                                    FROM expense 
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    INNER JOIN users
-                                    ON users.user_id = expense.added_by
-                                    WHERE expense.status_archive_id = 1
-                                    and date = '$date'
-                                    ORDER BY expense.date DESC";
+                            $query = "SELECT
+                                DATE(inventory_log.created_at) as date,
+                                in_table.in_total,
+                                out_table.out_total,
+                                in_table.purchase_amount
+                                FROM inventory_log
+                                INNER JOIN 
+                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
+                                ON DATE(inventory_log.created_at) = in_table.date
+                                INNER JOIN 
+                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
+                                ON DATE(inventory_log.created_at) = out_table.date
+                                WHERE DATE(inventory_log.created_at) = '$date'
+                                GROUP BY DATE(inventory_log.created_at)";
                         } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                             $month = $_GET['month'];
                             $year = $_GET['year'];
-                            $query = "SELECT 
-                                    expense.date,
-                                    expense_type.name,
-                                    expense.description,
-                                    expense.amount,
-                                    users.first_name,
-                                    users.last_name,
-                                    expense.date_created
-                                    FROM expense 
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    INNER JOIN users
-                                    ON users.user_id = expense.added_by
-                                    WHERE expense.status_archive_id = 1
-                                    AND MONTHNAME(expense.date) = '$month'
-                                    AND YEAR(expense.date) = '$year'
-                                    ORDER BY expense.date DESC";
+                            $query = "SELECT
+                                DATE(inventory_log.created_at) as date,
+                                in_table.in_total,
+                                out_table.out_total,
+                                in_table.purchase_amount
+                                FROM inventory_log
+                                INNER JOIN 
+                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
+                                ON DATE(inventory_log.created_at) = in_table.date
+                                INNER JOIN 
+                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
+                                ON DATE(inventory_log.created_at) = out_table.date
+                                WHERE MONTHNAME(inventory_log.created_at) = '$month'
+                                AND YEAR(inventory_log.created_at) = '$year'
+                                GROUP BY DATE(inventory_log.created_at)
+                                ORDER BY DATE(inventory_log.created_at) DESC";
+                        
                         } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                             $year = $_GET['year'];
-                            $query = "SELECT 
-                                    expense.date,
-                                    expense_type.name,
-                                    expense.description,
-                                    expense.amount,
-                                    users.first_name,
-                                    users.last_name,
-                                    expense.date_created
-                                    FROM expense 
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    INNER JOIN users
-                                    ON users.user_id = expense.added_by
-                                    WHERE expense.status_archive_id = 1
-                                    AND YEAR(expense.date) = '$year'
-                                    ORDER BY expense.date DESC";
+                            $query = "SELECT
+                                DATE(inventory_log.created_at) as date,
+                                in_table.in_total,
+                                out_table.out_total,
+                                in_table.purchase_amount
+                                FROM inventory_log
+                                INNER JOIN 
+                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
+                                ON DATE(inventory_log.created_at) = in_table.date
+                                INNER JOIN 
+                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
+                                ON DATE(inventory_log.created_at) = out_table.date
+                                WHERE YEAR(inventory_log.created_at) = '$year'
+                                GROUP BY DATE(inventory_log.created_at)
+                                ORDER BY DATE(inventory_log.created_at) DESC";
                         } else {
-                            echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                            echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>';
                         }
                         
                         $result = mysqli_query($con, $query);
@@ -1111,21 +1057,14 @@ tr:hover td{
                                     <?php echo $rows['date']; ?>
                                 </td>
                                 <td>
-                                     <?php echo $rows['name']; ?>
+                                     <?php echo $rows['in_total'] ?>
                                 </td>
                                 <td>
-                                    <?php echo $rows['description']; ?>
+                                     <?php echo $rows['out_total']; ?>
                                 </td>
                                 <td>
-                                     <?php echo 'PHP ' . $rows['amount']; ?>
-                                </td>
-                                <td>
-                                    <?php echo $rows['first_name'] .' '. $rows['last_name']; ?>
-                                </td>
-                                <td>
-                                     <?php echo $rows['date_created']; ?>
-                                </td>
-                               
+                                <?php echo 'PHP '.$rows['purchase_amount']; ?>
+                                </td>  
                             </tr>
                             </tbody>
                         <?php }} ?>

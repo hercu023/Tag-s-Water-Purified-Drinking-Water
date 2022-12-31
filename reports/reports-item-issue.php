@@ -114,7 +114,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ITEM
                                 <td data-label="Detail"> <?php echo $rows['address']; ?></td>
                                 <td data-label="Contact Number 1"> <?php echo $rows['contact_number1']; ?></td>
                                 <td data-label="Contact Number 2"> <?php echo $rows['contact_number2']; ?></td>
-                                <td data-label="Balance"> <?php echo $rows['balance']; ?></td>
+                                <td data-label="Balance"> <?php echo '<span>&#8369;</span>' .' '. $rows['balance']; ?></td>
                                 <td data-label="Note"> <?php echo $rows['note']; ?></td>
                                 <td data-label="Date/Time Added"> <?php echo $rows['created_at']; ?></td>
 

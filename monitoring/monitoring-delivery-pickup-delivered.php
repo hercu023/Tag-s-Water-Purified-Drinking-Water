@@ -1586,8 +1586,16 @@ tr:hover td{
                                 <!-- <h2 class="remaining">REMAINING ITEMS</h2> -->
                             <div class="newUser-button2"> 
                                 <div id="add-userbutton" class="add-account2">
+                                <?php $delivered_query = "SELECT 
+                                count(delivery_list.id) as count
+                                FROM delivery_list
+                                WHERE delivery_list.delivery_status = 3";
+                                $delivered_result = mysqli_query($con, $delivered_query);
+                                $delivered = mysqli_fetch_assoc($delivered_result);
+                                $count_of_delivered = $delivered['count'];
+                                ?>
                                     <h3 class="deliveries">TOTAL DELIVERED ORDERS</h3>
-                                    <span class="total-deliveries">0</span>
+                                    <span class="total-deliveries"><?php echo $count_of_delivered ?></span>
                                 </div>
                             </div>
                             <div class="newUser-button3"> 
@@ -1665,10 +1673,6 @@ tr:hover td{
                                 </td>
                                 <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
                                 <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
-                                <td>    <a href="../service/delete-transaction-order.php?delete-list=<?php echo $rows['uuid']; ?>" class="delete-rowsButton" class="action-btn" name="action">
-                                            X
-                                        </a>
-                                </td>
                             <tr id="noRecordTR" style="display:none">
                                 <td colspan="7">No Record Found</td>
                             </tr>

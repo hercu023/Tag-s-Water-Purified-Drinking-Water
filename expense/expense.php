@@ -102,7 +102,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EXPENSE')) {
                         <td> <?php echo $rows['id']; ?></td>
                         <td> <?php echo $rows['date']; ?></td>
                         <td> <?php echo $rows['name']; ?></td>
-                        <td> <?php echo 'PHP '.$rows['amount']; ?></td>
+                        <td> <?php echo '<span>&#8369;</span>' .' '. $rows['amount']; ?></td>
                         <td> <?php echo $rows['description']; ?></td>
                         <td> <?php echo $rows['date_created']; ?></td>
                         <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>

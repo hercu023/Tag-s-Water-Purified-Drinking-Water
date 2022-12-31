@@ -1,6 +1,6 @@
 <?php
 require_once '../database/connection-db.php';
-require_once '../service/add-stocks.php';
+require_once '../service/edit-stocks.php';
 require_once "../service/user-access.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-STOCKS')) {
@@ -1766,7 +1766,18 @@ tr:hover td{
         width: 20vw;
     }
 }
-
+#note-box{
+    /* position: relative; */
+    width: 100%;
+    height: 1.32rem;
+    margin-bottom: 2rem;
+    color: var(--color-white);
+    border-radius: 10px;
+    font-family: 'COCOGOOSE', sans-serif;
+}
+#note-box label{
+    width: 100%;
+}
 .menu-tab p{
     font-size: 20px;
     font-weight: lighter;
@@ -1888,47 +1899,36 @@ tr:hover td{
             include('../common/top-menu.php')
             ?>
         </div> 
+<?php
+if(isset($_GET['remove']))
+{
+    $id = $_GET['remove'];
+    $result = mysqli_query($con, "SELECT 
+            inventory_stock.id,
+            inventory_item.item_name,
+            inventory_stock.on_hand
+            FROM inventory_stock 
+            INNER JOIN inventory_item 
+            ON inventory_stock.item_name_id = inventory_item.id
+            WHERE inventory_stock.id='$id'");
 
+    if (mysqli_num_rows($result) > 0) {
+        $item_name = mysqli_fetch_assoc($result); ?>
 <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
     <div class="bg-adduserform" id="bg-addform">
         <div class="message"></div>
         <div class="container1">
-            <h1 class="addnew-title">ADD NEW ITEM</h1>
+            <h1 class="addnew-title">DEDUCT STOCK</h1>
             <form action="#">
             <div class="main-user-info">
-                            <div class="usertype-dropdown">
-                                <?php
-                                $dropdown_query = "SELECT 
-                                inventory_stock.id,
-                                inventory_item.id, 
-                                inventory_item.item_name, 
-                                category_by_id 
-                                FROM inventory_stock
-                                INNER JOIN inventory_item
-                                ON inventory_stock.item_name_id = inventory_item.id
-                                INNER JOIN category_type
-                                ON inventory_item.category_by_id = category_type.id
-                                WHERE category_type.name != 'For Refill'";
-                                $result_item = mysqli_query($con, $dropdown_query);
-                                ?>
-                                <select class="select" name="id" required="" >
-                                    <option selected disabled value="">SELECT ITEM</option>
-                                    <?php while($inventory_item = mysqli_fetch_array($result_item)):;?>
-
-                                        <option value="<?php echo $inventory_item['id']?>">
-                                        
-                                            <?php echo $inventory_item['item_name'];?></option>
-                                    <?php endwhile;?>
-                                </select>
-                            </div>
-
-                        
+                    <input type="hidden" name="item_id" value="<?=$_GET['remove'];?>">
                             <div class="user-input-box">
-                                <label for="Supplier">Supplier</label>
+                                <label for="Supplier">Item Name</label>
                                 <input type="text"
                                         id="Supplier"
-                                        name="supplier"
-                                        placeholder="Enter Supplier"
+                                        name="item_name"
+                                        value="<?=$item_name['item_name'];?>"
+                                        readonly
                                         required="required"/>
                             </div>
                             <div class="user-input-box">
@@ -1939,13 +1939,10 @@ tr:hover td{
                                         placeholder="0"
                                         required="required"/>
                             </div>
-                            <div class="user-input-box">
-                                <label for="purchaseamount">Purchase Amount</label>
-                                <input type="decimal"
-                                        id="purchaseamount"
-                                        name="purchaseamount"
-                                        placeholder="Enter Purchase Amount"
-                                        required="required"/>
+                            <div class="user-input-box" id="note-box">
+                                <label for="note">Description</label>
+                                <input type="text" required="required"
+                                    id="note" class="note" name="note" placeholder="Enter a Description"/>
                             </div>
                             <div class="line"></div>
 
@@ -1954,7 +1951,7 @@ tr:hover td{
                                     <a href="../inventory/inventory-stocks.php" id="cancel">CANCEL</a>
                                 </div>
                                 <div class="AddButton">
-                                    <button type="submit" id="adduserBtn" name="add-inventory-stocks" >SAVE</button>
+                                    <button type="submit" id="adduserBtn" name="deduct-stocks" >SAVE</button>
                                 </div>
                             </div>
                         </div>
@@ -1962,6 +1959,10 @@ tr:hover td{
         </div>
     </div>
 </form>
+      
+<?php }}else{
+           echo '<script> location.replace("../inventory/inventory-stock.php"); </script>';
+    } ?>
 </div>
 
 </body>

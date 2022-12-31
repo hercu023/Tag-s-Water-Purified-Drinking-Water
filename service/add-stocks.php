@@ -69,13 +69,22 @@ if(isset($_POST['add-inventory-stocks'])){
                     log_audit($con, $user_id, 'EXPENSE', 1, $description);
 
                     if($insert) {
-                        record_inventory_log($con, $id, "IN", $quantity, "Supplier Details: ".$supplier);
-                        log_audit($con, $user_id, $module, 1, 'Successfully added new stocks for item:' .$id);
+                        record_inventory_log($con, $id, "IN", $quantity, $purchaseamount, "Supplier Details: ".$supplier);
+                        log_audit($con, $user_id, $module, 1, 'Added new stocks for item:' .$id);
                         header("Location: ../inventory/inventory-success-stocks.php?success=Add Stocks Successful!");
+                        exit();
+                    } else {
+                        header("Location: ../inventory/inventory-stocks.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed inserting expense record for stocks in database. Try again.");
                         exit();
                     }
                 }
+            } else {
+                header("Location: ../inventory/inventory-stocks.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed updating stocks in database. Try again.");
+                exit();
             }
+        } else {
+            header("Location: ../inventory/inventory-stocks.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed retrieving item in database. Try again.");
+            exit();
         }
     }
 }

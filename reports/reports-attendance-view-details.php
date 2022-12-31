@@ -3,7 +3,7 @@ require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
 require_once "../service/filter-reports.php";
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPENSE')) {
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTENDANCE')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
     exit();
 }
@@ -837,7 +837,7 @@ tr:hover td{
             ?>
             <div class="sub-tab">
                 <div class="user-title">
-                    <h2> Expenses Report </h2>
+                    <h2> Attendance Report </h2>
                 </div>
                 <?php if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) { ?>
                     <h3 class="for-date"> For Date <h2 class="date"><?php echo $_GET['view']?></h3></h2>
@@ -848,7 +848,7 @@ tr:hover td{
                 <?php } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) { ?>
                     <h3 class="for-date"> For Year <h2 class="date"><?php echo $_GET['year']?></h3></h2>
 
-                <?php } else { echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>'; } ?>
+                <?php } else { echo '<script> location.replace("../reports/reports-attendance.php?option=Daily"); </script>'; } ?>
                 
                 <div class="main-container">
                         <div class="sub-tab-container">
@@ -856,165 +856,135 @@ tr:hover td{
                             <div class="newUser-button1"> 
                                 <div id="add-userbutton" class="add-account1">
                             <?php
-                                $salary_count = "";
+                                $attendance_count = "";
                                 if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                                     $date = $_GET['view'];
-                                    $salary_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Salary'
-                                    AND expense.date = '$date'";
+                                    $attendance_count = "SELECT attendance.id
+                                    FROM attendance
+                                    WHERE attendance.date = '$date'";
                                 } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                                     $month = $_GET['month'];
                                     $year = $_GET['year'];
-                                    $salary_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Salary'
-                                    AND MONTHNAME(expense.date) = '$month'
-                                    AND YEAR(expense.date) = '$year'";
+                                    $attendance_count = "SELECT attendance.id
+                                    FROM attendance
+                                    WHERE MONTHNAME(attendance.date) = '$month'
+                                    AND YEAR(attendance.date) = '$year'";
                                 } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                                     $year = $_GET['year'];
-                                    $salary_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Salary'
-                                    AND YEAR(expense.date) = '$year'";
+                                    $attendance_count = "SELECT attendance.id
+                                    FROM attendance
+                                    WHERE YEAR(attendance.date) = '$year'";
                                 } else {
-                                    echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                                    echo '<script> location.replace("../reports/reports-attendance.php?option=Daily"); </script>';
                                 }
                                     
-
-                                    if($salary_count_result = mysqli_query($con, $salary_count))
-                                    $rowcount = mysqli_num_rows($salary_count_result);
+                                    if($attendance_count_result = mysqli_query($con, $attendance_count))
+                                    $rowcount = mysqli_num_rows($attendance_count_result);
                                     ?>
-                                    <h3 class="deliveries">Salary Expense</h3>
+                                    <h3 class="deliveries">Attendance Record</h3>
                                     <span class="total-deliveries"><?php echo $rowcount;?></span>
                                 </div>
                             </div>
                             <div class="newUser-button2"> 
                                 <div id="add-userbutton" class="add-account2">
                                 <?php
-                                $utilities_count = "";
+                                $bonus_total = "";
                                 if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                                     $date = $_GET['view'];
-                                    $utilities_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Utilities'
-                                    AND expense.date = '$date'";
+                                    $bonus_total = "SELECT 
+                                    SUM(attendance.bonus) as total
+                                    FROM attendance
+                                    WHERE attendance.date = '$date'";
                                 } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                                     $month = $_GET['month'];
                                     $year = $_GET['year'];
-                                    $utilities_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Utilities'
-                                    AND MONTHNAME(expense.date) = '$month'
-                                    AND YEAR(expense.date) = '$year'";
+                                    $bonus_total = "SELECT 
+                                    SUM(attendance.bonus) as total
+                                    FROM attendance
+                                    WHERE MONTHNAME(attendance.date) = '$month'
+                                    AND YEAR(attendance.date) = '$year'";
                                 } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                                     $year = $_GET['year'];
-                                    $utilities_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Utilities'
-                                    AND YEAR(expense.date) = '$year'";
+                                    $bonus_total = "SELECT
+                                    SUM(attendance.bonus) as total
+                                    FROM attendance
+                                    WHERE YEAR(attendance.date) = '$year'";
                                 } else {
-                                    echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                                    echo '<script> location.replace("../reports/reports-attendance.php?option=Daily"); </script>';
                                 }
-                                    if($utilities_count_result = mysqli_query($con, $utilities_count))
-                                    $rowcount = mysqli_num_rows($utilities_count_result);
+                                    if($bonus_total_result = mysqli_query($con, $bonus_total))
+                                    $bonus_result = mysqli_fetch_assoc($bonus_total_result);
                                     ?>
-                                    <h3 class="deliveries">Utilities Expense</h3>
-                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
+                                    <h3 class="deliveries">Bonuses</h3>
+                                    <span class="total-deliveries"><?php echo 'Php '.$bonus_result['total'];?></span>
                                 </div>
                             </div>  
                             <div class="newUser-button3"> 
                                 <div id="add-userbutton" class="add-account3">
                                 <?php
-                                $maintenance_count = "";
+                                $deductions_total = "";
                                 if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                                     $date = $_GET['view'];
-                                    $maintenance_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Maintenance'
-                                    AND expense.date = '$date'";
-
+                                    $deductions_total = "SELECT 
+                                    SUM(attendance.deduction) as total
+                                    FROM attendance
+                                    WHERE attendance.date = '$date'";
                                 } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                                     $month = $_GET['month'];
                                     $year = $_GET['year'];
-                                    $maintenance_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Maintenance'
-                                    AND MONTHNAME(expense.date) = '$month'
-                                    AND YEAR(expense.date) = '$year'";
-
+                                    $deductions_total = "SELECT 
+                                    SUM(attendance.deduction) as total
+                                    FROM attendance
+                                    WHERE MONTHNAME(attendance.date) = '$month'
+                                    AND YEAR(attendance.date) = '$year'";
                                 } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                                     $year = $_GET['year'];
-                                    $maintenance_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Maintenance'
-                                    AND YEAR(expense.date) = '$year'";
+                                    $deductions_total = "SELECT
+                                    SUM(attendance.deduction) as total
+                                    FROM attendance
+                                    WHERE YEAR(attendance.date) = '$year'";
                                 } else {
-                                    echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                                    echo '<script> location.replace("../reports/reports-attendance.php?option=Daily"); </script>';
                                 }
-                                    if($maintenance_count_result = mysqli_query($con, $maintenance_count))
-                                    $rowcount = mysqli_num_rows($maintenance_count_result);
+                                    if($deductions_total_result = mysqli_query($con, $deductions_total))
+                                    $deductions_result = mysqli_fetch_assoc($deductions_total_result);
                                     ?>
-                                    <h3 class="deliveries">Maintenance Expense</h3>
-                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
+                                    <h3 class="deliveries">Deductions</h3>
+                                    <span class="total-deliveries"><?php echo 'Php '.$deductions_result['total'];?></span>
                                 </div>
                             </div>  
                             <div class="newUser-button4"> 
                                 <div id="add-userbutton" class="add-account4">
                                 <?php
-                                $other_expenses_count = "";
+                                $payroll_total = "";
                                 if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                                     $date = $_GET['view'];
-                                    $other_expenses_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Other Expenses'
-                                    AND expense.date = '$date'";
+                                    $payroll_total = "SELECT 
+                                    SUM(attendance.total_amount) as total
+                                    FROM attendance
+                                    WHERE attendance.date = '$date'";
                                 } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                                     $month = $_GET['month'];
                                     $year = $_GET['year'];
-                                    $other_expenses_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Other Expenses'
-                                    AND MONTHNAME(expense.date) = '$month'
-                                    AND YEAR(expense.date) = '$year'";
+                                    $payroll_total = "SELECT 
+                                    SUM(attendance.total_amount) as total
+                                    FROM attendance
+                                    WHERE MONTHNAME(attendance.date) = '$month'
+                                    AND YEAR(attendance.date) = '$year'";
                                 } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                                     $year = $_GET['year'];
-                                    $other_expenses_count = "SELECT expense.id
-                                    FROM expense
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    WHERE expense_type.name = 'Other Expenses'
-                                    AND YEAR(expense.date) = '$year'";
+                                    $payroll_total = "SELECT
+                                    SUM(attendance.total_amount) as total
+                                    FROM attendance
+                                    WHERE YEAR(attendance.date) = '$year'";
                                 } else {
-                                    echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                                    echo '<script> location.replace("../reports/reports-attendance.php?option=Daily"); </script>';
                                 }
-                                    if($other_expenses_count_result = mysqli_query($con, $other_expenses_count))
-                                    $rowcount = mysqli_num_rows($other_expenses_count_result);
+                                    if($payroll_total_result = mysqli_query($con, $payroll_total))
+                                    $payroll_result = mysqli_fetch_assoc($payroll_total_result);
                                     ?>
-                                    <h3 class="deliveries">Other Expense</h3>
-                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
+                                    <h3 class="deliveries">Payroll</h3>
+                                    <span class="total-deliveries"><?php echo 'Php '.$payroll_result['total'];?></span>
                                 </div>
                             </div>  
                         </div>
@@ -1025,11 +995,10 @@ tr:hover td{
                         <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Created By</th>
-                            <th>Date/Time Added</th>
+                            <th>Employee Name</th>
+                            <th>Deduction</th>
+                            <th>Bonus</th>
+                            <th>Payroll Amount</th>
                         </tr>
                         </thead>
 
@@ -1038,61 +1007,58 @@ tr:hover td{
                         if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                             $date = $_GET['view'];
                             $query = "SELECT 
-                                    expense.date,
-                                    expense_type.name,
-                                    expense.description,
-                                    expense.amount,
-                                    users.first_name,
-                                    users.last_name,
-                                    expense.date_created
-                                    FROM expense 
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    INNER JOIN users
-                                    ON users.user_id = expense.added_by
-                                    WHERE expense.status_archive_id = 1
-                                    and date = '$date'
-                                    ORDER BY expense.date DESC";
+                                attendance.date,
+                                attendance.deduction,
+                                attendance.bonus, 
+                                attendance.total_amount,
+                                employee.first_name as emp_first_name,
+                                employee.last_name as emp_last_name,
+                                employee.middle_name as emp_middle_name
+                                FROM attendance 
+                                INNER JOIN employee 
+                                ON attendance.employee_id = employee.id
+                                WHERE attendance.status_archive_id = 1
+                                AND attendance.payroll_status = 1
+                                AND attendance.date = '$date'
+                                ORDER BY attendance.date DESC";
                         } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                             $month = $_GET['month'];
                             $year = $_GET['year'];
                             $query = "SELECT 
-                                    expense.date,
-                                    expense_type.name,
-                                    expense.description,
-                                    expense.amount,
-                                    users.first_name,
-                                    users.last_name,
-                                    expense.date_created
-                                    FROM expense 
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    INNER JOIN users
-                                    ON users.user_id = expense.added_by
-                                    WHERE expense.status_archive_id = 1
-                                    AND MONTHNAME(expense.date) = '$month'
-                                    AND YEAR(expense.date) = '$year'
-                                    ORDER BY expense.date DESC";
+                                    attendance.date,
+                                    attendance.deduction,
+                                    attendance.bonus, 
+                                    attendance.total_amount,
+                                    employee.first_name as emp_first_name,
+                                    employee.last_name as emp_last_name,
+                                    employee.middle_name as emp_middle_name
+                                    FROM attendance 
+                                    INNER JOIN employee 
+                                    ON attendance.employee_id = employee.id
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND MONTHNAME(attendance.date) = '$month'
+                                    AND YEAR(attendance.date) = '$year'
+                                    ORDER BY attendance.date DESC";
                         } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                             $year = $_GET['year'];
                             $query = "SELECT 
-                                    expense.date,
-                                    expense_type.name,
-                                    expense.description,
-                                    expense.amount,
-                                    users.first_name,
-                                    users.last_name,
-                                    expense.date_created
-                                    FROM expense 
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    INNER JOIN users
-                                    ON users.user_id = expense.added_by
-                                    WHERE expense.status_archive_id = 1
-                                    AND YEAR(expense.date) = '$year'
-                                    ORDER BY expense.date DESC";
+                                    attendance.date,
+                                    attendance.deduction,
+                                    attendance.bonus, 
+                                    attendance.total_amount,
+                                    employee.first_name as emp_first_name,
+                                    employee.last_name as emp_last_name,
+                                    employee.middle_name as emp_middle_name
+                                    FROM attendance 
+                                    INNER JOIN employee 
+                                    ON attendance.employee_id = employee.id
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND YEAR(attendance.date) = '$year'
+                                    ORDER BY attendance.date DESC";
                         } else {
-                            echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                            echo '<script> location.replace("../reports/reports-attendance.php?option=Daily"); </script>';
                         }
                         
                         $result = mysqli_query($con, $query);
@@ -1100,7 +1066,7 @@ tr:hover td{
                         if(mysqli_num_rows($result) <= 0) { ?>
                         <tbody>
                         <tr id="noRecordTR">
-                                <td colspan="4">No Record Found</td>
+                                <td colspan="5">No Record Found</td>
                         </tr>
                         </tbody>
                         <?php } else {
@@ -1111,21 +1077,17 @@ tr:hover td{
                                     <?php echo $rows['date']; ?>
                                 </td>
                                 <td>
-                                     <?php echo $rows['name']; ?>
+                                     <?php echo $rows['emp_first_name'].' '.$rows['emp_last_name']; ?>
                                 </td>
                                 <td>
-                                    <?php echo $rows['description']; ?>
+                                     <?php echo '<span>&#8369;</span>' .' '. $rows['deduction']; ?>
                                 </td>
                                 <td>
-                                     <?php echo 'PHP ' . $rows['amount']; ?>
+                                    <?php echo '<span>&#8369;</span>' .' '. $rows['bonus']; ?>
                                 </td>
                                 <td>
-                                    <?php echo $rows['first_name'] .' '. $rows['last_name']; ?>
-                                </td>
-                                <td>
-                                     <?php echo $rows['date_created']; ?>
-                                </td>
-                               
+                                     <?php echo '<span>&#8369;</span>' .' '. $rows['total_amount']; ?>
+                                </td>       
                             </tr>
                             </tbody>
                         <?php }} ?>

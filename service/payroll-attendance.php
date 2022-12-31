@@ -96,7 +96,8 @@ function process_payroll($con, $id, $module, $user_user_id) {
             if($insert) {
 
                 $update= mysqli_query($con, "UPDATE attendance 
-                SET payroll_status = '1' 
+                SET payroll_status = '1', 
+                total_amount = '$amount'
                 WHERE id = '$id'");
 
                 if($update) {

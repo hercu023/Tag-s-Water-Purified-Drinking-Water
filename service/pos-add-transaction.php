@@ -44,23 +44,32 @@ if (isset($_POST['save-transaction'])) {
         $unpaid_amount = 0;
         $status = 1;
 
-        if(isset($_POST['unpaid'])){
-            if($_POST['unpaid'] == 1){
+        if(isset($_POST['unpaid'])) {
+            if($_POST['unpaid'] == 1) {
                 $status = 0;
             }
         }
 
-        if($customer_name == 'GUEST'){
-            if($cashpayment < $totalamount){
-                header("Location: ../pos/point-of-sales-placeorder.php?option=".$_POST['option'].'&totalAmount=' .$_POST['totalAmount']. "&error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Insufficient Cash Amount.");
+        if($customer_name == 'GUEST') {
+            if($cashpayment < $totalamount) {
+                header("Location: ../pos/point-of-sales-placeorder.php?option=".$_POST['option']
+                .'&totalAmount=' .$_POST['totalAmount']
+                ."&error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Insufficient Cash Amount.");
                 exit();
             }
         }else{
             // if customer is not guest
-            if($cashpayment < $totalamount){
+            if($cashpayment < $totalamount) {
                 $totalbalance = $cashpayment + $cashbalance;
                 if(!isset($_POST['unpaid']) && $totalbalance < $totalamount){
-                    header("Location: ../pos/point-of-sales-placeorder-unpaid-confirm.php?option=".$_POST['option'].'&totalAmount='.$_POST['totalAmount'].'&paymentoption='.$_POST['paymentoption'].'&serviceoption='.$_POST['serviceoption'].'&cashpayment='.$_POST['cashpayment'].'&cashbalance='.$_POST['cashbalance'].'&customername='.$_POST['customername'].'&note='.$_POST['note']);
+                    header("Location: ../pos/point-of-sales-placeorder-unpaid-confirm.php?option=".$_POST['option']
+                    .'&totalAmount='.$_POST['totalAmount']
+                    .'&paymentoption='.$_POST['paymentoption']
+                    .'&serviceoption='.$_POST['serviceoption']
+                    .'&cashpayment='.$_POST['cashpayment']
+                    .'&cashbalance='.$_POST['cashbalance']
+                    .'&customername='.$_POST['customername']
+                    .'&note='.$_POST['note']);
                     exit();
                 }else{
                     if($totalbalance >= $totalamount){
@@ -75,10 +84,9 @@ if (isset($_POST['save-transaction'])) {
                                                 WHERE id = $customer_name");
                     if ($update) {
                         $cashchange = 0;
-                        log_audit($con, $user_id, $module, 1, 'Customer balance adjusted under transaction reference: ' .$transaction_uuid);
+                        log_audit($con, $user_id, $module, 1, 'Customer balance adjusted. Customer ID: ' .$customer_name);
                     } else {
-                        log_audit($con, $user_id, $module, 0, 'Error processing database.');
-                        header("Location: ../common/error-page.php?error=" . mysqli_error($con));
+                        header("Location: ../common/error-page.php?error=".'Something went wrong. Failed updating customer balance.');
                         exit();
                     }
                 }
@@ -104,7 +112,9 @@ if (isset($_POST['save-transaction'])) {
                 if (validate_quantity($con, $item_name, $quantity)) {
                     $consolidated_validation = true;
                 } else {
-                    header("Location: ../pos/point-of-sales-placeorder.php?option=".$_POST['option'].'&totalAmount=' .$_POST['totalAmount']. "&error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Insufficient Stock for Item: " .$item_name);
+                    header("Location: ../pos/point-of-sales-placeorder.php?option=".$_POST['option']
+                    .'&totalAmount=' .$_POST['totalAmount']
+                    . "&error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Insufficient Stock for Item: " .$item_name);
                     exit();
                 }
             }
@@ -132,7 +142,7 @@ if (isset($_POST['save-transaction'])) {
                         WHERE item_name_id = $item_id";
                     $select_result = mysqli_query($con, $select_stock);
 
-                    if(mysqli_num_rows($select_result)) {
+                    if(mysqli_num_rows($select_result) > 0) {
                         $stock = mysqli_fetch_assoc($select_result);
                         $onhand = $stock['on_hand'];
                         $out_going = $stock['out_going'];
@@ -146,16 +156,18 @@ if (isset($_POST['save-transaction'])) {
                             WHERE inventory_stock.item_name_id = '$item_id'");
 
                         if ($update_result) {
-                            log_audit($con, $user_id, $module, 1, 'Successfully deducted stocks for item:' .$item_id);
+                            log_audit($con, $user_id, $module, 1, 'Deducted stocks for item:' .$item_id);
 
                             //Add record to inventory log
                             $item_name = $item2['item_name'];
                             $quantity = $item2['quantity'];
                             $action = "OUT";
                             $details = "POS Transaction Reference: " . $transaction_uuid;
-                            record_inventory_log($con, $item_id, $action, $quantity, $details);
+                            record_inventory_log($con, $item_id, $action, $quantity, 0, $details);
                         } else {
-                            header("Location: ../pos/point-of-sales-placeorder.php?option=".$_POST['option'].'&totalAmount=' .$_POST['totalAmount']. "&error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Error updating stocks...");
+                            header("Location: ../pos/point-of-sales-placeorder.php?option=".$_POST['option']
+                            .'&totalAmount=' .$_POST['totalAmount']
+                            . "&error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed updating stocks. Try again.");
                             exit();
                         }
                     }
@@ -176,44 +188,55 @@ if (isset($_POST['save-transaction'])) {
                              now(),
                              now())");
 
-                if ($insert) {
+                if($insert) {
 
-                    $insert_transaction_history =mysqli_query($con,
-                        "INSERT INTO transaction_history 
-                VALUES(
-                '',
-                '$transaction_uuid',
-                '$cashpayment',
-                '$cashchange',
-                '$remainingbalance',
-                '$previous_balance',
-                '$unpaid_amount',
-                '$user_id',
-                now()
-                )");
+                    $insert_transaction_history =mysqli_query($con,"INSERT INTO transaction_history VALUES(
+                        '',
+                        '$transaction_uuid',
+                        '$cashpayment',
+                        '$cashchange',
+                        '$remainingbalance',
+                        '$previous_balance',
+                        '$unpaid_amount',
+                        '$user_id',
+                        now()
+                        )");
 
                     $update_ordersummary = mysqli_query($con, "UPDATE transaction_process 
-                SET transaction_id = '$transaction_uuid'
-                WHERE user_id = '$user_id' 
-                AND transaction_id = '0'");
+                        SET transaction_id = '$transaction_uuid'
+                        WHERE user_id = '$user_id' 
+                        AND transaction_id = '0'");
 
                     if($update_ordersummary){
-                        log_audit($con, $user_id, $module, 1, 'Added new transaction with transaction reference:' . $transaction_uuid);
+                        log_audit($con, $user_id, $module, 1, 'Add new transaction. Reference:' . get_transaction_id($con, $transaction_uuid));
                         header("Location: ../pos/point-of-sales-viewdetails.php?view=".$transaction_uuid.'&message=TRANSACTION SUCCESSFUL!');
-                    }else{
-                        log_audit($con, $user_id, $module, 0, 'Error processing database.');
-                        header("Location: ../common/error-page.php?error3=" . mysqli_error($con));
+                        exit();
+                    } else {
+                        log_audit($con, $user_id, $module, 0, 'Add new transaction. Reference:' . get_transaction_id($con, $transaction_uuid));
+                        header("Location: ../common/error-page.php?error=".'Something went wrong. Failed updating transactions from database.');
+                        exit();
                     }
                 } else {
-                    log_audit($con, $user_id, $module, 0, 'Error processing database.');
-                    header("Location: ../common/error-page.php?error2=" . mysqli_error($con));
+                    header("Location: ../common/error-page.php?error=" .'Something went wrong. Failed adding transaction to database.');
+                    exit();
                 }
             }
         } else {
-            log_audit($con, $user_id, $module, 0, 'Error processing database.');
-            header("Location: ../common/error-page.php?error1=" . mysqli_error($con));
+            header("Location: ../common/error-page.php?error=".'Something went wrong. Failed retrieving transactions from database.');
+            exit();
         }
     }
+}
+
+function get_transaction_id($con, $uuid) {
+
+    $transaction_query = mysqli_query($con, "SELECT id from transaction
+        WHERE uuid = '$uuid'");
+    
+    $transaction = mysqli_fetch_assoc($transaction_query);
+    $transaction_id = $transaction['id'];
+
+    return $transaction_id;
 }
 
 

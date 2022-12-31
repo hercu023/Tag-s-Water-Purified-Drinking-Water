@@ -3,10 +3,11 @@ require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
 require_once "../service/filter-reports.php";
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTENDANCE')) {
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELIVERY_WALKIN')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
     exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +42,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTE
             ?>
             <div class="sub-tab">
                 <div class="user-title">
-                    <h2> Employee Attendance</h2>
+                    <h2> Delivery</h2>
                 </div>
                 <div class="search">
                     <div class="search-bar">
@@ -55,7 +56,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTE
                     <div class="sub-tab-container">
                         <form action="" method="post">
                             <div class="select-dropdown">
-                                <select class="select" name="option" onchange="location = '../reports/reports-attendance.php?option=' + this.value;">
+                                <select class="select" name="option" onchange="location = '../reports/reports-delivery.php?option=' + this.value;">
                                     <option value="Daily" <?php if(isset($_GET['option']) && $_GET['option'] == "Daily") { echo 'selected'; }?>>Daily</option>
                                     <option value="Monthly" <?php if(isset($_GET['option']) && $_GET['option'] == "Monthly") { echo 'selected'; }?>>Monthly</option>
                                     <option value="Yearly" <?php if(isset($_GET['option']) && $_GET['option'] == "Yearly") { echo 'selected'; }?>>Yearly</option>
@@ -67,7 +68,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTE
                             <input type="date" class="date" id="date-to" name="date-to" onchange="console.log(this.value);" <?php if(isset($_GET['option']) && $_GET['option'] != 'Daily') { echo 'disabled=true';} ?>/>
                             <div class="newUser-button">
                                 <div class="button1">
-                                    <input type="hidden" name="module" value="attendance">
+                                    <input type="hidden" name="module" value="delivery">
                                     <button type="submit" id="add-userbutton" class="add-account" name="filter-report">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.5 16q-.208 0-.354-.146T9 15.5v-4.729L4.104 4.812q-.187-.25-.052-.531Q4.188 4 4.5 4h11q.312 0 .448.281.135.281-.052.531L11 10.771V15.5q0 .208-.146.354T10.5 16Zm.5-6.375L13.375 5.5H6.604Zm0 0Z"/></svg>
                                         <h3>Filter</h3>
@@ -92,7 +93,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTE
                             ?>
                             <th>Details</th>
                             <th>Description</th>
-                            <th>Total Payroll</th>
+                            <th>Total Deliveries</th>
                         </tr>
                         </thead>
 
@@ -100,52 +101,49 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTE
                         $query = "";
                         if(isset($_GET['option']) && $_GET['option'] == "Daily") {
                             $query = "SELECT
-                            attendance.date,
-                            SUM(attendance.total_amount) as total
-                            FROM attendance 
-                            WHERE attendance.status_archive_id = 1
-                            AND attendance.payroll_status = 1
-                            GROUP BY attendance.date
-                            ORDER BY attendance.date DESC";
+                            DATE(delivery_list.updated_at) as date,
+                            COUNT(id) as total
+                            FROM delivery_list
+                            WHERE delivery_status = '3'
+                            GROUP BY DATE(delivery_list.updated_at)
+                            ORDER BY DATE(delivery_list.updated_at) DESC";
                         } else if (isset($_GET['option']) && $_GET['option'] == "Monthly") {
                             $query = "SELECT 
-                            YEAR(attendance.date) AS year,
-                            MONTHNAME(attendance.date) AS month,
-                            SUM(attendance.total_amount) as total
-                            FROM attendance
-                            WHERE attendance.status_archive_id = 1
-                            AND attendance.payroll_status = 1
-                            GROUP BY MONTH(attendance.date)
-                            ORDER BY YEAR(attendance.date), 
-                            MONTH(attendance.date) DESC";
+                            YEAR(delivery_list.updated_at) AS year,
+                            MONTHNAME(delivery_list.updated_at) AS month,
+                            COUNT(id) as total
+                            FROM delivery_list
+                            WHERE delivery_status = '3'
+                            GROUP BY MONTH(delivery_list.updated_at)
+                            ORDER BY YEAR(delivery_list.updated_at), 
+                            MONTH(delivery_list.updated_at) DESC";
                         } else if(isset($_GET['option']) && $_GET['option'] == "Yearly") {
                             $query = "SELECT 
-                            YEAR(attendance.date) AS year,
-                            SUM(attendance.total_amount) as total
-                            FROM attendance
-                            WHERE attendance.status_archive_id = 1
-                            AND attendance.payroll_status = 1
-                            GROUP BY YEAR(attendance.date)
-                            ORDER BY YEAR(attendance.date) DESC";
+                            YEAR(delivery_list.updated_at) AS year,
+                            COUNT(id) as total
+                            FROM delivery_list
+                            WHERE delivery_status = '3'
+                            GROUP BY YEAR(delivery_list.updated_at)
+                            ORDER BY YEAR(delivery_list.updated_at) DESC";
                         } else {
-                            echo '<script> location.replace("../reports/reports-attendance.php?option=Daily"); </script>';
+                            echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>';
                         }
                     
                         if (isset($_GET['from']) && isset($_GET['to'])) {
                             if(isset($_GET['option']) && $_GET['option'] == "Daily") {
-                            $from = $_GET['from'];
-                            $to = $_GET['to'];
-                            $query = "SELECT 
-                                attendance.date,
-                                SUM(attendance.total_amount) as total
-                                FROM attendance 
-                                WHERE attendance.status_archive_id = 1
-                                AND attendance.payroll_status = 1
-                                AND attendance.date BETWEEN '$from' AND '$to'
-                                GROUP BY attendance.date
-                                ORDER BY attendance.date DESC";
+                                $from = $_GET['from'];
+                                $to = $_GET['to'];
+
+                                $query = "SELECT
+                                DATE(delivery_list.updated_at) as date,
+                                COUNT(id) as total
+                                FROM delivery_list
+                                WHERE delivery_status = '3'
+                                AND DATE(delivery_list.updated_at) BETWEEN '$from' AND '$to'
+                                GROUP BY DATE(delivery_list.updated_at)
+                                ORDER BY DATE(delivery_list.updated_at) DESC";
                             } else {
-                                echo '<script> location.replace("../reports/reports-attendance.php?option=Daily"); </script>';
+                                echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>';
                             }
                         }
 
@@ -172,30 +170,30 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTE
                                 </td>
                                 <td>
                                     <?php if(isset($_GET['option']) && $_GET['option'] == "Daily") { ?>
-                                            <a href="../reports/reports-attendance-view-details.php?view=<?php echo $rows['date']; ?>">
+                                            <a href="../reports/reports-delivery-view-details.php?view=<?php echo $rows['date']; ?>">
                                                 View Details 
                                             </a>
                                     <?php } else if (isset($_GET['option']) && $_GET['option'] == "Monthly") { ?>
-                                            <a href="../reports/reports-attendance-view-details.php?month=<?php echo $rows['month'].'&year='.$rows['year']; ?>">
+                                            <a href="../reports/reports-delivery-view-details.php?month=<?php echo $rows['month'].'&year='.$rows['year']; ?>">
                                                 View Details 
                                             </a>
                                     <?php } else { ?>
-                                            <a href="../reports/reports-attendance-view-details.php?year=<?php echo $rows['year'];?>">
+                                            <a href="../reports/reports-delivery-view-details.php?year=<?php echo $rows['year'];?>">
                                                 View Details 
                                             </a>
                                     <?php } ?>
                                 </td>
                                 <td>
                                     <?php if(isset($_GET['option']) && $_GET['option'] == "Daily") { ?>
-                                        <?php echo 'Attendance Report Details For Date: '.$rows['date']; ?>
+                                        <?php echo 'Delivery Report Details For Date: '.$rows['date']; ?>
                                     <?php } else if (isset($_GET['option']) && $_GET['option'] == "Monthly") { ?>
-                                        <?php echo 'Attendance Report Details For The Month: '.$rows['month'].' '.$rows['year']; ?>
+                                        <?php echo 'Delivery Report Details For The Month: '.$rows['month'].' '.$rows['year']; ?>
                                     <?php } else { ?>
-                                        <?php echo 'Attendance Report Details For Year: '.$rows['year']; ?>
+                                        <?php echo 'Delivery Report Details For Year: '.$rows['year']; ?>
                                     <?php } ?>
                                 </td>
                                 <td>
-                                    <?php echo 'PHP '.$rows['total']; ?>
+                                    <?php echo '<span>&#8369;</span>' .' '.  $rows['total']; ?>
                                 </td>
                             </tr>
                             </tbody>

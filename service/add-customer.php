@@ -32,8 +32,9 @@ if (isset($_POST['save-customer'])) {
         $check_query = mysqli_query($con, "SELECT * FROM `customers` WHERE customer_name = '$customer_name'");
 
         if (mysqli_num_rows($check_query) > 0) {
-            log_audit($con, $user_id, $module, 0, 'Customer name already exist');
+            log_audit($con, $user_id, $module, 0, 'Validation error: customer name already exist.');
             header("Location: ../customers/customer.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Customer name already exist!");
+            exit();
         } else {
             $insert = mysqli_query($con, "INSERT INTO customers VALUES(
                              '',
@@ -54,15 +55,18 @@ if (isset($_POST['save-customer'])) {
                 if (mysqli_num_rows($select) > 0) {
                     $fetch_data = mysqli_fetch_assoc($select);
                     $fetch_id = $fetch_data['id'];
-                    log_audit($con, $user_id, $module, 1, 'Added new customer with id:' .$fetch_id);
+                    log_audit($con, $user_id, $module, 1, 'Added new customer id:' .$fetch_id);
                     header("Location: ../customers/customer-success.php?success=Add New Customer Successful!");
+                    exit();
                 } else {
-                    log_audit($con, $user_id, $module, 0, 'Error processing database.');
-                    header("Location: ../common/error-page.php?error=" . mysqli_error($con));
+                    log_audit($con, $user_id, $module, 0, 'Failed retrieving customer.');
+                    header("Location: ../common/error-page.php?error=".'Something went wrong. Failed retrieving customer information.');
+                    exit();
                 }
             } else {
-                log_audit($con, $user_id, $module, 0, 'Error processing database.');
-                header("Location: ../common/error-page.php?error=" . mysqli_error($con));
+                log_audit($con, $user_id, $module, 0, 'Failed adding new customer.');
+                header("Location: ../common/error-page.php?error=".'Something went wrong. Failed adding customer to database.');
+                exit();
             }
         }
     }
