@@ -115,7 +115,7 @@ if(isset($_GET['edit']))
             <div class="bg-editDropdown" id="edit-bgdrop">
                 <div class="message"></div>
                 <div class="container1">
-                    <h1 class="addnew-title">ARCHIVE INVENTORY</h1>
+                    <h1 class="addnew-title">ARCHIVE ACCOUNT</h1>
                     <form action="#">
                         <input type="hidden" required="required" name="user_id" value="<?=$user['user_id'];?>">
                         <div class="a-header">
@@ -131,7 +131,9 @@ if(isset($_GET['edit']))
                         </div>
                 </div>
         </form>
-    <?php }} ?>
+        <?php }}else{
+           echo '<script> location.replace("../accounts/account.php"); </script>';
+    } ?>
 </body>
 </html>
 <script src="../javascript/account-type.js"></script>

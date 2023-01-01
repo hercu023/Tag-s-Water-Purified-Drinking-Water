@@ -1658,7 +1658,9 @@ tr:hover td{
                     </div>
                 </div>
             </form>
-<?php } ?>
+            <?php }else{
+           echo '<script> location.replace("../monitoring/monitoring-customer-balance.php"); </script>';
+    } ?>
     </body>
 </html>
 <script>

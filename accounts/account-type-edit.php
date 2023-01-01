@@ -966,13 +966,13 @@ body{
     position: relative;
 }
 .accTitle{
-    margin-top: 4rem;
-    font-size: min(max(1.9rem, 1.1vw), 2rem);
-    color: var(--color-main);
-    font-family: 'COCOGOOSE', sans-serif;
-    letter-spacing: .03rem;
-    border-bottom: 2px solid var(--color-main);
+   /* margin-top: 2rem; */
+   font-size: min(max(1.9rem, 1.1vw), 2rem);
+    color: var(--color-main); 
+    border-bottom: 2px solid var(--color-main); 
     width: 78%;
+    font-weight: 1000;
+    margin-top: 3.2rem;
 }
 
 /* ----------------------------------------Sub TAB---------------------------------------- */
@@ -1702,7 +1702,9 @@ if(isset($_GET['edit']))
             </form>
         </div>
 </form>
-<?php } ?>
+<?php }else{
+           echo '<script> location.replace("../accounts/account-type.php"); </script>';
+    } ?>
 </div>
 
 </body>

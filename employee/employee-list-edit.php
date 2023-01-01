@@ -200,7 +200,9 @@ if(isset($_GET['edit'])) {
                 </div>
             </div>
         </form>
-    <?php }} ?>
+        <?php }}else{
+           echo '<script> location.replace("../employee/employee-list.php"); </script>';
+    } ?>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 <script src="../index.js"></script>

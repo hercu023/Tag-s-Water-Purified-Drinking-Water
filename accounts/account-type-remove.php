@@ -121,7 +121,9 @@ if(isset($_GET['edit']))
                         </div>
                 </div>
         </form>
-    <?php } ?>
+        <?php }else{
+           echo '<script> location.replace("../accounts/account-type.php"); </script>';
+    } ?>
 </body>
 </html>
 <script src="../javascript/account-type.js"></script>

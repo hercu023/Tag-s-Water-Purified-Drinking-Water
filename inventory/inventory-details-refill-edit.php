@@ -190,7 +190,9 @@ if(isset($_GET['edit']))
             </div>
         </form>
 
-    <?php }}?>
+        <?php }}else{
+           echo '<script> location.replace("../inventory/inventory-refill.php"); </script>';
+    } ?>
 </body>
 </html>
 <script>

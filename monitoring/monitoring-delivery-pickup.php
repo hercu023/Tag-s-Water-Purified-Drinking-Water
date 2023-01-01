@@ -821,7 +821,9 @@ table tbody td{
     position: relative;
 }
 .sub-tab-container{
-    padding: 1.8rem;
+    display: inline-block;
+    width: 80%;
+    margin-left: 2rem;
 }
 .delivery-container{
     height: 600px;
@@ -1177,6 +1179,7 @@ table tbody td{
     .user-title{
         position: relative;
         margin-left: 3rem;
+        display: inline-block;
     }
     main  h2{
         margin-bottom: -2.2rem;
@@ -1269,7 +1272,7 @@ table tbody td{
     .add-account1{
         display: flex;
         border: none;
-        background-color: var(--color-background); 
+        background-color: var(--color-white); 
         align-items: center;
         color: var(--color-button); 
         fill: var(--color-button); 
@@ -1293,7 +1296,7 @@ table tbody td{
     .add-account2{
         display: flex;
         border: none;
-        background-color: var(--color-background); 
+        background-color: var(--color-white); 
         align-items: center;
         color: var(--color-button); 
         fill: var(--color-button); 
@@ -1317,7 +1320,7 @@ table tbody td{
     .add-account3{
         display: flex;
         border: none;
-        background-color: var(--color-background); 
+        background-color: var(--color-white); 
         align-items: center;
         color: var(--color-black); 
         fill: var(--color-button); 
@@ -2477,75 +2480,57 @@ table tbody td{
                         <div class="user-title">
                             <h2>DELIVERY/PICK UP</h2>
                         </div>
-                        <div class="select-dropdown">
-                                <select class="select">
-                                    <option selected disabled value="">SELECT SERVICE</option>
-                                    <option value="All">All</option>
-                                    <option value="Delivery">Delivery</option>
-                                    <option value="Delivery/Pick Up">Delivery/Pick Up</option>
-                                </select>
-                        </div>
-
-                        <div class="search">
-                            <div class="search-bar"> 
-                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                                <button type="submit" >
-                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                                </button>
+                        <div class="sub-tab-container">
+                            <div class="newUser-button2"> 
+                                <div id="add-userbutton" class="add-account2">
+                                    <?php
+                                        $delivery_query = "SELECT 
+                                        count(transaction.id) as count
+                                        FROM transaction
+                                        WHERE transaction.service_type = 'Delivery'
+                                        AND transaction.uuid NOT IN (SELECT uuid FROM delivery_list)";
+                                        $delivery_result = mysqli_query($con, $delivery_query);
+                                        $delivery = mysqli_fetch_assoc($delivery_result);
+                                        $count_of_for_delivery = $delivery['count'];
+                                    
+                                    ?>
+                                    <h3 class="deliveries">For Delivery</h3>
+                                    <span class="total-deliveries"><?php echo $count_of_for_delivery ?></span>
+                                </div>
                             </div>
-                        </div>  
+                            <div class="newUser-button1"> 
+                                <div id="add-userbutton" class="add-account1">
+                                    <?php
+                                        $delivery_pickup_query = "SELECT 
+                                        count(transaction.id) as count
+                                        FROM transaction
+                                        WHERE transaction.service_type = 'Delivery/Pick Up'
+                                        AND transaction.uuid NOT IN (SELECT uuid FROM delivery_list)";
+                                        $delivery_pickup_result = mysqli_query($con, $delivery_pickup_query);
+                                        $delivery_pickup = mysqli_fetch_assoc($delivery_pickup_result);
+                                        $count_of_for_delivery_pickup = $delivery_pickup['count'];
+                                    
+                                    ?>
+                                    <h3 class="deliveries">For Pick Up</h3>
+                                    <span class="total-deliveries"><?php echo $count_of_for_delivery_pickup ?></span>
+                                </div>
+                            </div>
+                            <div class="createDelivery">
+                                <a href="../monitoring/monitoring-delivery-pickup-delivered.php" id="add-userbutton" class="batchlist">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 16q-1.042 0-1.771-.729Q2.5 14.542 2.5 13.5H1V5q0-.625.438-1.062Q1.875 3.5 2.5 3.5H14v3h2.5L19 10v3.5h-1.5q0 1.042-.729 1.771Q16.042 16 15 16q-1.042 0-1.771-.729-.729-.729-.729-1.771h-5q0 1.042-.729 1.771Q6.042 16 5 16Zm0-1.5q.417 0 .708-.292Q6 13.917 6 13.5t-.292-.708Q5.417 12.5 5 12.5t-.708.292Q4 13.083 4 13.5t.292.708q.291.292.708.292Zm10 0q.417 0 .708-.292.292-.291.292-.708t-.292-.708Q15.417 12.5 15 12.5t-.708.292Q14 13.083 14 13.5t.292.708q.291.292.708.292Zm-1-4 3.5-.021L15.729 8H14Z"/></svg>
+                                    <h3 class="deliveries">DELIVERED CUSTOMERS LIST</h3>
+                                </a>
+                            </div>
+                            <div class="pickup">
+                                <a href="../monitoring/monitoring-delivery-pickup-list.php" id="add-userbutton" class="pickuplist">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m7 16.5-1.062-1.062 2.187-2.188H2v-1.5h6.125L5.938 9.562 7 8.5l4 4Zm6-5-4-4 4-4 1.062 1.062-2.187 2.188H18v1.5h-6.125l2.187 2.188Z"/></svg>
+                                    <h3 class="deliveries">PICK UP LIST</h3>
+                                </a>
+                            </div>
+                        </div>
                     </div> 
                 </div>
-                <div class="main-container">
-                    <div class="sub-tab-container">
-                        <div class="newUser-button2"> 
-                            <div id="add-userbutton" class="add-account2">
-                                <?php
-                                    $delivery_query = "SELECT 
-                                    count(transaction.id) as count
-                                    FROM transaction
-                                    WHERE transaction.service_type = 'Delivery'
-                                    AND transaction.uuid NOT IN (SELECT uuid FROM delivery_list)";
-                                    $delivery_result = mysqli_query($con, $delivery_query);
-                                    $delivery = mysqli_fetch_assoc($delivery_result);
-                                    $count_of_for_delivery = $delivery['count'];
-                                
-                                ?>
-                                <h3 class="deliveries">For Delivery</h3>
-                                <span class="total-deliveries"><?php echo $count_of_for_delivery ?></span>
-                            </div>
-                        </div>
-                        <div class="newUser-button1"> 
-                            <div id="add-userbutton" class="add-account1">
-                                <?php
-                                    $delivery_pickup_query = "SELECT 
-                                    count(transaction.id) as count
-                                    FROM transaction
-                                    WHERE transaction.service_type = 'Delivery/Pick Up'
-                                    AND transaction.uuid NOT IN (SELECT uuid FROM delivery_list)";
-                                    $delivery_pickup_result = mysqli_query($con, $delivery_pickup_query);
-                                    $delivery_pickup = mysqli_fetch_assoc($delivery_pickup_result);
-                                    $count_of_for_delivery_pickup = $delivery_pickup['count'];
-                                
-                                ?>
-                                <h3 class="deliveries">For Pick Up</h3>
-                                <span class="total-deliveries"><?php echo $count_of_for_delivery_pickup ?></span>
-                            </div>
-                        </div>
-                        <div class="createDelivery">
-                            <a href="../monitoring/monitoring-delivery-pickup-delivered.php" id="add-userbutton" class="batchlist">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 16q-1.042 0-1.771-.729Q2.5 14.542 2.5 13.5H1V5q0-.625.438-1.062Q1.875 3.5 2.5 3.5H14v3h2.5L19 10v3.5h-1.5q0 1.042-.729 1.771Q16.042 16 15 16q-1.042 0-1.771-.729-.729-.729-.729-1.771h-5q0 1.042-.729 1.771Q6.042 16 5 16Zm0-1.5q.417 0 .708-.292Q6 13.917 6 13.5t-.292-.708Q5.417 12.5 5 12.5t-.708.292Q4 13.083 4 13.5t.292.708q.291.292.708.292Zm10 0q.417 0 .708-.292.292-.291.292-.708t-.292-.708Q15.417 12.5 15 12.5t-.708.292Q14 13.083 14 13.5t.292.708q.291.292.708.292Zm-1-4 3.5-.021L15.729 8H14Z"/></svg>
-                                <h3 class="deliveries">DELIVERED CUSTOMERS LIST</h3>
-                            </a>
-                        </div>
-                        <div class="pickup">
-                            <a href="../monitoring/monitoring-delivery-pickup-list.php" id="add-userbutton" class="pickuplist">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m7 16.5-1.062-1.062 2.187-2.188H2v-1.5h6.125L5.938 9.562 7 8.5l4 4Zm6-5-4-4 4-4 1.062 1.062-2.187 2.188H18v1.5h-6.125l2.187 2.188Z"/></svg>
-                                <h3 class="deliveries">PICK UP LIST</h3>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+
                     <div class="customer-container" id="customerTable">
                                 <br>
                                 <div class="newUser-button4"> 

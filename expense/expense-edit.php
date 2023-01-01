@@ -162,7 +162,9 @@ $expense = mysqli_fetch_assoc($result); ?>
                     </div>
                 </div>
             </form>
-            <?php }} ?>
+            <?php }}else{
+           echo '<script> location.replace("../expense/expense.php"); </script>';
+    } ?>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>

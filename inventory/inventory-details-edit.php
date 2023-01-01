@@ -2048,7 +2048,9 @@ if(isset($_GET['edit']))
                                       </script>';
         }
         ?>
-    <?php }}?>
+    <?php }}else{
+           echo '<script> location.replace("../inventory/inventory-details.php"); </script>';
+    } ?>
 </body>
 </html>
 <script>
