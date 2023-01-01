@@ -27,181 +27,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
     <title>Tag's Water Purified Drinking Water</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
-<body>
-<div class="container">
-    <div class="block"></div>
-
-    <?php
-    include('../common/side-menu.php')
-    ?>
-
-    <main>
-        <div class="main-account">
-            <h1 class="accTitle">ACCOUNT</h1>
-            <?php
-            if (isset($_GET['error'])) {
-                echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
-            }
-            ?>
-            <div class="sub-tab">
-                <div class="user-title">
-                    <h2> USER ACCOUNT </h2>
-                </div>
-                <div class="sub-tab2">
-                    <div class="newUser-button">
-                        <button type="submit" id="add-userbutton" class="add-account" onclick="addnewuser();">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                            <h3>Add New User</h3>
-                        </button>
-                    </div>
-                </div>
-                <div class="search">
-                    <div class="search-bar">
-                        <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                        <button type="submit" >
-                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="account-container">
-                <table class="table" id="myTable">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <!-- <th>Address</th> -->
-                        <th>Contact Number</th>
-                        <th>Role</th>
-                        <th>Picture</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                        <tbody>
-                        <tr>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td>
-                                <a href="account-edit.php?edit=" id="edit-action" class="edit-action" name="action">
-                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
-                                </a>
-                                <a href="../accounts/account-action-change-password.php?edit=" id="cpass-action" class="cpass-action" name="action">
-                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17.708q-1.979 0-3.604-.864-1.625-.865-2.688-2.323l1.73-1.771q.833 1.229 2.02 1.865 1.188.635 2.542.635 2.188 0 3.719-1.531Q15.25 12.188 15.25 10q0-2.188-1.531-3.719Q12.188 4.75 10 4.75q-2.146 0-3.719 1.521t-1.531 3.75v-.125l1.188-1.188L7.208 10l-3.687 3.688L-.167 10l1.271-1.292 1.188 1.209v.125q-.021-1.604.583-3.021.604-1.417 1.656-2.469Q5.583 3.5 7 2.896q1.417-.604 3.021-.604 1.583 0 2.979.604 1.396.604 2.448 1.656T17.104 7q.604 1.396.604 3 0 3.229-2.239 5.469-2.24 2.239-5.469 2.239ZM8.5 13q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
-                                    <a href="../accounts/account-action-archive.php?edit=" id="archive-action" class="archive-action" name="action">
-                                        <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
-                                    </a>
-                            </td>
-                        <tr id="noRecordTR" style="display:none">
-                            <td colspan="10">No Record Found</td>
-                        </tr>
-                        </tbody>
-                </table>
-            </div>
-
-        </div>
-    </main>
-
-    <?php
-    include('../common/top-menu.php')
-    ?>
-
-</div>
-<?php 
-    if(isset($_GET['view']))
-{
-    $id = $_GET['view'];
-    $result = mysqli_query($con, "SELECT 
-            users.user_id,
-            users.last_name,
-            users.first_name,
-            users.middle_name,
-            users.email,
-            users.contact_number,
-            users.profile_image, 
-            account_type.user_type 
-            FROM users 
-            INNER JOIN account_type 
-            ON users.account_type_id = account_type.id
-            WHERE user_id='$id'");
-
-    if (mysqli_num_rows($result) > 0) {
-        $user = mysqli_fetch_assoc($result);
-         ?>
-
-    <div class="bg-adduserform" id="bg-addform">
-        <div class="container1">
-            <input type="hidden" required="required" name="user_id" value="<?=$user['user_id'];?>">
-            <a href="../accounts/account.php" class="close">X</a>
-            <div class="profile-pic">
-                <img src="../uploaded_image/<?=$user['profile_image'];?>" alt="">
-            </div>
-            <h1 class="addnew-title"><?=$user['first_name'].' '.$user['middle_name'].' '.$user['last_name'];?></h1>
-            <h4 class="addnew-type"><?=$user['user_type'];?></h1>
-            <div class="content">
-                
-                <div class="information">
-                    <label class="info">
-                        INFORMATION
-                    </label>
-                    <label class="email">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M14 11h7V6h-7Zm3.5-1.25L15 8V7l2.5 1.75L20 7v1ZM2 21q-.825 0-1.412-.587Q0 19.825 0 19V5q0-.825.588-1.413Q1.175 3 2 3h20q.825 0 1.413.587Q24 4.175 24 5v14q0 .825-.587 1.413Q22.825 21 22 21Zm7-7q1.25 0 2.125-.875T12 11q0-1.25-.875-2.125T9 8q-1.25 0-2.125.875T6 11q0 1.25.875 2.125T9 14Zm-6.9 5h13.8q-1.05-1.875-2.9-2.938Q11.15 15 9 15t-4 1.062Q3.15 17.125 2.1 19Z"/></svg>
-                        <?=$user['email'];?>
-                    </label>
-                    <label class="contactNum">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M19.95 21q-3.225 0-6.287-1.438-3.063-1.437-5.425-3.8-2.363-2.362-3.8-5.425Q3 7.275 3 4.05q0-.45.3-.75t.75-.3H8.1q.35 0 .625.225t.325.575l.65 3.5q.05.35-.012.637-.063.288-.288.513L7 10.9q1.05 1.8 2.625 3.375T13.1 17l2.35-2.35q.225-.225.588-.338.362-.112.712-.062l3.45.7q.35.075.575.337.225.263.225.613v4.05q0 .45-.3.75t-.75.3Z"/></svg>
-                        <?=$user['contact_number'];?>
-                    </label>
-                </div>
-            </div>
-            <div class="bot-buttons">
-                <div class="AddButton">
-                    <a href="../accounts/account-edit.php?edit=<?php echo $user['user_id']; ?>" id="addcustomerBtn" name="save-transaction">EDIT DETAILS</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php 
-}} 
-?>
-
-</div>
-</body>
-<script src="../javascript/side-menu-toggle.js"></script>
-<script src="../javascript/top-menu-toggle.js"></script>
-<script src="../javascript/account.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-<script>
-    //Add New User
-    function addnewuser(){
-        document.querySelector(".bg-adduserform").style.display = 'flex';
-    }
-    setTimeout(function() {
-        $('#myerror').fadeOut('fast');
-    }, 3000);
-    function myFunctionCP(){
-    var x = document.getElementById("pass-account");
-    var y = document.getElementById("cpass-account");
-    if(x.type === 'password'){
-        x.type = "text";
-        y.type = "text";
-    }else{
-        x.type = "password";
-        y.type = "password";
-    }
-}
-
-</script>
-</html>
 <style>
     .user-input-box{
     display: flex;
@@ -253,7 +78,199 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
     --color-table-hover: rgb(112, 112, 112);
     --color-aside-mobile-text:hsl(0, 0%, 88%);
 }
+/* ----------------------------TOP MENU---------------------------- */
 
+.top-menu a{
+    text-decoration: none;
+}
+.top-menu{
+    margin-top: 1rem;
+    position: absolute;
+    right: 4%;
+}
+.top-menu .menu-bar{
+    display: flex;
+    justify-content: end;
+    gap: 2rem;
+}
+.top-menu .menu-bar button{
+    display: none;
+}
+.top-menu .menu-bar .user1{
+    gap: 2rem;
+    align-items: right;
+    text-align: right;
+}
+.top-menu .menu-bar .user2{
+    display: flex;
+    gap: 2rem;
+    align-items: right;
+    text-align: right;
+}
+.top-menu .menu-bar .accTitle-top{
+    font-size: min(max(1.2rem, 0.4vw), 1.3rem);
+    color: var(--color-main); 
+    font-family: 'COCOGOOSE', sans-serif;
+    letter-spacing: .03rem;
+    display: none;
+    text-align: center;
+    align-items: center;
+}
+.user-type{
+    font-family: 'switzer', sans-serif;
+    font-size: 7.5px;
+    color: var(--color-black); 
+    letter-spacing: 1px;
+    border-top: 2px solid var(--color-main); 
+    margin-top: -0.97rem;
+    text-transform: uppercase;
+}
+h1{
+    margin-top: 6px;     
+}
+.welcome{
+    font-family: 'Calibri', sans-serif;
+    font-size: 11px;
+    /* margin-right: -7.3rem;*/
+    margin-top: -0.6rem; 
+    letter-spacing: 1px;
+    color: var(--color-main); 
+}
+.user-name{
+    font-family: 'Switzer', sans-serif;
+    font-size: 12px;
+    margin-top: -1rem; 
+    text-transform: uppercase;
+    margin-bottom: 0;
+    color: var(--color-maroon);
+}
+.profile img{
+    background: var(--color-white); 
+    border-radius: 30%;
+    width: 50px;
+    padding: 4px;
+    margin-top: .3rem;
+}
+.user2 .profile{
+    position: relative;
+    cursor: pointer;
+}
+.user2 .drop-menu{
+    position: absolute;
+    top: 120px;
+    right: 0;
+    padding: 10px 20px;
+    background: var(--color-white);
+    box-shadow: 3px 2px 10px 1px var(--color-solid-gray);
+    width: 110px;
+    box-sizing: 0 5px 25px rgba(0,0,0,0.1);
+    border-radius: 7px;
+    transition: 0.5s;
+    visibility: hidden;
+    opacity: 0;
+}
+.user2 .drop-menu.user2{
+    top: 85px;
+    visibility: visible;
+    opacity: 1;
+}
+.user2 .drop-menu::before{
+    content:'';
+    position: absolute;
+    top: -5px;
+    right: 25px;
+    width: 15px;
+    height: 20px;
+    background: var(--color-white);
+    transform: rotate(45deg);
+    transition: 0.5s;
+}
+.drop-menu .ul .user-type3{
+    font-family: 'Calibri', sans-serif;
+    font-size: 7.5px;
+    color: var(--color-main);
+    letter-spacing: .2rem;
+    display: none;
+    text-transform: uppercase;
+}
+
+.drop-menu .ul{
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 9vh;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+.drop-menu h4{
+    font-weight: 400;
+    font-size: 12px;
+}
+.drop-menu .ul a{
+    display: flex;
+    color: hsl(0, 0%, 69%);
+    fill: hsl(0, 0%, 69%);
+    margin-left: -1.26rem;
+    padding-left: 1rem;
+    gap: 1rem;
+    height: 1rem;
+    width: 8.5rem;
+    align-items: center;
+    position: relative;
+    height: 1.7rem;
+    transition: all 300ms ease;
+}
+.drop-menu .ul a:hover {
+    background:  rgb(190, 190, 190);
+    transition: 0.6s;
+    color: var(--color-white);
+    fill: var(--color-white);
+    padding-left: .9rem;
+    content: "";
+    margin-bottom: 6px;
+    font-size: 15px;
+    border-radius: 0px 0px 10px 10px;
+    cursor: pointer;
+}
+.checkbox{
+    opacity: 0;
+    position: absolute;
+}
+.checkbox:checked + .theme-dark .ball{
+    transform: translateX(28px);
+}
+.drop-menu .theme-dark{
+    background: hsl(0, 0%, 69%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 14.5px;
+    width: 42.5px;
+    cursor: pointer;
+    border-radius: 50px;
+    position: relative;
+    padding: 5px;
+    margin-top: -30px;
+    margin-bottom: 8px;
+    margin-left: 2rem;
+}
+.sun{
+    fill: yellow;
+}
+.moon{
+    fill: white;
+}
+.ball{
+    background: white;
+    position: absolute;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    height: 21px;
+    width: 21px;
+    transition: transform 0.2s linear;
+}
+/* -------------------------------------------------------------------------------------------- */
 body{
     background: var(--color-background);
     margin: 0;
@@ -1520,7 +1537,9 @@ tr:hover td{
         width: 20vw;
     }
 }
-
+a{
+    text-decoration: none;
+}
 .menu-tab p{
     font-size: 20px;
     font-weight: lighter;
@@ -1548,3 +1567,169 @@ tr:hover td{
 } */
 </style>
 
+
+<body>
+<div class="container">
+
+    <?php
+    include('../common/side-menu.php')
+    ?>
+
+    <main>
+        <div class="main-account">
+            <h1 class="accTitle">ACCOUNT</h1>
+            <?php
+            if (isset($_GET['error'])) {
+                echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
+            }
+            ?>
+            <div class="sub-tab">
+                <div class="user-title">
+                    <h2> USER ACCOUNT </h2>
+                </div>
+                <div class="sub-tab2">
+                    <div class="newUser-button">
+                        <button type="submit" id="add-userbutton" class="add-account" onclick="addnewuser();">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
+                            <h3>Add New User</h3>
+                        </button>
+                    </div>
+                </div>
+                <div class="search">
+                    <div class="search-bar">
+                        <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+                        <button type="submit" >
+                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="account-container">
+                <table class="table" id="myTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <!-- <th>Address</th> -->
+                        <th>Contact Number</th>
+                        <th>Role</th>
+                        <th>Picture</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                        <tbody>
+                        <tr>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td></td>
+                        <tr id="noRecordTR" style="display:none">
+                            <td colspan="10">No Record Found</td>
+                        </tr>
+                        </tbody>
+                </table>
+            </div>
+
+        </div>
+    </main>
+
+    <?php
+    include('../common/top-menu.php')
+    ?>
+
+</div>
+<?php 
+    if(isset($_GET['view']))
+{
+    $id = $_GET['view'];
+    $result = mysqli_query($con, "SELECT 
+            users.user_id,
+            users.last_name,
+            users.first_name,
+            users.middle_name,
+            users.email,
+            users.contact_number,
+            users.profile_image, 
+            account_type.user_type 
+            FROM users 
+            INNER JOIN account_type 
+            ON users.account_type_id = account_type.id
+            WHERE user_id='$id'");
+
+    if (mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
+         ?>
+
+    <div class="bg-adduserform" id="bg-addform">
+        <div class="container1">
+            <input type="hidden" required="required" name="user_id" value="<?=$user['user_id'];?>">
+            <a href="../accounts/account.php" class="close">X</a>
+            <div class="profile-pic">
+                <img src="../uploaded_image/<?=$user['profile_image'];?>" alt="">
+            </div>
+            <h1 class="addnew-title"><?=$user['first_name'].' '.$user['middle_name'].' '.$user['last_name'];?></h1>
+            <h4 class="addnew-type"><?=$user['user_type'];?></h1>
+            <div class="content">
+                
+                <div class="information">
+                    <label class="info">
+                        INFORMATION
+                    </label>
+                    <label class="email">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M14 11h7V6h-7Zm3.5-1.25L15 8V7l2.5 1.75L20 7v1ZM2 21q-.825 0-1.412-.587Q0 19.825 0 19V5q0-.825.588-1.413Q1.175 3 2 3h20q.825 0 1.413.587Q24 4.175 24 5v14q0 .825-.587 1.413Q22.825 21 22 21Zm7-7q1.25 0 2.125-.875T12 11q0-1.25-.875-2.125T9 8q-1.25 0-2.125.875T6 11q0 1.25.875 2.125T9 14Zm-6.9 5h13.8q-1.05-1.875-2.9-2.938Q11.15 15 9 15t-4 1.062Q3.15 17.125 2.1 19Z"/></svg>
+                        <?=$user['email'];?>
+                    </label>
+                    <label class="contactNum">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M19.95 21q-3.225 0-6.287-1.438-3.063-1.437-5.425-3.8-2.363-2.362-3.8-5.425Q3 7.275 3 4.05q0-.45.3-.75t.75-.3H8.1q.35 0 .625.225t.325.575l.65 3.5q.05.35-.012.637-.063.288-.288.513L7 10.9q1.05 1.8 2.625 3.375T13.1 17l2.35-2.35q.225-.225.588-.338.362-.112.712-.062l3.45.7q.35.075.575.337.225.263.225.613v4.05q0 .45-.3.75t-.75.3Z"/></svg>
+                        <?=$user['contact_number'];?>
+                    </label>
+                </div>
+            </div>
+            <div class="bot-buttons">
+                <div class="AddButton">
+                    <a href="../accounts/account-edit.php?edit=<?php echo $user['user_id']; ?>" id="addcustomerBtn" name="save-transaction">EDIT DETAILS</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php 
+}} 
+?>
+
+</div>
+</body>
+<script src="../javascript/side-menu-toggle.js"></script>
+<script src="../javascript/top-menu-toggle.js"></script>
+<script src="../javascript/account.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+<script>
+    //Add New User
+    function addnewuser(){
+        document.querySelector(".bg-adduserform").style.display = 'flex';
+    }
+    setTimeout(function() {
+        $('#myerror').fadeOut('fast');
+    }, 3000);
+    function myFunctionCP(){
+    var x = document.getElementById("pass-account");
+    var y = document.getElementById("cpass-account");
+    if(x.type === 'password'){
+        x.type = "text";
+        y.type = "text";
+    }else{
+        x.type = "password";
+        y.type = "password";
+    }
+}
+
+</script>
+</html>
