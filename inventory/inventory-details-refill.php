@@ -1,6 +1,6 @@
 <?php
 require_once '../database/connection-db.php';
-require_once '../service/add-inventory-item-refill.php';
+require_once '../service/add-inventory-item.php';
 require_once "../service/user-access.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ITEM')) {
@@ -15,7 +15,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <link rel="stylesheet" type="text/css" href="../CSS/inventory-details.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../CSS/inventory-details.css"> -->
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
@@ -29,234 +29,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
     <script src="../index.js"></script>
 </head>
-<body>
-<div class="container">
-    <?php
-    include('../common/side-menu.php')
-    ?>
-    <main>
-        <div class="main-account">
-            <h1 class="accTitle">INVENTORY</h1>
-            <?php
-            if (isset($_GET['error'])) {
-                echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
-            }
-            ?>
-            <div class="sub-tab">
-                <div class="user-title">
-                    <h2> INVENTORY ITEM </h2>
-                </div>
-                <div class="newUser-button2">
-                    <button type="submit" id="add-userbutton" class="add-account2" onclick="addnewuser();">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                        <h3>Add Refill Item</h3>
-                    </button>
-                </div>
-                <div class="newUser-button3">
-                    <a href="../inventory/inventory-details.php" id="add-userbutton" class="add-account3">
-                        <h3>ITEM DETAILS</h3>
-                    </a>
-                </div>
-                <div class="newUser-button4">
-                <a href="../inventory/inventory-details-refill.php" id="add-userbutton" class="add-account4">
-                        <h3>REFILL PRICE</h3>
-                    </a>
-                </div>
-                <div class="search">
-                    <div class="search-bar">
-                        <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                        <button type="submit" >
-                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="account-container">
-                <table class="table" id="myTable">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Item Name</th>
-                        <th>Type</th>
-                        <th>Alkaline Price</th>
-                        <th>Mineral Price</th>
-                        <th>Image</th>
-                        <th>Date/Time Added</th>
-                        <th>Added By</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-
-                    <?php
-                    $query = "SELECT
-                            inventory_item.id,
-                            inventory_item.item_name,
-                            category_type.name,
-                            inventory_item.alkaline_price,
-                            inventory_item.mineral_price,
-                            inventory_item.image, 
-                            status_archive.status, 
-                            inventory_item.created_at,
-                            users.first_name,
-                            users.last_name
-                            FROM inventory_item 
-                            INNER JOIN category_type  
-                            ON inventory_item.category_by_id = category_type.id  
-                            INNER JOIN pos_item  
-                            ON inventory_item.pos_item_id = pos_item.id  
-                            INNER JOIN status_archive 
-                            ON inventory_item.status_archive_id = status_archive.id
-                            INNER JOIN users
-                            ON inventory_item.created_by = users.user_id
-                            WHERE category_by_id = '10' AND inventory_item.status_archive_id = '1'
-                            ORDER BY inventory_item.id ASC";
-                    $result = mysqli_query($con, $query);
-                    // $inventory = "SELECT * FROM inventory_item";
-                    // $sql = mysqli_query($con, $inventory);
-                    while ($rows = mysqli_fetch_assoc($result)) {?>
-                        <tbody>
-                        <tr>
-                            <td> <?php echo $rows['id']; ?></td>
-                            <td> <?php echo $rows['item_name']; ?></td>
-                            <td> <?php echo $rows['name']; ?></td>
-                            <td> <?php echo '<span>&#8369;</span>'.' '.$rows['alkaline_price']; ?></td>
-                            <td> <?php echo '<span>&#8369;</span>'.' '.$rows['mineral_price']; ?></td>
-                            <td> <img src="<?php echo "../uploaded_image/".$rows['image']; ?>" alt='No Image' width="50px"></td>
-                            <td> <?php echo $rows['created_at']; ?></td>
-                            <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
-                            <td>
-                                <a href="../inventory/inventory-details-refill-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="action-btn" name="action">
-                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
-                                </a>
-                                <a href="../inventory/inventory-details-archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="action-btn" name="action">
-                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr id="noRecordTR" style="display:none">
-                            <td colspan="12">No Record Found</td>
-                        </tr>
-                        </tbody>
-                    <?php } ?>
-                </table>
-            </div>
-        </div>
-    </main>
-
-    <?php
-    include('../common/top-menu.php')
-    ?>
-
-</div>
-
-<form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
-<div class="bg-adduserform" id="bg-addform">
-        <div class="message"></div>
-        <div class="container1">
-            <h1 class="addnew-title">ADD REFILL ITEM</h1>
-            <form action="#">
-                <input type="hidden" required="required" name="status" value="1">
-                <!-- <span class="gender-title">POS ITEM</span> -->
-                    <div class="gender-category" >
-                        <input type="hidden" name="pos_item" id="Yes" value="1" required="required" onclick="mainForm1()">
-                    </div>
-                    <div class="line"></div>
-                <div class="main-user-info">
-                    
-                    <div class="user-input-box">
-                        <label for="itemname">Item Size</label>
-                        <input type="text"
-                               id="itemname"
-                               name="item_name"
-                               required="required"
-                               placeholder="Enter Item Name"/>
-                    </div>
-                    <input type="hidden" name="category_type" id="Yes" value="10" required="required" >
-                    <!-- <div class="usertype-dropdown">
-                        <?php
-                        $dropdown_query = "SELECT * FROM category_type WHERE id LIKE '%10'";
-                        $result_category = mysqli_query($con, $dropdown_query);
-                        ?>
-                        <select class="select" name="category_type" required="" >
-                            <option selected disabled value="">SELECT TYPE</option>
-                            <?php while($category = mysqli_fetch_array($result_category)):;?>
-                                <option value="10">For Refill</option>
-                            <?php endwhile;?>
-                        </select>
-                    </div> -->
-
-                    <div class="user-input-box" id="alkalineprice_box">
-                        <label for="alkalineprice">Alkaline Price</label>
-                        <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
-                               id="alkalineprice"
-                               class="alkalineprice"
-                               name="alkaline_price"
-                               placeholder="0.00"
-                                />
-                    </div>
-                    <div class="user-input-box" id="mineralprice_box">
-                        <label for="mineralprice">Mineral Price</label>
-                        <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
-                               id="mineralprice"
-                               class="mineralprice"
-                               name="mineral_price"
-                               placeholder="0.00"
-                                />
-                    </div>
-                    <div class="line"></div>
-                    <span class="gender-title">Image</span>
-                    <div class="choose-profile">
-                        <input type="file" id="image-profile" name="image_item" accept="image/jpg, image/png, image/jpeg" >
-                    </div>
-                    <div class="line"></div>
-                </div>
-                    <div class="main-user-info2">
-                        <div class="bot-buttons">
-                            <div class="CancelButton">
-                                <a href="../inventory/inventory-details-refill.php" id="cancel">CANCEL</a>
-                            </div>
-                            <div class="AddButton">
-                                <button type="submit" id="adduserBtn" name="add-refill">SAVE</button>
-                            </div>
-                        </div>
-                    </div>
-            </form>
-        </div>
-    </div>
-</form>
-</div>
-
-</body>
-</html>
-<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="../javascript/inventory-details.js"></script>
-<script>
-    const mainform = document.querySelector(".main-user-info");
-    const srp = document.querySelector("#srpprice_box");
-    const alkaline = document.querySelector("#alkalineprice_box");
-    const mineral = document.querySelector("#mineralprice_box");
-
-    function mainForm1(){
-        mainform.style.display = 'flex';
-        srp.style.display = 'flex'
-        alkaline.style.display = 'flex';
-        mineral.style.display = 'flex';
-    }
-    function mainForm2(){
-        mainform.style.display = 'flex';
-        srp.style.display = 'none';
-        alkaline.style.display = 'none';
-        mineral.style.display = 'none';
-
-    }
-    function addnewuser2(){
-        const addForm2 = document.querySelector(".bg-adduserform2");
-
-        addForm2.style.display = 'flex';
-    }
-</script>
 <style>
     .main-account{
         width:100%;
@@ -1123,67 +895,60 @@ left: 10.65%;
       
         /* --------------------------------------DROP DOWN------------------------------------- */
      
-        #edit-action{
-            background: hsl(0, 0%, 37%);
-            color: var(--color-white);
-            align-items: center;
-            position: relative;
-            border-radius: 3px;
-            height: 100%;
-            width: 70%;
-            margin: 1px;
-            padding-top: 10px;
-            padding-right: 2px;
-            padding-left: 2px;
-            cursor: pointer;
-            transition: 0.3s;
-            border: none;
-        }
-        #edit-action:hover{
-            background: var(--color-main);
-            color: var(--color-white);
-        }
-        #cpass-action{
-            background:#00aa09;
-            position: relative;
-            color: var(--color-white);
-            align-items: center;
-            text-align: center;
-            margin: 1px;
-            border-radius: 3px;
-            height: 100%;
-            width: 70%;
-            padding-top: 10px;
-            padding-right: 2px;
-            padding-left: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            border: none;
-        }
-        #cpass-action:hover{
-            background: var(--color-main);
-            color: var(--color-white);
-        }
-        #archive-action{
-            background: hsl(0, 51%, 44%);
-            color: var(--color-white);
-            align-items: center;
-            position: relative;
-            margin: 1px;
-            border-radius: 3px;
-            height: 100%;
-            width: 70%;
-            padding-top: 10px;
-            padding-right: 2px;
-            padding-left: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            border: none;
-        }
-        #archive-action:hover{
-            background: var(--color-main);
-            color: var(--color-white);
-        }
+        .tooltipText{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .7rem;
+    color: var(--color-white);
+}
+.edit-action{
+    background: hsl(0, 0%, 37%);
+    color: var(--color-white);
+    align-items: center;
+    text-align:center;
+    justify-content: center;
+    float: center;
+    position: relative;
+    text-decoration: none;
+    border-radius: 3px;
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    margin: 1px;
+    gap: .3rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+.edit-action:hover{
+    background: var(--color-main);
+    color: var(--color-white);
+}
+.archive-action{
+    background: hsl(0, 51%, 44%);
+    color: var(--color-white);
+    align-items: center;
+    text-align:center;
+    justify-content: center;
+    float: center;
+    position: relative;
+    text-decoration: none;
+    border-radius: 3px;
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    margin: 5px;
+    justify-content: center;
+    margin: 1px;
+    gap: .3rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+.archive-action:hover{
+    background: var(--color-main);
+    color: var(--color-white);
+}
+     
      
 .checker {
     text-align: right;
@@ -1425,14 +1190,17 @@ main .sub-tab{
     transition: 0.7s;
     border-bottom: 4px solid var(--color-maroon);
 }
+a{
+    text-decoration: none;
+}
 .add-account3{
     display: flex;
     border: none;
-    background-color: var(--color-solid-gray);
+    background-color: var(--color-main);
     align-items: center;
-    color: var(--color-white);
+    color: var(--color-secondary-main);
     /* width: 11.5rem; */
-    max-height: 25px;
+    max-height: 46px;
     border-radius: 5px;
     padding: .68rem 1rem;
     font-family: 'Outfit', sans-serif;
@@ -1442,15 +1210,16 @@ main .sub-tab{
     height: 3.9rem;
     transition: all 300ms ease;
     position: relative;
-    /* margin-top: rem; */
+    margin-top: .2rem;
     text-transform: uppercase;
+    border-left: 7px solid var(--color-tertiary);
 }
 .add-account3 h3{
     font-size: .8rem;
 }
 .add-account3:hover{
-    background-color: var(--color-secondary-main);
-    color: var(--color-main);
+    background-color: var(--color-main);
+    color: var(--color-secondary-main);
     padding-top: -.2px;
     transition: 0.3s;
     
@@ -1458,28 +1227,28 @@ main .sub-tab{
 .add-account4{
     display: flex;
     border: none;
-    background-color: var(--color-main);
+    background-color: var(--color-solid-gray);
     align-items: center;
-    color: var(--color-secondary-main);
+    color: var(--color-white);
     /* width: 11.5rem; */
-    max-height: 25px;
+    max-height: 46px;
     border-radius: 5px;
-    padding: .68rem;
+    padding: .68rem 1rem;
     font-family: 'Outfit', sans-serif;
     cursor: pointer;
     gap: 1rem;
     height: 3.9rem;
     transition: all 300ms ease;
     position: relative;
-    /* margin-top: .2rem; */
+    margin-top: .2rem;
     text-transform: uppercase;
-    border-left: 7px solid var(--color-tertiary);
 }
 .add-account4 h3{
     font-size: .8rem;
 }
 .add-account4:hover{
-   
+    background-color: var(--color-secondary-main);
+    color: var(--color-main);
     padding-top: -.2px;
     transition: 0.3s;
 }
@@ -1812,4 +1581,426 @@ tr:hover td{
     border-radius: 0 10px 10px 0 ;
     box-shadow: 1px 1px 1px rgb(224, 224, 224);
 } */
+/* ----------------------------TOP MENU---------------------------- */
+
+.top-menu a{
+    text-decoration: none;
+}
+.top-menu{
+    margin-top: 1rem;
+    position: absolute;
+    right: 4%;
+}
+.top-menu .menu-bar{
+    display: flex;
+    justify-content: end;
+    gap: 2rem;
+}
+.top-menu .menu-bar button{
+    display: none;
+}
+.top-menu .menu-bar .user1{
+    gap: 2rem;
+    align-items: right;
+    text-align: right;
+}
+.top-menu .menu-bar .user2{
+    display: flex;
+    gap: 2rem;
+    align-items: right;
+    text-align: right;
+}
+.top-menu .menu-bar .accTitle-top{
+    font-size: min(max(1.2rem, 0.4vw), 1.3rem);
+    color: var(--color-main); 
+    font-family: 'COCOGOOSE', sans-serif;
+    letter-spacing: .03rem;
+    display: none;
+    text-align: center;
+    align-items: center;
+}
+.user-type{
+    font-family: 'switzer', sans-serif;
+    font-size: 7.5px;
+    color: var(--color-black); 
+    letter-spacing: 1px;
+    border-top: 2px solid var(--color-main); 
+    margin-top: -0.97rem;
+    text-transform: uppercase;
+}
+h1{
+    margin-top: 6px;     
+}
+.welcome{
+    font-family: 'Calibri', sans-serif;
+    font-size: 11px;
+    /* margin-right: -7.3rem;*/
+    margin-top: -0.6rem; 
+    letter-spacing: 1px;
+    color: var(--color-main); 
+}
+.user-name{
+    font-family: 'Switzer', sans-serif;
+    font-size: 12px;
+    margin-top: -1rem; 
+    text-transform: uppercase;
+    margin-bottom: 0;
+    color: var(--color-maroon);
+}
+.profile img{
+    background: var(--color-white); 
+    border-radius: 30%;
+    width: 50px;
+    padding: 4px;
+    margin-top: .3rem;
+}
+.user2 .profile{
+    position: relative;
+    cursor: pointer;
+}
+.user2 .drop-menu{
+    position: absolute;
+    top: 120px;
+    right: 0;
+    padding: 10px 20px;
+    background: var(--color-white);
+    box-shadow: 3px 2px 10px 1px var(--color-solid-gray);
+    width: 110px;
+    box-sizing: 0 5px 25px rgba(0,0,0,0.1);
+    border-radius: 7px;
+    transition: 0.5s;
+    visibility: hidden;
+    opacity: 0;
+}
+.user2 .drop-menu.user2{
+    top: 85px;
+    visibility: visible;
+    opacity: 1;
+}
+.user2 .drop-menu::before{
+    content:'';
+    position: absolute;
+    top: -5px;
+    right: 25px;
+    width: 15px;
+    height: 20px;
+    background: var(--color-white);
+    transform: rotate(45deg);
+    transition: 0.5s;
+}
+.drop-menu .ul .user-type3{
+    font-family: 'Calibri', sans-serif;
+    font-size: 7.5px;
+    color: var(--color-main);
+    letter-spacing: .2rem;
+    display: none;
+    text-transform: uppercase;
+}
+
+.drop-menu .ul{
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 9vh;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+.drop-menu h4{
+    font-weight: 400;
+    font-size: 12px;
+}
+.drop-menu .ul a{
+    display: flex;
+    color: hsl(0, 0%, 69%);
+    fill: hsl(0, 0%, 69%);
+    margin-left: -1.26rem;
+    padding-left: 1rem;
+    gap: 1rem;
+    height: 1rem;
+    width: 8.5rem;
+    align-items: center;
+    position: relative;
+    height: 1.7rem;
+    transition: all 300ms ease;
+}
+.drop-menu .ul a:hover {
+    background:  rgb(190, 190, 190);
+    transition: 0.6s;
+    color: var(--color-white);
+    fill: var(--color-white);
+    padding-left: .9rem;
+    content: "";
+    margin-bottom: 6px;
+    font-size: 15px;
+    border-radius: 0px 0px 10px 10px;
+    cursor: pointer;
+}
+.checkbox{
+    opacity: 0;
+    position: absolute;
+}
+.checkbox:checked + .theme-dark .ball{
+    transform: translateX(28px);
+}
+.drop-menu .theme-dark{
+    background: hsl(0, 0%, 69%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 14.5px;
+    width: 42.5px;
+    cursor: pointer;
+    border-radius: 50px;
+    position: relative;
+    padding: 5px;
+    margin-top: -30px;
+    margin-bottom: 8px;
+    margin-left: 2rem;
+}
+.sun{
+    fill: yellow;
+}
+.moon{
+    fill: white;
+}
+.ball{
+    background: white;
+    position: absolute;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    height: 21px;
+    width: 21px;
+    transition: transform 0.2s linear;
+}
 </style>
+<body>
+<div class="container">
+    <?php
+    include('../common/side-menu.php')
+    ?>
+    <main>
+        <div class="main-account">
+            <h1 class="accTitle">INVENTORY</h1>
+            <?php
+            if (isset($_GET['error'])) {
+                echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
+            }
+            ?>
+            <div class="sub-tab">
+                <div class="user-title">
+                    <h2> INVENTORY ITEM </h2>
+                </div>
+                <div class="newUser-button2">
+                    <button type="submit" id="add-userbutton" class="add-account2" onclick="addnewuser();">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
+                        <h3>Add Refill Item</h3>
+                    </button>
+                </div>
+                <div class="newUser-button3">
+                    <a href="../inventory/inventory-details.php" id="add-userbutton" class="add-account3">
+                        <h3>ITEM DETAILS</h3>
+                    </a>
+                </div>
+                <div class="newUser-button4">
+                <a href="../inventory/inventory-details-refill.php" id="add-userbutton" class="add-account4">
+                        <h3>REFILL PRICE</h3>
+                    </a>
+                </div>
+                <div class="search">
+                    <div class="search-bar">
+                        <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+                        <button type="submit" >
+                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="account-container">
+                <table class="table" id="myTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Item Name</th>
+                        <th>Type</th>
+                        <th>Alkaline Price</th>
+                        <th>Mineral Price</th>
+                        <th>Image</th>
+                        <th>Date/Time Added</th>
+                        <th>Added By</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <?php
+                    $query = "SELECT
+                            inventory_item.id,
+                            inventory_item.item_name,
+                            category_type.name,
+                            inventory_item.alkaline_price,
+                            inventory_item.mineral_price,
+                            inventory_item.image, 
+                            status_archive.status, 
+                            inventory_item.created_at,
+                            users.first_name,
+                            users.last_name
+                            FROM inventory_item 
+                            INNER JOIN category_type  
+                            ON inventory_item.category_by_id = category_type.id  
+                            INNER JOIN pos_item  
+                            ON inventory_item.pos_item_id = pos_item.id  
+                            INNER JOIN status_archive 
+                            ON inventory_item.status_archive_id = status_archive.id
+                            INNER JOIN users
+                            ON inventory_item.created_by = users.user_id
+                            WHERE category_by_id = '10' AND inventory_item.status_archive_id = '1'
+                            ORDER BY inventory_item.id ASC";
+                    $result = mysqli_query($con, $query);
+                    // $inventory = "SELECT * FROM inventory_item";
+                    // $sql = mysqli_query($con, $inventory);
+                    while ($rows = mysqli_fetch_assoc($result)) {?>
+                        <tbody>
+                        <tr>
+                            <td> <?php echo $rows['id']; ?></td>
+                            <td> <?php echo $rows['item_name']; ?></td>
+                            <td> <?php echo $rows['name']; ?></td>
+                            <td> <?php echo '<span>&#8369;</span>'.' '.$rows['alkaline_price']; ?></td>
+                            <td> <?php echo '<span>&#8369;</span>'.' '.$rows['mineral_price']; ?></td>
+                            <td> <img src="<?php echo "../uploaded_image/".$rows['image']; ?>" alt='No Image' width="50px"></td>
+                            <td> <?php echo $rows['created_at']; ?></td>
+                            <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
+                            <td>
+                                <a href="../inventory/inventory-details-refill-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action"class="edit-action" name="action">
+                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
+                                    <span class="tooltipText">EDIT</span>       
+                                </a>
+                                <a href="../inventory/inventory-details-archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="archive-action"  name="action">
+                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
+                                    <span class="tooltipText">ARCHIVE</span>       
+                                </a>
+                            </td>
+                        </tr>
+                        <tr id="noRecordTR" style="display:none">
+                            <td colspan="12">No Record Found</td>
+                        </tr>
+                        </tbody>
+                    <?php } ?>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <?php
+    include('../common/top-menu.php')
+    ?>
+
+</div>
+
+<form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
+<div class="bg-adduserform" id="bg-addform">
+        <div class="message"></div>
+        <div class="container1">
+            <h1 class="addnew-title">ADD REFILL ITEM</h1>
+            <form action="#">
+                <input type="hidden" required="required" name="status" value="1">
+                <!-- <span class="gender-title">POS ITEM</span> -->
+                    <div class="gender-category" >
+                        <input type="hidden" name="pos_item" id="Yes" value="1" required="required" onclick="mainForm1()">
+                    </div>
+                    <div class="line"></div>
+                <div class="main-user-info">
+                    
+                    <div class="user-input-box">
+                        <label for="itemname">Item Size</label>
+                        <input type="text"
+                               id="itemname"
+                               name="item_name"
+                               required="required"
+                               placeholder="Enter Item Name"/>
+                    </div>
+                    <input type="hidden" name="category_type" id="Yes" value="10" required="required" >
+                    <!-- <div class="usertype-dropdown">
+                        <?php
+                        $dropdown_query = "SELECT * FROM category_type WHERE id LIKE '%10'";
+                        $result_category = mysqli_query($con, $dropdown_query);
+                        ?>
+                        <select class="select" name="category_type" required="" >
+                            <option selected disabled value="">SELECT TYPE</option>
+                            <?php while($category = mysqli_fetch_array($result_category)):;?>
+                                <option value="10">For Refill</option>
+                            <?php endwhile;?>
+                        </select>
+                    </div> -->
+
+                    <div class="user-input-box" id="alkalineprice_box">
+                        <label for="alkalineprice">Alkaline Price</label>
+                        <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
+                               id="alkalineprice"
+                               class="alkalineprice"
+                               name="alkaline_price"
+                               placeholder="0.00"
+                                />
+                    </div>
+                    <div class="user-input-box" id="mineralprice_box">
+                        <label for="mineralprice">Mineral Price</label>
+                        <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
+                               id="mineralprice"
+                               class="mineralprice"
+                               name="mineral_price"
+                               placeholder="0.00"
+                                />
+                    </div>
+                    <div class="line"></div>
+                    <span class="gender-title">Image</span>
+                    <div class="choose-profile">
+                        <input type="file" id="image-profile" name="image_item" accept="image/jpg, image/png, image/jpeg" >
+                    </div>
+                    <div class="line"></div>
+                </div>
+                    <div class="main-user-info2">
+                        <div class="bot-buttons">
+                            <div class="CancelButton">
+                                <a href="../inventory/inventory-details-refill.php" id="cancel">CANCEL</a>
+                            </div>
+                            <div class="AddButton">
+                                <button type="submit" id="adduserBtn" name="add-refill">SAVE</button>
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</form>
+</div>
+
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="../javascript/inventory-details.js"></script>
+<script>
+    const mainform = document.querySelector(".main-user-info");
+    const srp = document.querySelector("#srpprice_box");
+    const alkaline = document.querySelector("#alkalineprice_box");
+    const mineral = document.querySelector("#mineralprice_box");
+
+    function mainForm1(){
+        mainform.style.display = 'flex';
+        srp.style.display = 'flex'
+        alkaline.style.display = 'flex';
+        mineral.style.display = 'flex';
+    }
+    function mainForm2(){
+        mainform.style.display = 'flex';
+        srp.style.display = 'none';
+        alkaline.style.display = 'none';
+        mineral.style.display = 'none';
+
+    }
+    function addnewuser2(){
+        const addForm2 = document.querySelector(".bg-adduserform2");
+
+        addForm2.style.display = 'flex';
+    }
+</script>

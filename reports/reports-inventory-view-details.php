@@ -987,14 +987,14 @@ tr:hover td{
                             $date = $_GET['view'];
                             $query = "SELECT
                                 DATE(inventory_log.created_at) as date,
-                                in_table.in_total,
-                                out_table.out_total,
-                                in_table.purchase_amount
+                                IF(in_table.in_total IS NULL or in_table.in_total = '', 0, in_table.in_total) as in_total,
+                                IF(out_table.out_total IS NULL or out_table.out_total = '', 0, out_table.out_total) as out_total,
+                                IF(in_table.purchase_amount IS NULL or in_table.purchase_amount = '', 0.00, in_table.purchase_amount) as purchase_amount
                                 FROM inventory_log
-                                INNER JOIN 
+                                LEFT JOIN 
                                 (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
                                 ON DATE(inventory_log.created_at) = in_table.date
-                                INNER JOIN 
+                                LEFT JOIN 
                                 (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
                                 ON DATE(inventory_log.created_at) = out_table.date
                                 WHERE DATE(inventory_log.created_at) = '$date'
@@ -1004,14 +1004,14 @@ tr:hover td{
                             $year = $_GET['year'];
                             $query = "SELECT
                                 DATE(inventory_log.created_at) as date,
-                                in_table.in_total,
-                                out_table.out_total,
-                                in_table.purchase_amount
+                                IF(in_table.in_total IS NULL or in_table.in_total = '', 0, in_table.in_total) as in_total,
+                                IF(out_table.out_total IS NULL or out_table.out_total = '', 0, out_table.out_total) as out_total,
+                                IF(in_table.purchase_amount IS NULL or in_table.purchase_amount = '', 0.00, in_table.purchase_amount) as purchase_amount
                                 FROM inventory_log
-                                INNER JOIN 
+                                LEFT JOIN 
                                 (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
                                 ON DATE(inventory_log.created_at) = in_table.date
-                                INNER JOIN 
+                                LEFT JOIN 
                                 (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
                                 ON DATE(inventory_log.created_at) = out_table.date
                                 WHERE MONTHNAME(inventory_log.created_at) = '$month'
@@ -1023,14 +1023,14 @@ tr:hover td{
                             $year = $_GET['year'];
                             $query = "SELECT
                                 DATE(inventory_log.created_at) as date,
-                                in_table.in_total,
-                                out_table.out_total,
-                                in_table.purchase_amount
+                                IF(in_table.in_total IS NULL or in_table.in_total = '', 0, in_table.in_total) as in_total,
+                                IF(out_table.out_total IS NULL or out_table.out_total = '', 0, out_table.out_total) as out_total,
+                                IF(in_table.purchase_amount IS NULL or in_table.purchase_amount = '', 0.00, in_table.purchase_amount) as purchase_amount
                                 FROM inventory_log
-                                INNER JOIN 
+                                LEFT JOIN 
                                 (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
                                 ON DATE(inventory_log.created_at) = in_table.date
-                                INNER JOIN 
+                                LEFT JOIN 
                                 (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
                                 ON DATE(inventory_log.created_at) = out_table.date
                                 WHERE YEAR(inventory_log.created_at) = '$year'
@@ -1062,7 +1062,7 @@ tr:hover td{
                                      <?php echo $rows['out_total']; ?>
                                 </td>
                                 <td>
-                                <?php echo '<span>&#8369;</span>' .' '. $rows['purchase_amount']; ?>
+                                <?php echo 'PHP '.$rows['purchase_amount']; ?>
                                 </td>  
                             </tr>
                             </tbody>

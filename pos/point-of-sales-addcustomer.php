@@ -2,17 +2,7 @@
 include '../database/connection-db.php';
 require_once '../service/pos-add-customer.php';
 
-// $sum=0;
-// if(isset($_POST['minusquantity'])){
-//     $sum=$_POST=['sumquantity'];
-//     $sum--;
-// }
-// if(isset($_POST['addquantity'])){
-//     $sum=$_POST=['sumquantity'];
-//     $sum++;
-// }
-        
-
+date_default_timezone_set("Asia/Manila");
 ?>
 
 <!DOCTYPE html>

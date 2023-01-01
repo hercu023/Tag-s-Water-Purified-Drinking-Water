@@ -5,6 +5,8 @@ if(isset($_POST['filter-report'])) {
         && (isset($_POST['date-to']))
         && (isset($_POST['module'])))
     {
+        
+        $module = $_POST['module'];
 
         if(empty($_POST['date-from'])) {
             
@@ -25,6 +27,16 @@ if(isset($_POST['filter-report'])) {
 
             if($module == 'delivery') {
                 header("Location: ../reports/reports-delivery.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Please select a 'FROM' Date!");
+                exit();
+            }
+
+            if($module == 'item-issue') {
+                header("Location: ../reports/reports-item-issue.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Please select a 'FROM' Date!");
+                exit();
+            }
+
+            if($module == 'sales') {
+                header("Location: ../reports/reports-sales.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Please select a 'FROM' Date!");
                 exit();
             }
         }
@@ -50,11 +62,21 @@ if(isset($_POST['filter-report'])) {
                 header("Location: ../reports/reports-delivery.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Please select a 'TO' Date!");
                 exit();
             }
+
+            if($module == 'item-issue') {
+                header("Location: ../reports/reports-item-issue.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Please select a 'TO' Date!");
+                exit();
+            }
+
+            if($module == 'sales') {
+                header("Location: ../reports/reports-sales.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Please select a 'TO' Date!");
+                exit();
+            }
         }
 
         $date_from = $_POST['date-from'];
         $date_to = $_POST['date-to'];
-        $module = $_POST['module'];
+        
 
         //Validate if from date is later than to date
         if($date_from > $date_to) {
@@ -77,6 +99,16 @@ if(isset($_POST['filter-report'])) {
                 header("Location: ../reports/reports-delivery.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> 'FROM' date cannot be later than 'TO' date");
                 exit();
             }
+
+            if($module == 'item-issue') {
+                header("Location: ../reports/reports-item-issue.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> 'FROM' date cannot be later than 'TO' date");
+                exit();
+            }
+
+            if($module == 'sales') {
+                header("Location: ../reports/reports-sales.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> 'FROM' date cannot be later than 'TO' date");
+                exit();
+            }
         }
 
         if($module == 'expense') {
@@ -96,6 +128,16 @@ if(isset($_POST['filter-report'])) {
 
         if($module == 'delivery') {
             header("Location: ../reports/reports-delivery.php?option=Daily".'&from='. $date_from .'&'.'to='.$date_to);
+            exit();
+        }
+
+        if($module == 'item-issue') {
+            header("Location: ../reports/reports-item-issue.php?option=Daily".'&from='. $date_from .'&'.'to='.$date_to);
+            exit();
+        }
+
+        if($module == 'sales') {
+            header("Location: ../reports/reports-sales.php?option=Daily".'&from='. $date_from .'&'.'to='.$date_to);
             exit();
         }
     }

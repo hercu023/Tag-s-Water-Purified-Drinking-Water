@@ -3,7 +3,7 @@ include '../database/connection-db.php';
 require_once '../service/pos-add-customer.php';
 require_once '../service/add-transaction-order.php';
 
-        
+date_default_timezone_set("Asia/Manila");        
 
 ?>
 

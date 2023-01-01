@@ -49,50 +49,58 @@ if (isset($_POST['save-transaction'])) {
                 $status = 0;
             }
         }
-
+   
         if($customer_name == 'GUEST') {
-            if($cashpayment < $totalamount) {
-                header("Location: ../pos/point-of-sales-placeorder.php?option=".$_POST['option']
-                .'&totalAmount=' .$_POST['totalAmount']
-                ."&error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Insufficient Cash Amount.");
+            if($service  == 'Delivery' || 'Delivery/Pick Up'){
+                header("Location: ../pos/point-of-sales.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Guest customer cannot process delivery, Only recorded Customers.");
                 exit();
             }
-        }else{
-            // if customer is not guest
-            if($cashpayment < $totalamount) {
-                $totalbalance = $cashpayment + $cashbalance;
-                if(!isset($_POST['unpaid']) && $totalbalance < $totalamount){
-                    header("Location: ../pos/point-of-sales-placeorder-unpaid-confirm.php?option=".$_POST['option']
-                    .'&totalAmount='.$_POST['totalAmount']
-                    .'&paymentoption='.$_POST['paymentoption']
-                    .'&serviceoption='.$_POST['serviceoption']
-                    .'&cashpayment='.$_POST['cashpayment']
-                    .'&cashbalance='.$_POST['cashbalance']
-                    .'&customername='.$_POST['customername']
-                    .'&note='.$_POST['note']);
+                if($cashpayment < $totalamount) {
+                    header("Location: ../pos/point-of-sales-placeorder.php?option=".$_POST['option']
+                    .'&totalAmount=' .$_POST['totalAmount']
+                    ."&error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Insufficient Cash Amount.");
                     exit();
-                }else{
-                    if($totalbalance >= $totalamount){
-                        $unpaid_amount = 0;
-                        $remainingbalance = $totalbalance - $totalamount;
-                    }else{
-                        $unpaid_amount = $totalamount - $totalbalance;
-                        $remainingbalance = 0;
-                    }
-                    $update = mysqli_query($con, "UPDATE customers 
-                                                SET balance = '$remainingbalance' 
-                                                WHERE id = $customer_name");
-                    if ($update) {
-                        $cashchange = 0;
-                        log_audit($con, $user_id, $module, 1, 'Customer balance adjusted. Customer ID: ' .$customer_name);
-                    } else {
-                        header("Location: ../common/error-page.php?error=".'Something went wrong. Failed updating customer balance.');
+                }
+            } else {
+                // if customer is not guest
+                if($cashpayment < $totalamount) {
+                    $totalbalance = $cashpayment + $cashbalance;
+                    if(!isset($_POST['unpaid']) && $totalbalance < $totalamount) {
+                        header("Location: ../pos/point-of-sales-placeorder-unpaid-confirm.php?option=".$_POST['option']
+                        .'&totalAmount='.$_POST['totalAmount']
+                        .'&paymentoption='.$_POST['paymentoption']
+                        .'&serviceoption='.$_POST['serviceoption']
+                        .'&cashpayment='.$_POST['cashpayment']
+                        .'&cashbalance='.$_POST['cashbalance']
+                        .'&customername='.$_POST['customername']
+                        .'&note='.$_POST['note']);
                         exit();
+                    } else {
+                        if($totalbalance >= $totalamount){
+                            $unpaid_amount = 0;
+                            $remainingbalance = $totalbalance - $totalamount;
+                        }else{
+                            $unpaid_amount = $totalamount - $totalbalance;
+                            $remainingbalance = 0;
+                        }
+                        //Update Customer Balance
+                        $update = mysqli_query($con, "UPDATE customers 
+                                                    SET balance = '$remainingbalance' 
+                                                    WHERE id = $customer_name");
+                                                        //  if($paymentoption == 'Delivery' || 'Delivery/Pick Up'){
+                
+                                                        //  }
+                        if ($update) {
+                            $cashchange = 0;
+                            log_audit($con, $user_id, $module, 1, 'Customer balance adjusted. Customer ID: ' .$customer_name);
+                        } else {
+                            header("Location: ../common/error-page.php?error=".'Something went wrong. Failed updating customer balance.');
+                            exit();
+                        }
                     }
                 }
             }
-        }
-
+        
         $select_transaction_items1 = mysqli_query($con, "SELECT transaction_process.item_name,
                         inventory_item.id,
                         SUM(transaction_process.quantity) as quantity
@@ -121,7 +129,6 @@ if (isset($_POST['save-transaction'])) {
 
             //If all stocks are sufficient
             if ($consolidated_validation) {
-
                 $select_transaction_items2 = mysqli_query($con, "SELECT transaction_process.item_name,
                         inventory_item.id,
                         SUM(transaction_process.quantity) as quantity
@@ -135,7 +142,6 @@ if (isset($_POST['save-transaction'])) {
                 while ($item2 = mysqli_fetch_assoc($select_transaction_items2)) {
 
                     $item_id = $item2['id'];
-
                     //Get and update stocks
                     $select_stock = "SELECT *
                         FROM inventory_stock
@@ -173,51 +179,48 @@ if (isset($_POST['save-transaction'])) {
                     }
                 }
 
-                $insert = mysqli_query($con, "INSERT INTO transaction VALUES(
-                             '',
-                             '$transaction_uuid',
-                             '$customer_name', 
-                             '$service', 
-                             '$totalamount',
-                             '$paymentoption',
-                             '$note',
-                             '$status',
-                             '$user_id',
-                             '$user_id',
-                             now(),
-                             now(),
-                             now())");
-
-                if($insert) {
-
-                    $insert_transaction_history =mysqli_query($con,"INSERT INTO transaction_history VALUES(
-                        '',
-                        '$transaction_uuid',
-                        '$cashpayment',
-                        '$cashchange',
-                        '$remainingbalance',
-                        '$previous_balance',
-                        '$unpaid_amount',
-                        '$user_id',
-                        now()
-                        )");
-
-                    $update_ordersummary = mysqli_query($con, "UPDATE transaction_process 
+                $update_ordersummary = mysqli_query($con, "UPDATE transaction_process 
                         SET transaction_id = '$transaction_uuid'
                         WHERE user_id = '$user_id' 
                         AND transaction_id = '0'");
 
-                    if($update_ordersummary){
-                        log_audit($con, $user_id, $module, 1, 'Add new transaction. Reference:' . get_transaction_id($con, $transaction_uuid));
-                        header("Location: ../pos/point-of-sales-viewdetails.php?view=".$transaction_uuid.'&message=TRANSACTION SUCCESSFUL!');
-                        exit();
+                if($update_ordersummary){
+                    $insert = mysqli_query($con, "INSERT INTO transaction VALUES(
+                        '',
+                        '$transaction_uuid',
+                        '$customer_name', 
+                        '$service', 
+                        '$totalamount',
+                        '$paymentoption',
+                        '$note',
+                        '$status',
+                        '$user_id',
+                        '$user_id',
+                        now(),
+                        now(),
+                        now())");
+                    if($insert) {
+                        $insert_transaction_history =mysqli_query($con,"INSERT INTO transaction_history VALUES(
+                            '',
+                            '$transaction_uuid',
+                            '$cashpayment',
+                            '$cashchange',
+                            '$remainingbalance',
+                            '$previous_balance',
+                            '$unpaid_amount',
+                            '$user_id',
+                            now()
+                            )");
                     } else {
-                        log_audit($con, $user_id, $module, 0, 'Add new transaction. Reference:' . get_transaction_id($con, $transaction_uuid));
-                        header("Location: ../common/error-page.php?error=".'Something went wrong. Failed updating transactions from database.');
+                        header("Location: ../common/error-page.php?error=" .'Something went wrong. Failed adding transaction to database.');
                         exit();
                     }
+                    log_audit($con, $user_id, $module, 1, 'Add new transaction. Reference:' . get_transaction_id($con, $transaction_uuid));
+                    header("Location: ../pos/point-of-sales-viewdetails.php?view=".$transaction_uuid.'&message=TRANSACTION SUCCESSFUL!');
+                    exit();
                 } else {
-                    header("Location: ../common/error-page.php?error=" .'Something went wrong. Failed adding transaction to database.');
+                    log_audit($con, $user_id, $module, 0, 'Add new transaction. Reference:' . get_transaction_id($con, $transaction_uuid));
+                    header("Location: ../common/error-page.php?error=".'Something went wrong. Failed updating transactions from database.');
                     exit();
                 }
             }

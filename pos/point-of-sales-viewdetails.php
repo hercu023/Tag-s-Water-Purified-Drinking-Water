@@ -2,7 +2,7 @@
 include '../database/connection-db.php';
 require_once '../service/pos-placeorder.php';
 
-
+date_default_timezone_set("Asia/Manila");
 ?>
 
 <!DOCTYPE html>
@@ -714,10 +714,12 @@ if(isset($_GET['view']))
                                     }else{
                                         echo 'GUEST';
                                     }?></span>
+                            <div class="datetimeLbl">
+                                <label class="createdatLbl"><?= 'DATE :'.' '. $transaction['created_at_date'];?></label>
+                                <label class="createdatLbl"><?=  'TIME :'.' '.$transaction['created_at_time'];?></label>
+                            </div>     
                         </div>
-                        <label class="createdatLbl"><?= 'DATE :'.' '. $transaction['created_at_date'];?></label>
-                        <label class="createdatLbl"><?=  'TIME :'.' '.$transaction['created_at_time'];?></label>
-                         
+                        
                         <div class="payment-service">
                             <div class="payment-options1">
                                 <p class="paymentOptions-text">Payment Option</p>
@@ -857,7 +859,7 @@ if(isset($_GET['view']))
                                         $unpaid_amount = mysqli_fetch_assoc($transaction_unpaid_history)['unpaid_amount'];
                                         $total_paid_amount = $transaction['total_amount'] - $unpaid_amount;
                                 ?>
-                                <label class="remaining-amountLbl">Remaining Paid Amount</label>
+                                <label class="remaining-amountLbl">Remaining Unpaid Amount</label>
                                 <span id="remaining-amount2" class="remaining-amount2"><?php echo '&#8369'.' '.number_format($unpaid_amount, '2','.',','); ?></span>
                             </div>
                             <div class="user-input-box-totalamount">
@@ -882,7 +884,7 @@ if(isset($_GET['view']))
                             <div class="AddButton2">
                                 <button type="submit" id="addcustomerBtn" name="place-order-unpaid">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M2.5 16q-.625 0-1.062-.438Q1 15.125 1 14.5V6h1.5v8.5h14V16Zm3-3q-.625 0-1.062-.438Q4 12.125 4 11.5v-6q0-.604.438-1.052Q4.875 4 5.5 4h12q.604 0 1.052.448Q19 4.896 19 5.5v6q0 .625-.448 1.062Q18.104 13 17.5 13ZM7 11.5q0-.604-.448-1.052Q6.104 10 5.5 10v1.5Zm9 0h1.5V10q-.625 0-1.062.448Q16 10.896 16 11.5Zm-4.5-.5q1.042 0 1.771-.719Q14 9.562 14 8.5q0-1.042-.729-1.771Q12.542 6 11.5 6q-1.062 0-1.781.729Q9 7.458 9 8.5q0 1.062.719 1.781.719.719 1.781.719Zm-6-4q.604 0 1.052-.438Q7 6.125 7 5.5H5.5Zm12 0V5.5H16q0 .625.438 1.062Q16.875 7 17.5 7Z"/></svg>
-                                PAYMENT
+                                PAY UNPAID PAYMENT
                                 </button>
                             </div>
                         </div>
@@ -1236,12 +1238,22 @@ BODY{
     color: var(--color-black);
 
 }
-.datetimeLbl{
+.createdatLbl{
     font-size: .9rem;
+    /* width: 100%; */
+    display: inline-block;
     margin-top: 1rem;
-    color: var(--color-solid-gray);
+    border-top: 1px solid var(--color-main);
+    border-bottom: 1px solid var(--color-main);
+    text-align: center;
+    margin-left: 2rem;
+    color: var(--color-main);
     font-weight: 600;
 }
+.datetimeLbl{
+        text-align: center;
+
+    }
 .customernameLbl{
     margin-left: 1rem;
     font-size: .9rem;
@@ -1257,15 +1269,7 @@ BODY{
     color: var(--color-solid-gray);
     font-weight: 600;
 }
-.createdatLbl{
-    margin-left: 1rem;
-    font-size: .9rem;
-    /* width: 100%; */
-    display: inline-block;
-    /* margin-top: 1rem; */
-    color: var(--color-main);
-    font-weight: 600;
-}
+
 .customer_name{
     color: var(--color-main);
     text-transform: uppercase;
@@ -1819,7 +1823,7 @@ BODY{
 .AddButton2 button{
     font-family: 'COCOGOOSE', sans-serif;
     padding: 10px;
-    width: 10rem;
+    width: 13rem;
     font-size: .7rem;
     justify-content: center;
     border: none;
@@ -3639,4 +3643,12 @@ hr{
     letter-spacing: 0.02rem;
     border: none;
 }
+.customerName{
+    align-items:center;
+    width: 100%;
+    margin-top: -1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
 </style>

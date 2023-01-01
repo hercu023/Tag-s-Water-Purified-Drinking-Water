@@ -3,7 +3,7 @@ include '../database/connection-db.php';
 require_once '../service/pos-add-customer.php';
 require_once '../service/add-transaction-order.php';
         
-
+date_default_timezone_set("Asia/Manila");
 ?>
 
 <!DOCTYPE html>
@@ -488,7 +488,7 @@ BODY{
 .error-error{
     background-color: hsl(0, 100%, 77%);
     color: #ffffff;
-    display: relative;
+    display: none;
     padding: 11px;
     width: 70%;
     border-radius: 6px;
@@ -2525,6 +2525,26 @@ hr{
     justify-content: center;
     color: var(--color-main);
 } 
+.outofstock{
+        border-radius: 20px;
+        background-color: #B22222;
+        color: #ffffff;
+        font-size: 10px;
+        padding: 7px;
+        font-weight: 700;
+        padding-right: 9px;
+        padding-left: 9px;
+    }
+    .instock{
+        border-radius: 20px;
+        background-color: #228B22;
+        font-size: 10px;
+        padding: 7px;
+        font-weight: 700;
+        padding-right: 9px;
+        padding-left: 9px;
+        color: #ffffff;
+    }
 </style>
 
 <body>
@@ -3200,7 +3220,9 @@ hr{
                             transaction.created_at_time DESC
                             LIMIT 5";
                         $result4 = mysqli_query($con, $dropdown_query2);
-                        while ($rows = mysqli_fetch_assoc($result4))
+                        if(mysqli_num_rows($result4) > 0)
+                        {
+                        foreach($result4 as $rows)
                         {
                             ?>
                             <tbody>
@@ -3218,11 +3240,12 @@ hr{
                                 <td> <?php echo $rows['option_name']; ?></td>
                                 <td> <?php echo $rows['service_type']; ?></td>
                                 <td> <?php echo $rows['note']; ?></td>
-                                <td> <?php 
+                                <td> 
+                                    <?php 
                                     if($rows['status_id'] == 0){
-                                        echo 'Unpaid';
+                                        echo '<span class="outofstock">Unpaid</span>';
                                     }else{
-                                        echo 'Paid';
+                                        echo '<span class="instock">Paid</span>';
                                     } ?>
                                 </td>
                                 <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
@@ -3232,8 +3255,11 @@ hr{
                             </tr>
                             </tbody>
                             <?php
-                        }
-                        ?>
+                             }}else { ?>
+                            <tr id="noRecordTR">
+                                <td colspan="10">No Transaction(s) Added</td>
+                            </tr>
+                        <?php } ?>
                     </table>
                 </div>
             </div>

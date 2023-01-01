@@ -2,11 +2,17 @@
 @session_start();
 require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
+require_once "../service/pie-graph-data.php";
+require_once "../service/bar-graph-data.php";
+
+date_default_timezone_set("Asia/Manila");
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'DASHBOARD')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
     exit();
 }
+
+
 ?> 
 <!DOCTYPE html>
 <html lang="en">
@@ -1427,6 +1433,17 @@ h3{
     justify-content: center;
     align-items: center;
 }
+.viewTransaction{
+    font-family: 'century-gothic', sans-serif;
+    font-size: .7rem;
+    color: var(--color-main);
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.viewTransaction:hover{
+    color: var(--color-maroon);
+    border-bottom: 1px solid var(--color-maroon);
+}
 /* ----------------------------------------PIE GRAPH------------------------------------ */
 /* $red = #F15854;
 $gray = #4D4D4D;
@@ -1520,7 +1537,17 @@ $orange = #FAA43A;
                                     <img  src="../Pictures and Icons/icons8-total-sales-48.png" >
                                 </div>
                                 <div class="text-widget">
-                                    <span class="total-deliveries"><span class="peso-sign">&#8369</span>20,000.00</span>
+                                    <?php
+                                        $date = date("Y-m-d");
+                                        $total_sales_query = "SELECT
+                                            IF(SUM(transaction.total_amount) IS NULL or SUM(transaction.total_amount) = '', 0, SUM(transaction.total_amount)) as total
+                                            FROM transaction
+                                            WHERE transaction.status_id = '1'
+                                            AND transaction.created_at_date = '$date'";
+                                        $total_sales_result = mysqli_query($con, $total_sales_query);
+                                        $total_sales = mysqli_fetch_assoc($total_sales_result);
+                                    ?>
+                                    <span class="total-deliveries"><span class="peso-sign">&#8369</span><?php echo $total_sales['total'];?></span>
                                     <h3 class="deliveries">TOTAL SALES</h3>
                                 </div>
                             </div>
@@ -1531,7 +1558,17 @@ $orange = #FAA43A;
                                     <img width="45" src="../Pictures and Icons/icons8-expense-64.png" >
                                 </div>
                                 <div class="text-widget">
-                                    <span class="total-deliveries"><span class="peso-sign">&#8369</span>0</span>
+                                    <?php
+                                        $date = date("Y-m-d");
+                                        $total_expense_query = "SELECT
+                                            IF(SUM(expense.amount) IS NULL or SUM(expense.amount) = '', 0, SUM(expense.amount)) as total
+                                            FROM expense
+                                            WHERE expense.status_archive_id = '1'
+                                            AND expense.date = '$date'";
+                                        $total_expense_result = mysqli_query($con, $total_expense_query);
+                                        $total_expense = mysqli_fetch_assoc($total_expense_result);
+                                    ?>
+                                    <span class="total-deliveries"><span class="peso-sign">&#8369</span><?php echo $total_expense['total'];?></span>
                                     <h3 class="deliveries">TOTAL EXPENSE</h3>
                                 </div>
                             </div>
@@ -1542,7 +1579,16 @@ $orange = #FAA43A;
                                     <img width="45" src="../Pictures and Icons/icons8-transaction-48.png" >
                                 </div>
                                 <div class="text-widget">
-                                    <span class="total-deliveries">0</span>
+                                    <?php
+                                        $date = date("Y-m-d");
+                                        $total_transaction_query = "SELECT
+                                            COUNT(transaction.id) as total
+                                            FROM transaction
+                                            WHERE transaction.created_at_date = '$date'";
+                                        $total_transaction_result = mysqli_query($con, $total_transaction_query);
+                                        $total_transaction = mysqli_fetch_assoc($total_transaction_result);
+                                    ?>
+                                    <span class="total-deliveries"><?php echo $total_transaction['total'];?></span>
                                     <h3 class="deliveries">TOTAL TRANSACTION</h3>
                                 </div>
                             </div>
@@ -1553,8 +1599,17 @@ $orange = #FAA43A;
                                     <img width="55" src="../Pictures and Icons/icons8-customer-64.png" >
                                 </div>
                                 <div class="text-widget">
-                                    <span class="total-deliveries">0</span>
+
+                                    <?php
+                                        $total_unpaid_customers_query = "SELECT
+                                            COUNT(DISTINCT transaction.customer_name_id) as total
+                                            FROM transaction";
+                                        $total_unpaid_customers_result = mysqli_query($con, $total_unpaid_customers_query);
+                                        $total_unpaid_customers = mysqli_fetch_assoc($total_unpaid_customers_result);
+                                    ?>
+                                    <span class="total-deliveries"><?php echo $total_unpaid_customers['total'];?></span>
                                     <h3 class="deliveries">UNPAID CUSTOMERS</h3>
+
                                 </div>
                             </div>
                         </div>
@@ -1562,39 +1617,80 @@ $orange = #FAA43A;
                         <div class="transactions-total">
                             <div class="newUser-button1"> 
                                 <div id="add-userbutton" class="widget5">
+                                <?php
+                                    $date = date("Y-m-d");
+                                    $total_delivery_query = "SELECT
+                                        COUNT(transaction.id) as total
+                                        FROM transaction
+                                        WHERE transaction.created_at_date = '$date'
+                                        AND transaction.service_type != 'Walk In'";
+                                    $total_delivery_result = mysqli_query($con, $total_delivery_query);
+                                    $total_delivery = mysqli_fetch_assoc($total_delivery_result);
+                                ?>
                                     <h4 class="deliveries-transaction">DELIVERIES</h4>
-                                    <span class="total-transaction1">0</span>
+                                    <span class="total-transaction1"><?php echo $total_delivery['total'];?></span>
                                 </div>
                             </div>
-                            <div class="newUser-button1"> 
+                            <div class="newUser-button1">
+                                <?php
+                                    $date = date("Y-m-d");
+                                    $total_walkin_query = "SELECT
+                                        COUNT(transaction.id) as total
+                                        FROM transaction
+                                        WHERE transaction.created_at_date = '$date'
+                                        AND transaction.service_type = 'Walk In'";
+                                    $total_walkin_result = mysqli_query($con, $total_walkin_query);
+                                    $total_walkin = mysqli_fetch_assoc($total_walkin_result);
+                                ?>
                                 <div id="add-userbutton" class="widget6">
                                     <h4 class="deliveries-transaction">WALK IN</h4>
-                                    <span class="total-transaction2">0</span>
+                                    <span class="total-transaction2"><?php echo $total_walkin['total'];?></span>
                                 </div>
                             </div>
                             <div class="newUser-button1"> 
                                 <div id="add-userbutton" class="widget7">
+                                <?php
+                                    $total_critical_stock_query = "SELECT 
+                                    COUNT(inventory_item.id) as total
+                                    FROM inventory_item
+                                    INNER JOIN inventory_stock
+                                    ON inventory_item.id = inventory_stock.item_name_id
+                                    WHERE inventory_stock.on_hand <= inventory_item.reorder_level
+                                    AND inventory_item.status_archive_id = 1";
+                                    $total_critical_stock_result = mysqli_query($con, $total_critical_stock_query);
+                                    $total_critical_stock = mysqli_fetch_assoc($total_critical_stock_result);
+                                ?>
                                     <h4 class="deliveries-transaction">CRITICAL STOCK</h4>
-                                    <span class="total-transaction3">0</span>
+                                    <span class="total-transaction3"><?php echo $total_critical_stock['total'];?></span>
                                 </div>
                             </div>
                             <div class="newUser-button1"> 
                                 <div id="add-userbutton" class="widget8">
-                                    <h4 class="deliveries-transaction">UNPAID CUSTOMERS</h4>
-                                    <span class="total-transaction4">0</span>
+                                <?php
+                                    $date = date("Y-m-d");
+                                    $total_new_customer_query = "SELECT 
+                                        COUNT(customers.id) as total
+                                        FROM customers 
+                                        WHERE DATE(customers.created_at) = '$date'";
+                                    $total_new_customer_result = mysqli_query($con, $total_new_customer_query);
+                                    $total_new_customer = mysqli_fetch_assoc($total_new_customer_result);
+                                ?>
+                                    <h4 class="deliveries-transaction">NEW CUSTOMERS</h4>
+                                    <span class="total-transaction4"><?php echo $total_new_customer['total'];;?></span>
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="bar-graph1">
-                            <header class="caption">Monthly Sales</header>
+                            <header class="caption">Monthly Sales <?php echo ' '.date("Y")?></header>
                             <div class="bar1" style="width: 900px;">
                                 <canvas id="myChart1"></canvas>
                             </div>
                     </div>
 
                     <div class="bar-graph2">
-                            <header class="caption">Monthly Expenses</header>
+                            <header class="caption">Monthly Expenses (<?php echo date("F Y")?>)</header>
                             <div class="bar2" style="width: 400px;">
                                 <canvas id="myChart2"></canvas>
                             </div>
@@ -1624,6 +1720,7 @@ $orange = #FAA43A;
                                 </tr>
                                 </thead>
                                 <?php
+                                $date = date("Y-m-d");
                                 $dropdown_query2 = "SELECT 
                                     transaction.id,
                                     transaction.uuid,
@@ -1639,6 +1736,7 @@ $orange = #FAA43A;
                                     ON transaction.created_by_id = users.user_id
                                     LEFT JOIN customers
                                     ON transaction.customer_name_id = customers.id
+                                    WHERE transaction.created_at_date = '$date'
                                     ORDER BY transaction.created_at_date DESC,
                                     transaction.created_at_time DESC
                                     LIMIT 5";
@@ -1680,7 +1778,7 @@ $orange = #FAA43A;
                     <div class="container-table1">
                             <div class="main-container1">
                                 <div class="sub-tab-container1">
-                                    <header class="previous-transaction-header1">EMPLOYEES ATTENDED</header>
+                                    <header class="previous-transaction-header1">TODAY' ATTENDANCE</header>
                                 </div>
                             </div>
                             <div class="customer-container1" id="customerTable">
@@ -1688,28 +1786,24 @@ $orange = #FAA43A;
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Customer Name</th>
-                                        <th>Time</th>
+                                        <th>Employee Name</th>
+                                        <th>Time IN</th>
+                                        <th>Time OUT</th>
                                     </tr>
                                     </thead>
                                     <?php
+                                    $date = date("Y-m-d");
                                     $dropdown_query2 = "SELECT 
-                                        transaction.id,
-                                        customers.customer_name,
-                                        transaction.service_type,
-                                        transaction.status_id,
-                                        users.first_name,
-                                        users.last_name,
-                                        transaction.created_at_time,
-                                        transaction.created_at_date
-                                        FROM transaction
-                                        INNER JOIN users
-                                        ON transaction.created_by_id = users.user_id
-                                        LEFT JOIN customers
-                                        ON transaction.customer_name_id = customers.id
-                                        ORDER BY transaction.created_at_date DESC,
-                                        transaction.created_at_time DESC
-                                        LIMIT 5";
+                                        attendance.id,
+                                        attendance.time_in,
+                                        attendance.time_out, 
+                                        employee.first_name as emp_first_name,
+                                        employee.last_name as emp_last_name
+                                        FROM attendance 
+                                        INNER JOIN employee 
+                                        ON attendance.employee_id = employee.id
+                                        WHERE attendance.status_archive_id = 1
+                                        and attendance.date = '$date'";
                                     $result4 = mysqli_query($con, $dropdown_query2);
                                     while ($rows = mysqli_fetch_assoc($result4))
                                     {
@@ -1717,15 +1811,11 @@ $orange = #FAA43A;
                                         <tbody>
                                         <tr>
                                             <td> <?php echo $rows['id']; ?></td>
-                                            <td> <?php if($rows['customer_name']){
-                                                echo $rows['customer_name'];
-                                                }else{
-                                                    echo 'GUEST';
-                                                }
-                                            ?></td>
-                                            <td> <?php echo $rows['created_at_time']; ?></td>
+                                            <td> <?php echo $rows['emp_first_name'].' '.$rows['emp_last_name'] ; ?></td>
+                                            <td> <?php echo $rows['time_in']; ?></td>
+                                            <td> <?php echo $rows['time_out']; ?></td></td>
                                         <tr id="noRecordTR" style="display:none">
-                                            <td colspan="3">No Record Found</td>
+                                            <td colspan="4">No Record Found</td>
                                         </tr>
                                         </tbody>
                                         <?php
@@ -1798,125 +1888,165 @@ $orange = #FAA43A;
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/reports-sales.js"></script>
 <script src="../index.js"></script>
-<script>
+<?php
+$year = date("Y");
+$jan = get_month_sales_data($con, "January", $year);
+$feb = get_month_sales_data($con, "February", $year);
+$mar = get_month_sales_data($con, "March", $year);
+$apr = get_month_sales_data($con, "April", $year);
+$may = get_month_sales_data($con, "May", $year);
+$jun = get_month_sales_data($con, "June", $year);
+$jul = get_month_sales_data($con, "July", $year);
+$aug = get_month_sales_data($con, "August", $year);
+$sep = get_month_sales_data($con, "September", $year);
+$oct = get_month_sales_data($con, "October", $year);
+$nov = get_month_sales_data($con, "November", $year);
+$dec = get_month_sales_data($con, "December", $year);
 
-  var config1 = {
-    type: 'bar',
-    data: {
-    datasets: [{
-    data: [6,3,4,5,6,6,6,4,5,6,6,6],
-      <?php
-    //    echo json_encode($amount) 
-      ?>
+echo '
+<script type="text/JavaScript"> 
 
-      backgroundColor: [
-        'rgba(255, 51, 51, 0.7)',
-        'rgba(255, 131, 51, 0.7)',
-        'rgba(255, 218, 51, 0.7)',
-        'rgba(144, 255, 51, 0.7)',
-        'rgba(51, 255, 150, 0.7)',
-        'rgba(51, 252, 255 , 0.7)',
-        'rgba(51, 131, 255, 0.7)',
-        'rgba(134, 51, 255, 0.7)',
-        'rgba(255, 51, 255, 0.7)',
-        'rgba(255, 51, 144, 0.7)',
-        'rgba(255, 51, 82, 0.7)',
-        'rgba(201, 203, 207, 0.7)'
-      ],
-      borderColor: [
-        'rgb(255, 51, 51 )',
-        'rgb(255, 131, 51 )',
-        'rgb(255, 218, 51 )',
-        'rgb(144, 255, 51 )',
-        'rgb(51, 255, 150 )',
-        'rgb(51, 252, 255 )',
-        'rgb(51, 131, 255 )',
-        'rgb(134, 51, 255 )',
-        'rgb(255, 51, 255 )',
-        'rgb(255, 51, 144 )',
-        'rgb(255, 51, 82 )',
-        'rgb(201, 203, 207 )'
-      ],
-      borderWidth: 1
-    }],
-    labels: ['January','February','March','April','May','June','July','August','September','October','November','December']
+    var config1 = {
+        type: "bar",
+        data: {
+        datasets: [{
+        data: [
+            '.$jan.',
+            '.$feb.',
+            '.$mar.',
+            '.$apr.',
+            '.$may.',
+            '.$jun.',
+            '.$jul.',
+            '.$aug.',
+            '.$sep.',
+            '.$oct.',
+            '.$nov.',
+            '.$dec.'],
 
-  },
-  options: {
-        responsive: true,
-        legend: {
-            position: 'top',
-        },
-        title: {
-            display: true,
-        },
-        animation: {
-            animateScale: true,
-            animateRotate: true
+        backgroundColor: [
+            "rgba(255, 51, 51, 0.7)",
+            "rgba(255, 131, 51, 0.7)",
+            "rgba(255, 218, 51, 0.7)",
+            "rgba(144, 255, 51, 0.7)",
+            "rgba(51, 255, 150, 0.7)",
+            "rgba(51, 252, 255 , 0.7)",
+            "rgba(51, 131, 255, 0.7)",
+            "rgba(134, 51, 255, 0.7)",
+            "rgba(255, 51, 255, 0.7)",
+            "rgba(255, 51, 144, 0.7)",
+            "rgba(255, 51, 82, 0.7)",
+            "rgba(201, 203, 207, 0.7)"
+        ],
+        borderColor: [
+            "rgb(255, 51, 51 )",
+            "rgb(255, 131, 51 )",
+            "rgb(255, 218, 51 )",
+            "rgb(144, 255, 51 )",
+            "rgb(51, 255, 150 )",
+            "rgb(51, 252, 255 )",
+            "rgb(51, 131, 255 )",
+            "rgb(134, 51, 255 )",
+            "rgb(255, 51, 255 )",
+            "rgb(255, 51, 144 )",
+            "rgb(255, 51, 82 )",
+            "rgb(201, 203, 207 )"
+        ],
+        borderWidth: 1
+        }],
+        labels: ["January","February","March","April","May","June","July","August","September","October","November","December"]
+
+    },
+    options: {
+            responsive: true,
+            legend: {
+                position: "top",
+            },
+            title: {
+                display: true,
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
         }
-    }
-  };
+    };
 
-  var myChart1 = new Chart(
-    document.getElementById('myChart1'),
-    config1
-  );
-// -----------------------------------------------------------------------------------------------//
-  var config2 = {
-    type: 'pie',
-    data: {
-    datasets: [{
-      data: [6000,3200,4000,500],
-      <?php
-    //    echo json_encode($amount) 
-      ?>
-      backgroundColor: [
-        'rgba(255, 51, 51, 0.7)',
-        'rgba(255, 131, 51, 0.7)',
-        'rgba(255, 218, 51, 0.7)',
-        'rgba(144, 255, 51, 0.7)'
-      ],
-      borderColor: [
-        'rgb(255, 255, 255 )',
-        'rgb(255, 255, 255 )',
-        'rgb(255, 255, 255 )',
-        'rgb(255, 255, 255 )'
-      ],
-      borderWidth: 1
-    }],
-    labels: [
-        'Maintenance', 
-        'Utilities', 'Salaries', 'Others']
-
-  },
-  options: {
-        responsive: true,
-        legend: {
-            position: 'top',
-        },
-        title: {
-            display: true,
-        },
-        animation: {
-            animateScale: true,
-            animateRotate: true
-        }
-    }
-  };
-
-  var myChart2 = new Chart(
-    document.getElementById('myChart2'),
-    config2
-  );
-  
-var divToPrint = document.getElementById('print');
-        newWin = window.open("");
-        newWin.document.write(divToPrint.outerHTML);
-        newWin.print();
-        newWin.close();
-        
+    var myChart1 = new Chart(
+        document.getElementById("myChart1"),
+        config1
+    );
+</script>
+';
+?>
 
 </script>
-<style>
+    <?php
+    $maintenace = get_maintenance_count($con);
+    $utilities = get_utilities_count($con);
+    $salaries = get_salaries_count($con);
+    $other_expenses = get_other_expenses_count($con);
+    echo '
+    <script type="text/JavaScript"> 
 
-</style>
+    var config2 = {
+        type: "pie",
+        data: {
+        datasets: [{
+        data: [
+            '.$maintenace.',
+            '.$utilities.',
+            '.$salaries.',
+            '.$other_expenses.'
+        ],
+
+        backgroundColor: [
+            "rgba(255, 51, 51, 0.7)",
+            "rgba(255, 131, 51, 0.7)",
+            "rgba(255, 218, 51, 0.7)",
+            "rgba(144, 255, 51, 0.7)"
+        ],
+        borderColor: [
+            "rgb(255, 255, 255 )",
+            "rgb(255, 255, 255 )",
+            "rgb(255, 255, 255 )",
+            "rgb(255, 255, 255 )"
+        ],
+        borderWidth: 1
+        }],
+        labels: [
+            "Maintenance", 
+            "Utilities", 
+            "Salaries", 
+            "Others"]
+    },
+    options: {
+            responsive: true,
+            legend: {
+                position: "top",
+            },
+            title: {
+                display: true,
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+    };
+
+    var myChart2 = new Chart(
+        document.getElementById("myChart2"),
+        config2
+    );
+    </script>
+';
+?>
+
+<script>
+    var divToPrint = document.getElementById('print');
+            newWin = window.open("");
+            newWin.document.write(divToPrint.outerHTML);
+            newWin.print();
+            newWin.close();
+</script>

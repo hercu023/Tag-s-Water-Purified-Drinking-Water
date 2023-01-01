@@ -115,8 +115,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTE
                             FROM attendance
                             WHERE attendance.status_archive_id = 1
                             AND attendance.payroll_status = 1
-                            GROUP BY MONTH(attendance.date)
-                            ORDER BY YEAR(attendance.date), 
+                            GROUP BY MONTH(attendance.date),
+                            YEAR(attendance.date)
+                            ORDER BY YEAR(attendance.date) DESC, 
                             MONTH(attendance.date) DESC";
                         } else if(isset($_GET['option']) && $_GET['option'] == "Yearly") {
                             $query = "SELECT 

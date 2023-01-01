@@ -2,7 +2,7 @@
 include '../database/connection-db.php';
 require_once '../service/pos-update-transaction.php';
 
-
+date_default_timezone_set("Asia/Manila");
 ?>
 
 <!DOCTYPE html>

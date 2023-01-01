@@ -3,8 +3,7 @@ include '../connectionDB.php';
 require_once '../service/pos-add-customer.php';
 require_once '../service/add-transaction-order.php';
 
-
-
+date_default_timezone_set("Asia/Manila");
         
 if(isset($_POST['delete-order'])){
     $id=$_POST['id-delete'];

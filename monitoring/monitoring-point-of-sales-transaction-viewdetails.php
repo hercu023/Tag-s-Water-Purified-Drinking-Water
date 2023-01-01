@@ -177,16 +177,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
     border-right: 1px solid var(--color-main);
     position: relative;
 }
-.orderSum-table{
-    background-color: var(--color-white);
-    padding: 1rem;
-    overflow:auto;
-    max-height: 12rem;
-    height: 12rem;
-    border-top: 2px solid var(--color-solid-gray);
-    position: relative;
-    border-radius: 10px;
-}
 
 .tableCheckout table{
     background: var(--color-white);
@@ -1834,7 +1824,7 @@ if(isset($_GET['view']))
                                         $unpaid_amount = mysqli_fetch_assoc($transaction_unpaid_history)['unpaid_amount'];
                                         $total_paid_amount = $transaction['total_amount'] - $unpaid_amount;
                                 ?>
-                                <label class="remaining-amountLbl">Remaining Paid Amount</label>
+                                <label class="remaining-amountLbl">Remaining Unpaid Amount</label>
                                 <span id="remaining-amount2" class="remaining-amount2"><?php echo '&#8369'.' '.number_format($unpaid_amount, '2','.',','); ?></span>
                             </div>
                             <div class="user-input-box-totalamount">
@@ -1924,25 +1914,4 @@ if(isset($_GET['view']))
         //     }
          });
         
-        // if(localStorage.getItem('dark')) {
-        //     body.classList.add('dark');
-        //     }
-    // const sideMenu = document.querySelector("#aside");
-    // const closeBtn = document.querySelector("#close-btn");
-    // const menuBtn = document.querySelector("#menu-button");
-    // const checkbox = document.getElementById("checkbox");
-    //     menuBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'block';
-    //     })
-    //     closeBtn.addEventListener('click', () =>{
-    //         sideMenu.style.display = 'none';
-    //     })
-    //     checkbox.addEventListener('change', () =>{
-    //         document.body.classList.toggle('dark-theme');
-    //     })
-
-    //     function menuToggle(){
-    //         const toggleMenu = document.querySelector('.drop-menu');
-    //         toggleMenu.classList.toggle('user2')
-    //     }
 </script>

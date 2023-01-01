@@ -83,6 +83,7 @@ body{
     justify-content: center;
     float: center;
     position: relative;
+    text-decoration: none;
     border-radius: 3px;
     display: flex;
     width: 60%;
@@ -106,6 +107,7 @@ body{
     justify-content: center;
     float: center;
     position: relative;
+    text-decoration: none;
     border-radius: 3px;
     display: flex;
     left: 20%;
@@ -132,6 +134,7 @@ body{
     float: center;
     left: 20%;
     position: relative;
+    text-decoration: none;
     border-radius: 3px;
     display: flex;
     width: 60%;

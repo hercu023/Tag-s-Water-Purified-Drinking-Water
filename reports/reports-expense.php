@@ -113,8 +113,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
                             SUM(expense.amount) as total
                             FROM expense 
                             WHERE expense.status_archive_id = 1
-                            GROUP BY MONTH(expense.date)
-                            ORDER BY YEAR(expense.date), 
+                            GROUP BY MONTH(expense.date),
+                            YEAR(expense.date)
+                            ORDER BY YEAR(expense.date) DESC, 
                             MONTH(expense.date) DESC";
                         } else if(isset($_GET['option']) && $_GET['option'] == "Yearly") {
                             $query = "SELECT
@@ -191,7 +192,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
                                     <?php } ?>
                                 </td>
                                 <td>
-                                    <?php echo '<span>&#8369;</span>' .' '. $rows['total']; ?>
+                                    <?php echo 'PHP '.$rows['total']; ?>
                                 </td>
                             </tr>
                             </tbody>

@@ -1367,7 +1367,8 @@ h3{
 .user-title{
     position: relative;
     display: inline-block;
-    width: 100%;
+    margin-left: 3rem;
+    width: 15%;
 }
 main  h2{
     margin-bottom: -2.2rem;

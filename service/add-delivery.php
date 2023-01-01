@@ -20,7 +20,7 @@ if(isset($_POST['add-for-pickup'])) {
 
         if($insert){
             log_audit($con, $user_id, $module, 1, 'Transaction added to For Pick up. Reference: '.get_transaction_id($con, $uuid));
-            header("Location: ../monitoring/monitoring-delivery-pickup.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Transaction added to For Pick Up.");
+            header("Location: ../monitoring/monitoring-delivery-pickup.php?success=<i class='fa fa-check' style='font-size:14px'></i> Transaction added to For Pick Up.");
             exit();
         } else {
             log_audit($con, $user_id, $module, 0, 'Failed adding transaction to For Pick Up. Reference: '.get_transaction_id($con, $uuid));
@@ -47,7 +47,7 @@ if(isset($_POST['add-to-ongoing-pickup'])) {
 
         if($update){
             log_audit($con, $user_id, $module, 1, 'Transaction updated to Ongoing Pick Up. Reference: '.get_transaction_id($con, $uuid));
-            header("Location: ../monitoring/monitoring-delivery-pickup-list.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Transaction update to Ongoing Pick Up.");
+            header("Location: ../monitoring/monitoring-delivery-pickup-list.php?success=<i class='fa fa-check' style='font-size:14px'></i> Transaction update to Ongoing Pick Up.");
             exit();
         } else {
             log_audit($con, $user_id, $module, 0, 'Failed transaction update to Ongoing Pick Up. Reference: '.get_transaction_id($con, $uuid));
@@ -73,7 +73,7 @@ if(isset($_POST['add-as-already-pickup'])) {
             WHERE uuid = '$uuid'");
 
             log_audit($con, $user_id, $module, 1, 'Transaction updated to Already Pick Up. Reference: '.get_transaction_id($con, $uuid));
-            header("Location: ../monitoring/monitoring-delivery-pickup-list.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Transaction updated to Already Pick Up.");
+            header("Location: ../monitoring/monitoring-delivery-pickup-list.php?success=<i class='fa fa-check' style='font-size:14px'></i> Transaction updated to Already Pick Up.");
             exit();
         } else {
             log_audit($con, $user_id, $module, 0, 'Failed transaction update to Already Pick Up. Reference: '.get_transaction_id($con, $uuid));
@@ -101,7 +101,7 @@ if(isset($_POST['add-for-delivery'])){
 
         if($insert){
             log_audit($con, $user_id, $module, 1, 'Transaction updated to For Delivery. Reference: '.get_transaction_id($con, $uuid));
-            header("Location: ../monitoring/monitoring-delivery-pickup.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Transaction updated to For Delivery.");
+            header("Location: ../monitoring/monitoring-delivery-pickup.php?success=<i class='fa fa-check' style='font-size:14px'></i> Transaction updated to For Delivery.");
             exit();
         } else {
             log_audit($con, $user_id, $module, 0, 'Failed transaction update to For Delivery. Reference: '.get_transaction_id($con, $uuid));
@@ -126,7 +126,7 @@ if(isset($_POST['deliver'])) {
 
         if($update){
             log_audit($con, $user_id, $module, 1, 'Transaction updated to Ongoing Delivery. Reference: '.get_transaction_id($con, $uuid));
-            header("Location: ../monitoring/monitoring-delivery-pickup.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Transaction updated to Ongoing Delivery.");
+            header("Location: ../monitoring/monitoring-delivery-pickup.php?success=<i class='fa fa-check' style='font-size:14px'></i> Transaction updated to Ongoing Delivery.");
             exit();
         } else {
             log_audit($con, $user_id, $module, 0, 'Failed transaction update to Ongoing Delivery. Reference: '.get_transaction_id($con, $uuid));
@@ -151,7 +151,7 @@ if(isset($_POST['add-as-delivered'])){
 
         if($update){
             log_audit($con, $user_id, $module, 1, 'Transaction updated to Delivered. Reference: '.get_transaction_id($con, $uuid));
-            header("Location: ../monitoring/monitoring-delivery-pickup.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Transaction updated to Delivered.");
+            header("Location: ../monitoring/monitoring-delivery-pickup.php?success=<i class='fa fa-check' style='font-size:14px'></i> Transaction updated to Delivered.");
             exit();
         } else {
             log_audit($con, $user_id, $module, 0, 'Failed transaction update to Delivered. Reference: '.get_transaction_id($con, $uuid));

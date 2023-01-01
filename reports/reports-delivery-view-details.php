@@ -3,7 +3,7 @@ require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
 require_once "../service/filter-reports.php";
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELIVERY_WALKIN')) {
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELIVERY')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
     exit();
 }
@@ -857,77 +857,110 @@ tr:hover td{
                             <div class="newUser-button1"> 
                                 <div id="add-userbutton" class="add-account1">
                             <?php
-                                $in_quantity = "";
+                                $delivery_count = "";
                                 if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                                     $date = $_GET['view'];
-                                    $in_quantity = "SELECT
-                                    SUM(quantity) as total
-                                    FROM inventory_log
-                                    WHERE action = 'IN'
-                                    AND DATE(inventory_log.created_at) = '$date'";
+                                    $delivery_count = "SELECT
+                                    count(delivery_list.id) as total
+                                    FROM delivery_list
+                                    INNER JOIN transaction
+                                    ON delivery_list.uuid = transaction.uuid
+                                    WHERE transaction.status_id = '1'
+                                    AND transaction.service_type = 'Delivery'
+                                    AND delivery_list.delivery_status = '3'
+                                    AND DATE(delivery_list.updated_at) = '$date'";
                                 } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                                     $month = $_GET['month'];
                                     $year = $_GET['year'];
-                                    $in_quantity = "SELECT
-                                    SUM(quantity) as total
-                                    FROM inventory_log
-                                    WHERE action = 'IN'
-                                    AND MONTHNAME(inventory_log.created_at) = '$month'
-                                    AND YEAR(inventory_log.created_at) = '$year'";
+
+                                    $delivery_count = "SELECT
+                                    count(delivery_list.id) as total
+                                    FROM delivery_list
+                                    INNER JOIN transaction
+                                    ON delivery_list.uuid = transaction.uuid
+                                    WHERE transaction.status_id = '1'
+                                    AND transaction.service_type = 'Delivery'
+                                    AND delivery_list.delivery_status = '3'
+                                    AND MONTHNAME(delivery_list.updated_at) = '$month'
+                                    AND YEAR(delivery_list.updated_at) = '$year'";
+
                                 } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                                     $year = $_GET['year'];
-                                    $in_quantity = "SELECT 
-                                    SUM(quantity) as total
-                                    FROM inventory_log
-                                    WHERE action = 'IN'
-                                    AND YEAR(inventory_log.created_at) = '$year'";
+
+                                    $delivery_count = "SELECT
+                                    count(delivery_list.id) as total
+                                    FROM delivery_list
+                                    INNER JOIN transaction
+                                    ON delivery_list.uuid = transaction.uuid
+                                    WHERE transaction.status_id = '1'
+                                    AND transaction.service_type = 'Delivery'
+                                    AND delivery_list.delivery_status = '3'
+                                    AND YEAR(delivery_list.updated_at) = '$year'";
                                 } else {
                                     echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>';
                                 }
                                     
-                                    if($in_quantity_result = mysqli_query($con, $in_quantity))
-                                    $in_count = mysqli_fetch_assoc($in_quantity_result);
+                                    if($delivery_count_result = mysqli_query($con, $delivery_count))
+                                    $deliveries = mysqli_fetch_assoc($delivery_count_result);
                                     ?>
-                                    <h3 class="deliveries">Ingoing</h3>
-                                    <span class="total-deliveries"><?php echo $in_count['total'];?></span>
+                                    <h3 class="deliveries">Deliveries</h3>
+                                    <span class="total-deliveries"><?php echo $deliveries['total'];?></span>
                                 </div>
                             </div>
                             <div class="newUser-button2"> 
                                 <div id="add-userbutton" class="add-account2">
                                 <?php
-                                $out_quantity = "";
+                                $customer_count = "";
                                 if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                                     $date = $_GET['view'];
-                                    $out_quantity = "SELECT
-                                    SUM(quantity) as total
-                                    FROM inventory_log
-                                    WHERE action = 'OUT'
-                                    AND DATE(inventory_log.created_at) = '$date'";
+                                    $customer_count = "SELECT
+                                    count(distinct customers.id) as total
+                                    FROM delivery_list
+                                    INNER JOIN transaction
+                                    ON delivery_list.uuid = transaction.uuid
+                                    INNER JOIN customers
+                                    ON transaction.customer_name_id = customers.id
+                                    WHERE transaction.status_id = '1'
+                                    AND transaction.service_type = 'Delivery'
+                                    AND delivery_list.delivery_status = '3'
+                                    AND DATE(delivery_list.updated_at) = '$date'";
                                 } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                                     $month = $_GET['month'];
                                     $year = $_GET['year'];
-                                    $out_quantity = "SELECT
-                                    SUM(quantity) as total
-                                    FROM inventory_log
-                                    WHERE action = 'OUT'
-                                    AND MONTHNAME(inventory_log.created_at) = '$month'
-                                    AND YEAR(inventory_log.created_at) = '$year'";
+                                    $customer_count = "SELECT
+                                    count(distinct customers.id) as total
+                                    FROM delivery_list
+                                    INNER JOIN transaction
+                                    ON delivery_list.uuid = transaction.uuid
+                                    INNER JOIN customers
+                                    ON transaction.customer_name_id = customers.id
+                                    WHERE transaction.status_id = '1'
+                                    AND transaction.service_type = 'Delivery'
+                                    AND delivery_list.delivery_status = '3'
+                                    AND MONTHNAME(delivery_list.updated_at) = '$month'
+                                    AND YEAR(delivery_list.updated_at) = '$year'";
                                 } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                                     $year = $_GET['year'];
-                                    $out_quantity = "SELECT 
-                                    SUM(quantity) as total
-                                    FROM inventory_log
-                                    WHERE action = 'OUT'
-                                    AND YEAR(inventory_log.created_at) = '$year'";
+                                    $customer_count = "SELECT
+                                    count(distinct customers.id) as total
+                                    FROM delivery_list
+                                    INNER JOIN transaction
+                                    ON delivery_list.uuid = transaction.uuid
+                                    INNER JOIN customers
+                                    ON transaction.customer_name_id = customers.id
+                                    WHERE transaction.status_id = '1'
+                                    AND transaction.service_type = 'Delivery'
+                                    AND delivery_list.delivery_status = '3'
+                                    AND YEAR(delivery_list.updated_at) = '$year'";
                                 } else {
                                     echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>';
                                 }
                                     
-                                    if($out_quantity_result = mysqli_query($con, $out_quantity))
-                                    $out_count = mysqli_fetch_assoc($out_quantity_result);
+                                    if($customer_count_result = mysqli_query($con, $customer_count))
+                                    $customers = mysqli_fetch_assoc($customer_count_result);
                                     ?>
-                                    <h3 class="deliveries">Outgoing</h3>
-                                    <span class="total-deliveries"><?php echo $out_count['total'];?></span>
+                                    <h3 class="deliveries">Customers Served</h3>
+                                    <span class="total-deliveries"><?php echo $customers['total'];?></span>
                                 </div>
                             </div>  
                             <div class="newUser-button3"> 
@@ -937,26 +970,44 @@ tr:hover td{
                                 if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                                     $date = $_GET['view'];
                                     $total_amount = "SELECT
-                                    SUM(amount) as total
-                                    FROM inventory_log
-                                    WHERE action = 'IN'
-                                    AND DATE(inventory_log.created_at) = '$date'";
+                                    SUM(transaction.total_amount) as total
+                                    FROM delivery_list
+                                    INNER JOIN transaction
+                                    ON delivery_list.uuid = transaction.uuid
+                                    INNER JOIN customers
+                                    ON transaction.customer_name_id = customers.id
+                                    WHERE transaction.status_id = '1'
+                                    AND transaction.service_type = 'Delivery'
+                                    AND delivery_list.delivery_status = '3'
+                                    AND DATE(delivery_list.updated_at) = '$date'";
                                 } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                                     $month = $_GET['month'];
                                     $year = $_GET['year'];
                                     $total_amount = "SELECT
-                                    SUM(amount) as total
-                                    FROM inventory_log
-                                    WHERE action = 'IN'
-                                    AND MONTHNAME(inventory_log.created_at) = '$month'
-                                    AND YEAR(inventory_log.created_at) = '$year'";
+                                    SUM(transaction.total_amount) as total
+                                    FROM delivery_list
+                                    INNER JOIN transaction
+                                    ON delivery_list.uuid = transaction.uuid
+                                    INNER JOIN customers
+                                    ON transaction.customer_name_id = customers.id
+                                    WHERE transaction.status_id = '1'
+                                    AND transaction.service_type = 'Delivery'
+                                    AND delivery_list.delivery_status = '3'
+                                    AND MONTHNAME(delivery_list.updated_at) = '$month'
+                                    AND YEAR(delivery_list.updated_at) = '$year'";
                                 } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                                     $year = $_GET['year'];
-                                    $total_amount = "SELECT 
-                                    SUM(amount) as total
-                                    FROM inventory_log
-                                    WHERE action = 'IN'
-                                    AND YEAR(inventory_log.created_at) = '$year'";
+                                    $total_amount = "SELECT
+                                    SUM(transaction.total_amount) as total
+                                    FROM delivery_list
+                                    INNER JOIN transaction
+                                    ON delivery_list.uuid = transaction.uuid
+                                    INNER JOIN customers
+                                    ON transaction.customer_name_id = customers.id
+                                    WHERE transaction.status_id = '1'
+                                    AND transaction.service_type = 'Delivery'
+                                    AND delivery_list.delivery_status = '3'
+                                    AND YEAR(delivery_list.updated_at) = '$year'";
                                 } else {
                                     echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>';
                                 }
@@ -964,7 +1015,7 @@ tr:hover td{
                                     if($total_amount_result = mysqli_query($con, $total_amount))
                                     $total_amount_value = mysqli_fetch_assoc($total_amount_result);
                                     ?>
-                                    <h3 class="deliveries">Purchases</h3>
+                                    <h3 class="deliveries">Delivery Sales</h3>
                                     <span class="total-deliveries"><?php echo 'Php '.$total_amount_value['total'];?></span>
                                 </div>
                             </div>  
@@ -976,9 +1027,9 @@ tr:hover td{
                         <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Total IN</th>
-                            <th>Total Out</th>
-                            <th>Total Purchase Amount</th>
+                            <th>Customer</th>
+                            <th>Total Amount</th>
+                            <th>Date/Time Delivered</th>
                         </tr>
                         </thead>
 
@@ -986,57 +1037,56 @@ tr:hover td{
                         $query = "";
                         if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
                             $date = $_GET['view'];
-                            $query = "SELECT
-                                DATE(inventory_log.created_at) as date,
-                                in_table.in_total,
-                                out_table.out_total,
-                                in_table.purchase_amount
-                                FROM inventory_log
-                                INNER JOIN 
-                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
-                                ON DATE(inventory_log.created_at) = in_table.date
-                                INNER JOIN 
-                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
-                                ON DATE(inventory_log.created_at) = out_table.date
-                                WHERE DATE(inventory_log.created_at) = '$date'
-                                GROUP BY DATE(inventory_log.created_at)";
+                                $query = "SELECT
+                                DATE(delivery_list.updated_at) as date,
+                                customers.customer_name,
+                                transaction.total_amount as total,
+                                delivery_list.updated_at as delivery_time
+                                FROM delivery_list
+                                INNER JOIN transaction
+                                ON delivery_list.uuid = transaction.uuid
+                                INNER JOIN customers
+                                ON transaction.customer_name_id = customers.id
+                                WHERE transaction.status_id = '1'
+                                AND transaction.service_type = 'Delivery'
+                                AND delivery_list.delivery_status = '3'
+                                AND DATE(delivery_list.updated_at) = '$date'";
                         } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                             $month = $_GET['month'];
                             $year = $_GET['year'];
                             $query = "SELECT
-                                DATE(inventory_log.created_at) as date,
-                                in_table.in_total,
-                                out_table.out_total,
-                                in_table.purchase_amount
-                                FROM inventory_log
-                                INNER JOIN 
-                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
-                                ON DATE(inventory_log.created_at) = in_table.date
-                                INNER JOIN 
-                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
-                                ON DATE(inventory_log.created_at) = out_table.date
-                                WHERE MONTHNAME(inventory_log.created_at) = '$month'
-                                AND YEAR(inventory_log.created_at) = '$year'
-                                GROUP BY DATE(inventory_log.created_at)
-                                ORDER BY DATE(inventory_log.created_at) DESC";
-                        
+                                DATE(delivery_list.updated_at) as date,
+                                customers.customer_name,
+                                transaction.total_amount as total,
+                                delivery_list.updated_at as delivery_time
+                                FROM delivery_list
+                                INNER JOIN transaction
+                                ON delivery_list.uuid = transaction.uuid
+                                INNER JOIN customers
+                                ON transaction.customer_name_id = customers.id
+                                WHERE transaction.status_id = '1'
+                                AND transaction.service_type = 'Delivery'
+                                AND delivery_list.delivery_status = '3'
+                                AND MONTHNAME(delivery_list.updated_at) = '$month'
+                                AND YEAR(delivery_list.updated_at) = '$year'
+                                ORDER BY DATE(delivery_list.updated_at) DESC";                    
                         } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                             $year = $_GET['year'];
                             $query = "SELECT
-                                DATE(inventory_log.created_at) as date,
-                                in_table.in_total,
-                                out_table.out_total,
-                                in_table.purchase_amount
-                                FROM inventory_log
-                                INNER JOIN 
-                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
-                                ON DATE(inventory_log.created_at) = in_table.date
-                                INNER JOIN 
-                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
-                                ON DATE(inventory_log.created_at) = out_table.date
-                                WHERE YEAR(inventory_log.created_at) = '$year'
-                                GROUP BY DATE(inventory_log.created_at)
-                                ORDER BY DATE(inventory_log.created_at) DESC";
+                                DATE(delivery_list.updated_at) as date,
+                                customers.customer_name,
+                                transaction.total_amount as total,
+                                delivery_list.updated_at as delivery_time
+                                FROM delivery_list
+                                INNER JOIN transaction
+                                ON delivery_list.uuid = transaction.uuid
+                                INNER JOIN customers
+                                ON transaction.customer_name_id = customers.id
+                                WHERE transaction.status_id = '1'
+                                AND transaction.service_type = 'Delivery'
+                                AND delivery_list.delivery_status = '3'
+                                AND YEAR(delivery_list.updated_at) = '$year'
+                                ORDER BY DATE(delivery_list.updated_at) DESC";                    
                         } else {
                             echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>';
                         }
@@ -1057,13 +1107,13 @@ tr:hover td{
                                     <?php echo $rows['date']; ?>
                                 </td>
                                 <td>
-                                     <?php echo $rows['in_total'] ?>
+                                     <?php echo $rows['customer_name'] ?>
                                 </td>
                                 <td>
-                                     <?php echo $rows['out_total']; ?>
+                                     <?php echo $rows['total']; ?>
                                 </td>
                                 <td>
-                                <?php echo 'PHP '.$rows['purchase_amount']; ?>
+                                <?php echo $rows['delivery_time']; ?>
                                 </td>  
                             </tr>
                             </tbody>

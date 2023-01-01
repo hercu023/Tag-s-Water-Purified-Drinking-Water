@@ -3,7 +3,7 @@ require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
 require_once "../service/filter-reports.php";
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELIVERY_WALKIN')) {
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELIVERY')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
     exit();
 }
@@ -114,8 +114,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELI
                             COUNT(id) as total
                             FROM delivery_list
                             WHERE delivery_status = '3'
-                            GROUP BY MONTH(delivery_list.updated_at)
-                            ORDER BY YEAR(delivery_list.updated_at), 
+                            GROUP BY MONTH(delivery_list.updated_at), 
+                            YEAR(delivery_list.updated_at)
+                            ORDER BY YEAR(delivery_list.updated_at) DESC, 
                             MONTH(delivery_list.updated_at) DESC";
                         } else if(isset($_GET['option']) && $_GET['option'] == "Yearly") {
                             $query = "SELECT 
@@ -193,7 +194,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELI
                                     <?php } ?>
                                 </td>
                                 <td>
-                                    <?php echo '<span>&#8369;</span>' .' '.  $rows['total']; ?>
+                                    <?php echo $rows['total']; ?>
                                 </td>
                             </tr>
                             </tbody>

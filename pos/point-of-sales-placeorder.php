@@ -2,7 +2,7 @@
 include '../database/connection-db.php';
 require_once '../service/pos-add-transaction.php';
 
-
+date_default_timezone_set("Asia/Manila");
 ?>
 
 <!DOCTYPE html>
@@ -694,12 +694,12 @@ require_once '../service/pos-add-transaction.php';
                                 <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
                             </div>
                             <div class="AddButton">
-                                <button type="submit" id="addcustomerBtn" name="save-transaction">SAVE ONLY</button>
+                                <button type="submit" id="addcustomerBtn" name="save-transaction">PAY ONLY</button>
                             </div>
                             <div class="AddPrintButton">
                                 <button type="submit" id="addcustomerBtn" name="save-transaction" onclick="print();">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
-                                    SAVE AND PRINT
+                                    PAY AND PRINT
                                 </button>
                             </div>
                         </div>

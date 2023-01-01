@@ -149,7 +149,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
 .customerName{
     align-items:center;
     width: 100%;
-    margin-top: -2rem;
     margin-left: 1rem;
     margin-right: 1rem;
 }
@@ -579,6 +578,13 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
 
 .customer-container table tbody td{
     height: 4.8rem;
+    border-bottom: 1px solid var(--color-solid-gray);
+    color: var(--color-td);
+    font-size: .8rem;
+}
+.orderSum-Details table tbody td{
+    height: 4.8rem;
+    text-align: center;
     border-bottom: 1px solid var(--color-solid-gray);
     color: var(--color-td);
     font-size: .8rem;
@@ -1584,6 +1590,365 @@ tr:hover td{
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
+    .usertype-dropdown1{
+        display: inline-block;
+
+    }
+    .select1{
+        background-color: var(--color-solid-gray);
+        color: var(--color-white);
+        /* align-items: center; */
+        padding: 5px;
+        border-radius: 5px;
+        width: 10.8vw;
+        font-size: 14px;
+        height: 2rem;
+        cursor: pointer;
+        transition: 0.3s;
+        border: none;
+    }
+    .select1:hover{
+        background:  var(--color-solid-gray);
+        color: var(--color-white);
+    }
+    .delete-rowsButton{
+        border: none;
+        background-color: var(--color-maroon);
+        color: var(--color-white);
+        /* align-items: center; */
+        fill: var(--color-white);
+        gap: .5rem;
+        padding:5px;
+        
+        font-size: 15px;
+        font-weight: 500;
+        border-radius: 5px;
+        font-family: 'calibri', sans-serif;
+        cursor: pointer;
+    }
+    .delete-rowsButton:hover{
+        filter: brightness(1.8);
+        transition: 0.2s;
+        /* border-bottom: 5px solid var(--color-tertiary); */
+    }
+    .success-success{
+        background-color: #52CC7A;
+        color: #ffffff;
+        display: relative;
+        padding: 11px;
+        width: 70%;
+        border-radius: 6px;
+        align-items: center;
+        text-align: center;
+        margin-left: 3.55rem;
+        font-size: min(max(9px, 1.2vw), 11px);
+        letter-spacing: 0.5px;
+        font-family: Helvetica, sans-serif;
+    }
+    .error-error{
+        background-color: hsl(0, 100%, 77%);
+        color: #ffffff;
+        display: relative;
+        padding: 11px;
+        width: 70%;
+        border-radius: 6px;
+        align-items: center;
+        text-align: center;
+        margin-left: 3.55rem;
+        font-size: min(max(9px, 1.2vw), 11px);
+        letter-spacing: 0.5px;
+        font-family: Helvetica, sans-serif;
+    }
+       /* --------------------------------------------------view details------------------------------------------- */
+       .datetimeLbl{
+        text-align: center;
+    }
+    .createdatLbl{
+    font-size: .9rem;
+    /* width: 100%; */
+    display: inline-block;
+    margin-top: 1rem;
+    border-top: 1px solid var(--color-main);
+    border-bottom: 1px solid var(--color-main);
+    margin-left: 2rem;
+    color: var(--color-main);
+    font-weight: 600;
+}
+.payment-service{
+    width: 100%;
+    text-align: center;
+}
+.service-options{
+    position: relative;
+    border: none;
+    width: 15rem;
+    padding: 10px;
+    align-items: center;
+    text-align: center;
+    margin-right: 2rem;
+    font-family: 'cocogoose', sans-serif;
+    font-size: .8rem;
+    color: var(--color-secondary-main);
+    border-radius: 10px;
+    margin-top: 1rem;
+    border-bottom: 2px solid var(--color-main);
+    text-transform: uppercase;
+    background-color: var(--color-solid-gray);
+}
+.paymentOptions-text{
+    font-weight: 700;
+    font-size: 13px;
+    /* margin-left: 1rem; */
+    margin-top:1.7rem;
+    color: var(--color-black);
+    display: inline-block;
+    position: relative;
+    font-family: arial, sans-serif;
+}
+.payment-options1{
+    background-color: none;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
+    /* position: absolute; */
+    display: inline-block;
+    position: relative;
+    /* padding-top: 1rem; */
+    /* right: 8%; */
+}
+.payment-options2{
+    background-color: none;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
+    /* position: absolute; */
+    display: inline-block;
+    position: relative;
+    /* padding-top: 1rem; */
+    /* right: 8%; */
+}
+
+    .statusLbl{
+        font-weight: 1000;
+        font-size: 1.8rem;
+        width: 3rem;
+        text-transform: uppercase;
+        border-bottom: 2px solid var(--color-main);
+    }
+.customernameLbl{
+    margin-left: 1rem;
+    font-size: .9rem;
+    color: var(--color-solid-gray);
+    font-weight: 600;
+}
+.customer_name{
+    color: var(--color-main);
+    text-transform: uppercase;
+    margin-left: 1.5rem;
+    font-family: 'Cocogoose', sans-serif;
+    font-size: 1rem;
+}
+
+.main-user-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.addnew-title{
+    font-size: min(max(1.9rem, 1.1vw), 2rem);
+    color: var(--color-solid-gray);
+    font-family: 'Malberg Trial', sans-serif;
+    letter-spacing: .09rem;
+    display: flex;
+    padding-top: 1rem;
+    margin-bottom: -.3rem;
+    justify-content: center;
+    border-bottom: 2px solid var(--color-solid-gray);
+    width: 100%;
+    padding-bottom: 2px;
+}
+.container2{
+    width: 100%;
+    max-width: 600px;
+    padding: 28px;
+    margin: 0 28px;
+    border-radius:  0px 0px 20px 20px;
+    background-color: var(--color-white);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-top: 10px solid var(--color-solid-gray);
+}
+    .bot-buttons{
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    display: inline-block;
+    margin-top: 1.3rem;
+}
+    .AddButton button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 20px;
+    width: 7rem;
+    max-height: 60px;
+    outline: none;
+    border: none;
+    gap: .5rem;
+    font-size: min(max(9px, 1.1vw), 11px);
+    border-radius: 20px;
+    color: white;
+    background:  var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+    /* margin-left: 1rem; */
+    display: flex;
+    fill: white;
+    background: var(--color-solid-gray);
+}
+.AddButton button:hover{
+    background: var(--color-main);
+}
+    .close{
+    text-align: right;
+    float: right;
+    color: var(--color-maroon);
+    cursor: pointer;
+}
+
+.close:hover{
+    filter: brightness(2.5);
+}
+    .bg-placeorderform{
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* display: flex; */
+}
+.payment-section{
+    width: 100%;
+    align-items: center;
+    padding: 20px;
+    margin-top: 1rem;
+    justify-content: center;
+    background-color: var(--color-background);
+    border: none;
+    border-radius: 20px;
+}
+.user-input-box-totalamount label{
+    color: var(--color-black);
+    text-align: right;
+    font-size: 25px;
+    /* margin-left: .2rem; */
+    font-family: 'century gothic', sans-serif;
+    font-weight: 750;
+    /* margin: 5px 0; */
+}
+.user-input-box-totalamount{
+    /* display: inline-block; */
+
+}
+.user-input-box-cashpayment{
+    display: inline-block;
+    margin-top: 1rem;
+}
+.remaining-amount2{
+    color: var(--color-black);
+    font-family: 'calibri', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-left: .5rem;
+}
+.user-input-box-cashpayment label{
+    width: 95%;
+    color: var(--color-solid-gray);
+    font-size: 12px;
+    text-align: right;
+    /* margin-left: .2rem; */
+    margin-bottom: 0.5rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* margin: 5px 0; */
+}
+.total-amount2{
+    color: var(--color-black);
+    font-family: 'calibri', sans-serif;
+    font-size: 25px;
+    float: right;
+}
+.user-input-box-cashpayment .cash-payment2{
+    display: inline-block;
+    text-align: right;
+    height: 2.5rem;
+    outline: none;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    font-size: .8em;
+    color: var(--color-black);
+}
+.user-input-box-cashpayment .cash-change{
+    display: inline-block;
+    text-align: right;
+    height: 2.5rem;
+    margin-left: 1rem;
+    outline: none;
+    font-size: .8em;
+    color: var(--color-black);
+
+}
+.quantity-td{
+    min-width: 5rem;
+    width: 10%;
+    gap: 1rem;
+    justify-content: center;
+}
+.payment-options{
+    background-color: none;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
+    /* position: absolute; */
+    display: inline-block;
+    text-align: right;
+    /* padding-top: 1rem; */
+    /* right: 8%; */
+}
+.orderSum-Details{
+    background-color: var(--color-white);
+    padding: 1rem;
+    width:100%;
+    overflow:auto;
+    /* display: inline-block; */
+    /* margin-left: 1.1rem; */
+    max-height: 12rem;
+    height: 12rem;
+    margin-top: 1rem;
+    /* text-align: right; */
+    /* display: flex; */
+    border-top: 2px solid var(--color-solid-gray);
+    position: relative;
+    border-radius: 10px;
+}
+.outofstock{
+        border-radius: 20px;
+        background-color: #B22222;
+        color: #ffffff;
+        font-size: 10px;
+        padding: 7px;
+        font-weight: 700;
+        padding-right: 9px;
+        padding-left: 9px;
+    }
+    .instock{
+        border-radius: 20px;
+        background-color: #228B22;
+        font-size: 10px;
+        padding: 7px;
+        font-weight: 700;
+        padding-right: 9px;
+        padding-left: 9px;
+        color: #ffffff;
+    }
 </style>
     <body>
     
@@ -1594,6 +1959,11 @@ tr:hover td{
             <main>
                 <div class="main-dashboard">
                     <h1 class="dashTitle">MONITORING</h1> 
+                    <?php
+                    if (isset($_GET['success'])) {
+                        echo '<p id="myerror" class="success-success"> '.$_GET['success'].' </p>';
+                    }
+                    ?>
                     <?php
                     if (isset($_GET['error'])) {
                         echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
@@ -1695,16 +2065,15 @@ tr:hover td{
                                         echo 'GUEST';
                                     }
                                  ?></td>
-                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-list.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
                                 <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
-                                <td>         
-                                    <?php
-                                        if($rows['status_id'] == 0){
-                                            echo 'Unpaid';
-                                        }else{
-                                            echo 'Paid';
-                                        } 
-                                    ?>
+                                <td> 
+                                    <?php 
+                                    if($rows['status_id'] == 0){
+                                        echo '<span class="outofstock">Unpaid</span>';
+                                    }else{
+                                        echo '<span class="instock">Paid</span>';
+                                    } ?>
                                 </td>
                                 <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
                                 <td>    
@@ -1722,7 +2091,7 @@ tr:hover td{
                                         </select>
                                     </div>
                                 </td>
-                                <td>    <a href="../service/delete-transaction-order.php?delete-list=<?php echo $rows['uuid']; ?>" class="delete-rowsButton" class="action-btn" name="action">
+                                <td>    <a href="../service/delete-transaction-order.php?delete-list=<?php echo $rows['uuid']; ?>" class="delete-rowsButton"  name="action">
                                             X
                                         </a>
                                 </td>
@@ -1797,14 +2166,13 @@ tr:hover td{
                                  ?></td>
                                 <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
                                 <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
-                                <td>         
-                                    <?php
-                                        if($rows['status_id'] == 0){
-                                            echo 'Unpaid';
-                                        }else{
-                                            echo 'Paid';
-                                        } 
-                                    ?>
+                                <td> 
+                                    <?php 
+                                    if($rows['status_id'] == 0){
+                                        echo '<span class="outofstock">Unpaid</span>';
+                                    }else{
+                                        echo '<span class="instock">Paid</span>';
+                                    } ?>
                                 </td>
                                 <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
                                 <td>    
@@ -1828,6 +2196,167 @@ tr:hover td{
                 include('../common/top-menu.php')
             ?>    
         </div> 
+        <?php
+if(isset($_GET['view']))
+{
+    $uuid = $_GET['view'];
+    $result = mysqli_query($con, "SELECT
+                                customers.customer_name,
+                                transaction.total_amount,
+                                payment_option.option_name,
+                                transaction.service_type,
+                                transaction.created_at_date,
+                                transaction.created_at_time
+                                FROM transaction 
+                                LEFT JOIN customers  
+                                ON transaction.customer_name_id = customers.id 
+                                LEFT JOIN payment_option  
+                                ON transaction.payment_option = payment_option.id   
+                                WHERE transaction.uuid='$uuid'");
+    if (mysqli_num_rows($result) > 0) {
+    $transaction = mysqli_fetch_assoc($result);
+    ?>
+    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
+        <div class="bg-placeorderform" id="bg-placeform">
+            <div class="container1">
+                <a href="../monitoring/monitoring-delivery-pickup-list.php" class="close">X</a>
+                <h1 class="addnew-title">TRANSACTION DETAILS</h1>
+                <form action="#">
+                    <div class="main-user-info">
+                        <div class="customerName">
+                            <label class="customernameLbl">Customer</label>
+                            <span class="customer_name"><?php if($transaction['customer_name']){
+                                    echo $transaction['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }?></span>
+                            <div class="datetimeLbl">
+                                <span class="createdatLbl"><?= 'DATE :'.' '. $transaction['created_at_date'];?></span>
+                                <span class="createdatLbl"><?=  'TIME :'.' '.$transaction['created_at_time'];?></span>
+                            </div>
+                        </div>
+
+                         
+                        <div class="payment-service">
+                            <div class="payment-options1">
+                                <p class="paymentOptions-text">Payment Option</p>
+                                <label class="service-options"><?=$transaction['option_name'];?> </label>
+                            </div>
+                            <div class="payment-options2">
+                                <p class="paymentOptions-text">Service</p>
+                                <label class="service-options"><?=$transaction['service_type'];?> </label>
+                            </div>
+                        </div>
+                        <?php
+                            }
+                        ?>
+                         <div class="orderSum-Details">
+                            <table class="tableCheckout" id="sumTable">
+                                <thead>
+                                <tr>
+                                    <th>ITEM</th>
+                                    <th>Water</th>
+                                    <th>Type</th>
+                                    <th>Price</th>
+                                    <th>QTY</th>
+                                    <th>TOTAL</th>
+                                </tr>
+                                </thead>
+                                    <?php           
+                                            $transaction_process = "SELECT
+                                                    transaction_process.item_name, 
+                                                    transaction_process.water_type,
+                                                    transaction_process.category_type,
+                                                    transaction_process.quantity,
+                                                    transaction_process.price,
+                                                    transaction_process.total_price
+                                                    FROM transaction_process
+                                                    WHERE transaction_id = '$uuid'";
+                                            $transaction_order = mysqli_query($con, $transaction_process);
+                                            if(mysqli_num_rows($transaction_order) > 0)
+                                            {
+                                            foreach($transaction_order as $transactions)
+                                            {
+                                            ?>
+
+                                            <tbody>
+                                            <tr>
+                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
+                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
+                                                <td name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
+                                                <td name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
+                                                <td class="quantity-td" > 
+                                                    <?php echo $transactions['quantity'];?>
+                                                </td>
+                                                <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
+                                            </tr>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <tr id="noRecordTR">
+                                                    <td colspan="7">No Order(s) Added</td>
+                                                </tr>
+                                            <?php } ?>
+                                            </tbody>
+                                        
+                                      
+
+                                            <tfoot>
+                                           
+                                            </tfoot>
+                                            
+                                </table>
+                        </div>
+                        <?php $transaction_history = "SELECT
+                                                    transaction_history.amount_tendered, 
+                                                    transaction_history.customer_change,
+                                                    transaction_history.remaining_balance,
+                                                    transaction_history.previous_balance,
+                                                    transaction_history.unpaid_amount,
+                                                    transaction_history.created_at
+                                                    FROM transaction_history
+                                                    WHERE transaction_uuid = '$uuid'";
+                                            $transaction_order_history = mysqli_query($con, $transaction_history);
+                                            if(mysqli_num_rows($transaction_order_history) > 0)
+                                            {
+                                            foreach($transaction_order_history as $transactions_history)
+                                            {
+                                                ?>
+                        <div class="payment-section">
+                            <div class="user-input-box-totalamount">
+                                <label for="total-amount2">TOTAL AMOUNT</label>
+                                <span id="total-amount2" class="total-amount2"><?php echo '&#8369'.' '.number_format($transaction['total_amount'], '2','.',','); ?></span>
+                            </div>
+                            
+                            <div class="user-input-box-cashpayment">
+                                <label for="cash-payment2">Cash Payment</label>
+                                <span id="cash-payment2" class="remaining-amount2"><?php echo '&#8369'.' '.number_format($transactions_history['amount_tendered'], '2','.',','); ?></span>
+                            </div>
+
+                            <div class="user-input-box-cashpayment">
+                                <label for="cash-payment2">Change</label>
+                                <span id="cash-change"class="remaining-amount2"><?php echo '&#8369'.' '.number_format($transactions_history['customer_change'], '2','.',','); ?></span>
+                            </div>
+                        </div>
+                        <?php }} ?>
+
+                        <div class="line"></div>
+
+                        <div class="bot-buttons">
+                            <div class="AddButton">
+                                <button type="submit" id="addcustomerBtn" name="save-transaction" onclick="print();">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
+                                    PRINT
+                                </button>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </form> 
+    <?php }?>
     </body>
 </html>
 <script>

@@ -1080,13 +1080,13 @@ tr:hover td{
                                      <?php echo $rows['emp_first_name'].' '.$rows['emp_last_name']; ?>
                                 </td>
                                 <td>
-                                     <?php echo '<span>&#8369;</span>' .' '. $rows['deduction']; ?>
+                                     <?php echo $rows['deduction']; ?>
                                 </td>
                                 <td>
-                                    <?php echo '<span>&#8369;</span>' .' '. $rows['bonus']; ?>
+                                    <?php echo $rows['bonus']; ?>
                                 </td>
                                 <td>
-                                     <?php echo '<span>&#8369;</span>' .' '. $rows['total_amount']; ?>
+                                     <?php echo 'PHP ' . $rows['total_amount']; ?>
                                 </td>       
                             </tr>
                             </tbody>

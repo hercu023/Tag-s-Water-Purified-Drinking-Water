@@ -111,21 +111,226 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
 .customerName{
     align-items:center;
     width: 100%;
-    margin-top: -2rem;
+    margin-top: -1rem;
     margin-left: 1rem;
     margin-right: 1rem;
 }
-.customerName label{
-    /* width: 95%; */
-    color: var(--color-solid-gray);
-    font-size: 16px;
+
+.customernameLbl{
+    margin-left: 1rem;
+    font-size: .9rem;
     display: inline-block;
+    color: var(--color-solid-gray);
+    font-weight: 600;
+}
+.customer_name{
+    color: var(--color-main);
+    text-transform: uppercase;
+    margin-left: 1.5rem;
+    font-family: 'Cocogoose', sans-serif;
+    font-size: 1rem;
+}
+.createdatLbl{
+    font-size: .9rem;
+    /* width: 100%; */
+    display: inline-block;
+    margin-top: 1rem;
+    border-top: 1px solid var(--color-main);
+    border-bottom: 1px solid var(--color-main);
+    margin-left: 2rem;
+    color: var(--color-main);
+    font-weight: 600;
+}
+.datetimeLbl{
+        text-align: center;
+
+    }
+.line{
+    width:100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-solid-gray);
+}
+.payment-service{
+    width: 100%;
+    text-align: center;
+}
+.payment-options1{
+    background-color: none;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
+    /* position: absolute; */
+    display: inline-block;
+    position: relative;
+    /* padding-top: 1rem; */
+    /* right: 8%; */
+}
+.payment-options2{
+    background-color: none;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
+    /* position: absolute; */
+    display: inline-block;
+    position: relative;
+    /* padding-top: 1rem; */
+    /* right: 8%; */
+}
+.service-options{
+    position: relative;
+    border: none;
+    width: 15rem;
+    padding: 10px;
+    align-items: center;
+    text-align: center;
+    margin-right: 2rem;
+    font-family: 'cocogoose', sans-serif;
+    font-size: .8rem;
+    color: var(--color-secondary-main);
+    border-radius: 10px;
+    margin-top: 1rem;
+    border-bottom: 2px solid var(--color-main);
+    text-transform: uppercase;
+    background-color: var(--color-solid-gray);
+}
+.paymentOptions-text{
+    font-weight: 700;
+    font-size: 13px;
+    /* margin-left: 1rem; */
+    margin-top:1.7rem;
+    color: var(--color-black);
+    display: inline-block;
+    position: relative;
+    font-family: arial, sans-serif;
+}
+.orderSum-Details{
+    background-color: var(--color-white);
+    padding: 1rem;
+    width:100%;
+    overflow:auto;
+    /* display: inline-block; */
+    box-shadow: 2px 2px 2px 1px var(--color-tertiary);
+    /* margin-left: 1.1rem; */
+    max-height: 8rem;
+    height: 8rem;
+    margin-top: 1rem;
+    /* text-align: right; */
+    /* display: flex; */
+    border-top: 2px solid var(--color-solid-gray);
+    position: relative;
+    border-radius: 10px;
+}
+.orderSum-Details .tableCheckout td{
+    color: var(--color-solid-gray);
+
+}
+.totalamount-Details{
+    background-color: var(--color-background);
+    padding-top: 1.5rem;
+    width:100%;
+    overflow:auto;
+    max-height: 7rem;
+    height: 7rem;
+    margin-top: 1rem;
+    border-radius: 5px;
+    border-left: 1px solid var(--color-main);
+    border-right: 1px solid var(--color-main);
+    position: relative;
+}
+
+.tableCheckout table{
+    background: var(--color-white);
+    font-family: 'Switzer', sans-serif;
+    width: 100%;
+    font-size: 0.7rem;
+    border-radius: 0px 0px 10px 10px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    /* padding-bottom: 2.5rem; */
+    text-align: center;
+    transition: all 700ms ease;
+    overflow: auto;
+    margin-top: -1rem;
+}
+table{
+    font-family: 'Switzer', sans-serif;
+    width: 100%;
+    border-radius: 0px 0px 10px 10px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 2.5rem;
+    text-align: center;
+    transition: all 700ms ease;
+    overflow: auto;
+    margin-top: -1rem;
+}
+table tbody td{
+    height: 1.8rem;
+    border-bottom: 1px solid var(--color-main);
+    color: var(--color-main);
+    font-size: .67rem;
+}
+.tableCheckout th{
+    height: 1.8rem;
+    color: var(--color-solid-gray);
+    /* margin:1rem; */
+    font-size: .75rem;
+    border: none;
+    text-transform: uppercase;
+    /* border-bottom: 2px solid var(--color-solid-gray); */
+}
+.payment-section{
+    width: 100%;
+    align-items: center;
+    padding: 20px;
+    margin-top: 1rem;
+    justify-content: center;
+    background-color: var(--color-secondary-main);
+    border-top: 5px solid var(--color-main);
+    border-radius: 0 0 10px 10px;
+}
+.user-input-box-totalamount{
+    margin-bottom: 1rem;
+}
+
+.user-input-box-totalamount label{
+    color: var(--color-black);
+    text-align: right;
+    font-size: 25px;
     /* margin-left: .2rem; */
-    margin-bottom: 0.5rem;
-    font-family: 'Malberg Trial', sans-serif;
-    font-weight: 550;
+    font-family: 'century gothic', sans-serif;
+    font-weight: 750;
     /* margin: 5px 0; */
 }
+.user-input-box-totalamount .remaining-amountLbl{
+    font-family: 'arial', sans-serif;
+    font-weight: 500;   
+    color: var(--color-solid-gray);
+    font-size: 15px;
+}
+.remaining-amount2{
+    color: var(--color-solid-gray);
+    font-family: 'calibri', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    float: right;
+}
+.total-amount2{
+    color: var(--color-black);
+    font-family: 'calibri', sans-serif;
+    font-size: 25px;
+    float: right;
+}
+.close{
+    text-align: right;
+    float: right;
+    color: var(--color-maroon);
+    cursor: pointer;
+}
+
+.close:hover{
+    filter: brightness(2.5);
+}
+/* ------------------------------------------------------------------------------------ */
 .action-dropdown{
     position: relative;
     margin-top: .5rem;
@@ -242,26 +447,61 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
     width: 100%;
     align-items: center;
     text-align: center;
-    display: inline-block;
-    margin-top: 1.3rem;
 }
-.AddButton button{
+.AddButton1 button{
     font-family: 'COCOGOOSE', sans-serif;
     padding: 10px;
-    width: 15rem;
-    max-height: 60px;
+    width: 10rem;
     outline: none;
+    justify-content: center;
     border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
-    border-radius: 20px;
+    gap: .5rem;
+    border-radius: 10px;
+    font-size: .7rem;
     color: white;
     background:  var(--color-mainbutton);
     cursor: pointer;
     transition: 0.5s;
-    margin-left: 1rem;
+    /* margin-left: 1rem; */
+    display: flex;
+    fill: white;
+    background: var(--color-solid-gray);
 }
-.AddButton button:hover{
-    background: var(--color-button-hover);
+.AddButton1 button:hover{
+    background: var(--color-secondary-main);
+    box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
+    fill: var(--color-main);
+    color: var(--color-main);
+}
+.AddButton2 button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    width: 10rem;
+    font-size: .7rem;
+    justify-content: center;
+    border: none;
+    gap: .5rem;
+    border-radius: 10px;
+    color: white;
+    background:  var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+    /* margin-left: 1rem; */
+    display: flex;
+    fill: white;
+    background: var(--color-main);
+}
+.AddButton2 button:hover{
+    background: var(--color-secondary-main);
+    box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
+    color: var(--color-main);
+    fill: var(--color-main);
+}
+.AddButton1{
+        display: inline-block;
+}
+.AddButton2{
+        display: inline-block;
 }
 .CancelButton{
     display: inline-block;
@@ -1546,6 +1786,37 @@ tr:hover td{
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
+    .outofstock{
+        border-radius: 20px;
+        background-color: #B22222;
+        color: #ffffff;
+        font-size: 10px;
+        padding: 7px;
+        font-weight: 700;
+        padding-right: 9px;
+        padding-left: 9px;
+    }
+    .instock{
+        border-radius: 20px;
+        background-color: #228B22;
+        font-size: 10px;
+        padding: 7px;
+        font-weight: 700;
+        padding-right: 9px;
+        padding-left: 9px;
+        color: #ffffff;
+    }
+    .bg-placeorderform{
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* display: flex; */
+}
 </style>
     <body>
     
@@ -1619,7 +1890,8 @@ tr:hover td{
                             <th>Total Amount</th>
                             <th>Payment Status</th>
                             <th>Delivery Boy</th>
-                            <th>Date/Time</th>
+                            <th>Date/Time Listed</th>
+                            <th>Date/Time Delivered</th>
                     </tr>
                     </thead>
 
@@ -1632,6 +1904,7 @@ tr:hover td{
                             transaction.total_amount,
                             transaction.created_at_date,
                             transaction.created_at_time,
+                            delivery_list.updated_at,
                             employee.first_name,
                             employee.last_name
                             FROM transaction
@@ -1660,19 +1933,19 @@ tr:hover td{
                                         echo 'GUEST';
                                     }
                                  ?></td>
-                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+                                <td> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-delivered.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
                                 <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
-                                <td>         
-                                    <?php
-                                        if($rows['status_id'] == 0){
-                                            echo 'Unpaid';
-                                        }else{
-                                            echo 'Paid';
-                                        } 
-                                    ?>
+                                <td> 
+                                    <?php 
+                                    if($rows['status_id'] == 0){
+                                        echo '<span class="outofstock">Unpaid</span>';
+                                    }else{
+                                        echo '<span class="instock">Paid</span>';
+                                    } ?>
                                 </td>
                                 <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
                                 <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
+                                <td> <?php echo $rows['updated_at']?></td>
                             <tr id="noRecordTR" style="display:none">
                                 <td colspan="7">No Record Found</td>
                             </tr>
@@ -1687,6 +1960,228 @@ tr:hover td{
                 include('../common/top-menu.php')
             ?>    
         </div> 
+        <?php
+if(isset($_GET['view']))
+{
+    $uuid = $_GET['view'];
+    $result = mysqli_query($con, "SELECT
+                                customers.customer_name,
+                                transaction.total_amount,                   
+                                payment_option.option_name,
+                                transaction.service_type,
+                                transaction.created_at_date,
+                                transaction.created_at_time
+                                FROM transaction 
+                                LEFT JOIN customers  
+                                ON transaction.customer_name_id = customers.id 
+                                LEFT JOIN payment_option  
+                                ON transaction.payment_option = payment_option.id   
+                                WHERE transaction.uuid='$uuid'");
+    if (mysqli_num_rows($result) > 0) {
+    $transaction = mysqli_fetch_assoc($result);
+    ?>
+    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
+        <div class="bg-placeorderform" id="bg-placeform">
+            <div class="container1">
+                <a href="../monitoring/monitoring-point-of-sales-transaction.php" class="close">X</a>
+                <h1 class="addnew-title">TRANSACTION DETAILS</h1>
+                <?php
+                    if (isset($_GET['message'])) {
+                        echo '<p class="transaction_success"> '.$_GET['message'].' </p>';
+                    }
+                ?>
+                <form action="#">
+                    <div class="main-user-info">
+                        <div class="customerName">
+                            <label class="customernameLbl">Customer</label>
+                            <span class="customer_name"><?php if($transaction['customer_name']){
+                                    echo $transaction['customer_name'];
+                                    }else{
+                                        echo 'GUEST';
+                                    }?></span>
+                            <div class="datetimeLbl">
+                                <label class="createdatLbl"><?= 'DATE :'.' '. $transaction['created_at_date'];?></label>
+                                <label class="createdatLbl"><?=  'TIME :'.' '.$transaction['created_at_time'];?></label>
+                            </div>
+                        </div>
+                         
+                        <div class="payment-service">
+                            <div class="payment-options1">
+                                <p class="paymentOptions-text">Payment Option</p>
+                                <label class="service-options"><?=$transaction['option_name'];?> </label>
+                            </div>
+                            <div class="payment-options2">
+                                <p class="paymentOptions-text">Service</p>
+                                <label class="service-options"><?=$transaction['service_type'];?> </label>
+                            </div>
+                        </div>
+                 
+                        <?php
+                            }
+                        ?>
+                         <div class="orderSum-Details">
+                            <table class="tableCheckout" id="sumTable">
+                                <thead>
+                                <tr>
+                                    <th>ITEM</th>
+                                    <th>Water</th>
+                                    <th>Type</th>
+                                    <th>Price</th>
+                                    <th>QTY</th>
+                                    <th>TOTAL</th>
+                                </tr>
+                                </thead>
+                                    <?php           
+                                            $transaction_process = "SELECT
+                                                    transaction_process.item_name, 
+                                                    transaction_process.water_type,
+                                                    transaction_process.category_type,
+                                                    transaction_process.quantity,
+                                                    transaction_process.price,
+                                                    transaction_process.total_price
+                                                    FROM transaction_process
+                                                    WHERE transaction_id = '$uuid'";
+                                            $transaction_order = mysqli_query($con, $transaction_process);
+                                            if(mysqli_num_rows($transaction_order) > 0)
+                                            {
+                                            foreach($transaction_order as $transactions)
+                                            {
+                                            ?>
+
+                                            <tbody>
+                                            <tr>
+                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
+                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
+                                                <td name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
+                                                <td name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
+                                                <td class="quantity-td" > 
+                                                    <?php echo $transactions['quantity'];?>
+                                                </td>
+                                                <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
+                                            </tr>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <tr id="noRecordTR">
+                                                    <td colspan="7">No Order(s) Added</td>
+                                                </tr>
+                                            <?php } ?>
+                                            </tbody>
+                                        
+                                      
+
+                                            <tfoot>
+                                           
+                                            </tfoot>
+                                            
+                                </table>
+                        </div>
+                        <div class="totalamount-Details">
+                            <table class="tableCheckout" id="sumTable">
+                                <thead>
+                                <tr>
+                                    <th>Amount Tendered</th>
+                                    <th>Change</th>
+                                    <th>Previous Balance</th>
+                                    <th>Remaining Balance</th>
+                                    <th>Unpaid Amount</th>
+                                    <th>Date Created</th>
+                                </tr>
+                                </thead>
+                                    <?php           
+                                            $transaction_history = "SELECT
+                                                    transaction_history.amount_tendered, 
+                                                    transaction_history.customer_change,
+                                                    transaction_history.remaining_balance,
+                                                    transaction_history.previous_balance,
+                                                    transaction_history.unpaid_amount,
+                                                    transaction_history.created_at
+                                                    FROM transaction_history
+                                                    WHERE transaction_uuid = '$uuid'";
+                                            $transaction_order_history = mysqli_query($con, $transaction_history);
+                                            if(mysqli_num_rows($transaction_order_history) > 0)
+                                            {
+                                            foreach($transaction_order_history as $transactions_history)
+                                            {
+                                            ?>
+
+                                            <tbody>
+                                            <tr>
+                                                <td> <?php echo '&#8369'.' '.$transactions_history['amount_tendered']; ?></td>
+                                                <td> <?php echo '&#8369'.' '.$transactions_history['customer_change']; ?></td>
+                                                <td> <?php echo '&#8369'.' '.$transactions_history['previous_balance']; ?></td>
+                                                <td> <?php echo '&#8369'.' '.$transactions_history['remaining_balance']; ?></td>
+                                                <td> <?php echo '&#8369'.' '. $transactions_history['unpaid_amount']; ?></td>
+                                                <td> <?php echo $transactions_history['created_at']; ?></td>
+                                            </tr>
+                                            <?php } ?>
+                                            <?php } else { ?>
+                                                <tr id="noRecordTR">
+                                                    <td colspan="5">No Order(s) Added</td>
+                                                </tr>
+                                            <?php } ?>
+                                            </tbody>
+                                        
+                                      
+
+                                            <tfoot>
+                                           
+                                            </tfoot>
+                                            
+                                </table>
+                        </div>
+                        <div class="payment-section">
+                            <div class="user-input-box-totalamount">
+                            <?php 
+                                    $transaction_unpaid = "SELECT
+                                    transaction_history.unpaid_amount
+                                    FROM transaction_history
+                                    WHERE transaction_uuid = '$uuid'
+                                    ORDER BY transaction_history.created_at DESC
+                                    LIMIT 1";
+                                    $transaction_unpaid_history = mysqli_query($con, $transaction_unpaid);
+                                    if(mysqli_num_rows($transaction_unpaid_history) > 0)
+                                    {
+                                        $unpaid_amount = mysqli_fetch_assoc($transaction_unpaid_history)['unpaid_amount'];
+                                        $total_paid_amount = $transaction['total_amount'] - $unpaid_amount;
+                                ?>
+                                <label class="remaining-amountLbl">Remaining Unpaid Amount</label>
+                                <span id="remaining-amount2" class="remaining-amount2"><?php echo '&#8369'.' '.number_format($unpaid_amount, '2','.',','); ?></span>
+                            </div>
+                            <div class="user-input-box-totalamount">
+                         
+                                <label for="total-amount2">TOTAL PAID AMOUNT</label>
+                                <span id="total-amount2" class="total-amount2"><?php echo '&#8369'.' '.number_format($total_paid_amount, '2','.',','); ?></span>
+                            </div>
+                            
+                        </div>
+                        <?php } ?>
+                        
+                        <div class="line"></div>
+
+                        <div class="bot-buttons">
+                            <div class="AddButton1">
+                                <button type="submit" id="addcustomerBtn" name="save-transaction" onclick="print();">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
+                                    PRINT
+                                </button>
+                            </div>
+                            <input type="hidden" name="uuid" value="<?php echo $uuid?>">
+                            <div class="AddButton2">
+                                <button type="submit" id="addcustomerBtn" name="monitoring-pos-unpaid">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M2.5 16q-.625 0-1.062-.438Q1 15.125 1 14.5V6h1.5v8.5h14V16Zm3-3q-.625 0-1.062-.438Q4 12.125 4 11.5v-6q0-.604.438-1.052Q4.875 4 5.5 4h12q.604 0 1.052.448Q19 4.896 19 5.5v6q0 .625-.448 1.062Q18.104 13 17.5 13ZM7 11.5q0-.604-.448-1.052Q6.104 10 5.5 10v1.5Zm9 0h1.5V10q-.625 0-1.062.448Q16 10.896 16 11.5Zm-4.5-.5q1.042 0 1.771-.719Q14 9.562 14 8.5q0-1.042-.729-1.771Q12.542 6 11.5 6q-1.062 0-1.781.729Q9 7.458 9 8.5q0 1.062.719 1.781.719.719 1.781.719Zm-6-4q.604 0 1.052-.438Q7 6.125 7 5.5H5.5Zm12 0V5.5H16q0 .625.438 1.062Q16.875 7 17.5 7Z"/></svg>
+                                PAYMENT
+                                </button>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </form> 
+    <?php }?>
+
     </body>
 </html>
 <script>

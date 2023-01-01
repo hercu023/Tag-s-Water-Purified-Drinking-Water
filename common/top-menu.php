@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <!-- <link rel="stylesheet" type="text/css" href="../CSS/top-menu.css"> -->
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
@@ -19,7 +20,7 @@
         <div class="menu-btn2">
             <i class="fas fa-bars"></i>
         </div>
-        <h2 class="dashTitle-top"></h2>
+        <h2 class="accTitle-top"></h2>
         <div class="user1">
             <div class="welcome">
                 <h4 > Welcome, </h4>

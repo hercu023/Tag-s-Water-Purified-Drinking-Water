@@ -9,6 +9,10 @@ function selectAll(){
         });
     }
 }
+setTimeout(function(){
+    $("#myerror").fadeIn(400);
+}, 5000)
+
 function selectRestore(){
     addForm = document.querySelector(".bg-addcustomerform");
     message = document.querySelector(".message");

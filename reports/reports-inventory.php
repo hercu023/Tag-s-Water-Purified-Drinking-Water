@@ -113,8 +113,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
                             SUM(inventory_log.amount) as total
                             FROM inventory_log
                             WHERE action = 'IN'
-                            GROUP BY MONTH(inventory_log.created_at)
-                            ORDER BY YEAR(inventory_log.created_at), 
+                            GROUP BY MONTH(inventory_log.created_at),
+                            YEAR(inventory_log.created_at)
+                            ORDER BY YEAR(inventory_log.created_at) DESC, 
                             MONTH(inventory_log.created_at) DESC";
                         } else if(isset($_GET['option']) && $_GET['option'] == "Yearly") {
                             $query = "SELECT 
@@ -192,7 +193,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
                                     <?php } ?>
                                 </td>
                                 <td>
-                                    <?php echo '<span>&#8369;</span>' .' '. $rows['total']; ?>
+                                    <?php echo 'PHP '.$rows['total']; ?>
                                 </td>
                             </tr>
                             </tbody>

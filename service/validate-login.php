@@ -89,7 +89,7 @@ if (isset($_POST['email']) && isset($_POST['password'])){
                                     exit();
                                 }
         
-                                if($access['name'] == 'REPORTS-DELIVERY_WALKIN') {
+                                if($access['name'] == 'REPORTS-DELIVERY') {
                                     header("Location: ../reports/reports-delivery-walkin.php");
                                     exit();
                                 }

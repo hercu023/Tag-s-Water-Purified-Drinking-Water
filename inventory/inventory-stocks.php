@@ -164,7 +164,7 @@ body{
         width: 100%;
     }
     .newUser-button{
-        margin-left: 10rem;
+        margin-left: 19rem;
         position: relative;
         display: inline-block;
     }
@@ -225,6 +225,7 @@ body{
         position: relative;
         border-radius: 3px;
         display: flex;
+        text-decoration: none;
         margin: 1rem;
         padding: 5px;
         left: 19%;
@@ -248,6 +249,7 @@ body{
             max-height: 50px;
             border-radius: 20px;
             padding-left: 1rem;
+            text-decoration: none;
             padding-right: 1rem;
             justify-content: center;
             font-family: 'Outfit', sans-serif;
@@ -1300,10 +1302,7 @@ h1{
     text-align: right;
     align-items: right;
 } */
-a{
-    text-decoration:none;
-    font-family: 'COCOGOOSE', sans-serif;
-}
+
 .user2 a{
     font-family: 'Malberg Trial', sans-serif;
     color: rgb(68, 68, 68);
@@ -1793,6 +1792,36 @@ tr:hover td{
     border-radius: 0 10px 10px 0 ;
     box-shadow: 1px 1px 1px rgb(224, 224, 224);
 } */
+.outofstock{
+    border-radius: 20px;
+    background-color: #B22222;
+    color: #ffffff;
+    font-size: 10px;
+    padding: 7px;
+    font-weight: 700;
+    padding-right: 9px;
+    padding-left: 9px;
+}
+.instock{
+    border-radius: 20px;
+    background-color: #228B22;
+    font-size: 10px;
+    padding: 7px;
+    font-weight: 700;
+    padding-right: 9px;
+    padding-left: 9px;
+    color: #ffffff;
+}
+.lowstock{
+    border-radius: 20px;
+    background-color: rgb(126, 126, 126);
+    color: #ffffff;
+    font-size: 10px;
+    padding: 7px;
+    font-weight: 700;
+    padding-right: 9px;
+    padding-left: 9px;
+}
 </style>
     <body>
     
@@ -1810,7 +1839,7 @@ tr:hover td{
                         ?>
                     <div class="sub-tab">
                         <div class="user-title">
-                            <h2> STOCKS </h2>
+                            <h2> INVENTORY STOCKS </h2>
                         </div>
                         <div class="newUser-button"> 
                             <a href="../inventory/inventory-stocks-add.php" type="submit" id="add-userbutton" class="add-account" >
@@ -1837,6 +1866,7 @@ tr:hover td{
                                     <th>ID</th>
                                     <th>Item Name</th>
                                     <th>Type</th>
+                                    <th>Status</th>
                                     <th>Total In</th>
                                     <th>Total Out</th>
                                     <th>Total On Hand</th>
@@ -1849,6 +1879,7 @@ tr:hover td{
                             inventory_stock.id,
                             inventory_item.item_name,
                             category_type.name,
+                            inventory_item.reorder_level,
                             inventory_stock.in_going,
                             inventory_stock.out_going,
                             inventory_stock.on_hand
@@ -1866,9 +1897,22 @@ tr:hover td{
                                         <td> <?php echo $rows['id']; ?></td>
                                         <td> <?php echo $rows['item_name']; ?></td>
                                         <td> <?php echo $rows['name']; ?></td>
+                                        <td>
+                                            <?php 
+                                            $level = $rows['reorder_level']; 
+                                            $on_hand = $rows['on_hand'];
+                                            if($on_hand <= 0) {
+                                                echo '<span class="outofstock">OUT OF STOCK</span>';
+                                            } else if ($on_hand > $level) {
+                                                echo '<span class="instock">IN STOCK</span>';
+                                            } else {
+                                                echo '<span class="lowstock">LOW STOCK</span>';
+                                            }
+                                            ?>
+                                        </td>
                                         <td> <?php echo $rows['in_going']; ?></td>
-                                        <td> <?php echo $rows['out_going']; ?></td>
-                                        <td> <?php echo $rows['on_hand']; ?></td>
+                                        <td> <?php echo '<span style="color:#B22222;">'.$rows['out_going'].'</span>'; ?></td>
+                                        <td> <?php echo '<span style="color:#228B22;">'.$rows['on_hand'].'</span>'; ?></td>
                                         <td class="td-remove"> 
                                             <a href="../inventory/inventory-stocks-edit.php?remove=<?php echo $rows['id']; ?>" id="edit-action" class="edit-action" name="action">
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 10.75v-1.5h10v1.5Z"/></svg>

@@ -502,46 +502,59 @@ BODY{
 .actionicon{
     fill:  var(--color-white);
 }
-#edit-action{
+.tooltipText{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .7rem;
+    color: var(--color-white);
+}
+.edit-action{
     background: hsl(0, 0%, 37%);
     color: var(--color-white);
+    fill: var(--color-white);
     align-items: center;
+    text-align:center;
+    justify-content: center;
+    float: center;
     position: relative;
+    text-decoration: none;
     border-radius: 3px;
     display: flex;
-    width: 100%;
-    justify-content: center;
+    width: 60%;
+    padding: 5px;
     margin: 1px;
-    gap: .5rem;
+    gap: .3rem;
+    left: 20%;
     cursor: pointer;
     transition: 0.3s;
     border: none;
 }
-#edit-action:hover{
+.edit-action:hover{
     background: var(--color-main);
     color: var(--color-white);
 }
-#archive-action{
+.archive-action{
     background: hsl(0, 51%, 44%);
+    fill: var(--color-white);
     color: var(--color-white);
     align-items: center;
+    text-align:center;
+    justify-content: center;
+    float: center;
     position: relative;
+    text-decoration: none;
     border-radius: 3px;
     display: flex;
-    width: 100%;
+    left: 20%;
+    width: 60%;
+    padding: 5px;
     margin: 5px;
     justify-content: center;
     margin: 1px;
-    gap: .5rem;
+    gap: .3rem;
     cursor: pointer;
     transition: 0.3s;
     border: none;
 }
-#archive-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
-}
-
 /* ------------------------------------------------------------------------------------ */
 .message{
     background-color: hsl(0, 100%, 77%);

@@ -1111,6 +1111,26 @@ tr:hover td{
         border-radius: 0 10px 10px 0 ;
         box-shadow: 1px 1px 1px rgb(224, 224, 224);
     }
+    .outofstock{
+        border-radius: 20px;
+        background-color: #B22222;
+        color: #ffffff;
+        font-size: 10px;
+        padding: 7px;
+        font-weight: 700;
+        padding-right: 9px;
+        padding-left: 9px;
+    }
+    .instock{
+        border-radius: 20px;
+        background-color: #228B22;
+        font-size: 10px;
+        padding: 7px;
+        font-weight: 700;
+        padding-right: 9px;
+        padding-left: 9px;
+        color: #ffffff;
+    }
 </style>
     <body>
     
@@ -1261,8 +1281,10 @@ tr:hover td{
                                 ORDER BY transaction.created_at_date";
                             }
                         $result4 = mysqli_query($con, $dropdown_query2);
-                        while ($rows = mysqli_fetch_assoc($result4))
+                        if(mysqli_num_rows($result4) > 0)
                         {
+                        foreach($result4 as $rows)
+                        {   
                             ?>
                             <tbody>
                             <tr>
@@ -1279,22 +1301,23 @@ tr:hover td{
                                 <td> <?php echo $rows['option_name']; ?></td>
                                 <td> <?php echo $rows['service_type']; ?></td>
                                 <td> <?php echo $rows['note']; ?></td>
-                                <td> <?php 
+                                <td> 
+                                    <?php 
                                     if($rows['status_id'] == 0){
-                                        echo 'Unpaid';
+                                        echo '<span class="outofstock">Unpaid</span>';
                                     }else{
-                                        echo 'Paid';
+                                        echo '<span class="instock">Paid</span>';
                                     } ?>
                                 </td>
                                 <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
                                 <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
-                            <tr id="noRecordTR" style="display:none">
-                                <td colspan="10">No Record Found</td>
-                            </tr>
                             </tbody>
                             <?php
-                        }
-                        ?>
+                             }}else { ?>
+                            <tr id="noRecordTR">
+                                <td colspan="10">No Transaction(s) Added</td>
+                            </tr>
+                        <?php } ?>
                             </table>
                         </div>
             </main>

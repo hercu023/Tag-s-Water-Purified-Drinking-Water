@@ -147,10 +147,10 @@ if(isset($_POST['save-account-type'])) {
                     add_access($con, 0, $account_type_id, 'REPORTS-ATTENDANCE');
                 }
 
-                if(isset($_POST['REPORTS-DELIVERY_WALKIN'])) {
-                    add_access($con, 1, $account_type_id, 'REPORTS-DELIVERY_WALKIN');
+                if(isset($_POST['REPORTS-DELIVERY'])) {
+                    add_access($con, 1, $account_type_id, 'REPORTS-DELIVERY');
                 } else {
-                    add_access($con, 0, $account_type_id, 'REPORTS-DELIVERY_WALKIN');
+                    add_access($con, 0, $account_type_id, 'REPORTS-DELIVERY');
                 }
 
                 if(isset($_POST['REPORTS-EXPENSE'])) {

@@ -10,7 +10,7 @@ require_once "../service/user-access.php";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <link rel="stylesheet" type="text/css" href="../CSS/common.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../CSS/common.css"> -->
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
@@ -19,6 +19,243 @@ require_once "../service/user-access.php";
     <title>Tag's Water Purified Drinking Water</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
+<style>
+    :root{
+    --color-main: rgb(2, 80, 2);
+    --color-white: white;
+    --color-white-secondary: white;
+    --color-tertiary: hsl(0, 0%, 57%);
+    --color-black: rgb(49, 49, 49);
+    --color-maroon: rgb(136, 0, 0);
+    --color-secondary-main: rgb(244, 255, 246);
+    --color-background: rgb(235, 235, 235);
+    --color-solid-gray: rgb(126, 126, 126);
+    --color-td:rgb(100, 100, 100);
+    --color-button: rgb(117, 117, 117);
+    --color-table-shadow: rgb(244, 255, 246);
+    --color-shadow-shadow: rgb(116, 116, 116);
+    --color-table-hover: rgb(244, 255, 246);
+    --color-aside-mobile-focus: rgb(78, 150, 78);
+    --color-aside-mobile-text: hsl(0, 0%, 57%);
+
+}
+.dark-theme{
+    --color-white: rgb(48, 48, 48);
+    --color-tertiary: hsl(0, 0%, 25%);
+    --color-black: white;
+    --color-shadow-shadow: rgb(32, 32, 32);
+    --color-aside-mobile-focus: rgb(244, 255, 246);
+    --color-table-shadow: rgb(131, 131, 131);
+    --color-maroon: rgb(255, 130, 130);
+    --color-white-secondary: rgb(235, 235, 235);
+    --color-main: rgb(244, 255, 246);
+    --color-secondary-main: rgb(97, 172, 111);
+    --color-background: rgb(80, 80, 80);
+    --color-solid-gray: rgb(231, 231, 231);
+    --color-td: rgb(231, 231, 231);
+    --color-button: rgb(202, 202, 202);
+    --color-table-hover: rgb(112, 112, 112);
+    --color-aside-mobile-text:hsl(0, 0%, 88%);
+}
+BODY{
+    background: var(--color-background);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+/* -----------------------------------------------Side Menu---------------------------------------- */
+.side-bar{
+    background: var(--color-table-hover);
+    backdrop-filter: blur(15px);
+    width: 15.5rem;
+    height: 100vh;
+    font-family: 'cocogoose', sans-serif;
+    position: fixed;
+    top: 0;
+    /* left: -100%; */
+    overflow-y: auto;
+    transition: 0.6s ease;
+    transition-property: left;
+}
+.side-bar .title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: -1.9rem;
+}
+.side-bar .titlelogo{
+    display: flex;
+    gap: 0.8rem;
+}
+.side-bar .titlelogo img{
+    width: 5rem;
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+    margin-left: 5.5rem;
+}
+.side-bar .close{
+    display: none;
+    font-size: 1rem;
+}
+.side-bar.active{
+    left: 0;
+}
+
+.side-bar .menu{
+    width: 100%;
+    margin-top: 80px;
+}
+
+.side-bar .menu .item{
+    position: relative;
+    cursor: pointer;
+}
+
+.side-bar .menu .item a{
+    color: var(--color-solid-gray);
+    fill: var(--color-solid-gray);
+    font-size: 13px;
+    text-decoration: none;
+    display: flex;
+    margin-left: .5rem;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+    padding: 0px 20px;
+    line-height: 60px;
+    height: 3.7rem;
+    transition: all 300ms ease;
+}
+.side-bar .menu .item .sub-item{
+    height: 2.9rem;
+
+}
+.side-bar .menu .item a:hover{
+    background: var(--color-table-hover);
+    transition: 0.6s;
+    margin-left: 0rem;
+    border-radius: 0 10px 10px 0 ;
+    box-shadow: 2px 2px 2px rgb(224, 224, 224);
+}
+
+.side-bar .menu .item a .dropdown{
+    position: absolute;
+    right: 0;
+    margin: 20px;
+    transition: 0.3s ease;
+}
+
+.side-bar .menu .item .sub-menu{
+    background: var(--color-background);
+    display: none;
+
+}
+
+.side-bar .menu .item .sub-menu a{
+    padding-left: 90px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'switzer', sans-serif;
+    box-shadow: 0px 1px 1px rgb(224, 224, 224);
+
+}
+
+.rotate{
+    transform: rotate(90deg);
+}
+
+.close-btn{
+    position: absolute;
+    color: var(--color-tertiary);
+    font-size: 14px;
+    right: 0;
+    margin: 25px;
+    margin-top: 50px;
+    display: none;
+    cursor: pointer;
+}
+
+.menu-btn{
+    position: absolute;
+    color: var(--color-tertiary);
+    font-size: 20px;
+    margin: 25px;
+    cursor: pointer;
+}
+.menu-btn:hover{
+    color: var(--color-main);
+}
+.menu-btn2{
+    position: absolute;
+    color: var(--color-solid-gray);
+    font-size: 20px;
+    margin: 25px;
+    display: none;
+    left: 0;
+    cursor: pointer;
+}
+.menu-btn2:hover{
+    /* position: absolute; */
+    color: var(--color-main);
+    /* font-size: 25px;
+    margin: 30px;
+    cursor: pointer; */
+}
+.main{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+.main h1{
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 60px;
+    text-align: center;
+    line-height: 80px;
+}
+
+/* ----------------------------------------Top bar menu----------------------------------------  */
+
+@media screen and (max-width: 1400px){
+    .container{
+        width: 94%;
+        grid-template-columns: 4rem auto;
+    }
+    .side-bar{
+        z-index: 3;
+        position: fixed;
+        left: -100%;
+    }
+    .close-btn{
+        display: flex;
+    }
+}
+@media screen and (max-width: 1200px){
+    .container{
+        width: 94%;
+        grid-template-columns: 1rem auto;
+    }
+    .main-dashboard{
+        position: relative;
+    }
+}
+
+ @media screen and (max-width: 768px){
+
+        .menu-btn2{
+            display: flex;
+        }
+    
+    }
+
+</style>
 <body>
 <div class="menu">
     <div class="menu-btn">
@@ -49,7 +286,7 @@ require_once "../service/user-access.php";
             <?php } ?>
 
             <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALES')
-                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELIVERY_WALKIN')
+                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELIVERY')
                 || get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVENTORY')
                 || get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ITEM_ISSUE')
                 || get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTENDANCE')
@@ -63,7 +300,7 @@ require_once "../service/user-access.php";
                         echo '<a href="../reports/reports-sales.php" class="sub-item">Sales</a>';
                     }
                     ?>
-                    <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELIVERY_WALKIN')) {
+                    <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELIVERY')) {
                         echo '<a href="../reports/reports-delivery.php" class="sub-item">Delivery</a>';
                     }
                     ?>
