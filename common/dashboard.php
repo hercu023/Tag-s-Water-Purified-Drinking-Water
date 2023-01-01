@@ -345,8 +345,10 @@ main .sub-tab{
     font-family: 'Switzer', sans-serif;
     width: 100%;
     font-size: 1rem;
+    height: 400px;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
+    border-radius:0px 0px 20px 20px;
     padding-bottom: 2.5rem;
     text-align: center;
     transition: all 700ms ease;
@@ -401,6 +403,8 @@ th{
     font-family: 'Switzer', sans-serif;
     width: 100%;
     font-size: 1rem;
+    border-radius:0px 0px 20px 20px;
+    height: 400px;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
     padding-bottom: 2.5rem;
@@ -854,8 +858,10 @@ th{
 
 
 /* ----------------------------------------Top bar menu----------------------------------------  */
+
 .top-menu{
     margin-top: 2rem;
+    text-decoration: none;
     position: absolute;
     right: 4%;
 }
@@ -931,6 +937,7 @@ h1{
 
 .user2 a{
     font-family: 'Malberg Trial', sans-serif;
+    text-decoration: none;
     color: rgb(68, 68, 68);
 }
 h3{
@@ -943,10 +950,10 @@ h3{
 .user2 .drop-menu{
     position: absolute;
     top: 120px;
-    right: 10px;
+    right: 5px;
     padding: 10px 20px;
     background: var(--color-white);
-    /* width: 110px; */
+    width: 110px;
     box-sizing: 0 5px 25px rgba(0,0,0,0.1);
     border-radius: 7px;
     transition: 0.5s;
@@ -1444,14 +1451,27 @@ h3{
     color: var(--color-maroon);
     border-bottom: 1px solid var(--color-maroon);
 }
+.outofstock{
+        border-radius: 20px;
+        background-color: #B22222;
+        color: #ffffff;
+        font-size: 10px;
+        padding: 7px;
+        font-weight: 700;
+        padding-right: 9px;
+        padding-left: 9px;
+    }
+    .instock{
+        border-radius: 20px;
+        background-color: #228B22;
+        font-size: 10px;
+        padding: 7px;
+        font-weight: 700;
+        padding-right: 9px;
+        padding-left: 9px;
+        color: #ffffff;
+    }
 /* ----------------------------------------PIE GRAPH------------------------------------ */
-/* $red = #F15854;
-$gray = #4D4D4D;
-$blue = #5DA5DA;
-$yellow = #DECF3F;
-$purple = #B276B2;
-$orange = #FAA43A;
-// colors from http://www.mulinblog.com/a-color-palette-optimized-for-data-visualization/
 
 .chart {
   background: 
@@ -1514,9 +1534,9 @@ $orange = #FAA43A;
   background: $orange;
 }
 
-* {
+ {
   box-sizing: border-box;
-} */
+}
 
     </style>
     <body>
@@ -1547,7 +1567,10 @@ $orange = #FAA43A;
                                         $total_sales_result = mysqli_query($con, $total_sales_query);
                                         $total_sales = mysqli_fetch_assoc($total_sales_result);
                                     ?>
-                                    <span class="total-deliveries"><span class="peso-sign">&#8369</span><?php echo $total_sales['total'];?></span>
+                                    <span class="total-deliveries">
+                                        <span class="peso-sign">&#8369</span>
+                                        <?php echo number_format($total_sales['total'], '2','.',','); ?>
+                                    </span>
                                     <h3 class="deliveries">TOTAL SALES</h3>
                                 </div>
                             </div>
@@ -1568,7 +1591,10 @@ $orange = #FAA43A;
                                         $total_expense_result = mysqli_query($con, $total_expense_query);
                                         $total_expense = mysqli_fetch_assoc($total_expense_result);
                                     ?>
-                                    <span class="total-deliveries"><span class="peso-sign">&#8369</span><?php echo $total_expense['total'];?></span>
+                                    <span class="total-deliveries">
+                                        <span class="peso-sign">&#8369</span>
+                                        <?php echo number_format($total_expense['total'], '2','.',','); ?>
+                                    </span>
                                     <h3 class="deliveries">TOTAL EXPENSE</h3>
                                 </div>
                             </div>
@@ -1741,8 +1767,10 @@ $orange = #FAA43A;
                                     transaction.created_at_time DESC
                                     LIMIT 5";
                                 $result4 = mysqli_query($con, $dropdown_query2);
-                                while ($rows = mysqli_fetch_assoc($result4))
+                                if(mysqli_num_rows($result4) > 0)
                                 {
+                                foreach($result4 as $rows)
+                                {   
                                     ?>
                                     <tbody>
                                     <tr>
@@ -1756,11 +1784,12 @@ $orange = #FAA43A;
                                         <td> <a class="viewTransaction" href="../pos/point-of-sales-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
 
                                         <td> <?php echo $rows['service_type']; ?></td>
-                                        <td> <?php 
+                                        <td> 
+                                            <?php 
                                             if($rows['status_id'] == 0){
-                                                echo 'Unpaid';
+                                                echo '<span class="outofstock">Unpaid</span>';
                                             }else{
-                                                echo 'Paid';
+                                                echo '<span class="instock">Paid</span>';
                                             } ?>
                                         </td>
                                         <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
@@ -1770,8 +1799,11 @@ $orange = #FAA43A;
                                     </tr>
                                     </tbody>
                                     <?php
-                                }
-                                ?>
+                                        }}else { ?>
+                                        <tr id="noRecordTR">
+                                            <td colspan="7">No Transaction(s) Added</td>
+                                        </tr>
+                                    <?php } ?>
                             </table>
                         </div>
                     </div>
@@ -1805,8 +1837,10 @@ $orange = #FAA43A;
                                         WHERE attendance.status_archive_id = 1
                                         and attendance.date = '$date'";
                                     $result4 = mysqli_query($con, $dropdown_query2);
-                                    while ($rows = mysqli_fetch_assoc($result4))
+                                    if(mysqli_num_rows($result4) > 0)
                                     {
+                                    foreach($result4 as $rows)
+                                    {   
                                         ?>
                                         <tbody>
                                         <tr>
@@ -1819,8 +1853,11 @@ $orange = #FAA43A;
                                         </tr>
                                         </tbody>
                                         <?php
-                                    }
-                                    ?>
+                                            }}else { ?>
+                                            <tr id="noRecordTR">
+                                                <td colspan="7">No Transaction(s) Added</td>
+                                            </tr>
+                                        <?php } ?>
                                 </table>
                             </div>
                     </div>

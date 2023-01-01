@@ -438,11 +438,7 @@ th{
     font-size: 1rem;
     letter-spacing: 0.02rem;
 }
-tr:hover td{
-    color: var(--color-main);
-    cursor: pointer;
-    background-color: var(--color-table-hover);
-}
+
 td:focus {
     color: var(--color-main);
     cursor: pointer;
