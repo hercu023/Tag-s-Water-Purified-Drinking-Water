@@ -1,10 +1,10 @@
 <?php
 require_once '../database/connection-db.php';
-require_once '../service/add-stocks.php';
+require_once '../service/edit-stocks.php';
 require_once "../service/user-access.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-STOCKS')) {
-    header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
     exit();
 }
 ?>
@@ -132,16 +132,6 @@ body{
     color: var(--color-black);
     padding: 0 10px;
     }
-    .user-input-box .item{
-        background: var(--color-solid-gray);
-        color: var(--color-white);
-
-    }
-    .user-input-box .item:hover{
-        background: var(--color-solid-gray);
-        color: var(--color-white);
-
-    }
     .usertype-dropdown{
                 width: 100%;
                 /* margin-top: 1.6rem; */
@@ -174,7 +164,7 @@ body{
         width: 100%;
     }
     .newUser-button{
-        margin-left: 19rem;
+        margin-left: 10rem;
         position: relative;
         display: inline-block;
     }
@@ -235,7 +225,6 @@ body{
         position: relative;
         border-radius: 3px;
         display: flex;
-        text-decoration: none;
         margin: 1rem;
         padding: 5px;
         left: 19%;
@@ -259,7 +248,6 @@ body{
             max-height: 50px;
             border-radius: 20px;
             padding-left: 1rem;
-            text-decoration: none;
             padding-right: 1rem;
             justify-content: center;
             font-family: 'Outfit', sans-serif;
@@ -450,7 +438,6 @@ color: rgb(255, 255, 255);
     font-family: 'COCOGOOSE', sans-serif;
     padding: 10px;
     padding-left: 60px;
-    text-decoration: none;
     padding-right: 60px;
     text-align: center;
     width: 10rem;
@@ -724,6 +711,7 @@ color: rgb(255, 255, 255);
             color: var(--color-main);
             fill: var(--color-main);
         }
+
 .bg-adduserform{
     height: 100%; 
     width: 100%;
@@ -1311,7 +1299,10 @@ h1{
     text-align: right;
     align-items: right;
 } */
-
+a{
+    text-decoration:none;
+    font-family: 'COCOGOOSE', sans-serif;
+}
 .user2 a{
     font-family: 'Malberg Trial', sans-serif;
     color: rgb(68, 68, 68);
@@ -1775,7 +1766,18 @@ tr:hover td{
         width: 20vw;
     }
 }
-
+#note-box{
+    /* position: relative; */
+    width: 100%;
+    height: 1.32rem;
+    margin-bottom: 2rem;
+    color: var(--color-white);
+    border-radius: 10px;
+    font-family: 'COCOGOOSE', sans-serif;
+}
+#note-box label{
+    width: 100%;
+}
 .menu-tab p{
     font-size: 20px;
     font-weight: lighter;
@@ -1801,36 +1803,6 @@ tr:hover td{
     border-radius: 0 10px 10px 0 ;
     box-shadow: 1px 1px 1px rgb(224, 224, 224);
 } */
-.outofstock{
-    border-radius: 20px;
-    background-color: #B22222;
-    color: #ffffff;
-    font-size: 10px;
-    padding: 7px;
-    font-weight: 700;
-    padding-right: 9px;
-    padding-left: 9px;
-}
-.instock{
-    border-radius: 20px;
-    background-color: #228B22;
-    font-size: 10px;
-    padding: 7px;
-    font-weight: 700;
-    padding-right: 9px;
-    padding-left: 9px;
-    color: #ffffff;
-}
-.lowstock{
-    border-radius: 20px;
-    background-color: rgb(126, 126, 126);
-    color: #ffffff;
-    font-size: 10px;
-    padding: 7px;
-    font-weight: 700;
-    padding-right: 9px;
-    padding-left: 9px;
-}
 </style>
     <body>
     
@@ -1838,17 +1810,13 @@ tr:hover td{
             <?php
             include('../common/side-menu.php')
             ?>
+        
             <main>
                 <div class="main-account">
                     <h1 class="accTitle">INVENTORY</h1> 
-                    <?php
-                        if (isset($_GET['error'])) {
-                            echo '<p id="myerror" class="error-error" > '.$_GET['error'].' </p>';
-                        }
-                        ?>
                     <div class="sub-tab">
                         <div class="user-title">
-                            <h2> INVENTORY STOCKS </h2>
+                            <h2> STOCKS </h2>
                         </div>
                         <div class="newUser-button"> 
                             <a href="../inventory/inventory-stocks-add.php" type="submit" id="add-userbutton" class="add-account" >
@@ -1864,7 +1832,9 @@ tr:hover td{
                                 </button>
                             </div>
                         </div>  
-
+                        <!-- <div class="popup-addAccount">
+                            
+                        </div> -->
                     </div>
                     <div class="account-container">
                         <table class="table" id="myTable"> 
@@ -1873,7 +1843,6 @@ tr:hover td{
                                     <th>ID</th>
                                     <th>Item Name</th>
                                     <th>Type</th>
-                                    <th>Status</th>
                                     <th>Total In</th>
                                     <th>Total Out</th>
                                     <th>Total On Hand</th>
@@ -1881,23 +1850,45 @@ tr:hover td{
                                 </tr>
                             </thead>
 
+                            <?php
+                            $inventory = "SELECT 
+                            inventory_stock.id,
+                            inventory_item.item_name,
+                            category_type.name,
+                            inventory_stock.in_going,
+                            inventory_stock.out_going,
+                            inventory_stock.on_hand
+                            FROM inventory_stock
+                            INNER JOIN inventory_item
+                            ON inventory_stock.item_name_id = inventory_item.id
+                            INNER JOIN category_type
+                            ON inventory_item.category_by_id = category_type.id"; 
+                            $sql = mysqli_query($con, $inventory);
+                                while ($rows = mysqli_fetch_assoc($sql))
+                                {
+                            ?>
                             <tbody>
                                     <tr>
-                                        <td></td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> </td>
+                                        <td> <?php echo $rows['id']; ?></td>
+                                        <td> <?php echo $rows['item_name']; ?></td>
+                                        <td> <?php echo $rows['name']; ?></td>
+                                        <td> <?php echo $rows['in_going']; ?></td>
+                                        <td> <?php echo $rows['out_going']; ?></td>
+                                        <td> <?php echo $rows['on_hand']; ?></td>
                                         <td class="td-remove"> 
+                                            <a href="../inventory/inventory-stocks-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="edit-action" name="action">
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5 10.75v-1.5h10v1.5Z"/></svg>
+                                                DEDUCT STOCK  
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr id="noRecordTR" style="display:none">
                                         <td colspan="9">No Record Found</td>                         
                                     </tr>
                             </tbody>
-  
+                                    <?php
+                                }
+                                ?>   
                         </table>     
                     </div>
 
@@ -1908,8 +1899,7 @@ tr:hover td{
             include('../common/top-menu.php')
             ?>
         </div> 
-  
-        <?php
+<?php
 if(isset($_GET['remove']))
 {
     $id = $_GET['remove'];
@@ -1936,7 +1926,6 @@ if(isset($_GET['remove']))
                                 <label for="Supplier">Item Name</label>
                                 <input type="text"
                                         id="Supplier"
-                                        class="item"
                                         name="item_name"
                                         value="<?=$item_name['item_name'];?>"
                                         readonly
@@ -1970,16 +1959,40 @@ if(isset($_GET['remove']))
         </div>
     </div>
 </form>
-                 
+      
 <?php }}else{
            echo '<script> location.replace("../inventory/inventory-stock.php"); </script>';
     } ?>
 </div>
-    
+
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>      
-<script src="../javascript/inventory-stocks.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="../javascript/inventory-details.js"></script>
+<script>
+    const mainform = document.querySelector(".main-user-info");
+    const srp = document.querySelector("#srpprice_box");
+    const alkaline = document.querySelector("#alkalineprice_box");
+    const mineral = document.querySelector("#mineralprice_box");
+
+    function mainForm1(){
+        mainform.style.display = 'flex';
+        srp.style.display = 'flex'
+        alkaline.style.display = 'flex';
+        mineral.style.display = 'flex';
+    }
+    function mainForm2(){
+        mainform.style.display = 'flex';
+        srp.style.display = 'none';
+        alkaline.style.display = 'none';
+        mineral.style.display = 'none';
+
+    }
+    function addnewuser2(){
+        const addForm2 = document.querySelector(".bg-adduserform2");
+
+        addForm2.style.display = 'flex';
+    }
+</script>
