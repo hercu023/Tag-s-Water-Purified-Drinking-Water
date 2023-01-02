@@ -43,6 +43,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTE
                 <div class="user-title">
                     <h2> EMPLOYEE ATTENDANCE</h2>
                 </div>
+                
                 <div class="search">
                     <div class="search-bar">
                         <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
