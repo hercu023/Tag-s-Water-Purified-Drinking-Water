@@ -41,7 +41,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
             ?>
             <div class="sub-tab">
                 <div class="user-title">
-                    <h2> Expense</h2>
+                    <h2> EXPENSE</h2>
                 </div>
                 <div class="search">
                     <div class="search-bar">

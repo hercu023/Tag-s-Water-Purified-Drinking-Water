@@ -424,7 +424,7 @@ BODY{
                     SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
                 <div class="sub-menu">
                     <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-HELP')) {?>
-                        <a href="Settings-help.php" class="sub-item" id="settings-help">Help</a>
+                    <a href="../settings/settings-help.php" class="sub-item" id="settings-help">Help</a>
                     <?php } ?>
                     <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DATA_LOGS')) {?>
                     <a href="../settings/settings-datalogs.php" class="sub-item">Data Logs</a>

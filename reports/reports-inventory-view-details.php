@@ -837,7 +837,7 @@ tr:hover td{
             ?>
             <div class="sub-tab">
                 <div class="user-title">
-                    <h2> Inventory Report </h2>
+                    <h2> INVENTORY REPORT </h2>
                 </div>
                 <?php if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) { ?>
                     <h3 class="for-date"> For Date <h2 class="date"><?php echo $_GET['view']?></h3></h2>

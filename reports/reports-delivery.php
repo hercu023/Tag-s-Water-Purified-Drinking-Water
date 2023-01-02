@@ -34,7 +34,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELI
     ?>
     <main>
         <div class="main-dashboard">
-            <h1 class="dashTitle">Reports</h1>
+            <h1 class="dashTitle">REPORTS</h1>
             <?php
             if (isset($_GET['error'])) {
                 echo '<p id="myerror" class="error-error" > '.$_GET['error'].' </p>';
@@ -42,7 +42,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELI
             ?>
             <div class="sub-tab">
                 <div class="user-title">
-                    <h2> Delivery</h2>
+                    <h2> DELIVERY</h2>
                 </div>
                 <div class="search">
                     <div class="search-bar">
