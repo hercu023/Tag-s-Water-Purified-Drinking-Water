@@ -1870,8 +1870,7 @@ h3{
                     <div class="menu-btn2">
                         <i class="fas fa-bars"></i>
                     </div>
-                    <h2 class="Title-top">REPORTS</h2>
-                    <h4 class="subTitle-top"> Sales</h2>
+                    <h2 class="Title-top">DASHBOARD</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
@@ -1922,7 +1921,6 @@ h3{
     </body>
 </html>
 <script src="../javascript/side-menu-toggle.js"></script>
-<script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/reports-sales.js"></script>
 <script src="../index.js"></script>
 <?php
@@ -1947,6 +1945,7 @@ echo '
         type: "bar",
         data: {
         datasets: [{
+        label: ["Total Sales Per Month"],
         data: [
             '.$jan.',
             '.$feb.',

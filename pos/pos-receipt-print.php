@@ -41,20 +41,21 @@
       
       //Display Company Info
       $this->SetFont('Arial','B',14);
-      $this->Cell(50,10,"ABC COMPUTERS",0,1);
+      $this->Cell(50,10,"TAG'S PURIFIED DRINKING WATER",0,1);
       $this->SetFont('Arial','',14);
-      $this->Cell(50,7,"West Street,",0,1);
-      $this->Cell(50,7,"Salem 636002.",0,1);
-      $this->Cell(50,7,"PH : 8778731770",0,1);
+      $this->Cell(50,7,"17 M. Santos St.,",0,1);
+      $this->Cell(50,7,"Brgy. San Jose, Antipolo City",0,1);
+      $this->Cell(50,7,"Tel No.: 8-630-2271 / 8-806-0990 / 8-697-4627",0,1);
+      $this->Cell(50,7,"Cel No.: 0917-149-8014 / 0918-947-3532",0,1);
       
       //Display INVOICE text
-      $this->SetY(15);
+      $this->SetY(20);
       $this->SetX(-40);
       $this->SetFont('Arial','B',18);
-      $this->Cell(50,10,"INVOICE",0,1);
+      $this->Cell(50,10,"REPORT",0,1);
       
       //Display Horizontal line
-      $this->Line(0,48,210,48);
+      $this->Line(0,55,220,55);
     }
     
     function body($info,$products_info){

@@ -92,7 +92,17 @@ BODY{
     box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
     border-top: 10px solid var(--color-solid-gray);
 }
-
+.a-header{
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+    .archive-header{
+        text-align: center;
+        color: var(--color-black);
+        font-family: 'calibri', sans-serif;
+        font-size: 20px;
+    }
 main .sub-tab{
     margin-bottom: 3rem;
 }
@@ -444,7 +454,6 @@ main .sub-tab{
 .error-error{
     background-color: hsl(0, 100%, 77%);
     color: #ffffff;
-    display: flex;
     position: relative;
     padding: 11px;
     width: 70%;

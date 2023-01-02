@@ -523,7 +523,7 @@ BODY{
 }
 .container1{
     width: 100%;
-    max-width: 600px;
+    max-width: 650px;
     padding: 28px;
     margin: 0 28px;
     border-radius:  0px 0px 20px 20px;
@@ -632,7 +632,6 @@ BODY{
 .user-input-box input{
     display: inline-block;
     height: 40px;
-    margin-top: -2.5rem;
     width: 100%;
     border: 2px solid var(--color-solid-gray);
     border-radius: 15px;
@@ -2507,7 +2506,7 @@ hr{
 }
 .label-item3{
     font-family: 'calibri', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight:900;
     text-transform: uppercase;
     display: inline-block;
@@ -3174,7 +3173,7 @@ hr{
             </form>
                 </div>
             </div>
-        <!-- ---------------------------------------------------- PREVIOUS TRANSACTIONS ------------------------------------------------- -->
+        <!------------------------------------------------------ PREVIOUS TRANSACTIONS ------------------------------------------------- -->
             <div class="form3">
                 <div class="previous-transaction">
                     <br>
@@ -3303,13 +3302,14 @@ if(isset($_GET['addalkaline']))
                         <div class="profile-pic">
                             <img src="../uploaded_image/<?=$item['image'];?>" name="image" alt="">
                         </div>    
-                            <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
-                            <input type="hidden" required="required" name="alkalineprice" value="<?=$item['alkaline_price'];?>">
-                            <input type="hidden" required="required" name="categorytype" value="<?=$item['name'];?>">
-                            <input type="hidden" required="required" name="alkaline-label" value="Alkaline">
-                            <span type="text" class="label-item2" value="Alkaline">Alkaline</span>
-                            <label for="lastname" class="label-item"><?=$item['item_name'];?></label>
-                            
+                            <div class="user-input-box">
+                                <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
+                                <input type="hidden" required="required" name="alkalineprice" value="<?=$item['alkaline_price'];?>">
+                                <input type="hidden" required="required" name="categorytype" value="<?=$item['name'];?>">
+                                <input type="hidden" required="required" name="alkaline-label" value="Alkaline">
+                                <span type="text" class="label-item2" value="Alkaline">Alkaline</span>
+                                <label for="lastname" class="label-item"><?=$item['item_name'];?></label>
+                            </div>
                             <div class="user-input-box">
                                 <label for="quantity" class="quantity-label">Quantity</label>
                                 <input type="number" min='1' onkeypress='return isNumberKey(event)'
@@ -3379,12 +3379,15 @@ if(isset($_GET['addmineral']))
                         <div class="profile-pic">
                             <img src="../uploaded_image/<?=$item['image'];?>" name="image" alt="">
                         </div>    
+                        <div class="user-input-box">
+
                             <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
                             <input type="hidden" required="required" name="mineralprice" value="<?=$item['mineral_price'];?>">
                             <input type="hidden" required="required" name="categorytype" value="<?=$item['name'];?>">
                             <input type="hidden" required="required" name="mineral-label" value="Mineral">
                             <label type="text" class="label-item2"  name="mineral-label" value="Mineral">Mineral</label>
                             <label for="lastname" class="label-item"><?=$item['item_name'];?></label>
+                        </div>
                             
                             <div class="user-input-box">
                                 <label for="quantity" class="quantity-label">Quantity</label>
@@ -3456,10 +3459,12 @@ if(isset($_GET['addothers']))
                         <div class="profile-pic">
                             <img src="../uploaded_image/<?=$item['image'];?>" name="image" alt="">
                         </div>    
+                        <div class="user-input-box">
                             <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
                             <input type="hidden" required="required" name="PRICE" value="<?=$item['selling_price_item'];?>">
                             <input type="hidden" required="required" name="categorytype" value="<?=$item['name'];?>">
                             <label for="lastname" class="label-item3"><?=$item['item_name'];?></label>
+                        </div>
                             
                             <div class="user-input-box">
                                 <label for="quantity" class="quantity-label">Quantity</label>
@@ -3528,6 +3533,7 @@ if(isset($_GET['editquantity']))
                     <form action="#">
                         <input type="hidden" required="required" name="id" value="<?=$item['id'];?>">
                         <div class="main-user-info">
+                            
                             <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
                             <input type="hidden" required="required" class="iprice" name="PRICE" value="<?=$item['price'];?>">
                             <input type="hidden" required="required" name="categorytype" value="<?=$item['water_type'];?>">

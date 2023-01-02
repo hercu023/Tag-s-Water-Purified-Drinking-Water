@@ -10,7 +10,7 @@ if(isset($_POST['payroll-attendance'])) {
     $id = $_POST['id'];
     process_payroll($con, $id, $module, $user_user_id);
 
-    header("Location: ../employee/employee-attendance-success.php?success=Payroll Process Successful");
+    header("Location: ../employee/employee-attendance-success.php?success= Payroll Process Successful");
     exit();
 }
 
@@ -33,7 +33,7 @@ if(isset($_POST['submit-payroll-attendance'])) {
         process_payroll($con, $id, $module, $user_user_id);
     }
 
-    header("Location: ../employee/employee-attendance-success.php?success=Payroll Process Successful");
+    header("Location: ../employee/employee-attendance-success.php?success= Payroll Process Successful");
     exit();
 }
 

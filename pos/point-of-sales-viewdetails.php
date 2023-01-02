@@ -781,12 +781,7 @@ if(isset($_GET['view']))
                                                 </tr>
                                             <?php } ?>
                                             </tbody>
-                                        
-                                      
 
-                                            <tfoot>
-                                           
-                                            </tfoot>
                                             
                                 </table>
                         </div>
@@ -875,10 +870,10 @@ if(isset($_GET['view']))
 
                         <div class="bot-buttons">
                             <div class="AddButton1">
-                                <button type="submit" id="addcustomerBtn" name="save-transaction" onclick="print();">
+                                <a href="../pos/point-of-sales-receipt.php?uuid=<?php echo $uuid?>" id="addcustomerBtn">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
                                     PRINT
-                                </button>
+                                </a>
                             </div>
                             <input type="hidden" name="uuid" value="<?php echo $uuid?>">
                             <div class="AddButton2">
@@ -895,7 +890,9 @@ if(isset($_GET['view']))
             </div>
         </div>
     </form> 
-    <?php }?>
+    <?php }else{
+           echo '<script> location.replace("../pos/point-of-sales.php"); </script>';
+    } ?>
 
         <div class="bg-selectcustomerform" id="bg-selectform">
             <div class="container2">
@@ -1129,7 +1126,7 @@ function tableSearch(){
     --color-table-hover: rgb(112, 112, 112);
     --color-aside-mobile-text:hsl(0, 0%, 88%);
 }
-
+    
 BODY{
     background: var(--color-background);
     margin: 0;
@@ -1641,7 +1638,9 @@ BODY{
 }
 .container1{
     width: 100%;
+    max-height: 750px;
     max-width: 600px;
+    overflow: auto;
     padding: 28px;
     margin: 0 28px;
     border-radius:  0px 0px 20px 20px;
@@ -1795,7 +1794,7 @@ BODY{
     align-items: center;
     text-align: center;
 }
-.AddButton1 button{
+.AddButton1 a{
     font-family: 'COCOGOOSE', sans-serif;
     padding: 10px;
     width: 10rem;
@@ -1814,7 +1813,7 @@ BODY{
     fill: white;
     background: var(--color-solid-gray);
 }
-.AddButton1 button:hover{
+.AddButton1 a:hover{
     background: var(--color-secondary-main);
     box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
     fill: var(--color-main);
@@ -3337,7 +3336,7 @@ hr{
     /* display: inline-block; */
     box-shadow: 2px 2px 2px 1px var(--color-tertiary);
     /* margin-left: 1.1rem; */
-    max-height: 8rem;
+    max-height: 7rem;
     height: 8rem;
     margin-top: 1rem;
     /* text-align: right; */
@@ -3355,7 +3354,7 @@ hr{
     padding-top: 1.5rem;
     width:100%;
     overflow:auto;
-    max-height: 7rem;
+    max-height: 4rem;
     height: 7rem;
     margin-top: 1rem;
     border-radius: 5px;

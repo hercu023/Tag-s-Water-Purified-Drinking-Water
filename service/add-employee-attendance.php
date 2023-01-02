@@ -72,7 +72,7 @@ if (isset($_POST['add-employee-attendance'])) {
                              ");
             if ($insert) {
                 log_audit($con, $user_id, $module, 1, 'Added new attendance with details: employee_id ='.$employee_id.','.$date_of_attendance);
-                header("Location: ../employee/employee-attendance-success.php?success=Add New Attendance Successful!");
+                header("Location: ../employee/employee-attendance-success.php?success= Add New Attendance Successful!");
                 exit();
             } else {
                 log_audit($con, $user_id, $module, 0, 'Error adding new attendance on database.');

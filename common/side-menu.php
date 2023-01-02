@@ -433,7 +433,7 @@ BODY{
                     <a href="../settings/settings-data-archive.php" class="sub-item" id="settings-dataarchive">Archives</a>
                     <?php } ?>
                     <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-BACKUP_RESTORE')) {?>
-                    <a href="Settings-databackup-customers.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
+                    <a href="../settings/settings-databackup.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
                     <?php } ?>
                 </div>
             </div>

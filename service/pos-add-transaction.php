@@ -51,7 +51,7 @@ if (isset($_POST['save-transaction'])) {
         }
    
         if($customer_name == 'GUEST') {
-            if($service  == 'Delivery' || 'Delivery/Pick Up'){
+            if($service  == 'Delivery' || $service  == 'Delivery/Pick Up'){
                 header("Location: ../pos/point-of-sales.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Guest customer cannot process delivery, Only recorded Customers.");
                 exit();
             }
