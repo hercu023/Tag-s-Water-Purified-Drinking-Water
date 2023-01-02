@@ -3,7 +3,13 @@
 
   //customer and invoice details
   $info=[
-
+    "customer"=>"Ram Kumar",
+    "address"=>"4th cross,Car Street,",
+    "city"=>"Salem 636204.",
+    "invoice_no"=>"1000001",
+    "invoice_date"=>"30-11-2021",
+    "total_amt"=>"5200.00",
+    "words"=>"Rupees Five Thousand Two Hundred Only",
   ];
   
   
@@ -52,10 +58,28 @@
       $this->Line(0,55,220,55);
     }
     
-    function body($products_info){
+    function body($info,$products_info){
       
-
-
+      //Billing Details
+      $this->SetY(55);
+      $this->SetX(10);
+      $this->SetFont('Arial','B',12);
+      $this->Cell(50,10,"Bill To: ",0,1);
+      $this->SetFont('Arial','',12);
+      $this->Cell(50,7,$info["customer"],0,1);
+      $this->Cell(50,7,$info["address"],0,1);
+      $this->Cell(50,7,$info["city"],0,1);
+      
+      //Display Invoice no
+      $this->SetY(55);
+      $this->SetX(-60);
+      $this->Cell(50,7,"Invoice No : ".$info["invoice_no"]);
+      
+      //Display Invoice date
+      $this->SetY(63);
+      $this->SetX(-60);
+      $this->Cell(50,7,"Invoice Date : ".$info["invoice_date"]);
+      
       //Display Table headings
       $this->SetY(95);
       $this->SetX(10);
@@ -84,6 +108,7 @@
       //Display table total row
       $this->SetFont('Arial','B',12);
       $this->Cell(150,9,"TOTAL",1,0,"R");
+      $this->Cell(40,9,$info["total_amt"],1,1,"R");
       
       //Display amount in words
       $this->SetY(225);
@@ -91,6 +116,7 @@
       $this->SetFont('Arial','B',12);
       $this->Cell(0,9,"Amount in Words ",0,1);
       $this->SetFont('Arial','',12);
+      $this->Cell(0,9,$info["words"],0,1);
       
     }
     function Footer(){
@@ -105,12 +131,13 @@
       $this->SetFont('Arial','',10);
       
       //Display Footer Text
+      
     }
     
   }
   //Create A4 Page with Portrait 
   $pdf=new PDF("P","mm","A4");
   $pdf->AddPage();
-  $pdf->body($products_info);
+  $pdf->body($info,$products_info);
   $pdf->Output();
 ?>

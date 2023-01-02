@@ -378,7 +378,7 @@ BODY{
     top: 0;
 }
 /* -----------------------------------------------Side Menu---------------------------------------- */
-#customer{
+#expense{
     background: var(--color-white);
     transition: 0.6s;
     color: var(--color-main);

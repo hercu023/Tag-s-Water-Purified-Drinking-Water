@@ -38,6 +38,7 @@ if (isset($_POST['email']) && isset($_POST['password'])){
             $user_email = $user['email'];
             $user_password = $user['password'];
             $user_first_name = $user['first_name'];
+            $user_last_name = $user['last_name'];
             $user_user_type = $user['user_type'];
             $user_profile_image = $user['profile_image'];
 
@@ -48,6 +49,7 @@ if (isset($_POST['email']) && isset($_POST['password'])){
                     $_SESSION['user_user_id'] = $user_id;
                     $_SESSION['user_email'] = $user_email;
                     $_SESSION['user_first_name'] =  $user_first_name;
+                    $_SESSION['user_last_name'] =  $user_last_name;
                     $_SESSION['user_user_type'] =  $user_user_type;
                     $_SESSION['user_profile_image'] =  $user_profile_image;
 

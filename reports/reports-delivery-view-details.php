@@ -217,14 +217,7 @@ BODY{
     background-size: cover;
     background-attachment: fixed;
 }  
-@media print{
-    /* body * {
-        display: none;
-    } */
-    #myTable *{
-        display: block;
-    }
-}
+
 .Title-top{
     display: none;
     font-size: min(max(1.2rem, 0.4vw), 1.3rem);
@@ -330,11 +323,15 @@ span{
     color: var(--color-black);
 }
 .user-title{
-    
     position: relative;
     display: inline-block;
     margin-left: 3rem;
     border-right: 1px var(--color-solid-gray) solid;
+    padding-right: 1rem;
+}
+.user-title2{
+    position: relative;
+    display: inline-block;
     padding-right: 1rem;
 }
 main  h2{
@@ -848,6 +845,71 @@ tr:hover td{
 .bot-buttons{
     display: inline-block;
 }
+.addnew-title{
+    width: 100%;
+    margin-bottom: -.6rem;
+    display: none;
+    text-align: center;
+}
+.address{
+    width: 100%;
+    display: none;
+    text-align: center;
+}
+.header-title{
+    display: none;
+}
+@media print {
+    .header-title{
+        display: block;
+    }
+    .addnew-title{
+        width: 52rem;
+        display: block;
+        text-align: center;
+    }
+    .address{
+        width: 52rem;
+        display: block;
+        text-align: center;
+    }
+    .sub-tab-container{
+        display: none;
+    }
+    .top-menu{
+        display: none;
+    }
+    .menu{
+        display: none;
+    }
+    #myTable {
+        overflow: hidden;
+        text-align: center;
+        display: block;
+        width: 90rem;
+    }
+    table td{
+        width:11rem;
+    }
+    .customer-container{
+        overflow: hidden;
+        width: 50rem;
+        margin-right: 5rem;
+    }
+    .user-title2{
+        display: inline-block;
+        width: 50rem;
+
+    }
+    .sub-title{
+        width: 100%;
+    }
+    .user-title{
+        display: inline-block;
+        width: 40rem;
+        border-right: none;
+    }
+}
 </style>
 <body>
 <div class="container">
@@ -855,7 +917,11 @@ tr:hover td{
     include('../common/side-menu.php')
     ?>
     <main>
-
+    <div class="header-title">
+                <h1 class="addnew-title">TAG'S WATER</h1>
+                <h1 class="addnew-title">PURIFIED DRINKING WATER</h1>
+                <p class="address">17 M. Santos St., Brgy. San Jose, Antipolo City<p>
+            </div>
         <div class="main-dashboard">
             <h1 class="dashTitle">REPORTS</h1>
             <?php
@@ -864,19 +930,23 @@ tr:hover td{
             }
             ?>
             <div class="sub-tab">
-                <div class="user-title">
-                    <h2> DELIVERY REPORTS </h2>
+                <div class="sub-title">
+                    <div class="user-title">
+                        <h2> DELIVERY REPORTS </h2>
+                    </div>
+                    <div class="user-title2">
+                    <?php if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) { ?>
+                        <h3 class="for-date"> For Date <h2 class="date"><?php echo $_GET['view']?></h3></h2>
+
+                    <?php } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) { ?>
+                        <h3 class="for-date"> For Month <h2 class="date"><?php echo $_GET['month'] .' '. $_GET['year']?></h3></h2>
+
+                    <?php } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) { ?>
+                        <h3 class="for-date"> For Year <h2 class="date"><?php echo $_GET['year']?></h3></h2>
+
+                    <?php } else { echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>'; } ?>
+                    </div>
                 </div>
-                <?php if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) { ?>
-                    <h3 class="for-date"> For Date <h2 class="date"><?php echo $_GET['view']?></h3></h2>
-
-                <?php } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) { ?>
-                    <h3 class="for-date"> For Month <h2 class="date"><?php echo $_GET['month'] .' '. $_GET['year']?></h3></h2>
-
-                <?php } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) { ?>
-                    <h3 class="for-date"> For Year <h2 class="date"><?php echo $_GET['year']?></h3></h2>
-
-                <?php } else { echo '<script> location.replace("../reports/reports-delivery.php?option=Daily"); </script>'; } ?>
                 
                 <div class="main-container">
                         <div class="sub-tab-container">
@@ -1155,6 +1225,10 @@ tr:hover td{
                         <?php }} ?>
                     </table>
                 </div>
+            </div>
+            <div class="header-title">
+                <p class="address">CREATED BY: <?php echo ' '.$_SESSION['user_first_name'].' '.$_SESSION['user_last_name']; ?><p>
+                <p class="address">DATE: <?php echo date("F j, Y")?> - TIME:<?php echo date("h-i-s-A")?><p>
             </div>
     </main>
     <?php

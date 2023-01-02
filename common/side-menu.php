@@ -77,6 +77,7 @@ BODY{
     font-family: 'cocogoose', sans-serif;
     position: fixed;
     top: 0;
+    display: block;
     /* left: -100%; */
     overflow-y: auto;
     transition: 0.6s ease;

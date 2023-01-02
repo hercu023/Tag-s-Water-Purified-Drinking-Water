@@ -216,14 +216,7 @@ BODY{
     background-size: cover;
     background-attachment: fixed;
 }  
-@media print{
-    /* body * {
-        display: none;
-    } */
-    #myTable *{
-        display: block;
-    }
-}
+
 .Title-top{
     display: none;
     font-size: min(max(1.2rem, 0.4vw), 1.3rem);
@@ -847,6 +840,72 @@ tr:hover td{
 .bot-buttons{
     display: inline-block;
 }
+.addnew-title{
+    width: 100%;
+    margin-bottom: -.6rem;
+    display: none;
+    text-align: center;
+}
+.address{
+    width: 100%;
+    display: none;
+    text-align: center;
+}
+.header-title{
+    display: none;
+}
+@media print {
+    .header-title{
+        display: block;
+    }
+    .addnew-title{
+        width: 52rem;
+        display: block;
+        text-align: center;
+    }
+    .address{
+        width: 52rem;
+        display: block;
+        text-align: center;
+    }
+    .sub-tab-container{
+        display: none;
+    }
+    .top-menu{
+        display: none;
+    }
+    .menu{
+        display: none;
+    }
+    #myTable {
+        overflow: hidden;
+        text-align: center;
+        display: block;
+        width: 84rem;
+    }
+    table td{
+        width: 7.2rem;
+    }
+    .customer-container{
+        overflow: hidden;
+        width: 50rem;
+
+        margin-right: 2rem;
+    }
+    .user-title2{
+        display: inline-block;
+        width: 50rem;
+
+    }
+    .sub-title{
+        width: 100%;
+    }
+    .user-title{
+        display: inline-block;
+        width: 40rem;
+        border-right: none;
+    }
+}
 </style>
 <body>
 <div class="container">
@@ -854,7 +913,11 @@ tr:hover td{
     include('../common/side-menu.php')
     ?>
     <main>
-
+            <div class="header-title">
+                <h1 class="addnew-title">TAG'S WATER</h1>
+                <h1 class="addnew-title">PURIFIED DRINKING WATER</h1>
+                <p class="address">17 M. Santos St., Brgy. San Jose, Antipolo City<p>
+            </div>
         <div class="main-dashboard">
             <h1 class="dashTitle">REPORTS</h1>
             <?php
@@ -1166,6 +1229,10 @@ tr:hover td{
                         <?php }} ?>
                     </table>
                 </div>
+            </div>
+            <div class="header-title">
+                <p class="address">CREATED BY: <?php echo ' '.$_SESSION['user_first_name'].' '.$_SESSION['user_last_name']; ?><p>
+                <p class="address">DATE: <?php echo date("F j, Y")?> - TIME:<?php echo date("h-i-s-A")?><p>
             </div>
     </main>
     <?php

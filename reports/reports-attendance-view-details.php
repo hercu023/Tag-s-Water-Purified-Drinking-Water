@@ -322,11 +322,15 @@ span{
     color: var(--color-black);
 }
 .user-title{
-    
     position: relative;
     display: inline-block;
     margin-left: 3rem;
     border-right: 1px var(--color-solid-gray) solid;
+    padding-right: 1rem;
+}
+.user-title2{
+    position: relative;
+    display: inline-block;
     padding-right: 1rem;
 }
 main  h2{
@@ -431,6 +435,7 @@ main .sub-tab{
 }
 .sub-tab-container{
     padding: 2rem;
+    display: block;
 }
 .customer-container{
     /* margin-top: 2rem; */
@@ -840,14 +845,75 @@ tr:hover td{
 .bot-buttons{
     display: inline-block;
 }
-@media print {
-  * {
-    display: none;
-  }
-  #myTable {
-    display: flex;
-  }
+.sub-title{
+    display: block;
 }
+.addnew-title{
+    width: 100%;
+    margin-bottom: -.6rem;
+    display: none;
+    text-align: center;
+}
+.address{
+    width: 100%;
+    display: none;
+    text-align: center;
+}
+.header-title{
+    display: none;
+}
+@media print {
+    .header-title{
+        display: block;
+    }
+    .addnew-title{
+        width: 52rem;
+        display: block;
+        text-align: center;
+    }
+    .address{
+        width: 52rem;
+        display: block;
+        text-align: center;
+    }
+    .sub-tab-container{
+        display: none;
+    }
+    .top-menu{
+        display: none;
+    }
+    .menu{
+        display: none;
+    }
+    #myTable {
+        overflow: hidden;
+        text-align: center;
+        display: block;
+        width: 90rem;
+    }
+    table td{
+        width: 9rem;
+    }
+    .customer-container{
+        overflow: hidden;
+        width: 50rem;
+        margin-right: 5rem;
+    }
+    .user-title2{
+        display: inline-block;
+        width: 50rem;
+
+    }
+    .sub-title{
+        width: 100%;
+    }
+    .user-title{
+        display: inline-block;
+        width: 40rem;
+        border-right: none;
+    }
+}
+
 </style>
 <body>
 <div class="container">
@@ -855,8 +921,13 @@ tr:hover td{
     include('../common/side-menu.php')
     ?>
     <main>
-
+            <div class="header-title">
+                <h1 class="addnew-title">TAG'S WATER</h1>
+                <h1 class="addnew-title">PURIFIED DRINKING WATER</h1>
+                <p class="address">17 M. Santos St., Brgy. San Jose, Antipolo City<p>
+            </div>
         <div class="main-dashboard">
+           
             <h1 class="dashTitle">REPORTS</h1>
             <?php
             if (isset($_GET['error'])) {
@@ -864,19 +935,23 @@ tr:hover td{
             }
             ?>
             <div class="sub-tab">
-                <div class="user-title">
-                    <h2> ATTENDANCE REPORTS </h2>
+                <div class="sub-title">
+                    <div class="user-title">
+                        <h2> ATTENDANCE REPORTS </h2>
+                    </div>
+                    <div class="user-title2">
+                    <?php if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) { ?>
+                        <h3 class="for-date"> For Date <h2 class="date"><?php echo $_GET['view']?></h3></h2>
+
+                    <?php } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) { ?>
+                        <h3 class="for-date"> For Month <h2 class="date"><?php echo $_GET['month'] .' '. $_GET['year']?></h3></h2>
+
+                    <?php } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) { ?>
+                        <h3 class="for-date"> For Year <h2 class="date"><?php echo $_GET['year']?></h3></h2>
+
+                    <?php } else { echo '<script> location.replace("../reports/reports-attendance.php?option=Daily"); </script>'; } ?>
+                    </div>
                 </div>
-                <?php if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) { ?>
-                    <h3 class="for-date"> For Date <h2 class="date"><?php echo $_GET['view']?></h3></h2>
-
-                <?php } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) { ?>
-                    <h3 class="for-date"> For Month <h2 class="date"><?php echo $_GET['month'] .' '. $_GET['year']?></h3></h2>
-
-                <?php } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) { ?>
-                    <h3 class="for-date"> For Year <h2 class="date"><?php echo $_GET['year']?></h3></h2>
-
-                <?php } else { echo '<script> location.replace("../reports/reports-attendance.php?option=Daily"); </script>'; } ?>
                 
                 <div class="main-container">
                         <div class="sub-tab-container">
@@ -1015,13 +1090,14 @@ tr:hover td{
                                     <span class="total-deliveries"><?php echo 'Php '.$payroll_result['total'];?></span>
                                 </div>
                             </div>  
+                            
                             <div class="bot-buttons">
-                                <div class="AddButton1">
-                                    <button type="submit" id="addcustomerBtn" onclick="print();">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
-                                        PRINT
-                                    </button>
-                                </div>
+                                    <div class="AddButton1">
+                                        <button type="submit" id="addcustomerBtn" onclick="print();">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
+                                            PRINT
+                                        </button>
+                                    </div>
                             </div>
                         </div>
                         </div>
@@ -1129,6 +1205,10 @@ tr:hover td{
                         <?php }} ?>
                     </table>
                 </div>
+            </div>
+            <div class="header-title">
+                <p class="address">CREATED BY: <?php echo ' '.$_SESSION['user_first_name'].' '.$_SESSION['user_last_name']; ?><p>
+                <p class="address">DATE: <?php echo date("F j, Y")?> - TIME:<?php echo date("h-i-s-A")?><p>
             </div>
     </main>
     <?php
