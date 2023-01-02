@@ -2048,8 +2048,8 @@ h1{
         mineral.style.display = 'none';
 
     }
-    function addnewuser2(){
-        const addForm2 = document.querySelector(".bg-adduserform2");
+    function addnewuser(){
+        const addForm2 = document.querySelector(".bg-adduserform");
 
         addForm2.style.display = 'flex';
     }

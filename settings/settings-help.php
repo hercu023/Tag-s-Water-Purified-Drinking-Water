@@ -42,30 +42,37 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-HEL
                     <div class="help-container">
                         <div class="help-guide">
                             <div id="question1" class="question1" style="margin: 2rem;">
-                                <a class="sub-btn" style="font-size: 1.5rem;">HOW TO RESTORE ARCHIVED ITEMS <i class="fas fa-angle-right dropdown"></i></a>
+                                <a class="sub-btn" style="font-size: 1.5rem;">How to Log In <i class="fas fa-angle-right dropdown"></i></a>
                                     <div class="sub-menu">
                                         <p class="sub-item" style="margin-left: 1rem;">
-                                        Go to Settings -> Archive 
-                                        <br> <br>
-                                        1. Select the file you want to restore from the table.
-                                        <br>
-                                        2. Set an alternative location for the file (OPTIONAL).
-                                        <br>
-                                        3. Click Restore. </p>
+                                        - Use the account that is created in the system, (The account can only be made by the system admin.)
                                     </div>
                             </div>
-
                             <div id="question1" class="question1" style="margin: 2rem;">
-                                <a class="sub-btn" style="font-size: 1.5rem;">HOW TO BACKUP ITEMS TO YOUR LOCAL DRIVE <i class="fas fa-angle-right dropdown"></i></a>
+                                <a class="sub-btn" style="font-size: 1.5rem;">How to Change Password <i class="fas fa-angle-right dropdown"></i></a>
+                                    <div class="sub-menu">
+                                        <p class="sub-item" style="margin-left: 1rem;">
+                                        - From the login page, click Forgot Password.
+                                        <br>
+                                        - Enter the user account’s email and Send. Note: Emails that are not inside the database (not added by the admin) is invalid.
+                                        <br>
+                                        - Get the verification code from your email.
+                                        <br>
+                                        - Click Login. 
+                                        <br>
+                                        - Create a New Password. Re-type the new password to confirm.
+                                        <br>
+                                        - Click Save to successfully change the password.
+                                    </p>
+                                    </div>
+                            </div>
+                            <div id="question1" class="question1" style="margin: 2rem;">
+                                <a class="sub-btn" style="font-size: 1.5rem;">FOR MORE FAQs <i class="fas fa-angle-right dropdown"></i></a>
                                 <div class="sub-menu">
                                     <p class="sub-item" style="margin-left: 1rem;">
-                                    Go to Settings -> Backup 
+                                    Please refer to the PDF file user guide document to have a full detail of inquires. Go to this link:
                                     <br> <br>
-                                    1. Select the file you want to backup from the table.
-                                    <br>
-                                    2. Set a folder as a location for the file you want to backup.
-                                    <br>
-                                    3. Click Backup. </a>
+                                    <a href="../users-guide-tagswater.pdf">USER'S GUIDE DOCUMENT</a>
                                 </div>
                             </div>
                         </div>
@@ -191,6 +198,11 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-HEL
     }    
     .help-guide{
         padding-top: 1rem;
+        max-height: 35rem;
+        overflow: auto;
+    }
+    .sub-btn{
+        text-transform: uppercase;
     }
     /* ----------------------------------------MAIN---------------------------------------- */
     .dashTitle{
