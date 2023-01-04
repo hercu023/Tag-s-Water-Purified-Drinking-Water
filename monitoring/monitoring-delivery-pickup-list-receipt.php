@@ -45,124 +45,149 @@ date_default_timezone_set("Asia/Manila");
 
 
     <?php
-if(isset($_GET['uuid']))
+if(isset($_GET['delivery_boy_id']))
 {
-    $uuid = $_GET['uuid'];
-    $result = mysqli_query($con, "SELECT
-                                IF(customers.customer_name IS NULL or customers.customer_name = '', 'GUEST', customers.customer_name) as customer_name,
-                                transaction.total_amount,
-                                payment_option.option_name,
-                                transaction.service_type,
-                                transaction.created_at_date,
-                                transaction.created_at_time,
-                                users.first_name,
-                                users.last_name
-                                FROM transaction 
-                                INNER JOIN users  
-                                ON transaction.created_by_id = users.user_id 
-                                LEFT JOIN customers  
-                                ON transaction.customer_name_id = customers.id 
-                                LEFT JOIN payment_option  
-                                ON transaction.payment_option = payment_option.id   
-                                WHERE transaction.uuid='$uuid'");
-    if (mysqli_num_rows($result) > 0) {
-    $transaction = mysqli_fetch_assoc($result);
+    $deliveryboy_id = $_GET['delivery_boy_id'];
+    $user_id = $_SESSION['user_user_id'];
+    $transaction_process = "SELECT
+    customers.customer_name,
+    customers.id,
+    payment_option.option_name,
+    sum(transaction.total_amount) AS total
+    FROM delivery_list
+    INNER JOIN transaction
+    ON delivery_list.uuid = transaction.uuid
+    INNER JOIN payment_option 
+    ON transaction.payment_option = payment_option.id
+    INNER JOIN customers
+    ON transaction.customer_name_id = customers.id
+    WHERE delivery_list.user_id = '$user_id'
+    AND delivery_list.delivery_status = 1
+    GROUP BY customers.customer_name";
+    $transaction_order = mysqli_query($con, $transaction_process);
+    if(mysqli_num_rows($transaction_order) > 0){
+       
     ?>
-    <form action="" method="post" enctype="multipart/form-data" id="placeorderFrm">
         <div class="bg-placeorderform" id="bg-placeform">
                 <a href="../pos/point-of-sales.php" class="close">CANCEL</a>
             <div class="container1">
                 <h4 class="addnew-title2">--DELIVERY LIST--</h4>
-                <!-- <a href="../pos/point-of-sales.php" class="close">X</a> -->
-                <p class="customer-name">Customer: <?= $transaction['customer_name'];?><p>
-                <p class="payment-method">Payment Option: <?= $transaction['option_name'];?><p>
-                <p class="lineast">*******************************************<p>
-                <?php           
-                    $transaction_process = "SELECT
-                    transaction_process.transaction_id,
-                    transaction_process.item_name, 
-                    transaction_process.water_type,
-                    transaction_process.category_type,
-                    transaction_process.quantity,
-                    transaction_process.price,
-                    transaction_process.total_price
-                    FROM transaction_process
-                    WHERE transaction_process.transaction_id = '$uuid'";
-                    $transaction_order = mysqli_query($con, $transaction_process);
-                    if(mysqli_num_rows($transaction_order) > 0)
-                    {
-                    foreach($transaction_order as $transactions)
-                    {
+        <?php        foreach($transaction_order as $transaction_name)
+    {?>
+                <p class="customer-name">Customer: <?= $transaction_name['customer_name'];?><p>
+                <p class="payment-method">Payment Option: <?= $transaction_name['option_name'];?><p>
+                <?php 
+                                    $customer_id = $transaction_name['id'];
+                                    $total_unpaid = "SELECT 
+                                    t.id,
+                                    t.customer_name,
+                                    t.contact_number1,
+                                    t.address, 
+                                    t.balance,
+                                    SUM(t.unpaid_amount) as credit
+                                    FROM
+                                    (SELECT
+                                    customers.id,
+                                    customers.customer_name,
+                                    customers.contact_number1,
+                                    customers.address, 
+                                    customers.balance,
+                                    transaction_history.transaction_uuid,
+                                    MIN(transaction_history.unpaid_amount) as unpaid_amount
+                                    FROM transaction_history
+                                    INNER JOIN transaction
+                                    ON transaction.uuid = transaction_history.transaction_uuid
+                                    INNER JOIN delivery_list 
+                                    ON transaction.uuid = delivery_list.uuid
+                                    INNER JOIN customers
+                                    on transaction.customer_name_id = customers.id
+                                    WHERE customers.status_archive_id = 1
+                                    AND delivery_list.delivery_status = 1
+                                    AND delivery_list.user_id = '$user_id'
+                                    GROUP BY transaction_history.transaction_uuid) 
+                                    t 
+                                    WHERE t.id = '$customer_id'
+                                    GROUP BY t.customer_name
+                                    HAVING SUM(t.unpaid_amount) > 0";
+                                    $transaction_unpaid_result = mysqli_query($con, $total_unpaid);
+                                if(mysqli_num_rows($transaction_unpaid_result) > 0)
+                    { 
+                    $transaction_unpaid = mysqli_fetch_assoc($transaction_unpaid_result);
                 ?>
+                <p class="payment-method">Total Unpaid Amount: <?= $transaction_unpaid['credit'];?><p>
+                <?php } ?>
+                
+                <p class="lineast">*******************************************<p>
 
-                    <tbody>
-                        <tr>
-                            <td name="itemname_transaction"> 
-                                <?php echo "<p class='itemwater'>".$transactions['item_name'].'-'.$transactions['water_type']."</p>"; ?>
-                            </td>
-                        
-                            <td class="quantity-td" > 
-                                <?php echo
-                                "<p class='font'>".$transactions['quantity'].' '.'X '.' &#8369'.' '. $transactions['price']."</p>";
-                                ?>
-                            </td>
-                            
-                            <td> <?php 
-                            echo "<p class='total'>".'P'.number_format($transactions['total_price'], '2','.',',')."</p>"; 
-                            ?></td>
-                            </tr>
-                    </tbody>
-                        <?php
-                        }}
-                    }}
-                    ?>
-                    
+                    <input type="hidden" name="user_id" value="<?php echo $user_id?>">
+                                <!-- total transaction per customer -->
+                    <input type="hidden" id="totalamount_value"  value="<?php echo $transactions1['sum(transaction_process.total_price)']; ?>">
+                    <input type="hidden" class="deliveryoption_class" name="option" value="Walk In">
                     <?php
-                                       $transaction_unpaid = "SELECT
-                                       transaction_history.unpaid_amount
-                                       FROM transaction_history
-                                       WHERE transaction_uuid = '$uuid'
-                                       ORDER BY transaction_history.created_at DESC
-                                       LIMIT 1";
-                                       $transaction_unpaid_history = mysqli_query($con, $transaction_unpaid);
-                                       if(mysqli_num_rows($transaction_unpaid_history) > 0)
-                                       {
-                                           $unpaid_amount = mysqli_fetch_assoc($transaction_unpaid_history)['unpaid_amount'];
-                                           $total_paid_amount = $transaction['total_amount'] - $unpaid_amount;
-                                ?>
-                                <input type="hidden" name="user_id" value="<?php echo $user_id?>">
-                        <input type="hidden" id="totalamount_value"  value="<?php echo $transactions1['sum(transaction_process.total_price)']; ?>">
-                        <input type="hidden" class="deliveryoption_class" name="option" value="Walk In">
-                        <p class="totalLabel">TOTAL</p>
-                        <p class="totalAmt"><?php echo 'P'.number_format($transaction['total_amount'], '2','.',','); ?></p>
-
-                        <br >
-                        <?php           
-                                            $transaction_history = "SELECT
-                                                    transaction_history.amount_tendered, 
-                                                    transaction_history.customer_change,
-                                                    transaction_history.remaining_balance,
-                                                    transaction_history.previous_balance,
-                                                    transaction_history.unpaid_amount,
-                                                    transaction_history.created_at
-                                                    FROM transaction_history
-                                                    WHERE transaction_uuid = '$uuid'";
-                                            $transaction_order_history = mysqli_query($con, $transaction_history);
-                                            if(mysqli_num_rows($transaction_order_history) > 0)
-                                            {
-                                            foreach($transaction_order_history as $transactions_history)
-                                            {
-                                            ?>
-                        
-
-                        <?php }}} ?>
-                        <p class="lineast">*******************************************<p>
-                        <p class="payment-method">DELIVERY BOY:<?= $transaction['first_name'].' '.$transaction['last_name'];?><p>
-                        <p class="service">DATE: <?php echo date("F j, Y")?> - TIME:<?php echo date("h-i-s-A")?><p>
-
+                            $customer_id = $transaction_name['id'];
+                            $transaction_process = "SELECT
+                            transaction_process.item_name, 
+                            transaction_process.water_type,
+                            transaction_process.category_type,
+                            transaction_process.quantity,
+                            transaction_process.price,
+                            transaction_process.total_price
+                            FROM transaction_process
+                            INNER JOIN transaction
+                            ON transaction_process.transaction_id = transaction.uuid
+                            INNER JOIN delivery_list
+                            ON delivery_list.uuid = transaction.uuid
+                            WHERE transaction_id IN 
+                            (SELECT delivery_list.uuid 
+                            FROM `delivery_list` 
+                            INNER JOIN transaction 
+                            ON transaction.uuid = delivery_list.uuid 
+                            INNER JOIN customers 
+                            ON transaction.customer_name_id = customers.id
+                            WHERE customers.id = '$customer_id'
+                            AND delivery_status = 1)
+                            AND delivery_list.delivery_status = 1
+                            AND delivery_list.user_id = '$user_id'";
+                            $transaction_order = mysqli_query($con, $transaction_process);
+                            if(mysqli_num_rows($transaction_order) > 0)
+                            {
+                            foreach($transaction_order as $transactions){
+                    ?>  
+                        <tbody>
+                            <tr>
+                                <td name="itemname_transaction"> 
+                                    <?php echo "<p class='itemwater'>".$transactions['item_name'].'-'.$transactions['water_type']."</p>"; ?>
+                                </td>
+                            
+                                <td class="quantity-td" > 
+                                    <?php echo
+                                    "<p class='font'>".$transactions['quantity'].' '.'X '.' &#8369'.' '. $transactions['price']."</p>";
+                                    ?>
+                                </td>
+                                
+                                <td> <?php 
+                                echo "<p class='total'>".'P'.number_format($transactions['total_price'], '2','.',',')."</p>"; 
+                                ?></td>
+                            </tr>
+                        </tbody>
+                          
+                        <?php }} ?> 
+                    
+                    <p class="totalLabel">TOTAL</p>
+                    <p class="totalAmt"><?php echo 'P'.number_format($transaction_name['total'], '2','.',','); ?></p>
+                    <br>
+                <?php
+                }
+            }
+            ?>
+                    <p class="lineast">*******************************************<p>
+                        <?php 
+                        $deliveryboy = mysqli_query($con, "SELECT employee.first_name, employee.last_name FROM employee WHERE id ='$deliveryboy_id'");
+                        $delivery_result = mysqli_fetch_assoc($deliveryboy);
+                        ?>                         
+                    <p class="payment-method">DELIVERY BOY:<?= $delivery_result['first_name'].' '.$delivery_result['last_name'];?><p>
+                    <p class="service">DATE: <?php echo date("F j, Y")?> - TIME:<?php echo date("h-i-s-A")?><p>
             </div>
-            <!-- <p class="totalLabel1">Amount Tendered</p>
-                        <p class="totalAmt1"><?php echo 'P'.number_format($transactions1['sum(transaction_process.total_price)'], '2','.',','); ?></p> -->
             <div class="bot-buttons">
                 <div class="AddButton1">
                     <button type="submit" id="addcustomerBtn" name="print-pos" onclick="print();">
@@ -172,10 +197,9 @@ if(isset($_GET['uuid']))
                 </div>
             </div>
         </div>
-       
-    </form> 
+        <?php
+        } ?>
 
-    <!-- </form> -->
 </body>
 <script src="../javascript/side-menu-toggle.js"></script>
 <!-- <script src="../javascript/top-menu-toggle.js"></script> -->

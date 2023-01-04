@@ -1,3 +1,7 @@
+function loading() {
+    document.querySelector(".loading").style.display = "flex";
+    document.querySelector(".loader").style.display = "flex";
+}
 //SHOW PASSWORD-------------------------------------------------
 function myFunctionCP(){
     var x = document.getElementById("newpass");

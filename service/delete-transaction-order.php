@@ -11,11 +11,10 @@ if(isset($_GET['delete-order'])){
 
 if(isset($_GET['delete-list'])){
     $uuid=$_GET['delete-list'];
-        // header("Location: ../common/error-page.php?error=". $id);
-        // exit();
+      
     $query = "DELETE FROM delivery_list WHERE uuid='$uuid'";
         $query_run = mysqli_query($con, $query);
-        header("Location: ../monitoring/monitoring-delivery-pickup.php?update");
+        header("Location: ../monitoring/monitoring-delivery-pickup.php");
 }
 // if(isset($_GET['deduct-quantity']) || isset($_POST['sumquantity']) || isset($_POST['add1'])){
 //     $id=$_GET['deduct-quantity'];

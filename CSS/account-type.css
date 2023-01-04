@@ -1,3 +1,34 @@
+#loading {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(192, 192, 192, 0.5);
+    background-repeat: no-repeat;
+    background-position: center;
+    align-items: center;
+}
+.loader {
+    border: 16px solid rgb(244, 255, 246); /* Light grey */
+    border-top: 16px solid rgb(2, 80, 2); /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    text-align: center;
+    left: 46%;
+    display: none;
+    z-index: 100;
+    position: absolute;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 :root{
     --color-main: rgb(2, 80, 2);
     --color-main-2: rgb(2, 80, 2);
@@ -501,22 +532,19 @@ body{
     .CancelButton{
         position: relative;
         margin-top: 3rem;
-        padding-top: 2rem;
+        width: 100%;
         /* padding-right: 2rem; */
     }
     .AddButton{
         position: relative;
-        margin-top: -4rem;
-        margin-left: -1em;
-
-    }
-    /* .CloseButton{
-        margin-top: 5.2vh;
-        margin-left: 2.4em;
-        margin-bottom: -2rem;
-    } */
-    #cancel{
         width: 100%;
+    }
+
+    #cancel{
+        margin-left: 2.1rem;
+        padding-left: 7.3vw;
+        text-align: center;
+        padding-right: 7.3vw;
     }
 }
 .block{

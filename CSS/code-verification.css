@@ -191,11 +191,10 @@ form .confirmbtn .confirm{
     text-align: center;
 }
 h2{
-    font-family: 'PHANTOM', sans-serif;
     font-size: 30px;
     align-items: center;
+    text-transform: uppercase;
     text-align: center;
-    letter-spacing: 2px;
     color: black;
     margin-bottom: 5px;
 } 

@@ -18,17 +18,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-        <!-- <link rel="stylesheet" type="text/css" href="../TAG-S-WATER-PURIFIED-DRINKING-WATER/CSS/Dashboard.css"> -->
-        <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
-        <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
-        <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
-           <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
-        <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
+   
         <title>Tag's Water Purified Drinking Water</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/css/tom-select.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
+  
         <script src="../index.js"></script>
     </head>
     <style>
@@ -418,6 +410,7 @@ table tbody td{
     /* box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.2); */
     border-radius: 0.1rem;
     height: 1rem;
+    height: 3rem;
     float: right;
     margin-right: 2rem;
     border: transparent;
@@ -620,74 +613,7 @@ table tbody td{
     transition: 0.5s;
 }
 
-@media(max-width: 600px){
-    .container1{
-        min-width: 280px;
-    }
-    .user-input-box .cost{
-        position: absolute;
-        display: none;
-        left: 10.65%;
-    }
-    .user-input-box .srp{
-        position: absolute;
-        display: none;
-        left: 10.65%;
-    }
-    .user-input-box{
-        margin-bottom: 12px;
-        width: 100%;
-    }
 
-    .user-input-box:nth-child(2n){
-        justify-content: space-between;
-    }
-    .usertype-dropdown{
-        width: 99%;
-        margin-bottom: 1rem;
-        margin-top: -.3rem;
-    }
-
-    .main-user-info{
-        max-height: 380px;
-        overflow: auto;
-    }
-
-    .main-user-info::-webkit-scrollbar{
-        width: 0;
-    }
-    .bot-buttons{
-        width: 100%;
-        align-items: center;
-        text-align: center;
-        margin-top: 1.3rem;
-    }
-    .AddButton button:hover{
-        background: var(--color-button-hover);
-
-    }
-    .CancelButton{
-        position: relative;
-        align-items: center;
-        /* padding-top: 4rem; */
-    }
-    #note-box{
-        margin-bottom: 2rem;
-    }
-    .line{
-        margin-bottom: 3rem;
-    }
-    .AddButton{
-        position: relative;
-        margin-top: -4rem;
-        margin-left: -1em;
-
-    }
-    #cancel{
-        width: 100rem;
-    }
-
-}
     .actionicon{
     fill:  var(--color-white);
 }
@@ -1495,219 +1421,198 @@ table tbody td{
         margin: 30px;
         cursor: pointer; */
     }
-     /* ----------------------------------------Top bar menu----------------------------------------  */
-     .top-menu{
-        margin-top: 2rem;
-        position: absolute;
-        right: 3%;
-    }
-    .top-menu .menu-bar{
-        display: flex;
-        justify-content: end;
-        gap: 2rem;
-    }
-    .top-menu .menu-bar button{
-        display: none;
-    }
-    .top-menu .menu-bar .user1{
-        gap: 2rem;
-        align-items: right;
-        text-align: right;
-    }
-    .top-menu .menu-bar .user2{
-        display: flex;
-        gap: 2rem;
-        align-items: right;
-        text-align: right;
-    }
-    .top-menu .menu-bar .dashTitle-top{
-        font-size: min(max(1.2rem, 0.4vw), 1.3rem);
-        color: var(--color-main); 
-        font-family: 'COCOGOOSE', sans-serif;
-        letter-spacing: .03rem;
-        display: none;
-        text-align: center;
-        align-items: center;
-    }
-    
-    .user-type{
-        font-family: 'switzer', sans-serif;
-        font-size: 7.5px;
-        color: var(--color-black); 
-        letter-spacing: 1px;
-        border-top: 2px solid var(--color-main); 
-        margin-top: -0.97rem;
-        width: 7vw;
-        text-transform: uppercase;
-    }
-    h1{
-        margin-top: 6px;     
-    }
-    .welcome{
-        font-family: 'Switzer', sans-serif;
-        font-size: 9px;
-        /* margin-right: -7.3rem;*/
-        margin-top: -0.6rem; 
-        letter-spacing: 2px;
-        color: var(--color-main); 
-    }
-    .user-name{
-        font-family: 'Switzer', sans-serif;
-        font-size: 12px;
-        margin-top: -1rem; 
-        text-transform: uppercase;
-        margin-bottom: 0;
-        color: var(--color-maroon);
-    }
-    .profile img{
-        background: var(--color-white); 
-        border-radius: 30%;
-        width: 50px;
-        padding: 4px;
-    }
-    #menu-button{
-        border: none;
-        background: none;
-    }
-    a{
-        text-decoration:none;
-        font-family: 'COCOGOOSE', sans-serif;
-    }
-    .user2 a{
-        font-family: 'Malberg Trial', sans-serif;
-        color: rgb(68, 68, 68);
-    }
-    .notifs-section{
+    /* ----------------------------TOP MENU---------------------------- */
 
-    }
-    .todeliver{
-        margin-bottom: -2.2rem;
-        margin-top: 2rem;
-        color: rgb(117, 117, 117);
-        font-size: 1.3rem;
-        letter-spacing: .1rem;
-        font-family: 'Galhau Display', sans-serif;
-    }
-    h3{
-        font-size: 0.87rem;
-    }
-    .user2 .profile{
-        position: relative;
-        cursor: pointer;
-    }
-    .user2 .drop-menu{
-        position: absolute; 
-        top: 120px;
-        right: 15px;
-        padding: 10px 20px;
-        background: var(--color-white);
-        width: 110px;
-        box-sizing: 0 5px 25px rgba(0,0,0,0.1);
-        border-radius: 7px;
-        transition: 0.5s;
-        visibility: hidden;
-        opacity: 0;
-    }
-    .user2 .drop-menu.user2{
-        top: 80px;
-        visibility: visible;
-        opacity: 1;
-    }
-    .user2 .drop-menu::before{
-        content:'';
-        position: absolute;
-        top: -5px;
-        right: 33px;
-        width: 15px;
-        height: 20px;
-        background: var(--color-white);
-        transform: rotate(45deg);
-        transition: 0.5s;
-    }
-    .drop-menu .ul .user-type3{
-        font-family: 'PHANTOM', sans-serif;
-        font-size: 7.5px;
-        color: var(--color-main); 
-        letter-spacing: .2rem;
-        display: none;
-    }
+.top-menu a{
+text-decoration: none;
+}
+.top-menu{
+margin-top: 1rem;
+position: absolute;
+right: 4%;
+}
+.top-menu .menu-bar{
+display: flex;
+justify-content: end;
+gap: 2rem;
+}
+.top-menu .menu-bar button{
+display: none;
+}
+.top-menu .menu-bar .user1{
+gap: 2rem;
+align-items: right;
+text-align: right;
+}
+.top-menu .menu-bar .user2{
+display: flex;
+gap: 2rem;
+align-items: right;
+text-align: right;
+}
+.top-menu .menu-bar .accTitle-top{
+font-size: min(max(1.2rem, 0.4vw), 1.3rem);
+color: var(--color-main); 
+font-family: 'COCOGOOSE', sans-serif;
+letter-spacing: .03rem;
+display: none;
+text-align: center;
+align-items: center;
+}
+.user-type{
+font-family: 'switzer', sans-serif;
+font-size: 7.5px;
+color: var(--color-black); 
+letter-spacing: 1px;
+border-top: 2px solid var(--color-main); 
+margin-top: -0.97rem;
+text-transform: uppercase;
+}
+h1{
+margin-top: 6px;     
+}
+.welcome{
+font-family: 'Calibri', sans-serif;
+font-size: 11px;
+/* margin-right: -7.3rem;*/
+margin-top: -0.6rem; 
+letter-spacing: 1px;
+color: var(--color-main); 
+}
+.user-name{
+font-family: 'Switzer', sans-serif;
+font-size: 12px;
+margin-top: -1rem; 
+text-transform: uppercase;
+margin-bottom: 0;
+color: var(--color-maroon);
+}
+.profile img{
+background: var(--color-white); 
+border-radius: 30%;
+width: 50px;
+padding: 4px;
+margin-top: .3rem;
+}
 
-    .drop-menu .ul{
-        margin-top: 2rem;
-        display: flex;
-        flex-direction: column;
-        height: 9vh;
-        position: relative;
-        margin-bottom: 0.5rem;
-    }
-    .drop-menu h4{
-        font-weight: 400;
-        font-size: 12px;
-    }
-    .drop-menu .ul a{
-        display: flex;
-        color: hsl(0, 0%, 69%);
-        fill: hsl(0, 0%, 69%); 
-        margin-left: -1.26rem;
-        padding-left: 1rem;
-        gap: 1rem;
-        height: 1rem;
-        width: 8.5rem;
-        align-items: center;
-        position: relative;
-        height: 1.7rem;
-        transition: all 300ms ease;
-    }
-    .drop-menu .ul a:hover {
-        background:  rgb(190, 190, 190);
-        transition: 0.6s;
-        color: var(--color-white);
-        fill: var(--color-white);
-        padding-left: .9rem;
-        content: "";
-        margin-bottom: 6px;
-        font-size: 15px;
-        border-radius: 0px 0px 10px 10px;
-        cursor: pointer;
-    }
-    .checkbox{
-        opacity: 0;
-        position: absolute;
-    }
-    .checkbox:checked + .theme-dark .ball{
-        transform: translateX(28px);
-    }
-    .drop-menu .theme-dark{
-        background: hsl(0, 0%, 69%);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 14.5px;
-        width: 42.5px;
-        cursor: pointer;
-        border-radius: 50px;
-        position: relative;
-        padding: 5px;
-        margin-top: -30px;
-        margin-bottom: 8px;
-        margin-left: 2rem;
-    }
-    .sun{
-        fill: yellow;
-    }
-    .moon{
-        fill: white;
-    }
-    .ball{
-        background: white;
-        position: absolute;
-        border-radius: 50%;
-        top: 2px;
-        left: 2px;
-        height: 21px;
-        width: 21px;
-        transition: transform 0.2s linear;
-    }
+.user2 .profile{
+position: relative;
+cursor: pointer;
+}
+.user2 .drop-menu{
+position: absolute;
+top: 120px;
+right: 0;
+padding: 10px 20px;
+background: var(--color-white);
+box-shadow: 3px 2px 10px 1px var(--color-solid-gray);
+width: 110px;
+box-sizing: 0 5px 25px rgba(0,0,0,0.1);
+border-radius: 7px;
+transition: 0.5s;
+visibility: hidden;
+opacity: 0;
+}
+.user2 .drop-menu.user2{
+top: 85px;
+visibility: visible;
+opacity: 1;
+}
+.user2 .drop-menu::before{
+content:'';
+position: absolute;
+top: -5px;
+right: 25px;
+width: 15px;
+height: 20px;
+background: var(--color-white);
+transform: rotate(45deg);
+transition: 0.5s;
+}
+.drop-menu .ul .user-type3{
+font-family: 'Calibri', sans-serif;
+font-size: 7.5px;
+color: var(--color-main);
+letter-spacing: .2rem;
+display: none;
+text-transform: uppercase;
+}
+
+.drop-menu .ul{
+display: flex;
+flex-direction: column;
+height: 5rem;
+position: relative;
+margin-bottom: 0.5rem;
+}
+.drop-menu h4{
+font-weight: 400;
+font-size: 12px;
+}
+.drop-menu .ul a{
+display: flex;
+color: hsl(0, 0%, 69%);
+fill: hsl(0, 0%, 69%);
+margin-left: -1.26rem;
+padding-left: 1rem;
+gap: 1rem;
+height: 1rem;
+width: 8.5rem;
+align-items: center;
+position: relative;
+height: 1.7rem;
+transition: all 300ms ease;
+}
+.drop-menu .ul a:hover {
+background:  rgb(190, 190, 190);
+transition: 0.6s;
+color: var(--color-white);
+fill: var(--color-white);
+padding-left: .9rem;
+content: "";
+margin-bottom: 6px;
+font-size: 15px;
+border-radius: 0px 0px 10px 10px;
+cursor: pointer;
+}
+.checkbox{
+opacity: 0;
+position: absolute;
+}
+.checkbox:checked + .theme-dark .ball{
+transform: translateX(28px);
+}
+.drop-menu .theme-dark{
+background: hsl(0, 0%, 69%);
+display: flex;
+justify-content: space-between;
+align-items: center;
+height: 14.5px;
+width: 42.5px;
+cursor: pointer;
+border-radius: 50px;
+position: relative;
+padding: 5px;
+margin-top: -30px;
+margin-bottom: 8px;
+margin-left: 2rem;
+}
+.sun{
+fill: yellow;
+}
+.moon{
+fill: white;
+}
+.ball{
+background: white;
+position: absolute;
+border-radius: 50%;
+top: 2px;
+left: 2px;
+height: 21px;
+width: 21px;
+transition: transform 0.2s linear;
+}
     /* ----------------------------------------MAIN---------------------------------------- */
     .main-dashboard{
         width:100%;
@@ -1722,7 +1627,9 @@ table tbody td{
         width: 78%;
         margin-top: 3.2rem;
     }
-   
+   a{
+    text-decoration: none;
+   }
     /* ----------------------------------------ASIDE---------------------------------------- */
     .container{
         display: grid;
@@ -1981,87 +1888,159 @@ table tbody td{
         .containter{
             width: 100%;
         }
-    
-        .menu-btn2{
-            display: flex;
-        }
-        .top-menu{
-            width: 94%;
-            margin: 0 auto 4rem;
-        }
-        .top-menu .menu-bar{
-            position: fixed;
-            top: 0;
-            left: 0;
-            align-items: center;
-            padding: 0 0.8rem;
-            height: 4rem;
-            background: var(--color-white);
-            width: 100%;
-            margin: 0;
-            z-index: 2;
-            box-shadow: 0px 1px 14px var(--color-shadow-shadow);
-        }
-        .top-menu .menu-bar .dashTitle-top{
+        .Title-top{
             display: block;
             left: 0;
+            font-size: 1rem;
             margin-left: 4rem;
             position: absolute;
         }
-         .profile{
-            margin-right: 1.4rem;
-        }
-        .top-menu .menu-bar .user1{
-            display: none;
-        }
-        .drop-menu .ul .user-type3{
+        .subTitle-top{
             display: block;
-            left:22.5%;
-            position: absolute; 
-            margin-top: -2.3rem;
-            margin-bottom: 1.9rem;
-        }
-        .dashTitle{
-            display:none;
-        }
-        .user2 .drop-menu{
-            right: 40px;
-            height: 9.3rem;
-            margin-top: 2px;
-        }
-        .user2 .drop-menu::before{
-            right: 17px;
-        }
-        .drop-menu .ul{
-            width: 8.5rem;
-            height: 5rem;
-        }
-        .drop-menu .ul .theme-dark{
-            margin-top: -.3rem;
-        }
-        
-        .drop-menu .ul a{
-            width: 8.5rem;
-        }
-        .main-dashboard{
-            position: relative;
-            left: -5%;
-        }
-        main .account-container{
-            margin: 2rem 0 0 8.8rem;
-            width: 94%;
-            position: absolute;
-            display:none;
+            font-size: .8rem;
             left: 0;
-            margin-left: 50%;
-            transform: translateX(-50%);
-            margin-top: 3%;
+            margin-left: 12rem;
+            padding-left: .5rem;
+            position: absolute;
         }
-        main .account-container table{
-            width: 80vw;
-            padding-left:30px;
-            padding-right:30px;
+        .menu-btn2{
+            display: flex;
         }
+
+    .add-account2{
+        width: 50%;
+    }
+    .add-account1{
+        width: 50%;
+    }
+    .newUser-button2{
+        width: 100%;
+        display: inline-block;
+    }
+    .newUser-button1{
+        width: 100%;
+        display: inline-block;
+    }
+    .sub-tab-container{
+        width: 100%;
+        margin-top: 1rem;
+
+    }
+.top-menu .menu-bar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    align-items: center;
+    padding: 0 0.8rem;
+    height: 4rem;
+    background: var(--color-white);
+    width: 100%;
+    margin: 0;
+    z-index: 2;
+    box-shadow: 0px 1px 14px var(--color-shadow-shadow);
+}
+.profile{
+    margin-right: 2rem;
+}
+.top-menu .menu-bar .user1{
+    display: none;
+}
+.user-type4{
+    margin-top: 1.9rem;
+}
+.drop-menu .ul .user-type3{
+    display: flex;
+    padding-bottom: 2.9rem;
+    left:20.5%; 
+    position: absolute;
+}
+.addnew-title{
+    text-align: center;
+    font-size: 1.5rem;
+}
+.dashTitle{
+    display:none;
+}
+
+.user2 .drop-menu{
+    right: 40px;
+    height: 7.3rem;
+    margin-top: 2px;
+}
+.user2 .drop-menu::before{
+    right: 30px;
+}
+.drop-menu .ul{
+    width: 8.5rem;
+    height: 5rem;
+}
+
+.drop-menu .ul a{
+    width: 8.5rem;
+}
+/* ------------------------------------------------------------------------------ */
+   
+        .customer-container{
+            position: relative;
+            margin-top:2rem;
+            overflow: auto;
+            margin-left: -1rem;
+            width: 100%;
+            max-height: 600px;
+            border-top: 5px solid var(--color-solid-gray);
+            font-size: 15px;
+        }
+        .customer-container tbody tr td{
+            font-size: 10px;
+            
+        }
+        table {
+            border: 0;
+        }
+
+        table caption {
+            font-size: 1.3em;
+        }
+
+        table thead {
+            border: none;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+
+        table tr {
+            border-bottom: 3px solid #ddd;
+            display: block;
+            margin-bottom: .625em;
+        }
+
+        table td {
+            border-bottom: 1px solid #ddd;
+            display: block;
+            font-size: .8em;
+            text-align: right;
+        }
+
+        table td::before {
+            /*
+            * aria-label has no advantage, it won't be read inside a table
+            content: attr(aria-label);
+            */
+            content: attr(data-label);
+            float: left;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        table td:last-child {
+            border-bottom: 0;
+        }
+
         main  h2{
             margin-left: 10%;
             display:none;
@@ -2069,19 +2048,57 @@ table tbody td{
         main .sub-tab{
             margin-bottom: 4rem;
         }
-        .newUser-button{
-            left: 137%;
-            display:none;
-        }
-        .search{
-            left: 77%;
-            display:none;
-        }
-        .search-bar{
-            width: 20vw;
-        }
-    }
     
+        .createDelivery{
+            width: 100%;
+            text-align: center;
+        }
+     .pickup{
+        width: 100%;
+        text-align: center;
+     }
+     .pickuplist{
+        width: 90%;
+        margin-top: 1rem;
+
+     }
+     .batchlist{
+        width: 90%;
+        margin-top: 1rem;
+        
+     }
+     .day{
+        font-size: .8rem;
+     }
+     .date{
+        font-size: .8rem;
+     }
+     .card{
+        height: 3rem;
+
+     }
+    }
+    .Title-top{
+    display: none;
+    font-size: 1rem;
+    color: var(--color-main);
+    font-family: 'COCOGOOSE', sans-serif;
+    letter-spacing: .03rem;
+    }
+    .subTitle-top{
+    display: none;
+    font-size: .7rem;
+    position: relative;
+    margin-left: 3rem;
+    border-left: 1px var(--color-solid-gray) solid;
+    padding-left: 1rem;
+    padding-bottom: .2rem;
+    font-family: 'calibri', sans-serif;
+    color: var(--color-solid-gray);
+    font-size: 1rem;
+    text-transform: uppercase;
+
+    }
     .menu-tab p{
         font-size: 20px;
         font-weight: lighter;
@@ -2533,12 +2550,7 @@ table tbody td{
 
                     <div class="customer-container" id="customerTable">
                                 <br>
-                                <div class="newUser-button4"> 
-                                    <button id="add-userbutton" class="add-account3">
-                                        <h3 class="deliveries">TOTAL PENDING DELIVERY/PICK UP</h3>
-                                        <span class="total-deliveries">0</span>
-                                    </button>
-                                </div>
+                   
                                 <div class="card">
                                      <h1 class="day"><?php echo date("l")?></h1>
                                     <h1 class="dash">-</h1>
@@ -2668,8 +2680,10 @@ table tbody td{
                             <?php 
                             // per customer
                                     $user_id = $_SESSION['user_user_id'];
+                            
                                     $transaction_process = "SELECT
                                                 customers.customer_name,
+                                                customers.id,
                                                 sum(transaction.total_amount) AS total
                                                 FROM delivery_list
                                                 INNER JOIN transaction
@@ -2695,6 +2709,50 @@ table tbody td{
                                             <th class="th-name"><span class="nameTd">Total Amount</span></th>
                                             <td colspan="3"><?php echo $transaction_name['total'];?></td>
                                         </tr>
+                                    <?php 
+                                    $customer_id = $transaction_name['id'];
+                                    $total_unpaid = "SELECT 
+                                    t.id,
+                                    t.customer_name,
+                                    t.contact_number1,
+                                    t.address, 
+                                    t.balance,
+                                    SUM(t.unpaid_amount) as credit
+                                    FROM
+                                    (SELECT
+                                    customers.id,
+                                    customers.customer_name,
+                                    customers.contact_number1,
+                                    customers.address, 
+                                    customers.balance,
+                                    transaction_history.transaction_uuid,
+                                    MIN(transaction_history.unpaid_amount) as unpaid_amount
+                                    FROM transaction_history
+                                    INNER JOIN transaction
+                                    ON transaction.uuid = transaction_history.transaction_uuid
+                                    INNER JOIN delivery_list 
+                                    ON transaction.uuid = delivery_list.uuid
+                                    INNER JOIN customers
+                                    on transaction.customer_name_id = customers.id
+                                    WHERE customers.status_archive_id = 1
+                                    AND delivery_list.delivery_status = 1
+                                    AND delivery_list.user_id = '$user_id'
+                                    GROUP BY transaction_history.transaction_uuid) 
+                                    t 
+                                    WHERE t.id = '$customer_id'
+                                    GROUP BY t.customer_name
+                                    HAVING SUM(t.unpaid_amount) > 0";
+                                    $transaction_unpaid_result = mysqli_query($con, $total_unpaid);
+                                    if(mysqli_num_rows($transaction_unpaid_result) > 0)
+                                     { 
+                                    $transaction_unpaid = mysqli_fetch_assoc($transaction_unpaid_result);
+                                    ?>
+                                    
+                                        <tr>
+                                            <th class="th-name"><span class="nameTd">Total Unpaid Amount</span></th>
+                                            <td colspan="3"><?php echo $transaction_unpaid['credit'];?></td>
+                                        </tr>
+                                    <?php } ?>
                                     </thead>
                                     <?php  
                                     // per uuid per customer 
@@ -2724,7 +2782,7 @@ table tbody td{
                                                 <th>QTY</th>
                                                 <th>AMOUNT</th>
                                                 <th>     
-                                                    <a href="../service/delete-transaction-order.php?delete-list=<?php echo $user_id; ?>" class="delete-rowsButton" class="action-btn" name="action">
+                                                    <a href="../service/delete-transaction-order.php?delete-list=<?php echo $transactions_uuid['uuid']; ?>" class="delete-rowsButton" class="action-btn" name="action">
                                                         X
                                                     </a>
                                                 </th>
@@ -2792,10 +2850,10 @@ table tbody td{
                             
         
                             <div class="receipt-buttons">
-                                <a href="../monitoring/monitoring-delivery-pickup-list-receipt.php?uuid=<?php echo $uuid?>" id="addcustomerBtn" class="confirmOrder-button">
+                                <button type="submit" name="print-delivery" id="addcustomerBtn" class="confirmOrder-button">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
                                     Print
-                                </a>
+                                </button>
                                 
                                 <button type="submit" class="confirmOrder-button2" name="deliver">
                                     DELIVER
@@ -2890,9 +2948,78 @@ table tbody td{
                 </div>
             </div>
             </main>
-            <?php
-                include('../common/top-menu.php')
-            ?>    
+            <div class="top-menu">
+                <div class="menu-bar">
+                    <div class="menu-btn2">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2 class="Title-top">MONITORING</h2>
+                    <h4 class="subTitle-top">DELIVERY/PICK UP</h2>
+                    <div class="user1">
+                        <div class="welcome">
+                            <h4 > Welcome, </h4>
+                        </div>
+                        <div class="user-name">
+                            <h4><?php echo $_SESSION['user_first_name']; ?> </h4>
+                        </div>
+                        <div class="user-type">
+                            <h1><?php echo $_SESSION['user_user_type']; ?> </h1>
+                        </div>
+                    </div>
+                    <div class="user2">
+                        <div class="profile" onclick="menuToggle();">
+                            <img src="../uploaded_image/<?= $_SESSION['user_profile_image']; ?>" alt="">
+                        </div>
+                        <div class="drop-menu" >
+                            <div class="ul">
+                                <div class="user-type3">
+                                    <h1><?php echo $_SESSION['user_user_type']; ?> </h1>
+                                </div>
+                                <div class="user-type4">
+                                    <?php
+                                    $query = "SELECT 
+                                    users.user_id,
+                                    users.last_name,
+                                    users.first_name,
+                                    users.middle_name,
+                                    users.email,
+                                    users.contact_number, 
+                                    users.profile_image, 
+                                    account_type.user_type, 
+                                    status_archive.status 
+                                    FROM users 
+                                    INNER JOIN account_type 
+                                    ON users.account_type_id = account_type.id 
+                                    INNER JOIN status_archive 
+                                    ON users.status_archive_id = status_archive.id
+                                    WHERE users.status_archive_id = '1'
+                                    ORDER BY users.user_id";
+                                    $result = mysqli_query($con, $query);
+                                    if ($rows = mysqli_fetch_assoc($result))
+                                    {
+                                        ?>
+                                    <a href="../accounts/account-view.php?view=<?php echo $_SESSION['user_user_id']; ?>" class="account">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.917 14.167q1.062-.875 2.364-1.313 1.302-.437 2.719-.437 1.417 0 2.719.437 1.302.438 2.385 1.313.688-.855 1.084-1.907.395-1.052.395-2.26 0-2.75-1.916-4.667Q12.75 3.417 10 3.417T5.333 5.333Q3.417 7.25 3.417 10q0 1.208.406 2.26.406 1.052 1.094 1.907ZM10 10.854q-1.229 0-2.073-.844-.844-.843-.844-2.072 0-1.23.844-2.073.844-.844 2.073-.844t2.073.844q.844.843.844 2.073 0 1.229-.844 2.072-.844.844-2.073.844Zm0 7.479q-1.729 0-3.25-.656t-2.646-1.781q-1.125-1.125-1.781-2.646-.656-1.521-.656-3.25t.656-3.25q.656-1.521 1.781-2.646T6.75 2.323q1.521-.656 3.25-.656t3.25.656q1.521.656 2.646 1.781t1.781 2.646q.656 1.521.656 3.25t-.656 3.25q-.656 1.521-1.781 2.646t-2.646 1.781q-1.521.656-3.25.656Zm.021-1.75q1.021 0 2-.312.979-.313 1.771-.896-.771-.604-1.75-.906-.98-.302-2.042-.302-1.062 0-2.031.302-.969.302-1.761.906.792.583 1.782.896.989.312 2.031.312ZM10 9.104q.521 0 .844-.323.323-.323.323-.843 0-.521-.323-.844-.323-.323-.844-.323-.521 0-.844.323-.323.323-.323.844 0 .52.323.843.323.323.844.323Zm0-1.166Zm0 7.437Z"/></svg>
+                                        <h4>My Account</h4>
+                                    </a>
+                                <?php }?>
+
+                                    <a href="../settings/settings-help.php" class="help">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 15q.417 0 .708-.292Q11 14.417 11 14t-.292-.708Q10.417 13 10 13t-.708.292Q9 13.583 9 14t.292.708Q9.583 15 10 15Zm-.75-3.188h1.521q0-.77.135-1.093.136-.323.656-.823.73-.708 1.011-1.208.281-.5.281-1.105 0-1.145-.781-1.864Q11.292 5 10.083 5q-1.062 0-1.843.562-.782.563-1.094 1.521l1.354.563q.188-.584.594-.906.406-.323.948-.323.583 0 .958.333t.375.875q0 .479-.323.854t-.719.729q-.729.667-.906 1.094-.177.427-.177 1.51ZM10 18q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
+                                        <h4>Help</h4>
+                                    </a>
+                                    <a href="../auth/logout.php" class="logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.438-1.062Q3.875 3 4.5 3H10v1.5H4.5v11H10V17Zm9-3.5-1.062-1.062 1.687-1.688H8v-1.5h6.125l-1.687-1.688L13.5 6.5 17 10Z"/></svg>
+                                        <h4>Logout</h4>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div> 
         
 <?php

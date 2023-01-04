@@ -6,9 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" type="text/css" href="../CSS/error-page.css"> -->
-    <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../CSS/error-page.css">
     <title>Tag's Water Purified Drinking Water</title>
 </head>
 <body>

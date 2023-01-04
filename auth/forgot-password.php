@@ -28,7 +28,7 @@
             ?>
         </div>
         <div class="pageform">
-            <form action="../service/check-email.php" method="post" autocomplete="off" class="disable-form">
+            <form action="../service/check-email.php" method="post" autocomplete="off" class="disable-form" onsubmit="loading()">
 
                 <div class="txt_field">
                     <input type="text" id="email" name="email" required>
@@ -44,6 +44,49 @@
     </div>
 </div>
 </div>
+<div id="loading" class="loading">
+    <div class="loader"></div>
+</div>
 </body>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<script>
+    function loading() {
+        document.querySelector(".loading").style.display = "flex";
+        document.querySelector(".loader").style.display = "flex";
+    }
+</script>
+
+<style>
+    #loading {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(192, 192, 192, 0.5);
+  background-repeat: no-repeat;
+  background-position: center;
+  align-items: center;
+}
+.loader {
+  border: 16px solid rgb(244, 255, 246); /* Light grey */
+  border-top: 16px solid rgb(2, 80, 2); /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  text-align: center;
+  left: 46%;
+  display: none;
+  z-index: 100;
+  position: absolute;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
 </html>

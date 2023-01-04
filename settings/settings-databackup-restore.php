@@ -72,7 +72,7 @@ date_default_timezone_set("Asia/Manila");
             ?>
 
         </div>
-        <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+        <form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm" onsubmit="loading()">
             <div class="bg-addcustomerform" id="bg-addform">
                 <div class="message"></div>
                 <div class="container1">
@@ -96,9 +96,16 @@ date_default_timezone_set("Asia/Manila");
                     </form>
                 </div>
         </form> 
+        <div id="loading" class="loading">
+            <div class="loader"></div>
+        </div>
     </body>
 </html>
 <script>
+    function loading() {
+        document.querySelector(".loading").style.display = "flex";
+        document.querySelector(".loader").style.display = "flex";
+    }
     // -----------------------------SIDE MENU
  $(document).ready(function(){
      //jquery for toggle sub menus
@@ -171,6 +178,38 @@ date_default_timezone_set("Asia/Manila");
     //     }
 </script>
 <style>
+
+    #loading {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(192, 192, 192, 0.5);
+        background-repeat: no-repeat;
+        background-position: center;
+        align-items: center;
+    }
+    .loader {
+        border: 16px solid rgb(244, 255, 246); /* Light grey */
+        border-top: 16px solid rgb(2, 80, 2); /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        text-align: center;
+        left: 46%;
+        display: none;
+        z-index: 100;
+        position: absolute;
+        height: 120px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
      :root{
         --color-main: rgb(2, 80, 2);
         --color-white: white;

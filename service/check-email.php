@@ -5,7 +5,7 @@ require_once "../audit/audit-logger.php";
 $module = 'FORGOT_PASSWORD';
 
 if (isset($_POST['check-email'])) {
-
+    
     $email = $_POST['email'];
 
     $emailCheckQuery = "SELECT * FROM users WHERE email = '$email'";

@@ -1,3 +1,7 @@
+function loading() {
+    document.querySelector(".loading").style.display = "flex";
+    document.querySelector(".loader").style.display = "flex";
+}
 // -----------------------------SIDE MENU
 $(document).ready(function(){
     //jquery for toggle sub menus
@@ -41,39 +45,6 @@ function myFunctionCP(){
     }
 }
 // EDIT ACCOUNT--------------------------------------------------
-
-// document.querySelector("#myTable"),addEventListener("click", (e)=>{
-//     target = e.target;
-//     if(target.classList.contains("action-btn")){
-//         selectedRow = target.parentElement.parentElement;
-//         document.querySelector("#lastname").value = selectedRow.children[1].textContent;
-//         document.querySelector("#firstname").value = selectedRow.children[2].textContent;
-//         document.querySelector("#middlename").value = selectedRow.children[3].textContent;
-//         document.querySelector("#email").value = selectedRow.children[4].textContent;
-//         document.querySelector("#contactnum").value = selectedRow.children[5].textContent;
-//         // document.querySelector("#usertype").value = selectedRow.children[6].textContent;
-//         // document.querySelector("#image-profile").value = selectedRow.children[7].textContent;
-//     }
-// });
-// // Get the modal
-
-// // // Get the button that opens the modal
-// // var addbtn = $("#add-userbutton");
-
-// // // Get the <span> element that closes the modal
-// var cancelbtn = $("#cancel");
-
-// $(document).ready(function(){
-//     // When the user clicks the button, open the modal
-// addbtn.on('click', function() {
-//     bgform.show();
-// });
-
-//     // When the user clicks on <span> (x), close the modal
-//     cancelbtn.on('click', function() {
-//         bgform.hide();
-//     });
-// // });
 
 // Add new User Message ----------------------------------------------------------------------------------
 
@@ -154,28 +125,9 @@ cancelBtn.addEventListener('click', () =>{
 // }else{
 
 // }
-addBtn.addEventListener('click', () =>{
-    addForm.style.display = 'flex';
-})
-
-// adduserBtn.addEventListener('click', () =>{
-//     addForm.style.display = 'flex';
-// })
-
-// checkbox.addEventListener( 'change', function() {
-//     localStorage.setItem('dark-theme',this.checked);
-//     if(this.checked) {
-//         body.classList.add('dark-theme')
-//     } else {
-//         body.classList.remove('dark-theme')
-//     }
-// });
-//     document.body.classList.add('dark-theme');
-// })
-// if(localStorage.getItem('dark-theme')) {
-// body.classList.add('dark-theme');
-// }
-
+function addnewuser(){
+    document.querySelector(".bg-adduserform").style.display = 'flex';
+}
 
 function menuToggle(){
     const toggleMenu = document.querySelector('.drop-menu');
@@ -183,56 +135,44 @@ function menuToggle(){
 }
 
 
+
 function tableSearch(){
-    let input, filter, table, tr, lastname,
-        firstname, middlename, email, contactnum, role, i, txtValue;
+var input, filter, table, tr, role, i;
 
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-
-
-    for(i = 0; i < tr.length; i++){
-
-        lastname = tr[i].getElementsByTagName("td")[1];
-        firstname = tr[i].getElementsByTagName("td")[2];
-        middlename = tr[i].getElementsByTagName("td")[3];
-        email = tr[i].getElementsByTagName("td")[4];
-        contactnum = tr[i].getElementsByTagName("td")[5];
-        role = tr[i].getElementsByTagName("td")[6];
+input = document.getElementById("searchInput");
+filter = input.value.toUpperCase();
+table = document.getElementById("myTable");
+tr = table.getElementsByTagName("tr");
 
 
-        if(lastname || firstname || middlename || email || contactnum || role){
-            var lastname_value = lastname.textContent || lastname.innerText;
-            var firstname_value = firstname.textContent || firstname.innerText;
-            var middlename_value = middlename.textContent || middlename.innerText;
-            var email_value = email.textContent || email.innerText;
-            var contactnum_value = contactnum.textContent || contactnum.innerText;
-            var role_value = role.textContent || role.innerText;
-            if(role_value.toUpperCase().indexOf(filter) > -1 ||
-                contactnum_value.toUpperCase().indexOf(filter) > -1 ||
-                email_value.toUpperCase().indexOf(filter) > -1 ||
-                middlename_value.toUpperCase().indexOf(filter) > -1 ||
-                lastname_value.toUpperCase().indexOf(filter) > -1 ||
-                firstname_value.toUpperCase().indexOf(filter) > -1){
-                tr[i].style.display ="";
-            }
-            else{
-                tr[i].style.display = "none";
-            }
-            if($('#myTable tbody tr:visible').length === 0) {
-                document.getElementById('noRecordTR').style.display = "";
-            }else{
-                document.getElementById('noRecordTR').style.display = "none";
-            }
-        }
-        if($('#myTable tbody tr:visible').length === 0) {
-            document.getElementById('noRecordTR').style.display = "";
+for(i = 0; i < tr.length; i++){
+
+    role = tr[i].getElementsByTagName("td")[1];
+
+    if(role){
+        var role_value = role.textContent || role.innerText;
+
+        if(role_value.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display ="";
         }else{
-            document.getElementById('noRecordTR').style.display = "none";
+            tr[i].style.display = "none";
         }
+        // if($('#myTable tbody tr:visible').length === 0) {
+        //     document.getElementById('noRecordTR').style.display = "";
+        // }else{
+        //     document.getElementById('noRecordTR').style.display = "none";
+        // }
+
     }
+    if ($("#myTable tr:not('.noRecordTR, .table-heading'):visible").length == 0) {
+
+    $("#myTable").find('.noRecordTR').show();
+    }
+    else {
+    $("#myTable").find('.noRecordTR').hide();
+    }
+}
+
 }
 // $.fn.AddNoRowsFound = function() {
 //     if($(this).find('tbody tr:not([data-no-results-found]):visible').length > 0) {

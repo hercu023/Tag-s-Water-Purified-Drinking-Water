@@ -3,7 +3,13 @@ require_once "../database/connection-db.php";
 require_once "../service/validate-stock-quantity.php";
 require_once "../audit/audit-logger.php";
 $module = 'MONITORING-DELIVERY_PICKUP';
-
+if(isset($_POST['print-delivery'])) {
+    if(isset($_POST['delivery_boy'])) {
+        $delivery_boy_id = $_POST['delivery_boy'];
+        header("Location: ../monitoring/monitoring-delivery-pickup-list-receipt.php?delivery_boy_id=".$delivery_boy_id);
+        exit();
+    }
+}
 if(isset($_POST['add-for-pickup'])) {
     if(isset($_POST['uuid'])) {
        

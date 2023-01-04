@@ -13,23 +13,12 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-        <link rel="stylesheet" type="text/css" href="../CSS/inventory-stocks.css">
-        <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
-        <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
-        <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
-        <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
-        <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
-        <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <title>Tag's Water Purified Drinking Water</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-        <script src="../index.js"></script>
-    </head>
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" type="text/css" href="../CSS/inventory-stocks.css">
+    <title>Tag's Water Purified Drinking Water</title>
+</head>
+<style>
     :root{
     --color-main: rgb(2, 80, 2);
     --color-main-2: rgb(2, 80, 2);
@@ -75,1126 +64,26 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ST
     --color-aside-mobile-text:hsl(0, 0%, 88%);
 }
 
-
 body{
     background: var(--color-background);
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow-x: hidden;
+    overflow-x: auto;
     font-family: Arial, Helvetica, sans-serif;
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-}  
-.user-input-box{
-    display: flex;
-    flex-wrap: wrap;
-    width: 45%;
-    padding-bottom: 15px;
-    }
-    
-    .user-input-box label{    
-    width: 100%;
-    color: var(--color-solid-gray);
-    font-size: 16px;
-    /* margin-left: .2rem; */
-    margin-bottom: 0.5rem;
-    font-family: 'Malberg Trial', sans-serif;
-    font-weight: 550;
-    /* margin: 5px 0; */
-    }
-    .user-input-box label:focus{
-    border: 2px solid var(--color-main-3);
-    font-size: 17px;
-    font-weight: 600;
-    }
-    .user-input-box input::placeholder{
-    font-size: .8em;
-    color:var(--color-solid-gray);
-    }
-    /* ::placeholder:focus{
-    border: 2px solid var(--color-main-3);
-    } */
-    .user-input-box input:focus{
-    border: 2px solid var(--color-main-3);
-    background: var(--color-white);
-    }
-    
-    .user-input-box input{
-      height: 40px;
-    width: 100%;
-    border: 2px solid var(--color-solid-gray);
-    border-radius: 15px;
-    outline: none;
-    font-size: 1em;
-    background: var(--color-white);
-    color: var(--color-black);
-    padding: 0 10px;
-    }
-    .user-input-box .item{
-        background: var(--color-solid-gray);
-        color: var(--color-white);
+}
+/* ----------------------------TOP MENU---------------------------- */
 
-    }
-    .user-input-box .item:hover{
-        background: var(--color-solid-gray);
-        color: var(--color-white);
-
-    }
-    .usertype-dropdown{
-                width: 100%;
-                /* margin-top: 1.6rem; */
-                display: flex;
-                margin-bottom: 1rem;
-                flex-wrap: wrap;
-            }
-            .select{
-                background: var(--color-solid-gray);
-                color: var(--color-white);
-                align-items: center;
-                border-radius: 13px;
-                padding: 8px 12px;
-                height: 40px;
-                width: 100%;
-                cursor: pointer;
-                transition: 0.3s;
-            }
-            .action-dropdown{
-                position: relative;
-                margin-top: .5rem;
-                /* left: 10%; */
-                margin-bottom: .5rem
-            }
-
-    .user-title{
-        position: relative;
-        display: inline-block;
-        /* margin-left: 1rem; */
-        width: 100%;
-    }
-    .newUser-button{
-        margin-left: 19rem;
-        position: relative;
-        display: inline-block;
-    }
-    .search{
-        position: relative;
-        display: inline-block;
-        gap: 2rem;
-        float: right;
-    }
-    .search-bar{
-        width: 15vw;
-        background: var(--color-white);
-        display: flex;
-        position: relative;
-        align-items: center;
-        border-radius: 60px;
-        padding: 10px 20px;
-        height: 1.8rem;
-        backdrop-filter: blur(4px) saturate(180%);
-    }
-    .search-bar input{
-        background: transparent;
-        flex: 1;
-        border: 0;
-        outline: none;
-        padding: 24px 20px;
-        font-size: .8rem;
-        color: var(--color-black);
-        margin-left: -0.95rem;
-    }
-    ::placeholder{
-        color: var(--color-solid-gray);
-    
-    }
-    .search-bar button svg{
-        width: 20px;
-        fill: var(--color-white);
-    }
-    .search-bar button{
-        border: 0;
-        border-radius: 50%;
-        width: 35px;
-        height: 35px;
-        background: var(--color-main);
-        margin-right: -0.55rem;
-    }
-    .td-remove{
-        text-align: center;
-        justify-content: center;
-    
-    }
-    .edit-action{
-        background: hsl(0, 0%, 37%);
-        color: var(--color-white);
-        fill: var(--color-white);
-        justify-content: center;
-        text-align: center;
-        position: relative;
-        border-radius: 3px;
-        display: flex;
-        text-decoration: none;
-        margin: 1rem;
-        padding: 5px;
-        left: 19%;
-        gap: .4rem;
-        width: 50%;
-        cursor: pointer;
-        transition: 0.3s;
-        border: none;
-    }
-    .edit-action:hover{
-        background: var(--color-main);
-        color: var(--color-white);
-    }
-    .add-account{
-            display: flex;
-            border: none;
-            background-color: var(--color-white); 
-            align-items: center;
-            color: var(--color-button); 
-            fill: var(--color-button); 
-            max-height: 50px;
-            border-radius: 20px;
-            padding-left: 1rem;
-            text-decoration: none;
-            padding-right: 1rem;
-            justify-content: center;
-            font-family: 'Outfit', sans-serif;
-            cursor: pointer; 
-            gap: .5rem;
-            height: 3.9rem;
-            transition: all 300ms ease;
-            position: relative; 
-            margin-top: .2rem;
-            text-transform: uppercase;
-        }
-        .add-account h3{
-            font-size: .8rem;
-        }
-        .add-account:hover{
-            background-color: var(--color-main); 
-            color: var(--color-white);
-            fill: var(--color-white);
-            padding-top: -.2px;
-            transition: 0.7s;
-            border-bottom: 4px solid var(--color-maroon);
-        }
-
-.container1{
-width: 100%;
-max-width: 600px;
-padding: 28px;
-margin: 0 28px;
-border-radius:  0px 0px 20px 20px;
-background-color: var(--color-white);
-box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-border-top: 10px solid var(--color-solid-gray);
-}
-
-    
-.form-title{
-font-size: 26px;
-font-weight: 600;
-text-align: center;
-padding-bottom: 6px;
-color: white;
-text-shadow: 2px 2px 2px black;
-border-bottom: solid 1px white;
-}
-
-.main-user-info{
-display: flex;
-flex-wrap: wrap;
-justify-content: space-between;
-padding: 20px 0;
-}
-
-
-.line{
-width:100%;
-margin-top: 1rem;
-margin-bottom: 1rem;
-border-bottom: 2px solid var(--color-solid-gray);
-}
-.profile-picture1 h4{
-    display: flex;
-    position: relative;
-    text-align: center;
-    font-size: 1rem;
-    font-family: 'Calibri', sans-serif;
-    color: var(--color-solid-gray);
-    width: 100%;
-    border-bottom: 2px solid var(--color-solid-gray);
-    /* margin-bottom: -5rem; */
- }   
-   
-.choose-profile{
-    /* position: relative; */
-    width: 100%;
-    height: 1.32rem;
-    padding: 10px;
-    margin-top: 1rem;
-    background: var(--color-solid-gray);
-    color: var(--color-white);
-    border-radius: 10px;
-    transition: 0.5s;
-    font-family: 'COCOGOOSE', sans-serif;
-    cursor: pointer;
-}
-
-#image-profile{
-    cursor: pointer;
-    text-align: center;
-    align-items: center;
-}
-.gender-title{
-margin-top: 1rem;
-font-family: 'Calibri', sans-serif;
-color: var(--color-solid-gray);
-width: 100%;
-font-size: 20px;
-margin-left: .2rem;
-font-family: 'Malberg Trial', sans-serif;
-font-weight: 550;
-/* border-bottom: 2px solid var(--color-solid-gray); */
-}
-
-.gender-category{
-margin: 15px 0;
-color:  var(--color-solid-gray);
-}
-
-.gender-category label{
-padding: 0 20px 0 5px;
-}
-
-.gender-category label,
-.gender-category input,
-.form-submit-btn input{
-cursor: pointer;
-}
-
-.form-submit-btn{
-margin-top: 40px;
-}
-
-.form-submit-btn input{
-display: block;
-width: 100%;
-margin-top: 10px;
-font-size: 20px;
-padding: 10px;
-border:none;
-border-radius: 3px;
-color: rgb(209, 209, 209);
-background: rgba(63, 114, 76, 0.7);
-}
-
-.form-submit-btn input:hover{
-background: rgba(56, 204, 93, 0.7);
-color: rgb(255, 255, 255);
-}
-.addnew-title{
-    font-size: min(max(1.9rem, 1.1vw), 2rem);
-    color: var(--color-solid-gray);
-    font-family: 'Malberg Trial', sans-serif;
-    letter-spacing: .09rem;
-    display: flex;
-    padding-top: 1rem;
-    justify-content: center;
-    border-bottom: 2px solid var(--color-solid-gray);
-    width: 100%;
-    padding-bottom: 2px;
-}
-.bot-buttons{
-    width: 100%;
-    align-items: center;
-    text-align: center;
-    display: inline-block;
-    margin-top: 1.3rem;
-}
-.AddButton button{
-    font-family: 'COCOGOOSE', sans-serif;
-    padding: 10px;
-    width: 15rem;
-    max-height: 60px;
-    outline: none;
-    border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
-    border-radius: 20px;
-    color: white;
-    background:  var(--color-mainbutton); 
-    cursor: pointer; 
-    transition: 0.5s;
-    margin-left: 1rem;
-}
-.AddButton button:hover{
-    background: var(--color-button-hover);
-}
-.CancelButton{
-    display: inline-block;
-}
-.AddButton{
-    display: inline-block;
-    
-}
-.CloseButton{
-    margin-top: 5.2vh;
-    margin-left: 2.4em;
-    margin-bottom: -2rem;
-}
-#cancel{
-    font-family: 'COCOGOOSE', sans-serif;
-    padding: 10px;
-    padding-left: 60px;
+.top-menu a{
     text-decoration: none;
-    padding-right: 60px;
-    text-align: center;
-    width: 10rem;
-    max-height: 70px;
-    outline: none;
-    border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
-    border-radius: 20px;
-    color: white;
-    background: #c44242;
-    cursor: pointer; 
-    transition: 0.5s;
 }
-#cancel:hover{
-    background-color: rgb(158, 0, 0);
-    transition: 0.5s; 
-}
-
-@media(max-width: 600px){
-.container1{
-    min-width: 280px;
-}
-
-.user-input-box{
-    margin-bottom: 12px;
-    width: 100%;
-}
-
-.user-input-box:nth-child(2n){
-    justify-content: space-between;
-}
-.usertype-dropdown{
-            width: 95%;
-            margin-bottom: 1rem;
-            margin-top: -.3rem;
-        }
-.gender-category{
-    display: flex;
-    /* justify-content: space-between; */
-    width: 100%;
-}
-
-.main-user-info{
-    max-height: 380px;
-    overflow: auto;
-}
-
-.main-user-info::-webkit-scrollbar{
-    width: 0;
-}
-.CancelButton{
-    display: inline-block;
-}
-.AddButton{
-    display: inline-block;
-    
-}
-}
-  /* -----------------------------------------------Side Menu---------------------------------------- */
-  .side-bar{
-    background: var(--color-table-hover);
-    backdrop-filter: blur(15px);
-    width: 15.5rem;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    /* left: -100%; */
-    overflow-y: auto;
-    transition: 0.6s ease;
-    transition-property: left;
-}
-.side-bar .title{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: -1.9rem;
-    }
-    .side-bar .titlelogo{
-        display: flex;
-        gap: 0.8rem;
-    }
-    .side-bar .titlelogo img{
-        width: 5rem;
-        margin-top: -1rem;
-        margin-bottom: 1rem;
-        margin-left: 5.5rem;
-    }
-    .side-bar .close{
-        display: none;
-        font-size: 1rem;
-    }
-.side-bar.active{
-    left: 0;
-}
-
-.side-bar .menu{
-    width: 100%;
-    margin-top: 80px;
-}
-
-.side-bar .menu .item{
-    position: relative;
-    cursor: pointer;
-}
-
-.side-bar .menu .item a{
-    color: var(--color-tertiary);
-    font-size: 13px;
-    text-decoration: none;
-    display: flex;
-    fill: var(--color-tertiary);
-    margin-left: .5rem;
-    gap: 1rem;
-    align-items: center;
-    position: relative;
-    padding: 0px 20px;
-    line-height: 60px;
-    height: 3.7rem;
-    transition: all 300ms ease;
-}
-.side-bar .menu .item .sub-item{
-    height: 2.9rem;
-
-}
-.side-bar .menu .item a:hover{
-    background: var(--color-table-hover);
-    transition: 0.6s;
-    margin-left: 0rem;
-    border-radius: 0 10px 10px 0 ;
-    box-shadow: 2px 2px 2px rgb(224, 224, 224);
-}
-#inventory{
-    background: var(--color-white);
-    box-shadow: 2px 2px 2px rgb(224, 224, 224);
-    border-radius: 0 10px 10px 0;
-}
-.side-bar .menu .item a .dropdown{
-    position: absolute;
-    right: 0;
-    margin: 20px;
-    transition: 0.3s ease;
-}
-
-.side-bar .menu .item .sub-menu{
-    background: var(--color-background);
-    display: none;
-    
-}
-
-.side-bar .menu .item .sub-menu a{
-    padding-left: 90px;
-    font-size: 13px;
-    font-weight: 500;
-    font-family: 'switzer', sans-serif;
-    box-shadow: 0px 1px 1px rgb(224, 224, 224);
-
-}
-
-.rotate{
-    transform: rotate(90deg);
-}
-
-.close-btn{
-    position: absolute;
-    color: var(--color-tertiary);
-    font-size: 14px;
-    right: 0;
-    margin: 25px;
-    margin-top: 50px;
-    display: none;
-    cursor: pointer;
-}
-
-.menu-btn{
-    position: absolute;
-    color: var(--color-tertiary);
-    font-size: 20px;
-    margin: 25px;
-    cursor: pointer;
-}
-.menu-btn:hover{
-    color: var(--color-main);
-}
-.menu-btn2{
-    position: absolute;
-    color: var(--color-tertiary);
-    font-size: 20px;
-    margin: 25px;
-    display: none;
-    left: 0;
-    cursor: pointer;
-}
-.menu-btn2:hover{
-    /* position: absolute; */
-    color: var(--color-main);
-    /* font-size: 25px;
-    margin: 30px;
-    cursor: pointer; */
-}
-/* -----------------------------------------Adduserform------------------------------------------ */
-.bg-actionDropdown{
-    height: 100%; 
-    width: 100%;
-    background: rgba(0,0,0,0.7);
-    top: 0;
-    position: absolute;
-    display: flex;
-    align-items: center; 
-    justify-content: center;
-    display: none;
-}
-        .action{ 
-            position: absolute;
-            top: 50%;
-            align-items: center;
-            text-align: center;
-            /* display: none; */
-            left: 50%;
-            height: 13.5rem;
-            min-width: 17rem;
-            
-            transform: translate(-50%, -50%);
-            background-color: var(--color-white);
-            box-shadow: 5px 7px 30px 0px var(--color-shadow-shadow);
-            border-radius: 20px;  
-         }
-         #close-action{
-            position: absolute;
-            margin-top: -5.5rem;
-            left:87%;
-            fill: var(--color-solid-gray);
-         }
-         #close-action:hover{
-            position: absolute;
-            margin-top: -5.5rem;
-            left:87%;
-            fill: #8b0000;
-            transition: .2s;
-         }
-         .action h2{
-            padding-bottom: .5rem;
-            margin-top: .5rem;
-            font-size: min(max(1.9rem, 1.1vw), 2rem);
-            color: var(--color-solid-gray);
-            font-family: 'Malberg Trial', sans-serif;
-            border-bottom:  2px solid var(--color-solid-gray);
-            margin-bottom: 1rem;
-         }
-         .action button{
-            padding-left:1rem;
-            font-family: 'arial', sans-serif;
-            cursor: pointer;
-            transition: .5s;
-            font-size: 12px;
-            display: flex;
-            gap: .8rem;
-            width: 100%;
-            border: none;
-            background: var(--color-white);
-            align-items: center;
-            color: var(--color-solid-gray);
-            fill: var(--color-solid-gray);
-            border-radius: 20px;  
-        }
-        .action button:last-child{
-            border-top:  2px solid var(--color-solid-gray);
-        }
-        
-        .action button:hover{
-            background: linear-gradient(270deg, transparent, var(--color-secondary-main));
-            color: var(--color-main);
-            fill: var(--color-main);
-        }
-.bg-adduserform{
-    height: 100%; 
-    width: 100%;
-    background: rgba(0,0,0,0.7);
-    top: 0;
-    position: fixed;
-    display: flex;
-    align-items: center; 
-    justify-content: center;
-}
-.bg-editDropdown{
-    height: 100%; 
-    width: 100%;
-    background: rgba(0,0,0,0.7);
-    top: 0;
-    position: absolute;
-    display: flex;
-    align-items: center; 
-    justify-content: center;
-    display: none;
-}
-#form-registered{
-    position: absolute;
-    top: 50%;
-    display: none;
-    left: 50%;
-    max-height: 95vh;
-    min-width: 400px;
-    transform: translate(-50%, -50%);
-    background-color: var(--color-white);
-    border-top: 10px solid var(--color-main-3);
-    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-    border-radius:  0px 0px 20px 20px;  
-       
-}
-        .pageform{
-            background-color: var(--color-white);
-            border-radius: 0px 0px 10px 10px;
-            border-top: 2px solid var(--color-solid-gray);
-            box-sizing: border-box;
-            padding: 0 30px;
-            display: flex;
-        }
-        #container-registered .pageform {
-            font-size: 20px;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            text-align: center;
-        }
-        .register h2 {
-            font-family: 'Calibri', sans-serif;
-            font-size: 25px;
-            align-items: center;
-            text-align: center;
-            letter-spacing: 2px;
-            color: var(--color-black);
-            margin-bottom: 5px;
-        } 
-        .content .verify {
-            left: 38.2%;
-            padding-top: 1rem;
-            margin-bottom: -.5rem;
-            align-items: center;
-            position: relative;
-         
-        }
-        .verified {
-            fill: rgb(39, 170, 63);
-            width: 80px;
-            height: 80px;
-        }
-        #registered{
-            font-family: 'COCOGOOSE', sans-serif;
-            padding: 10px;
-            padding-left: 60px;
-            padding-right: 60px;
-            text-align: center;
-            max-height: 70px;
-            outline: none;
-            border: none;
-            font-size: min(max(9px, 1.1vw), 11px);
-            border-radius: 20px;
-            color: white;
-            background: var(--color-mainbutton); 
-            cursor: pointer; 
-            transition: 0.5s;
-            display: block;
-            margin-top: 2vh;
-            margin-bottom: 20px;
-            margin-left: 65.5px;
-            margin-right: 65.5px;
-            width: 5rem;
-        }
-        #registered:hover{
-            background-color: var(--color-button-hover);
-            transition: 0.5s; 
-        }
-.form-adduser1{
-    width: 500px;
-    height: 100%;
-    max-height: 480px;
-    position: absolute;
-    border-radius:  0px 0px 20px 20px;
-    background-color: var(--color-white);
-    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-    border-top: 10px solid var(--color-solid-gray);
-}
-.edit-container{
-    width: 500px;
-    height: 100%;
-    max-height: 520px;
-    position: absolute;
-    border-radius:  0px 0px 20px 20px;
-    background-color: var(--color-white);
-    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-    border-top: 10px solid var(--color-solid-gray);
-}
-        .edit-container2{
-            display: flex;
-            font-size: .7rem;
-            flex-direction: column;
-            font-family: 'Malberg Trial', sans-serif;
-            gap: 30px;
-            min-height: 20vh;
-        }
-        .edit-container .EditButton button{
-            font-family: 'COCOGOOSE', sans-serif;
-            padding: 10px;
-            margin-top: .5vh;
-            margin-bottom: 20px;
-            margin-left: 20em;
-            text-align: center;
-            width: 15rem;
-            max-height: 60px;
-            outline: none;
-            border: none;
-            font-size: min(max(9px, 1.1vw), 11px);
-            border-radius: 20px;
-            color: white;
-            background:  var(--color-mainbutton); 
-            cursor: pointer; 
-            transition: 0.5s;
-        }
-        .edit-container .EditButton button:hover{
-            background: var(--color-button-hover);
-        }
-        .form-adduser2{
-            display: flex;
-            font-size: .7rem;
-            flex-direction: column;
-            font-family: 'Malberg Trial', sans-serif;
-            gap: 30px;
-            min-height: 20vh;
-        }
-        .error-error{
-            background-color: hsl(0, 100%, 77%);
-            color: #ffffff;
-            display: relative;
-            padding: 11px;
-            width: 70%;
-            border-radius: 6px;
-            align-items: center; 
-            text-align: center;
-            margin-left: 3.55rem;
-            font-size: min(max(9px, 1.2vw), 11px);
-            letter-spacing: 0.5px;
-            font-family: Helvetica, sans-serif;
-        }
-        .form1{
-            position: relative;
-            width: 205px;
-            margin-left: 2rem;
-            margin-top: -1.0rem;
-            top: 15px;
-        }
-        .form1 input{
-            width:100%;
-            height: 2.5rem;
-            padding: 10px;
-            border: 2px solid var(--color-solid-gray);
-            border-radius: 15px;
-            outline: none;
-            font-size: 1em;
-            background: var(--color-white);
-            color: var(--color-black);
-        }
-        .form1 span{
-            position: absolute;
-            left: 0;
-            padding: 12px;
-            pointer-events: none;
-            font-size: 1.2em;
-            margin-top: 0.1rem;
-            margin-left: .2rem;
-            color:var(--color-solid-gray);
-        }
-        .form1 input:focus{
-            border: 2px solid var(--color-main-3);
-        }
-        .form1 input:valid ~ span,
-        .form1 input:focus ~ span{
-            color: var(--color-main-3);
-            transform: translateX(10px) translateY(1px);
-            font-size: 0.9em;
-            padding: 0 10px;
-            transition: .3s
-        }
-        .form2{
-            position: relative;
-            width: 205px;
-            height: 17px;
-            margin-left: 16rem;
-            margin-top: .395rem;
-            top: -7.1rem;
-        }
-        .form2 input{
-            width:100%;
-            height: 2.5rem;
-            padding: 10px;
-            border: 2px solid var(--color-solid-gray);
-            border-radius: 15px;
-            outline: none;
-            font-size: 1em;
-            background: var(--color-white);
-            color: var(--color-black);
-        }
-        .form2 span{
-            position: absolute;
-            left: 0;
-            padding: 12px;
-            pointer-events: none;
-            font-size:  1.2em;
-            margin-top: 0.1rem;
-            margin-left: .2rem;
-            color: var(--color-solid-gray);
-        }
-        .form2 input:focus{
-            border: 2px solid var(--color-main-3);
-        }
-        .form2 input:valid ~ span,
-        .form2 input:focus ~ span{
-            color:var(--color-main-3);
-            transform: translateX(10px) translateY(1px);
-            font-size: 0.9em;
-            padding: 0 10px;
-            transition: .3s
-        }
-        .form4{
-            position: relative;
-            width: 205px;
-            margin-left: 2rem;
-            margin-top: -.895rem;
-            top: -5.6rem;
-        }
-        .form4 input{
-            width:100%;
-            height: 2.5rem;
-            padding: 10px;
-            border: 2px solid var(--color-solid-gray);
-            border-radius: 15px;
-            outline: none;
-            font-size: 1em;
-            background: var(--color-white);
-            color: var(--color-black);
-        }
-        .form4 span{
-            position: absolute;
-            left: 0;
-            padding: 12px;
-            pointer-events: none;
-            font-size: 1.2em;
-            margin-top: 0.1rem;
-            margin-left: .2rem;
-            color: var(--color-solid-gray);
-        }
-        .form4 input:focus{
-            border: 2px solid var(--color-main-3);
-        }
-        .form4 input:valid ~ span,
-        .form4 input:focus ~ span{
-            color:var(--color-main-3);
-            transform: translateX(10px) translateY(1px);
-            font-size: 0.9em;
-            padding: 0 10px;
-            transition: .3s
-        }
-        .form5{
-            position: relative;
-            width: 205px;
-            margin-left: 15.9rem;
-            margin-top: 1rem;
-            top: -10.93rem;
-            margin-bottom: -5rem;
-        }
-        .form5 input{
-            width:100%;
-            height: 2.5rem;
-            padding: 10px;
-            border: 2px solid var(--color-solid-gray);
-            border-radius: 15px;
-            outline: none;
-            font-size: 1em;
-            background: var(--color-white);
-            color: var(--color-black);
-        }
-        .form5 span{
-            position: absolute;
-            left: 0;
-            padding: 12px;
-            pointer-events: none;
-            font-size: 1.2em;
-            margin-top: .1rem;
-            margin-left: .2rem;
-            color: var(--color-solid-gray);
-        }
-        .form5 input:focus{
-            border: 2px solid var(--color-main-3);
-        }
-        .form5 input:valid ~ span,
-        .form5 input:focus ~ span{
-            color:var(--color-main-3);
-            transform: translateX(10px) translateY(1px);
-            font-size: 0.9em;
-            padding: 0 10px;
-            transition: .3s
-        }
-        
-        /* --------------------------------------DROP DOWN ACTION------------------------------------- */
-        .actionBtn{
-            background: var(--color-solid-gray);
-            color: var(--color-white);
-            font-size: 18px;
-            font-family: "Font Awesome 5 Free", sans-serif;
-            font-weight: 501;
-            border-radius: 50px;
-            padding: 10px;
-            height: 2.5em;
-            width: 4rem;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .fa{
-            font-family: "Font Awesome 5 Free", sans-serif;
-            font-weight: 501;
-            font-size: 14px;
-        }
-        .actionicon{
-            fill:  var(--color-white);
-        }
-      
-        /* --------------------------------------DROP DOWN------------------------------------- */
-        #cpass-action{
-            background:#00aa09;
-            position: relative;
-            color: var(--color-white);
-            align-items: center;
-            text-align: center;
-            margin: 1px;
-            border-radius: 3px;
-            height: 100%;
-            width: 70%;
-            padding-top: 10px;
-            padding-right: 2px;
-            padding-left: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            border: none;
-        }
-        #cpass-action:hover{
-            background: var(--color-main);
-            color: var(--color-white);
-        }
-        #archive-action{
-            background: hsl(0, 51%, 44%);
-            color: var(--color-white);
-            align-items: center;
-            position: relative;
-            margin: 1px;
-            border-radius: 3px;
-            height: 100%;
-            width: 70%;
-            padding-top: 10px;
-            padding-right: 2px;
-            padding-left: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            border: none;
-        }
-        #archive-action:hover{
-            background: var(--color-main);
-            color: var(--color-white);
-        }
-     
-.checker {
-    text-align: right;
-    align-items: right;
-    margin-right: 3rem;
-    margin-top: -7.5rem;
-    margin-bottom: 5rem;
-}
-.checker span {
-    text-decoration: none;
-    color: var(--color-solid-gray);
-    top: 0;
-    font-size: min(max(10px, 1.2vw), 12px);
-    font-family: 'Switzer', sans-serif;
-}
-/* ------------------------------------------------------------------------------------ */
-.message{
-    background-color: hsl(0, 100%, 77%);
-    color: #ffffff;
-    border-radius: 6px;
-    width: 25%;
-    height: 1.87rem;
-    /* margin-left: 3.55rem; */
-    letter-spacing: 0.5px;
-    font-family: Helvetica, sans-serif;       
-    top: 16.9%;
-    font-size: .7rem;
-    padding: 5px 10px;
-    padding-top: 1rem;
-    position: absolute;
-    align-items: center;
-    text-align: center;
-    /* justify-content: space-between; */
-    gap:3.5rem;
-    z-index: 1000;
-    display: none;
-}
-
-.message span{
-    color:var(--white);
-    font-size: .9rem;
-}
-
-.message p{
-    color:var(--red);
-    font-size: .9rem;
-    margin: 0 auto;
-    cursor: pointer;
-}
-
-
-#action_btn {
-    font-family: 'calibri', sans-serif;
-    /* padding: 10px;
-    
-    margin-bottom: 20px;
-    margin-left: 20em; */
-    text-align: center;
-    margin-top: .5vh;
-    margin-bottom: .5vh;
-    width: 3rem;
-    height: 40px;
-    outline: none;
-    border: none;
-    font-size: min(max(10px, 1.2vw), 12px);
-    border-radius: 20px;
-    background: var(--color-solid-gray);
-    cursor: pointer; 
-    transition: 0.5s;
-}
-#action_btn:hover{
-    background: var(--color-button-hover);
-}
-
- /* ----------------------------------------Top bar menu----------------------------------------  */
-
 .top-menu{
     margin-top: 1rem;
     position: absolute;
-    right: 3%;
+    right: 4%;
 }
 .top-menu .menu-bar{
     display: flex;
@@ -1224,7 +113,6 @@ color: rgb(255, 255, 255);
     text-align: center;
     align-items: center;
 }
-
 .user-type{
     font-family: 'switzer', sans-serif;
     font-size: 7.5px;
@@ -1232,7 +120,6 @@ color: rgb(255, 255, 255);
     letter-spacing: 1px;
     border-top: 2px solid var(--color-main); 
     margin-top: -0.97rem;
-    width: 7vw;
     text-transform: uppercase;
 }
 h1{
@@ -1261,75 +148,18 @@ h1{
     padding: 4px;
     margin-top: .3rem;
 }
-.profile-pic{
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    margin-top: 1rem;
-}
-.profile-pic img{
-    background: var(--color-solid-gray); 
-    border-radius: 50%;
-    width: 100px;
-    padding: 3px;
-}
-.editnew-title{
-    font-size: min(max(1.9rem, 1.1vw), 2rem);
-    color: var(--color-solid-gray);
-    font-family: 'Malberg Trial', sans-serif;
-    letter-spacing: .09rem;
-    display: flex;
-    padding-top: .5rem;
-    justify-content: center;
-    border-bottom: 2px solid var(--color-solid-gray);
-    margin: 15px;
-    padding-bottom: 10px;
-}
 
-#menu-button{
-    border: none;
-    background: none;
-}
-/* .bg-shadow{
-    position: absolute;
-    bottom: 0%; 
-    width: 100%;
- }
-#shadow{
-    background: rgb(219, 219, 219);
-    opacity: .2;
-    display: flex;
-    display: none;
-    overflow-y: hidden;
-    position: relative;
-    height: 100%;
-    background-attachment: fixed;
-    bottom: 0%;
-    width: 100%;
-} */
-/* .user{
-    text-align: right;
-    align-items: right;
-} */
-
-.user2 a{
-    font-family: 'Malberg Trial', sans-serif;
-    color: rgb(68, 68, 68);
-}
-
-h3{
-    font-size: 0.87rem;
-}
 .user2 .profile{
     position: relative;
     cursor: pointer;
 }
 .user2 .drop-menu{
-    position: absolute; 
+    position: absolute;
     top: 120px;
-    right: 10px;
+    right: 0;
     padding: 10px 20px;
     background: var(--color-white);
+    box-shadow: 3px 2px 10px 1px var(--color-solid-gray);
     width: 110px;
     box-sizing: 0 5px 25px rgba(0,0,0,0.1);
     border-radius: 7px;
@@ -1338,7 +168,7 @@ h3{
     opacity: 0;
 }
 .user2 .drop-menu.user2{
-    top: 80px;
+    top: 85px;
     visibility: visible;
     opacity: 1;
 }
@@ -1346,7 +176,7 @@ h3{
     content:'';
     position: absolute;
     top: -5px;
-    right: 15px;
+    right: 25px;
     width: 15px;
     height: 20px;
     background: var(--color-white);
@@ -1356,17 +186,16 @@ h3{
 .drop-menu .ul .user-type3{
     font-family: 'Calibri', sans-serif;
     font-size: 7.5px;
-    color: var(--color-main); 
+    color: var(--color-main);
     letter-spacing: .2rem;
     display: none;
     text-transform: uppercase;
 }
 
 .drop-menu .ul{
-    margin-top: 2rem;
     display: flex;
     flex-direction: column;
-    height: 9vh;
+    height: 5rem;
     position: relative;
     margin-bottom: 0.5rem;
 }
@@ -1377,7 +206,7 @@ h3{
 .drop-menu .ul a{
     display: flex;
     color: hsl(0, 0%, 69%);
-    fill: hsl(0, 0%, 69%); 
+    fill: hsl(0, 0%, 69%);
     margin-left: -1.26rem;
     padding-left: 1rem;
     gap: 1rem;
@@ -1438,369 +267,271 @@ h3{
     width: 21px;
     transition: transform 0.2s linear;
 }
-/* ----------------------------------------MAIN---------------------------------------- */
-.main-account{
-    width:100%;
-    position: relative;
-}
-.accTitle{
-    margin-top: 2rem;
-    font-size: min(max(1.9rem, 1.1vw), 2rem);
-    color: var(--color-main); 
-    font-family: 'COCOGOOSE', sans-serif;
-    letter-spacing: .03rem;
-    border-bottom: 2px solid var(--color-main); 
-    width: 78%;
-}
-
-    /* ----------------------------------------Sub TAB---------------------------------------- */
-
-    main  h2{
-        margin-bottom: -2.2rem;
-        margin-top: 1rem;
-        color: var(--color-solid-gray);
-        font-size: 1.3rem;
-        margin-left: 3%;
-        letter-spacing: .1rem;
-        font-family: 'Galhau Display', sans-serif;
-    }
-    main .sub-tab{
-        margin-bottom: 2.5rem;
-    }
-
-    /* ----------------------------------------Add Button---------------------------------------- */
-
- 
-     /* ----------------------------------------Account Table---------------------------------------- */
-            .pagination{
-                background-color: var(--color-white);
-                display: flex;
-                position: relative;
-                overflow: hidden;
-                border-radius: 50px;
-                width: 40rem;
-                align-items: center;
-                text-align: center;
-                margin: auto;
-            }
-
-            .pagination a{
-                width: 80px;
-                height: 60px;
-                line-height: 60px;
-                text-align: center;
-                color: #333;
-                font-size: 12px;
-                font-weight: 700;
-                transition: .3s linear;
-                font-family: 'Poppins', sans-serif;
-
-            }
-
-            .pagination a:hover{
-                color: #fff;
-                background-color: #5271e9;
-            }
-
-            .bottom_bar{
-                position: absolute;
-                width: 80px;
-                height: 4px;
-                background-color: #000;
-                bottom: 0;
-                left: -100px;
-                transition: .4s;
-            }
-
-main .account-container{
-    margin-top: -1rem;
-    max-height: 650px;
-    overflow: auto;
+/* -------------------------------------------------------------------------------------------- */
+.container1{
     width: 100%;
-    margin-bottom: 20px;
-    /* position: absolute; */
-    box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
-    border-top: 8px solid var(--color-table-hover);
-    border-radius: 0 0 10px 10px;
-    
+    overflow:auto;
+    max-width: 600px;
+    padding: 28px;
+    margin: 0 28px;
+    border-radius:  0px 0px 20px 20px;
+    background-color: var(--color-white);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-top: 10px solid var(--color-solid-gray);
 }
- main .account-container table{
-    background: var(--color-white);
-    font-family: 'Switzer', sans-serif;
-    width: 100%; 
-    font-size: 1rem;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-    padding-bottom: 2.5rem;
-    text-align: center; 
-    transition: all 700ms ease;
-    /* margin-top: -1rem; */
+.tooltipText{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .7rem;
+    color: var(--color-white);
 }
-
-main .account-container table:hover{
-    box-shadow: none;
-    /* border-top: 8px solid var(--color-main); */
-}
-
-main table tbody td{
-    height: 3.3rem;
-    border-bottom: 1px solid var(--color-border-bottom);
-    color: var(--color-td); 
-    font-size: .8rem;
-}
- th{
-    height: 3.3rem;
-    color: var(--color-black); 
-    margin:1rem;
-    font-size: 1rem;
-    letter-spacing: 0.02rem;
-}  
-tr:hover td{
-    color: var(--color-main); 
+.edit-action{
+    background: hsl(0, 0%, 37%);
+    color: var(--color-white);
+    fill: var(--color-white);
+    align-items: center;
+    text-align:center;
+    justify-content: center;
+    position: relative;
+    text-decoration: none;
+    border-radius: 3px;
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    margin: 1px;
+    gap: .3rem;
     cursor: pointer;
-    background-color: var(--color-table-hover);
- }
-/* ----------------------------------------ASIDE---------------------------------------- */
-.container{
-    display: grid;
-    width: 96%;
-    /* margin: 0 auto; */
-    background: var(--color-background);
-    gap: 1.8rem;
-    grid-template-columns: 16rem auto;
+    transition: 0.3s;
+    border: none;
 }
-#menu-button{
-    display: none;
+.edit-action:hover{
+    background: var(--color-main);
+    color: var(--color-white);
 }
-
-  /* ----------------------------------------SIDEBAR 2---------------------------------------- */
-  @media screen and (max-width: 1600px){
-    .container{
-        width: 94%;
-        grid-template-columns: 16rem auto;
-    }
-    .top-menu{
-        width: 370px;
-    }
-    main .account-container{
-        margin-top: 6rem;
-    }
-    main  h2{
-        margin-left: 10%;
-    }
-    main .sub-tab{
-        margin-bottom: 4rem;
-    }
+.archive-action{
+    background: hsl(0, 51%, 44%);
+    fill: var(--color-white);
+    color: var(--color-white);
+    align-items: center;
+    text-align:center;
+    justify-content: center;
+    position: relative;
+    text-decoration: none;
+    border-radius: 3px;
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    margin: 5px;
+    justify-content: center;
+    margin: 1px;
+    gap: .3rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
 }
-@media screen and (max-width: 1400px){
-    .container{
-        width: 94%;
-        grid-template-columns: 4rem auto;
-    }
-    .side-bar{
-        z-index: 3;
-        position: fixed;
-        left: -100%;
-    }
-    .close-btn{
-        display: flex;
-    }
-
-    .top-menu{
-        width: 370px;
-    }
-    .main-account{
-        position: relative;
-        left: -5%;
-    }
-    main .account-container{
-        width: 105%;
-    }
-    main  h2{
-        margin-left: 10%;
-    }
-    main .sub-tab{
-        margin-bottom: 4rem;
-    }
-    .newUser-button{
-        left: 2.5%;
-    }
-    .search{
-        right: -5%;
-    }
-    .search-bar{
-        width: 18vw;
-    }
+.archive-action:hover{
+    background: var(--color-main);
+    color: var(--color-white);
 }
-@media screen and (max-width: 1200px){
-    .container{
-        width: 94%;
-        grid-template-columns: 4rem auto;
-    }
-    .accTitle{
-        width: 74%;
-    }
-    .top-menu{
-        width: 370px;
-    }
-    .main-account{
-        position: relative;
-        left: -5%;
-    }
-    main  h2{
-        margin-left: 10%;
-    }
-    main .sub-tab{
-        margin-bottom: 4rem;
-    }
-    .search-bar{
-        width: 20vw;
-    }
-    .user2 .drop-menu{
-        right: 13px;
-        margin-top: 2px;
-    }
-    .user2 .drop-menu::before{
-        right: 25px;
-    }
-    .drop-menu .ul{
-        width: 8.5rem;
-        height: 5rem;
-    }
-    .drop-menu .ul a{
-        width: 8.5rem;
-    }
+.cpass-action{
+    background:#00aa09;
+    color: var(--color-white);
+    align-items: center;
+    text-align:center;
+    justify-content: center;
+    float: center;
+    left: 20%;
+    position: relative;
+    text-decoration: none;
+    border-radius: 3px;
+    display: flex;
+    width: 60%;
+    padding: 5px;
+    margin: 5px;
+    justify-content: center;
+    margin: 1px;
+    gap: .3rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+.cpass-action:hover{
+    background: var(--color-main);
+    color: var(--color-white);
 }
 
-@media screen and (max-width: 768px){
-    .containter{
-        width: 100%;
-    }
-    .menu-btn2{
-        display: flex;
-    }
-    .top-menu{
-        width: 94%;
-        margin: 0 auto 4rem;
-    }
-    .top-menu .menu-bar{
-        position: fixed;
-        top: 0;
-        left: 0;
-        align-items: center;
-        padding: 0 0.8rem;
-        height: 4rem;
-        background: var(--color-white);
-        width: 100%;
-        margin: 0;
-        z-index: 2;
-        box-shadow: 0px 1px 14px var(--color-shadow-shadow);
-    }
-    .top-menu .menu-bar .accTitle-top{
-        display: block;
-        left: 0;
-        margin-left: 4rem;
-        position: absolute;
-    }
-     .profile{
-        margin-right: 1.4rem;
-    }
-    .top-menu .menu-bar .user1{
-        display: none;
-    }
-    .drop-menu .ul .user-type3{
-        display: block;
-        left:22.5%;
-        position: absolute; 
-        margin-top: -2.3rem;
-        margin-bottom: 1.9rem;
-    }
-    .accTitle{
-        display:none;
-    }
-    .user2 .drop-menu{
-        right: 40px;
-        height: 9.3rem;
-        margin-top: 2px;
-    }
-    .user2 .drop-menu::before{
-        right: 17px;
-    }
-    .drop-menu .ul{
-        width: 8.5rem;
-        height: 5rem;
-    }
-    .drop-menu .ul .theme-dark{
-        margin-top: -.3rem;
-    }
-    
-    .drop-menu .ul a{
-        width: 8.5rem;
-    }
-    .main-account{
-        position: relative;
-        left: -5%;
-    }
-    main .account-container{
-        margin: 2rem 0 0 8.8rem;
-        width: 94%;
-        position: absolute;
-        display:none;
-        left: 0;
-        margin-left: 50%;
-        transform: translateX(-50%);
-        margin-top: 3%;
-    }
-    main .account-container table{
-        width: 80vw;
-        padding-left:30px;
-        padding-right:30px;
-    }
-    main  h2{
-        margin-left: 10%;
-        display:none;
-    }
-    main .sub-tab{
-        margin-bottom: 4rem;
-    }
-    .newUser-button{
-        left: 137%;
-        display:none;
-    }
-    .search{
-        left: 77%;
-        display:none;
-    }
-    .search-bar{
-        width: 20vw;
-    }
+.main-user-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.usertype-dropdown{
+    width: 48%;
+    margin-top: 1.6rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+.select{
+    background: var(--color-solid-gray);
+    color: var(--color-white);
+    align-items: center;
+    border-radius: 13px;
+    padding: 8px 12px;
+    height: 40px;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.action-dropdown{
+    position: relative;
+    margin-top: .5rem;
+    /* left: 10%; */
+    margin-bottom: .5rem
+}
+.user-input-box:nth-child(2n){
+    justify-content: end;
 }
 
-.menu-tab p{
-    font-size: 20px;
-    font-weight: lighter;
-    margin-left: 10px;
+.checker {
+    /* display: flex; */
+    flex-wrap: wrap;
+    width: 100%;
+    padding-bottom: 15px;
+    gap: 5px;
+    margin-top: -1rem;
+    text-align: right;
+    align-items: right;
+}
+.checker span {
+    text-decoration: none;
+    color: var(--color-solid-gray);
+    top: 0;
+    font-size: min(max(10px, 1.2vw), 12px);
+    font-family: 'Switzer', sans-serif;
+}
+.user-input-box{
+    display: flex;
+    flex-wrap: wrap;
+    width: 48%;
+    padding-bottom: 15px;
 }
 
-.menu-tab img{
-    width: 15px;
-    margin-right: 10px;
-    margin-left: 20px;
+.user-input-box label{
+    width: 100%;
+    color: var(--color-solid-gray);
+    font-size: 16px;
+    /* margin-left: .2rem; */
+    margin-bottom: 0.5rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* margin: 5px 0; */
 }
-/* .menu-tab a:hover{
-    background:  rgb(250, 255, 251);
-    transition: 0.6s;
-    margin-left: 0rem;
-    color: rgb(187, 187, 187);
-    fill: rgb(187, 187, 187);
-    font-weight: bold;
-    padding-left: 1rem;
-    content: "";
-    margin-bottom: 6px;
-    font-size: 9px;
-    border-radius: 0 10px 10px 0 ;
-    box-shadow: 1px 1px 1px rgb(224, 224, 224);
+.user-input-box label:focus{
+    border: 2px solid var(--color-main-3);
+    font-size: 17px;
+    font-weight: 600;
+}
+.user-input-box input::placeholder{
+    font-size: .8em;
+    color:var(--color-solid-gray);
+}
+/* ::placeholder:focus{
+    border: 2px solid var(--color-main-3);
 } */
+.user-input-box input:focus{
+    border: 2px solid var(--color-main-3);
+    background: var(--color-white);
+}
+
+.user-input-box input{
+    height: 40px;
+    width: 100%;
+    border: 2px solid var(--color-solid-gray);
+    border-radius: 15px;
+    outline: none;
+    font-size: 1em;
+    background: var(--color-white);
+    color: var(--color-black);
+    padding: 0 10px;
+}
+.line{
+    width:100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-solid-gray);
+}
+.profile-picture1 h4{
+    display: flex;
+    position: relative;
+    text-align: center;
+    font-size: 1rem;
+    font-family: 'Calibri', sans-serif;
+    color: var(--color-solid-gray);
+    width: 100%;
+    border-bottom: 2px solid var(--color-solid-gray);
+    /* margin-bottom: -5rem; */
+}
+
+
+.gender-title{
+    /* margin-top: rem; */
+    font-family: 'Calibri', sans-serif;
+    color: var(--color-solid-gray);
+    width: 100%;
+    font-size: 20px;
+    margin-left: .2rem;
+    font-family: 'Malberg Trial', sans-serif;
+    font-weight: 550;
+    /* border-bottom: 2px solid var(--color-solid-gray); */
+}
+
+.gender-category{
+    margin: 15px 0;
+    color:  var(--color-solid-gray);
+}
+
+.gender-category label{
+    padding: 0 20px 0 5px;
+}
+
+.gender-category label,
+.gender-category input,
+.form-submit-btn input{
+    cursor: pointer;
+}
+
+.form-submit-btn{
+    margin-top: 40px;
+}
+
+.form-submit-btn input{
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 20px;
+    padding: 10px;
+    border:none;
+    border-radius: 3px;
+    color: rgb(209, 209, 209);
+    background: rgba(63, 114, 76, 0.7);
+}
+
+.form-submit-btn input:hover{
+    background: rgba(56, 204, 93, 0.7);
+    color: rgb(255, 255, 255);
+}
+.addnew-title{
+    font-size: 2rem;
+    color: var(--color-solid-gray);
+    font-family: 'Malberg Trial', sans-serif;
+    letter-spacing: .09rem;
+    display: flex;
+    padding-top: 1rem;
+    justify-content: center;
+    border-bottom: 2px solid var(--color-solid-gray);
+    width: 100%;
+    padding-bottom: 2px;
+}
 .outofstock{
     border-radius: 20px;
     background-color: #B22222;
@@ -1831,85 +562,1256 @@ tr:hover td{
     padding-right: 9px;
     padding-left: 9px;
 }
-</style>
-    <body>
-    
-        <div class="container">
-            <?php
-            include('../common/side-menu.php')
-            ?>
-            <main>
-                <div class="main-account">
-                    <h1 class="accTitle">INVENTORY</h1> 
-                    <?php
-                        if (isset($_GET['error'])) {
-                            echo '<p id="myerror" class="error-error" > '.$_GET['error'].' </p>';
-                        }
-                        ?>
-                    <div class="sub-tab">
-                        <div class="user-title">
-                            <h2> INVENTORY STOCKS </h2>
-                        </div>
-                        <div class="newUser-button"> 
-                            <a href="../inventory/inventory-stocks-add.php" type="submit" id="add-userbutton" class="add-account" >
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                    <h3>Add Stocks</h3>
-                            </a>
-                        </div>
-                        <div class="search">
-                            <div class="search-bar"> 
-                                <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                                <button type="submit" >
-                                    <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                                </button>
-                            </div>
-                        </div>  
 
+.side-bar .menu #inventory{
+    background: var(--color-white);
+    transition: 0.6s;
+    color: var(--color-main);
+    fill: var(--color-main);
+    margin-left: 0;
+    content: "";
+    margin-bottom: 6px;
+    font-size: 15px;
+    border-radius: 0 0 10px 0 ;
+    box-shadow: 1px 3px 1px var(--color-background);
+}
+
+.bot-buttons{
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    display: inline-block;
+    margin-top: 1.3rem;
+}
+.AddButton button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    width: 15rem;
+    max-height: 60px;
+    outline: none;
+    border: none;
+    font-size: min(max(9px, 1.1vw), 11px);
+    border-radius: 20px;
+    color: white;
+    background:  var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+    margin-left: 1rem;
+}
+.AddButton button:hover{
+    background: var(--color-button-hover);
+}
+.CancelButton{
+    display: inline-block;
+}
+.AddButton{
+    display: inline-block;
+
+}
+
+#cancel{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    padding-left: 80px;
+    text-decoration: none;
+    padding-right: 80px;
+    text-align: center;
+    width: 30rem;
+    max-height: 70px;
+    outline: none;
+    border: none;
+    font-size: min(max(9px, 1.1vw), 11px);
+    border-radius: 20px;
+    color: white;
+    background: #c44242;
+    cursor: pointer;
+    transition: 0.5s;
+}
+#cancel:hover{
+    background-color: rgb(158, 0, 0);
+    transition: 0.5s;
+}
+
+.block{
+    width: 5rem;
+    height: 2rem;
+    background-color: var(--color-background);
+    position: fixed;
+    display: flex;
+    top: 0;
+}
+/* -----------------------------------------------Side Menu---------------------------------------- */
+
+.bg-adduserform{
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.bg-editDropdown{
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+#form-registered{
+    position: absolute;
+    top: 50%;
+    display: none;
+    left: 50%;
+    max-height: 95vh;
+    min-width: 400px;
+    transform: translate(-50%, -50%);
+    background-color: var(--color-white);
+    border-top: 10px solid var(--color-main-3);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-radius:  0px 0px 20px 20px;
+
+}
+.pageform{
+    background-color: var(--color-white);
+    border-radius: 0px 0px 10px 10px;
+    border-top: 2px solid var(--color-solid-gray);
+    box-sizing: border-box;
+    padding: 0 30px;
+    display: flex;
+}
+#container-registered .pageform {
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+}
+.register h2 {
+    font-family: 'Calibri', sans-serif;
+    font-size: 25px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 2px;
+    color: var(--color-black);
+    margin-bottom: 5px;
+}
+.content .verify {
+    left: 38.2%;
+    padding-top: 1rem;
+    margin-bottom: -.5rem;
+    align-items: center;
+    position: relative;
+
+}
+.verified {
+    fill: rgb(39, 170, 63);
+    width: 80px;
+    height: 80px;
+}
+#registered{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    padding-left: 60px;
+    padding-right: 60px;
+    text-align: center;
+    max-height: 70px;
+    outline: none;
+    border: none;
+    font-size: min(max(9px, 1.1vw), 11px);
+    border-radius: 20px;
+    color: white;
+    background: var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+    display: block;
+    margin-top: 2vh;
+    margin-bottom: 20px;
+    margin-left: 65.5px;
+    margin-right: 65.5px;
+    width: 5rem;
+}
+#registered:hover{
+    background-color: var(--color-button-hover);
+    transition: 0.5s;
+}
+.form-adduser1{
+    width: 500px;
+    height: 100%;
+    max-height: 480px;
+    position: absolute;
+    border-radius:  0px 0px 20px 20px;
+    background-color: var(--color-white);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-top: 10px solid var(--color-solid-gray);
+}
+.edit-container{
+    width: 500px;
+    height: 100%;
+    max-height: 520px;
+    position: absolute;
+    border-radius:  0px 0px 20px 20px;
+    background-color: var(--color-white);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-top: 10px solid var(--color-solid-gray);
+}
+.edit-container2{
+    display: flex;
+    font-size: .7rem;
+    flex-direction: column;
+    font-family: 'Malberg Trial', sans-serif;
+    gap: 30px;
+    min-height: 20vh;
+}
+.edit-container .EditButton button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    margin-top: .5vh;
+    margin-bottom: 20px;
+    margin-left: 20em;
+    text-align: center;
+    width: 15rem;
+    max-height: 60px;
+    outline: none;
+    border: none;
+    font-size: min(max(9px, 1.1vw), 11px);
+    border-radius: 20px;
+    color: white;
+    background:  var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+}
+.edit-container .EditButton button:hover{
+    background: var(--color-button-hover);
+}
+.form-adduser2{
+    display: flex;
+    font-size: .7rem;
+    flex-direction: column;
+    font-family: 'Malberg Trial', sans-serif;
+    gap: 30px;
+    min-height: 20vh;
+}
+.error-error{
+    background-color: hsl(0, 100%, 77%);
+    color: #ffffff;
+    display: relative;
+    padding: 11px;
+    width: 70%;
+    border-radius: 6px;
+    align-items: center;
+    text-align: center;
+    margin-left: 3.55rem;
+    font-size: min(max(9px, 1.2vw), 11px);
+    letter-spacing: 0.5px;
+    font-family: Helvetica, sans-serif;
+}
+/* --------------------------------------DROP DOWN ACTION------------------------------------- */
+
+.fa{
+    font-family: "Font Awesome 5 Free", sans-serif;
+    font-weight: 501;
+    font-size: 14px;
+}
+.actionicon{
+    fill:  var(--color-white);
+}
+
+/* --------------------------------------DROP DOWN------------------------------------- */
+
+
+
+/* ------------------------------------------------------------------------------------ */
+.message{
+    background-color: hsl(0, 100%, 77%);
+    color: #ffffff;
+    border-radius: 6px;
+    width: 25%;
+    height: 1.87rem;
+    /* margin-left: 3.55rem; */
+    letter-spacing: 0.5px;
+    font-family: Helvetica, sans-serif;
+    top: 16.9%;
+    font-size: .7rem;
+    padding: 5px 10px;
+    padding-top: 1rem;
+    position: absolute;
+    align-items: center;
+    text-align: center;
+    /* justify-content: space-between; */
+    gap:3.5rem;
+    z-index: 1000;
+    display: none;
+}
+
+.message span{
+    color:var(--white);
+    font-size: .9rem;
+}
+
+.message p{
+    color:var(--red);
+    font-size: .9rem;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.line{
+    width:100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-solid-gray);
+}
+.profile-picture1 h4{
+    display: flex;
+    position: relative;
+    text-align: center;
+    font-size: 1rem;
+    font-family: 'Calibri', sans-serif;
+    color: var(--color-solid-gray);
+    width: 100%;
+    border-bottom: 2px solid var(--color-solid-gray);
+    /* margin-bottom: -5rem; */
+}
+
+.choose-profile{
+    /* position: relative; */
+    width: 97%;
+    height: 1.32rem;
+    padding: 10px;
+    margin-top: 1rem;
+    background: var(--color-solid-gray);
+    color: var(--color-white);
+    border-radius: 10px;
+    transition: 0.5s;
+    font-family: 'COCOGOOSE', sans-serif;
+    cursor: pointer;
+}
+
+#image-profile{
+    cursor: pointer;
+    text-align: center;
+    align-items: center;
+}
+.choose-profile:hover{
+    background: var(--color-main-2);
+    transition: 0.5s;
+}
+
+
+
+.CloseButton{
+    margin-top: 5.2vh;
+    margin-left: 2.4em;
+    margin-bottom: -2rem;
+}
+
+
+
+/* ----------------------------------------MAIN---------------------------------------- */
+.main-account{
+    width:100%;
+    position: relative;
+}
+.accTitle{
+     /* margin-top: 2rem; */
+     font-size: min(max(1.9rem, 1.1vw), 2rem);
+    color: var(--color-main); 
+    border-bottom: 2px solid var(--color-main); 
+    width: 78%;
+    font-weight: 1000;
+    margin-top: 3.2rem;
+}
+.sub-tab2{
+    display: inline-block;
+    /* margin-top: -2rem; */
+    margin-left: 1rem;
+}
+/* ----------------------------------------Sub TAB---------------------------------------- */
+.user-title{
+    position: relative;
+    display: inline-block;
+    margin-left: 3rem;
+}
+main  h2{
+    color: var(--color-solid-gray);
+    font-size: 1.3rem;
+    letter-spacing: .1rem;
+    font-family: 'Galhau Display', sans-serif;
+}
+main .sub-tab{
+    margin-bottom: 3rem;
+}
+/* ----------------------------------------Search BAR---------------------------------------- */
+.search{
+    position: absolute;
+    gap: 2rem;
+    align-items: right;
+    text-align: right;
+    right: 0;
+    display: inline-block;
+}
+.search-bar{
+    width: 18rem;
+    background: var(--color-white);
+    display: flex;
+    position: relative;
+    align-items: center;
+    border-radius: 60px;
+    padding: 10px 20px;
+    height: 1.8rem;
+    backdrop-filter: blur(4px) saturate(180%);
+}
+.search-bar input{
+    background: transparent;
+    flex: 1;
+    border: 0;
+    outline: none;
+    padding: 24px 20px;
+    font-size: .8rem;
+    color: var(--color-black);
+    margin-left: -0.95rem;
+}
+::placeholder{
+    color: var(--color-solid-gray);
+
+}
+.search-bar button svg{
+    width: 20px;
+    fill: var(--color-white);
+}
+.search-bar button{
+    border: 0;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    background: var(--color-main);
+    margin-right: -0.55rem;
+}
+/* ----------------------------------------Add Button---------------------------------------- */
+.newUser-button{
+    display: inline-block;
+    position: relative;
+}
+.add-account{
+    display: flex;
+    border: none;
+    background-color: var(--color-white);
+    align-items: center;
+    color: var(--color-button);
+    fill: var(--color-button);
+    width: 10.5rem;
+    max-height: 46px;
+    border-radius: 20px;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    gap: 1rem;
+    height: 3.9rem;
+    margin-left: 1rem;
+    transition: all 300ms ease;
+    position: relative;
+    margin-top: .2rem;
+    text-transform: uppercase;
+}
+.add-account h3{
+    font-size: .8rem;
+}
+.add-account:hover{
+    background-color: var(--color-main);
+    color: var(--color-white);
+    fill: var(--color-white);
+    padding-top: -.2px;
+    transition: 0.7s;
+    border-bottom: 4px solid var(--color-maroon);
+}
+
+
+.add-account3{
+    display: flex;
+    border: none;
+    background-color: var(--color-main);
+    align-items: center;
+    color: var(--color-secondary-main);
+    /* width: 11.5rem; */
+    max-height: 46px;
+    border-radius: 5px;
+    padding: .68rem 1rem;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    gap: 1rem;
+    font-weight: 900;
+    height: 3.9rem;
+    text-decoration: none;
+    transition: all 300ms ease;
+    position: relative;
+    margin-top: .2rem;
+    text-transform: uppercase;
+    border-left: 7px solid var(--color-tertiary);
+}
+.add-account3 h3{
+    font-size: .8rem;
+}
+.add-account3:hover{
+    background-color: var(--color-main);
+    color: var(--color-secondary-main);
+    padding-top: -.2px;
+    transition: 0.3s;
+    
+}
+.add-account4{
+    display: flex;
+    border: none;
+    background-color: var(--color-solid-gray);
+    align-items: center;
+    color: var(--color-white);
+    /* width: 11.5rem; */
+    max-height: 46px;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: .68rem 1rem;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    gap: 1rem;
+    height: 3.9rem;
+    transition: all 300ms ease;
+    position: relative;
+    margin-top: .2rem;
+    text-transform: uppercase;
+}
+.add-account4 h3{
+    font-size: .8rem;
+}
+.add-account4:hover{
+    background-color: var(--color-secondary-main);
+    color: var(--color-main);
+    padding-top: -.2px;
+    transition: 0.3s;
+}
+/* ----------------------------------------Account Table---------------------------------------- */
+main .account-container{
+    margin-top: -2rem;
+    max-height: 650px;
+    overflow:auto;
+    width: 100%;
+    /* position: absolute; */
+    box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
+    border-top: 8px solid var(--color-table-hover);
+    border-radius: 0px 0px 10px 10px;
+
+}
+
+main .account-container table{
+    background: var(--color-white);
+    font-family: 'Switzer', sans-serif;
+    width: 100%;
+    font-size: 1rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    padding-bottom: 2.5rem;
+    text-align: center;
+    transition: all 700ms ease;
+    /* margin-top: -1rem; */
+}
+
+main .account-container table:hover{
+    box-shadow: none;
+    /* border-top: 8px solid var(--color-main); */
+}
+
+main table tbody td{
+    height: 3.3rem;
+    border-bottom: 1px solid var(--color-border-bottom);
+    color: var(--color-td);
+    font-size: .8rem;
+}
+th{
+    height: 3.3rem;
+    color: var(--color-black);
+    margin:1rem;
+    font-size: 1rem;
+    letter-spacing: 0.02rem;
+}
+
+.Title-top{
+    display: none;
+    font-size: min(max(1.2rem, 0.4vw), 1.3rem);
+    color: var(--color-main);
+    font-family: 'COCOGOOSE', sans-serif;
+    letter-spacing: .03rem;
+}
+.subTitle-top{
+    display: none;
+    position: relative;
+    margin-left: 5rem;
+    border-left: 1px var(--color-solid-gray) solid;
+    padding-left: 1rem;
+    padding-bottom: .2rem;
+    font-family: 'calibri', sans-serif;
+    color: var(--color-solid-gray);
+    font-size: 1rem;
+    text-transform: uppercase;
+
+}
+/* ----------------------------------------ASIDE---------------------------------------- */
+.container{
+    display: grid;
+    width: 96%;
+    /* margin: 0 auto; */
+    background: var(--color-background);
+    gap: 1.8rem;
+    grid-template-columns: 16rem auto;
+}
+#menu-button{
+    display: none;
+}
+
+/* ----------------------------------------SIDEBAR 2---------------------------------------- */
+@media screen and (max-width: 1600px){
+    .container{
+        width: 94%;
+    }
+
+    .top-menu{
+        width: 370px;
+    }
+
+}
+@media screen and (max-width: 1400px){
+    .container{
+        grid-template-columns: 2rem auto;
+    }
+    .side-bar{
+        z-index: 3;
+        position: fixed;
+        left: -100%;
+    }
+    .close-btn{
+        display: flex;
+    }
+
+    .top-menu{
+        width: 370px;
+    }
+
+    main .account-container{
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    main .sub-tab{
+        margin-bottom: 4rem;
+    }
+    .tooltipText{
+        display: none;
+    }
+    .search-bar{
+        width: 18vw;
+    }
+}
+@media screen and (max-width: 1200px){
+    
+    .side-bar{
+        z-index: 3;
+        position: fixed;
+        left: -100%;
+    }
+    .main-account{
+        position: relative;
+        width: 100%;
+        /* margin-left: 2rem; */
+    }
+    .tooltipText{
+        display: none;
+    }
+
+    .search{
+        width: 100%;
+    }
+    .search-bar{
+        width: 13rem;
+        float: right;
+    }
+}
+
+@media screen and (max-width: 1000px){
+    .container{
+        grid-template-columns: 1rem auto 2rem;
+    }
+
+    .main-account{
+        position: relative;
+        width: 100%;
+        margin-right: -2rem;
+    }
+    .search-bar{
+        width: 11.5rem;
+        float: right;
+    }
+    .search-bar button{
+        margin-left:10rem;
+        position: absolute;
+    }
+}
+@media screen and (max-width: 768px){
+    .container{
+        margin-left: -.7rem;
+    }
+    .menu-btn2{
+        display: flex;
+    }
+    .top-menu{
+        width: 100%;
+        margin: 0 auto 2rem;
+    }
+    .accTitle{
+        display: none;
+    }
+    .Title-top{
+        display: block;
+        left: 0;
+        margin-left: 4rem;
+        position: absolute;
+    }
+    .subTitle-top{
+        display: block;
+        left: 0;
+        margin-left: 13rem;
+        position: absolute;
+    }
+    .search button{
+        position: absolute;
+        float: right;
+        right: 5%;
+    }
+    .search{
+        position: relative;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    .search-bar{
+        text-align: center;
+        width: 90%;
+        float: left;
+    } 
+    /* ----------------------------------top-menu----------------------------- */
+
+    .top-menu .menu-bar{
+        position: fixed;
+        top: 0;
+        left: 0;
+        align-items: center;
+        padding: 0 0.8rem;
+        height: 4rem;
+        background: var(--color-white);
+        width: 100%;
+        margin: 0;
+        z-index: 2;
+        box-shadow: 0px 1px 14px var(--color-shadow-shadow);
+    }
+    .profile{
+        margin-right: 2rem;
+    }
+    .top-menu .menu-bar .user1{
+        display: none;
+    }
+    .user-type4{
+        margin-top: 1.9rem;
+    }
+    .drop-menu .ul .user-type3{
+        display: flex;
+        padding-bottom: 2.9rem;
+        left:20.5%; 
+        position: absolute;
+    }
+    .addnew-title{
+        text-align: center;
+        font-size: 1.5rem;
+    }
+    .dashTitle{
+        display:none;
+    }
+    .user-title{
+        display: none;
+    }
+    .user2 .drop-menu{
+        right: 40px;
+        height: 7.3rem;
+        margin-top: 2px;
+    }
+    .user2 .drop-menu::before{
+        right: 30px;
+    }
+    .drop-menu .ul{
+        width: 8.5rem;
+        height: 5rem;
+    }
+    
+    .drop-menu .ul a{
+        width: 8.5rem;
+    }
+    /* ------------------------------------------------------------------------------ */
+    .main-dashboard{
+        position: relative;
+        text-align: center;
+        align-items: center;
+    }
+    .main-container{
+        margin-left: -2.5rem;
+        margin-top: 3rem;
+        position: relative;
+        width: 100%;
+        align-items: center;
+        background: none;
+    }
+
+    .sub-tab-container{
+        width: 100%;
+        text-align: left;
+        align-items: center;
+    }
+    .select-dropdown{
+        position: relative;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        margin-top: 1rem;
+
+    }
+    .select{
+        width: 100%;
+        
+    }
+    .account-container{
+        position: relative;
+        margin-top:7rem;
+        overflow: auto;
+        width: 100%;
+        max-height: 600px;
+        border-top: 5px solid var(--color-solid-gray);
+        font-size: 15px;
+    }
+    .account-container tbody tr td{
+        font-size: 10px;
+        
+    }
+    table {
+        border: 0;
+    }
+
+    table caption {
+        font-size: 1.3em;
+    }
+    
+    table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+    
+    table tr {
+        border-bottom: 3px solid #ddd;
+        display: block;
+        margin-bottom: .625em;
+    }
+    
+    table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .8em;
+        text-align: right;
+    }
+    
+    table td::before {
+        /*
+        * aria-label has no advantage, it won't be read inside a table
+        content: attr(aria-label);
+        */
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    table td:last-child {
+        border-bottom: 0;
+    }
+
+    .sub-tab{
+        margin-top: 4rem;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+    .sub-tab2{
+        width: 100%;  
+        margin-left: 0rem;
+
+    }
+    .newUser-button{
+        /* display: flex; */
+        position: relative;
+        display: inline-block;
+        width: 100%;  
+        margin-left: 0rem;
+    }
+    .add-account{
+        margin-top: 1rem;
+        margin-left: 0rem;
+        width: 100%;
+        justify-content: center;
+    }
+
+    h3{
+        display: block;
+    }
+
+    .user-input-box{
+        margin-bottom: 12px;
+        width: 100%;
+        overflow: auto;
+    }
+
+    .user-input-box:nth-child(2n){
+        justify-content: space-between;
+    }
+    .usertype-dropdown{
+        width: 100%;
+        margin-bottom: 1rem;
+        margin-top: -.3rem;
+    }
+    .gender-category{
+        display: flex;
+        /* justify-content: space-between; */
+        width: 100%;
+    }
+
+    .main-user-info{
+        max-height: 380px;
+        overflow: auto;
+    }
+
+    .main-user-info::-webkit-scrollbar{
+        width: 0;
+    }
+    .bot-buttons{
+        width: 100%;
+        margin-left: -1rem;
+        align-items: center;
+        text-align: center;
+    }
+    .AddButton button{
+        margin-top: -4.5rem;
+        width: 100%;
+        text-align: center;
+    }
+    .AddButton button:hover{
+        background: var(--color-button-hover);
+    }
+    .CancelButton{
+        position: relative;
+        margin-top: 3rem;
+        width: 100%;
+        /* padding-right: 2rem; */
+    }
+    .AddButton{
+        position: relative;
+        width: 100%;
+    }
+
+    #cancel{
+        margin-left: 2.1rem;
+        padding-left: 7.3vw;
+        text-align: center;
+        padding-right: 7.3vw;
+    }
+    .error-error{
+        background-color: hsl(0, 100%, 77%);
+        color: #ffffff;
+        position: fixed;
+        padding: 11px;
+        z-index: 100;
+        width: 80%;
+        height: 2%;
+        border-radius: 6px;
+        align-items: center;
+        text-align: center;
+        margin-left: -.1rem;
+        margin-bottom: -2rem;
+        font-size: min(max(9px, 1.2vw), 11px);
+        letter-spacing: 0.5px;
+        font-family: Helvetica, sans-serif;
+    }
+    .user-title{
+        margin-top: -1rem;
+    }
+    .container1{
+        max-height: 500px;
+    }
+#loading {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(192, 192, 192, 0.5);
+    background-repeat: no-repeat;
+    background-position: center;
+    align-items: center;
+}
+.loader {
+    border: 16px solid rgb(244, 255, 246); /* Light grey */
+    border-top: 16px solid rgb(2, 80, 2); /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    text-align: center;
+    left: 46%;
+    display: none;
+    z-index: 100;
+    position: absolute;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+/* @media screen and (max-width: 600px){
+    .search{
+        width: 100%;
+    }
+
+
+}
+@media screen and (max-width: 500px){
+    .search{
+        width: 100%;
+    }
+    .search-bar{
+        width: 95%;
+
+    } 
+} */
+.instock{
+    border-radius: 20px;
+    background-color: #228B22;
+    font-size: 10px;
+    padding: 7px;
+    font-weight: 700;
+    padding-right: 9px;
+    padding-left: 9px;
+    color: #ffffff;
+}
+.lowstock{
+    border-radius: 20px;
+    background-color: rgb(0, 154, 255);
+    color: #ffffff;
+    font-size: 10px;
+    padding: 7px;
+    font-weight: 700;
+    padding-right: 9px;
+    padding-left: 9px;
+}
+.container1{
+    max-height: 500px;
+}
+}
+    .outofstock{
+    border-radius: 20px;
+    background-color: #B22222;
+    color: #ffffff;
+    font-size: 10px;
+    padding: 7px;
+    font-weight: 700;
+    padding-right: 9px;
+    padding-left: 9px;
+}
+.instock{
+    border-radius: 20px;
+    background-color: #228B22;
+    font-size: 10px;
+    padding: 7px;
+    font-weight: 700;
+    padding-right: 9px;
+    padding-left: 9px;
+    color: #ffffff;
+}
+.lowstock{
+    border-radius: 20px;
+    background-color: rgb(126, 126, 126);
+    color: #ffffff;
+    font-size: 10px;
+    padding: 7px;
+    font-weight: 700;
+    padding-right: 9px;
+    padding-left: 9px;
+}
+</style>
+<body>
+<div class="container">
+    <div class="block"></div>
+
+    <?php
+    include('../common/side-menu.php')
+    ?>
+
+    <main>
+        <div class="main-account">
+            <h1 class="accTitle">INVENTORY</h1>
+            <?php
+            if (isset($_GET['error'])) {
+                echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
+            }
+            ?>
+            <div class="sub-tab">
+                <div class="user-title">
+                <h2> INVENTORY STOCKS </h2>
+
+                </div>
+                <div class="sub-tab2">
+                    <div class="newUser-button">
+                        <button type="submit" id="add-userbutton" class="add-account" onclick="addnewuser();">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
+                            <h3>Add New Stocks</h3>
+                        </button>
                     </div>
-                    <div class="account-container">
+                </div>
+                <div class="search">
+                    <div class="search-bar">
+                        <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
+                        <button type="submit" >
+                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="account-container">
                         <table class="table" id="myTable"> 
                             <thead> 
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Item Name</th>
-                                    <th>Type</th>
-                                    <th>Status</th>
-                                    <th>Total In</th>
-                                    <th>Total Out</th>
-                                    <th>Total On Hand</th>
-                                    <th>Action</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Item Name</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Total In</th>
+                                    <th scope="col">Total Out</th>
+                                    <th scope="col">Total On Hand</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                     <tr>
-                                        <td></td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> </td>
-                                        <td> </td>
+                                        <td data-label="ID"></td>
+                                        <td data-label="Item Name"> </td>
+                                        <td data-label="Type"> </td>
+                                        <td data-label="Status">
+                                          
+                                        </td>
+                                        <td data-label="In"> </td>
+                                        <td data-label="Out"> </td>
+                                        <td data-label="On Hand"></td>
                                         <td class="td-remove"> 
+                                     
                                         </td>
                                     </tr>
                                     <tr id="noRecordTR" style="display:none">
                                         <td colspan="9">No Record Found</td>                         
                                     </tr>
                             </tbody>
-  
+                                   
                         </table>     
-                    </div>
 
+        </div>
+    </main>
+
+        <div class="top-menu">
+                <div class="menu-bar">
+                    <div class="menu-btn2">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2 class="Title-top">INVENTORY</h2>
+                    <h4 class="subTitle-top">Inventory Stocks</h2>
+                    <div class="user1">
+                        <div class="welcome">
+                            <h4 > Welcome, </h4>
+                        </div>
+                        <div class="user-name">
+                            <h4><?php echo $_SESSION['user_first_name']; ?> </h4>
+                        </div>
+                        <div class="user-type">
+                            <h1><?php echo $_SESSION['user_user_type']; ?> </h1>
+                        </div>
+                    </div>
+                    <div class="user2">
+                        <div class="profile" onclick="menuToggle();">
+                            <img src="../uploaded_image/<?= $_SESSION['user_profile_image']; ?>" alt="">
+                        </div>
+                        <div class="drop-menu" >
+                            <div class="ul">
+                                <div class="user-type3">
+                                    <h1><?php echo $_SESSION['user_user_type']; ?> </h1>
+                                </div>
+                                <div class="user-type4">
+                                    <?php
+                                    $query = "SELECT 
+                                    users.user_id,
+                                    users.last_name,
+                                    users.first_name,
+                                    users.middle_name,
+                                    users.email,
+                                    users.contact_number, 
+                                    users.profile_image, 
+                                    account_type.user_type, 
+                                    status_archive.status 
+                                    FROM users 
+                                    INNER JOIN account_type 
+                                    ON users.account_type_id = account_type.id 
+                                    INNER JOIN status_archive 
+                                    ON users.status_archive_id = status_archive.id
+                                    WHERE users.status_archive_id = '1'
+                                    ORDER BY users.user_id";
+                                    $result = mysqli_query($con, $query);
+                                    if ($rows = mysqli_fetch_assoc($result))
+                                    {
+                                        ?>
+                                    <a href="../accounts/account-view.php?view=<?php echo $_SESSION['user_user_id']; ?>" class="account">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.917 14.167q1.062-.875 2.364-1.313 1.302-.437 2.719-.437 1.417 0 2.719.437 1.302.438 2.385 1.313.688-.855 1.084-1.907.395-1.052.395-2.26 0-2.75-1.916-4.667Q12.75 3.417 10 3.417T5.333 5.333Q3.417 7.25 3.417 10q0 1.208.406 2.26.406 1.052 1.094 1.907ZM10 10.854q-1.229 0-2.073-.844-.844-.843-.844-2.072 0-1.23.844-2.073.844-.844 2.073-.844t2.073.844q.844.843.844 2.073 0 1.229-.844 2.072-.844.844-2.073.844Zm0 7.479q-1.729 0-3.25-.656t-2.646-1.781q-1.125-1.125-1.781-2.646-.656-1.521-.656-3.25t.656-3.25q.656-1.521 1.781-2.646T6.75 2.323q1.521-.656 3.25-.656t3.25.656q1.521.656 2.646 1.781t1.781 2.646q.656 1.521.656 3.25t-.656 3.25q-.656 1.521-1.781 2.646t-2.646 1.781q-1.521.656-3.25.656Zm.021-1.75q1.021 0 2-.312.979-.313 1.771-.896-.771-.604-1.75-.906-.98-.302-2.042-.302-1.062 0-2.031.302-.969.302-1.761.906.792.583 1.782.896.989.312 2.031.312ZM10 9.104q.521 0 .844-.323.323-.323.323-.843 0-.521-.323-.844-.323-.323-.844-.323-.521 0-.844.323-.323.323-.323.844 0 .52.323.843.323.323.844.323Zm0-1.166Zm0 7.437Z"/></svg>
+                                        <h4>My Account</h4>
+                                    </a>
+                                <?php }?>
+
+                                    <a href="../settings/settings-help.php" class="help">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 15q.417 0 .708-.292Q11 14.417 11 14t-.292-.708Q10.417 13 10 13t-.708.292Q9 13.583 9 14t.292.708Q9.583 15 10 15Zm-.75-3.188h1.521q0-.77.135-1.093.136-.323.656-.823.73-.708 1.011-1.208.281-.5.281-1.105 0-1.145-.781-1.864Q11.292 5 10.083 5q-1.062 0-1.843.562-.782.563-1.094 1.521l1.354.563q.188-.584.594-.906.406-.323.948-.323.583 0 .958.333t.375.875q0 .479-.323.854t-.719.729q-.729.667-.906 1.094-.177.427-.177 1.51ZM10 18q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
+                                        <h4>Help</h4>
+                                    </a>
+                                    <a href="../auth/logout.php" class="logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.438-1.062Q3.875 3 4.5 3H10v1.5H4.5v11H10V17Zm9-3.5-1.062-1.062 1.687-1.688H8v-1.5h6.125l-1.687-1.688L13.5 6.5 17 10Z"/></svg>
+                                        <h4>Logout</h4>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </main>
-        
-            <?php
-            include('../common/top-menu.php')
-            ?>
+            </div>
+
         </div> 
-  
-        <?php
+
+</div>
+<?php
 if(isset($_GET['remove']))
 {
     $id = $_GET['remove'];
@@ -1975,11 +1877,11 @@ if(isset($_GET['remove']))
            echo '<script> location.replace("../inventory/inventory-stock.php"); </script>';
     } ?>
 </div>
-    
+
 </body>
-</html>
-<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>      
+<script src="../javascript/side-menu-toggle.js"></script>
+<script src="../javascript/top-menu-toggle.js"></script>
+<script src="../javascript/inventory-details.js"></script>
 <script src="../javascript/inventory-stocks.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
+
+</html>

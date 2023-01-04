@@ -16,7 +16,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <link rel="stylesheet" type="text/css" href="../CSS/account-action.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/account-edit.css">
     <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
@@ -25,6 +25,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
     <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
     <title>Tag's Water Purified Drinking Water</title>
 </head>
+
 <body >
 
 <div class="container">
@@ -81,17 +82,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
                         <td> </td>
                         <td> </td>
                         <td> </td>
-                        <td>
-                            <a href="account-edit.php?edit=" id="edit-action" class="action-btn" name="action">
-                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
-                            </a>
-                            <a href="account-action-change-password.php?edit=" id="cpass-action" class="action-btn" name="action">
-                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 17q-1.688 0-3.104-.719-1.417-.719-2.375-1.927l1.062-1.083q.75 1.021 1.896 1.625Q8.625 15.5 10 15.5q2.271 0 3.885-1.615Q15.5 12.271 15.5 10t-1.615-3.885Q12.271 4.5 10 4.5q-2.292 0-3.917 1.635-1.625 1.636-1.583 3.99l1.188-1.187L6.75 10l-3 3-3-3 1.062-1.062L3 10.146q-.021-1.5.531-2.813.552-1.312 1.511-2.27Q6 4.104 7.281 3.552 8.562 3 10.021 3q1.437 0 2.708.552 1.271.552 2.219 1.5t1.5 2.219Q17 8.542 17 10q0 2.917-2.042 4.958Q12.917 17 10 17Zm-1.5-4q-.312 0-.531-.219-.219-.219-.219-.531V10q0-.312.219-.531.219-.219.531-.219V8.5q0-.625.438-1.062Q9.375 7 10 7t1.062.438q.438.437.438 1.062v.75q.312 0 .531.219.219.219.219.531v2.25q0 .312-.219.531-.219.219-.531.219Zm.75-3.75h1.5V8.5q0-.312-.219-.531-.219-.219-.531-.219-.312 0-.531.219-.219.219-.219.531Z"/></svg>
-                            </a>
-                            <a href="Account-Action-Archive.php?edit=" id="archive-action" class="action-btn" name="action">
-                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M6.5 17q-.625 0-1.062-.438Q5 16.125 5 15.5v-10H4V4h4V3h4v1h4v1.5h-1v10q0 .625-.438 1.062Q14.125 17 13.5 17Zm7-11.5h-7v10h7ZM8 14h1.5V7H8Zm2.5 0H12V7h-1.5Zm-4-8.5v10Z"/></svg>
-                            </a>
-                        </td>
+                        <td> </td>
                     <tr id="noRecordTR" style="display:none">
                         <td colspan="9">No Record Found</td>
                     </tr>
@@ -101,10 +92,79 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
         </div>
     </main>
 
-    <?php
-    include('../common/top-menu.php')
-    ?>
+    <div class="top-menu">
+                <div class="menu-bar">
+                    <div class="menu-btn2">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2 class="Title-top">ACCOUNT</h2>
+                    <h4 class="subTitle-top">User Account</h2>
+                    <div class="user1">
+                        <div class="welcome">
+                            <h4 > Welcome, </h4>
+                        </div>
+                        <div class="user-name">
+                            <h4><?php echo $_SESSION['user_first_name']; ?> </h4>
+                        </div>
+                        <div class="user-type">
+                            <h1><?php echo $_SESSION['user_user_type']; ?> </h1>
+                        </div>
+                    </div>
+                    <div class="user2">
+                        <div class="profile" onclick="menuToggle();">
+                            <img src="../uploaded_image/<?= $_SESSION['user_profile_image']; ?>" alt="">
+                        </div>
+                        <div class="drop-menu" >
+                            <div class="ul">
+                                <div class="user-type3">
+                                    <h1><?php echo $_SESSION['user_user_type']; ?> </h1>
+                                </div>
+                                <div class="user-type4">
+                                    <?php
+                                    $query = "SELECT 
+                                    users.user_id,
+                                    users.last_name,
+                                    users.first_name,
+                                    users.middle_name,
+                                    users.email,
+                                    users.contact_number, 
+                                    users.profile_image, 
+                                    account_type.user_type, 
+                                    status_archive.status 
+                                    FROM users 
+                                    INNER JOIN account_type 
+                                    ON users.account_type_id = account_type.id 
+                                    INNER JOIN status_archive 
+                                    ON users.status_archive_id = status_archive.id
+                                    WHERE users.status_archive_id = '1'
+                                    ORDER BY users.user_id";
+                                    $result = mysqli_query($con, $query);
+                                    if ($rows = mysqli_fetch_assoc($result))
+                                    {
+                                        ?>
+                                    <a href="../accounts/account-view.php?view=<?php echo $_SESSION['user_user_id']; ?>" class="account">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.917 14.167q1.062-.875 2.364-1.313 1.302-.437 2.719-.437 1.417 0 2.719.437 1.302.438 2.385 1.313.688-.855 1.084-1.907.395-1.052.395-2.26 0-2.75-1.916-4.667Q12.75 3.417 10 3.417T5.333 5.333Q3.417 7.25 3.417 10q0 1.208.406 2.26.406 1.052 1.094 1.907ZM10 10.854q-1.229 0-2.073-.844-.844-.843-.844-2.072 0-1.23.844-2.073.844-.844 2.073-.844t2.073.844q.844.843.844 2.073 0 1.229-.844 2.072-.844.844-2.073.844Zm0 7.479q-1.729 0-3.25-.656t-2.646-1.781q-1.125-1.125-1.781-2.646-.656-1.521-.656-3.25t.656-3.25q.656-1.521 1.781-2.646T6.75 2.323q1.521-.656 3.25-.656t3.25.656q1.521.656 2.646 1.781t1.781 2.646q.656 1.521.656 3.25t-.656 3.25q-.656 1.521-1.781 2.646t-2.646 1.781q-1.521.656-3.25.656Zm.021-1.75q1.021 0 2-.312.979-.313 1.771-.896-.771-.604-1.75-.906-.98-.302-2.042-.302-1.062 0-2.031.302-.969.302-1.761.906.792.583 1.782.896.989.312 2.031.312ZM10 9.104q.521 0 .844-.323.323-.323.323-.843 0-.521-.323-.844-.323-.323-.844-.323-.521 0-.844.323-.323.323-.323.844 0 .52.323.843.323.323.844.323Zm0-1.166Zm0 7.437Z"/></svg>
+                                        <h4>My Account</h4>
+                                    </a>
+                                <?php }?>
 
+                                    <a href="../settings/settings-help.php" class="help">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 15q.417 0 .708-.292Q11 14.417 11 14t-.292-.708Q10.417 13 10 13t-.708.292Q9 13.583 9 14t.292.708Q9.583 15 10 15Zm-.75-3.188h1.521q0-.77.135-1.093.136-.323.656-.823.73-.708 1.011-1.208.281-.5.281-1.105 0-1.145-.781-1.864Q11.292 5 10.083 5q-1.062 0-1.843.562-.782.563-1.094 1.521l1.354.563q.188-.584.594-.906.406-.323.948-.323.583 0 .958.333t.375.875q0 .479-.323.854t-.719.729q-.729.667-.906 1.094-.177.427-.177 1.51ZM10 18q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
+                                        <h4>Help</h4>
+                                    </a>
+                                    <a href="../auth/logout.php" class="logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.438-1.062Q3.875 3 4.5 3H10v1.5H4.5v11H10V17Zm9-3.5-1.062-1.062 1.687-1.688H8v-1.5h6.125l-1.687-1.688L13.5 6.5 17 10Z"/></svg>
+                                        <h4>Logout</h4>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> 
 </div>
 
 <?php
@@ -184,7 +244,7 @@ if(isset($_GET['edit']))
                                        required="required"value="<?=$user['contact_number'];?>">
                             </div>
 
-                            <div class="usertype-dropdown">
+                            <div class="user-input-box">
                                 <?php
                                 $dropdown_query = "SELECT * FROM account_type WHERE is_deleted = 0";
                                 $account_type_result = mysqli_query($con, $dropdown_query);
@@ -227,11 +287,9 @@ if(isset($_GET['edit']))
            echo '<script> location.replace("../accounts/account.php"); </script>';
     } ?>
 </body>
+<div id="loading" class="loading">
+            <div class="loader"></div>
+        </div>
 </html>
 <script src="../javascript/account-type.js"></script>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->

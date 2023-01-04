@@ -32,7 +32,7 @@ if(isset($_POST['backup-db'])){
         </script>';
         unlink("../backup/tagswater_'.$date.'_db.sql");
 
-        }catch(ex){
+        }catch(Exception $ex){
 
         }
     }

@@ -73,6 +73,7 @@ const addcustomerBtn = document.querySelector(".AddButton");
 
 const menuBtn = document.querySelector("#menu-button");
 
+
 menuBtn.addEventListener('click', () =>{
     sideMenu.style.display = 'block';
 })

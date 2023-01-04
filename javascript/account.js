@@ -1,7 +1,24 @@
 
-//    --------------------------------------------------------------------
-//SHOW PASSWORD-------------------------------------------------
 
+function addnewuser(){
+    // const addBtn = document.querySelector(".add-customer");
+    const addForm = document.querySelector(".bg-adduserform");
+    addForm.style.display = 'flex';
+}
+
+function loading() {
+    document.querySelector(".loading").style.display = "flex";
+    document.querySelector(".loader").style.display = "flex";
+}
+//    --------------------------------------------------------------------
+    //Add New User
+    // function addnewuser(){
+    //     document.querySelector(".bg-adduserform").style.display = 'flex';
+    // }
+    // setTimeout(function() {
+    //     $('#myerror').fadeOut('fast');
+    // }, 3000);
+    
 function myFunctionCP(){
     var x = document.getElementById("pass-account");
     var y = document.getElementById("cpass-account");
@@ -12,7 +29,62 @@ function myFunctionCP(){
         x.type = "password";
         y.type = "password";
     }
+
 }
+// function tableSearch(){
+//     var input, filter, table, tr, lastname,
+//         firstname, middlename, email, contactnum, role, id, i;
+//     console.log('hello');
+//     input = document.getElementById("searchInput");
+//     filter = input.value.toUpperCase();
+//     table = document.getElementById("myTable");
+//     tr = table.getElementsByTagName("tr");
+
+
+//     for(i = 0; i < tr.length; i++){
+
+//         id = tr[i].getElementsByTagName("td")[0];
+//         lastname = tr[i].getElementsByTagName("td")[1];
+//         firstname = tr[i].getElementsByTagName("td")[2];
+//         middlename = tr[i].getElementsByTagName("td")[3];
+//         email = tr[i].getElementsByTagName("td")[4];
+//         contactnum = tr[i].getElementsByTagName("td")[5];
+//         role = tr[i].getElementsByTagName("td")[6];
+
+//         if(lastname || firstname || middlename || email || contactnum || role || id){
+//             var lastname_value = lastname.textContent || lastname.innerText;
+//             var firstname_value = firstname.textContent || firstname.innerText;
+//             var middlename_value = middlename.textContent || middlename.innerText;
+//             var email_value = email.textContent || email.innerText;
+//             var contactnum_value = contactnum.textContent || contactnum.innerText;
+//             var role_value = role.textContent || role.innerText;
+//             var id_value = id.textContent || id.innerText;
+
+//             if(role_value.toUpperCase().indexOf(filter) > -1 ||
+//                 contactnum_value.toUpperCase().indexOf(filter) > -1 ||
+//                 email_value.toUpperCase().indexOf(filter) > -1 ||
+//                 middlename_value.toUpperCase().indexOf(filter) > -1 ||
+//                 lastname_value.toUpperCase().indexOf(filter) > -1 ||
+//                 id_value.toUpperCase().indexOf(filter) > -1 ||
+//                 firstname_value.toUpperCase().indexOf(filter) > -1) {
+//                 tr[i].style.display ="";
+//             }else{
+//                 tr[i].style.display = "none";
+//             }
+    
+//         }
+//         if ($("#myTable tr:not('.noRecordTR, .table-heading'):visible").length == 0) {
+
+//         $("#myTable").find('.noRecordTR').show();
+//         }
+//         else {
+//         $("#myTable").find('.noRecordTR').hide();
+//         }
+//     }
+  
+// }
+//SHOW PASSWORD-------------------------------------------------
+
 
 // Add new User Message ----------------------------------------------------------------------------------
 const regForm = document.querySelector(".form-registered");
@@ -52,10 +124,8 @@ const actionsBtn = document.querySelector(".action-btn");
 // actionsBtn.addEventListener('click', () =>{
 //     actionsForm.style.display = 'block';
 // })
-function addnewuser(){
-    const addBtn = document.querySelector(".add-account");
-    addForm.style.display = 'flex';
-}
+
+
 function actionFunction(){
     // actionsForm.classList.toggle('bg-actionDropdown')
     actionsForm.style.display = 'flex';
@@ -75,7 +145,6 @@ function editAction(){
     actionsForm.style.display = 'none';
 }
 const sideMenu = document.querySelector("#aside");
-const addForm = document.querySelector(".bg-adduserform");
 
 const closeBtn = document.querySelector("#close-btn");
 const cancelBtn = document.querySelector("#cancel");
@@ -89,16 +158,7 @@ menuBtn.addEventListener('click', () =>{
 closeBtn.addEventListener('click', () =>{
     sideMenu.style.display = 'none';
 })
-cancelBtn.addEventListener('click', () =>{
-    addForm.style.display = 'none';
-})
-// if(email.value === '' || middlename.value === '' || firstname.value === '' || lastname.value === '' || contactnum.value === '' || role.value === '' || password.value === '' || confirmpassword.value === '' || profilepicture.value === ''){
-// }else{
 
-// }
-addBtn.addEventListener('click', () =>{
-    addForm.style.display = 'flex';
-})
 
 function menuToggle(){
     const toggleMenu = document.querySelector('.drop-menu');
@@ -106,55 +166,3 @@ function menuToggle(){
 }
 
 
-function tableSearch(){
-    let input, filter, table, tr, lastname,
-        firstname, middlename, email, contactnum, role, i;
-
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-
-
-    for(i = 0; i < tr.length; i++){
-
-        lastname = tr[i].getElementsByTagName("td")[1];
-        firstname = tr[i].getElementsByTagName("td")[2];
-        middlename = tr[i].getElementsByTagName("td")[3];
-        email = tr[i].getElementsByTagName("td")[4];
-        contactnum = tr[i].getElementsByTagName("td")[5];
-        role = tr[i].getElementsByTagName("td")[6];
-
-        if(lastname || firstname || middlename || email || contactnum || role){
-            var lastname_value = lastname.textContent || lastname.innerText;
-            var firstname_value = firstname.textContent || firstname.innerText;
-            var middlename_value = middlename.textContent || middlename.innerText;
-            var email_value = email.textContent || email.innerText;
-            var contactnum_value = contactnum.textContent || contactnum.innerText;
-            var role_value = role.textContent || role.innerText;
-
-            if(role_value.toUpperCase().indexOf(filter) > -1 ||
-                contactnum_value.toUpperCase().indexOf(filter) > -1 ||
-                email_value.toUpperCase().indexOf(filter) > -1 ||
-                middlename_value.toUpperCase().indexOf(filter) > -1 ||
-                lastname_value.toUpperCase().indexOf(filter) > -1 ||
-                role_value.toUpperCase().indexOf(filter) > -1 ||
-                firstname_value.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display ="";
-            }
-            else {
-                tr[i].style.display = "none";
-            }
-            if($('#myTable tbody tr:visible').length === 0) {
-                document.getElementById('noRecordTR').style.display = "";
-            }else{
-                document.getElementById('noRecordTR').style.display = "none";
-            }
-        }
-        if($('#myTable tbody tr:visible').length === 0) {
-            document.getElementById('noRecordTR').style.display = "";
-        }else{
-            document.getElementById('noRecordTR').style.display = "none";
-        }
-    }
-}
