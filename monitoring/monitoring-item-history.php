@@ -87,12 +87,13 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-I
                     <td data-label="Added By"> <?php echo $rows['first_name'].' '.$rows['last_name']; ?></td>
                     <td data-label="Date"> <?php echo $rows['created_at']; ?></td>
                 </tr>
-                <?php } ?>
-                <?php } else { ?>
-                    <tr id="noRecordTR">
-                        <td colspan="7">No Record(s) Found</td>
-                    </tr>
-                <?php } ?>
+                <?php }?>
+                 
+                <?}else{ ?>
+                        <tr class="noRecordTR" style="display:none">
+                             <td colspan="7">No Record Found</td>
+                         </tr>
+                         <?php }?>
                 </tbody>
 
                             </table>
@@ -173,6 +174,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-I
         </div> 
     </body>
 </html>
+<script src="../javascript/monitoring-item-history-search.js"></script>
 <script>
     // -----------------------------SIDE MENU
  $(document).ready(function(){

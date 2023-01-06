@@ -116,15 +116,14 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-LIS
                                     <span class="tooltipText">ARCHIVE</span>       
                                 </a>
                             </td>
-                    </tr>
-                        <tr class="noRecordTR" style="display:none">
-                            <td colspan="10">No Record Found</td>
-                        </tr>
-                    <?php }}else{ ?>
-                        <tr class="noRecordTR" style="display:none">
-                            <td colspan="10">No Record Found</td>
-                        </tr>
-                        <?php }?>
+                            <?php }?>
+                 
+                 <?}else{ ?>
+                         <tr class="noRecordTR" style="display:none">
+                             <td colspan="14">No Record Found</td>
+                         </tr>
+                         <?php }?>
+
                         </tbody>
                 </table>
             </div>
@@ -304,6 +303,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-LIS
 <script src="../javascript/side-menu-toggle.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/account.js"></script>
+<script src="../javascript/employee-list-search.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

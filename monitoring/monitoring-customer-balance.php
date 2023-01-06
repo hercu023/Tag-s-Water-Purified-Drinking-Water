@@ -223,12 +223,13 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                                     </td>
                                 </tr>
                             </tbody>
-                            <?php
-                             }}else { ?>
-                            <tr id="noRecordTR">
-                                <td colspan="6">No Transaction(s) Added</td>
-                            </tr>
-                        <?php } ?>
+                            <?php }?>
+                 
+                <?}else{ ?>
+                        <tr class="noRecordTR" style="display:none">
+                             <td colspan="6">No Record Found</td>
+                         </tr>
+                         <?php }?>
                             </table>
                         </div>
             </main>
@@ -353,6 +354,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
             </div>
         </form>
     </body>
+<script src="../javascript/monitoring-customer-balance-search.js"></script>
 </html>
 <script>
     // -----------------------------SIDE MENU

@@ -200,12 +200,13 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                                 <td data-label="Cashier Name"> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
                                 <td data-label="Date/Time"> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
                             </tbody>
-                            <?php
-                             }}else { ?>
-                            <tr id="noRecordTR">
-                                <td colspan="10">No Transaction(s) Added</td>
-                            </tr>
-                        <?php } ?>
+                            <?php }?>
+                 
+                 <?}else{ ?>
+                         <tr class="noRecordTR" style="display:none">
+                             <td colspan="8">No Record Found</td>
+                         </tr>
+                         <?php }?>
                             </table>
                         </div>
             </main>
@@ -274,16 +275,19 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                                         <h4>Logout</h4>
                                     </a>
                                 </div>
-
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
 
         </div> 
     </body>
+<script src="../javascript/monitoring-point-of-sales-transaction-search.js"></script>
 </html>
+
 <script>
     // -----------------------------SIDE MENU
  $(document).ready(function(){

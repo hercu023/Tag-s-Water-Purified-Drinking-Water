@@ -1730,6 +1730,7 @@ th{
                                 {
                             ?>
                             <tbody>
+                                
                                     <tr>
                                         <td data-label="ID"> <?php echo $rows['id']; ?></td>
                                         <td data-label="Item Name"> <?php echo $rows['item_name']; ?></td>
@@ -1745,7 +1746,8 @@ th{
                                             } else {
                                                 echo '<span class="lowstock">LOW STOCK</span>';
                                             }
-                                            ?>
+                                        ?>
+
                                         </td>
                                         <td data-label="In"> <?php echo $rows['in_going']; ?></td>
                                         <td data-label="Out"> <?php echo '<span style="color:#B22222;">'.$rows['out_going'].'</span>'; ?></td>
@@ -1757,13 +1759,13 @@ th{
                                             </a>
                                         </td>
                                     </tr>
-                                    <tr id="noRecordTR" style="display:none">
-                                        <td colspan="9">No Record Found</td>                         
-                                    </tr>
+                                    
+                         
                             </tbody>
-                                    <?php
-                                }
-                                ?>   
+
+                            <?php }?>
+                
+                         
                         </table>     
 
         </div>
@@ -1921,6 +1923,7 @@ th{
 <script src="../javascript/side-menu-toggle.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/inventory-details.js"></script>
+<script src="../javascript/inventory-stocks-search.js"></script>
 
 </html>
 <script>

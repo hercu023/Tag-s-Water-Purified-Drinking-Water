@@ -112,12 +112,15 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EXPENSE')) {
                                 </a>
                             </td>
                     </tr>
-                    <?php } ?>
-                    <?php } else { ?>
-                        <tr id="noRecordTR">
-                            <td colspan="15">No Record(s) Found</td>
-                        </tr>
-                    <?php } ?>
+
+                    <?php }?>
+                 
+                 <?}else{ ?>
+                         <tr class="noRecordTR" style="display:none">
+                             <td colspan="8">No Record Found</td>
+                         </tr>
+                         <?php }?>
+
                         </tbody>
                 </table>
             </div>
@@ -260,65 +263,14 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EXPENSE')) {
 <script src="../javascript/side-menu-toggle.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/expense.js"></script>
+<script src="../javascript/expense-search.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 </html>
 <script>
-  function tableSearch(){
-    var input, filter, table, tr, addedby,
-    date, type, description, amount, id, datetime, i;
-
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-
-
-    for(i = 0; i < tr.length; i++){
-
-        id = tr[i].getElementsByTagName("td")[0];
-        date = tr[i].getElementsByTagName("td")[1];
-        type = tr[i].getElementsByTagName("td")[2];
-        amount = tr[i].getElementsByTagName("td")[3];
-        description = tr[i].getElementsByTagName("td")[4];
-        datetime = tr[i].getElementsByTagName("td")[5];
-        addedby = tr[i].getElementsByTagName("td")[6];
-
-        if(id || date || type || amount || description || datetime || addedby){
-            var date_value = date.textContent || date.innerText;
-            var id_value = id.textContent || id.innerText;
-            var datetime_value = datetime.textContent || datetime.innerText;
-            var amount_value = amount.textContent || amount.innerText;
-            var addedby_value = addedby.textContent || addedby.innerText;
-            var type_value = type.textContent || type.innerText;
-            var description_value = description.textContent || description.innerText;
-
-            if(date_value.toUpperCase().indexOf(filter) > -1 ||
-                description_value.toUpperCase().indexOf(filter) > -1 ||
-                id_value.toUpperCase().indexOf(filter) > -1 ||
-                datetime_value.toUpperCase().indexOf(filter) > -1 ||
-                middlename_value.toUpperCase().indexOf(filter) > -1 ||
-                addedby_value.toUpperCase().indexOf(filter) > -1 ||
-                amount_value.toUpperCase().indexOf(filter) > -1 ||
-                type_value.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display ="";
-            }else{
-                tr[i].style.display = "none";
-            }
-
-
-        }
-        if ($("#myTable tr:not('.noRecordTR, .table-heading'):visible").length == 0) {
-
-        $("#myTable").find('.noRecordTR').show();
-        }
-        else {
-        $("#myTable").find('.noRecordTR').hide();
-        }
-    }
-}
+ 
 const addForm = document.querySelector(".bg-adduserform");
 
 function addnewuser(){

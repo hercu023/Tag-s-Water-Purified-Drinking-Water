@@ -1809,14 +1809,13 @@ th{
                                             </a>
                                         </td>
                                     </tr>
-                        <tr class="noRecordTR" style="display:none">
-                            <td colspan="10">No Record Found</td>
-                        </tr>
-                    <?php }}else{ ?>
-                        <tr class="noRecordTR" style="display:none">
-                            <td colspan="10">No Record Found</td>
-                        </tr>
-                        <?php }?>
+                                    <?php }?>
+                 
+                 <?}else{ ?>
+                         <tr class="noRecordTR" style="display:none">
+                             <td colspan="9">No Record Found</td>
+                         </tr>
+                         <?php }?>
                         </tbody>
                 </table>
             </div>
@@ -2012,6 +2011,7 @@ th{
 <script src="../javascript/settings-data-archive-check-all.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/employee-attendance.js"></script>
+<script src="../javascript/employee-attendance-search.js"></script>
 <script src="../javascript/employee-attendance-forms.js"></script>
 </html>
 <script>

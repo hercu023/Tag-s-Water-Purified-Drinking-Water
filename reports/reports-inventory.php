@@ -214,6 +214,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
 <script src="../javascript/side-menu-toggle.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/reports-sales.js"></script>
+<script src="../javascript/reports-inventory-search.js"></script>
 <script src="../index.js"></script>
 <style>
     .error-error{

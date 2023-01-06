@@ -146,11 +146,10 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
                                 </a>
                             </td>
                         </tr>
-                        <tr id="noRecordTR" style="display:none">
-                            <td colspan="12">No Record Found</td>
-                        </tr>
-                        </tbody>
-                    <?php } ?>
+
+                        <?php }?>
+                         
+                         
                 </table>
          
 
@@ -337,6 +336,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
 <script src="../javascript/side-menu-toggle.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/inventory-details.js"></script>
+<script src="../javascript/inventory-details-search.js"></script>
 
 </html>
 <script>

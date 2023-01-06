@@ -197,9 +197,12 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
                                     <?php echo 'PHP '.$rows['total']; ?>
                                 </td>
                             </tr>
+                            
                             </tbody>
                         <?php }} ?>
+                        
                     </table>
+                    
      
     </main>
                
@@ -285,6 +288,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
 <script src="../javascript/side-menu-toggle.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/reports-sales.js"></script>
+<script src="../javascript/reports-sales-search.js"></script>
 <script src="../index.js"></script>
 <style>
     .error-error{
