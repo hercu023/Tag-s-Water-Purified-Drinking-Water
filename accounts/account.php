@@ -323,12 +323,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 </html>
 <script>
-//    
 
 function addnewuser(){
-    // const addBtn = document.querySelector(".add-customer");
-    document.querySelector(".bg-adduserform").style.display = 'flex';
+    const addForm = document.querySelector(".bg-adduserform");
+    addForm.style.display = 'flex';
 }
-
-
 </script>

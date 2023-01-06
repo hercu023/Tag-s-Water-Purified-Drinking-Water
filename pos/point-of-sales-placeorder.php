@@ -13,18 +13,7 @@ date_default_timezone_set("Asia/Manila");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <!-- <link rel="stylesheet" type="text/css" href="../CSS/point-of-sales.css"> -->
-    <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/rajdhani" rel="stylesheet">
     <title>Tag's Water Purified Drinking Water</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/css/tom-select.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"> -->
 </head>
 <body>
 
@@ -62,7 +51,7 @@ date_default_timezone_set("Asia/Manila");
                          </div>
                         <div class="form1-table1" id="form-water1">
                             <?php
-                                        $dropdown_query1 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2' OR  category_by_id LIKE '%10'";
+                                        $dropdown_query1 = "SELECT * FROM inventory_item WHERE category_by_id = 1 OR category_by_id = 2 OR  category_by_id = 10";
                                         $result1 = mysqli_query($con, $dropdown_query1);
                                 ?>
                             <table class="table1" id="myTable1">
@@ -90,7 +79,6 @@ date_default_timezone_set("Asia/Manila");
                                                 <a href="../pos/point-of-sales-edit-alkaline-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                 </a>
-                                            <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
                                                
                                             </td>
                                         </tr>
@@ -149,7 +137,7 @@ date_default_timezone_set("Asia/Manila");
                          </div>
                         <div class="form2-table1" id="form-water3">
                             <?php
-                                $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
+                                $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id = 1 OR category_by_id = 2";
                                 $result7 = mysqli_query($con, $dropdown_query7);
                             ?>
                             <!-- <div class="selectItem">
@@ -225,7 +213,7 @@ date_default_timezone_set("Asia/Manila");
                         </div>
                         <div class="form2-table2" id="form-water4">
                             <?php
-                                $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%1' OR category_by_id LIKE '%2'";
+                                $dropdown_query7 = "SELECT * FROM inventory_item WHERE category_by_id = 1 OR category_by_id = 2";
                                 $result7 = mysqli_query($con, $dropdown_query7);
                             ?>
                             <!-- <div class="selectItem">
@@ -285,7 +273,6 @@ date_default_timezone_set("Asia/Manila");
                                                     <a href="../pos/point-of-sales-edit-mineral-water.php?edit=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                     ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                     </a>
-                                                <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
                                                 
                                                 </td>
                                             </tr>
@@ -304,7 +291,7 @@ date_default_timezone_set("Asia/Manila");
 
                             <div class="form3-table">
                                 <?php
-                                    $dropdown_query8 = "SELECT * FROM inventory_item WHERE category_by_id LIKE '%5' OR category_by_id LIKE '%7'";
+                                    $dropdown_query8 = "SELECT * FROM inventory_item WHERE category_by_id = 5 OR category_by_id = 7";
                                     $result8 = mysqli_query($con, $dropdown_query8);
                                 ?>
                                 <table class="table3" id="myTable3">

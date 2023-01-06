@@ -48,14 +48,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-ACCO
                         </button>
                     </div>
                 </div>
-                <div class="search">
-                    <div class="search-bar">
-                        <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                        <button type="submit" >
-                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                        </button>
-                    </div>
-                </div>
             </div>
             <div class="account-container">
                 <table class="table" id="myTable">
@@ -87,12 +79,13 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-ACCO
                                     <span class="tooltipText">REMOVE</span>       
                                 </a>
                             </td>
-                            <tr class="noRecordTR" style="display:none">
-                            <td colspan="10">No Record Found</td>
                         </tr>
-                    <?php }}else{ ?>
+                           
+                    <?php }?>
+                 
+              <? }else{ ?>
                         <tr class="noRecordTR" style="display:none">
-                            <td colspan="10">No Record Found</td>
+                            <td colspan="2">No Record Found</td>
                         </tr>
                         <?php }?>
                         </tbody>
