@@ -264,7 +264,7 @@ h1{
     color: var(--color-white);
 }
 .edit-action{
-    background: hsl(0, 0%, 37%);
+    background:rgb(0, 154, 255);
     color: var(--color-white);
     align-items: center;
     text-align:center;

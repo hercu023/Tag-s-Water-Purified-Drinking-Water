@@ -77,7 +77,7 @@ body{
     background-attachment: fixed;
 }
 #payroll-action{
-    background: rgb(0, 154, 255);
+    background: #00aa09;
     color: var(--color-white);
     align-items: center;
     text-align:center;
@@ -149,6 +149,7 @@ body{
         transition: all 300ms ease;
         position: relative;
         text-transform: uppercase;
+        box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
     }
     
     .payroll:hover{
@@ -415,7 +416,7 @@ h1{
     color: var(--color-white);
 }
 .edit-action{
-    background: hsl(0, 0%, 37%);
+    background: rgb(0, 154, 255);
     color: var(--color-white);
     align-items: center;
     text-align:center;
@@ -1118,6 +1119,7 @@ main  h2{
     transition: all 300ms ease;
     position: relative;
     text-transform: uppercase;
+    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
 }
 .add-account h3{
     font-size: .8rem;

@@ -19,7 +19,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
     <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
     <title>Tag's Water Purified Drinking Water</title>
 </head>
-
 <body>
 <div class="container">
     <div class="block"></div>

@@ -23,7 +23,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-ACCO
 
 </head>
 <body>
-
 <div class="container">
     <div class="block"></div>
     <?php
