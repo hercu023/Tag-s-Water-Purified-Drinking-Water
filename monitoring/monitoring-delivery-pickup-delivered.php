@@ -809,6 +809,7 @@ h3{
 }
 .newUser-button2{
     width: 8rem;
+    margin-left: -20rem;
     margin-bottom: 2rem;
     position: relative;
     display: inline-block;

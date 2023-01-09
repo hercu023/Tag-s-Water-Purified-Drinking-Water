@@ -263,7 +263,6 @@ h1{
     font-size: .7rem;
     color: var(--color-white);
 }
-/* edted */
 .edit-action{
     background: hsl(0, 0%, 37%);
     color: var(--color-white);
