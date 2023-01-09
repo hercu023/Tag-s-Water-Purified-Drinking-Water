@@ -14,18 +14,25 @@ date_default_timezone_set("Asia/Manila");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" type="text/css" href="../CSS/point-of-sales.css">
-    <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/rajdhani" rel="stylesheet">
     <title>Tag's Water Purified Drinking Water</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
-
-
+<style>
+    .deliveryfee-dropdown{
+    background-color: var(--color-background);
+    /* padding: 0.5rem; */
+    color: var(--color-solid-gray);
+    border: none;
+    border-radius: 5px;
+    display: inline-block;
+    align-items: center;
+    text-align: center;
+    width: 15rem;
+    margin-right: 1rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+</style>
 <body>
 
 <div class="container">
@@ -626,10 +633,22 @@ date_default_timezone_set("Asia/Manila");
                                 <div class="orderTotal-text">Delivery Fee</div>
                             </div>
                             <div id="delivery-fee"> 
-                                &#8369<input type="number" id="deliveryfee_amount" class="deliveryamount_fee" step=".01" min="0" value="0.00" onkeyup="deliveryFee();" >
+                                <?php
+                                    $dropdown_query1 = "SELECT 
+                                    delivery_fee.id,
+                                    delivery_fee.fee,
+                                    delivery_fee.description
+                                     FROM delivery_fee";
+                                    $result3 = mysqli_query($con, $dropdown_query1);
+                                ?>
+                                <select class="deliveryfee-dropdown">
+                                    <?php while($row3 = mysqli_fetch_array($result3)):;?>
+                                        <option><?php echo $row3['fee'].' - '.$row3['description'];?></option>
+                                    <?php endwhile;?>
+                                </select>
                             </div>
                             <div id="delivery-fee1"> 
-                             <label id="deliveryfee_amount1" class="deliveryamount_fee1" min="0" value="0.00"onkeyup="deliveryFee1();">&#8369 0.00</label>
+                             <label id="deliveryfee_amount1" class="deliveryamount_fee1" min="0" value="0.00"onkeyup="deliveryFee1();">----</label>
                             </div>
                         </div>
                         <div>
@@ -661,18 +680,18 @@ date_default_timezone_set("Asia/Manila");
                     <hr>
                     <table class="previous-transaction-table">
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Customer Name</th>
-                            <th>Order Details</th>
-                            <th>Total Amount</th>
-                            <th>Payment Option</th>
-                            <th>Service</th>
-                            <th>Note</th>
-                            <th>Payment Status</th>
-                            <th>Cashier Name</th>
-                            <th>Date/Time</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Customer Name</th>
+                                <th>Order Details</th>
+                                <th>Total Amount</th>
+                                <th>Payment Option</th>
+                                <th>Service</th>
+                                <th>Note</th>
+                                <th>Payment Status</th>
+                                <th>Cashier Name</th>
+                                <th>Date/Time</th>
+                            </tr>
                         </thead>
                         <?php
                         $dropdown_query2 = "SELECT 
@@ -750,7 +769,7 @@ date_default_timezone_set("Asia/Manila");
                     <div class="menu-btn2">
                         <i class="fas fa-bars"></i>
                     </div>
-                    <h2 class="Title-top">DASHBOARD</h2>
+                    <h2 class="Title-top">POINT OF SALES</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>

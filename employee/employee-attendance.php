@@ -77,7 +77,7 @@ body{
     background-attachment: fixed;
 }
 #payroll-action{
-    background: #00aa09;
+    background: rgb(0, 154, 255);
     color: var(--color-white);
     align-items: center;
     text-align:center;
@@ -149,7 +149,6 @@ body{
         transition: all 300ms ease;
         position: relative;
         text-transform: uppercase;
-        box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
     }
     
     .payroll:hover{
@@ -416,7 +415,7 @@ h1{
     color: var(--color-white);
 }
 .edit-action{
-    background: rgb(0, 154, 255);
+    background: hsl(0, 0%, 37%);
     color: var(--color-white);
     align-items: center;
     text-align:center;
@@ -1119,7 +1118,6 @@ main  h2{
     transition: all 300ms ease;
     position: relative;
     text-transform: uppercase;
-    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
 }
 .add-account h3{
     font-size: .8rem;
@@ -1846,54 +1844,55 @@ th{
         </div>
 
         <div class="pagination">   
-            <br>
-                <?php  
+                <div class="page-navigation">
+                    <div class="href-pages">   
+                        <?php  
 
-                    // Number of pages required.   
-                    $total_pages = ceil($total_records / $per_page_record);     
-                    $pageLink = "";       
-                
-                    if($page>=2){   
-                        echo "<a href='".$page_location."?page=".($page-1)."&records=".$per_page_record."'> Prev </a>";   
-                    }       
-                            
-                    for ($i=1; $i<=$total_pages; $i++) {   
-                    if ($i == $page) {   
-                        $pageLink .= "<a class = 'active' href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";   
-                    }               
-                    else  {   
-                        $pageLink .= "<a href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";     
-                    }   
-                    }; 
+                            // Number of pages required.   
+                            $total_pages = ceil($total_records / $per_page_record);     
+                            $pageLink = "";       
+                        
+                            if($page>=2){   
+                                echo "<a href='".$page_location."?page=".($page-1)."&records=".$per_page_record."'> Prev </a>";   
+                            }       
+                                    
+                            for ($i=1; $i<=$total_pages; $i++) {   
+                            if ($i == $page) {   
+                                $pageLink .= "<a class = 'active' href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";   
+                            }               
+                            else  {   
+                                $pageLink .= "<a href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";     
+                            }   
+                            }; 
 
-                    echo $pageLink;   
-            
-                    if($page<$total_pages){   
-                        echo "<a href='".$page_location."?page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
-                    }  
-                ?>
+                            echo $pageLink;   
+                    
+                            if($page<$total_pages){   
+                                echo "<a href='".$page_location."?page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
+                            }  
+                        ?>
+                    </div>
+                    <div class="dropdown-pages">   
+                        <select name="option" class="pages" onchange="location ='<?php echo $page_location ?>' + '?page=1&records=' + this.value;">
+                                <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
+                                <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
+                                <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
+                                <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
+                                <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
+                                <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
+                                <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
+                        </select>
+                        <span class="label-number"> No. of Records Per Page </span>  
+                    </div>
+                    
+                    <div class="inline">   
+                        <input id="page" type="number" class="input-pages" min="1" max="<?php echo $total_pages?>"   
+                        placeholder="<?php echo $page." - ".$total_pages; ?>" required> 
 
-                <br><br>
-                <select name="option" onchange="location ='<?php echo $page_location ?>' + '?page=1&records=' + this.value;">
-                        <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
-                        <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
-                        <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
-                        <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
-                        <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
-                        <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
-                        <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
-                </select>
-                <span> No. of Records Per Page </span>  
-                
-            </div>
-            <div></div>
-
-            <div class="inline">   
-                <input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
-                placeholder="<?php echo $page."/".$total_pages; ?>"> 
-
-                <a onClick="goToPage('<?php echo $page_location.'?records='.$per_page_record?>');">Go to page</a>   
-            </div>   
+                        <button class="gotopage-btn" onClick="goToPage('<?php echo $page_location.'?records='.$per_page_record?>');">Go to page</button>   
+                    </div>    
+                </div>
+        </div>
             
     </main>
 

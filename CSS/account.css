@@ -54,6 +54,8 @@ body{
     background-size: cover;
     background-attachment: fixed;
 }
+/* ------------------------------pagination-------------------------- */
+
 /* ----------------------------TOP MENU---------------------------- */
 
 .top-menu a{
@@ -264,7 +266,7 @@ h1{
     color: var(--color-white);
 }
 .edit-action{
-    background:rgb(0, 154, 255);
+    background: hsl(0, 0%, 37%);
     color: var(--color-white);
     align-items: center;
     text-align:center;

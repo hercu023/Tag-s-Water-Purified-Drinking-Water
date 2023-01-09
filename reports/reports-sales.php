@@ -265,7 +265,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
                             </tr>
                             
                             </tbody>
-<<<<<<< Updated upstream
                         <?php }}} ?>
                     </table>
                     <div class="pagination">   
@@ -323,13 +322,10 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
                 <button onClick="goToPage('<?php echo $page_location.'&records='.$per_page_record?>');">Go to page</button>   
             </div>    
             <?php }?>
-=======
-                        <?php }} ?>
-                        
+                   
                     </table>
                     
      
->>>>>>> Stashed changes
     </main>
                
     <div class="top-menu">

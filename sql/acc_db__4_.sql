@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2023 at 08:25 AM
+-- Generation Time: Jan 09, 2023 at 02:59 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -168,7 +168,19 @@ INSERT INTO `audit_trail` (`id`, `module_id`, `user_id`, `status`, `data`, `date
 (0, 1, 1, 1, 'Logged in the system', '2023-01-09 00:07:59'),
 (966, 1, 1, 0, 'Incorrect password input', '2023-01-09 14:48:17'),
 (967, 1, 1, 0, 'Restricted login, still has an active session.', '2023-01-09 14:48:20'),
-(968, 1, 1, 1, 'Logged in the system', '2023-01-09 14:48:43');
+(968, 1, 1, 1, 'Logged in the system', '2023-01-09 14:48:43'),
+(969, 0, 1, 1, 'Added new user with id:22', '2023-01-09 17:27:08'),
+(970, 1, 1, 1, 'Logged out of the system', '2023-01-09 17:36:03'),
+(971, 1, 1, 0, 'Incorrect password input', '2023-01-09 17:36:06'),
+(972, 1, 1, 0, 'Incorrect password input', '2023-01-09 17:36:09'),
+(973, 1, 1, 0, 'Incorrect password input', '2023-01-09 17:36:12'),
+(974, 1, 1, 0, 'Incorrect password input', '2023-01-09 17:36:15'),
+(975, 1, 1, 1, 'Logged in the system', '2023-01-09 17:36:18'),
+(976, 1, 1, 0, 'Restricted login, still has an active session.', '2023-01-09 18:42:50'),
+(977, 1, 1, 0, 'Restricted login, still has an active session.', '2023-01-09 18:42:50'),
+(978, 1, 1, 1, 'Logged in the system', '2023-01-09 18:43:41'),
+(979, 1, 1, 0, 'Restricted login, still has an active session.', '2023-01-09 21:09:37'),
+(980, 1, 1, 1, 'Logged in the system', '2023-01-09 21:10:48');
 
 -- --------------------------------------------------------
 
@@ -255,6 +267,26 @@ INSERT INTO `date_scheduling` (`id`, `date`, `customer_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `delivery_fee`
+--
+
+CREATE TABLE `delivery_fee` (
+  `id` int(11) NOT NULL,
+  `fee` float(11,2) NOT NULL,
+  `description` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `delivery_fee`
+--
+
+INSERT INTO `delivery_fee` (`id`, `fee`, `description`) VALUES
+(1, 10.00, 'Within Antipolo Bayan'),
+(2, 20.00, 'Outside Antipolo Bayan');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `delivery_list`
 --
 
@@ -332,7 +364,7 @@ CREATE TABLE `employee` (
   `first_name` varchar(20) NOT NULL,
   `middle_name` varchar(20) NOT NULL,
   `position_id` varchar(255) NOT NULL,
-  `daily_rate` float(11,2) DEFAULT NULL,
+  `hourly_rate` float(11,2) DEFAULT NULL,
   `date_of_birth` date NOT NULL,
   `email_address` varchar(255) NOT NULL,
   `contact_number` int(50) NOT NULL,
@@ -347,7 +379,7 @@ CREATE TABLE `employee` (
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`id`, `last_name`, `first_name`, `middle_name`, `position_id`, `daily_rate`, `date_of_birth`, `email_address`, `contact_number`, `added_by`, `date_created`, `updated_by`, `date_updated`, `status_archive_id`) VALUES
+INSERT INTO `employee` (`id`, `last_name`, `first_name`, `middle_name`, `position_id`, `hourly_rate`, `date_of_birth`, `email_address`, `contact_number`, `added_by`, `date_created`, `updated_by`, `date_updated`, `status_archive_id`) VALUES
 (1, 'Smith', 'Edward', 'Cruz', '1', 500.00, '2022-11-19', 'EdwardSmith123@gmail.com', 1234567891, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 1),
 (2, 'Tabudol', 'Sack', 'Brin', '2', 500.00, '2022-11-19', 'Zack123budol@gmail.com', 987654321, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 1),
 (3, 'Santos', 'Nikolas', 'Anderas', '1', 500.00, '2022-11-19', 'Nikols123@gmail.com', 987987981, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 1),
@@ -643,6 +675,28 @@ INSERT INTO `payment_option` (`id`, `option_name`) VALUES
 (1, 'Cash On Delivery'),
 (3, 'GCash'),
 (2, 'Onsite');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payroll_settings`
+--
+
+CREATE TABLE `payroll_settings` (
+  `id` int(11) NOT NULL,
+  `feature` varchar(50) NOT NULL,
+  `grace_period` time NOT NULL,
+  `late_deduction_per_min` float(11,2) NOT NULL,
+  `time_in_schedule` time NOT NULL,
+  `overtime_bonus_per_hour` float(11,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payroll_settings`
+--
+
+INSERT INTO `payroll_settings` (`id`, `feature`, `grace_period`, `late_deduction_per_min`, `time_in_schedule`, `overtime_bonus_per_hour`) VALUES
+(1, 'payroll', '08:15:00', 5.00, '08:00:00', 20.00);
 
 -- --------------------------------------------------------
 
@@ -977,7 +1031,7 @@ CREATE TABLE `user_session` (
 --
 
 INSERT INTO `user_session` (`id`, `user_id`, `session_key`, `status`) VALUES
-(60, 1, '90a40d09086390607ad6', 'ACTIVE');
+(63, 1, '599bf762395c4c5962e8', 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -1073,6 +1127,12 @@ ALTER TABLE `customers`
 -- Indexes for table `date_scheduling`
 --
 ALTER TABLE `date_scheduling`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `delivery_fee`
+--
+ALTER TABLE `delivery_fee`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1251,7 +1311,7 @@ ALTER TABLE `attendance`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=969;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=981;
 
 --
 -- AUTO_INCREMENT for table `category_type`
@@ -1270,6 +1330,12 @@ ALTER TABLE `customers`
 --
 ALTER TABLE `date_scheduling`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `delivery_fee`
+--
+ALTER TABLE `delivery_fee`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `delivery_list`
@@ -1389,13 +1455,13 @@ ALTER TABLE `transaction_process`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `user_session`
 --
 ALTER TABLE `user_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `water_type`

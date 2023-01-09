@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once '../service/add-account.php';
+require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER_ACCOUNT')) {
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-PAYROLL')) {
     header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
     exit();
 }
@@ -231,44 +231,11 @@ h1{
 }
 /* -------------------------------------------------------------------------------------------- */
 .container1{
-    width: 100%;
     overflow:auto;
-    max-width: 600px;
-    padding: 28px;
+    padding: 20px;
     margin: 0 28px;
-    border-radius:  0px 0px 20px 20px;
+    border-radius:  20px;
     background-color: var(--color-white);
-    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-    border-top: 10px solid var(--color-solid-gray);
-}
-.tooltipText{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: .7rem;
-    color: var(--color-white);
-}
-.edit-action{
-    background: hsl(0, 0%, 37%);
-    color: var(--color-white);
-    align-items: center;
-    text-align:center;
-    justify-content: center;
-    float: center;
-    position: relative;
-    text-decoration: none;
-    border-radius: 3px;
-    display: flex;
-    width: 60%;
-    padding: 5px;
-    margin: 1px;
-    gap: .3rem;
-    left: 20%;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-.edit-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
 }
 
 .main-user-info{
@@ -276,29 +243,6 @@ h1{
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 20px 0;
-}
-.usertype-dropdown{
-    width: 48%;
-    margin-top: 1.6rem;
-    display: flex;
-    flex-wrap: wrap;
-}
-.select{
-    background: var(--color-solid-gray);
-    color: var(--color-white);
-    align-items: center;
-    border-radius: 13px;
-    padding: 8px 12px;
-    height: 40px;
-    width: 100%;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.action-dropdown{
-    position: relative;
-    margin-top: .5rem;
-    /* left: 10%; */
-    margin-bottom: .5rem
 }
 .user-input-box:nth-child(2n){
     justify-content: end;
@@ -324,7 +268,7 @@ h1{
 .user-input-box{
     display: flex;
     flex-wrap: wrap;
-    width: 48%;
+    width: 40%;
     padding-bottom: 15px;
 }
 
@@ -446,7 +390,7 @@ h1{
 }
 
 
-.side-bar .menu #account{
+.side-bar .menu #settings{
     background: var(--color-white);
     transition: 0.6s;
     color: var(--color-main);
@@ -469,11 +413,11 @@ h1{
 .AddButton button{
     font-family: 'COCOGOOSE', sans-serif;
     padding: 10px;
-    width: 15rem;
-    max-height: 60px;
+    width: 30rem;
+    max-height: 80px;
     outline: none;
     border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
+    font-size: 1rem;
     border-radius: 20px;
     color: white;
     background:  var(--color-mainbutton);
@@ -528,12 +472,11 @@ h1{
 .bg-adduserform{
     height: 100%;
     width: 100%;
-    background: rgba(0,0,0,0.7);
     top: 0;
     position: fixed;
     align-items: center;
     justify-content: center;
-    display: none;
+    display: flex;
 }
 .bg-editDropdown{
     height: 100%;
@@ -919,22 +862,9 @@ main .account-container{
     width: 100%;
     /* position: absolute; */
     box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
-    border-top: 8px solid var(--color-table-hover);
-    border-radius: 0px 0px 10px 10px;
-
-}
-
-main .account-container table{
     background: var(--color-white);
-    font-family: 'Switzer', sans-serif;
-    width: 100%;
-    font-size: 1rem;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-    padding-bottom: 2.5rem;
-    text-align: center;
-    transition: all 700ms ease;
-    /* margin-top: -1rem; */
+    border-radius: 10px;
+
 }
 
 main .account-container table:hover{
@@ -1228,67 +1158,15 @@ th{
     }
     .account-container{
         position: relative;
-        margin-top:7rem;
         overflow: auto;
         width: 100%;
-        max-height: 600px;
         border-top: 5px solid var(--color-solid-gray);
         font-size: 15px;
     }
-    .account-container tbody tr td{
-        font-size: 10px;
-        
-    }
-    table {
-        border: 0;
-    }
-
-    table caption {
-        font-size: 1.3em;
-    }
-    
-    table thead {
-        border: none;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
-    }
-    
-    table tr {
-        border-bottom: 3px solid #ddd;
-        display: block;
-        margin-bottom: .625em;
-    }
-    
-    table td {
-        border-bottom: 1px solid #ddd;
-        display: block;
-        font-size: .8em;
-        text-align: right;
-    }
-    
-    table td::before {
-        /*
-        * aria-label has no advantage, it won't be read inside a table
-        content: attr(aria-label);
-        */
-        content: attr(data-label);
-        float: left;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-    
-    table td:last-child {
-        border-bottom: 0;
-    }
 
     .sub-tab{
-        margin-top: 5rem;
         width: 100%;
+        margin-top:8rem;
         align-items: center;
         text-align: center;
     }
@@ -1330,7 +1208,7 @@ th{
     }
 
     .main-user-info{
-        max-height: 380px;
+        max-height: 680px;
         overflow: auto;
     }
 
@@ -1344,7 +1222,6 @@ th{
         text-align: center;
     }
     .AddButton button{
-        margin-top: -4.5rem;
         width: 100%;
         text-align: center;
     }
@@ -1453,7 +1330,55 @@ th{
                 <div class="user-title">
                     <h2> PAYROLL </h2>
                 </div>
-          
+            </div>
+        <div class="account-container">
+        <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
+            <h1 class="addnew-title">SET PAYROLL SETTINGS</h1>
+                <div class="container1">
+                        <input type="hidden" required="required" name="status" value="1">
+                        <div class="main-user-info">
+                            <div class="user-input-box">
+                                <label for="timein">Time IN Schedule</label>
+                                <input type="text"
+                                    id="timein"
+                                    name="time_in"
+                                    required="required"
+                                    placeholder="Enter Time IN Schedule"/>
+                            </div>
+                            <div class="user-input-box">
+                                <label for="graceperiod">Grace Period Time</label>
+                                <input type="text"
+                                    id="graceperiod"
+                                    name="grace_period"
+                                    required="required"
+                                    placeholder="Enter Grace Period Time"/>
+                            </div>
+                            <div class="user-input-box">
+                                <label for="deduction">Late Deduction Per Minute</label>
+                                <input type="text"
+                                    id="deduction"
+                                    name="late_deduction"
+                                    required="required"
+                                    placeholder="Enter Late Deduction Per Minute"/>
+                            </div>
+                            <div class="user-input-box">
+                                <label for="bonus">Over Time Bonus Per Hour</label>
+                                <input type="text"
+                                    id="bonus"
+                                    name="ot_bonus"
+                                    required="required"
+                                    placeholder="Enter Over Time Bonus Per Hour"/>
+                            </div>
+
+                     
+                            <div class="bot-buttons">
+                                
+                                <div class="AddButton">
+                                    <button type="submit" id="adduserBtn" name="add-account">SAVE</button>
+                                </div>
+                            </div>
+                </div>
+        </form>
     </main>
 
         <div class="top-menu">
@@ -1461,8 +1386,8 @@ th{
                     <div class="menu-btn2">
                         <i class="fas fa-bars"></i>
                     </div>
-                    <h2 class="Title-top">ACCOUNT</h2>
-                    <h4 class="subTitle-top">User Account</h2>
+                    <h2 class="Title-top">SETTINGS</h2>
+                    <h4 class="subTitle-top">PAYROLL</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
@@ -1531,107 +1456,7 @@ th{
         </div> 
 
 </div>
-<form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
-    <div class="bg-adduserform" id="bg-addform">
-        <div class="message"></div>
-        <div class="container1">
-            <h1 class="addnew-title">ADD NEW ACCOUNT</h1>
-            <form action="#">
-                <input type="hidden" required="required" name="status" value="1">
-                <div class="main-user-info">
-                    <div class="user-input-box">
-                        <label for="lastname">Last Name</label>
-                        <input type="text"
-                               id="lastname"
-                               name="last_name"
-                               required="required"
-                               placeholder="Enter Last Name"/>
-                    </div>
-                    <div class="user-input-box">
-                        <label for="firstname">First Name</label>
-                        <input type="text"
-                               id="firstname"
-                               name="first_name"
-                               required="required"
-                               placeholder="Enter First Name"/>
-                    </div>
-                    <div class="user-input-box">
-                        <label for="middlename">Middle Name</label>
-                        <input type="text"
-                               id="middlename"
-                               name="middle_name"
-                               required="required"
-                               placeholder="Enter Middle Name"/>
-                    </div>
-                    <div class="user-input-box">
-                        <label for="email">Email</label>
-                        <input type="text"
-                               id="email"
-                               name="email"
-                               required="required"
-                               placeholder="Enter Email"/>
-                    </div>
 
-                    <div class="user-input-box">
-                        <label for="contactnum">Contact Number</label>
-                        <input type="text" min='0' onkeypress='return isNumberKey(event)'
-                               id="contactnum"
-                               name="contact_num"
-                               placeholder='Enter Contact Number'
-                               required="required"/>
-                    </div>
-
-                    <div class="user-input-box">
-                        <?php
-                        $dropdown_query = "SELECT * FROM account_type WHERE is_deleted = 0";
-                        $account_type_result = mysqli_query($con, $dropdown_query);
-                        ?>
-                        <select class="select" name="user_types" required="" >
-                            <option selected disabled value="">SELECT ROLE</option>
-                            <?php while($account_type = mysqli_fetch_array($account_type_result)):;?>
-                                <option value="<?php echo $account_type['id']?>">
-                                    <?php echo $account_type['user_type'];?>
-                                </option>
-                            <?php endwhile;?>
-                        </select>
-                    </div>
-                    <div class="user-input-box">
-                        <label for="pass"> Password</label>
-                        <input type="password"
-                               id="pass-account"
-                               name="pass"
-                               required="required"
-                               placeholder="Create Password"/>
-                    </div>
-                    <div class="user-input-box">
-                        <label for="ecpass">Confirm Password</label>
-                        <input type="password"
-                               id="cpass-account"
-                               name="confirm_pass"
-                               required="required"
-                               placeholder="Confirm Password"/>
-                    </div>
-                    <div class="checker">
-                        <input type="checkbox" name="" onclick="myFunctionCP()" >
-                        <span>Show password</span>
-                    </div>
-                    <span class="gender-title">Profile Picture</span>
-                    <div class="choose-profile">
-                        <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
-                    </div>
-                    <div class="line"></div>
-
-                    <div class="bot-buttons">
-                        <div class="CancelButton">
-                            <a href="../accounts/account.php" id="cancel">CANCEL</a>
-                        </div>
-                        <div class="AddButton">
-                            <button type="submit" id="adduserBtn" name="add-account">SAVE</button>
-                        </div>
-                    </div>
-            </form>
-        </div>
-</form>
 </div>
 
 </body>

@@ -1,9 +1,10 @@
 <?php
-require_once '../service/add-customer.php';
+session_start();
+require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) {
-    header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DELIVERY_FEE')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
     exit();
 }
 ?>
@@ -14,11 +15,10 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <link rel="stylesheet" type="text/css" href="../CSS/customer.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/settings-delivery-fee.css">
     <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
     <title>Tag's Water Purified Drinking Water</title>
 </head>
-
 <body>
 <div class="container">
     <div class="block"></div>
@@ -26,6 +26,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
     <?php
     include('../common/side-menu.php')
     ?>
+
             <?php  
                 if(isset($_GET['records']) && isset($_GET['page'])) {
                     $per_page_record = $_GET['records'];
@@ -35,29 +36,31 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
                     $page = 1;
                 }
 
-                $query = "SELECT COUNT(*) FROM customers 
-                        WHERE customers.status_archive_id = '1'";     
+                $query = "SELECT COUNT(*) FROM delivery_fee";     
                 $rs_result = mysqli_query($con, $query);     
                 $row = mysqli_fetch_row($rs_result);     
                 $total_records = $row[0];     
-                $page_location = '../customers/customer.php';
+                $page_location = '../settings/settings-delivery-fee.php';
                 $start_from = ($page - 1) * $per_page_record;  
                     
             ?>
     <main>
         <div class="main-account">
-            <h1 class="accTitle">CUSTOMER</h1>
+            <h1 class="accTitle">SETTINGS</h1>
             <?php
             if (isset($_GET['error'])) {
                 echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
             }
             ?>
             <div class="sub-tab">
+                <div class="user-title">
+                    <h2> DELIVERY FEE </h2>
+                </div>
                 <div class="sub-tab2">
                     <div class="newUser-button">
                         <button type="submit" id="add-userbutton" class="add-account" onclick="addnewuser();">
                             <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                            <h3>Add New Customer</h3>
+                            <h3>Add Delivery Fee</h3>
                         </button>
                     </div>
                 </div>
@@ -70,84 +73,54 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
                     </div>
                 </div>
             </div>
-
-
+                 
             <div class="account-container">
                 <table class="table" id="myTable">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Customer Name</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Contact Number 1</th>
-                        <th scope="col">Contact Number 2</th>
-                        <th scope="col">Balance</th>
-                        <th scope="col">Balance Limit</th>
-                        <th scope="col">Credit Limit</th>
-                        <th scope="col">Note</th>
-                        <th scope="col">Date/Time Added</th>
-                        <th scope="col">Added By</th>
-                        <th scope="col">Action</th>
-                    </tr>
+                    <thead>
+                        <tr class='table-heading'>
+                            <th scope="col">Delivery Fee</th>
+                            <th scope="col">Location/Distance</th>
+                            <!-- <th>Address</th> -->
+                            <th scope="col">Action</th>
+                        </tr>
                     </thead>
 
-                    <?php
-                    $query = "SELECT customers.id,
-                                customers.customer_name,
-                                customers.address,
-                                customers.contact_number1,
-                                customers.contact_number2,
-                                customers.balance,
-                                customers.balance_limit,
-                                customers.credit_limit,
-                                customers.note, 
-                                status_archive.status, 
-                                customers.created_at,
-                                users.first_name,
-                                users.last_name
-                                FROM customers 
-                                INNER JOIN status_archive 
-                                ON customers.status_archive_id = status_archive.id 
-                                INNER JOIN users
-                                ON customers.created_by = users.user_id
-                                WHERE customers.status_archive_id = '1'
-                                LIMIT $start_from, $per_page_record";
+                    <?php   
+                    $query = "SELECT 
+                    delivery_fee.id,
+                    delivery_fee.fee,
+                    delivery_fee.description
+                    FROM delivery_fee 
+                    ORDER BY delivery_fee.id";
                     $result = mysqli_query($con, $query);
                     if(mysqli_num_rows($result) > 0)
-                    {
-                    foreach($result as $rows)
-                    {
-                    ?>
-                    <tbody>
-                    <tr>
-                        <td data-label="ID"> <?php echo $rows['id']; ?></td>
-                        <td data-label="Customer Name"> <?php echo $rows['customer_name']; ?></td>
-                        <td data-label="Address"> <?php echo $rows['address']; ?></td>
-                        <td data-label="Contact Number 2"> <?php echo $rows['contact_number1']; ?></td>
-                        <td data-label="Contact Number 1"> <?php echo $rows['contact_number2']; ?></td>
-                        <td data-label="Balance"> <?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
-                        <td data-label="Balance Limit"> <?php echo '<span>&#8369;</span>'.' '.$rows['balance_limit']; ?></td>
-                        <td data-label="Credit Limit"> <?php echo '<span>&#8369;</span>'.' '.$rows['credit_limit']; ?></td>
-                        <td data-label="Note"> <?php echo $rows['note']; ?></td>
-                        <td data-label="Date/Time Added"> <?php echo $rows['created_at']; ?></td>
-                        <td data-label="Added By"> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
-                        <td >
-                            <a href="../customers/customer-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action"class="edit-action" name="action">
-                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.25 15.75h1.229l7-7-1.229-1.229-7 7Zm11.938-8.208-3.73-3.73 1.021-1.02q.521-.521 1.24-.521t1.239.521l1.25 1.25q.5.5.5 1.239 0 .74-.5 1.24Zm-1.23 1.229L6.229 17.5H2.5v-3.729l8.729-8.729Zm-3.083-.625-.625-.625 1.229 1.229Z"/></svg>
-                                <span class="tooltipText">EDIT</span>       
-                            </a>
-                            <a href="../customers/customer-archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="archive-action"  name="action">
-                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
-                                <span class="tooltipText">ARCHIVE</span>       
-                            </a>
-                        </td>
-                    </tr>
-                      
+                                            {
+                                            foreach($result as $rows)
+                                            {
+                                            ?>
+                        <tbody>
+                        <tr>
+                            <td data-label="Fee"> <?php echo $rows['fee']; ?></td>
+                            <td data-label="Description"> <?php echo $rows['description']; ?></td>
+                            <td class="hrefa">
+                                <a href="../settings/settings-delivery-fee-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="edit-action" name="action">
+                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
+                                    <span class="tooltipText">EDIT</span>       
+                                </a>
+                                <a href="../settings/settings-delivery-fee-archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="archive-action" name="action">
+                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
+                                    <span class="tooltipText">REMOVE</span>       
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="noRecordTR" style="display:none">
+                            <td colspan="3">No Record Found</td>
+                        </tr>
                     <?php }?>
-                 
+                        
                 <?}else{ ?>
                         <tr class="noRecordTR" style="display:none">
-                            <td colspan="8">No Record Found</td>
+                            <td colspan="3">No Record Found</td>
                         </tr>
                         <?php }?>
                         </tbody>
@@ -159,6 +132,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
         <div class="pagination">   
             <br>
                 <?php  
+
 
                     // Number of pages required.   
                     $total_pages = ceil($total_records / $per_page_record);     
@@ -204,7 +178,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
                 placeholder="<?php echo $page."/".$total_pages; ?>" required> 
 
                 <button onClick="goToPage('<?php echo $page_location.'?records='.$per_page_record?>');">Go to page</button>   
-            </div>  
+            </div>    
     </main>
 
         <div class="top-menu">
@@ -212,7 +186,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
                     <div class="menu-btn2">
                         <i class="fas fa-bars"></i>
                     </div>
-                    <h2 class="Title-top">CUSTOMERS</h2>
+                    <h2 class="Title-top">ACCOUNT</h2>
+                    <h4 class="subTitle-top">User Account</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
@@ -281,99 +256,68 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
         </div> 
 
 </div>
-
-<form action="" method="post" enctype="multipart/form-data" id="addcustomerFrm">
-    <div class="bg-addcustomerform" id="bg-addform">
+<form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
+    <div class="bg-adduserform" id="bg-addform">
         <div class="message"></div>
         <div class="container1">
-            <h1 class="addnew-title">ADD NEW CUSTOMER</h1>
+            <h1 class="addnew-title">ADD DELIVERY FEE</h1>
             <form action="#">
+                <input type="hidden" required="required" name="status" value="1">
                 <div class="main-user-info">
-                    <div class="user-input-box">
-                        <label for="customer_name">Customer Name</label>
+                    
+                <div class="user-input-box1">
+                    <span class="gender-title">FEE</span>
                         <input type="text"
-                               id="customer_name"
-                               name="customer_name"
+                               id="lastname"
+                               name="last_name"
                                required="required"
-                               placeholder="Enter Customer Name"/>
-                    </div>
-                    <div class="user-input-box" id="address-box">
-                        <label for="address">Address</label>
-                        <input type="text"
-                               id="address"
-                               class="address"
-                               required="required" name="address" placeholder="Enter Address"/>
-                    </div>
-                    <div class="user-input-box" >
-                        <label for="contact_num1">Contact Number 1</label>
-                        <input type="text" id="contact_num1" class="contactnum1" onkeypress="return isNumberKey(event)" required="required" name="contact_num1" placeholder="Enter Contact Number"/>
-                    </div>
-
+                               class="fee"
+                               placeholder="0.00"/>
+                </div>
+                    <span class="gender-title">Description</span>
                     <div class="user-input-box">
-                        <label for="contact_num2">Contact Number 2</label>
-                        <input type="text" id="contact_num2"class="contactnum2" onkeypress="return isNumberKey(event)"name="contact_num2" placeholder="Enter Contact Number"/>
-                    </div>
-
-                    <div class="user-input-box" id="note-box">
-                        <label for="note">Note</label>
                         <input type="text"
-                               id="note" class="note" name="note" placeholder="Enter a Note"/>
+                               id="firstname"
+                               name="first_name"
+                               required="required"
+                               placeholder="Enter Description"/>
                     </div>
-
-                    <div class="user-input-box" id="address-box">
-                                <label for="balance">Balance Limit</label>
-                                <input type="number" step=".01"
-                                    id="address" 
-                                    class="address"
-                                    required="required" 
-                                    name="balance_limit" 
-                                    placeholder="0.00"/>
-                            </div>
-
-                            <div class="user-input-box" id="address-box">
-                                <label for="balance">Credit Limit</label>
-                                <input type="number" step=".01"
-                                    id="address" 
-                                    class="address"
-                                    required="required" 
-                                    name="credit_limit" 
-                                    placeholder="0.00"/>
-                            </div>
                     <div class="line"></div>
-                   
+
                     <div class="bot-buttons">
                         <div class="CancelButton">
-                            <a href="../customers/customer.php" id="cancel">CANCEL</a>
+                            <a href="../settings/settings-delivery-fee.php" id="cancel">CANCEL</a>
                         </div>
                         <div class="AddButton">
-                            <button type="submit" id="addcustomerBtn" name="save-customer">SAVE</button>
+                            <button type="submit" id="adduserBtn" name="add-account">SAVE</button>
                         </div>
                     </div>
-                </div>
             </form>
+        </div>
+</form>
+</div>
 
 </body>
 <script src="../javascript/side-menu-toggle.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/account.js"></script>
 <script src="../javascript/account-search.js"></script>
+<script src="../javascript/pagination.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 </html>
 <script>
-//    
 
 function addnewuser(){
-    // const addBtn = document.querySelector(".add-customer");
-    document.querySelector(".bg-addcustomerform").style.display = 'flex';
+    // const addForm = ;
+    document.querySelector(".bg-adduserform").style.display = 'flex';
 }
 
 function goToPage(reference) {   
     var page = document.getElementById("page").value;   
     page = ((page><?php echo $total_pages; ?>)?<?php echo $total_pages; ?>:((page<1)?1:page));   
     window.location.href = reference + '&page=' + page;   
-}
-
+} 
 </script>

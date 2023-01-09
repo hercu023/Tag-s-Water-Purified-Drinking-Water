@@ -717,7 +717,7 @@ body{
     margin-bottom: .5rem
 }
 #edit-action{
-    background: rgb(0, 154, 255);
+    background: hsl(0, 0%, 37%);
     color: var(--color-white);
     align-items: center;
     position: relative;
@@ -1053,7 +1053,6 @@ main .sub-tab{
     position: absolute;
     margin-top: .2rem;
     text-transform: uppercase;
-    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
 }
 .add-account h3{
     font-size: .8rem;
