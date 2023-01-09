@@ -38,6 +38,52 @@ if(isset($_POST['add-others'])){
 
     }
 }
+
+if(isset($_GET['addothers']) && isset($_GET['user_id']) ){
+    
+    $id = $_GET['addothers'];
+    $result = mysqli_query($con,"SELECT
+            inventory_item.id, 
+            inventory_item.image, 
+            inventory_item.item_name,
+            category_type.name,
+            inventory_item.selling_price_item
+            FROM inventory_item 
+            INNER JOIN category_type  
+            ON inventory_item.category_by_id = category_type.id  
+            WHERE inventory_item.id = '$id'");
+    if (mysqli_num_rows($result) > 0) {
+
+    $item = mysqli_fetch_assoc($result);
+    
+    $user_id = $_GET['user_id'];
+    
+    $item_name3 = $item['item_name'];
+    $category_name3 = $item['name'];
+    $price_item3 = $item['selling_price_item'];
+    $qty3 = 1;
+
+    $total= $qty3 * $price_item3;
+
+    if (validate_quantity($con, $item_name3, $qty3)) {
+        $insert = mysqli_query($con, "INSERT INTO transaction_process VALUES(
+                '',
+                '$item_name3',
+                '',
+                '$category_name3',
+                '$qty3',
+                '$price_item3',
+                '$total',
+                '$user_id',
+                '0')");
+        if($insert){
+            header("Location: ../pos/point-of-sales.php?update=1");
+        }
+    } else {
+        header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+    }
+}
+}
 ?>
 <?php
 if(isset($_POST['add-alkaline-water'])){
@@ -78,6 +124,54 @@ if(isset($_POST['add-alkaline-water'])){
         }
     }
 }
+
+if(isset($_GET['addalkaline']) && isset($_GET['user_id']) ){
+    
+        $id = $_GET['addalkaline'];
+            $result = mysqli_query($con,"SELECT
+            inventory_item.id, 
+            inventory_item.image, 
+            inventory_item.item_name,
+            category_type.name,
+            inventory_item.alkaline_price
+            FROM inventory_item 
+            INNER JOIN category_type  
+            ON inventory_item.category_by_id = category_type.id  
+            WHERE inventory_item.id = '$id'");
+        if (mysqli_num_rows($result) > 0) {
+
+        $item = mysqli_fetch_assoc($result);
+
+        $user_id = $_GET['user_id'];
+        
+        $item_name3 = $item['item_name'];
+        $category_name3 = $item['name'];
+        $selectwater = 'Alkaline';
+        $alkalineprice = $item['alkaline_price'];
+        $qty3 = 1;
+
+        $total= $qty3 * $alkalineprice;
+
+        if (validate_quantity($con, $item_name3, $qty3)) {
+            $insert = mysqli_query($con, "INSERT INTO transaction_process VALUES(
+                    '',
+                    '$item_name3',
+                    '$selectwater',
+                    '$category_name3',
+                    '$qty3',
+                    '$alkalineprice',
+                    '$total',
+                    '$user_id',
+                    '0')");
+            if($insert){
+                header("Location: ../pos/point-of-sales.php?update=1");
+            }
+        } else {
+            header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+        }
+    }
+}
+
 ?>
 <?php
 if(isset($_POST['add-mineral-water'])){
@@ -119,6 +213,54 @@ if(isset($_POST['add-mineral-water'])){
         } else {
             header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
         }
+    }
+}
+
+if(isset($_GET['addmineral']) && isset($_GET['user_id']) ){
+
+    $id = $_GET['addmineral'];
+    $result = mysqli_query($con,"SELECT
+            inventory_item.id, 
+            inventory_item.image, 
+            inventory_item.item_name,
+            category_type.name,
+            inventory_item.mineral_price
+            FROM inventory_item 
+            INNER JOIN category_type  
+            ON inventory_item.category_by_id = category_type.id  
+            WHERE inventory_item.id = '$id'");
+
+    if (mysqli_num_rows($result) > 0) {
+
+    $item = mysqli_fetch_assoc($result); 
+
+    $user_id = $_GET['user_id'];
+
+    $item_name3 = $item['item_name'];
+    $category_name3 = $item['name'];
+    $selectwater = 'Mineral';
+    $mineralprice = $item['mineral_price'];
+    $qty3 = 1;
+
+    $total= $qty3 * $mineralprice;
+
+    if (validate_quantity($con, $item_name3, $qty3)) {
+        $insert = mysqli_query($con, "INSERT INTO transaction_process VALUES(
+                '',
+                '$item_name3',
+                '$selectwater',
+                '$category_name3',
+                '$qty3',
+                '$mineralprice',
+                '$total',
+                '$user_id',
+                '0')");
+        if($insert){
+            header("Location: ../pos/point-of-sales.php?update=1");
+        }
+    } else {
+        header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+    }
     }
 }
 ?>

@@ -32,21 +32,21 @@ setTimeout(function(){
     $("#myerror").fadeIn(400);
 }, 5000)
 
-function selectRestore(){
-    addForm = document.querySelector(".bg-addcustomerform");
-    message = document.querySelector(".message");
-    checkBox = document.getElementById("<?php echo $rows['id']; ?>");
+// function selectRestore(){
+//     addForm = document.querySelector(".bg-addcustomerform");
+//     message = document.querySelector(".message");
+//     checkBox = document.getElementById("<?php echo $rows['id']; ?>");
 
-    let counter = 0;
-    jQuery('input[type=checkbox]').each(function(){
-        if(jQuery('#'+this.id).prop('checked')){
-            counter++;
-            addForm.style.display = 'flex';
-        }});
-    if(counter===0){
-        message.style.display = 'block';
-    }
-}
+//     let counter = 0;
+//     jQuery('input[type=checkbox]').each(function(){
+//         if(jQuery('#'+this.id).prop('checked')){
+//             counter++;
+//             addForm.style.display = 'flex';
+//         }});
+//     if(counter===0){
+//         message.style.display = 'block';
+//     }
+// }
 //    --------------------------------------------------------------------
 
 let btnClear = document.querySelector('#cancel');

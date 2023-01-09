@@ -212,6 +212,28 @@ $customer = mysqli_fetch_assoc($result); ?>
                         <input type="text"
                                id="note" class="note" name="note" placeholder="Enter a Note" value="<?=$customer['note'];?>">
                     </div>
+
+                    <div class="user-input-box" id="address-box">
+                                <label for="balance">Balance Limit</label>
+                                <input type="number" step=".01"
+                                    id="address" 
+                                    class="address"
+                                    required="required" 
+                                    name="balance_limit" 
+                                    placeholder="0.00"
+                                    value="<?=$customer['balance_limit'];?>"/>
+                            </div>
+
+                            <div class="user-input-box" id="address-box">
+                                <label for="balance">Credit Limit</label>
+                                <input type="number" step=".01"
+                                    id="address" 
+                                    class="address"
+                                    required="required" 
+                                    name="credit_limit" 
+                                    placeholder="0.00"
+                                    value="<?=$customer['credit_limit'];?>"/>
+                            </div>
                     <div class="line"></div>
                     <div class="bot-buttons">
                         <div class="CancelButton">

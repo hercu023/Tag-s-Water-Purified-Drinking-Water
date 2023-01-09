@@ -15,16 +15,10 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <!-- <link rel="stylesheet" type="text/css" href="../CSS/reports-sales.css"> -->
-    <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/rajdhani" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
     <title>Tag's Water Purified Drinking Water</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+    
 </head>
 <style>
     .error-error{
@@ -912,6 +906,94 @@ tr:hover td{
     <?php
     include('../common/side-menu.php')
     ?>
+    <?php  
+                if(isset($_GET['records']) && isset($_GET['page'])) {
+                    $per_page_record = $_GET['records'];
+                    $page = $_GET['page'];
+                } else {
+                    $per_page_record = 10;
+                    $page = 1;
+                }
+
+                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
+                    $date = $_GET['view'];
+                            $query = "SELECT 
+                                    expense.date,
+                                    expense_type.name,
+                                    expense.description,
+                                    expense.amount,
+                                    users.first_name,
+                                    users.last_name,
+                                    expense.date_created
+                                    FROM expense 
+                                    INNER JOIN expense_type
+                                    ON expense_type.id = expense.expense_type_id
+                                    INNER JOIN users
+                                    ON users.user_id = expense.added_by
+                                    WHERE expense.status_archive_id = 1
+                                    and date = '$date'
+                                    ORDER BY expense.date DESC";
+
+                        $rs_result = mysqli_query($con, $query);     
+                        $row = mysqli_fetch_row($rs_result);     
+                        $page_location = '../reports/reports-expense-view-details.php?view='.$date;
+                        $total_records = mysqli_num_rows($rs_result); 
+                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
+                    $month = $_GET['month'];
+                            $year = $_GET['year'];
+                            $query = "SELECT 
+                                    expense.date,
+                                    expense_type.name,
+                                    expense.description,
+                                    expense.amount,
+                                    users.first_name,
+                                    users.last_name,
+                                    expense.date_created
+                                    FROM expense 
+                                    INNER JOIN expense_type
+                                    ON expense_type.id = expense.expense_type_id
+                                    INNER JOIN users
+                                    ON users.user_id = expense.added_by
+                                    WHERE expense.status_archive_id = 1
+                                    AND MONTHNAME(expense.date) = '$month'
+                                    AND YEAR(expense.date) = '$year'
+                                    ORDER BY expense.date DESC";
+
+                            $rs_result = mysqli_query($con, $query);     
+                            $row = mysqli_fetch_row($rs_result);     
+                            $page_location = '../reports/reports-expense-view-details.php?month='.$month.'&year='.$year;
+                            $total_records = mysqli_num_rows($rs_result); 
+
+                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
+                    $year = $_GET['year'];
+                            $query = "SELECT 
+                                    expense.date,
+                                    expense_type.name,
+                                    expense.description,
+                                    expense.amount,
+                                    users.first_name,
+                                    users.last_name,
+                                    expense.date_created
+                                    FROM expense 
+                                    INNER JOIN expense_type
+                                    ON expense_type.id = expense.expense_type_id
+                                    INNER JOIN users
+                                    ON users.user_id = expense.added_by
+                                    WHERE expense.status_archive_id = 1
+                                    AND YEAR(expense.date) = '$year'
+                                    ORDER BY expense.date DESC";
+
+                             $rs_result = mysqli_query($con, $query);     
+                             $row = mysqli_fetch_row($rs_result);     
+                             $page_location = '../reports/reports-expense-view-details.php?year='.$year;
+                             $total_records = mysqli_num_rows($rs_result); 
+                } else {
+                    $total_records = 0;     
+                }
+ 
+                $start_from = ($page - 1) * $per_page_record;  
+                    
+            ?>
     <main>
             <div class="header-title">
                 <h1 class="addnew-title">TAG'S WATER</h1>
@@ -938,7 +1020,7 @@ tr:hover td{
                 <?php } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) { ?>
                     <h3 class="for-date"> For Year <h2 class="date"><?php echo $_GET['year']?></h3></h2>
 
-                <?php } else { echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>'; } ?>
+                <?php } else { echo '<script> location.replace("../reports/reports-expense.php"); </script>'; } ?>
                 
                 <div class="main-container">
                         <div class="sub-tab-container">
@@ -974,7 +1056,7 @@ tr:hover td{
                                     WHERE expense_type.name = 'Salary'
                                     AND YEAR(expense.date) = '$year'";
                                 } else {
-                                    echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                                    echo '<script> location.replace("../reports/reports-expense.php"); </script>';
                                 }
                                     
 
@@ -1016,7 +1098,7 @@ tr:hover td{
                                     WHERE expense_type.name = 'Utilities'
                                     AND YEAR(expense.date) = '$year'";
                                 } else {
-                                    echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                                    echo '<script> location.replace("../reports/reports-expense.php"); </script>';
                                 }
                                     if($utilities_count_result = mysqli_query($con, $utilities_count))
                                     $rowcount = mysqli_num_rows($utilities_count_result);
@@ -1058,7 +1140,7 @@ tr:hover td{
                                     WHERE expense_type.name = 'Maintenance'
                                     AND YEAR(expense.date) = '$year'";
                                 } else {
-                                    echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                                    echo '<script> location.replace("../reports/reports-expense.php"); </script>';
                                 }
                                     if($maintenance_count_result = mysqli_query($con, $maintenance_count))
                                     $rowcount = mysqli_num_rows($maintenance_count_result);
@@ -1098,7 +1180,7 @@ tr:hover td{
                                     WHERE expense_type.name = 'Other Expenses'
                                     AND YEAR(expense.date) = '$year'";
                                 } else {
-                                    echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                                    echo '<script> location.replace("../reports/reports-expense.php"); </script>';
                                 }
                                     if($other_expenses_count_result = mysqli_query($con, $other_expenses_count))
                                     $rowcount = mysqli_num_rows($other_expenses_count_result);
@@ -1150,7 +1232,8 @@ tr:hover td{
                                     ON users.user_id = expense.added_by
                                     WHERE expense.status_archive_id = 1
                                     and date = '$date'
-                                    ORDER BY expense.date DESC";
+                                    ORDER BY expense.date DESC
+                                    LIMIT $start_from, $per_page_record";
                         } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
                             $month = $_GET['month'];
                             $year = $_GET['year'];
@@ -1170,7 +1253,8 @@ tr:hover td{
                                     WHERE expense.status_archive_id = 1
                                     AND MONTHNAME(expense.date) = '$month'
                                     AND YEAR(expense.date) = '$year'
-                                    ORDER BY expense.date DESC";
+                                    ORDER BY expense.date DESC
+                                    LIMIT $start_from, $per_page_record";
                         } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
                             $year = $_GET['year'];
                             $query = "SELECT 
@@ -1188,9 +1272,10 @@ tr:hover td{
                                     ON users.user_id = expense.added_by
                                     WHERE expense.status_archive_id = 1
                                     AND YEAR(expense.date) = '$year'
-                                    ORDER BY expense.date DESC";
+                                    ORDER BY expense.date DESC
+                                    LIMIT $start_from, $per_page_record";
                         } else {
-                            echo '<script> location.replace("../reports/reports-expense.php?option=Daily"); </script>';
+                            echo '<script> location.replace("../reports/reports-expense.php"); </script>';
                         }
                         
                         $result = mysqli_query($con, $query);
@@ -1234,6 +1319,62 @@ tr:hover td{
                 <p class="address">CREATED BY: <?php echo ' '.$_SESSION['user_first_name'].' '.$_SESSION['user_last_name']; ?><p>
                 <p class="address">DATE: <?php echo date("F j, Y")?> - TIME:<?php echo date("h-i-s-A")?><p>
             </div>
+
+            <div class="pagination">   
+            <br>
+                <?php  
+                if($total_records > 0) {
+
+                    // Number of pages required.   
+                    $total_pages = ceil($total_records / $per_page_record);     
+                    $pageLink = "";       
+                    if($page>=2){   
+                        echo "<a href='".$page_location."&page=".($page-1)."&records=".$per_page_record."'> Prev </a>";   
+                    }       
+                            
+                    for ($i=1; $i<=$total_pages; $i++) {   
+                    if ($i == $page) {   
+                        $pageLink .= "<a class = 'active' href='".$page_location."&page=".$i."&records=".$per_page_record."'>".$i." </a>";   
+                    }               
+                    else  {   
+                        $pageLink .= "<a href='".$page_location."&page=".$i."&records=".$per_page_record."'>".$i." </a>";     
+                    }   
+                    }; 
+
+                    echo $pageLink;   
+
+                    if($page<$total_pages){   
+                        echo "<a href='".$page_location."&page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
+                    }  
+               
+
+                ?>
+
+
+                <br><br>
+                <select name="option" onchange="location ='<?php echo $page_location ?>' + '&page=1&records=' + this.value;">
+                        <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
+                        <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
+                        <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
+                        <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
+                        <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
+                        <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
+                        <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
+                </select>
+                <span> No. of Records Per Page </span>  
+                
+            </div>
+           
+
+            <div></div>
+
+            <div class="inline">   
+                <input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
+                placeholder="<?php echo $page."/".$total_pages; ?>" required> 
+
+                <button onClick="goToPage('<?php echo $page_location.'&records='.$per_page_record?>');">Go to page</button>   
+            </div>    
+            <?php }?>
     </main>
     <?php
     include('../common/top-menu.php')
@@ -1242,6 +1383,13 @@ tr:hover td{
 </div>
 </body>
 </html>
+<script>
+    function goToPage(reference) {   
+    var page = document.getElementById("page").value;   
+    page = ((page><?php echo $total_pages; ?>)?<?php echo $total_pages; ?>:((page<1)?1:page));   
+    window.location.href = reference + '&page=' + page;   
+} 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 <script src="../javascript/side-menu-toggle.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/reports-sales.js"></script>

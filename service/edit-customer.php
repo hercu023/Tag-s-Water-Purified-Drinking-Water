@@ -10,6 +10,8 @@ if (isset($_POST['edit-customer'])) {
         || isset($_POST['address'])
         || isset($_POST['contact_num1'])
         || isset($_POST['contact_num2'])
+        || isset($_POST['balance_limit'])
+        || isset($_POST['credit_limit'])
         || isset($_POST['note'])){
 
         $user_id = $_SESSION['user_user_id'];
@@ -28,6 +30,9 @@ if (isset($_POST['edit-customer'])) {
         $contact_num2 = $_POST['contact_num2'];
         $contact_num2 = filter_var($contact_num2, FILTER_SANITIZE_STRING);
 
+        $balance_limit = $_POST['balance_limit'];
+        $credit_limit = $_POST['credit_limit'];
+
         $note = $_POST['note'];
 
         try{
@@ -36,6 +41,8 @@ if (isset($_POST['edit-customer'])) {
             address='$address', 
             contact_number1='$contact_num1', 
             contact_number2='$contact_num2',
+            balance_limit='$balance_limit',
+            credit_limit='$credit_limit',
             note='$note'
             WHERE id='$customer_id'");
 

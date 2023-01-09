@@ -29,6 +29,7 @@ if (isset($_POST['add-employee-attendance'])) {
 
         $date_input = new DateTime($date_of_attendance);
         $current_date = new DateTime();
+        $total_pay = 0;
 
         if ($date_input > $current_date)
         {
@@ -52,6 +53,73 @@ if (isset($_POST['add-employee-attendance'])) {
                 $is_whole_day_value = 1;
             }
 
+            //Validate if Time IN is later than Time OUT
+            if ($time_in > $time_out) {
+                header("Location: ../employee/employee-attendance.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> TIME IN not valid. Must be earlier than TIME OUT entry");
+                exit();
+            } 
+            
+            $payroll_settings = mysqli_query($con, "SELECT * FROM `payroll_settings` 
+                                        WHERE feature = 'payroll'");
+
+            if(mysqli_num_rows($payroll_settings) > 0) {
+                $settings_data = mysqli_fetch_assoc($payroll_settings);
+                $grace_period = $settings_data['grace_period'];
+                $late_deduction_per_min = $settings_data['late_deduction_per_min'];
+                $time_in_schedule = $settings_data['time_in_schedule'];
+                $overtime_bonus_per_hour = $settings_data['overtime_bonus_per_hour'];
+
+                $employee_data = mysqli_query($con, "SELECT * FROM employee
+                    WHERE id = '$employee_id'");
+                if(mysqli_num_rows($employee_data) > 0) {
+                    $hourly_rate = mysqli_fetch_assoc($employee_data)['hourly_rate'];
+
+                    //Get rendered hours
+                    $time1 = strtotime($time_in);
+                    $time2 = strtotime($time_out);
+
+                    //Get rendered time. succeeding minutes are not counted only HOURS
+                    $rendered_time_in_hours= floor(abs($time2 - $time1) / 3600);
+
+                    $regular_hour_pay = 0;
+                    $overtime_pay = 0.00;
+                    if ($rendered_time_in_hours >= 9) {
+                        $regular_hour_pay = 8 * $hourly_rate;
+                        $overtime_hours = $rendered_time_in_hours - 9;
+                        $overtime_pay = $overtime_hours * $overtime_bonus_per_hour;
+                    } else if ($rendered_time_in_hours < 9) {
+                        $regular_hour_pay = $rendered_time_in_hours * $hourly_rate;
+                    }
+                   
+                    $late_deduction = 0.00;
+                    //Validate if time is is late if Time IN exceed the Time IN Schedule and Grace Period
+                    if ($time_in > $time_in_schedule && $time_in > $grace_period) {
+                        $time1 = strtotime($time_in);
+                        $time2 = strtotime($time_in_schedule);
+                        $difference_in_minute = ($time1 - $time2) / 60;
+
+                        //Compute for late deduction
+                        $late_deduction = $difference_in_minute * $late_deduction_per_min;
+                    }
+
+                    $note = $note .PHP_EOL.''.PHP_EOL.
+                            'Regular Pay: '.$regular_hour_pay .PHP_EOL.
+                            'Overtime: '.$overtime_pay .PHP_EOL.
+                            'Late Deduction: '.$late_deduction .PHP_EOL;
+
+                    $total_pay = ($regular_hour_pay + $overtime_pay) - $late_deduction;
+                    $total_pay = ($total_pay + $additional_bonus) - $deduction;
+
+                } else {
+                    header("Location: ../employee/employee-attendance.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Can't retrieve employee data. Try again.");
+                    exit();
+                }
+                
+            } else {
+                header("Location: ../employee/employee-attendance.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Can't retrieve payroll settings. Try again.");
+                exit();
+            }
+
             $insert = mysqli_query($con, "INSERT INTO `attendance` VALUES(
                              '',
                              '$employee_id',
@@ -62,7 +130,7 @@ if (isset($_POST['add-employee-attendance'])) {
                              '$deduction',
                              '$additional_bonus',
                              '$note',
-                             '0',
+                             '$total_pay',
                              '0',
                              '$user_id',
                              now(),

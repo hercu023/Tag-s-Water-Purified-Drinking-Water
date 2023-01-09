@@ -16,21 +16,85 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" type="text/css" href="../CSS/reports-sales.css">
-    <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/rajdhani" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
     <title>Tag's Water Purified Drinking Water</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+    
 </head>
 <body>
 <div class="container">
     <?php
     include('../common/side-menu.php')
     ?>
+    <?php  
+                if(isset($_GET['records']) && isset($_GET['page'])) {
+                    $per_page_record = $_GET['records'];
+                    $page = $_GET['page'];
+                } else {
+                    $per_page_record = 10;
+                    $page = 1;
+                }
+
+                if(isset($_GET['option']) && $_GET['option'] == "Daily") {
+                    $query = "SELECT COUNT(*)
+                    FROM transaction 
+                                WHERE transaction.status_id = 1
+                                GROUP BY transaction.created_at_date
+                                ORDER BY transaction.created_at_date DESC";
+                    $rs_result = mysqli_query($con, $query);     
+                    $row = mysqli_fetch_row($rs_result);     
+                    $page_location = '../reports/reports-sales.php?option=Daily';
+                    $total_records = mysqli_num_rows($rs_result); 
+  
+                } else if (isset($_GET['option']) && $_GET['option'] == "Monthly") {
+                    $query = "SELECT COUNT(*)
+                    FROM transaction 
+                                WHERE transaction.status_id = 1
+                                GROUP BY MONTH(transaction.created_at_date),
+                                YEAR(transaction.created_at_date)
+                                ORDER BY YEAR(transaction.created_at_date) DESC, 
+                                MONTH(transaction.created_at_date) DESC";
+                    $rs_result = mysqli_query($con, $query);     
+                    $row = mysqli_fetch_row($rs_result);     
+                    $page_location = '../reports/reports-sales.php?option=Monthly';
+                    $total_records = mysqli_num_rows($rs_result); 
+                } else if(isset($_GET['option']) && $_GET['option'] == "Yearly") {
+                    $query = "SELECT COUNT(*)
+                    FROM transaction 
+                                WHERE transaction.status_id = 1
+                                GROUP BY YEAR(transaction.created_at_date)
+                                ORDER BY YEAR(transaction.created_at_date) DESC";
+                    $rs_result = mysqli_query($con, $query);     
+                    $row = mysqli_fetch_row($rs_result);     
+                    $page_location = '../reports/reports-sales.php?option=Yearly';
+                    $total_records = mysqli_num_rows($rs_result); 
+                } else {
+                    $total_records = 0;     
+                }
+
+                if (isset($_GET['from']) && isset($_GET['to'])) {
+                    if(isset($_GET['option']) && $_GET['option'] == "Daily") {
+                    $from = $_GET['from'];
+                    $to = $_GET['to'];
+                    $query = "SELECT
+                                transaction.created_at_date AS date,
+                                SUM(transaction.total_amount) AS total
+                                FROM transaction 
+                                WHERE transaction.status_id = 1
+                                AND transaction.created_at_date BETWEEN '$from' AND '$to'
+                                GROUP BY transaction.created_at_date
+                                ORDER BY transaction.created_at_date DESC";
+                        $rs_result = mysqli_query($con, $query);     
+                        $row = mysqli_fetch_row($rs_result);     
+                        $page_location = '../reports/reports-sales.php?option=Daily&from='.$from.'&to='.$to;
+                        $total_records = mysqli_num_rows($rs_result);      
+                    } 
+                    
+                }
+                
+                $start_from = ($page - 1) * $per_page_record;  
+                    
+            ?>
     <main>
         <div class="main-dashboard">
             <h1 class="dashTitle">REPORTS</h1>
@@ -56,16 +120,17 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
                         <form action="" method="post">
                             <div class="select-dropdown">
                                 <select class="select" name="option" onchange="location = '../reports/reports-sales.php?option=' + this.value;">
+                                    <option selected>Select Type</option>    
                                     <option value="Daily" <?php if(isset($_GET['option']) && $_GET['option'] == "Daily") { echo 'selected'; }?>>Daily</option>
                                     <option value="Monthly" <?php if(isset($_GET['option']) && $_GET['option'] == "Monthly") { echo 'selected'; }?>>Monthly</option>
                                     <option value="Yearly" <?php if(isset($_GET['option']) && $_GET['option'] == "Yearly") { echo 'selected'; }?>>Yearly</option>
                                 </select>
                             </div>
                             <div class="range-date">
-                                <span class="span-from"> FROM:</span>
-                                <input type="date" class="date" id="date-from" onchange="console.log(this.value);" />
-                                <span class="span-to"> TO:</span>
-                                <input type="date" class="date" id="date-to"  onchange="console.log(this.value);" />
+                            <span class="span-from"> FROM:</span>
+                            <input type="date" class="date" id="date-from" name="date-from" onchange="console.log(this.value);" <?php if(isset($_GET['option']) && $_GET['option'] != 'Daily') { echo 'disabled=true';} ?>/>
+                            <span class="span-to"> TO:</span>
+                            <input type="date" class="date" id="date-to" name="date-to" onchange="console.log(this.value);" <?php if(isset($_GET['option']) && $_GET['option'] != 'Daily') { echo 'disabled=true';} ?>/>
                             </div>
                             <div class="newUser-button">
                                 <div class="button1">
@@ -107,7 +172,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
                                 FROM transaction 
                                 WHERE transaction.status_id = 1
                                 GROUP BY transaction.created_at_date
-                                ORDER BY transaction.created_at_date DESC";
+                                ORDER BY transaction.created_at_date DESC
+                                LIMIT $start_from, $per_page_record";
                         } else if (isset($_GET['option']) && $_GET['option'] == "Monthly") {
                             $query = "SELECT
                                 YEAR(transaction.created_at_date) AS year,
@@ -118,7 +184,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
                                 GROUP BY MONTH(transaction.created_at_date),
                                 YEAR(transaction.created_at_date)
                                 ORDER BY YEAR(transaction.created_at_date) DESC, 
-                                MONTH(transaction.created_at_date) DESC";
+                                MONTH(transaction.created_at_date) DESC
+                                LIMIT $start_from, $per_page_record";
                         } else if(isset($_GET['option']) && $_GET['option'] == "Yearly") {
                             $query = "SELECT
                                 YEAR(transaction.created_at_date) AS year,
@@ -126,9 +193,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
                                 FROM transaction 
                                 WHERE transaction.status_id = 1
                                 GROUP BY YEAR(transaction.created_at_date)
-                                ORDER BY YEAR(transaction.created_at_date) DESC";
-                        } else {
-                            echo '<script> location.replace("../reports/reports-sales.php?option=Daily"); </script>';
+                                ORDER BY YEAR(transaction.created_at_date) DESC
+                                LIMIT $start_from, $per_page_record";
                         }
                     
                         if (isset($_GET['from']) && isset($_GET['to'])) {
@@ -142,12 +208,12 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
                                 WHERE transaction.status_id = 1
                                 AND transaction.created_at_date BETWEEN '$from' AND '$to'
                                 GROUP BY transaction.created_at_date
-                                ORDER BY transaction.created_at_date DESC";
-                            } else {
-                                echo '<script> location.replace("../reports/reports-sales.php?option=Daily"); </script>';
-                            }
+                                ORDER BY transaction.created_at_date DESC
+                                LIMIT $start_from, $per_page_record";
+                            } 
                         }
 
+                        if(isset($_GET['option']) && $_GET['option'] != 'Select Type') {
                         $result = mysqli_query($con, $query);
 
                         if(mysqli_num_rows($result) <= 0) { ?>
@@ -199,11 +265,71 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
                             </tr>
                             
                             </tbody>
+<<<<<<< Updated upstream
+                        <?php }}} ?>
+                    </table>
+                    <div class="pagination">   
+            <br>
+                <?php  
+                if($total_records > 0) {
+
+                    // Number of pages required.   
+                    $total_pages = ceil($total_records / $per_page_record);     
+                    $pageLink = "";       
+                    if($page>=2){   
+                        echo "<a href='".$page_location."&page=".($page-1)."&records=".$per_page_record."'> Prev </a>";   
+                    }       
+                            
+                    for ($i=1; $i<=$total_pages; $i++) {   
+                    if ($i == $page) {   
+                        $pageLink .= "<a class = 'active' href='".$page_location."&page=".$i."&records=".$per_page_record."'>".$i." </a>";   
+                    }               
+                    else  {   
+                        $pageLink .= "<a href='".$page_location."&page=".$i."&records=".$per_page_record."'>".$i." </a>";     
+                    }   
+                    }; 
+
+                    echo $pageLink;   
+
+                    if($page<$total_pages){   
+                        echo "<a href='".$page_location."&page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
+                    }  
+               
+
+                ?>
+
+
+                <br><br>
+                <select name="option" onchange="location ='<?php echo $page_location ?>' + '&page=1&records=' + this.value;">
+                        <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
+                        <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
+                        <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
+                        <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
+                        <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
+                        <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
+                        <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
+                </select>
+                <span> No. of Records Per Page </span>  
+                
+            </div>
+           
+
+            <div></div>
+
+            <div class="inline">   
+                <input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
+                placeholder="<?php echo $page."/".$total_pages; ?>" required> 
+
+                <button onClick="goToPage('<?php echo $page_location.'&records='.$per_page_record?>');">Go to page</button>   
+            </div>    
+            <?php }?>
+=======
                         <?php }} ?>
                         
                     </table>
                     
      
+>>>>>>> Stashed changes
     </main>
                
     <div class="top-menu">
@@ -285,6 +411,14 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALE
 </div>
 </body>
 </html>
+<script>
+    function goToPage(reference) {   
+    var page = document.getElementById("page").value;   
+    page = ((page><?php echo $total_pages; ?>)?<?php echo $total_pages; ?>:((page<1)?1:page));   
+    window.location.href = reference + '&page=' + page;   
+} 
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 <script src="../javascript/side-menu-toggle.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/reports-sales.js"></script>

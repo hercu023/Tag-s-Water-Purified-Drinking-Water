@@ -1,10 +1,10 @@
 <?php
-require_once '../service/add-employee-attendance.php';
+session_start();
+require_once '../service/add-account.php';
 require_once "../service/user-access.php";
-require_once '../service/payroll-attendance.php';
 
-if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-ATTENDANCE')) {
-    header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
+if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER_ACCOUNT')) {
+    header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
     exit();
 }
 ?>
@@ -15,8 +15,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-ATT
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <!-- <link rel="stylesheet" type="text/css" href="../CSS/employee-attendance.css"> -->
-    <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../CSS/account.css"> -->
     <title>Tag's Water Purified Drinking Water</title>
 </head>
 <style>
@@ -75,134 +74,6 @@ body{
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
-}
-#payroll-action{
-    background: rgb(0, 154, 255);
-    color: var(--color-white);
-    align-items: center;
-    text-align:center;
-    justify-content: center;
-    float: center;
-    position: relative;
-    text-decoration: none;
-    border-radius: 3px;
-    display: flex;
-    font-family: 'Outfit', sans-serif;
-    width: 100%;
-    padding: 5px;
-    margin: 5px;
-    justify-content: center;
-    margin: 1px;
-    gap: .3rem;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-#payroll-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
-}
-.radio-button{
-    position: relative;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    color:  var(--color-solid-gray);
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-}
-.salary-category{
-    margin: 15px 0;
-    color:  var(--color-solid-gray);
-    align-items: center;
-    width: 100%;
-    font-size: 20px;
-    text-align: center;
-
-    }
-    .bg-addAttendanceForm{
-        height: 100%;
-        width: 100%;
-        background: rgba(0,0,0,0.7);
-        top: 0;
-        position: fixed;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        /* display: flex; */
-    }
-    .payroll{
-        display: flex;
-        border: none;
-        background-color: var(--color-white);
-        justify-content: center;
-        align-items: center;
-        color: var(--color-button);
-        fill: var(--color-button);
-        width: 10rem;
-        max-height: 46px;
-        font-size: .7rem;
-        border-radius: 20px;
-        font-family: 'Outfit', sans-serif;
-        cursor: pointer;
-        gap: 1rem;
-        transition: all 300ms ease;
-        position: relative;
-        text-transform: uppercase;
-    }
-    
-    .payroll:hover{
-        background-color: var(--color-main);
-        color: var(--color-white);
-        fill: var(--color-white);
-        padding-top: -.2px;
-        transition: 0.7s;
-        border-bottom: 4px solid var(--color-maroon);
-    }
-    .checkall{
-        font-size: .7rem;
-        display: inline-block;
-        position: relative;
-        margin-left: 1rem;
-        
-    }
-    .checkall-checkbox{
-        display: inline-block;
-    }
-    .checkall-label{
-        font-family: 'Outfit', sans-serif;
-        display: inline-block;
-        gap: 8px;
-    }
-    .outofstock{
-    border-radius: 20px;
-    background-color: #B22222;
-    color: #ffffff;
-    font-size: 10px;
-    padding: 7px;
-    font-weight: 700;
-    padding-right: 9px;
-    padding-left: 9px;
-}
-.instock{
-    border-radius: 20px;
-    background-color: #228B22;
-    font-size: 10px;
-    padding: 7px;
-    font-weight: 700;
-    padding-right: 9px;
-    padding-left: 9px;
-    color: #ffffff;
-}
-.lowstock{
-border-radius: 20px;
-background-color: rgb(0, 154, 255);
-color: #ffffff;
-font-size: 10px;
-padding: 7px;
-font-weight: 700;
-padding-right: 9px;
-padding-left: 9px;
 }
 /* ----------------------------TOP MENU---------------------------- */
 
@@ -358,44 +229,6 @@ h1{
     border-radius: 0px 0px 10px 10px;
     cursor: pointer;
 }
-.checkbox{
-    opacity: 0;
-    position: absolute;
-}
-.checkbox:checked + .theme-dark .ball{
-    transform: translateX(28px);
-}
-.drop-menu .theme-dark{
-    background: hsl(0, 0%, 69%);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 14.5px;
-    width: 42.5px;
-    cursor: pointer;
-    border-radius: 50px;
-    position: relative;
-    padding: 5px;
-    margin-top: -30px;
-    margin-bottom: 8px;
-    margin-left: 2rem;
-}
-.sun{
-    fill: yellow;
-}
-.moon{
-    fill: white;
-}
-.ball{
-    background: white;
-    position: absolute;
-    border-radius: 50%;
-    top: 2px;
-    left: 2px;
-    height: 21px;
-    width: 21px;
-    transition: transform 0.2s linear;
-}
 /* -------------------------------------------------------------------------------------------- */
 .container1{
     width: 100%;
@@ -411,7 +244,6 @@ h1{
 .tooltipText{
     font-family: Arial, Helvetica, sans-serif;
     font-size: .7rem;
-    display: block;
     color: var(--color-white);
 }
 .edit-action{
@@ -425,66 +257,16 @@ h1{
     text-decoration: none;
     border-radius: 3px;
     display: flex;
-    width: 100%;
+    width: 60%;
     padding: 5px;
     margin: 1px;
     gap: .3rem;
+    left: 20%;
     cursor: pointer;
     transition: 0.3s;
     border: none;
 }
 .edit-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
-}
-.archive-action{
-    background: hsl(0, 51%, 44%);
-    color: var(--color-white);
-    align-items: center;
-    text-align:center;
-    justify-content: center;
-    float: center;
-    position: relative;
-    text-decoration: none;
-    border-radius: 3px;
-    display: flex;
-    width: 100%;
-    padding: 5px;
-    margin: 5px;
-    justify-content: center;
-    margin: 1px;
-    gap: .3rem;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-.archive-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
-}
-.cpass-action{
-    background:#00aa09;
-    color: var(--color-white);
-    align-items: center;
-    text-align:center;
-    justify-content: center;
-    float: center;
-    left: 20%;
-    position: relative;
-    text-decoration: none;
-    border-radius: 3px;
-    display: flex;
-    width: 60%;
-    padding: 5px;
-    margin: 5px;
-    justify-content: center;
-    margin: 1px;
-    gap: .3rem;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-.cpass-action:hover{
     background: var(--color-main);
     color: var(--color-white);
 }
@@ -664,7 +446,7 @@ h1{
 }
 
 
-.side-bar .menu #employee{
+.side-bar .menu #account{
     background: var(--color-white);
     transition: 0.6s;
     color: var(--color-main);
@@ -743,27 +525,26 @@ h1{
 }
 /* -----------------------------------------------Side Menu---------------------------------------- */
 
-.bg-addcustomerform{
+.bg-adduserform{
     height: 100%;
     width: 100%;
     background: rgba(0,0,0,0.7);
     top: 0;
     position: fixed;
-    display: none;
     align-items: center;
     justify-content: center;
-    /* display: flex; */
+    display: none;
 }
-.bg-addAttendanceForm{
+.bg-editDropdown{
     height: 100%;
     width: 100%;
     background: rgba(0,0,0,0.7);
     top: 0;
     position: fixed;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
-    /* display: flex; */
+    display: none;
 }
 #form-registered{
     position: absolute;
@@ -1030,6 +811,7 @@ h1{
 .sub-tab2{
     display: inline-block;
     /* margin-top: -2rem; */
+    margin-left: 1rem;
 }
 /* ----------------------------------------Sub TAB---------------------------------------- */
 .user-title{
@@ -1043,12 +825,15 @@ main  h2{
     letter-spacing: .1rem;
     font-family: 'Galhau Display', sans-serif;
 }
-
+main .sub-tab{
+    margin-bottom: 3rem;
+}
 /* ----------------------------------------Search BAR---------------------------------------- */
 .search{
-    position: relative;
+    position: absolute;
     gap: 2rem;
-    float: right;
+    align-items: right;
+    text-align: right;
     right: 0;
     display: inline-block;
 }
@@ -1091,14 +876,10 @@ main  h2{
 }
 /* ----------------------------------------Add Button---------------------------------------- */
 .newUser-button{
-    margin-left: 1rem;
-    position: relative;
+    position: absolute;
     display: inline-block;
-}
-.newUser-button2{
-    margin-left: 1rem;
-    position: relative;
-    display: inline-block;
+    width: 100%;
+    margin-top: -2rem;
 }
 .add-account{
     display: flex;
@@ -1133,7 +914,6 @@ main  h2{
 /* ----------------------------------------Account Table---------------------------------------- */
 main .account-container{
     margin-top: -2rem;
-    margin-bottom: 2rem;
     max-height: 650px;
     overflow:auto;
     width: 100%;
@@ -1208,9 +988,7 @@ th{
 #menu-button{
     display: none;
 }
-.sub-tab{
-        margin-bottom: 3rem;
-    }
+
 /* ----------------------------------------SIDEBAR 2---------------------------------------- */
 @media screen and (max-width: 1600px){
     .container{
@@ -1220,12 +998,12 @@ th{
     .top-menu{
         width: 370px;
     }
-    .search-bar{
-        width: 18vw;
-    }
+
 }
 @media screen and (max-width: 1400px){
-    
+    .container{
+        grid-template-columns: 2rem auto;
+    }
     .side-bar{
         z-index: 3;
         position: fixed;
@@ -1235,7 +1013,9 @@ th{
         display: flex;
     }
 
-  
+    .top-menu{
+        width: 370px;
+    }
 
     main .account-container{
         width: 100%;
@@ -1243,43 +1023,45 @@ th{
     }
 
     main .sub-tab{
-        margin-bottom: 3rem;
+        margin-bottom: 4rem;
     }
     .tooltipText{
         display: none;
     }
     .search-bar{
-        width: 13rem;
+        width: 18vw;
     }
 }
 @media screen and (max-width: 1200px){
     
-
-  
+    .side-bar{
+        z-index: 3;
+        position: fixed;
+        left: -100%;
+    }
+    .main-account{
+        position: relative;
+        width: 100%;
+        /* margin-left: 2rem; */
+    }
     .tooltipText{
         display: none;
     }
-    .checkall{
-        width:6.5rem;
-    }
-    .add-account{
-        width:10.5rem;
-    }
-    .payroll{
-        width:8.5rem;
+
+    .search{
+        width: 100%;
     }
     .search-bar{
         width: 13rem;
+        float: right;
     }
 }
 
-@media screen and (max-width: 1050px){
+@media screen and (max-width: 1000px){
     .container{
         grid-template-columns: 1rem auto 2rem;
     }
-    .user-title{
-        margin-left: .2rem;
-    }
+
     .main-account{
         position: relative;
         width: 100%;
@@ -1294,7 +1076,7 @@ th{
         position: absolute;
     }
 }
-@media screen and (max-width: 968px){
+@media screen and (max-width: 768px){
     .container{
         margin-left: -.7rem;
     }
@@ -1317,7 +1099,7 @@ th{
     .subTitle-top{
         display: block;
         left: 0;
-        margin-left: 12rem;
+        margin-left: 11rem;
         position: absolute;
     }
     .search button{
@@ -1327,25 +1109,13 @@ th{
     }
     .search{
         position: relative;
-        margin-top: 3rem;
-        display: inline-block;
-        width: 100%;  
-    }
-    .checkall{
         width: 100%;
-        margin-top: .5rem;
-        margin-bottom: -2.5rem;
-        display: inline-block;
-        
-        position: relative;
-    }
-    .search{
-       
+        margin-top: 3rem;
     }
     .search-bar{
         text-align: center;
-        width: 94%;
-        margin-bottom: 2rem;
+        width: 90%;
+        float: left;
     } 
     /* ----------------------------------top-menu----------------------------- */
 
@@ -1423,16 +1193,33 @@ th{
         text-align: left;
         align-items: center;
     }
-    .tooltipText{
-        display: none;
+    .select-dropdown{
+        position: relative;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        margin-top: 1rem;
+
     }
-  
-    .hrefa{
-    height: 8rem;
-    align-items: center;
-    margin-top: 1rem;
+    .select{
+        width: 100%;
+        
     }
-    .payroll-action{
+    .edit-action{
+        display: inline-block;
+        position: relative;
+        width: 3rem;
+        float: left;
+        text-align: center;
+    }
+    .archive-action{
+        width: 3rem;
+        position: relative;
+        text-align: center;
+        float: left;
+        display: inline-block;
+    }
+    .cpass-action{
         width: 3rem;
         text-align: center;
         float: left;
@@ -1505,31 +1292,13 @@ th{
         align-items: center;
         text-align: center;
     }
-    .checkall{
-        margin-left: -1rem;
-    }
     .newUser-button{
         /* display: flex; */
         display: inline-block;
         width: 100%;  
-        margin-left: -1rem;
         left: 0;
     }
     .add-account{
-        margin-top: 1rem;
-      
-        width: 100%;
-        justify-content: center;
-    }
-    .newUser-button2{
-        /* display: flex; */
-        display: inline-block;
-        margin-left: -1rem;
-        width: 100%;  
-        left: 0;
-    }
-  
-    .payroll{
         margin-top: 1rem;
       
         width: 100%;
@@ -1648,14 +1417,14 @@ th{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
- @media screen and (max-width: 600px){
+/* @media screen and (max-width: 600px){
     .search{
-        width: 95%;
+        width: 100%;
     }
 
 
 }
-/*@media screen and (max-width: 500px){
+@media screen and (max-width: 500px){
     .search{
         width: 100%;
     }
@@ -1667,232 +1436,24 @@ th{
 </style>
 <body>
 <div class="container">
-    <div class="block"></div>
 
     <?php
     include('../common/side-menu.php')
     ?>
-
-    <?php  
-                if(isset($_GET['records']) && isset($_GET['page'])) {
-                    $per_page_record = $_GET['records'];
-                    $page = $_GET['page'];
-                } else {
-                    $per_page_record = 10;
-                    $page = 1;
-                }
-
-                $query = "SELECT COUNT(*) FROM attendance 
-                WHERE attendance.status_archive_id = 1";     
-                $rs_result = mysqli_query($con, $query);     
-                $row = mysqli_fetch_row($rs_result);     
-                $total_records = $row[0];     
-                $page_location = '../employee/employee-attendance.php';
-                $start_from = ($page - 1) * $per_page_record;  
-                    
-            ?>
+    
     <main>
         <div class="main-account">
-            <h1 class="accTitle">EMPLOYEE</h1>
+            <h1 class="accTitle">SETTINGS</h1>
             <?php
             if (isset($_GET['error'])) {
                 echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
             }
             ?>
-             <div class="sub-tab">
+            <div class="sub-tab">
                 <div class="user-title">
-                    <h2> ATTENDANCE </h2>
+                    <h2> PAYROLL </h2>
                 </div>
-                <div class="sub-tab2">
-                    <div class="newUser-button">
-                        <button type="button" id="add-userbutton" class="add-account" onclick="addnewuser();">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                            <h3>Add Attendance</h3>
-                        </button>
-                    </div>
-                    <div class="newUser-button">
-                        <button type="submit" id="add-payroll" class="payroll" onclick="selectRestore()">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M3.5 10h13V7h-13ZM16 18v-2.5h-2.5V14H16v-2.5h1.5V14H20v1.5h-2.5V18ZM3.5 16q-.604 0-1.052-.438Q2 15.125 2 14.5v-9q0-.625.448-1.062Q2.896 4 3.5 4h13q.604 0 1.052.438Q18 4.875 18 5.5V10h-2.188q-1.666 0-2.739 1.177T12 13.958V16Z"/></svg>
-                            <h3>PAYROLL</h3>
-                        </button>
-                    </div>
-                    <div class="checkall">
-                        <input type="checkbox" onclick="selectAll()" id="checkall-checkbox" class="checkall-checkbox" name="checkall">
-                        <h3 class="checkall-label">CHECK ALL</h3>
-                    </div>
-                </div>
-                <div class="search">
-                    <div class="search-bar">
-                        <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>
-                        <button type="submit" >
-                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="m15.938 17-4.98-4.979q-.625.458-1.375.719Q8.833 13 8 13q-2.083 0-3.542-1.458Q3 10.083 3 8q0-2.083 1.458-3.542Q5.917 3 8 3q2.083 0 3.542 1.458Q13 5.917 13 8q0 .833-.26 1.583-.261.75-.719 1.375L17 15.938ZM8 11.5q1.458 0 2.479-1.021Q11.5 9.458 11.5 8q0-1.458-1.021-2.479Q9.458 4.5 8 4.5q-1.458 0-2.479 1.021Q4.5 6.542 4.5 8q0 1.458 1.021 2.479Q6.542 11.5 8 11.5Z"/></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <form action="" method="post" enctype="multipart/form-data">
-
-            <div class="account-container">
-                <table class="table" id="myTable">
-                    <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col">ID</th>
-                                <th scope="col">Employee Name</th>
-                                <th scope="col">Position</th>
-                                <th scope="col">Whole Day</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Time In</th>
-                                <th scope="col">Time Out</th>
-                                <th scope="col">Deduction</th>
-                                <th scope="col">Bonus</th>
-                                <th scope="col">Note</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Added By</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            <?php
-                            $attendance = "SELECT 
-                        attendance.id,
-                        attendance.whole_day,
-                        attendance.date,
-                        attendance.time_in,
-                        attendance.time_out,
-                        attendance.deduction,
-                        attendance.bonus, 
-                        attendance.note,
-                        attendance.total_amount,
-                        attendance.payroll_status, 
-                        attendance.added_by,
-                        employee.first_name as emp_first_name,
-                        employee.last_name as emp_last_name,
-                        employee.middle_name as emp_middle_name,
-                        position_type.name as position_type,
-                        users.first_name as usr_first_name,
-                        users.last_name as usr_last_name
-                        FROM attendance 
-                        INNER JOIN employee 
-                        ON attendance.employee_id = employee.id
-                        INNER JOIN position_type
-                        ON employee.position_id = position_type.id
-                        INNER JOIN users
-                        ON attendance.added_by = users.user_id
-                        WHERE attendance.status_archive_id = 1
-                        ORDER BY attendance.date DESC
-                        LIMIT $start_from, $per_page_record";
-                            $attendance_run = mysqli_query($con, $attendance);
-
-                            if(mysqli_num_rows($attendance_run) > 0)
-                            {
-                                foreach($attendance_run as $rows)
-                                {
-                                    ?>
-                                    <tr>
-                                        <td  class="select-check"><input type="checkbox" name="select-check[]" id="<?php echo $rows['id']; ?>" value="<?php echo $rows['id']; ?>" ></td>
-                                        <td data-label="ID"> <?php echo $rows['id']; ?></td>
-                                        <td data-label="Employee Name"> <?php echo $rows['emp_first_name'].' '.$rows['emp_middle_name'].' '.$rows['emp_first_name'] ; ?></td>
-                                        <td data-label="Position"> <?php echo $rows['position_type'] ; ?></td>
-                                        <td data-label="Whole Day"> <?php  if ($rows['whole_day'] == 1) { echo '<span class="instock">YES</span>'; } else echo '<span class="lowstock">NO </span>'; ?></td>
-                  
-                                        <td data-label="Date"> <?php echo $rows['date']; ?></td>
-                                        <td data-label="Time In"> <?php echo $rows['time_in']; ?></td>
-                                        <td data-label="Time Out"> <?php echo $rows['time_out']; ?></td>
-                                        <td data-label="Deduction"> <?php echo '<span>&#8369;</span>'.' '.$rows['deduction']; ?></td>
-                                        <td data-label="Bonus"> <?php echo '<span>&#8369;</span>'.' '.$rows['bonus']; ?></td>
-                                        <td data-label="Note"> <?php echo $rows['note']; ?></td>
-                                        <td data-label="Total"> <?php echo '<span>&#8369;</span>'.' '.$rows['total_amount']; ?></td>
-                                        <td data-label="Status"> 
-                                        <?php 
-                                            if($rows['payroll_status'] == 0){
-                                                echo '<span class="outofstock">Unpaid</span>';
-                                            }else{
-                                                echo '<span class="instock">Paid</span>';
-                                            } ?>
-                                        </td>
-                                        <td data-label="Added By"> <?php echo $rows['usr_first_name'].' '.$rows['usr_last_name']; ?></td>
-
-                                        <td  class="hrefa">
-                                            <a href="../employee/employee-attendance-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="edit-action" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
-                                                <span id="tooltipText">EDIT</span>       
-                                            </a>
-                                            <a href="../employee/employee-attendance-archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="archive-action" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
-                                                <span id="tooltipText">ARCHIVE</span>       
-                                            </a>
-                                            <a href="../employee/employee-attendance-payroll.php?edit=<?php echo $rows['id']; ?>" id="payroll-action" class="payroll-action" name="action">
-                                                <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M3.5 10h13V7h-13ZM16 18v-2.5h-2.5V14H16v-2.5h1.5V14H20v1.5h-2.5V18ZM3.5 16q-.604 0-1.052-.438Q2 15.125 2 14.5v-9q0-.625.448-1.062Q2.896 4 3.5 4h13q.604 0 1.052.438Q18 4.875 18 5.5V10h-2.188q-1.666 0-2.739 1.177T12 13.958V16Z"/></svg>
-                                                <span id="tooltipText">PAYROLL</span>       
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <?php }?>
-                 
-                 <?}else{ ?>
-                         <tr class="noRecordTR" style="display:none">
-                             <td colspan="9">No Record Found</td>
-                         </tr>
-                         <?php }?>
-                        </tbody>
-                </table>
-            </div>
-
-        </div>
-
-        <div class="pagination">   
-            <br>
-                <?php  
-
-                    // Number of pages required.   
-                    $total_pages = ceil($total_records / $per_page_record);     
-                    $pageLink = "";       
-                
-                    if($page>=2){   
-                        echo "<a href='".$page_location."?page=".($page-1)."&records=".$per_page_record."'> Prev </a>";   
-                    }       
-                            
-                    for ($i=1; $i<=$total_pages; $i++) {   
-                    if ($i == $page) {   
-                        $pageLink .= "<a class = 'active' href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";   
-                    }               
-                    else  {   
-                        $pageLink .= "<a href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";     
-                    }   
-                    }; 
-
-                    echo $pageLink;   
-            
-                    if($page<$total_pages){   
-                        echo "<a href='".$page_location."?page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
-                    }  
-                ?>
-
-                <br><br>
-                <select name="option" onchange="location ='<?php echo $page_location ?>' + '?page=1&records=' + this.value;">
-                        <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
-                        <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
-                        <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
-                        <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
-                        <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
-                        <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
-                        <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
-                </select>
-                <span> No. of Records Per Page </span>  
-                
-            </div>
-            <div></div>
-
-            <div class="inline">   
-                <input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
-                placeholder="<?php echo $page."/".$total_pages; ?>"> 
-
-                <a onClick="goToPage('<?php echo $page_location.'?records='.$per_page_record?>');">Go to page</a>   
-            </div>   
-            
+          
     </main>
 
         <div class="top-menu">
@@ -1900,8 +1461,8 @@ th{
                     <div class="menu-btn2">
                         <i class="fas fa-bars"></i>
                     </div>
-                    <h2 class="Title-top">EMPLOYEE</h2>
-                    <h4 class="subTitle-top">Attendance</h2>
+                    <h2 class="Title-top">ACCOUNT</h2>
+                    <h4 class="subTitle-top">User Account</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
@@ -1970,131 +1531,130 @@ th{
         </div> 
 
 </div>
-    <div class="bg-addcustomerform" id="bg-addform">
+<form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
+    <div class="bg-adduserform" id="bg-addform">
+        <div class="message"></div>
         <div class="container1">
-            <h1 class="addnew-title">PROCESS PAYROLL</h1>
-            <div class="a-header">
-                <label class="archive-header"> Are you sure to process the payroll of selected rows?</label>
-            </div>
-            <div class="bot-buttons">
-                <div class="CancelButton">
-                    <a href="../employee/employee-attendance.php" id="cancel">CANCEL</a>
-                </div>
-                <div class="AddButton">
-                    <button type="submit" id="addcustomerBtn" name="submit-payroll-attendance">PROCESS</button>
-                </div>
-            </div>
+            <h1 class="addnew-title">ADD NEW ACCOUNT</h1>
+            <form action="#">
+                <input type="hidden" required="required" name="status" value="1">
+                <div class="main-user-info">
+                    <div class="user-input-box">
+                        <label for="lastname">Last Name</label>
+                        <input type="text"
+                               id="lastname"
+                               name="last_name"
+                               required="required"
+                               placeholder="Enter Last Name"/>
+                    </div>
+                    <div class="user-input-box">
+                        <label for="firstname">First Name</label>
+                        <input type="text"
+                               id="firstname"
+                               name="first_name"
+                               required="required"
+                               placeholder="Enter First Name"/>
+                    </div>
+                    <div class="user-input-box">
+                        <label for="middlename">Middle Name</label>
+                        <input type="text"
+                               id="middlename"
+                               name="middle_name"
+                               required="required"
+                               placeholder="Enter Middle Name"/>
+                    </div>
+                    <div class="user-input-box">
+                        <label for="email">Email</label>
+                        <input type="text"
+                               id="email"
+                               name="email"
+                               required="required"
+                               placeholder="Enter Email"/>
+                    </div>
+
+                    <div class="user-input-box">
+                        <label for="contactnum">Contact Number</label>
+                        <input type="text" min='0' onkeypress='return isNumberKey(event)'
+                               id="contactnum"
+                               name="contact_num"
+                               placeholder='Enter Contact Number'
+                               required="required"/>
+                    </div>
+
+                    <div class="user-input-box">
+                        <?php
+                        $dropdown_query = "SELECT * FROM account_type WHERE is_deleted = 0";
+                        $account_type_result = mysqli_query($con, $dropdown_query);
+                        ?>
+                        <select class="select" name="user_types" required="" >
+                            <option selected disabled value="">SELECT ROLE</option>
+                            <?php while($account_type = mysqli_fetch_array($account_type_result)):;?>
+                                <option value="<?php echo $account_type['id']?>">
+                                    <?php echo $account_type['user_type'];?>
+                                </option>
+                            <?php endwhile;?>
+                        </select>
+                    </div>
+                    <div class="user-input-box">
+                        <label for="pass"> Password</label>
+                        <input type="password"
+                               id="pass-account"
+                               name="pass"
+                               required="required"
+                               placeholder="Create Password"/>
+                    </div>
+                    <div class="user-input-box">
+                        <label for="ecpass">Confirm Password</label>
+                        <input type="password"
+                               id="cpass-account"
+                               name="confirm_pass"
+                               required="required"
+                               placeholder="Confirm Password"/>
+                    </div>
+                    <div class="checker">
+                        <input type="checkbox" name="" onclick="myFunctionCP()" >
+                        <span>Show password</span>
+                    </div>
+                    <span class="gender-title">Profile Picture</span>
+                    <div class="choose-profile">
+                        <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
+                    </div>
+                    <div class="line"></div>
+
+                    <div class="bot-buttons">
+                        <div class="CancelButton">
+                            <a href="../accounts/account.php" id="cancel">CANCEL</a>
+                        </div>
+                        <div class="AddButton">
+                            <button type="submit" id="adduserBtn" name="add-account">SAVE</button>
+                        </div>
+                    </div>
+            </form>
         </div>
-    </div>
-    </form>
+</form>
+</div>
 
-    <form action="" method="post" enctype="multipart/form-data" id="addAttendanceForm">
-        <div class="bg-addAttendanceForm" id="bg-addAttendanceForm">
-            <div class="container1">
-                <h1 class="addnew-title">ADD ATTENDANCE</h1>
-                <form action="#">
-                    <div class="main-user-info">
-                        <div class="usertype-dropdown">
-                            <?php
-                            $dropdown_query = "SELECT * FROM employee";
-                            $employee_result = mysqli_query($con, $dropdown_query);
-                            ?>
-                            <select class="select" name="employee_id" required="required" >
-                                <option selected disabled value="">SELECT EMPLOYEE</option>
-                                <?php while($employee = mysqli_fetch_array($employee_result)):;?>
-                                    <option value="<?php echo $employee['id']?>">
-                                        <?php echo $employee['first_name'].' '.$employee['middle_name'].' '.$employee['last_name'];?>
-                                    </option>
-                                <?php endwhile;?>
-                            </select>
-                        </div>
-                        <div class="user-input-box">
-                            <label for="dateofattendance">Date of Attendance</label>
-                            <input type="date"
-                                   class="date"
-                                   id="dateofattendance"
-                                   name="date_of_attendance"
-                                   required="required"
-                                   onchange="console.log(this.value);" />
-                        </div>
-                        <div class="user-input-box">
-                            <label for="timein">Time In</label>
-                            <input type="time"
-                                   class="timein"
-                                   id="timein"
-                                   name="time_in"
-                                   required="required"
-                                   onchange="console.log(this.value);" />
-                        </div>
-                        <div class="user-input-box">
-                            <label for="timeout">Time Out</label>
-                            <input type="time"
-                                   class="timeout"
-                                   id="timeout"
-                                   name="time_out"
-                                   onchange="console.log(this.value);" />
-                        </div>
-                        <div class="user-input-box">
-                            <label for="deduction">Deduction</label>
-                            <input min='0' onchange='setTwoNumberDecimal' step="0.25"
-                                   id="deduction"
-                                   class="deduction"
-                                   name="deduction"
-                                   placeholder="0.00"/>
-                        </div>
-                        <div class="user-input-box">
-                            <label for="additonalbonus">Addtional Bonus</label>
-                            <input min='0' onchange='setTwoNumberDecimal' step="0.25"
-                                   id="additonalbonus"
-                                   class="additonalbonus"
-                                   name="additional_bonus"
-                                   placeholder="0.00"/>
-                        </div>
-                        <div class="user-input-box" id="note-box">
-                            <label for="note">Note</label>
-                            <input type="text"
-                                   id="note" class="note" name="note" placeholder="Enter a Note"/>
-                        </div>
-                        <div class="radio-button">
-                            <div class="salary-cateogory" >
-                                <input type="radio" name="is_whole_day" id="Yes" value="Yes" required="required" checked="checked">
-                                <label for="Yes">Whole Day</label>
-                                <input type="radio" name="is_whole_day" id="No" value="No">
-                                <label for="No">Half Day</label>
-                            </div>
-                        </div>
-
-                        <div class="line"></div>
-
-                        <div class="bot-buttons">
-                            <div class="CancelButton">
-                                <a href="../employee/employee-attendance.php" id="cancel">CANCEL</a>
-                            </div>
-                            <div class="AddButton">
-                                <button type="submit" id="adduserBtn" name="add-employee-attendance">SAVE</button>
-                            </div>
-                        </div>
-                </form>
-            </div>
-        </div>
-    </form>
 </body>
 <script src="../javascript/side-menu-toggle.js"></script>
-<script src="../javascript/settings-data-archive-check-all.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
-<script src="../javascript/employee-attendance.js"></script>
-<script src="../javascript/employee-attendance-search.js"></script>
-<script src="../javascript/employee-attendance-forms.js"></script>
+<script src="../javascript/account.js"></script>
+<script src="../javascript/account-search.js"></script>
+<script src="../javascript/pagination.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 </html>
 <script>
-    
-    // const addForm1 = document.querySelector(".bg-addAttendanceForm");
-    function addnewuser(){
-        document.querySelector(".bg-addAttendanceForm").style.display = 'flex';
-    }
-    function goToPage(reference) {   
+
+function addnewuser(){
+    // const addForm = document.querySelector(".bg-adduserform");
+    addForm.style.display = 'flex';
+}
+
+function goToPage(reference) {   
     var page = document.getElementById("page").value;   
     page = ((page><?php echo $total_pages; ?>)?<?php echo $total_pages; ?>:((page<1)?1:page));   
     window.location.href = reference + '&page=' + page;   
-    } 
+} 
 </script>

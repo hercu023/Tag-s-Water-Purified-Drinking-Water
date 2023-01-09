@@ -397,7 +397,7 @@ BODY{
             <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'EXPENSE')) {?>
                 <div id="expense" class="item">
                     <a href="../expense/expense.php"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M3 20q-.825 0-1.412-.587Q1 18.825 1 18V7h2v11h17v2Zm4-4q-.825 0-1.412-.588Q5 14.825 5 14V6q0-.825.588-1.412Q6.175 4 7 4h14q.825 0 1.413.588Q23 5.175 23 6v8q0 .825-.587 1.412Q21.825 16 21 16Zm2-2q0-.825-.588-1.413Q7.825 12 7 12v2Zm10 0h2v-2q-.825 0-1.413.587Q19 13.175 19 14Zm-5-1q1.25 0 2.125-.875T17 10q0-1.25-.875-2.125T14 7q-1.25 0-2.125.875T11 10q0 1.25.875 2.125T14 13ZM7 8q.825 0 1.412-.588Q9 6.825 9 6H7Zm14 0V6h-2q0 .825.587 1.412Q20.175 8 21 8Z"/></svg>
-                        EXPENSE</a></div>
+                        EXPENSES</a></div>
             <?php } ?>
 
             <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-ACCOUNT_TYPE')
@@ -419,7 +419,9 @@ BODY{
             <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-HELP')
                 || get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DATA_LOGS')
                 || get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-ARCHIVES')
-                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-BACKUP_RESTORE')) { ?>
+                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-BACKUP_RESTORE')
+                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DELIVERY_FEE')
+                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-PAYROLL')) { ?>
             <div id="settings" class="item">
                 <a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m9.25 22-.4-3.2q-.325-.125-.612-.3-.288-.175-.563-.375L4.7 19.375l-2.75-4.75 2.575-1.95Q4.5 12.5 4.5 12.337v-.675q0-.162.025-.337L1.95 9.375l2.75-4.75 2.975 1.25q.275-.2.575-.375.3-.175.6-.3l.4-3.2h5.5l.4 3.2q.325.125.613.3.287.175.562.375l2.975-1.25 2.75 4.75-2.575 1.95q.025.175.025.337v.675q0 .163-.05.338l2.575 1.95-2.75 4.75-2.95-1.25q-.275.2-.575.375-.3.175-.6.3l-.4 3.2Zm2.8-6.5q1.45 0 2.475-1.025Q15.55 13.45 15.55 12q0-1.45-1.025-2.475Q13.5 8.5 12.05 8.5q-1.475 0-2.488 1.025Q8.55 10.55 8.55 12q0 1.45 1.012 2.475Q10.575 15.5 12.05 15.5Z"/></svg>
                     SETTINGS<i class="fas fa-angle-right dropdown"></i></a>
@@ -435,6 +437,12 @@ BODY{
                     <?php } ?>
                     <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-BACKUP_RESTORE')) {?>
                     <a href="../settings/settings-databackup.php" class="sub-item" id="settings-databackup">Backup/Restore</a>
+                    <?php } ?>
+                    <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DELIVERY_FEE')) {?>
+                    <a href="../settings/settings-delivery-fee.php" class="sub-item" id="settings-databackup">Delivery Fee</a>
+                    <?php } ?>
+                    <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-PAYROLL')) {?>
+                    <a href="../settings/settings-payroll.php" class="sub-item" id="settings-databackup">Payroll</a>
                     <?php } ?>
                 </div>
             </div>

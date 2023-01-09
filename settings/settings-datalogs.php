@@ -21,6 +21,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DAT
     <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
     <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
     <title>Tag's Water Purified Drinking Water</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
@@ -1452,7 +1453,22 @@ h1{
     <?php
     include('../common/side-menu.php')
     ?>
+            <?php  
+                if(isset($_GET['records']) && isset($_GET['page'])) {
+                    $per_page_record = $_GET['records'];
+                    $page = $_GET['page'];
+                } else {
+                    $per_page_record = 10;
+                    $page = 1;
+                }
 
+                $query = "SELECT COUNT(*) FROM audit_trail";     
+                $rs_result = mysqli_query($con, $query);     
+                $row = mysqli_fetch_row($rs_result);     
+                $total_records = $row[0];     
+                $page_location = '../settings/settings-datalogs.php';
+                $start_from = ($page - 1) * $per_page_record;  
+            ?>
     <main>
         <div class="main-customer">
             <h1 class="accTitle">SETTINGS</h1>
@@ -1496,7 +1512,8 @@ h1{
                                 INNER JOIN module 
                                 ON audit_trail.module_id = module.id
                                 INNER JOIN users
-                                ON audit_trail.user_id = users.user_id";
+                                ON audit_trail.user_id = users.user_id
+                                LIMIT $start_from, $per_page_record";
                     $result = mysqli_query($con, $query);
                     while ($rows = mysqli_fetch_assoc($result)) {?>
                         <tbody>
@@ -1524,6 +1541,56 @@ h1{
                 </table>
             </div>
         </div>
+
+        <div class="pagination">   
+            <br>
+                <?php  
+
+                    // Number of pages required.   
+                    $total_pages = ceil($total_records / $per_page_record);     
+                    $pageLink = "";       
+                
+                    if($page>=2){   
+                        echo "<a href='".$page_location."?page=".($page-1)."&records=".$per_page_record."'> Prev </a>";   
+                    }       
+                            
+                    for ($i=1; $i<=$total_pages; $i++) {   
+                    if ($i == $page) {   
+                        $pageLink .= "<a class = 'active' href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";   
+                    }               
+                    else  {   
+                        $pageLink .= "<a href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";     
+                    }   
+                    }; 
+
+                    echo $pageLink;   
+            
+                    if($page<$total_pages){   
+                        echo "<a href='".$page_location."?page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
+                    }  
+                ?>
+
+                <br><br>
+                <select name="option" onchange="location ='<?php echo $page_location ?>' + '?page=1&records=' + this.value;">
+                        <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
+                        <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
+                        <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
+                        <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
+                        <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
+                        <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
+                        <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
+                </select>
+                <span> No. of Records Per Page </span>  
+                
+            </div>
+            <div></div>
+
+            <div class="inline">   
+                <input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
+                placeholder="<?php echo $page."/".$total_pages; ?>" required> 
+
+                <button onClick="goToPage('<?php echo $page_location.'?records='.$per_page_record?>');">Go to page</button>   
+            </div>    
     </main>
 
     <?php
@@ -1535,4 +1602,11 @@ h1{
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/side-menu-toggle.js"></script>
 <script src="../javascript/reports-datalogs.js"></script>
+<script>
+    function goToPage(reference) {   
+    var page = document.getElementById("page").value;   
+    page = ((page><?php echo $total_pages; ?>)?<?php echo $total_pages; ?>:((page<1)?1:page));   
+    window.location.href = reference + '&page=' + page;   
+} 
+</script>
 </html>

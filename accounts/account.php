@@ -16,6 +16,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" type="text/css" href="../CSS/account.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
     <title>Tag's Water Purified Drinking Water</title>
 </head>
 <body>
@@ -26,6 +27,24 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
     include('../common/side-menu.php')
     ?>
 
+            <?php  
+                if(isset($_GET['records']) && isset($_GET['page'])) {
+                    $per_page_record = $_GET['records'];
+                    $page = $_GET['page'];
+                } else {
+                    $per_page_record = 5;
+                    $page = 1;
+                }
+
+                $query = "SELECT COUNT(*) FROM users 
+                        WHERE users.status_archive_id = '1'";     
+                $rs_result = mysqli_query($con, $query);     
+                $row = mysqli_fetch_row($rs_result);     
+                $total_records = $row[0];     
+                $page_location = '../accounts/account.php';
+                $start_from = ($page - 1) * $per_page_record;  
+                    
+            ?>
     <main>
         <div class="main-account">
             <h1 class="accTitle">ACCOUNT</h1>
@@ -55,8 +74,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
                     </div>
                 </div>
             </div>
-
-
+                 
             <div class="account-container">
                 <table class="table" id="myTable">
                     <thead>
@@ -72,7 +90,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
                         </tr>
                     </thead>
 
-                    <?php
+                    <?php   
                     $query = "SELECT 
                     users.user_id,
                     users.last_name,
@@ -89,7 +107,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
                     INNER JOIN status_archive 
                     ON users.status_archive_id = status_archive.id
                     WHERE users.status_archive_id = '1'
-                    ORDER BY users.user_id";
+                    ORDER BY users.user_id
+                    LIMIT $start_from, $per_page_record";
                     $result = mysqli_query($con, $query);
                     if(mysqli_num_rows($result) > 0)
                                             {
@@ -132,6 +151,57 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
             </div>
 
         </div>
+
+        <div class="pagination">   
+            <br>
+                <?php  
+
+
+                    // Number of pages required.   
+                    $total_pages = ceil($total_records / $per_page_record);     
+                    $pageLink = "";       
+                
+                    if($page>=2){   
+                        echo "<a href='".$page_location."?page=".($page-1)."&records=".$per_page_record."'> Prev </a>";   
+                    }       
+                            
+                    for ($i=1; $i<=$total_pages; $i++) {   
+                    if ($i == $page) {   
+                        $pageLink .= "<a class = 'active' href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";   
+                    }               
+                    else  {   
+                        $pageLink .= "<a href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";     
+                    }   
+                    }; 
+
+                    echo $pageLink;   
+            
+                    if($page<$total_pages){   
+                        echo "<a href='".$page_location."?page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
+                    }  
+                ?>
+
+                <br><br>
+                <select name="option" onchange="location ='<?php echo $page_location ?>' + '?page=1&records=' + this.value;">
+                        <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
+                        <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
+                        <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
+                        <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
+                        <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
+                        <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
+                        <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
+                </select>
+                <span> No. of Records Per Page </span>  
+                
+            </div>
+            <div></div>
+
+            <div class="inline">   
+                <input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
+                placeholder="<?php echo $page."/".$total_pages; ?>" required> 
+
+                <button onClick="goToPage('<?php echo $page_location.'?records='.$per_page_record?>');">Go to page</button>   
+            </div>    
     </main>
 
         <div class="top-menu">
@@ -317,6 +387,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/account.js"></script>
 <script src="../javascript/account-search.js"></script>
+<script src="../javascript/pagination.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -325,7 +396,13 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'ACCOUNT-USER
 <script>
 
 function addnewuser(){
-    const addForm = document.querySelector(".bg-adduserform");
+    // const addForm = document.querySelector(".bg-adduserform");
     addForm.style.display = 'flex';
 }
+
+function goToPage(reference) {   
+    var page = document.getElementById("page").value;   
+    page = ((page><?php echo $total_pages; ?>)?<?php echo $total_pages; ?>:((page<1)?1:page));   
+    window.location.href = reference + '&page=' + page;   
+} 
 </script>

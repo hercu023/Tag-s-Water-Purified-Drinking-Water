@@ -16,21 +16,85 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" type="text/css" href="../CSS/reports-sales.css">
-    <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/rajdhani" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
     <title>Tag's Water Purified Drinking Water</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+
 </head>
 <body>
 <div class="container">
     <?php
     include('../common/side-menu.php')
     ?>
+     <?php  
+                if(isset($_GET['records']) && isset($_GET['page'])) {
+                    $per_page_record = $_GET['records'];
+                    $page = $_GET['page'];
+                } else {
+                    $per_page_record = 2;
+                    $page = 1;
+                }
+
+                if(isset($_GET['option']) && $_GET['option'] == "Daily") {
+                    $query = "SELECT COUNT(*)
+                    FROM inventory_log
+                            WHERE action = 'IN'
+                            GROUP BY DATE(inventory_log.created_at)
+                            ORDER BY DATE(inventory_log.created_at) DESC";
+                    $rs_result = mysqli_query($con, $query);     
+                    $row = mysqli_fetch_row($rs_result);     
+                    $page_location = '../reports/reports-inventory.php?option=Daily';
+                    $total_records = mysqli_num_rows($rs_result); 
+  
+                } else if (isset($_GET['option']) && $_GET['option'] == "Monthly") {
+                    $query = "SELECT COUNT(*)
+                    FROM inventory_log
+                            WHERE action = 'IN'
+                            GROUP BY MONTH(inventory_log.created_at),
+                            YEAR(inventory_log.created_at)
+                            ORDER BY YEAR(inventory_log.created_at) DESC, 
+                            MONTH(inventory_log.created_at) DESC";
+                    $rs_result = mysqli_query($con, $query);     
+                    $row = mysqli_fetch_row($rs_result);     
+                    $page_location = '../reports/reports-inventory.php?option=Monthly';
+                    $total_records = mysqli_num_rows($rs_result); 
+                } else if(isset($_GET['option']) && $_GET['option'] == "Yearly") {
+                    $query = "SELECT COUNT(*)
+                    FROM inventory_log
+                            WHERE action = 'IN'
+                            GROUP BY YEAR(inventory_log.created_at)
+                            ORDER BY YEAR(inventory_log.created_at) DESC";
+                    $rs_result = mysqli_query($con, $query);     
+                    $row = mysqli_fetch_row($rs_result);     
+                    $page_location = '../reports/reports-inventory.php?option=Yearly';
+                    $total_records = mysqli_num_rows($rs_result); 
+                } else {
+                    $total_records = 0;     
+                }
+
+                if (isset($_GET['from']) && isset($_GET['to'])) {
+                    if(isset($_GET['option']) && $_GET['option'] == "Daily") {
+                    $from = $_GET['from'];
+                    $to = $_GET['to'];
+                    $query = "SELECT
+                                    DATE(inventory_log.created_at) as date,
+                                    SUM(amount) as total
+                                    FROM inventory_log
+                                    WHERE action = 'IN'
+                                    AND DATE(inventory_log.created_at) BETWEEN '$from' AND '$to'
+                                    GROUP BY DATE(inventory_log.created_at)
+                                    ORDER BY DATE(inventory_log.created_at) DESC";
+                        $rs_result = mysqli_query($con, $query);     
+                        $row = mysqli_fetch_row($rs_result);     
+                        $page_location = '../reports/reports-inventory.php?option=Daily&from='.$from.'&to='.$to;
+                        $total_records = mysqli_num_rows($rs_result);      
+                    } 
+                    
+                }
+                
+                $start_from = ($page - 1) * $per_page_record;  
+                    
+            ?>
     <main>
         <div class="main-dashboard">
             <h1 class="dashTitle">REPORTS</h1>
@@ -56,6 +120,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
                         <form action="" method="post">
                             <div class="select-dropdown">
                                 <select class="select" name="option" onchange="location = '../reports/reports-inventory.php?option=' + this.value;">
+                                <option selected>Select Type</option>
                                     <option value="Daily" <?php if(isset($_GET['option']) && $_GET['option'] == "Daily") { echo 'selected'; }?>>Daily</option>
                                     <option value="Monthly" <?php if(isset($_GET['option']) && $_GET['option'] == "Monthly") { echo 'selected'; }?>>Monthly</option>
                                     <option value="Yearly" <?php if(isset($_GET['option']) && $_GET['option'] == "Yearly") { echo 'selected'; }?>>Yearly</option>
@@ -105,7 +170,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
                             FROM inventory_log
                             WHERE action = 'IN'
                             GROUP BY DATE(inventory_log.created_at)
-                            ORDER BY DATE(inventory_log.created_at) DESC";
+                            ORDER BY DATE(inventory_log.created_at) DESC
+                            LIMIT $start_from, $per_page_record";
                         } else if (isset($_GET['option']) && $_GET['option'] == "Monthly") {
                             $query = "SELECT 
                             YEAR(inventory_log.created_at) AS year,
@@ -116,7 +182,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
                             GROUP BY MONTH(inventory_log.created_at),
                             YEAR(inventory_log.created_at)
                             ORDER BY YEAR(inventory_log.created_at) DESC, 
-                            MONTH(inventory_log.created_at) DESC";
+                            MONTH(inventory_log.created_at) DESC
+                            LIMIT $start_from, $per_page_record";
                         } else if(isset($_GET['option']) && $_GET['option'] == "Yearly") {
                             $query = "SELECT 
                             YEAR(inventory_log.created_at) AS year,
@@ -124,10 +191,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
                             FROM inventory_log
                             WHERE action = 'IN'
                             GROUP BY YEAR(inventory_log.created_at)
-                            ORDER BY YEAR(inventory_log.created_at) DESC";
-                        } else {
-                            echo '<script> location.replace("../reports/reports-inventory.php?option=Daily"); </script>';
-                        }
+                            ORDER BY YEAR(inventory_log.created_at) DESC
+                            LIMIT $start_from, $per_page_record";
+                        } 
                     
                         if (isset($_GET['from']) && isset($_GET['to'])) {
                             if(isset($_GET['option']) && $_GET['option'] == "Daily") {
@@ -141,11 +207,13 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
                                     WHERE action = 'IN'
                                     AND DATE(inventory_log.created_at) BETWEEN '$from' AND '$to'
                                     GROUP BY DATE(inventory_log.created_at)
-                                    ORDER BY DATE(inventory_log.created_at) DESC";
-                            } else {
-                                echo '<script> location.replace("../reports/reports-inventory.php?option=Daily"); </script>';
-                            }
+                                    ORDER BY DATE(inventory_log.created_at) DESC
+                                    LIMIT $start_from, $per_page_record";
+                        
+                            } 
                         }
+
+                        if(isset($_GET['option']) && $_GET['option'] != 'Select Type') {
 
                         $result = mysqli_query($con, $query);
 
@@ -197,11 +265,67 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
                                 </td>
                             </tr>
                             </tbody>
-                        <?php }} ?>
+                        <?php }}} ?>
                     </table>
                 </div>
 
             </div>
+
+            <div class="pagination">   
+            <br>
+                <?php  
+                if($total_records > 0) {
+
+                    // Number of pages required.   
+                    $total_pages = ceil($total_records / $per_page_record);     
+                    $pageLink = "";       
+                    if($page>=2){   
+                        echo "<a href='".$page_location."&page=".($page-1)."&records=".$per_page_record."'> Prev </a>";   
+                    }       
+                            
+                    for ($i=1; $i<=$total_pages; $i++) {   
+                    if ($i == $page) {   
+                        $pageLink .= "<a class = 'active' href='".$page_location."&page=".$i."&records=".$per_page_record."'>".$i." </a>";   
+                    }               
+                    else  {   
+                        $pageLink .= "<a href='".$page_location."&page=".$i."&records=".$per_page_record."'>".$i." </a>";     
+                    }   
+                    }; 
+
+                    echo $pageLink;   
+
+                    if($page<$total_pages){   
+                        echo "<a href='".$page_location."&page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
+                    }  
+               
+
+                ?>
+
+
+                <br><br>
+                <select name="option" onchange="location ='<?php echo $page_location ?>' + '&page=1&records=' + this.value;">
+                        <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
+                        <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
+                        <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
+                        <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
+                        <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
+                        <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
+                        <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
+                </select>
+                <span> No. of Records Per Page </span>  
+                
+            </div>
+           
+
+            <div></div>
+
+            <div class="inline">   
+                <input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
+                placeholder="<?php echo $page."/".$total_pages; ?>" required> 
+
+                <button onClick="goToPage('<?php echo $page_location.'&records='.$per_page_record?>');">Go to page</button>   
+            </div>    
+            <?php }?>
     </main>
 
     <?php
@@ -211,11 +335,19 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
 </div>
 </body>
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 <script src="../javascript/side-menu-toggle.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/reports-sales.js"></script>
 <script src="../javascript/reports-inventory-search.js"></script>
 <script src="../index.js"></script>
+<script>
+    function goToPage(reference) {   
+    var page = document.getElementById("page").value;   
+    page = ((page><?php echo $total_pages; ?>)?<?php echo $total_pages; ?>:((page<1)?1:page));   
+    window.location.href = reference + '&page=' + page;   
+} 
+</script>
 <style>
     .error-error{
         background-color: hsl(0, 100%, 77%);

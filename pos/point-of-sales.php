@@ -74,7 +74,7 @@ date_default_timezone_set("Asia/Manila");
                             <table class="table1" id="myTable1">
                                 <thead class="form-table">
                                 <tr>
-                                    <th></th>
+
                                     <th>ITEM</th>
                                     <th>TYPE</th>
                                     <th>WATER</th>
@@ -107,14 +107,14 @@ date_default_timezone_set("Asia/Manila");
                                         while ($item_sales = mysqli_fetch_assoc($inventory_order)) {?>
                                         <tbody>
                                         <tr>
-                                            <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                        
                                             <td > <?php echo $item_sales['item_name']; ?></td>
                                             <td > <?php echo $item_sales['name']; ?></td>
                                             <td > Alkaline</td>
                                             <td > <?php echo '&#8369'.' '.$item_sales['alkaline_price']; ?></td>
                                             <td>
                                              
-                                                <a href="../pos/point-of-sales.php?addalkaline=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                <a href="../service/add-transaction-order.php?addalkaline=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                 </a>
                                             <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
@@ -136,7 +136,7 @@ date_default_timezone_set("Asia/Manila");
                             <table class="table1" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
-                                    <th></th>
+                        
                                     <th>ITEM</th>
                                     <th>TYPE</th>
                                     <th>WATER</th>
@@ -173,13 +173,13 @@ date_default_timezone_set("Asia/Manila");
                                             ?>
                                         <tbody>
                                         <tr>
-                                            <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                             
                                             <td > <?php echo $item_sales['item_name']; ?></td>
                                             <td > <?php echo $item_sales['name']; ?></td>
                                             <td > Mineral</td>
                                             <td > <?php echo '&#8369'.' '.$item_sales['mineral_price']; ?></td>
                                             <td>
-                                                <a href="../pos/point-of-sales.php?addmineral=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                <a href="../service/add-transaction-order.php?addmineral=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                 </a>
                                             </td>
@@ -216,7 +216,7 @@ date_default_timezone_set("Asia/Manila");
                             <table class="table2" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
-                                    <th></th>
+                              
                                     <th>ITEM</th>
                                     <th>TYPE</th>
                                     <th>WATER</th>
@@ -254,14 +254,14 @@ date_default_timezone_set("Asia/Manila");
                                             ?>
                                             <tbody>
                                             <tr>
-                                                <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                      
                                                 <td > <?php echo $item_sales['item_name']; ?></td>
                                                 <td > <?php echo $item_sales['name']; ?></td>
                                                 <td > Alkaline</td>
                                                 <td class="alkaline-price"> <?php echo '&#8369'.' '.$item_sales['alkaline_price']; ?></td>
                                                 <td>
                                                 
-                                                    <a href="../pos/point-of-sales.php?addalkaline=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    <a href="../service/add-transaction-order.php?addalkaline=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                     ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                     </a>
 
@@ -289,7 +289,7 @@ date_default_timezone_set("Asia/Manila");
                             <table class="table2" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
-                                    <th></th>
+                      
                                     <th>ITEM</th>
                                     <th>TYPE</th>
                                     <th>WATER</th>
@@ -327,14 +327,14 @@ date_default_timezone_set("Asia/Manila");
                                             ?>
                                             <tbody>
                                             <tr>
-                                                <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                                              
                                                 <td > <?php echo $item_sales['item_name']; ?></td>
                                                 <td > <?php echo $item_sales['name']; ?></td>
                                                 <td > Mineral</td>
                                                 <td class="mineral-price"> <?php echo '&#8369'.' '.$item_sales['mineral_price']; ?></td>
                                                 <td>
                                                 
-                                                    <a href="../pos/point-of-sales.php?addmineral=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    <a href="../service/add-transaction-order.php?addmineral=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                     ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                     </a>
                                                 <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
@@ -368,7 +368,7 @@ date_default_timezone_set("Asia/Manila");
                             <table class="table2" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
-                                    <th></th>
+                                  
                                     <th>ITEM</th>
                                     <th>TYPE</th>
                                     <th>PRICE</th>
@@ -404,13 +404,13 @@ date_default_timezone_set("Asia/Manila");
                                             ?>
                                             <tbody>
                                             <tr>
-                                                <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                                       
                                                 <td > <?php echo $item_sales['item_name']; ?></td>
                                                 <td > <?php echo $item_sales['name']; ?></td>
                                                 <td class="mineral-price"> <?php echo '&#8369'.' '.$item_sales['selling_price_item']; ?></td>
                                                 <td>
                                                 
-                                                    <a href="../pos/point-of-sales.php?addothers=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    <a href="../service/add-transaction-order.php?addothers=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                     ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                     </a>
                                                 <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
@@ -439,7 +439,7 @@ date_default_timezone_set("Asia/Manila");
                                 ?>
                                 <table class="table3" id="myTable3">
                                     <thead class="form-table">
-                                        <th></th>
+                              
                                         <th>ITEM</th>
                                         <th>TYPE</th>
                                         <th>PRICE</th>
@@ -475,13 +475,13 @@ date_default_timezone_set("Asia/Manila");
                                             ?>
                                             <tbody>
                                             <tr>
-                                                <td > <img src="<?php echo "../uploaded_image/".$item_sales['image']; ?>" alt='No Image' width="100px"></td>
+                                            
                                                 <td > <?php echo $item_sales['item_name']; ?></td>
                                                 <td > <?php echo $item_sales['name']; ?></td>
                                                 <td > <?php echo '&#8369'.' '.$item_sales['selling_price_item']; ?></td>
                                                 <td>
                                                 
-                                                    <a href="../pos/point-of-sales.php?addothers=<?php echo $item_sales['id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    <a href="../service/add-transaction-order.php?addothers=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
                                                     ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
                                                     </a>
                                                 <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
@@ -896,7 +896,7 @@ if(isset($_GET['addalkaline']))
         </div>
     </form>
 <!-- =======================================================add mineral refill===================================================== -->
-    <?php
+<?php
 if(isset($_GET['addmineral']))
 {
     $id = $_GET['addmineral'];
@@ -912,7 +912,8 @@ if(isset($_GET['addmineral']))
             WHERE inventory_item.id = '$id'");
 
     if (mysqli_num_rows($result) > 0) {
-        $item = mysqli_fetch_assoc($result); ?>
+        $item = mysqli_fetch_assoc($result); 
+?>
 
         <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
             <div class="bg-adduserform" id="bg-addform">
@@ -960,6 +961,7 @@ if(isset($_GET['addmineral']))
             </div>
         </form>
         <?php 
+    
     }} ?>
         <div class="bg-selectcustomerform" id="bg-selectform">
             <div class="container2">

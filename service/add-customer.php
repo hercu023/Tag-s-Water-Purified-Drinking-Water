@@ -9,6 +9,8 @@ if (isset($_POST['save-customer'])) {
         || isset($_POST['address'])
         || isset($_POST['contact_num1'])
         || isset($_POST['contact_num2'])
+        || isset($_POST['balance_limit'])
+        || isset($_POST['credit_limit'])
         || isset($_POST['note'])) {
 
         $user_id = $_SESSION['user_user_id'];
@@ -24,6 +26,9 @@ if (isset($_POST['save-customer'])) {
 
         $contact_num2 = $_POST['contact_num2'];
         $contact_num2 = filter_var($contact_num2, FILTER_SANITIZE_STRING);
+
+        $balance_limit = $_POST['balance_limit'];
+        $credit_limit = $_POST['credit_limit'];
 
         $note = $_POST['note'];
 
@@ -43,7 +48,9 @@ if (isset($_POST['save-customer'])) {
                              '$contact_num1', 
                              '$contact_num2', 
                              '$note', 
-                             '',
+                             '0',
+                             $balance_limit,
+                             $credit_limit,
                              '1',
                              '$user_id',
                              now())");

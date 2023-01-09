@@ -83,6 +83,50 @@ if (isset($_POST['save-transaction'])) {
                             $unpaid_amount = $totalamount - $totalbalance;
                             $remainingbalance = 0;
                         }
+
+                        //Verify if unpaid amount exceeds credit limit
+                        $total_customer_with_credit = "SELECT 
+                                        t.id,
+                                        t.credit_limit,
+                                        SUM(t.unpaid_amount) as credit
+                                        FROM
+                                        (SELECT
+                                        customers.id,
+                                        customers.customer_name,
+                                        customers.credit_limit,
+                                        customers.contact_number1,
+                                        customers.address, 
+                                        customers.balance,
+                                        transaction_history.transaction_uuid,
+                                        MIN(transaction_history.unpaid_amount) as unpaid_amount
+                                        FROM transaction_history
+                                        INNER JOIN transaction
+                                        ON transaction.uuid = transaction_history.transaction_uuid
+                                        INNER JOIN customers
+                                        on transaction.customer_name_id = customers.id
+                                        WHERE customers.status_archive_id = 1
+                                        GROUP BY transaction_history.transaction_uuid) 
+                                        t
+                                        WHERE t.id = $customer_name
+                                        GROUP BY t.customer_name
+                                        HAVING SUM(t.unpaid_amount) > 0";
+
+                       
+                        $total_customer_with_credit_result = mysqli_query($con, $total_customer_with_credit);
+                        if(mysqli_num_rows($total_customer_with_credit_result) > 0) {
+                            $credit_data= mysqli_fetch_assoc($total_customer_with_credit_result);
+                            $credit = $credit_data['credit'];
+                            $credit_limit = $credit_data['credit_limit'];
+                            $total_new_credit = $credit + $unpaid_amount;
+                            
+                            if ($total_new_credit > $credit_limit) {
+                                header("Location: ../pos/point-of-sales-placeorder.php?option=".$_POST['option']
+                                .'&totalAmount=' .$_POST['totalAmount']
+                                . "&error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Customer credit limit exceeded.");
+                                exit();
+                            }
+                        }
+                                        
                         //Update Customer Balance
                         $update = mysqli_query($con, "UPDATE customers 
                                                     SET balance = '$remainingbalance' 

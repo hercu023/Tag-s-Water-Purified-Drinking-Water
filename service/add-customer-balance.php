@@ -13,16 +13,21 @@ if(isset($_POST['add-balance'])) {
             $customer_id = $_POST['customername'];
             $balance = filter_var($_POST['balance'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
             
-            $get_balance = mysqli_query($con, "SELECT balance 
+            $get_balance = mysqli_query($con, "SELECT balance, balance_limit
                                         FROM customers 
                                         WHERE id = '$customer_id'");
             if(mysqli_num_rows($get_balance) > 0) {
                 $get_balance_result = mysqli_fetch_assoc($get_balance);
                 $current_balance = $get_balance_result['balance'];
+                $balance_limit = $get_balance_result['balance_limit'];
                 $current_balance = filter_var($current_balance, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
             
                 $total_balance = $current_balance + $balance;
 
+                if($total_balance > $balance_limit) {
+                    header("Location: ../monitoring/monitoring-customer-balance.php?error= <i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Balance Limit exceeded. Try again");
+                    exit();
+                }
                 $update_balance = mysqli_query($con, "UPDATE customers 
                                                 SET balance = '$total_balance'
                                                 WHERE id = $customer_id");

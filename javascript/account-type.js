@@ -1,36 +1,3 @@
-function tableSearch(){
-    var input, filter, table, tr, role, i;
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-
-    for(i = 0; i < tr.length; i++){
-
-     
-        role = tr[i].getElementsByTagName("td")[1];
-
-        if(role){
-
-            var role_value = role.textContent || role.innerText;
-
-            if(role_value.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display ="";
-            }else{
-                tr[i].style.display = "none";
-            }
-    
-        }
-        if ($("#myTable tr:not('.noRecordTR, .table-heading'):visible").length == 0) {
-
-        $("#myTable").find('.noRecordTR').show();
-        }
-        else {
-        $("#myTable").find('.noRecordTR').hide();
-        }
-    }
-  
-}
 
 function loading() {
     document.querySelector(".loading").style.display = "flex";
@@ -84,14 +51,13 @@ checkbox.addEventListener( 'change', () =>{
 
 // --------------------------------------Action Dropdown-------------------------------------- //
 const actionsForm = document.querySelector(".bg-actionDropdown");
+
 const actionsBtn = document.querySelector(".action-btn");
 // actionsBtn.addEventListener('click', () =>{
 //     actionsForm.style.display = 'block';
 const addBtn = document.querySelector(".add-account");
     // })
-function addnewuser(){
-    addForm.style.display = 'flex';
-}
+
 function actionFunction(){
     // actionsForm.classList.toggle('bg-actionDropdown')
     actionsForm.style.display = 'flex';

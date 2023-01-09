@@ -1,5 +1,8 @@
 <?php
-session_start();
+if(!isset($_SESSION)) 
+{ 
+    session_start(); 
+} 
 require_once "../database/connection-db.php";
 require_once "../audit/audit-logger.php";
 
@@ -62,17 +65,7 @@ function process_payroll($con, $id, $module, $user_user_id) {
             $expense_type = mysqli_fetch_assoc($expense_result);
             $expense_id = $expense_type['id'];
 
-            $is_whole_day = $attendance['whole_day'];
-
-            $daily_rate = $attendance['daily_rate'];
-
-            if ($is_whole_day == 0) {
-                $daily_rate = $daily_rate / 2;
-            }
-
-            $deduction = $attendance['deduction'];
-            $bonus = $attendance['bonus'];
-            $amount = ($daily_rate + $bonus) - $deduction;
+            $amount = $attendance['total_amount'];
 
             $employee_name = $attendance['first_name'].' '.$attendance['middle_name'].' '.$attendance['last_name'];
             $description = 'Payroll for ' .$employee_name. ', Date: '.$attendance['date']. ', Total Amount:' .$amount;
