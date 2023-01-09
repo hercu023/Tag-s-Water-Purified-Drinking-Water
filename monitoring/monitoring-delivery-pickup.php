@@ -959,6 +959,7 @@ table tbody td{
         margin-top: .2rem;
         text-transform: uppercase;
         cursor: pointer;
+        box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
     }
     .pickuplist h3{
         font-size: .8rem;
@@ -991,6 +992,7 @@ table tbody td{
         margin-top: .2rem;
         text-transform: uppercase;
         cursor: pointer;
+        box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
     }
     .batchlist h3{
         font-size: .8rem;
