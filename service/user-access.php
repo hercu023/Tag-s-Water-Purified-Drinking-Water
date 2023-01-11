@@ -39,7 +39,7 @@ function get_user_access_per_module($con, $user_type, $module) {
 
         if($current_date > $date_active) {
             $delete = mysqli_query($con, "DELETE from user_session WHERE session_key = '$user_session'");
-            header("Location: ../auth/login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> You're session has expired. Try login again.");
+            header("Location: ../auth/login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Session has expired. Try login again.");
             exit();
         } else {
             $update = mysqli_query($con, "UPDATE user_session SET 
@@ -61,7 +61,8 @@ function get_user_access_per_module($con, $user_type, $module) {
         return false;
     } else {
         $delete = mysqli_query($con, "DELETE from user_session WHERE session_key = '$user_session'");
-        header("Location: ../auth/login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> You're session has expired. Try login again.");
+        header("Location: ../auth/login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> You don't have an active session. Try logging in again.");
         exit();
     }
+
 }
