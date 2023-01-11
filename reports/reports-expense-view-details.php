@@ -21,6 +21,21 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     
 </head>
+<style>
+    .main-container{
+    /* height: 600px; */
+    background: var(--color-white);
+    border-top: 1px solid var(--color-solid-gray);
+    width: 100%;
+    margin-bottom: 2rem;
+    margin-top: -4rem;
+    border-radius:  0 0 10px 10px;
+    position: relative;
+}
+.customer-container{
+    margin-top: 2rem;
+}
+</style>
 <body>
 <div class="container">
     <?php
@@ -142,7 +157,122 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
 
                 <?php } else { echo '<script> location.replace("../reports/reports-expense.php"); </script>'; } ?>
                 
-                <div class="main-container">
+                <div class="customer-container">
+                    <table class="table" id="myTable">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Created By</th>
+                            <th>Date/Time Added</th>
+                        </tr>
+                        </thead>
+
+                        <?php
+                        $query = "";
+                        if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
+                            $date = $_GET['view'];
+                            $query = "SELECT 
+                                    expense.date,
+                                    expense_type.name,
+                                    expense.description,
+                                    expense.amount,
+                                    users.first_name,
+                                    users.last_name,
+                                    expense.date_created
+                                    FROM expense 
+                                    INNER JOIN expense_type
+                                    ON expense_type.id = expense.expense_type_id
+                                    INNER JOIN users
+                                    ON users.user_id = expense.added_by
+                                    WHERE expense.status_archive_id = 1
+                                    and date = '$date'
+                                    ORDER BY expense.date DESC
+                                    LIMIT $start_from, $per_page_record";
+                        } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
+                            $month = $_GET['month'];
+                            $year = $_GET['year'];
+                            $query = "SELECT 
+                                    expense.date,
+                                    expense_type.name,
+                                    expense.description,
+                                    expense.amount,
+                                    users.first_name,
+                                    users.last_name,
+                                    expense.date_created
+                                    FROM expense 
+                                    INNER JOIN expense_type
+                                    ON expense_type.id = expense.expense_type_id
+                                    INNER JOIN users
+                                    ON users.user_id = expense.added_by
+                                    WHERE expense.status_archive_id = 1
+                                    AND MONTHNAME(expense.date) = '$month'
+                                    AND YEAR(expense.date) = '$year'
+                                    ORDER BY expense.date DESC
+                                    LIMIT $start_from, $per_page_record";
+                        } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
+                            $year = $_GET['year'];
+                            $query = "SELECT 
+                                    expense.date,
+                                    expense_type.name,
+                                    expense.description,
+                                    expense.amount,
+                                    users.first_name,
+                                    users.last_name,
+                                    expense.date_created
+                                    FROM expense 
+                                    INNER JOIN expense_type
+                                    ON expense_type.id = expense.expense_type_id
+                                    INNER JOIN users
+                                    ON users.user_id = expense.added_by
+                                    WHERE expense.status_archive_id = 1
+                                    AND YEAR(expense.date) = '$year'
+                                    ORDER BY expense.date DESC
+                                    LIMIT $start_from, $per_page_record";
+                        } else {
+                            echo '<script> location.replace("../reports/reports-expense.php"); </script>';
+                        }
+                        
+                        $result = mysqli_query($con, $query);
+
+                        if(mysqli_num_rows($result) <= 0) { ?>
+                        <tbody>
+                        <tr id="noRecordTR">
+                                <td colspan="4">No Record Found</td>
+                        </tr>
+                        </tbody>
+                        <?php } else {
+                            while ($rows = mysqli_fetch_assoc($result)) { ?>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <?php echo $rows['date']; ?>
+                                </td>
+                                <td>
+                                     <?php echo $rows['name']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $rows['description']; ?>
+                                </td>
+                                <td>
+                                     <?php echo '&#8369 '.number_format($rows['amount'], '2','.',','); ?>
+                                </td>
+                                <td>
+                                    <?php echo $rows['first_name'] .' '. $rows['last_name']; ?>
+                                </td>
+                                <td>
+                                     <?php echo $rows['date_created']; ?>
+                                </td>
+                               
+                            </tr>
+                            </tbody>
+                        <?php }} ?>
+                    </table>
+                </div>
+            </div>
+            <div class="main-container">
                         <div class="sub-tab-container">
                             <div class="totals">
                             <div class="newUser-button1"> 
@@ -320,121 +450,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
                         </div>
                         </div>
                 </div>
-                <div class="customer-container">
-                    <table class="table" id="myTable">
-                        <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Created By</th>
-                            <th>Date/Time Added</th>
-                        </tr>
-                        </thead>
-
-                        <?php
-                        $query = "";
-                        if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
-                            $date = $_GET['view'];
-                            $query = "SELECT 
-                                    expense.date,
-                                    expense_type.name,
-                                    expense.description,
-                                    expense.amount,
-                                    users.first_name,
-                                    users.last_name,
-                                    expense.date_created
-                                    FROM expense 
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    INNER JOIN users
-                                    ON users.user_id = expense.added_by
-                                    WHERE expense.status_archive_id = 1
-                                    and date = '$date'
-                                    ORDER BY expense.date DESC
-                                    LIMIT $start_from, $per_page_record";
-                        } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
-                            $month = $_GET['month'];
-                            $year = $_GET['year'];
-                            $query = "SELECT 
-                                    expense.date,
-                                    expense_type.name,
-                                    expense.description,
-                                    expense.amount,
-                                    users.first_name,
-                                    users.last_name,
-                                    expense.date_created
-                                    FROM expense 
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    INNER JOIN users
-                                    ON users.user_id = expense.added_by
-                                    WHERE expense.status_archive_id = 1
-                                    AND MONTHNAME(expense.date) = '$month'
-                                    AND YEAR(expense.date) = '$year'
-                                    ORDER BY expense.date DESC
-                                    LIMIT $start_from, $per_page_record";
-                        } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
-                            $year = $_GET['year'];
-                            $query = "SELECT 
-                                    expense.date,
-                                    expense_type.name,
-                                    expense.description,
-                                    expense.amount,
-                                    users.first_name,
-                                    users.last_name,
-                                    expense.date_created
-                                    FROM expense 
-                                    INNER JOIN expense_type
-                                    ON expense_type.id = expense.expense_type_id
-                                    INNER JOIN users
-                                    ON users.user_id = expense.added_by
-                                    WHERE expense.status_archive_id = 1
-                                    AND YEAR(expense.date) = '$year'
-                                    ORDER BY expense.date DESC
-                                    LIMIT $start_from, $per_page_record";
-                        } else {
-                            echo '<script> location.replace("../reports/reports-expense.php"); </script>';
-                        }
-                        
-                        $result = mysqli_query($con, $query);
-
-                        if(mysqli_num_rows($result) <= 0) { ?>
-                        <tbody>
-                        <tr id="noRecordTR">
-                                <td colspan="4">No Record Found</td>
-                        </tr>
-                        </tbody>
-                        <?php } else {
-                            while ($rows = mysqli_fetch_assoc($result)) { ?>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <?php echo $rows['date']; ?>
-                                </td>
-                                <td>
-                                     <?php echo $rows['name']; ?>
-                                </td>
-                                <td>
-                                    <?php echo $rows['description']; ?>
-                                </td>
-                                <td>
-                                     <?php echo '&#8369 ' . $rows['amount']; ?>
-                                </td>
-                                <td>
-                                    <?php echo $rows['first_name'] .' '. $rows['last_name']; ?>
-                                </td>
-                                <td>
-                                     <?php echo $rows['date_created']; ?>
-                                </td>
-                               
-                            </tr>
-                            </tbody>
-                        <?php }} ?>
-                    </table>
-                </div>
-            </div>
             <div class="header-title">
                 <p class="address">CREATED BY: <?php echo ' '.$_SESSION['user_first_name'].' '.$_SESSION['user_last_name']; ?><p>
                 <p class="address">DATE: <?php echo date("F j, Y")?> - TIME:<?php echo date("h-i-s-A")?><p>

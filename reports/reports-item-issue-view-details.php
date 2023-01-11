@@ -21,7 +21,21 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ITEM
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     
 </head>
-
+<style>
+.main-container{
+    /* height: 600px; */
+    background: var(--color-white);
+    border-top: 1px solid var(--color-solid-gray);
+    width: 100%;
+    margin-bottom: 2rem;
+    margin-top: -4rem;
+    border-radius:  0 0 10px 10px;
+    position: relative;
+}
+.customer-container{
+    margin-top: 2rem;
+}
+</style>
 <body>
 <div class="container">
     <?php
@@ -139,112 +153,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ITEM
                     </div>
                 </div>
                 
-                <div class="main-container">
-                        <div class="sub-tab-container">
-                            <div class="totals">
-                            <div class="newUser-button1"> 
-                                <div id="add-userbutton" class="add-account1">
-                            <?php
-                                $record_count = "";
-                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
-                                    $date = $_GET['view'];
-
-                                    $record_count = "SELECT
-                                    COUNT(inventory_log.id) as count
-                                    FROM inventory_log
-                                    WHERE inventory_log.action = 'OUT'
-                                    AND inventory_log.details LIKE 'Description:%'
-                                    AND DATE(inventory_log.created_at) = '$date'";
-
-                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
-                                    $month = $_GET['month'];
-                                    $year = $_GET['year'];
-
-                                    $record_count = "SELECT
-                                    COUNT(inventory_log.id) as count
-                                    FROM inventory_log
-                                    WHERE inventory_log.action = 'OUT'
-                                    AND inventory_log.details LIKE 'Description:%'
-                                    AND MONTHNAME(inventory_log.created_at) = '$month'
-                                    AND YEAR(inventory_log.created_at) = '$year'";
-
-                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
-                                    $year = $_GET['year'];
-
-                                    $record_count = "SELECT
-                                    COUNT(inventory_log.id) as count
-                                    FROM inventory_log
-                                    WHERE inventory_log.action = 'OUT'
-                                    AND inventory_log.details LIKE 'Description:%'
-                                    AND YEAR(inventory_log.created_at) = '$year'";
-
-                                } else {
-                                    echo '<script> location.replace("../reports/reports-item-issue.php"); </script>';
-                                }
-                                    
-                                    if($record_count_result = mysqli_query($con, $record_count))
-                                    $records = mysqli_fetch_assoc($record_count_result);
-                                    ?>
-                                    <h3 class="deliveries">Issues/Records</h3>
-                                    <span class="total-deliveries"><?php echo $records['count'];?></span>
-                                </div>
-                            </div>
-                            <div class="newUser-button2"> 
-                                <div id="add-userbutton" class="add-account2">
-                                <?php
-                                $quantity = "";
-                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
-                                    $date = $_GET['view'];
-
-                                    $quantity = "SELECT
-                                    SUM(inventory_log.quantity) as total
-                                    FROM inventory_log
-                                    WHERE inventory_log.action = 'OUT'
-                                    AND inventory_log.details LIKE 'Description:%'
-                                    AND DATE(inventory_log.created_at) = '$date'";
-
-                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
-                                    $month = $_GET['month'];
-                                    $year = $_GET['year'];
-
-                                    $quantity = "SELECT
-                                    SUM(inventory_log.quantity) as total
-                                    FROM inventory_log
-                                    WHERE inventory_log.action = 'OUT'
-                                    AND inventory_log.details LIKE 'Description:%'
-                                    AND MONTHNAME(inventory_log.created_at) = '$month'
-                                    AND YEAR(inventory_log.created_at) = '$year'";
-
-                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
-                                    $year = $_GET['year'];
-
-                                    $quantity = "SELECT
-                                    COUNT(DISTINCT inventory_log.inventory_id) as count
-                                    FROM inventory_log
-                                    WHERE inventory_log.action = 'OUT'
-                                    AND inventory_log.details LIKE 'Description:%'
-                                    AND YEAR(inventory_log.created_at) = '$year'";
-                                } else {
-                                    echo '<script> location.replace("../reports/reports-item-issue.php"); </script>';
-                                }
-                                    if($quantity_result = mysqli_query($con, $quantity))
-                                    $quantity = mysqli_fetch_assoc($quantity_result);
-                                    ?>
-                                    <h3 class="deliveries">Total Quantity</h3>
-                                    <span class="total-deliveries"><?php echo $quantity['total'];?></span>
-                                </div>
-                            </div>  
-                            <div class="bot-buttons">
-                                <div class="AddButton1">
-                                    <button type="submit" onclick="print();" id="addcustomerBtn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
-                                        PRINT
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                </div>
+               
                 <div class="customer-container">
                     <table class="table" id="myTable">
                         <thead>
@@ -361,6 +270,112 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ITEM
                     </table>
                 </div>
             </div>
+            <div class="main-container">
+                        <div class="sub-tab-container">
+                            <div class="totals">
+                            <div class="newUser-button1"> 
+                                <div id="add-userbutton" class="add-account1">
+                            <?php
+                                $record_count = "";
+                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
+                                    $date = $_GET['view'];
+
+                                    $record_count = "SELECT
+                                    COUNT(inventory_log.id) as count
+                                    FROM inventory_log
+                                    WHERE inventory_log.action = 'OUT'
+                                    AND inventory_log.details LIKE 'Description:%'
+                                    AND DATE(inventory_log.created_at) = '$date'";
+
+                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
+                                    $month = $_GET['month'];
+                                    $year = $_GET['year'];
+
+                                    $record_count = "SELECT
+                                    COUNT(inventory_log.id) as count
+                                    FROM inventory_log
+                                    WHERE inventory_log.action = 'OUT'
+                                    AND inventory_log.details LIKE 'Description:%'
+                                    AND MONTHNAME(inventory_log.created_at) = '$month'
+                                    AND YEAR(inventory_log.created_at) = '$year'";
+
+                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
+                                    $year = $_GET['year'];
+
+                                    $record_count = "SELECT
+                                    COUNT(inventory_log.id) as count
+                                    FROM inventory_log
+                                    WHERE inventory_log.action = 'OUT'
+                                    AND inventory_log.details LIKE 'Description:%'
+                                    AND YEAR(inventory_log.created_at) = '$year'";
+
+                                } else {
+                                    echo '<script> location.replace("../reports/reports-item-issue.php"); </script>';
+                                }
+                                    
+                                    if($record_count_result = mysqli_query($con, $record_count))
+                                    $records = mysqli_fetch_assoc($record_count_result);
+                                    ?>
+                                    <h3 class="deliveries">Issues/Records</h3>
+                                    <span class="total-deliveries"><?php echo $records['count'];?></span>
+                                </div>
+                            </div>
+                            <div class="newUser-button2"> 
+                                <div id="add-userbutton" class="add-account2">
+                                <?php
+                                $quantity = "";
+                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
+                                    $date = $_GET['view'];
+
+                                    $quantity = "SELECT
+                                    SUM(inventory_log.quantity) as total
+                                    FROM inventory_log
+                                    WHERE inventory_log.action = 'OUT'
+                                    AND inventory_log.details LIKE 'Description:%'
+                                    AND DATE(inventory_log.created_at) = '$date'";
+
+                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
+                                    $month = $_GET['month'];
+                                    $year = $_GET['year'];
+
+                                    $quantity = "SELECT
+                                    SUM(inventory_log.quantity) as total
+                                    FROM inventory_log
+                                    WHERE inventory_log.action = 'OUT'
+                                    AND inventory_log.details LIKE 'Description:%'
+                                    AND MONTHNAME(inventory_log.created_at) = '$month'
+                                    AND YEAR(inventory_log.created_at) = '$year'";
+
+                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
+                                    $year = $_GET['year'];
+
+                                    $quantity = "SELECT
+                                    COUNT(DISTINCT inventory_log.inventory_id) as count
+                                    FROM inventory_log
+                                    WHERE inventory_log.action = 'OUT'
+                                    AND inventory_log.details LIKE 'Description:%'
+                                    AND YEAR(inventory_log.created_at) = '$year'";
+                                } else {
+                                    echo '<script> location.replace("../reports/reports-item-issue.php"); </script>';
+                                }
+                                    if($quantity_result = mysqli_query($con, $quantity))
+                                    $quantity = mysqli_fetch_assoc($quantity_result);
+                                    ?>
+                                    <h3 class="deliveries">Total Quantity</h3>
+                                    <span class="total-deliveries"><?php echo $quantity['total'];?></span>
+                                </div>
+                            </div>  
+                            <div class="bot-buttons">
+                                <div class="AddButton1">
+                                    <button type="submit" onclick="print();" id="addcustomerBtn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
+                                        PRINT
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                </div>
             <div class="header-title">
                 <p class="address">CREATED BY: <?php echo ' '.$_SESSION['user_first_name'].' '.$_SESSION['user_last_name']; ?><p>
                 <p class="address">DATE: <?php echo date("F j, Y")?> - TIME:<?php echo date("h-i-s-A")?><p>

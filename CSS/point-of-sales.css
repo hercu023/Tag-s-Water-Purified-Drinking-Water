@@ -48,6 +48,27 @@
     --color-table-hover: rgb(112, 112, 112);
     --color-aside-mobile-text:hsl(0, 0%, 88%);
 }
+.item-quantity{
+    width: 3rem;
+    text-align: center;
+    border: none;
+    background-color: none;
+    font-weight: bold;
+    display: inline-block;
+}
+.decrease-btn{
+    border: none;
+    font-weight: bold;
+    display: inline-block;
+}
+.increase-btn{
+    border: none;
+    font-weight: bold;
+    display: inline-block;
+}
+.quantity-div{
+    width:6rem;
+}
 .side-bar .menu #pointofsales{
     background: var(--color-white);
     transition: 0.6s;

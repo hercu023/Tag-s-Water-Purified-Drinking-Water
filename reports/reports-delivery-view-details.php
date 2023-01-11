@@ -22,6 +22,18 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELI
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 </head>
+<style>
+    .main-container{
+    /* height: 600px; */
+    background: var(--color-white);
+    border-top: 1px solid var(--color-solid-gray);
+    width: 100%;
+    margin-bottom: 2rem;
+    margin-top: -2rem;
+    border-radius:  0 0 10px 10px;
+    position: relative;
+}
+</style>
 <body>
 <div class="container">
     <?php
@@ -142,7 +154,108 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELI
                     </div>
                 </div>
                 
-                <div class="main-container">
+                    
+            </div>
+                <div class="customer-container">
+                    <table class="table" id="myTable">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Total Amount</th>
+                            <th>Date/Time Delivered</th>
+                        </tr>
+                        </thead>
+
+                        <?php
+                        $query = "";
+                        if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
+                            $date = $_GET['view'];
+                                $query = "SELECT
+                                DATE(delivery_list.updated_at) as date,
+                                customers.customer_name,
+                                transaction.total_amount as total,
+                                delivery_list.updated_at as delivery_time
+                                FROM delivery_list
+                                INNER JOIN transaction
+                                ON delivery_list.uuid = transaction.uuid
+                                INNER JOIN customers
+                                ON transaction.customer_name_id = customers.id
+                                WHERE transaction.status_id = '1'
+                                AND transaction.service_type = 'Delivery'
+                                AND delivery_list.delivery_status = '3'
+                                AND DATE(delivery_list.updated_at) = '$date'";
+                        } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
+                            $month = $_GET['month'];
+                            $year = $_GET['year'];
+                            $query = "SELECT
+                                DATE(delivery_list.updated_at) as date,
+                                customers.customer_name,
+                                transaction.total_amount as total,
+                                delivery_list.updated_at as delivery_time
+                                FROM delivery_list
+                                INNER JOIN transaction
+                                ON delivery_list.uuid = transaction.uuid
+                                INNER JOIN customers
+                                ON transaction.customer_name_id = customers.id
+                                WHERE transaction.status_id = '1'
+                                AND transaction.service_type = 'Delivery'
+                                AND delivery_list.delivery_status = '3'
+                                AND MONTHNAME(delivery_list.updated_at) = '$month'
+                                AND YEAR(delivery_list.updated_at) = '$year'
+                                ORDER BY DATE(delivery_list.updated_at) DESC";                    
+                        } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
+                            $year = $_GET['year'];
+                            $query = "SELECT
+                                DATE(delivery_list.updated_at) as date,
+                                customers.customer_name,
+                                transaction.total_amount as total,
+                                delivery_list.updated_at as delivery_time
+                                FROM delivery_list
+                                INNER JOIN transaction
+                                ON delivery_list.uuid = transaction.uuid
+                                INNER JOIN customers
+                                ON transaction.customer_name_id = customers.id
+                                WHERE transaction.status_id = '1'
+                                AND transaction.service_type = 'Delivery'
+                                AND delivery_list.delivery_status = '3'
+                                AND YEAR(delivery_list.updated_at) = '$year'
+                                ORDER BY DATE(delivery_list.updated_at) DESC";                    
+                        } else {
+                            echo '<script> location.replace("../reports/reports-delivery.php"); </script>';
+                        }
+                        
+                        $result = mysqli_query($con, $query);
+
+                        if(mysqli_num_rows($result) <= 0) { ?>
+                        <tbody>
+                        <tr id="noRecordTR">
+                                <td colspan="4">No Record Found</td>
+                        </tr>
+                        </tbody>
+                        <?php } else {
+                            while ($rows = mysqli_fetch_assoc($result)) { ?>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <?php echo $rows['date']; ?>
+                                </td>
+                                <td>
+                                     <?php echo $rows['customer_name'] ?>
+                                </td>
+                                <td>
+                                     <?php echo '&#8369 '.number_format($rows['total'], '2','.',','); ?>
+                                </td>
+                                <td>
+                                <?php echo $rows['delivery_time']; ?>
+                                </td>  
+                            </tr>
+                            </tbody>
+                        <?php }} ?>
+                    </table>
+                </div>
+            </div>
+            <div class="main-container">
                         <div class="sub-tab-container">
                             <div class="totals">
                             <div class="newUser-button1"> 
@@ -307,7 +420,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELI
                                     $total_amount_value = mysqli_fetch_assoc($total_amount_result);
                                     ?>
                                     <h3 class="deliveries">Delivery Sales</h3>
-                                    <span class="total-deliveries"><?php echo '&#8369 '.$total_amount_value['total'];?></span>
+                                    <span class="total-deliveries"><?php echo '&#8369 '.number_format($total_amount_value['total'], '2','.',',');?></span>
                                 </div>
                             </div>  
                             <div class="bot-buttons">
@@ -319,107 +432,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELI
                                 </div>
                             </div>
                         </div>
-                        </div>
+                    </div>
                 </div>
-                <div class="customer-container">
-                    <table class="table" id="myTable">
-                        <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Customer</th>
-                            <th>Total Amount</th>
-                            <th>Date/Time Delivered</th>
-                        </tr>
-                        </thead>
-
-                        <?php
-                        $query = "";
-                        if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
-                            $date = $_GET['view'];
-                                $query = "SELECT
-                                DATE(delivery_list.updated_at) as date,
-                                customers.customer_name,
-                                transaction.total_amount as total,
-                                delivery_list.updated_at as delivery_time
-                                FROM delivery_list
-                                INNER JOIN transaction
-                                ON delivery_list.uuid = transaction.uuid
-                                INNER JOIN customers
-                                ON transaction.customer_name_id = customers.id
-                                WHERE transaction.status_id = '1'
-                                AND transaction.service_type = 'Delivery'
-                                AND delivery_list.delivery_status = '3'
-                                AND DATE(delivery_list.updated_at) = '$date'";
-                        } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
-                            $month = $_GET['month'];
-                            $year = $_GET['year'];
-                            $query = "SELECT
-                                DATE(delivery_list.updated_at) as date,
-                                customers.customer_name,
-                                transaction.total_amount as total,
-                                delivery_list.updated_at as delivery_time
-                                FROM delivery_list
-                                INNER JOIN transaction
-                                ON delivery_list.uuid = transaction.uuid
-                                INNER JOIN customers
-                                ON transaction.customer_name_id = customers.id
-                                WHERE transaction.status_id = '1'
-                                AND transaction.service_type = 'Delivery'
-                                AND delivery_list.delivery_status = '3'
-                                AND MONTHNAME(delivery_list.updated_at) = '$month'
-                                AND YEAR(delivery_list.updated_at) = '$year'
-                                ORDER BY DATE(delivery_list.updated_at) DESC";                    
-                        } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
-                            $year = $_GET['year'];
-                            $query = "SELECT
-                                DATE(delivery_list.updated_at) as date,
-                                customers.customer_name,
-                                transaction.total_amount as total,
-                                delivery_list.updated_at as delivery_time
-                                FROM delivery_list
-                                INNER JOIN transaction
-                                ON delivery_list.uuid = transaction.uuid
-                                INNER JOIN customers
-                                ON transaction.customer_name_id = customers.id
-                                WHERE transaction.status_id = '1'
-                                AND transaction.service_type = 'Delivery'
-                                AND delivery_list.delivery_status = '3'
-                                AND YEAR(delivery_list.updated_at) = '$year'
-                                ORDER BY DATE(delivery_list.updated_at) DESC";                    
-                        } else {
-                            echo '<script> location.replace("../reports/reports-delivery.php"); </script>';
-                        }
-                        
-                        $result = mysqli_query($con, $query);
-
-                        if(mysqli_num_rows($result) <= 0) { ?>
-                        <tbody>
-                        <tr id="noRecordTR">
-                                <td colspan="4">No Record Found</td>
-                        </tr>
-                        </tbody>
-                        <?php } else {
-                            while ($rows = mysqli_fetch_assoc($result)) { ?>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <?php echo $rows['date']; ?>
-                                </td>
-                                <td>
-                                     <?php echo $rows['customer_name'] ?>
-                                </td>
-                                <td>
-                                     <?php echo $rows['total']; ?>
-                                </td>
-                                <td>
-                                <?php echo $rows['delivery_time']; ?>
-                                </td>  
-                            </tr>
-                            </tbody>
-                        <?php }} ?>
-                    </table>
-                </div>
-            </div>
             <div class="header-title">
                 <p class="address">CREATED BY: <?php echo ' '.$_SESSION['user_first_name'].' '.$_SESSION['user_last_name']; ?><p>
                 <p class="address">DATE: <?php echo date("F j, Y")?> - TIME:<?php echo date("h-i-s-A")?><p>

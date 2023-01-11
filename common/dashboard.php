@@ -21,6 +21,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'DASHBOARD'))
         <link rel="stylesheet" type="text/css" href="../CSS/dashboard.css">
         <title>Tag's Water Purified Drinking Water</title>
     </head>
+    <style>
+      
+    </style>
     <body>
         <div class="container">
             <?php

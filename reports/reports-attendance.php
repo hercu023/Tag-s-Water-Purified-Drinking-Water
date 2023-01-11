@@ -273,7 +273,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTE
                                     <?php } ?>
                                 </td>
                                 <td data-label="Total Payroll">
-                                    <?php echo '&#8369 '.$rows['total']; ?>
+                                    <?php echo '&#8369 '.number_format($rows['total'], '2','.',','); ?>
                                 </td>
                             </tr>
                             </tbody>

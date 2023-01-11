@@ -19,7 +19,93 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
     <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
     <title>Tag's Water Purified Drinking Water</title>
 </head>
-
+<style>
+    .add-account3{
+    display: flex;
+    border: none;
+    background-color: var(--color-main);
+    align-items: center;
+    color: var(--color-secondary-main);
+    /* width: 11.5rem; */
+    max-height: 46px;
+    border-radius: 5px;
+    padding: .68rem 1rem;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    gap: 1rem;
+    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
+    font-weight: 900;
+    height: 3.9rem;
+    text-decoration: none;
+    transition: all 300ms ease;
+    position: relative;
+    margin-top: .2rem;
+    text-transform: uppercase;
+    border-left: 7px solid var(--color-tertiary);
+}
+.add-account4{
+    display: flex;
+    border: none;
+    background-color: var(--color-solid-gray);
+    align-items: center;
+    color: var(--color-white);
+    /* width: 11.5rem; */
+    max-height: 46px;
+    text-decoration: none;
+    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
+    border-radius: 5px;
+    padding: .68rem 1rem;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    gap: 1rem;
+    height: 3.9rem;
+    transition: all 300ms ease;
+    position: relative;
+    margin-top: .2rem;
+    text-transform: uppercase;
+}
+.add-account{
+    display: flex;
+    border: none;
+    background-color: var(--color-white);
+    align-items: center;
+    color: var(--color-button);
+    fill: var(--color-button);
+    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
+    width: 10.5rem;
+    max-height: 46px;
+    border-radius: 20px;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    gap: 1rem;
+    height: 3.9rem;
+    margin-left: 1rem;
+    transition: all 300ms ease;
+    position: relative;
+    margin-top: .2rem;
+    text-transform: uppercase;
+}
+.edit-action{
+    background: rgb(0, 154, 255);
+    color: var(--color-white);
+    fill: var(--color-white);
+    align-items: center;
+    text-align:center;
+    justify-content: center;
+    position: relative;
+    text-decoration: none;
+    border-radius: 3px;
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    margin: 1px;
+    gap: .3rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+</style>
 <body>
 <div class="container">
     <div class="block"></div>
@@ -58,7 +144,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
             ?>
             <div class="sub-tab">
                 <div class="user-title">
-                <h2> INVENTORY DETAILS </h2>
+                <h2> ITEM MASTER DATA </h2>
 
                 </div>
                 <div class="sub-tab2">
@@ -235,7 +321,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-IT
                         <i class="fas fa-bars"></i>
                     </div>
                     <h2 class="Title-top">INVENTORY</h2>
-                    <h4 class="subTitle-top">Inventory Details</h2>
+                    <h4 class="subTitle-top">ITEM MASTER DATA</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>

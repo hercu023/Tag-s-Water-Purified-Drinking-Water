@@ -21,6 +21,21 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTE
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
 </head>
+<style>
+    .main-container{
+    /* height: 600px; */
+    background: var(--color-white);
+    border-top: 1px solid var(--color-solid-gray);
+    width: 100%;
+    margin-bottom: 2rem;
+    margin-top: -2rem;
+    border-radius:  0 0 10px 10px;
+    position: relative;
+}
+.customer-container{
+    margin-top: 2rem;
+}
+</style>
 <body>
 <div class="container">
     <?php
@@ -121,179 +136,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTE
                     </div>
                 </div>
                 
-                <div class="main-container">
-                        <div class="sub-tab-container">
-                            <div class="totals">
-                            <div class="newUser-button1"> 
-                                <div id="add-userbutton" class="add-account1">
-                            <?php
-                                $attendance_count = "";
-                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
-                                    $date = $_GET['view'];
-                                    $attendance_count = "SELECT attendance.id
-                                    FROM attendance
-                                    WHERE attendance.status_archive_id = 1
-                                    AND attendance.payroll_status = 1
-                                    AND attendance.date = '$date'";
-                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
-                                    $month = $_GET['month'];
-                                    $year = $_GET['year'];
-                                    $attendance_count = "SELECT attendance.id
-                                    FROM attendance
-                                    WHERE attendance.status_archive_id = 1
-                                    AND attendance.payroll_status = 1
-                                    AND MONTHNAME(attendance.date) = '$month'
-                                    AND YEAR(attendance.date) = '$year'";
-                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
-                                    $year = $_GET['year'];
-                                    $attendance_count = "SELECT attendance.id
-                                    FROM attendance
-                                    WHERE attendance.status_archive_id = 1
-                                    AND attendance.payroll_status = 1
-                                    AND YEAR(attendance.date) = '$year'";
-                                } else {
-                                    echo '<script> location.replace("../reports/reports-attendance.php"); </script>';
-                                }
-                                    
-                                    if($attendance_count_result = mysqli_query($con, $attendance_count))
-                                    $rowcount = mysqli_num_rows($attendance_count_result);
-                                    ?>
-                                    <h3 class="deliveries">Attendance Record</h3>
-                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
-                                </div>
-                            </div>
-                            <div class="newUser-button2"> 
-                                <div id="add-userbutton" class="add-account2">
-                                <?php
-                                $bonus_total = "";
-                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
-                                    $date = $_GET['view'];
-                                    $bonus_total = "SELECT 
-                                    SUM(attendance.bonus) as total
-                                    FROM attendance
-                                    WHERE attendance.status_archive_id = 1
-                                    AND attendance.payroll_status = 1
-                                    AND attendance.date = '$date'";
-                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
-                                    $month = $_GET['month'];
-                                    $year = $_GET['year'];
-                                    $bonus_total = "SELECT 
-                                    SUM(attendance.bonus) as total
-                                    FROM attendance
-                                    WHERE attendance.status_archive_id = 1
-                                    AND attendance.payroll_status = 1
-                                    AND MONTHNAME(attendance.date) = '$month'
-                                    AND YEAR(attendance.date) = '$year'";
-                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
-                                    $year = $_GET['year'];
-                                    $bonus_total = "SELECT
-                                    SUM(attendance.bonus) as total
-                                    FROM attendance
-                                    WHERE attendance.status_archive_id = 1
-                                    AND attendance.payroll_status = 1
-                                    AND YEAR(attendance.date) = '$year'";
-                                } else {
-                                    echo '<script> location.replace("../reports/reports-attendance.php"); </script>';
-                                }
-                                    if($bonus_total_result = mysqli_query($con, $bonus_total))
-                                    $bonus_result = mysqli_fetch_assoc($bonus_total_result);
-                                    ?>
-                                    <h3 class="deliveries">Bonuses</h3>
-                                    <span class="total-deliveries"><?php echo '&#8369 '.$bonus_result['total'];?></span>
-                                </div>
-                            </div>  
-                            <div class="newUser-button3"> 
-                                <div id="add-userbutton" class="add-account3">
-                                <?php
-                                $deductions_total = "";
-                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
-                                    $date = $_GET['view'];
-                                    $deductions_total = "SELECT 
-                                    SUM(attendance.deduction) as total
-                                    FROM attendance
-                                    WHERE attendance.status_archive_id = 1
-                                    AND attendance.payroll_status = 1
-                                    AND attendance.date = '$date'";
-                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
-                                    $month = $_GET['month'];
-                                    $year = $_GET['year'];
-                                    $deductions_total = "SELECT 
-                                    SUM(attendance.deduction) as total
-                                    FROM attendance
-                                    WHERE attendance.status_archive_id = 1
-                                    AND attendance.payroll_status = 1
-                                    AND MONTHNAME(attendance.date) = '$month'
-                                    AND YEAR(attendance.date) = '$year'";
-                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
-                                    $year = $_GET['year'];
-                                    $deductions_total = "SELECT
-                                    SUM(attendance.deduction) as total
-                                    FROM attendance
-                                    WHERE attendance.status_archive_id = 1
-                                    AND attendance.payroll_status = 1
-                                    AND YEAR(attendance.date) = '$year'";
-                                } else {
-                                    echo '<script> location.replace("../reports/reports-attendance.php"); </script>';
-                                }
-                                    if($deductions_total_result = mysqli_query($con, $deductions_total))
-                                    $deductions_result = mysqli_fetch_assoc($deductions_total_result);
-                                    ?>
-                                    <h3 class="deliveries">Deductions</h3>
-                                    <span class="total-deliveries"><?php echo '&#8369 '.$deductions_result['total'];?></span>
-                                </div>
-                            </div>  
-                            <div class="newUser-button4"> 
-                                <div id="add-userbutton" class="add-account4">
-                                <?php
-                                $payroll_total = "";
-                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
-                                    $date = $_GET['view'];
-                                    $payroll_total = "SELECT 
-                                    SUM(attendance.total_amount) as total
-                                    FROM attendance
-                                    WHERE attendance.status_archive_id = 1
-                                    AND attendance.payroll_status = 1
-                                    AND attendance.date = '$date'";
-                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
-                                    $month = $_GET['month'];
-                                    $year = $_GET['year'];
-                                    $payroll_total = "SELECT 
-                                    SUM(attendance.total_amount) as total
-                                    FROM attendance
-                                    WHERE attendance.status_archive_id = 1
-                                    AND attendance.payroll_status = 1
-                                    AND MONTHNAME(attendance.date) = '$month'
-                                    AND YEAR(attendance.date) = '$year'";
-                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
-                                    $year = $_GET['year'];
-                                    $payroll_total = "SELECT
-                                    SUM(attendance.total_amount) as total
-                                    FROM attendance
-                                    WHERE attendance.status_archive_id = 1
-                                    AND attendance.payroll_status = 1
-                                    AND YEAR(attendance.date) = '$year'";
-                                } else {
-                                    echo '<script> location.replace("../reports/reports-attendance.php"); </script>';
-                                }
-                                    if($payroll_total_result = mysqli_query($con, $payroll_total))
-                                    $payroll_result = mysqli_fetch_assoc($payroll_total_result);
-                                    ?>
-                                    <h3 class="deliveries">Payroll</h3>
-                                    <span class="total-deliveries"><?php echo '&#8369 '.$payroll_result['total'];?></span>
-                                </div>
-                            </div>  
-                            
-                            <div class="bot-buttons">
-                                    <div class="AddButton1">
-                                        <button type="submit" id="addcustomerBtn" onclick="print();">
-                                            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
-                                            PRINT
-                                        </button>
-                                    </div>
-                            </div>
-                        </div>
-                        </div>
-                </div>
+                
                 <div class="customer-container">
                     <table class="table" id="myTable">
                         <thead>
@@ -393,12 +236,185 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-ATTE
                                     <?php echo $rows['bonus']; ?>
                                 </td>
                                 <td data-label="Total Payroll">
-                                     <?php echo '&#8369 ' . $rows['total_amount']; ?>
+                                     <?php echo '&#8369 ' .number_format($rows['total_amount'], '2','.',','); ?>
                                 </td>       
                             </tr>
                             </tbody>
                         <?php }} ?>
                     </table>
+                </div>
+                <div class="main-container">
+                        <div class="sub-tab-container">
+                            <div class="totals">
+                            <div class="newUser-button1"> 
+                                <div id="add-userbutton" class="add-account1">
+                            <?php
+                                $attendance_count = "";
+                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
+                                    $date = $_GET['view'];
+                                    $attendance_count = "SELECT attendance.id
+                                    FROM attendance
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND attendance.date = '$date'";
+                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
+                                    $month = $_GET['month'];
+                                    $year = $_GET['year'];
+                                    $attendance_count = "SELECT attendance.id
+                                    FROM attendance
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND MONTHNAME(attendance.date) = '$month'
+                                    AND YEAR(attendance.date) = '$year'";
+                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
+                                    $year = $_GET['year'];
+                                    $attendance_count = "SELECT attendance.id
+                                    FROM attendance
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND YEAR(attendance.date) = '$year'";
+                                } else {
+                                    echo '<script> location.replace("../reports/reports-attendance.php"); </script>';
+                                }
+                                    
+                                    if($attendance_count_result = mysqli_query($con, $attendance_count))
+                                    $rowcount = mysqli_num_rows($attendance_count_result);
+                                    ?>
+                                    <h3 class="deliveries">Attendance Record</h3>
+                                    <span class="total-deliveries"><?php echo $rowcount;?></span>
+                                </div>
+                            </div>
+                            <div class="newUser-button2"> 
+                                <div id="add-userbutton" class="add-account2">
+                                <?php
+                                $bonus_total = "";
+                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
+                                    $date = $_GET['view'];
+                                    $bonus_total = "SELECT 
+                                    SUM(attendance.bonus) as total
+                                    FROM attendance
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND attendance.date = '$date'";
+                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
+                                    $month = $_GET['month'];
+                                    $year = $_GET['year'];
+                                    $bonus_total = "SELECT 
+                                    SUM(attendance.bonus) as total
+                                    FROM attendance
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND MONTHNAME(attendance.date) = '$month'
+                                    AND YEAR(attendance.date) = '$year'";
+                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
+                                    $year = $_GET['year'];
+                                    $bonus_total = "SELECT
+                                    SUM(attendance.bonus) as total
+                                    FROM attendance
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND YEAR(attendance.date) = '$year'";
+                                } else {
+                                    echo '<script> location.replace("../reports/reports-attendance.php"); </script>';
+                                }
+                                    if($bonus_total_result = mysqli_query($con, $bonus_total))
+                                    $bonus_result = mysqli_fetch_assoc($bonus_total_result);
+                                    ?>
+                                    <h3 class="deliveries">Bonuses</h3>
+                                    <span class="total-deliveries"><?php echo '&#8369 '.number_format($bonus_result['total'], '2','.',',');?></span>
+                                </div>
+                            </div>  
+                            <div class="newUser-button3"> 
+                                <div id="add-userbutton" class="add-account3">
+                                <?php
+                                $deductions_total = "";
+                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
+                                    $date = $_GET['view'];
+                                    $deductions_total = "SELECT 
+                                    SUM(attendance.deduction) as total
+                                    FROM attendance
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND attendance.date = '$date'";
+                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
+                                    $month = $_GET['month'];
+                                    $year = $_GET['year'];
+                                    $deductions_total = "SELECT 
+                                    SUM(attendance.deduction) as total
+                                    FROM attendance
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND MONTHNAME(attendance.date) = '$month'
+                                    AND YEAR(attendance.date) = '$year'";
+                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
+                                    $year = $_GET['year'];
+                                    $deductions_total = "SELECT
+                                    SUM(attendance.deduction) as total
+                                    FROM attendance
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND YEAR(attendance.date) = '$year'";
+                                } else {
+                                    echo '<script> location.replace("../reports/reports-attendance.php"); </script>';
+                                }
+                                    if($deductions_total_result = mysqli_query($con, $deductions_total))
+                                    $deductions_result = mysqli_fetch_assoc($deductions_total_result);
+                                    ?>
+                                    <h3 class="deliveries">Deductions</h3>
+                                    <span class="total-deliveries"><?php echo '&#8369 '.number_format($deductions_result['total'], '2','.',',')?></span>
+                                </div>
+                            </div>  
+                            <div class="newUser-button4"> 
+                                <div id="add-userbutton" class="add-account4">
+                                <?php
+                                $payroll_total = "";
+                                if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
+                                    $date = $_GET['view'];
+                                    $payroll_total = "SELECT 
+                                    SUM(attendance.total_amount) as total
+                                    FROM attendance
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND attendance.date = '$date'";
+                                } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
+                                    $month = $_GET['month'];
+                                    $year = $_GET['year'];
+                                    $payroll_total = "SELECT 
+                                    SUM(attendance.total_amount) as total
+                                    FROM attendance
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND MONTHNAME(attendance.date) = '$month'
+                                    AND YEAR(attendance.date) = '$year'";
+                                } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
+                                    $year = $_GET['year'];
+                                    $payroll_total = "SELECT
+                                    SUM(attendance.total_amount) as total
+                                    FROM attendance
+                                    WHERE attendance.status_archive_id = 1
+                                    AND attendance.payroll_status = 1
+                                    AND YEAR(attendance.date) = '$year'";
+                                } else {
+                                    echo '<script> location.replace("../reports/reports-attendance.php"); </script>';
+                                }
+                                    if($payroll_total_result = mysqli_query($con, $payroll_total))
+                                    $payroll_result = mysqli_fetch_assoc($payroll_total_result);
+                                    ?>
+                                    <h3 class="deliveries">Payroll</h3>
+                                    <span class="total-deliveries"><?php echo '&#8369 '.number_format($payroll_result['total'], '2','.',',');?></span>
+                                </div>
+                            </div>  
+                            
+                            <div class="bot-buttons">
+                                    <div class="AddButton1">
+                                        <button type="submit" id="addcustomerBtn" onclick="print();">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M15 6H5V3h10Zm-.25 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q15.062 9 14.75 9q-.312 0-.531.219Q14 9.438 14 9.75q0 .312.219.531.219.219.531.219Zm-1.25 5v-3h-7v3ZM15 17H5v-3H2V9q0-.833.583-1.417Q3.167 7 4 7h12q.833 0 1.417.583Q18 8.167 18 9v5h-3Z"/></svg>
+                                            PRINT
+                                        </button>
+                                    </div>
+                            </div>
+                        </div>
+                        </div>
                 </div>
             </div>
             <div class="header-title">

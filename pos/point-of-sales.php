@@ -18,29 +18,7 @@ date_default_timezone_set("Asia/Manila");
     <link rel="stylesheet" type="text/css" href="../CSS/point-of-sales.css">
     <title>Tag's Water Purified Drinking Water</title>
 </head>
-<style>
-    .item-quantity{
-        width: 3rem;
-        text-align: center;
-        border: none;
-        background-color: none;
-        font-weight: bold;
-        display: inline-block;
-    }
-    .decrease-btn{
-        border: none;
-        font-weight: bold;
-        display: inline-block;
-    }
-    .increase-btn{
-        border: none;
-        font-weight: bold;
-        display: inline-block;
-    }
-    .quantity-div{
-        width:6rem;
-    }
-</style>
+
 <body>
 <div class="container">
 
@@ -911,5 +889,4 @@ if(isset($_GET['editquantity']))
 <script src="../javascript/point-of-sales-datetime.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/point-of-sales.js"></script>
-
 </html>

@@ -1,4 +1,20 @@
-:root{
+.gotopage-btn{
+    border: none;
+    height: 2rem;
+    font-weight: bold;
+    letter-spacing: .2px;
+    border-radius: 10px;
+    margin-left: 1rem;
+    width: 12rem;
+    text-align: center;
+    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
+    font-family: 'calibri', sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: var(--color-white);
+    background-color: var(--color-solid-gray);
+}
+    :root{
     --color-main: rgb(2, 80, 2);
     --color-main-2: rgb(2, 80, 2);
     --color-main-3: rgb(2, 80, 2);
@@ -54,7 +70,6 @@ body{
     background-size: cover;
     background-attachment: fixed;
 }
-
 #payroll-action{
     background: #00aa09;
     color: var(--color-white);
@@ -67,6 +82,7 @@ body{
     border-radius: 3px;
     display: flex;
     font-family: 'Outfit', sans-serif;
+    font-size: .7rem;
     width: 100%;
     padding: 5px;
     margin: 5px;
@@ -80,6 +96,36 @@ body{
 #payroll-action:hover{
     background: var(--color-main);
     color: var(--color-white);
+}
+#payslip-action{
+    background: var(--color-white);
+    color: var(--color-black);
+    align-items: center;
+    text-align:center;
+    fill: var(--color-black);
+    justify-content: center;
+    float: center;
+    position: relative;
+    text-decoration: none;
+    border-radius: 3px;
+    display: flex;
+    font-family: 'Outfit', sans-serif;
+        box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
+        font-size: .7rem;
+    width: 100%;
+    padding: 5px;
+    margin: 5px;
+    justify-content: center;
+    margin: 1px;
+    gap: .3rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+}
+#payslip-action:hover{
+    background: var(--color-main);
+    color: var(--color-white);
+    fill: var(--color-white);
 }
 .radio-button{
     position: relative;
@@ -117,11 +163,11 @@ body{
         justify-content: center;
         align-items: center;
         color: var(--color-button);
+        box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
         fill: var(--color-button);
         width: 10rem;
         max-height: 46px;
-        font-size: .8rem;
-        box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
+        font-size: .7rem;
         border-radius: 20px;
         font-family: 'Outfit', sans-serif;
         cursor: pointer;
@@ -140,10 +186,11 @@ body{
         border-bottom: 4px solid var(--color-maroon);
     }
     .checkall{
-        font-size: 1rem;
+        font-size: .7rem;
         display: inline-block;
         position: relative;
         margin-left: 1rem;
+        
     }
     .checkall-checkbox{
         display: inline-block;
@@ -153,6 +200,36 @@ body{
         display: inline-block;
         gap: 8px;
     }
+    .outofstock{
+    border-radius: 20px;
+    background-color: #B22222;
+    color: #ffffff;
+    font-size: 10px;
+    padding: 7px;
+    font-weight: 700;
+    padding-right: 9px;
+    padding-left: 9px;
+}
+.instock{
+    border-radius: 20px;
+    background-color: #228B22;
+    font-size: 10px;
+    padding: 7px;
+    font-weight: 700;
+    padding-right: 9px;
+    padding-left: 9px;
+    color: #ffffff;
+}
+.lowstock{
+border-radius: 20px;
+background-color: rgb(0, 154, 255);
+color: #ffffff;
+font-size: 10px;
+padding: 7px;
+font-weight: 700;
+padding-right: 9px;
+padding-left: 9px;
+}
 /* ----------------------------TOP MENU---------------------------- */
 
 .top-menu a{
@@ -360,10 +437,12 @@ h1{
 .tooltipText{
     font-family: Arial, Helvetica, sans-serif;
     font-size: .7rem;
+    display: block;
     color: var(--color-white);
 }
 .edit-action{
     background: rgb(0, 154, 255);
+    font-size: .7rem;
     color: var(--color-white);
     align-items: center;
     text-align:center;
@@ -395,6 +474,7 @@ h1{
     position: relative;
     text-decoration: none;
     border-radius: 3px;
+    font-size: .7rem;
     display: flex;
     width: 100%;
     padding: 5px;
@@ -691,26 +771,27 @@ h1{
 }
 /* -----------------------------------------------Side Menu---------------------------------------- */
 
-.bg-adduserform{
+.bg-addcustomerform{
     height: 100%;
     width: 100%;
     background: rgba(0,0,0,0.7);
     top: 0;
     position: fixed;
+    display: none;
     align-items: center;
     justify-content: center;
-    display: none;
+    /* display: flex; */
 }
-.bg-editDropdown{
+.bg-addAttendanceForm{
     height: 100%;
     width: 100%;
     background: rgba(0,0,0,0.7);
     top: 0;
     position: fixed;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
-    display: none;
+    /* display: flex; */
 }
 #form-registered{
     position: absolute;
@@ -977,7 +1058,6 @@ h1{
 .sub-tab2{
     display: inline-block;
     /* margin-top: -2rem; */
-    margin-left: 1rem;
 }
 /* ----------------------------------------Sub TAB---------------------------------------- */
 .user-title{
@@ -991,15 +1071,12 @@ main  h2{
     letter-spacing: .1rem;
     font-family: 'Galhau Display', sans-serif;
 }
-main .sub-tab{
-    margin-bottom: 3rem;
-}
+
 /* ----------------------------------------Search BAR---------------------------------------- */
 .search{
-    position: absolute;
+    position: relative;
     gap: 2rem;
-    align-items: right;
-    text-align: right;
+    float: right;
     right: 0;
     display: inline-block;
 }
@@ -1053,11 +1130,11 @@ main .sub-tab{
 }
 .add-account{
     display: flex;
+        box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
     border: none;
     background-color: var(--color-white);
     align-items: center;
     color: var(--color-button);
-    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
     fill: var(--color-button);
     width: 12rem;
     justify-content: center;
@@ -1085,6 +1162,7 @@ main .sub-tab{
 /* ----------------------------------------Account Table---------------------------------------- */
 main .account-container{
     margin-top: -2rem;
+    margin-bottom: 2rem;
     max-height: 650px;
     overflow:auto;
     width: 100%;
@@ -1147,36 +1225,6 @@ th{
     text-transform: uppercase;
 
 }
-.outofstock{
-    border-radius: 20px;
-    background-color: #B22222;
-    color: #ffffff;
-    font-size: 10px;
-    padding: 7px;
-    font-weight: 700;
-    padding-right: 9px;
-    padding-left: 9px;
-}
-.instock{
-    border-radius: 20px;
-    background-color: #228B22;
-    font-size: 10px;
-    padding: 7px;
-    font-weight: 700;
-    padding-right: 9px;
-    padding-left: 9px;
-    color: #ffffff;
-}
-.lowstock{
-border-radius: 20px;
-background-color: rgb(0, 154, 255);
-color: #ffffff;
-font-size: 10px;
-padding: 7px;
-font-weight: 700;
-padding-right: 9px;
-padding-left: 9px;
-}
 /* ----------------------------------------ASIDE---------------------------------------- */
 .container{
     display: grid;
@@ -1189,7 +1237,9 @@ padding-left: 9px;
 #menu-button{
     display: none;
 }
-
+.sub-tab{
+        margin-bottom: 3rem;
+    }
 /* ----------------------------------------SIDEBAR 2---------------------------------------- */
 @media screen and (max-width: 1600px){
     .container{
@@ -1199,12 +1249,12 @@ padding-left: 9px;
     .top-menu{
         width: 370px;
     }
-
+    .search-bar{
+        width: 18vw;
+    }
 }
 @media screen and (max-width: 1400px){
-    .container{
-        grid-template-columns: 2rem auto;
-    }
+    
     .side-bar{
         z-index: 3;
         position: fixed;
@@ -1214,9 +1264,7 @@ padding-left: 9px;
         display: flex;
     }
 
-    .top-menu{
-        width: 370px;
-    }
+  
 
     main .account-container{
         width: 100%;
@@ -1224,46 +1272,43 @@ padding-left: 9px;
     }
 
     main .sub-tab{
-        margin-bottom: 4rem;
+        margin-bottom: 3rem;
     }
     .tooltipText{
         display: none;
     }
     .search-bar{
-        width: 18vw;
+        width: 13rem;
     }
 }
 @media screen and (max-width: 1200px){
     
-    .side-bar{
-        z-index: 3;
-        position: fixed;
-        left: -100%;
-    }
-    .main-account{
-        position: relative;
-        width: 100%;
-        /* margin-left: 2rem; */
-    }
+
+  
     .tooltipText{
         display: none;
     }
-
-    .search{
-        width: 100%;
+    .checkall{
+        width:6.5rem;
+    }
+    .add-account{
+        width:10.5rem;
+    }
+    .payroll{
+        width:8.5rem;
     }
     .search-bar{
         width: 13rem;
-        float: right;
-        right: 5%;
     }
 }
 
-@media screen and (max-width: 1000px){
+@media screen and (max-width: 1050px){
     .container{
         grid-template-columns: 1rem auto 2rem;
     }
-
+    .user-title{
+        margin-left: .2rem;
+    }
     .main-account{
         position: relative;
         width: 100%;
@@ -1278,7 +1323,7 @@ padding-left: 9px;
         position: absolute;
     }
 }
-@media screen and (max-width: 768px){
+@media screen and (max-width: 968px){
     .container{
         margin-left: -.7rem;
     }
@@ -1311,13 +1356,25 @@ padding-left: 9px;
     }
     .search{
         position: relative;
-        width: 100%;
         margin-top: 3rem;
+        display: inline-block;
+        width: 100%;  
+    }
+    .checkall{
+        width: 100%;
+        margin-top: .5rem;
+        margin-bottom: -2.5rem;
+        display: inline-block;
+        
+        position: relative;
+    }
+    .search{
+       
     }
     .search-bar{
         text-align: center;
-        width: 90%;
-        float: left;
+        width: 94%;
+        margin-bottom: 2rem;
     } 
     /* ----------------------------------top-menu----------------------------- */
 
@@ -1395,33 +1452,16 @@ padding-left: 9px;
         text-align: left;
         align-items: center;
     }
-    .select-dropdown{
-        position: relative;
-        width: 100%;
-        align-items: center;
-        text-align: center;
-        margin-top: 1rem;
-
+    .tooltipText{
+        display: none;
     }
-    .select{
-        width: 100%;
-        
+  
+    .hrefa{
+    height: 8rem;
+    align-items: center;
+    margin-top: 1rem;
     }
-    .edit-action{
-        display: inline-block;
-        position: relative;
-        width: 3rem;
-        float: left;
-        text-align: center;
-    }
-    .archive-action{
-        width: 3rem;
-        position: relative;
-        text-align: center;
-        float: left;
-        display: inline-block;
-    }
-    .cpass-action{
+    .payroll-action{
         width: 3rem;
         text-align: center;
         float: left;
@@ -1494,13 +1534,31 @@ padding-left: 9px;
         align-items: center;
         text-align: center;
     }
+    .checkall{
+        margin-left: -1rem;
+    }
     .newUser-button{
         /* display: flex; */
         display: inline-block;
         width: 100%;  
+        margin-left: -1rem;
         left: 0;
     }
     .add-account{
+        margin-top: 1rem;
+      
+        width: 100%;
+        justify-content: center;
+    }
+    .newUser-button2{
+        /* display: flex; */
+        display: inline-block;
+        margin-left: -1rem;
+        width: 100%;  
+        left: 0;
+    }
+  
+    .payroll{
         margin-top: 1rem;
       
         width: 100%;
@@ -1614,19 +1672,30 @@ padding-left: 9px;
     height: 120px;
     animation: spin 2s linear infinite;
 }
+.a-header{
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+.archive-header{
+    text-align: center;
+    color: var(--color-black);
+    font-family: 'calibri', sans-serif;
+    font-size: 20px;
+}
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-/* @media screen and (max-width: 600px){
+ @media screen and (max-width: 600px){
     .search{
-        width: 100%;
+        width: 95%;
     }
 
 
 }
-@media screen and (max-width: 500px){
+/*@media screen and (max-width: 500px){
     .search{
         width: 100%;
     }

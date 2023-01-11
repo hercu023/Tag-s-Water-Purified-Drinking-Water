@@ -666,10 +666,11 @@
         .transactions-total{
             position: relative; 
             text-align: center;
+            width: 100%;
+            margin-left: -4.5rem;
         }
         
         .newUser-button1{
-            margin-left: 2rem;
             margin-top: 2rem;
             position: relative;
             display: inline-block;
@@ -881,7 +882,7 @@
     }
     .bar2{
         position: relative;
-         width: 400px;
+         width: 420px;
         margin-top: 1rem;
         text-align: center;
         margin-right: 3rem;
@@ -926,6 +927,9 @@
     @media screen and (max-width: 1800px){
         .main-dashboard{
             max-width: 100%;
+        }
+        .transactions-total{
+            margin-left: 0rem;
         }
         .sub-tab{
             width: 100%;
@@ -1375,5 +1379,18 @@
             margin-left:0rem;
             padding: 0rem;
         }
+        .widget5{
+            width: 80%;
+        }
+        .widget6{
+            width: 80%;
+        }
+        .widget7{
+            width: 80%;
+        }
+        .widget8{
+            width: 80%;
+        }
+
     }
     

@@ -21,6 +21,21 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     
 </head>
+<style>
+.main-container{
+    /* height: 600px; */
+    background: var(--color-white);
+    border-top: 1px solid var(--color-solid-gray);
+    width: 100%;
+    margin-bottom: 2rem;
+    margin-top: -4rem;
+    border-radius:  0 0 10px 10px;
+    position: relative;
+}
+.customer-container{
+    margin-top: 2rem;
+}
+</style>
 <body>
 <div class="container">
     <?php
@@ -140,7 +155,111 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
                     </div>
                 </div>
                     
-                <div class="main-container">
+                
+                <div class="customer-container">
+                    <table class="table" id="myTable">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Total IN</th>
+                            <th>Total Out</th>
+                            <th>Total Purchase Amount</th>
+                        </tr>
+                        </thead>
+
+                        <?php
+                        $query = "";
+                        if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
+                            $date = $_GET['view'];
+                            $query = "SELECT
+                                DATE(inventory_log.created_at) as date,
+                                IF(in_table.in_total IS NULL or in_table.in_total = '', 0, in_table.in_total) as in_total,
+                                IF(out_table.out_total IS NULL or out_table.out_total = '', 0, out_table.out_total) as out_total,
+                                IF(in_table.purchase_amount IS NULL or in_table.purchase_amount = '', 0.00, in_table.purchase_amount) as purchase_amount
+                                FROM inventory_log
+                                LEFT JOIN 
+                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
+                                ON DATE(inventory_log.created_at) = in_table.date
+                                LEFT JOIN 
+                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
+                                ON DATE(inventory_log.created_at) = out_table.date
+                                WHERE DATE(inventory_log.created_at) = '$date'
+                                GROUP BY DATE(inventory_log.created_at)
+                                LIMIT $start_from, $per_page_record";
+                        } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
+                            $month = $_GET['month'];
+                            $year = $_GET['year'];
+                            $query = "SELECT
+                                DATE(inventory_log.created_at) as date,
+                                IF(in_table.in_total IS NULL or in_table.in_total = '', 0, in_table.in_total) as in_total,
+                                IF(out_table.out_total IS NULL or out_table.out_total = '', 0, out_table.out_total) as out_total,
+                                IF(in_table.purchase_amount IS NULL or in_table.purchase_amount = '', 0.00, in_table.purchase_amount) as purchase_amount
+                                FROM inventory_log
+                                LEFT JOIN 
+                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
+                                ON DATE(inventory_log.created_at) = in_table.date
+                                LEFT JOIN 
+                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
+                                ON DATE(inventory_log.created_at) = out_table.date
+                                WHERE MONTHNAME(inventory_log.created_at) = '$month'
+                                AND YEAR(inventory_log.created_at) = '$year'
+                                GROUP BY DATE(inventory_log.created_at)
+                                ORDER BY DATE(inventory_log.created_at) DESC
+                                LIMIT $start_from, $per_page_record";
+                        
+                        } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
+                            $year = $_GET['year'];
+                            $query = "SELECT
+                                DATE(inventory_log.created_at) as date,
+                                IF(in_table.in_total IS NULL or in_table.in_total = '', 0, in_table.in_total) as in_total,
+                                IF(out_table.out_total IS NULL or out_table.out_total = '', 0, out_table.out_total) as out_total,
+                                IF(in_table.purchase_amount IS NULL or in_table.purchase_amount = '', 0.00, in_table.purchase_amount) as purchase_amount
+                                FROM inventory_log
+                                LEFT JOIN 
+                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
+                                ON DATE(inventory_log.created_at) = in_table.date
+                                LEFT JOIN 
+                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
+                                ON DATE(inventory_log.created_at) = out_table.date
+                                WHERE YEAR(inventory_log.created_at) = '$year'
+                                GROUP BY DATE(inventory_log.created_at)
+                                ORDER BY DATE(inventory_log.created_at) DESC
+                                LIMIT $start_from, $per_page_record";
+                        } else {
+                            echo '<script> location.replace("../reports/reports-inventory.php"); </script>';
+                        }
+                        
+                        $result = mysqli_query($con, $query);
+
+                        if(mysqli_num_rows($result) <= 0) { ?>
+                        <tbody>
+                        <tr id="noRecordTR">
+                                <td colspan="4">No Record Found</td>
+                        </tr>
+                        </tbody>
+                        <?php } else {
+                            while ($rows = mysqli_fetch_assoc($result)) { ?>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <?php echo $rows['date']; ?>
+                                </td>
+                                <td>
+                                     <?php echo $rows['in_total'] ?>
+                                </td>
+                                <td>
+                                     <?php echo $rows['out_total']; ?>
+                                </td>
+                                <td>
+                                <?php echo '&#8369 '.number_format($rows['purchase_amount'], '2','.',','); ?>
+                                </td>  
+                            </tr>
+                            </tbody>
+                        <?php }} ?>
+                    </table>
+                </div>
+            </div>
+            <div class="main-container">
                         <div class="sub-tab-container">
                             <div class="totals">
                             <div class="newUser-button1"> 
@@ -254,7 +373,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
                                     $total_amount_value = mysqli_fetch_assoc($total_amount_result);
                                     ?>
                                     <h3 class="deliveries">Purchases</h3>
-                                    <span class="total-deliveries"><?php echo '&#8369 '.$total_amount_value['total'];?></span>
+                                    <span class="total-deliveries"><?php echo '&#8369 '.number_format($total_amount_value['total'], '2','.',',');?></span>
                                 </div>
                             </div>  
                             <div class="bot-buttons">
@@ -268,109 +387,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVE
                         </div>
                         </div>
                 </div>
-                <div class="customer-container">
-                    <table class="table" id="myTable">
-                        <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Total IN</th>
-                            <th>Total Out</th>
-                            <th>Total Purchase Amount</th>
-                        </tr>
-                        </thead>
-
-                        <?php
-                        $query = "";
-                        if(isset($_GET['view']) && !isset($_GET['month']) && !isset($_GET['year'])) {
-                            $date = $_GET['view'];
-                            $query = "SELECT
-                                DATE(inventory_log.created_at) as date,
-                                IF(in_table.in_total IS NULL or in_table.in_total = '', 0, in_table.in_total) as in_total,
-                                IF(out_table.out_total IS NULL or out_table.out_total = '', 0, out_table.out_total) as out_total,
-                                IF(in_table.purchase_amount IS NULL or in_table.purchase_amount = '', 0.00, in_table.purchase_amount) as purchase_amount
-                                FROM inventory_log
-                                LEFT JOIN 
-                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
-                                ON DATE(inventory_log.created_at) = in_table.date
-                                LEFT JOIN 
-                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
-                                ON DATE(inventory_log.created_at) = out_table.date
-                                WHERE DATE(inventory_log.created_at) = '$date'
-                                GROUP BY DATE(inventory_log.created_at)
-                                LIMIT $start_from, $per_page_record";
-                        } else if (!isset($_GET['view']) && isset($_GET['month']) && isset($_GET['year'])) {
-                            $month = $_GET['month'];
-                            $year = $_GET['year'];
-                            $query = "SELECT
-                                DATE(inventory_log.created_at) as date,
-                                IF(in_table.in_total IS NULL or in_table.in_total = '', 0, in_table.in_total) as in_total,
-                                IF(out_table.out_total IS NULL or out_table.out_total = '', 0, out_table.out_total) as out_total,
-                                IF(in_table.purchase_amount IS NULL or in_table.purchase_amount = '', 0.00, in_table.purchase_amount) as purchase_amount
-                                FROM inventory_log
-                                LEFT JOIN 
-                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
-                                ON DATE(inventory_log.created_at) = in_table.date
-                                LEFT JOIN 
-                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
-                                ON DATE(inventory_log.created_at) = out_table.date
-                                WHERE MONTHNAME(inventory_log.created_at) = '$month'
-                                AND YEAR(inventory_log.created_at) = '$year'
-                                GROUP BY DATE(inventory_log.created_at)
-                                ORDER BY DATE(inventory_log.created_at) DESC
-                                LIMIT $start_from, $per_page_record";
-                        
-                        } else if (!isset($_GET['view']) && !isset($_GET['month']) && isset($_GET['year'])) {
-                            $year = $_GET['year'];
-                            $query = "SELECT
-                                DATE(inventory_log.created_at) as date,
-                                IF(in_table.in_total IS NULL or in_table.in_total = '', 0, in_table.in_total) as in_total,
-                                IF(out_table.out_total IS NULL or out_table.out_total = '', 0, out_table.out_total) as out_total,
-                                IF(in_table.purchase_amount IS NULL or in_table.purchase_amount = '', 0.00, in_table.purchase_amount) as purchase_amount
-                                FROM inventory_log
-                                LEFT JOIN 
-                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity) as in_total, sum(amount) as purchase_amount from inventory_log where inventory_log.action = 'IN' GROUP BY DATE(inventory_log.created_at)) in_table
-                                ON DATE(inventory_log.created_at) = in_table.date
-                                LEFT JOIN 
-                                (SELECT DATE(inventory_log.created_at) as date, sum(quantity)as out_total from inventory_log where inventory_log.action = 'OUT' GROUP BY DATE(inventory_log.created_at)) out_table
-                                ON DATE(inventory_log.created_at) = out_table.date
-                                WHERE YEAR(inventory_log.created_at) = '$year'
-                                GROUP BY DATE(inventory_log.created_at)
-                                ORDER BY DATE(inventory_log.created_at) DESC
-                                LIMIT $start_from, $per_page_record";
-                        } else {
-                            echo '<script> location.replace("../reports/reports-inventory.php"); </script>';
-                        }
-                        
-                        $result = mysqli_query($con, $query);
-
-                        if(mysqli_num_rows($result) <= 0) { ?>
-                        <tbody>
-                        <tr id="noRecordTR">
-                                <td colspan="4">No Record Found</td>
-                        </tr>
-                        </tbody>
-                        <?php } else {
-                            while ($rows = mysqli_fetch_assoc($result)) { ?>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <?php echo $rows['date']; ?>
-                                </td>
-                                <td>
-                                     <?php echo $rows['in_total'] ?>
-                                </td>
-                                <td>
-                                     <?php echo $rows['out_total']; ?>
-                                </td>
-                                <td>
-                                <?php echo '&#8369 '.$rows['purchase_amount']; ?>
-                                </td>  
-                            </tr>
-                            </tbody>
-                        <?php }} ?>
-                    </table>
-                </div>
-            </div>
             <div class="header-title">
                 <p class="address">CREATED BY: <?php echo ' '.$_SESSION['user_first_name'].' '.$_SESSION['user_last_name']; ?><p>
                 <p class="address">DATE: <?php echo date("F j, Y")?> - TIME:<?php echo date("h-i-s-A")?><p>

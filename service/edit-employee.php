@@ -10,7 +10,7 @@ if (isset($_POST['edit-employee'])) {
         || isset($_POST['middle_name'])
         || isset($_POST['position_types'])
         || isset($_POST['date_of_birth'])
-        || isset($_POST['daily_rate'])
+        || isset($_POST['hourly_rate'])
         || isset($_POST['email'])
         || isset($_POST['contact_num'])) {
 
@@ -25,7 +25,7 @@ if (isset($_POST['edit-employee'])) {
         $position_type = $_POST['position_types'];
         $date_of_birth = $_POST['date_of_birth'];
 
-        $daily_rate = filter_var($_POST['daily_rate'], FILTER_SANITIZE_STRING);
+        $hourly_rate = filter_var($_POST['hourly_rate'], FILTER_SANITIZE_STRING);
 
         $email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
         $contact_num = filter_var($_POST['contact_num'], FILTER_SANITIZE_STRING);
@@ -36,7 +36,7 @@ if (isset($_POST['edit-employee'])) {
                      middle_name='$middle_name',
                      position_id='$position_type', 
                      date_of_birth='$date_of_birth', 
-                     daily_rate=$daily_rate,
+                     hourly_rate=$hourly_rate,
                      email_address= '$email',
                      contact_number= '$contact_num'
                  WHERE id='$employee_id'");

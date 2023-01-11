@@ -58,16 +58,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-P
                                 <h2>POS TRANSACTION</h2>
                             </div>
         
-                            <div class="sub-tab2">
-                                <div class="newUser-button">
-                                    <select class="select">
-                                        <option selected disabled value="">SELECT TYPE</option>
-                                        <option value="All">All</option>
-                                        <option value="Walk-In">Walk-In</option>
-                                        <option value="Delivery">Delivery</option>
-                                    </select>
-                                </div>
-                            </div>
+                            
                             <div class="search">
                                 <div class="search-bar"> 
                                     <input text="text" placeholder="Search" onkeyup='tableSearch()' id="searchInput" name="searchInput"/>

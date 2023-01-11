@@ -103,7 +103,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
             ?>
             <div class="sub-tab">
                 <div class="user-title">
-                    <h2> EXPENSE</h2>
+                    <h2> EXPENSES</h2>
                 </div>
                 <div class="search">
                     <div class="search-bar">
@@ -259,7 +259,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPE
                                     <?php } ?>
                                 </td>
                                 <td data-label="Total Amount">
-                                    <?php echo '&#8369 '.$rows['total']; ?>
+                                    <?php echo '&#8369 '.number_format($rows['total'], '2','.',','); ?>
                                 </td>
                             </tr>
                             </tbody>

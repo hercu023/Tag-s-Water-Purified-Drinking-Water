@@ -333,7 +333,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-LIS
                                onchange="console.log(this.value);" />
                     </div>
                     <div class="user-input-box">
-                        <label for="dailyrate">Daily Rate</label>
+                        <label for="dailyrate">Hourly Rate</label>
                         <input min='0' onchange='setTwoNumberDecimal' step="0.25"
                                id="dailyrate"
                                class="dailyrate"

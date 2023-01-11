@@ -49,7 +49,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EXPENSE')) {
 
     <main>
         <div class="main-account">
-            <h1 class="accTitle">EXPENSE</h1>
+            <h1 class="accTitle">EXPENSES</h1>
             <?php
             if (isset($_GET['error'])) {
                 echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';

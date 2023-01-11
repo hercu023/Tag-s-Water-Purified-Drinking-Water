@@ -78,7 +78,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-LIS
                                 <td data-label="ID"> </td>
                                 <td data-label="Full Name"> </td>
                                 <td data-label="Position"> </td>
-                                <td data-label="Daily Rate"> </td>
+                                <td data-label="Hourly Rate"> </td>
                                 <td data-label="Date of Birth"> </td>
                                 <td data-label="Email"> </td>
                                 <td data-label="Contact"> </td>
@@ -241,12 +241,12 @@ if(isset($_GET['edit'])) {
                                        onchange="console.log(this.value);" />
                             </div>
                             <div class="user-input-box">
-                                <label for="dailyrate">Daily Rate</label>
+                                <label for="dailyrate">Hourly Rate</label>
                                 <input min='0' onchange='setTwoNumberDecimal' step="0.25"
                                        id="dailyrate"
                                        class="dailyrate"
-                                       name="daily_rate"
-                                       value="<?=$employee['daily_rate'];?>"
+                                       name="hourly_rate"
+                                       value="<?=$employee['hourly_rate'];?>"
                                        placeholder="0.00"/>
                             </div>
                             <div class="user-input-box">

@@ -286,6 +286,50 @@ BODY{
                         POINT OF SALES</a></div>
             <?php } ?>
 
+            <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-DELIVERY_PICKUP')
+                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-RETURN_CONTAINER')
+                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-CUSTOMER_BALANCE')
+                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-SCHEDULING')
+                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-ITEM_HISTORY')) { ?>
+                <div id="monitoring" class="item">
+                    <a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.438-1.062Q3.875 3 4.5 3h11q.625 0 1.062.438Q17 3.875 17 4.5v11q0 .625-.438 1.062Q16.125 17 15.5 17Zm0-1.5h11V6h-11v9.5Zm5.5-1.75q-1.542 0-2.75-.844T5.5 10.75q.542-1.312 1.75-2.156Q8.458 7.75 10 7.75t2.75.844q1.208.844 1.75 2.156-.542 1.312-1.75 2.156-1.208.844-2.75.844Zm0-1q1.104 0 2-.531.896-.531 1.396-1.469-.5-.938-1.396-1.469-.896-.531-2-.531t-2 .531q-.896.531-1.396 1.469.5.938 1.396 1.469.896.531 2 .531Zm0-.75q-.521 0-.885-.365-.365-.364-.365-.885t.365-.885Q9.479 9.5 10 9.5t.885.365q.365.364.365.885t-.365.885Q10.521 12 10 12Z"/></svg>
+                        MONITORING<i class="fas fa-angle-right dropdown"></i></a>
+                    <div class="sub-menu">
+                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-POINT_OF_SALES_TRANSACTION')) {?>
+                            <a href="../monitoring/monitoring-point-of-sales-transaction.php" class="sub-item">POS Transaction</a>
+                        <?php } ?>
+                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-DELIVERY_PICKUP')) {?>
+                            <a href="../monitoring/monitoring-delivery-pickup.php" class="sub-item">Delivery/Pick Up</a>
+                        <?php } ?>
+                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-CUSTOMER_BALANCE')) {?>
+                            <a href="../monitoring/monitoring-customer-balance.php" class="sub-item">Customer Balance</a>
+                        <?php } ?>
+                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-SCHEDULING')) {?>
+                            <a href="../monitoring/monitoring-scheduling.php" class="sub-item">Scheduling</a>
+                        <?php } ?>
+                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-ITEM_HISTORY')) {?>
+                            <a href="../monitoring/monitoring-item-history.php" class="sub-item">Item History</a>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php } ?>
+                            
+            <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-STOCKS')
+                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ITEM')) { ?>
+                <div id="inventory" class="item">
+                    <a class="sub-btn"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
+                        INVENTORY<i class="fas fa-angle-right dropdown"></i></a>
+                    <div class="sub-menu">
+                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-STOCKS')) {?>
+                            <a href="../inventory/inventory-stocks.php" class="sub-item" id="inventory-stocks">Stocks</a>
+                        <?php } ?>
+                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ITEM')) {?>
+                            <a href="../inventory/inventory-details.php" class="sub-item" id="inventory-details">Item Master Data</a>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php } ?>
+            
             <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-SALES')
                 || get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELIVERY')
                 || get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-INVENTORY')
@@ -318,7 +362,7 @@ BODY{
                     }
                     ?>
                     <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-EXPENSE')) {
-                        echo '<a href="../reports/reports-expense.php" class="sub-item">Expense</a>';
+                        echo '<a href="../reports/reports-expense.php" class="sub-item">Expenses</a>';
                     }
                     ?>
                 </div>
@@ -328,33 +372,7 @@ BODY{
 
 
 
-            <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-DELIVERY_PICKUP')
-                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-RETURN_CONTAINER')
-                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-CUSTOMER_BALANCE')
-                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-SCHEDULING')
-                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-ITEM_HISTORY')) { ?>
-                <div id="monitoring" class="item">
-                    <a class="sub-btn"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.438-1.062Q3.875 3 4.5 3h11q.625 0 1.062.438Q17 3.875 17 4.5v11q0 .625-.438 1.062Q16.125 17 15.5 17Zm0-1.5h11V6h-11v9.5Zm5.5-1.75q-1.542 0-2.75-.844T5.5 10.75q.542-1.312 1.75-2.156Q8.458 7.75 10 7.75t2.75.844q1.208.844 1.75 2.156-.542 1.312-1.75 2.156-1.208.844-2.75.844Zm0-1q1.104 0 2-.531.896-.531 1.396-1.469-.5-.938-1.396-1.469-.896-.531-2-.531t-2 .531q-.896.531-1.396 1.469.5.938 1.396 1.469.896.531 2 .531Zm0-.75q-.521 0-.885-.365-.365-.364-.365-.885t.365-.885Q9.479 9.5 10 9.5t.885.365q.365.364.365.885t-.365.885Q10.521 12 10 12Z"/></svg>
-                        MONITORING<i class="fas fa-angle-right dropdown"></i></a>
-                    <div class="sub-menu">
-                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-POINT_OF_SALES_TRANSACTION')) {?>
-                            <a href="../monitoring/monitoring-point-of-sales-transaction.php" class="sub-item">POS Transaction</a>
-                        <?php } ?>
-                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-DELIVERY_PICKUP')) {?>
-                            <a href="../monitoring/monitoring-delivery-pickup.php" class="sub-item">Delivery/Pick Up</a>
-                        <?php } ?>
-                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-CUSTOMER_BALANCE')) {?>
-                            <a href="../monitoring/monitoring-customer-balance.php" class="sub-item">Customer Balance</a>
-                        <?php } ?>
-                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-SCHEDULING')) {?>
-                            <a href="../monitoring/monitoring-scheduling.php" class="sub-item">Scheduling</a>
-                        <?php } ?>
-                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-ITEM_HISTORY')) {?>
-                            <a href="../monitoring/monitoring-item-history.php" class="sub-item">Item History</a>
-                        <?php } ?>
-                    </div>
-                </div>
-            <?php } ?>
+          
 
             <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) { ?>
                 <div id="customer" class="item">
@@ -362,21 +380,7 @@ BODY{
                         CUSTOMER</a></div>
             <?php } ?>
 
-            <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-STOCKS')
-                || get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ITEM')) { ?>
-                <div id="inventory" class="item">
-                    <a class="sub-btn"> <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M11 21H5q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h4.175q.275-.875 1.075-1.438Q11.05 1 12 1q1 0 1.788.562.787.563 1.062 1.438H19q.825 0 1.413.587Q21 4.175 21 5v5h-2V5h-2v3H7V5H5v14h6Zm4.5-1.075-4.25-4.25 1.4-1.4 2.85 2.85 5.65-5.65 1.4 1.4ZM12 5q.425 0 .713-.288Q13 4.425 13 4t-.287-.713Q12.425 3 12 3t-.712.287Q11 3.575 11 4t.288.712Q11.575 5 12 5Z"/></svg>
-                        INVENTORY<i class="fas fa-angle-right dropdown"></i></a>
-                    <div class="sub-menu">
-                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-STOCKS')) {?>
-                            <a href="../inventory/inventory-stocks.php" class="sub-item" id="inventory-stocks">Stocks</a>
-                        <?php } ?>
-                        <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-ITEM')) {?>
-                            <a href="../inventory/inventory-details.php" class="sub-item" id="inventory-details">Item</a>
-                        <?php } ?>
-                    </div>
-                </div>
-            <?php } ?>
+    
 
             <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-ATTENDANCE')
                 || get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-LIST')) { ?>
@@ -385,7 +389,7 @@ BODY{
                         EMPLOYEE<i class="fas fa-angle-right dropdown"></i></a>
                     <div class="sub-menu">
                         <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-ATTENDANCE')) {?>
-                            <a href="../employee/employee-attendance.php" class="sub-item" id="employee-attendance">Attendance</a>
+                            <a href="../employee/employee-attendance.php" class="sub-item" id="employee-attendance">Attendance/Payroll  </a>
                         <?php } ?>
                         <?php if(get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-LIST')) {?>
                             <a href="../employee/employee-list.php" class="sub-item" id="employee-details">Employee List</a>
