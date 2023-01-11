@@ -387,7 +387,6 @@ main .sub-tab{
     gap: 1rem;
     transition: all 300ms ease;
     text-transform: uppercase;
-    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
 }
 .add-account h3{
     font-size: .8rem;

@@ -1,6 +1,8 @@
 <?php
 session_start();
+require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
+require_once "../service/settings-delivery.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DELIVERY_FEE')) {
     header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
@@ -14,7 +16,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DEL
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <link rel="stylesheet" type="text/css" href="../CSS/account.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/settings-delivery-fee.css">
     <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
     <title>Tag's Water Purified Drinking Water</title>
 </head>
@@ -35,8 +37,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DEL
                     $page = 1;
                 }
 
-                $query = "SELECT COUNT(*) FROM users 
-                        WHERE users.status_archive_id = '1'";     
+                $query = "SELECT COUNT(*) FROM delivery_fee";     
                 $rs_result = mysqli_query($con, $query);     
                 $row = mysqli_fetch_row($rs_result);     
                 $total_records = $row[0];     
@@ -84,65 +85,20 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DEL
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
-
-                    <?php   
-                    $query = "SELECT 
-                    users.user_id,
-                    users.last_name,
-                    users.first_name,
-                    users.middle_name,
-                    users.email,
-                    users.contact_number, 
-                    users.profile_image, 
-                    account_type.user_type, 
-                    status_archive.status 
-                    FROM users 
-                    INNER JOIN account_type 
-                    ON users.account_type_id = account_type.id 
-                    INNER JOIN status_archive 
-                    ON users.status_archive_id = status_archive.id
-                    WHERE users.status_archive_id = '1'
-                    ORDER BY users.user_id
-                    LIMIT $start_from, $per_page_record";
-                    $result = mysqli_query($con, $query);
-                    if(mysqli_num_rows($result) > 0)
-                                            {
-                                            foreach($result as $rows)
-                                            {
-                                            ?>
                         <tbody>
                         <tr>
-                            <td data-label="Fee"> <?php echo $rows['first_name']; ?></td>
-                            <td data-label="Description"> <?php echo $rows['email']; ?></td>
-                            <td class="hrefa">
-                                <a href="../settings/settings-delivery-fee-edit.php?edit=<?php echo $rows['id']; ?>" id="edit-action" class="edit-action" name="action">
-                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
-                                    <span class="tooltipText">EDIT</span>       
-                                </a>
-                                <a href="../settings/settings-delivery-fee-archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="archive-action" name="action">
-                                    <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
-                                    <span class="tooltipText">REMOVE</span>       
-                                </a>
-                            </td>
                         </tr>
-                      
-                    <?php }?>
-                 
-                <?}else{ ?>
                         <tr class="noRecordTR" style="display:none">
                             <td colspan="3">No Record Found</td>
                         </tr>
-                        <?php }?>
                         </tbody>
                 </table>
             </div>
-
         </div>
 
         <div class="pagination">   
             <br>
                 <?php  
-
 
                     // Number of pages required.   
                     $total_pages = ceil($total_records / $per_page_record);     
@@ -266,107 +222,58 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DEL
         </div> 
 
 </div>
+<?php 
+if(isset($_GET['edit'])) {
+    $id = $_GET['edit'];
+    $get_delivery_fee = mysqli_query($con, "SELECT * from delivery_fee WHERE id = $id");
+
+    if(mysqli_num_rows($get_delivery_fee) > 0) {
+        $delivery_fee = mysqli_fetch_assoc($get_delivery_fee);
+
+?>
 <form action="" method="post" enctype="multipart/form-data" id="adduserFrm">
     <div class="bg-adduserform" id="bg-addform">
         <div class="message"></div>
         <div class="container1">
-            <h1 class="addnew-title">ADD NEW ACCOUNT</h1>
+            <h1 class="addnew-title">EDIT DELIVERY FEE</h1>
             <form action="#">
-                <input type="hidden" required="required" name="status" value="1">
+                <input type="hidden" required="required" name="id" value="<?= $id ?>">
                 <div class="main-user-info">
-                    <div class="user-input-box">
-                        <label for="lastname">Last Name</label>
-                        <input type="text"
+                    
+                <div class="user-input-box1">
+                    <span class="gender-title">FEE</span>
+                        <input type="number"
                                id="lastname"
-                               name="last_name"
+                               name="fee"
                                required="required"
-                               placeholder="Enter Last Name"/>
-                    </div>
+                               class="fee"
+                               placeholder="0.00"
+                               value = <?=$delivery_fee['fee'] ?>>
+                </div>
+                    <span class="gender-title">Description</span>
                     <div class="user-input-box">
-                        <label for="firstname">First Name</label>
                         <input type="text"
-                               id="firstname"
-                               name="first_name"
+                               name="description"
                                required="required"
-                               placeholder="Enter First Name"/>
-                    </div>
-                    <div class="user-input-box">
-                        <label for="middlename">Middle Name</label>
-                        <input type="text"
-                               id="middlename"
-                               name="middle_name"
-                               required="required"
-                               placeholder="Enter Middle Name"/>
-                    </div>
-                    <div class="user-input-box">
-                        <label for="email">Email</label>
-                        <input type="text"
-                               id="email"
-                               name="email"
-                               required="required"
-                               placeholder="Enter Email"/>
-                    </div>
-
-                    <div class="user-input-box">
-                        <label for="contactnum">Contact Number</label>
-                        <input type="text" min='0' onkeypress='return isNumberKey(event)'
-                               id="contactnum"
-                               name="contact_num"
-                               placeholder='Enter Contact Number'
-                               required="required"/>
-                    </div>
-
-                    <div class="user-input-box">
-                        <?php
-                        $dropdown_query = "SELECT * FROM account_type WHERE is_deleted = 0";
-                        $account_type_result = mysqli_query($con, $dropdown_query);
-                        ?>
-                        <select class="select" name="user_types" required="" >
-                            <option selected disabled value="">SELECT ROLE</option>
-                            <?php while($account_type = mysqli_fetch_array($account_type_result)):;?>
-                                <option value="<?php echo $account_type['id']?>">
-                                    <?php echo $account_type['user_type'];?>
-                                </option>
-                            <?php endwhile;?>
-                        </select>
-                    </div>
-                    <div class="user-input-box">
-                        <label for="pass"> Password</label>
-                        <input type="password"
-                               id="pass-account"
-                               name="pass"
-                               required="required"
-                               placeholder="Create Password"/>
-                    </div>
-                    <div class="user-input-box">
-                        <label for="ecpass">Confirm Password</label>
-                        <input type="password"
-                               id="cpass-account"
-                               name="confirm_pass"
-                               required="required"
-                               placeholder="Confirm Password"/>
-                    </div>
-                    <div class="checker">
-                        <input type="checkbox" name="" onclick="myFunctionCP()" >
-                        <span>Show password</span>
-                    </div>
-                    <span class="gender-title">Profile Picture</span>
-                    <div class="choose-profile">
-                        <input type="file" id="image-profile" name="profile_image" accept="image/jpg, image/png, image/jpeg" >
+                               value = "<?=$delivery_fee['description'] ?>">
                     </div>
                     <div class="line"></div>
 
                     <div class="bot-buttons">
                         <div class="CancelButton">
-                            <a href="../accounts/account.php" id="cancel">CANCEL</a>
+                            <a href="../settings/settings-delivery-fee.php" id="cancel">CANCEL</a>
                         </div>
                         <div class="AddButton">
-                            <button type="submit" id="adduserBtn" name="add-account">SAVE</button>
+                            <button type="submit" id="adduserBtn" name="edit-delivery-settings">SAVE</button>
                         </div>
                     </div>
             </form>
         </div>
 </form>
+<?php }
+else {
+    echo '<script> location.replace("../settings/settings-payroll.php"); </script>';
+} }?>
 </div>
 
 </body>
@@ -381,11 +288,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DEL
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 </html>
 <script>
-
-function addnewuser(){
-    // const addForm = document.querySelector(".bg-adduserform");
-    addForm.style.display = 'flex';
-}
+const addForm = document.querySelector(".bg-adduserform");
+addForm.style.display = 'flex';
 
 function goToPage(reference) {   
     var page = document.getElementById("page").value;   

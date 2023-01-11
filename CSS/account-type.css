@@ -717,7 +717,7 @@ body{
     margin-bottom: .5rem
 }
 #edit-action{
-    background:rgb(0, 154, 255);
+    background: rgb(0, 154, 255);
     color: var(--color-white);
     align-items: center;
     position: relative;
@@ -733,28 +733,7 @@ body{
     border: none;
 }
 #edit-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
-}
-#cpass-action{
-    background:#00aa09;
-    position: relative;
-    color: var(--color-white);
-    align-items: center;
-    text-align: center;
-    margin: 1px;
-    border-radius: 3px;
-    height: 100%;
-    width: 70%;
-    padding-top: 10px;
-    padding-right: 1px;
-    padding-left: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-#cpass-action:hover{
-    background: var(--color-main);
+    background: hsl(0, 0%, 37%);
     color: var(--color-white);
 }
 #archive-action{
@@ -774,7 +753,7 @@ body{
     border: none;
 }
 #archive-action:hover{
-    background: var(--color-main);
+    background: hsl(0, 0%, 37%);
     color: var(--color-white);
 }
 
@@ -1053,7 +1032,6 @@ main .sub-tab{
     position: absolute;
     margin-top: .2rem;
     text-transform: uppercase;
-    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
 }
 .add-account h3{
     font-size: .8rem;

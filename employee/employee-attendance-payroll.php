@@ -183,7 +183,7 @@ if(isset($_GET['edit'])) {
             <div class="bg-addcustomerform" id="bg-addform">
                 <div class="message"></div>
                 <div class="container1">
-                    <h1 class="addnew-title">PROCESS PAYROLL</h1>
+                    <h1 class="addnew-title">GENERATE SALARY</h1>
                     <form action="#">
                         <input type="hidden" required="required" name="id" value="<?=$attendance['id'];?>">
 

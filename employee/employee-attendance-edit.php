@@ -284,10 +284,10 @@ if(isset($_GET['edit'])) {
                             <div class="radio-button">
                                 <br>
                                 <div class="salary-cateogory" >
-                                    <input type="radio" name="is_whole_day" id="Yes" value="Yes" required="required" <?php if($attendance['whole_day']==1) echo 'checked="checked"'?>">
-                                    <label for="Yes">Whole Day</label>
-                                    <input type="radio" name="is_whole_day" id="No" value="No" <?php if($attendance['whole_day']==0) echo 'checked="checked"'?>">
-                                    <label for="No">Half Day</label>
+                                    <input type="radio" name="is_with_uniform" id="Yes" value="Yes" required="required" <?php if($attendance['with_uniform']==1) echo 'checked="checked"'?>">
+                                    <label for="Yes">With Uniform</label>
+                                    <input type="radio" name="is_with_uniform" id="No" value="No" <?php if($attendance['with_uniform']==0) echo 'checked="checked"'?>">
+                                    <label for="No">No Uniform</label>
                                 </div>
                             </div>
 

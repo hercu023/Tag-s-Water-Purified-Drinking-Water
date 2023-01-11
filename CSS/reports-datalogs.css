@@ -415,7 +415,6 @@ BODY{
     color: var(--color-main);
     fill: var(--color-main);
     margin-left: 0;
-    padding-left: 1rem;
     content: "";
     margin-bottom: 6px;
     font-size: 15px;
@@ -752,24 +751,27 @@ BODY{
 
 /* ----------------------------------------MAIN---------------------------------------- */
 .main-customer{
+    margin-top: 3.4rem;
     width:100%;
     position: relative;
 }
 .accTitle{
-    margin-top: 2rem;
-    font-size: min(max(1.9rem, 1.1vw), 2rem);
-    color: var(--color-main);
-    font-family: 'COCOGOOSE', sans-serif;
-    letter-spacing: .03rem;
-    border-bottom: 2px solid var(--color-main);
+       /* margin-top: 2rem; */
+       font-size: min(max(1.9rem, 1.1vw), 2rem);
+    color: var(--color-main); 
+    border-bottom: 2px solid var(--color-main); 
     width: 78%;
+    font-weight: 1000;
+    margin-top: 3.4rem;
 }
 /* ----------------------------------------Sub TAB---------------------------------------- */
 .user-title{
     position: relative;
+    display: inline-block;
+    width: 10%;
+    margin-left: 3rem;
 }
 main  h2{
-    margin-bottom: -2.2rem;
     margin-top: 1rem;
     color: var(--color-solid-gray);
     font-size: 1.3rem;
@@ -778,15 +780,295 @@ main  h2{
     font-family: 'Galhau Display', sans-serif;
 }
 main .sub-tab{
-    margin-bottom: 7rem;
+    margin-bottom:4rem;
+}
+/* ----------------------------------------Search BAR---------------------------------------- */
+
+/* ----------------------------------------Add Button---------------------------------------- */
+.newUser-button{
+    position: absolute;
+    left: 2%;
+}
+.add-customer{
+    display: flex;
+    border: none;
+    background-color: var(--color-white);
+    align-items: center;
+    color: var(--color-button);
+    fill: var(--color-button);
+    width: 13rem;
+    max-height: 46px;
+    border-radius: 20px;
+    padding: .68rem 1rem;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    gap: 1rem;
+    height: 3.9rem;
+    transition: all 300ms ease;
+    position: relative;
+    margin-top: .2rem;
+    text-transform: uppercase;
+}
+.add-customer h3{
+    font-size: .8rem;
+}
+.add-customer:hover{
+    background-color: var(--color-main);
+    color: var(--color-white);
+    fill: var(--color-white);
+    padding-top: -.2px;
+    transition: 0.7s;
+    border-bottom: 4px solid var(--color-maroon);
+}
+/* ----------------------------------------Customers Table---------------------------------------- */
+main .account-container{
+    margin-top: -2rem;
+    max-height: 650px;
+    overflow:auto;
+    width: 100%;
+    /* position: absolute; */
+    box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
+    border-top: 8px solid var(--color-table-hover);
+    border-radius: 0px 0px 10px 10px;
+
+}
+
+main .account-container table{
+    background: var(--color-white);
+    font-family: 'Switzer', sans-serif;
+    width: 100%;
+    font-size: 1rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    padding-bottom: 2.5rem;
+    text-align: center;
+    transition: all 700ms ease;
+    /* margin-top: -1rem; */
+}
+
+main .account-container table:hover{
+    box-shadow: none;
+    /* border-top: 8px solid var(--color-main); */
+}
+
+ table tbody td{
+    height: 3.3rem;
+    border-bottom: 1px solid var(--color-solid-gray);
+    color: var(--color-td);
+    font-size: .8rem;
+ }
+th{
+    height: 3.3rem;
+    color: var(--color-black);
+    margin:1rem;
+    font-size: 1rem;
+    letter-spacing: 0.02rem;
+}
+/* ----------------------------------------ASIDE---------------------------------------- */
+.container{
+    display: grid;
+    width: 96%;
+    /* margin: 0 auto; */
+    background: var(--color-background);
+    gap: 1.8rem;
+    grid-template-columns: 16rem auto;
+}
+#menu-button{
+    display: none;
+}
+
+
+.menu-tab p{
+    font-size: 20px;
+    font-weight: lighter;
+    margin-left: 10px;
+}
+
+.menu-tab img{
+    width: 15px;
+    margin-right: 10px;
+    margin-left: 20px;
+}
+.Title-top{
+display: none;
+font-size: min(max(1.2rem, 0.4vw), 1.3rem);
+color: var(--color-main);
+font-family: 'COCOGOOSE', sans-serif;
+letter-spacing: .03rem;
+}
+.subTitle-top{
+display: none;
+position: relative;
+margin-left: 3rem;
+border-left: 1px var(--color-solid-gray) solid;
+padding-left: 1rem;
+padding-bottom: .2rem;
+font-family: 'calibri', sans-serif;
+color: var(--color-solid-gray);
+font-size: 1rem;
+text-transform: uppercase;
+
+}
+/* ----------------------------TOP MENU---------------------------- */
+
+.top-menu a{
+text-decoration: none;
+}
+.top-menu{
+margin-top: 1rem;
+position: absolute;
+right: 4%;
+}
+.top-menu .menu-bar{
+display: flex;
+justify-content: end;
+gap: 2rem;
+}
+.top-menu .menu-bar button{
+display: none;
+}
+.top-menu .menu-bar .user1{
+gap: 2rem;
+align-items: right;
+text-align: right;
+}
+.top-menu .menu-bar .user2{
+display: flex;
+gap: 2rem;
+align-items: right;
+text-align: right;
+}
+.top-menu .menu-bar .accTitle-top{
+font-size: min(max(1.2rem, 0.4vw), 1.3rem);
+color: var(--color-main); 
+font-family: 'COCOGOOSE', sans-serif;
+letter-spacing: .03rem;
+display: none;
+text-align: center;
+align-items: center;
+}
+.user-type{
+font-family: 'switzer', sans-serif;
+font-size: 7.5px;
+color: var(--color-black); 
+letter-spacing: 1px;
+border-top: 2px solid var(--color-main); 
+margin-top: -0.97rem;
+text-transform: uppercase;
+}
+h1{
+margin-top: 6px;     
+}
+.welcome{
+font-family: 'Calibri', sans-serif;
+font-size: 11px;
+/* margin-right: -7.3rem;*/
+margin-top: -0.6rem; 
+letter-spacing: 1px;
+color: var(--color-main); 
+}
+.user-name{
+font-family: 'Switzer', sans-serif;
+font-size: 12px;
+margin-top: -1rem; 
+text-transform: uppercase;
+margin-bottom: 0;
+color: var(--color-maroon);
+}
+.profile img{
+background: var(--color-white); 
+border-radius: 30%;
+width: 50px;
+padding: 4px;
+margin-top: .3rem;
+}
+
+.user2 .profile{
+position: relative;
+cursor: pointer;
+}
+.user2 .drop-menu{
+position: absolute;
+top: 120px;
+right: 0;
+padding: 10px 20px;
+background: var(--color-white);
+box-shadow: 3px 2px 10px 1px var(--color-solid-gray);
+width: 110px;
+box-sizing: 0 5px 25px rgba(0,0,0,0.1);
+border-radius: 7px;
+transition: 0.5s;
+visibility: hidden;
+opacity: 0;
+}
+.user2 .drop-menu.user2{
+top: 85px;
+visibility: visible;
+opacity: 1;
+}
+.user2 .drop-menu::before{
+content:'';
+position: absolute;
+top: -5px;
+right: 25px;
+width: 15px;
+height: 20px;
+background: var(--color-white);
+transform: rotate(45deg);
+transition: 0.5s;
+}
+.drop-menu .ul .user-type3{
+font-family: 'Calibri', sans-serif;
+font-size: 7.5px;
+color: var(--color-main);
+letter-spacing: .2rem;
+display: none;
+text-transform: uppercase;
+}
+
+.drop-menu .ul{
+display: flex;
+flex-direction: column;
+height: 5rem;
+position: relative;
+margin-bottom: 0.5rem;
+}
+.drop-menu h4{
+font-weight: 400;
+font-size: 12px;
+}
+.drop-menu .ul a{
+display: flex;
+color: hsl(0, 0%, 69%);
+fill: hsl(0, 0%, 69%);
+margin-left: -1.26rem;
+padding-left: 1rem;
+gap: 1rem;
+height: 1rem;
+width: 8.5rem;
+align-items: center;
+position: relative;
+height: 1.7rem;
+transition: all 300ms ease;
+}
+.drop-menu .ul a:hover {
+background:  rgb(190, 190, 190);
+transition: 0.6s;
+color: var(--color-white);
+fill: var(--color-white);
+padding-left: .9rem;
+content: "";
+margin-bottom: 6px;
+font-size: 15px;
+border-radius: 0px 0px 10px 10px;
+cursor: pointer;
 }
 /* ----------------------------------------Search BAR---------------------------------------- */
 .search{
-    position: absolute;
+    position: relative;
+    display: inline-block;
     gap: 2rem;
-    align-items: right;
-    text-align: right;
-    right: 0;
+    float: right;    
 }
 .search-bar{
     width: 18rem;
@@ -825,101 +1107,6 @@ main .sub-tab{
     background: var(--color-main);
     margin-right: -0.55rem;
 }
-/* ----------------------------------------Add Button---------------------------------------- */
-.newUser-button{
-    position: absolute;
-    left: 2%;
-}
-.add-customer{
-    display: flex;
-    border: none;
-    background-color: var(--color-white);
-    align-items: center;
-    color: var(--color-button);
-    fill: var(--color-button);
-    width: 13rem;
-    max-height: 46px;
-    border-radius: 20px;
-    padding: .68rem 1rem;
-    font-family: 'Outfit', sans-serif;
-    cursor: pointer;
-    gap: 1rem;
-    height: 3.9rem;
-    transition: all 300ms ease;
-    position: relative;
-    margin-top: .2rem;
-    text-transform: uppercase;
-}
-.add-customer h3{
-    font-size: .8rem;
-}
-.add-customer:hover{
-    background-color: var(--color-main);
-    color: var(--color-white);
-    fill: var(--color-white);
-    padding-top: -.2px;
-    transition: 0.7s;
-    border-bottom: 4px solid var(--color-maroon);
-}
-/* ----------------------------------------Customers Table---------------------------------------- */
-main .customer-container{
-    margin-top: -1rem;
-    max-height: 650px;
-    overflow:auto;
-    width: 100%;
-    /* position: absolute; */
-    box-shadow: 0px 5px 30px 2px var(--color-table-shadow);
-    border-top: 8px solid var(--color-table-hover);
-    border-radius: 0px 0px 10px 10px;
-
-}
-main .customer-container table{
-    background: var(--color-white);
-    font-family: 'Switzer', sans-serif;
-    width: 100%;
-    font-size: 1rem;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-    padding-bottom: 2.5rem;
-    text-align: center;
-    transition: all 700ms ease;
-    /* margin-top: -1rem; */
-}
-main .customer-container table:hover{
-    box-shadow: none;
-    /* border-top: 8px solid var(--color-main); */
-}
-
-main table tbody td{
-    height: 2.8rem;
-    border-bottom: 1px solid var(--color-solid-gray);
-    color: var(--color-td);
-    font-size: .8rem;
-}
-th{
-    height: 2.8rem;
-    color: var(--color-black);
-    margin:1rem;
-    font-size: 1rem;
-    letter-spacing: 0.02rem;
-}
-tr:hover td{
-    color: var(--color-main);
-    cursor: pointer;
-    background-color: var(--color-table-hover);
-}
-/* ----------------------------------------ASIDE---------------------------------------- */
-.container{
-    display: grid;
-    width: 96%;
-    /* margin: 0 auto; */
-    background: var(--color-background);
-    gap: 1.8rem;
-    grid-template-columns: 16rem auto;
-}
-#menu-button{
-    display: none;
-}
 @media screen and (max-width: 1600px){
     .container{
         width: 94%;
@@ -939,95 +1126,7 @@ tr:hover td{
         margin-bottom: 4rem;
     }
 }
-@media screen and (max-width: 1400px){
-    .container{
-        width: 94%;
-        grid-template-columns: 7.77rem auto;
-    }
 
-    .top-menu{
-        width: 370px;
-    }
-    .main-customer{
-        position: relative;
-        left: -5%;
-    }
-    main .customer-container{
-        width: 105%;
-    }
-    main  h2{
-        margin-left: 10%;
-    }
-    main .sub-tab{
-        margin-bottom: 4rem;
-    }
-    .newUser-button{
-        left: 2.5%;
-    }
-    .search{
-        right: -5%;
-    }
-    .search-bar{
-        width: 18vw;
-    }
-}
-@media screen and (max-width: 1200px){
-    .container{
-        width: 94%;
-        grid-template-columns: 7.3rem auto;
-    }
-    .dashTitle{
-        width: 74%;
-    }
-    .top-menu{
-        width: 370px;
-    }
-    .main-customer{
-        position: relative;
-        left: -5%;
-    }
-    main  h2{
-        margin-left: 10%;
-    }
-    main .sub-tab{
-        margin-bottom: 4rem;
-    }
-    .search-bar{
-        width: 20vw;
-    }
-    .user2 .drop-menu{
-        right: 13px;
-        margin-top: 2px;
-    }
-    .user2 .drop-menu::before{
-        right: 25px;
-    }
-    .drop-menu .ul{
-        width: 8.5rem;
-        height: 5rem;
-    }
-    .drop-menu .ul a{
-        width: 8.5rem;
-    }
-}
-
-@media screen and (max-width: 768px){
-    .containter{
-        width: 100%;
-    }
-    .top-menu{
-        width: 370px;
-    }
-    main .customer-container{
-        margin-top: 6rem;
-    }
-    main  h2{
-        margin-left: 10%;
-    }
-    main .sub-tab{
-        margin-bottom: 4rem;
-    }
-}
 @media screen and (max-width: 1400px){
     .container{
         width: 94%;
@@ -1041,13 +1140,14 @@ tr:hover td{
     .close-btn{
         display: flex;
     }
-
+    .user-title{
+        width:10rem;
+    }
     .top-menu{
         width: 370px;
     }
     .main-customer{
         position: relative;
-        left: -5%;
     }
     main .customer-container{
         width: 105%;
@@ -1062,7 +1162,6 @@ tr:hover td{
         left: 2.5%;
     }
     .search{
-        right: -5%;
     }
     .search-bar{
         width: 18vw;
@@ -1081,7 +1180,6 @@ tr:hover td{
     }
     .main-customer{
         position: relative;
-        left: -5%;
     }
     main  h2{
         margin-left: 10%;
@@ -1115,9 +1213,22 @@ tr:hover td{
     .menu-btn2{
         display: flex;
     }
+   /* ----------------------------------top-menu----------------------------- */
+   .Title-top{
+        display: block;
+        left: 0;
+        margin-left: 4rem;
+        position: absolute;
+    }
+    .subTitle-top{
+        display: block;
+        left: 0;
+        margin-left: 12rem;
+        position: absolute;
+    }
     .top-menu{
-        width: 94%;
-        margin: 0 auto 4rem;
+        width: 100%;
+        margin: 0 auto 2rem;
     }
     .top-menu .menu-bar{
         position: fixed;
@@ -1132,44 +1243,44 @@ tr:hover td{
         z-index: 2;
         box-shadow: 0px 1px 14px var(--color-shadow-shadow);
     }
-    .top-menu .menu-bar .accTitle-top{
-        display: block;
-        left: 0;
-        margin-left: 4rem;
-        position: absolute;
-    }
     .profile{
-        margin-right: 1.4rem;
+        margin-right: 2rem;
     }
     .top-menu .menu-bar .user1{
         display: none;
     }
+    .user-type4{
+        margin-top: 1.9rem;
+    }
     .drop-menu .ul .user-type3{
-        display: block;
-        left:22.5%;
+        display: flex;
+        padding-bottom: 2.9rem;
+        left:20.5%; 
         position: absolute;
-        margin-top: -2.3rem;
-        margin-bottom: 1.9rem;
+    }
+    .addnew-title{
+        text-align: center;
+        font-size: 1.5rem;
     }
     .accTitle{
         display:none;
     }
+    .user-title{
+        display: none;
+    }
     .user2 .drop-menu{
         right: 40px;
-        height: 9.3rem;
+        height: 7.3rem;
         margin-top: 2px;
     }
     .user2 .drop-menu::before{
-        right: 17px;
+        right: 30px;
     }
     .drop-menu .ul{
         width: 8.5rem;
         height: 5rem;
     }
-    .drop-menu .ul .theme-dark{
-        margin-top: -.3rem;
-    }
-
+    
     .drop-menu .ul a{
         width: 8.5rem;
     }
@@ -1177,20 +1288,64 @@ tr:hover td{
         position: relative;
         left: -5%;
     }
-    main .customer-container{
-        margin: 2rem 0 0 8.8rem;
-        width: 94%;
-        position: absolute;
-        display:none;
-        left: 0;
-        margin-left: 50%;
-        transform: translateX(-50%);
-        margin-top: 3%;
+    .account-container{
+        position: relative;
+        margin-top:7rem;
+        overflow: auto;
+        width: 100%;
+        max-height: 600px;
+        border-top: 5px solid var(--color-solid-gray);
+        font-size: 15px;
     }
-    main .customer-container table{
-        width: 80vw;
-        padding-left:30px;
-        padding-right:30px;
+    .account-container tbody tr td{
+        font-size: 10px;
+        
+    }
+    table {
+        border: 0;
+    }
+
+    table caption {
+        font-size: 1.3em;
+    }
+    
+    table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+    
+    table tr {
+        border-bottom: 3px solid #ddd;
+        display: block;
+        margin-bottom: .625em;
+    }
+    
+    table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .8em;
+        text-align: right;
+    }
+    
+    table td::before {
+        /*
+        * aria-label has no advantage, it won't be read inside a table
+        content: attr(aria-label);
+        */
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    table td:last-child {
+        border-bottom: 0;
     }
     main  h2{
         margin-left: 10%;
@@ -1204,36 +1359,14 @@ tr:hover td{
         display:none;
     }
     .search{
-        left: 77%;
-        display:none;
+        position: relative;
+        width: 100%;
+        margin-top: 3rem;
+        margin-bottom: 1rem;
     }
     .search-bar{
-        width: 20vw;
-    }
+        text-align: center;
+        width: 90%;
+        float: left;
+    } 
 }
-
-.menu-tab p{
-    font-size: 20px;
-    font-weight: lighter;
-    margin-left: 10px;
-}
-
-.menu-tab img{
-    width: 15px;
-    margin-right: 10px;
-    margin-left: 20px;
-}
-/* .menu-tab a:hover{
-    background:  rgb(250, 255, 251);
-    transition: 0.6s;
-    margin-left: 0rem;
-    color: rgb(187, 187, 187);
-    fill: rgb(187, 187, 187);
-    font-weight: bold;
-    padding-left: 1rem;
-    content: "";
-    margin-bottom: 6px;
-    font-size: 9px;
-    border-radius: 0 10px 10px 0 ;
-    box-shadow: 1px 1px 1px rgb(224, 224, 224);
-} */

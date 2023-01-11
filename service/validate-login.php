@@ -6,7 +6,10 @@ require_once "../service/user-access.php";
 
 $module = 'LOGIN';
 
-if (isset($_POST['email']) && isset($_POST['password'])){
+date_default_timezone_set("Asia/Manila");
+
+if (isset($_POST['email']) && isset($_POST['password'])) {
+    
 
     //Unset session
     unset($_SESSION['email']);
@@ -42,34 +45,64 @@ if (isset($_POST['email']) && isset($_POST['password'])){
             $user_user_type = $user['user_type'];
             $user_profile_image = $user['profile_image'];
 
-            if ($email === $user_email){
-                if (password_verify($password, $user_password)){
+            if ($email === $user_email) {
 
-                    //Setup the session variables
-                    $_SESSION['user_user_id'] = $user_id;
-                    $_SESSION['user_email'] = $user_email;
-                    $_SESSION['user_first_name'] =  $user_first_name;
-                    $_SESSION['user_last_name'] =  $user_last_name;
-                    $_SESSION['user_user_type'] =  $user_user_type;
-                    $_SESSION['user_profile_image'] =  $user_profile_image;
+                if (password_verify($password, $user_password)) {
 
-                    $validate_session = mysqli_query($con, "SELECT * FROM user_session 
+                  
+
+                    $validate_session = mysqli_query($con, "SELECT date_add(date_active,interval 30 minute) as date_active
+                                                                FROM user_session 
                                                                 WHERE user_id = '$user_id'
                                                                 AND status = 'ACTIVE'");
 
-                    if (mysqli_num_rows($validate_session) > 0) {
-                        log_audit($con, $user_id, $module, 0, 'Restricted login, still has an active session.');
-                        header("Location: ../auth/login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> You still have an active session. Please log out previous session.");
-                    } else {
-                        $session_key = bin2hex(openssl_random_pseudo_bytes(10)); //Create 20 chars hexadecimal String
+                    $check_session = mysqli_query($con, "SELECT date_add(date_active,interval 30 minute) as date_active FROM user_session 
+                    WHERE session_key = '$user_session'
+                    AND status = 'ACTIVE'");
 
+                    $create_new_session = false;
+
+                    if (mysqli_num_rows($validate_session) > 0) {
+                        $session = mysqli_fetch_assoc($validate_session);
+                        $date_active_expiry = $session['date_active'];
+
+                        $date_active_expiry = new DateTime($date_active_expiry);
+                        $current_date = new DateTime();
+    
+                        //If session is already exp
+                        if($current_date > $date_active_expiry) {
+
+                            //Delete expired session
+                            $delete = mysqli_query($con, "DELETE from user_session WHERE user_id = '$user_id'");
+                            $create_new_session = true;
+                        } else {
+                            log_audit($con, $user_id, $module, 0, 'Restricted login, still has an active session.');
+                            header("Location: ../auth/login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> You still have an active session. Please log out previous session.");
+                        }              
+                    } else {
+                        $create_new_session = true;
+                    }
+
+                    if($create_new_session) {
+
+                        //Setup the session variables
+                        $_SESSION['user_user_id'] = $user_id;
+                        $_SESSION['user_email'] = $user_email;
+                        $_SESSION['user_first_name'] =  $user_first_name;
+                        $_SESSION['user_last_name'] =  $user_last_name;
+                        $_SESSION['user_user_type'] =  $user_user_type;
+                        $_SESSION['user_profile_image'] =  $user_profile_image;
+
+                        $session_key = bin2hex(openssl_random_pseudo_bytes(10)); //Create 20 chars hexadecimal String
                         $_SESSION['user_user_session_key'] = $session_key;
 
+                        //Insert new session
                         $insert_session = mysqli_query($con, "INSERT INTO user_session VALUES (
-                                 '',
-                                 '$user_id',
-                                 '$session_key',
-                                 'ACTIVE')");
+                            '',
+                            '$user_id',
+                            '$session_key',
+                            'ACTIVE',
+                            now())");
 
                         if ($insert_session) {
                             log_audit($con, $user_id, $module, 1,'Logged in the system');
@@ -116,7 +149,7 @@ if (isset($_POST['email']) && isset($_POST['password'])){
                                     header("Location: ../reports/reports-attendance.php");
                                     exit();
                                 }
-                               
+                            
                                 if($access['name'] == 'ACCOUNT-ACCOUNT_TYPE') {
                                     header("Location: ../accounts/account-type.php");
                                     exit();
@@ -161,7 +194,7 @@ if (isset($_POST['email']) && isset($_POST['password'])){
                                     exit();
                                 }
                                 
-                             
+                            
                                 if($access['name'] == 'MONITORING-CUSTOMER_BALANCE') {
                                     header("Location: ../monitoring/monitoring-customer-balance.php");
                                     exit();
@@ -207,16 +240,16 @@ if (isset($_POST['email']) && isset($_POST['password'])){
                                     header("Location: ../settings/settings-help.php");
                                     exit();
                                 }
-                                
                             }
                         }
                     }
+
                 } else {
                     log_audit($con, $user_id, $module, 0, 'Incorrect password input');
                     header("Location: ../auth/login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The password you've entered is incorrect");
                 }
             } else {
-                header("Location: ../auth/login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The email you entered is not connected to the system");
+                 header("Location: ../auth/login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The email you entered is not connected to the system");
             }
         } else {
             header("Location: ../auth/login.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> The email you entered is not connected to the system");

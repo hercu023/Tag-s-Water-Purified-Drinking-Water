@@ -1,6 +1,7 @@
 <?php
 require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
+require_once "../service/add-delivery.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-DELIVERY_PICKUP')) {
     header("Location: ../common/error-page.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i>You are not authorized to access this page.");
@@ -18,15 +19,13 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
         <link rel="stylesheet" type="text/css" href="../CSS/monitoring-delivery-pickup-list.css">
         <script src="../index.js"></script>
     </head>
- <style>
 
- </style>
     <body>
     
         <div class="container">
-        <?php
-            include('../common/side-menu.php')
-        ?>
+            <?php
+                include('../common/side-menu.php')
+            ?>
             <main>
                 <div class="main-dashboard">
                     <h1 class="dashTitle">MONITORING</h1> 
@@ -35,12 +34,15 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                         echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
                     }
                     ?>
+                    <?php
+                    if (isset($_GET['success'])) {
+                        echo '<p id="myerror" class="success-success"> '.$_GET['success'].' </p>';
+                    }
+                    ?>
                     <div class="sub-tab">
                             <div class="user-title">
                                 <h2>DELIVERY/PICK UP</h2>
                             </div>
-        
-
                             <div class="newUser-button3"> 
                                 <a href="../monitoring/monitoring-delivery-pickup.php" id="add-userbutton" class="batchlist">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M14 18q-1.667 0-2.833-1.167Q10 15.667 10 14q0-1.667 1.167-2.833Q12.333 10 14 10q1.667 0 2.833 1.167Q18 12.333 18 14q0 1.667-1.167 2.833Q15.667 18 14 18Zm1.146-2.146.708-.708-1.354-1.354V12h-1v2.208ZM4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.448-1.062Q3.896 3 4.5 3h3.562q.209-.708.709-1.104Q9.271 1.5 10 1.5q.75 0 1.25.396T11.938 3H15.5q.604 0 1.052.438Q17 3.875 17 4.5v4.896q-.354-.229-.719-.406-.364-.178-.781-.282V4.5H14V7H6V4.5H4.5v11h4.208q.146.438.292.792.146.354.396.708ZM10 4.5q.312 0 .531-.219.219-.219.219-.531 0-.312-.219-.531Q10.312 3 10 3q-.312 0-.531.219-.219.219-.219.531 0 .312.219.531.219.219.531.219Z"/></svg>
@@ -53,7 +55,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                     
                     <div class="account-container" id="customerTable">
                             <br>
-                            <header class="previous-transaction-header">ONGOING PICK UP</header>
+                            <header class="previous-transaction-header">FOR PICK UP</header>
                             <hr>
                             <table class="table" id="myTable">
                             <thead>
@@ -77,21 +79,17 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                             transaction.status_id,
                             transaction.total_amount,
                             transaction.created_at_date,
-                            transaction.created_at_time,
-                            employee.first_name,
-                            employee.last_name
+                            transaction.created_at_time
                             FROM transaction
                             INNER JOIN delivery_list
                             ON transaction.uuid = delivery_list.uuid
-                            INNER JOIN employee
-                            ON delivery_list.delivery_boy_id = employee.id
                             INNER JOIN payment_option
                             ON transaction.payment_option = payment_option.id
                             LEFT JOIN customers
                             ON transaction.customer_name_id = customers.id
                             WHERE transaction.service_type != 'Walk In'
                             AND transaction.uuid IN (SELECT uuid FROM delivery_list)
-                            AND delivery_list.delivery_status = 5
+                            AND delivery_list.delivery_status = 4
                             ORDER BY transaction.created_at_time";
                         $result4 = mysqli_query($con, $dropdown_query2);
                         if(mysqli_num_rows($result4) > 0)
@@ -102,35 +100,47 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                      <tbody>
                             <tr>
                                 <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
-                                    <td data-label="STATUS"> <button type="submit" name="add-as-already-pickup" class="status3">ALREADY PICK UP</button></td>
+                                    <td data-label="STATUS"> <button type="submit" name="add-to-ongoing-pickup" class="status1"> ADD TO ONGOING</button></td>
                                     <input type="hidden" value="<?php echo $rows['uuid'];?>" name="uuid">
+                                
+                                    <td data-label="ID"> <?php echo $rows['id']; ?></td>
+                                    <td data-label="Customer Name"> <?php if($rows['customer_name']){
+                                        echo $rows['customer_name'];
+                                        }else{
+                                            echo 'GUEST';
+                                        }
+                                    ?></td>
+                                    <td data-label="Order Details"> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-list-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+                                    <td data-label="Total Amount"> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
+                                    <td data-label="Payment Status"> 
+                                        <?php 
+                                        if($rows['status_id'] == 0){
+                                            echo '<span class="outofstock">Unpaid</span>';
+                                        }else{
+                                            echo '<span class="instock">Paid</span>';
+                                        } ?>
+                                    </td>
+                                    <td data-label="Date/Time"> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
+                                    <td data-label="Delivery Boy">    
+                                        <div class="usertype-dropdown1">
+                                            <?php
+                                            $dropdown_query = "SELECT * FROM employee WHERE position_id = 2";
+                                            $result_category = mysqli_query($con, $dropdown_query);
+                                            ?>
+                                            <select class="select1" name="delivery_boy" required >
+                                                <option selected disabled value="">SELECT DELIVERY BOY</option>
+                                                <?php while($category = mysqli_fetch_array($result_category)):;?>
+                                                    <option value="<?php echo $category['id']?>">
+                                                        <?php echo $category['first_name'].' '.$category['last_name'];?></option>
+                                                <?php endwhile;?>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>    <a href="../service/delete-transaction-order.php?delete-list=<?php echo $rows['uuid']; ?>" class="delete-rowsButton" class="action-btn" name="action">
+                                                X
+                                            </a>
+                                    </td>
                                 </form>
-                                <td data-label="ID"> <?php echo $rows['id']; ?></td>
-                                <td data-label="Customer Name"> <?php if($rows['customer_name']){
-                                    echo $rows['customer_name'];
-                                    }else{
-                                        echo 'GUEST';
-                                    }
-                                 ?></td>
-                                <td data-label="Order Details"> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
-                                <td data-label="Total Amount"> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
-                                <td data-label="Payment Status"> 
-                                    <?php 
-                                    if($rows['status_id'] == 0){
-                                        echo '<span class="outofstock">Unpaid</span>';
-                                    }else{
-                                        echo '<span class="instock">Paid</span>';
-                                    } ?>
-                                </td>
-                                <td data-label="Date/Time"> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
-                                <td data-label="Delivery Boy">    
-                                    <?php echo $rows['first_name'] .' '. $rows['last_name']; ?>
-                                </td>
-                                <td>    <a href="../service/delete-transaction-order.php?delete-list=<?php echo $rows['uuid']; ?>" class="delete-rowsButton" class="action-btn" name="action">
-                                            X
-                                        </a>
-                                </td>
-                            
                             </tbody>
                             <?php
                              }}else { ?>
@@ -201,7 +211,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
                                         echo 'GUEST';
                                     }
                                  ?></td>
-                                <td data-label="Order Details"> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+                                <td data-label="Order Details"> <a class="viewTransaction" href="../monitoring/monitoring-delivery-pickup-list-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
                                 <td data-label="Total Amount"> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
                                 <td data-label="Payment Status"> 
                                     <?php 
@@ -351,39 +361,5 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-D
             </div>
         </form>
     </body>
+<script src="../javascript/monitoring-delivery-pickup-list.js"></script>
 </html>
-<script>
-    // -----------------------------SIDE MENU
-    function addnewuser(){
-    // const addBtn = document.querySelector(".add-customer");
-const addForm = document.querySelector(".bg-addcustomerform");
-    addForm.style.display = 'flex';
-}
-$(document).ready(function(){
-     //jquery for toggle sub menus
-     $('.sub-btn').click(function(){
-       $(this).next('.sub-menu').slideToggle();
-       $(this).find('.dropdown').toggleClass('rotate');
-     });
-
-     //jquery for expand and collapse the sidebar
-     $('.menu-btn').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn').css("visibility", "visible");
-     });
-     $('.menu-btn2').click(function(){
-       $('.side-bar').addClass('active');
-       $('.menu-btn2').css("visibility", "hidden");
-     });
-
-     $('.close-btn').click(function(){
-       $('.side-bar').removeClass('active');
-       $('.menu-btn2').css("visibility", "visible");
-     });
-   });
-</script>

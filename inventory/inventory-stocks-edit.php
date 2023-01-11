@@ -1,6 +1,6 @@
 <?php
 require_once '../database/connection-db.php';
-require_once '../service/add-stocks.php';
+require_once '../service/edit-stocks.php';
 require_once "../service/user-access.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'INVENTORY-STOCKS')) {

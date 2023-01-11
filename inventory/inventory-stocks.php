@@ -286,7 +286,7 @@ h1{
     color: var(--color-white);
 }
 .edit-action{
-    background: rgb(136, 0, 0);
+    background: hsl(0, 0%, 37%);
     color: var(--color-white);
     fill: var(--color-white);
     align-items: center;
@@ -1017,7 +1017,6 @@ main .sub-tab{
     position: relative;
     margin-top: .2rem;
     text-transform: uppercase;
-    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
 }
 .add-account h3{
     font-size: .8rem;

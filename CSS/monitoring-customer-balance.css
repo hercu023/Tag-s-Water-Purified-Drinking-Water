@@ -84,22 +84,43 @@ position: relative;
 margin-bottom:1.5rem;
 }
 main .account-container{
-max-height: 550px;
-overflow:auto;
-background-color: var(--color-white);
-width: 100%;
-margin-bottom: 1rem;
-/* position: absolute; */
-box-shadow: 5px 5px 15px 0px var(--color-solid-gray);
-border-top: 2px solid var(--color-solid-gray);
-border-radius: 10px 10px 10px 10px;
-
-}
-
-.account-container table:hover{
-    box-shadow: none;
-    /* border-top: 8px solid var(--color-main); */
-}
+    max-height: 650px;
+    margin-top:2rem;
+    overflow:auto;
+    background-color: var(--color-white);
+    width: 100%;
+    margin-bottom: 1rem;
+    /* position: absolute; */
+    box-shadow: 5px 5px 15px 0px var(--color-solid-gray);
+    border-top: 2px solid var(--color-solid-gray);
+    border-radius: 10px 10px 10px 10px;
+    }
+    .account-container table{
+        background: var(--color-white);
+        font-family: 'Switzer', sans-serif;
+        width: 100%;
+        font-size: 1rem;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        padding-bottom: 2.5rem;
+        text-align: center;
+        transition: all 700ms ease;
+        /* margin-top: -1rem; */
+    }
+    
+    .account-container table tbody td{
+        height: 2.8rem;
+        border-bottom: 1px solid var(--color-solid-gray);
+        color: var(--color-td);
+        font-size: .8rem;
+    }
+    th{
+        height: 2.8rem;
+        color: var(--color-black);
+        margin:1rem;
+        font-size: 1rem;
+        letter-spacing: 0.02rem;
+    }
 
 .Title-top{
 display: none;
@@ -155,7 +176,8 @@ color: var(--color-main);
 font-family: 'COCOGOOSE', sans-serif;
 letter-spacing: .03rem;
 border-bottom: 2px solid var(--color-main); 
-width: 78%;
+    font-weight: 1000;
+    width: 78%;
 }
 
 /* ----------------------------------------Sub TAB---------------------------------------- */
@@ -245,7 +267,7 @@ main .sub-tab{
     align-items: center;
     color: var(--color-button); 
     fill: var(--color-button); 
-    width: 12rem;
+    width: 20rem;
     text-align: center;
     justify-content: center;
     height: 2rem;
@@ -269,7 +291,7 @@ main .sub-tab{
     align-items: center;
     color: var(--color-button); 
     fill: var(--color-button); 
-    width: 12rem;
+    width: 20rem;
     text-align: center;
     justify-content: center;
     height: 2rem;
@@ -1383,8 +1405,9 @@ border: none;
 background-color: var(--color-white);
 align-items: center;
 color: var(--color-button);
-fill: var(--color-button);
-width: 11rem;
+    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
+    fill: var(--color-button);
+width: 17rem;
 max-height: 46px;
 border-radius: 20px;
 padding: .68rem 1rem;
@@ -1409,7 +1432,7 @@ transition: 0.7s;
 border-bottom: 4px solid var(--color-maroon);
 }
 .edit-action{
-background: hsl(0, 0%, 37%);
+background: rgb(0, 154, 255);
 color: var(--color-white);
 fill:var(--color-white);
 align-items: center;

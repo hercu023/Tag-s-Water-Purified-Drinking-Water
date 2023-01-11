@@ -17,894 +17,11 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'REPORTS-DELI
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/reports-viewdetails.css">
     <title>Tag's Water Purified Drinking Water</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 </head>
-<style>
-    .error-error{
-        background-color: hsl(0, 100%, 77%);
-        color: #ffffff;
-        display: relative;
-        padding: 11px;
-        width: 70%;
-        border-radius: 6px;
-        align-items: center;
-        text-align: center;
-        margin-left: 3.55rem;
-        font-size: min(max(9px, 1.2vw), 11px);
-        letter-spacing: 0.5px;
-        font-family: Helvetica, sans-serif;
-    }
-
-    .total-deliveries{
-        font-family: 'ARIAL', sans-serif;
-        color: var(--color-black); 
-        font-size: .9rem;
-    }
-    .total-transactions{
-        font-family: 'ARIAL', sans-serif;
-        font-weight: 900;
-        color: var(--color-black); 
-        font-size: 1rem;
-    }
-
-    .add-account1{
-        display: flex;
-        border: none;
-        background-color: var(--color-background); 
-        align-items: center;
-        color: var(--color-button); 
-        fill: var(--color-button); 
-        width: 15rem;
-        text-align: center;
-        justify-content: center;
-        height: 2rem;
-        border-radius: 10px;
-        padding: .68rem 1rem;
-        font-family: 'Outfit', sans-serif;
-        transition: all 300ms ease;
-        position: relative; 
-        margin-top: .2rem;
-        text-transform: uppercase;
-        border-bottom: 4px solid #8FBC8F;
-    }
-
-    .add-account1 h3{
-        font-size: .8rem;
-        margin-right: 1rem;
-    }
-
-    .add-account2{
-        display: flex;
-        border: none;
-        background-color: var(--color-background); 
-        align-items: center;
-        color: var(--color-button); 
-        fill: var(--color-button); 
-        width: 15rem;
-        text-align: center;
-        justify-content: center;
-        height: 2rem;
-        border-radius: 10px;
-        padding: .68rem 1rem;
-        font-family: 'Outfit', sans-serif;
-        transition: all 300ms ease;
-        position: relative; 
-        margin-top: .2rem;
-        text-transform: uppercase;
-        border-bottom: 4px solid #008B8B;
-    }
-    .add-account2 h3{
-        font-size: .8rem;
-        margin-right: 1rem;
-    }
-    .add-account3{
-        display: flex;
-        border: none;
-        background-color: var(--color-background); 
-        align-items: center;
-        color: var(--color-button); 
-        fill: var(--color-button); 
-        width: 15rem;
-        text-align: center;
-        justify-content: center;
-        height: 2rem;
-        border-radius: 10px;
-        padding: .68rem 1rem;
-        font-family: 'Outfit', sans-serif;
-        transition: all 300ms ease;
-        position: relative; 
-        margin-top: .2rem;
-        text-transform: uppercase;
-        border-bottom: 4px solid #A52A2A;
-    }
-    .add-account3 h3{
-        font-size: .8rem;
-        margin-right: 1rem;
-    }
-    .add-account4{
-        display: flex;
-        border: none;
-        background-color: var(--color-background); 
-        align-items: center;
-        color: var(--color-button); 
-        fill: var(--color-button); 
-        width: 15rem;
-        text-align: center;
-        justify-content: center;
-        height: 2rem;
-        border-radius: 10px;
-        padding: .68rem 1rem;
-        font-family: 'Outfit', sans-serif;
-        transition: all 300ms ease;
-        position: relative; 
-        margin-top: .2rem;
-        text-transform: uppercase;
-        border-bottom: 4px solid #FF8C00;
-    }
-    .add-account4 h3{
-        font-size: .8rem;
-        margin-right: 1rem;
-    }
-    .newUser-button4{
-        display: inline-block;
-        margin-right: 1rem;
-    }
-    .newUser-button3{
-        display: inline-block;
-        margin-right: 1rem;
-    }
-    .newUser-button2{
-        display: inline-block;
-        margin-right: 1rem;
-    }
-    .newUser-button1{
-        display: inline-block;
-        margin-right: 1rem;
-    }
-    :root{
-    --color-main: rgb(2, 80, 2);
-    --color-white: white;
-    --color-white-secondary: white;
-    --color-tertiary: hsl(0, 0%, 57%);
-    --color-black: rgb(49, 49, 49);
-    --color-maroon: rgb(136, 0, 0);
-    --color-secondary-main: rgb(244, 255, 246);
-    --color-background: rgb(235, 235, 235);
-    --color-solid-gray: rgb(126, 126, 126);
-    --color-td:rgb(100, 100, 100);
-    --color-button: rgb(117, 117, 117);
-    --color-table-shadow: rgb(244, 255, 246);
-    --color-shadow-shadow: rgb(116, 116, 116);
-    --color-table-hover: rgb(244, 255, 246);
-    --color-aside-mobile-focus: rgb(78, 150, 78);
-    --color-aside-mobile-text: hsl(0, 0%, 57%);
-    
-}
-.dark-theme{
-    --color-white: rgb(48, 48, 48);
-    --color-tertiary: hsl(0, 0%, 25%);
-    --color-black: white;
-    --color-shadow-shadow: rgb(32, 32, 32);
-    --color-aside-mobile-focus: rgb(244, 255, 246);
-    --color-table-shadow: rgb(131, 131, 131);
-    --color-maroon: rgb(255, 130, 130);
-    --color-white-secondary: rgb(235, 235, 235);
-    --color-main: rgb(244, 255, 246);
-    --color-secondary-main: rgb(97, 172, 111);
-    --color-background: rgb(80, 80, 80);
-    --color-solid-gray: rgb(231, 231, 231);
-    --color-td: rgb(231, 231, 231);
-    --color-button: rgb(202, 202, 202);
-    --color-table-hover: rgb(112, 112, 112);
-    --color-aside-mobile-text:hsl(0, 0%, 88%);
-}
-BODY{
-    background: var(--color-background);
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow-x: hidden;
-    font-family: 'galhau-display', sans-serif;
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
-}  
-
-.Title-top{
-    display: none;
-    font-size: min(max(1.2rem, 0.4vw), 1.3rem);
-    color: var(--color-main);
-    font-family: 'COCOGOOSE', sans-serif;
-    letter-spacing: .03rem;
-}
-.subTitle-top{
-    display: none;
-    position: relative;
-    margin-left: 3rem;
-    border-left: 1px var(--color-solid-gray) solid;
-    padding-left: 1rem;
-    padding-bottom: .2rem;
-    font-family: 'calibri', sans-serif;
-    color: var(--color-solid-gray);
-    font-size: 1rem;
-    text-transform: uppercase;
-
-}
-.newUser-button{
-    position: absolute;
-    display: inline-block;
-    margin-left: 2rem;
-    margin-top: -.05rem;
-}
-.button1{
-    display: inline-block;
-}
-
-.add-account h3{
-    font-size: .8rem;
-}
-.add-account:hover{
-    background-color: var(--color-white);
-    color: var(--color-main);
-    fill: var(--color-main);
-    padding-top: -.2px;
-    transition: 0.7s;
-    border-bottom: 4px solid var(--color-maroon);
-}
-.button2{
-    display: inline-block;
-}
-.print-report{
-    display: flex;
-    border: none;
-    background-color: var(--color-button);
-    align-items: center;
-    color: var(--color-white);
-    fill: var(--color-white);
-    width: 7rem;
-    max-height: 46px;
-    border-radius: 20px;
-    padding: .68rem 1rem;
-    font-family: 'Switzer', sans-serif;
-    cursor: pointer;
-    gap: 1rem;
-    transition: all 300ms ease;
-    position: relative;
-    text-transform: uppercase;
-}
-.print-report h3{
-    font-size: .8rem;
-}
-.print-report:hover{
-    background-color: var(--color-white);
-    color: var(--color-solid-gray);
-    fill: var(--color-solid-gray);
-    padding-top: -.2px;
-    transition: 0.7s;
-    border-bottom: 4px solid var(--color-maroon);
-}
-
-/* -------------------------------------------------Sub Tab------------------------------------------ */
-.sub-tab2{
-    display: inline-block;
-    margin-left: 1rem;
-}
-span{
-    font-family: 'calibri', sans-serif;
-    color: var(--color-main);
-    font-size: 15px;
-    font-weight: 900;
-    margin-right: .5rem;
-    margin-left: 2rem;
-}
-
-
-/* ----------------------------------------Sub TAB---------------------------------------- */
-.for-date{
-    position: relative;
-    margin-left: 1rem;
-    color: var(--color-solid-gray);
-    font-size: 1.3rem;
-    display: inline-block;
-}
-.date{
-    font-family: 'century gothic', sans-serif;
-    display: inline-block;
-    font-size: 1.7rem;
-    margin-left: .9rem;
-    color: var(--color-black);
-}
-.user-title{
-    position: relative;
-    display: inline-block;
-    margin-left: 3rem;
-    border-right: 1px var(--color-solid-gray) solid;
-    padding-right: 1rem;
-}
-.user-title2{
-    position: relative;
-    display: inline-block;
-    padding-right: 1rem;
-}
-main  h2{
-    color: var(--color-solid-gray);
-    font-size: 1.3rem;
-    text-transform: uppercase;
-    letter-spacing: .1rem;
-    font-family: 'Galhau Display', sans-serif;
-}
-main .sub-tab{
-    margin-bottom: 3rem;
-}
-.select-dropdown{
-    display: inline-block;
-    max-height: 50px;
-}
-.select{
-    background-color: var(--color-background);
-    color: var(--color-solid-gray);
-    /* align-items: center; */
-    border-radius: 20px;
-    padding: .80rem 1rem;
-    width: 10.8vw;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-.select:hover{
-    background:  var(--color-solid-gray);
-    color: var(--color-white);
-}
-/* ----------------------------------------Search BAR---------------------------------------- */
-.search{
-    position: absolute;
-    gap: 2rem;
-    margin-top: .5rem;
-    align-items: right;
-    text-align: right;
-    right: 4%;
-    display: inline-block;
-}
-.search-bar{
-    width: 15vw;
-    background: var(--color-white);
-    display: flex;
-    position: relative;
-    align-items: center;
-    border-radius: 60px;
-    padding: 10px 20px;
-    height: 1.8rem;
-    backdrop-filter: blur(4px) saturate(180%);
-}
-.search-bar input{
-    background: transparent;
-    flex: 1;
-    border: 0;
-    outline: none;
-    padding: 24px 20px;
-    font-size: .8rem;
-    color: var(--color-black);
-    margin-left: -0.95rem;
-}
-::placeholder{
-    color: var(--color-solid-gray);
-
-}
-.search-bar button svg{
-    width: 20px;
-    fill: var(--color-white);
-}
-.search-bar button{
-    border: 0;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    background: var(--color-main);
-    margin-right: -0.55rem;
-}
-/* ----------------------------------------MAIN---------------------------------------- */
-.main-dashboard{
-    width:100%;
-}
-.dashTitle{
-    /* margin-top: 2rem; */
-    font-size: min(max(1.9rem, 1.1vw), 2rem);
-    color: var(--color-main); 
-    font-family: 'COCOGOOSE', sans-serif;
-    letter-spacing: .03rem;
-    border-bottom: 2px solid var(--color-main); 
-    width: 78%;
-    margin-top: 3.2rem;
-}
-/* ----------------------------------------Customers Table---------------------------------------- */
-.main-container{
-    /* height: 600px; */
-    background: var(--color-white);
-    width: 100%;
-    margin-top: 2rem;
-    border-radius: 10px 10px 0 0;
-    position: relative;
-}
-.sub-tab-container{
-    padding: 2rem;
-}
-.customer-container{
-    /* margin-top: 2rem; */
-    max-height: 650px;
-    overflow:auto;
-    width: 100%;
-    /* position: absolute; */
-    /* box-shadow: 0px 5px 30px 2px var(--color-table-shadow); */
-    border-top: 2px solid var(--color-solid-gray);
-    border-radius: 0px 0px 10px 10px;
-
-}
-.customer-container table{
-    background: var(--color-white);
-    font-family: 'Switzer', sans-serif;
-    width: 100%;
-    font-size: 1rem;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-    padding-bottom: 2.5rem;
-    text-align: center;
-    transition: all 700ms ease;
-    /* margin-top: -1rem; */
-}
-.customer-container table:hover{
-    box-shadow: none;
-    /* border-top: 8px solid var(--color-main); */
-}
-
-.customer-container table tbody td{
-    height: 2.8rem;
-    border-bottom: 1px solid var(--color-solid-gray);
-    color: var(--color-td);
-    font-size: .8rem;
-}
-th{
-    height: 2.8rem;
-    color: var(--color-black);
-    margin:1rem;
-    font-size: 1rem;
-    letter-spacing: 0.02rem;
-}
-tr:hover td{
-    color: var(--color-main);
-    cursor: pointer;
-    background-color: var(--color-table-hover);
-}
-/* ----------------------------------------ASIDE---------------------------------------- */
-.container{
-    display: grid;
-    width: 96%;
-    /* margin: 0 auto; */
-    background: var(--color-background);
-    gap: 1.8rem;
-    grid-template-columns: 16rem auto;
-}
-#menu-button{
-    display: none;
-}
-
-@media screen and (max-width: 1400px){
-    .container{
-        width: 100%;
-        /* margin-left: 3rem; */
-        grid-template-columns: 2rem auto 2rem;
-    }
-    
-    .select{
-        width: 10rem;
-    }
-    .customer-container{
-        width: 100%;
-    }
-    .dashTitle{
-        /* margin-left: 5%; */
-        /* margin-top: 3.5rem; */
-        width: 65vw;
-
-    }
-    main .sub-tab{
-        margin-bottom: 4rem;
-    }
-    .search{
-        right: 5%;
-    }
-    .search-bar{
-        width: 17rem;
-    } 
-    /* .search{
-        right: 5%;
-    }
-    .search-bar{
-        width: 19rem;
-    } */
-}
-@media screen and (max-width: 1200px){
-    .search{
-        right: 0;
-    }
-    .search-bar{
-        width: 15rem;
-    } 
-    .dashTitle{
-        width: 57vw;
-
-    }
-}
-@media screen and (max-width: 1000px){
-    .button1 button{
-        width: 3.3rem;
-    }
-    .button2 button{
-        width: 3.3rem;
-    }
-    h3{
-        display: none;
-    }
-    .customer-container{
-        max-width: 1500px;
-    }
-    .customer-container table{
-        overflow-y: scroll;
-    }
-    .date{
-        width: 9vw;
-        margin-left:1px;
-    }
-    span{
-        margin-left: 2px;
-    }
-}
-
-@media screen and (max-width: 500px){
-    .containter{
-        width: 100%;
-        /* overflow-y: scroll; */
-    }
-    .Title-top{
-        display: block;
-        left: 0;
-        margin-left: 4rem;
-        position: absolute;
-    }
-    .subTitle-top{
-        display: block;
-        left: 0;
-        margin-left: 11rem;
-        position: absolute;
-    }
-    .menu-btn2{
-        display: flex;
-    }
-    /* ----------------------------------top-menu----------------------------- */
-    .top-menu{
-        width: 94%;
-        margin: 0 auto 4rem;
-    }
-    .top-menu .menu-bar{
-        position: fixed;
-        top: 0;
-        left: 0;
-        align-items: center;
-        padding: 0 0.8rem;
-        height: 4rem;
-        background: var(--color-white);
-        width: 100%;
-        margin: 0;
-        z-index: 2;
-        box-shadow: 0px 1px 14px var(--color-shadow-shadow);
-    }
-    .profile{
-        margin-right: 1.4rem;
-    }
-    .top-menu .menu-bar .user1{
-        display: none;
-    }
-    .drop-menu .ul .user-type3{
-        display: flex;
-        left:20.5%; 
-         position: absolute;
-        margin-top: -2.3rem;
-        margin-bottom: 1.9rem;
-    }
-    .dashTitle{
-        display:none;
-    }
-    .user-title{
-        display: none;
-    }
-    .user2 .drop-menu{
-        right: 40px;
-        height: 9.3rem;
-        margin-top: 2px;
-    }
-    .user2 .drop-menu::before{
-        right: 30px;
-    }
-    .drop-menu .ul{
-        width: 8.5rem;
-        height: 5rem;
-    }
-    .drop-menu .ul .theme-dark{
-        margin-top: -.3rem;
-    }
-    
-    .drop-menu .ul a{
-        width: 8.5rem;
-    }
-    /* ------------------------------------------------------------------------------ */
-    .main-dashboard{
-        position: relative;
-        text-align: center;
-        align-items: center;
-    }
-    .main-container{
-        margin-left: -2rem;
-        margin-top: 3rem;
-        position: relative;
-        width: 100%;
-        align-items: center;
-        background: none;
-    }
-    .sub-tab{
-        width: 100%;
-
-    }
-    .sub-tab-container{
-        width: 100%;
-        text-align: left;
-        margin-top: -4rem;
-        align-items: center;
-    }
-    .select-dropdown{
-        display: flex;
-        position: relative;
-        align-items: center;
-        text-align: center;
-        margin-bottom: -2rem;
-
-    }
-    .select{
-        background-color: var(--color-white);
-        width: 80%;
-
-        
-    }
-    .customer-container{
-        /* display: none; */
-        position: relative;
-        margin-left: -.5rem;
-        /* margin-top: 3rem; */
-        width: 100%;
-        max-height: 600px;
-        /* border-radius: 20px; */
-        border-top: 5px solid var(--color-solid-gray);
-        font-size: 15px;
-        margin-bottom:2rem;
-    }
-    .customer-container tbody tr td{
-        font-size: 10px;
-        
-    }
-    table thead {
-        border: none;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
-    }
-    table th {
-        border-bottom: 10px solid var(--color-main);
-        display: block;
-        margin-bottom: .625em;
-    }
-    
-    
-    table tr {
-        border-bottom: 3px solid var(--color-main);
-        display: block;
-        margin-bottom: .625em;
-    }
-    
-    table td {
-        border-bottom: 1px solid #ddd;
-        display: block;
-        font-size: .8em;
-        text-align: right;
-        
-    }
-    
-    table td::before {
-        content: attr(data-label);
-        float: left;
-        font-weight: bold;
-        font-size: 10px;
-        text-transform: uppercase;
-    }
-    
-    table td:last-child {
-        border-bottom: 0;
-    }
-    
-    .span-from{
-        margin-top: 4rem;
-        /* margin-left: -5vw; */
-        position: relative;
-        font-size: 12px;
-    }
-    
-    .span-to{
-        margin-top: 1.2rem;
-        /* margin-left: -10.7vw; */
-        position: relative;
-        font-size: 12px;
-    }
-    #date-from{
-        background-color: var(--color-white);;
-        /* margin-left:8.6vw; */
-        margin-top: 3.4rem;
-        border-radius: 20px;
-        width: 25.5vw;
-        font-size: 15px;
-
-    }   
-    #date-to{
-        background-color: var(--color-white);;
-        margin-left: -1.3vw;
-        margin-top: .5rem;
-        width: 25.5vw;
-        font-size: 15px;
-        border-radius: 20px;
-    }   
-
-
- 
-    .sub-tab{
-        margin-top: 5rem;
-        width: 100%;
-        align-items: center;
-        text-align: center;
-    }
-    .newUser-button{
-        margin-top: 1rem;
-        /* display: flex; */
-        position: relative;
-        width: 100%;
-    }
-    .button1 button{
-        width: 7.3rem;
-    }
-    .button2 button{
-        margin-left: 2.5rem;
-        width: 7.3rem;
-    }
-    h3{
-        display: block;
-    }
-    .print-report{
-        text-align: center;
-        margin-left: .3rem;
-
-    }
-    .search{
-        /* left: 77%; */
-        /* display:none; */
-        align-items: center;
-        text-align: center;
-        position: relative;
-        width: 80%;
-        /* margin-bottom: 2rem; */
-    }
-    .search-bar{
-        position: relative;
-        /* margin-right:10rem; */
-        width: 80%;
-
-    } 
-}
-.AddButton1 button{
-    font-family: 'COCOGOOSE', sans-serif;
-    padding: 10px;
-    width: 10rem;
-    outline: none;
-    justify-content: center;
-    border: none;
-    gap: .5rem;
-    border-radius: 10px;
-    font-size: .7rem;
-    color: white;
-    background:  var(--color-mainbutton);
-    cursor: pointer;
-    transition: 0.5s;
-    /* margin-left: 1rem; */
-    display: flex;
-    fill: white;
-    background: var(--color-solid-gray);
-}
-.AddButton1 button:hover{
-    background: var(--color-secondary-main);
-    box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
-    fill: var(--color-main);
-    color: var(--color-main);
-}
-.bot-buttons{
-    display: inline-block;
-}
-.addnew-title{
-    width: 100%;
-    margin-bottom: -.6rem;
-    display: none;
-    text-align: center;
-}
-.address{
-    width: 100%;
-    display: none;
-    text-align: center;
-}
-.header-title{
-    display: none;
-}
-@media print {
-    .header-title{
-        display: block;
-    }
-    .addnew-title{
-        width: 52rem;
-        display: block;
-        text-align: center;
-    }
-    .address{
-        width: 52rem;
-        display: block;
-        text-align: center;
-    }
-    .sub-tab-container{
-        display: none;
-    }
-    .top-menu{
-        display: none;
-    }
-    .menu{
-        display: none;
-    }
-    #myTable {
-        overflow: hidden;
-        text-align: center;
-        display: block;
-        width: 90rem;
-    }
-    table td{
-        width:11rem;
-    }
-    .customer-container{
-        overflow: hidden;
-        width: 50rem;
-        margin-right: 5rem;
-    }
-    .user-title2{
-        display: inline-block;
-        width: 50rem;
-
-    }
-    .sub-title{
-        width: 100%;
-    }
-    .user-title{
-        display: inline-block;
-        width: 40rem;
-        border-right: none;
-    }
-}
-</style>
 <body>
 <div class="container">
     <?php
@@ -1190,7 +307,7 @@ tr:hover td{
                                     $total_amount_value = mysqli_fetch_assoc($total_amount_result);
                                     ?>
                                     <h3 class="deliveries">Delivery Sales</h3>
-                                    <span class="total-deliveries"><?php echo 'Php '.$total_amount_value['total'];?></span>
+                                    <span class="total-deliveries"><?php echo '&#8369 '.$total_amount_value['total'];?></span>
                                 </div>
                             </div>  
                             <div class="bot-buttons">
@@ -1308,8 +425,10 @@ tr:hover td{
                 <p class="address">DATE: <?php echo date("F j, Y")?> - TIME:<?php echo date("h-i-s-A")?><p>
             </div>
 
+           
             <div class="pagination">   
-            <br>
+                    <div class="page-navigation">
+                    <div class="href-pages">  
                 <?php  
                 if($total_records > 0) {
 
@@ -1335,41 +454,120 @@ tr:hover td{
                         echo "<a href='".$page_location."&page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
                     }  
                
+
                 ?>
 
-                <br><br>
-                <select name="option" onchange="location ='<?php echo $page_location ?>' + '&page=1&records=' + this.value;">
-                        <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
-                        <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
-                        <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
-                        <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
-                        <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
-                        <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
-                        <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
-                </select>
-                <span> No. of Records Per Page </span>  
+                </div>
+                <div class="dropdown-pages">   
+                    <select name="option" class="pages" onchange="location ='<?php echo $page_location ?>' + '&page=1&records=' + this.value;">
+                            <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
+                            <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
+                            <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
+                            <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
+                            <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
+                            <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
+                            <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
+                    </select>
+                    <span class="label-number"> No. of Records Per Page </span>  
+
+                </div>
                 
-            </div>
            
 
-            <div></div>
 
             <div class="inline">   
-                <input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
-                placeholder="<?php echo $page."/".$total_pages; ?>" required> 
+                        <input id="page" type="number" class="input-pages" min="1" max="<?php echo $total_pages?>"   
+                        placeholder="<?php echo $page." - ".$total_pages; ?>" required> 
 
-                <button onClick="goToPage('<?php echo $page_location.'&records='.$per_page_record?>');">Go to page</button>   
-            </div>    
+                        <button class="gotopage-btn" onClick="goToPage('<?php echo $page_location.'?records='.$per_page_record?>');">Go to page</button>   
+                    </div>  
+            </div>
+                     
             <?php }?>
+                   
     </main>
-    <?php
-    include('../common/top-menu.php')
-    ?>
+    <div class="top-menu">
+                <div class="menu-bar">
+                    <div class="menu-btn2">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h2 class="Title-top">REPORTS</h2>
+                    <h4 class="subTitle-top">DELIVERY REPORT</h2>
+                    <div class="user1">
+                        <div class="welcome">
+                            <h4 > Welcome, </h4>
+                        </div>
+                        <div class="user-name">
+                            <h4><?php echo $_SESSION['user_first_name']; ?> </h4>
+                        </div>
+                        <div class="user-type">
+                            <h1><?php echo $_SESSION['user_user_type']; ?> </h1>
+                        </div>
+                    </div>
+                    <div class="user2">
+                        <div class="profile" onclick="menuToggle();">
+                            <img src="../uploaded_image/<?= $_SESSION['user_profile_image']; ?>" alt="">
+                        </div>
+                        <div class="drop-menu" >
+                            <div class="ul">
+                                <div class="user-type3">
+                                    <h1><?php echo $_SESSION['user_user_type']; ?> </h1>
+                                </div>
+                                <div class="user-type4">
+                                    <?php
+                                    $query = "SELECT 
+                                    users.user_id,
+                                    users.last_name,
+                                    users.first_name,
+                                    users.middle_name,
+                                    users.email,
+                                    users.contact_number, 
+                                    users.profile_image, 
+                                    account_type.user_type, 
+                                    status_archive.status 
+                                    FROM users 
+                                    INNER JOIN account_type 
+                                    ON users.account_type_id = account_type.id 
+                                    INNER JOIN status_archive 
+                                    ON users.status_archive_id = status_archive.id
+                                    WHERE users.status_archive_id = '1'
+                                    ORDER BY users.user_id";
+                                    $result = mysqli_query($con, $query);
+                                    if ($rows = mysqli_fetch_assoc($result))
+                                    {
+                                        ?>
+                                    <a href="../accounts/account-view.php?view=<?php echo $_SESSION['user_user_id']; ?>" class="account">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.917 14.167q1.062-.875 2.364-1.313 1.302-.437 2.719-.437 1.417 0 2.719.437 1.302.438 2.385 1.313.688-.855 1.084-1.907.395-1.052.395-2.26 0-2.75-1.916-4.667Q12.75 3.417 10 3.417T5.333 5.333Q3.417 7.25 3.417 10q0 1.208.406 2.26.406 1.052 1.094 1.907ZM10 10.854q-1.229 0-2.073-.844-.844-.843-.844-2.072 0-1.23.844-2.073.844-.844 2.073-.844t2.073.844q.844.843.844 2.073 0 1.229-.844 2.072-.844.844-2.073.844Zm0 7.479q-1.729 0-3.25-.656t-2.646-1.781q-1.125-1.125-1.781-2.646-.656-1.521-.656-3.25t.656-3.25q.656-1.521 1.781-2.646T6.75 2.323q1.521-.656 3.25-.656t3.25.656q1.521.656 2.646 1.781t1.781 2.646q.656 1.521.656 3.25t-.656 3.25q-.656 1.521-1.781 2.646t-2.646 1.781q-1.521.656-3.25.656Zm.021-1.75q1.021 0 2-.312.979-.313 1.771-.896-.771-.604-1.75-.906-.98-.302-2.042-.302-1.062 0-2.031.302-.969.302-1.761.906.792.583 1.782.896.989.312 2.031.312ZM10 9.104q.521 0 .844-.323.323-.323.323-.843 0-.521-.323-.844-.323-.323-.844-.323-.521 0-.844.323-.323.323-.323.844 0 .52.323.843.323.323.844.323Zm0-1.166Zm0 7.437Z"/></svg>
+                                        <h4>My Account</h4>
+                                    </a>
+                                <?php }?>
+
+                                    <a href="../settings/settings-help.php" class="help">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 15q.417 0 .708-.292Q11 14.417 11 14t-.292-.708Q10.417 13 10 13t-.708.292Q9 13.583 9 14t.292.708Q9.583 15 10 15Zm-.75-3.188h1.521q0-.77.135-1.093.136-.323.656-.823.73-.708 1.011-1.208.281-.5.281-1.105 0-1.145-.781-1.864Q11.292 5 10.083 5q-1.062 0-1.843.562-.782.563-1.094 1.521l1.354.563q.188-.584.594-.906.406-.323.948-.323.583 0 .958.333t.375.875q0 .479-.323.854t-.719.729q-.729.667-.906 1.094-.177.427-.177 1.51ZM10 18q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
+                                        <h4>Help</h4>
+                                    </a>
+                                    <a href="../auth/logout.php" class="logout">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.438-1.062Q3.875 3 4.5 3H10v1.5H4.5v11H10V17Zm9-3.5-1.062-1.062 1.687-1.688H8v-1.5h6.125l-1.687-1.688L13.5 6.5 17 10Z"/></svg>
+                                        <h4>Logout</h4>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 </div>
 </body>
 </html>
+<script>
+    function goToPage(reference) {   
+    var page = document.getElementById("page").value;   
+    page = ((page><?php echo $total_pages; ?>)?<?php echo $total_pages; ?>:((page<1)?1:page));   
+    window.location.href = reference + '&page=' + page;   
+} 
+</script>
 <script src="../javascript/side-menu-toggle.js"></script>
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/reports-sales.js"></script>
-<script src="../index.js"></script>

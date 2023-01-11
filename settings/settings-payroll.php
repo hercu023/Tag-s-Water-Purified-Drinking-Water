@@ -2,6 +2,7 @@
 session_start();
 require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
+require_once "../service/save-payroll-settings.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-PAYROLL')) {
     header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
@@ -1326,6 +1327,10 @@ th{
                 echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
             }
             ?>
+            <?php
+            $get_payroll = mysqli_query($con, "SELECT * FROM payroll_settings");
+            $payroll_settings = mysqli_fetch_assoc($get_payroll);
+            ?>
             <div class="sub-tab">
                 <div class="user-title">
                     <h2> PAYROLL </h2>
@@ -1339,42 +1344,55 @@ th{
                         <div class="main-user-info">
                             <div class="user-input-box">
                                 <label for="timein">Time IN Schedule</label>
-                                <input type="text"
+                                <input type="time"
                                     id="timein"
                                     name="time_in"
                                     required="required"
-                                    placeholder="Enter Time IN Schedule"/>
+                                    placeholder="Enter Time IN Schedule"
+                                    value=<?php echo $payroll_settings['time_in_schedule']?>>
                             </div>
                             <div class="user-input-box">
                                 <label for="graceperiod">Grace Period Time</label>
-                                <input type="text"
+                                <input type="time"
                                     id="graceperiod"
                                     name="grace_period"
                                     required="required"
-                                    placeholder="Enter Grace Period Time"/>
+                                    placeholder="Enter Grace Period Time"
+                                    value="<?php echo $payroll_settings['grace_period']?>">
                             </div>
                             <div class="user-input-box">
                                 <label for="deduction">Late Deduction Per Minute</label>
-                                <input type="text"
+                                <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
                                     id="deduction"
                                     name="late_deduction"
                                     required="required"
-                                    placeholder="Enter Late Deduction Per Minute"/>
+                                    placeholder="Enter Late Deduction Per Minute"
+                                    value="<?php echo $payroll_settings['late_deduction_per_min']?>">
                             </div>
                             <div class="user-input-box">
                                 <label for="bonus">Over Time Bonus Per Hour</label>
-                                <input type="text"
+                                <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
                                     id="bonus"
                                     name="ot_bonus"
                                     required="required"
-                                    placeholder="Enter Over Time Bonus Per Hour"/>
+                                    placeholder="Enter Over Time Bonus Per Hour"
+                                    value="<?php echo $payroll_settings['overtime_bonus_per_hour']?>"/>
+                            </div>
+                            <div class="user-input-box">
+                                <label for="bonus">No Uniform Deduction</label>
+                                <input type="number" min='0' onchange='setTwoNumberDecimal' step="0.25"
+                                    id="bonus"
+                                    name="without_uniform_deduction"
+                                    required="required"
+                                    placeholder="Enter Over Time Bonus Per Hour"
+                                    value="<?php echo $payroll_settings['without_uniform_deduction']?>"/>
                             </div>
 
                      
                             <div class="bot-buttons">
                                 
                                 <div class="AddButton">
-                                    <button type="submit" id="adduserBtn" name="add-account">SAVE</button>
+                                    <button type="submit" id="adduserBtn" name="save-payroll-settings">SAVE</button>
                                 </div>
                             </div>
                 </div>

@@ -2,6 +2,7 @@
 session_start();
 require_once '../database/connection-db.php';
 require_once "../service/user-access.php";
+require_once "../service/settings-delivery.php";
 
 if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DELIVERY_FEE')) {
     header("Location: ../common/error-page.php?error=You are not authorized to access this page.");
@@ -107,7 +108,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DEL
                                     <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg>
                                     <span class="tooltipText">EDIT</span>       
                                 </a>
-                                <a href="../settings/settings-delivery-fee-archive.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="archive-action" name="action">
+                                <a href="../settings/settings-delivery-fee-remove.php?edit=<?php echo $rows['id']; ?>" id="archive-action" class="archive-action" name="action">
                                     <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.75 17.708Q3.708 17.708 3 17t-.708-1.75V5.375q0-.417.156-.833.156-.417.448-.709l1.125-1.104q.333-.291.76-.489t.844-.198h8.75q.417 0 .844.198t.76.489l1.125 1.104q.292.292.448.709.156.416.156.833v9.875q0 1.042-.708 1.75t-1.75.708Zm0-12.208h10.5l-1-1h-8.5ZM10 14.083l3.375-3.354-1.333-1.375-1.084 1.084V7.354H9.042v3.084L7.958 9.354l-1.333 1.375Z"/></svg>
                                     <span class="tooltipText">REMOVE</span>       
                                 </a>
@@ -130,55 +131,55 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DEL
         </div>
 
         <div class="pagination">   
-            <br>
-                <?php  
+                <div class="page-navigation">
+                    <div class="href-pages">   
+                        <?php  
 
+                            // Number of pages required.   
+                            $total_pages = ceil($total_records / $per_page_record);     
+                            $pageLink = "";       
+                        
+                            if($page>=2){   
+                                echo "<a href='".$page_location."?page=".($page-1)."&records=".$per_page_record."'> Prev </a>";   
+                            }       
+                                    
+                            for ($i=1; $i<=$total_pages; $i++) {   
+                            if ($i == $page) {   
+                                $pageLink .= "<a class = 'active' href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";   
+                            }               
+                            else  {   
+                                $pageLink .= "<a href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";     
+                            }   
+                            }; 
 
-                    // Number of pages required.   
-                    $total_pages = ceil($total_records / $per_page_record);     
-                    $pageLink = "";       
-                
-                    if($page>=2){   
-                        echo "<a href='".$page_location."?page=".($page-1)."&records=".$per_page_record."'> Prev </a>";   
-                    }       
-                            
-                    for ($i=1; $i<=$total_pages; $i++) {   
-                    if ($i == $page) {   
-                        $pageLink .= "<a class = 'active' href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";   
-                    }               
-                    else  {   
-                        $pageLink .= "<a href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";     
-                    }   
-                    }; 
+                            echo $pageLink;   
+                    
+                            if($page<$total_pages){   
+                                echo "<a href='".$page_location."?page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
+                            }  
+                        ?>
+                    </div>
+                    <div class="dropdown-pages">   
+                        <select name="option" class="pages" onchange="location ='<?php echo $page_location ?>' + '?page=1&records=' + this.value;">
+                                <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
+                                <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
+                                <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
+                                <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
+                                <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
+                                <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
+                                <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
+                        </select>
+                        <span class="label-number"> No. of Records Per Page </span>  
+                    </div>
+                    
+                    <div class="inline">   
+                        <input id="page" type="number" class="input-pages" min="1" max="<?php echo $total_pages?>"   
+                        placeholder="<?php echo $page." - ".$total_pages; ?>" required> 
 
-                    echo $pageLink;   
-            
-                    if($page<$total_pages){   
-                        echo "<a href='".$page_location."?page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
-                    }  
-                ?>
-
-                <br><br>
-                <select name="option" onchange="location ='<?php echo $page_location ?>' + '?page=1&records=' + this.value;">
-                        <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
-                        <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
-                        <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
-                        <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
-                        <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
-                        <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
-                        <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
-                </select>
-                <span> No. of Records Per Page </span>  
-                
-            </div>
-            <div></div>
-
-            <div class="inline">   
-                <input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
-                placeholder="<?php echo $page."/".$total_pages; ?>" required> 
-
-                <button onClick="goToPage('<?php echo $page_location.'?records='.$per_page_record?>');">Go to page</button>   
-            </div>    
+                        <button class="gotopage-btn" onClick="goToPage('<?php echo $page_location.'?records='.$per_page_record?>');">Go to page</button>   
+                    </div>    
+                </div>
+        </div>  
     </main>
 
         <div class="top-menu">
@@ -186,8 +187,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DEL
                     <div class="menu-btn2">
                         <i class="fas fa-bars"></i>
                     </div>
-                    <h2 class="Title-top">ACCOUNT</h2>
-                    <h4 class="subTitle-top">User Account</h2>
+                    <h2 class="Title-top">SETTINGS</h2>
+                    <h4 class="subTitle-top">DELIVERY FEE</h2>
                     <div class="user1">
                         <div class="welcome">
                             <h4 > Welcome, </h4>
@@ -267,9 +268,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DEL
                     
                 <div class="user-input-box1">
                     <span class="gender-title">FEE</span>
-                        <input type="text"
+                        <input type="number"
                                id="lastname"
-                               name="last_name"
+                               name="fee"
                                required="required"
                                class="fee"
                                placeholder="0.00"/>
@@ -278,7 +279,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DEL
                     <div class="user-input-box">
                         <input type="text"
                                id="firstname"
-                               name="first_name"
+                               name="description"
                                required="required"
                                placeholder="Enter Description"/>
                     </div>
@@ -289,7 +290,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DEL
                             <a href="../settings/settings-delivery-fee.php" id="cancel">CANCEL</a>
                         </div>
                         <div class="AddButton">
-                            <button type="submit" id="adduserBtn" name="add-account">SAVE</button>
+                            <button type="submit" id="adduserBtn" name="add-delivery-settings">SAVE</button>
                         </div>
                     </div>
             </form>
@@ -303,10 +304,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'SETTINGS-DEL
 <script src="../javascript/account.js"></script>
 <script src="../javascript/account-search.js"></script>
 <script src="../javascript/pagination.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 </html>
 <script>
 

@@ -11,19 +11,20 @@
     border-radius: 20px;
     align-items: center;
     border: none;
-    height: 5rem;
+    height: 8.5rem;
     text-align: center;
 }
 .href-pages{
     display: inline-block;
     position: relative;
     margin-top: 2rem;
+    margin-bottom: 1rem;
+    width: 100%;
 }
 .pagination span{   
     font-weight:bold;   
     font-size:16px;   
     display: inline-block;   
-    padding: 8px 16px;   
     font-family: 'calibri', sans-serif;
     color: var(--color-solid-gray);
 } 
@@ -33,9 +34,9 @@
     font-size:12px;   
     color: var(--color-white);   
     transition: 0.3s;
-    padding: 8px 16px;   
+    padding: 8px 12px;   
     text-decoration: none;  
-    margin-right: 1rem; 
+    margin-right: .5rem; 
     border: none;
     background-color: var(--color-solid-gray);
     border-radius: 10px;

@@ -478,6 +478,7 @@ main .sub-tab{
     font-family: 'COCOGOOSE', sans-serif;
     letter-spacing: .03rem;
     border-bottom: 2px solid var(--color-main); 
+    font-weight: 1000;
     width: 78%;
     margin-top: 3.2rem;
 }
@@ -662,7 +663,7 @@ display: none;
 }
 .addnew-title{
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 .dashTitle{
     display:none;
@@ -704,7 +705,7 @@ display: none;
 
 .account-container{
     position: relative;
-    margin-top:2rem;
+    margin-top:-2rem;
     overflow: auto;
     width: 100%;
     max-height: 600px;
@@ -783,6 +784,7 @@ h3{
 }
 .add-account2{
     width: 8rem;
+    margin-left: -5.5rem;
     position: relative;
     display: inline-block;
 }
@@ -1092,63 +1094,64 @@ width: 100%;
 padding-bottom: 2px;
 }
 .bot-buttons{
-width: 100%;
-align-items: center;
-text-align: center;
-display: inline-block;
-margin-top: 1.3rem;
+    width: 100%;
+    align-items: center;
+    text-align: center;
 }
-.AddButton button{
-font-family: 'COCOGOOSE', sans-serif;
-padding: 10px;
-width: 15rem;
-max-height: 60px;
-outline: none;
-border: none;
-font-size: min(max(9px, 1.1vw), 11px);
-border-radius: 20px;
-color: white;
-background:  var(--color-solid-gray);
-cursor: pointer;
-transition: 0.5s;
-margin-left: 1rem;
+.AddButton1 button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    width: 10rem;
+    outline: none;
+    justify-content: center;
+    border: none;
+    gap: .5rem;
+    border-radius: 10px;
+    font-size: .7rem;
+    color: white;
+    background:  var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+    /* margin-left: 1rem; */
+    display: flex;
+    fill: white;
+    background: var(--color-solid-gray);
 }
-.AddButton button:hover{
-background: var(--color-button-hover);
+.AddButton1 button:hover{
+    background: var(--color-secondary-main);
+    box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
+    fill: var(--color-main);
+    color: var(--color-main);
 }
-.CancelButton{
-display: inline-block;
+.AddButton2 button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    width: 10rem;
+    font-size: .7rem;
+    justify-content: center;
+    border: none;
+    gap: .5rem;
+    border-radius: 10px;
+    color: white;
+    background:  var(--color-mainbutton);
+    cursor: pointer;
+    transition: 0.5s;
+    /* margin-left: 1rem; */
+    display: flex;
+    fill: white;
+    background: var(--color-main);
 }
-.AddButton{
-display: inline-block;
-
+.AddButton2 button:hover{
+    background: var(--color-secondary-main);
+    box-shadow: 1px 3px 3px 0px var(--color-shadow-shadow);
+    color: var(--color-main);
+    fill: var(--color-main);
 }
-/* .CloseButton{
-margin-top: 5.2vh;
-margin-left: 2.4em;
-margin-bottom: -2rem;
-} */
-#cancel{
-font-family: 'COCOGOOSE', sans-serif;
-padding: 10px;
-padding-left: 80px;
-text-decoration: none;
-padding-right: 80px;
-text-align: center;
-width: 30rem;
-max-height: 70px;
-outline: none;
-border: none;
-font-size: min(max(9px, 1.1vw), 11px);
-border-radius: 20px;
-color: white;
-background: #c44242;
-cursor: pointer;
-transition: 0.5s;
+.AddButton1{
+        display: inline-block;
 }
-#cancel:hover{
-background-color: rgb(158, 0, 0);
-transition: 0.5s;
+.AddButton2{
+        display: inline-block;
 }
 
 .creditHref{
@@ -1156,16 +1159,6 @@ color: var(--color-main);
 }
 .creditHref:hover{
 color: var(--color-maroon);
-}
-.container1{
-width: 100%;
-max-width: 600px;
-padding: 28px;
-margin: 0 28px;
-border-radius:  0px 0px 20px 20px;
-background-color: var(--color-white);
-box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-border-top: 10px solid var(--color-solid-gray);
 }
 
 .bg-addcustomerform{
@@ -1298,12 +1291,6 @@ background: var(--color-white);
 color: var(--color-black);
 padding: 0 10px;
 }
-.line{
-width:100%;
-margin-top: 1rem;
-margin-bottom: 1rem;
-border-bottom: 2px solid var(--color-solid-gray);
-}
 .batchlist{
         display: flex;
         border: none;
@@ -1315,7 +1302,8 @@ border-bottom: 2px solid var(--color-solid-gray);
         width: 19rem;
         padding: .68rem .8rem;
         text-align: center;
-        justify-content: center;
+    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
+    justify-content: center;
         height: 1.7rem;
         gap: 1rem;
         font-weight: 700;
@@ -1397,3 +1385,236 @@ border-bottom: 2px solid var(--color-solid-gray);
         justify-content: center;
         /* display: flex; */
     }
+    .container1{
+    width: 100%;
+    max-width: 600px;
+    padding: 28px;
+    margin: 0 28px;
+    border-radius:  0px 0px 20px 20px;
+    background-color: var(--color-white);
+    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
+    border-top: 10px solid var(--color-solid-gray);
+}
+.customerName{
+    align-items:center;
+    width: 100%;
+    margin-top: -1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.customernameLbl{
+    margin-left: 1rem;
+    font-size: .9rem;
+    display: inline-block;
+    color: var(--color-solid-gray);
+    font-weight: 600;
+}
+.customer_name{
+    color: var(--color-main);
+    text-transform: uppercase;
+    margin-left: 1.5rem;
+    font-family: 'Cocogoose', sans-serif;
+    font-size: 1rem;
+}
+.createdatLbl{
+    font-size: .9rem;
+    /* width: 100%; */
+    display: inline-block;
+    margin-top: 1rem;
+    border-top: 1px solid var(--color-main);
+    border-bottom: 1px solid var(--color-main);
+    margin-left: 2rem;
+    color: var(--color-main);
+    font-weight: 600;
+}
+.datetimeLbl{
+        text-align: center;
+
+    }
+    .line{
+    width:100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-solid-gray);
+}
+.payment-service{
+    width: 100%;
+    text-align: center;
+}
+.payment-options1{
+    background-color: none;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
+    /* position: absolute; */
+    display: inline-block;
+    position: relative;
+    /* padding-top: 1rem; */
+    /* right: 8%; */
+}
+.payment-options2{
+    background-color: none;
+    /* width: 100%; */
+    /* margin-left:.5rem; */
+    /* position: absolute; */
+    display: inline-block;
+    position: relative;
+    /* padding-top: 1rem; */
+    /* right: 8%; */
+}
+.service-options{
+    position: relative;
+    border: none;
+    width: 15rem;
+    padding: 10px;
+    align-items: center;
+    text-align: center;
+    margin-right: 2rem;
+    font-family: 'cocogoose', sans-serif;
+    font-size: .8rem;
+    color: var(--color-secondary-main);
+    border-radius: 10px;
+    margin-top: 1rem;
+    border-bottom: 2px solid var(--color-main);
+    text-transform: uppercase;
+    background-color: var(--color-solid-gray);
+}
+.paymentOptions-text{
+    font-weight: 700;
+    font-size: 13px;
+    /* margin-left: 1rem; */
+    margin-top:1.7rem;
+    color: var(--color-black);
+    display: inline-block;
+    position: relative;
+    font-family: arial, sans-serif;
+}
+.orderSum-Details{
+    background-color: var(--color-white);
+    padding: 1rem;
+    width:100%;
+    overflow:auto;
+    /* display: inline-block; */
+    box-shadow: 2px 2px 2px 1px var(--color-tertiary);
+    /* margin-left: 1.1rem; */
+    max-height: 8rem;
+    height: 8rem;
+    margin-top: 1rem;
+    /* text-align: right; */
+    /* display: flex; */
+    border-top: 2px solid var(--color-solid-gray);
+    position: relative;
+    border-radius: 10px;
+}
+.orderSum-Details .tableCheckout td{
+    color: var(--color-solid-gray);
+
+}
+.totalamount-Details{
+    background-color: var(--color-background);
+    padding-top: 1.5rem;
+    width:100%;
+    overflow:auto;
+    max-height: 7rem;
+    height: 7rem;
+    margin-top: 1rem;
+    border-radius: 5px;
+    border-left: 1px solid var(--color-main);
+    border-right: 1px solid var(--color-main);
+    position: relative;
+}
+
+.tableCheckout table{
+    background: var(--color-white);
+    font-family: 'Switzer', sans-serif;
+    width: 100%;
+    font-size: 0.7rem;
+    border-radius: 0px 0px 10px 10px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    /* padding-bottom: 2.5rem; */
+    text-align: center;
+    transition: all 700ms ease;
+    overflow: auto;
+    margin-top: -1rem;
+}
+table{
+    font-family: 'Switzer', sans-serif;
+    width: 100%;
+    border-radius: 0px 0px 10px 10px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 2.5rem;
+    text-align: center;
+    transition: all 700ms ease;
+    overflow: auto;
+    margin-top: -1rem;
+}
+table tbody td{
+    height: .4rem;
+    border-bottom: 1px solid var(--color-main);
+    color: var(--color-main);
+    font-size: .67rem;
+}
+.tableCheckout th{
+    height: 1.8rem;
+    color: var(--color-solid-gray);
+    /* margin:1rem; */
+    font-size: .75rem;
+    border: none;
+    text-transform: uppercase;
+    /* border-bottom: 2px solid var(--color-solid-gray); */
+}
+.payment-section{
+    width: 100%;
+    align-items: center;
+    padding: 20px;
+    margin-top: 1rem;
+    justify-content: center;
+    background-color: var(--color-secondary-main);
+    border-top: 5px solid var(--color-main);
+    border-radius: 0 0 10px 10px;
+}
+.user-input-box-totalamount{
+    margin-bottom: 1rem;
+}
+
+.user-input-box-totalamount label{
+    color: var(--color-black);
+    text-align: right;
+    font-size: 25px;
+    /* margin-left: .2rem; */
+    font-family: 'century gothic', sans-serif;
+    font-weight: 750;
+    /* margin: 5px 0; */
+}
+.user-input-box-totalamount .remaining-amountLbl{
+    font-family: 'arial', sans-serif;
+    font-weight: 500;   
+    color: var(--color-solid-gray);
+    font-size: 15px;
+}
+.remaining-amount2{
+    color: var(--color-solid-gray);
+    font-family: 'calibri', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    float: right;
+}
+.total-amount2{
+    color: var(--color-black);
+    font-family: 'calibri', sans-serif;
+    font-size: 25px;
+    float: right;
+}
+.close{
+    text-align: right;
+    text-decoration: none;
+    float: right;
+    color: var(--color-maroon);
+    cursor: pointer;
+}
+
+.close:hover{
+    filter: brightness(2.5);
+}

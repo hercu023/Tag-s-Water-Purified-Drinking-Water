@@ -4,6 +4,8 @@ require_once "../database/connection-db.php";
 require_once "../audit/audit-logger.php";
 $module = 'EMPLOYEE';
 
+date_default_timezone_set("Asia/Manila");
+
 if (isset($_POST['edit-employee-attendance'])) {
     if (isset($_POST['employee_id'])
         || isset($_POST['date_of_attendance'])
@@ -12,7 +14,7 @@ if (isset($_POST['edit-employee-attendance'])) {
         || isset($_POST['deduction'])
         || isset($_POST['additional_bonus'])
         || isset($_POST['note'])
-        || isset($_POST['is_whole_day'])) {
+        || isset($_POST['is_with_uniform'])) {
 
         $user_id = $_SESSION['user_user_id'];
 
@@ -28,10 +30,12 @@ if (isset($_POST['edit-employee-attendance'])) {
         $additional_bonus = filter_var($_POST['additional_bonus'], FILTER_SANITIZE_STRING);
         $note = filter_var($_POST['note'], FILTER_SANITIZE_STRING);
 
-        $is_whole_day = $_POST['is_whole_day'];
+        $is_with_uniform = $_POST['is_with_uniform'];
+        $is_with_uniform_value = 0;
 
         $date_input = new DateTime($date_of_attendance);
         $current_date = new DateTime();
+        $total_pay = 0;
 
         if ($date_input > $current_date)
         {
@@ -54,19 +58,89 @@ if (isset($_POST['edit-employee-attendance'])) {
             header("Location: ../employee/employee-attendance.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Date of attendance for employee already exist!");
         } else {
 
-            $is_whole_day_value = 0;
-            if ($is_whole_day === 'YES') {
-                $is_whole_day_value = 1;
+            //Validate if Time IN is later than Time OUT
+            if ($time_in > $time_out) {
+                header("Location: ../employee/employee-attendance.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> TIME IN not valid. Must be earlier than TIME OUT entry");
+                exit();
+            } 
+            
+            $payroll_settings = mysqli_query($con, "SELECT * FROM `payroll_settings` 
+                                        WHERE feature = 'payroll'");
+
+            if(mysqli_num_rows($payroll_settings) > 0) {
+                $settings_data = mysqli_fetch_assoc($payroll_settings);
+                $grace_period = $settings_data['grace_period'];
+                $late_deduction_per_min = $settings_data['late_deduction_per_min'];
+                $time_in_schedule = $settings_data['time_in_schedule'];
+                $overtime_bonus_per_hour = $settings_data['overtime_bonus_per_hour'];
+                $without_uniform_deduction = $settings_data['without_uniform_deduction'];
+         
+                $employee_data = mysqli_query($con, "SELECT * FROM employee
+                    WHERE id = '$employee_id'");
+                if(mysqli_num_rows($employee_data) > 0) {
+                    $hourly_rate = mysqli_fetch_assoc($employee_data)['hourly_rate'];
+
+                    //Get rendered hours
+                    $time1 = strtotime($time_in);
+                    $time2 = strtotime($time_out);
+
+                    //Get rendered time. succeeding minutes are not counted only HOURS
+                    $rendered_time_in_hours= floor(abs($time2 - $time1) / 3600);
+
+                    $regular_hour_pay = 0;
+                    $overtime_pay = 0.00;
+                    if ($rendered_time_in_hours >= 9) {
+                        $regular_hour_pay = 8 * $hourly_rate;
+                        $overtime_hours = $rendered_time_in_hours - 9;
+                        $overtime_pay = $overtime_hours * $overtime_bonus_per_hour;
+                    } else if ($rendered_time_in_hours < 9) {
+                        if($rendered_time_in_hours > 4) {
+                            //If more than 4 hours we deduct 1 hour for lunch break
+                            $rendered_time_in_hours = $rendered_time_in_hours - 1;
+                        }
+                        $regular_hour_pay = $rendered_time_in_hours * $hourly_rate;
+                    } 
+                   
+                    $late_deduction = 0.00;
+                    //Validate if time is is late if Time IN exceed the Time IN Schedule and Grace Period
+                    if ($time_in > $time_in_schedule && $time_in > $grace_period) {
+                        $time1 = strtotime($time_in);
+                        $time2 = strtotime($time_in_schedule);
+                        $difference_in_minute = ($time1 - $time2) / 60;
+
+                        //Compute for late deduction
+                        $late_deduction = $difference_in_minute * $late_deduction_per_min;
+                    }
+
+                    $total_pay = ($regular_hour_pay + $overtime_pay) - $late_deduction;
+                    $total_pay = ($total_pay + $additional_bonus) - $deduction;
+
+                    $is_with_uniform_value = 0;
+                    if ($is_with_uniform == 'Yes') {
+                        $is_with_uniform_value = 1;
+                    } else {
+                        $total_pay = $total_pay - $without_uniform_deduction;
+                    }
+
+                } else {
+                    header("Location: ../employee/employee-attendance.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Can't retrieve employee data. Try again.");
+                    exit();
+                }
+                
+            } else {
+                header("Location: ../employee/employee-attendance.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Can't retrieve payroll settings. Try again.");
+                exit();
             }
 
             $update = mysqli_query($con, "UPDATE `attendance` SET
-                             whole_day='$is_whole_day_value',
+                             with_uniform='$is_with_uniform_value',
                              date='$date_of_attendance',
                              time_in='$time_in',
                              time_out='$time_out',
                              deduction='$deduction',
                              bonus='$additional_bonus',
                              note='$note',
+                             total_amount = '$total_pay',
                              updated_by='$user_id',
                              date_updated=now()
                              WHERE id = $attendance_id

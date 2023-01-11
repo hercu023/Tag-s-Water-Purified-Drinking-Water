@@ -264,7 +264,7 @@ h1{
     color: var(--color-white);
 }
 .edit-action{
-    background: hsl(0, 0%, 37%);
+    background: rgb(0, 154, 255);
     color: var(--color-white);
     fill: var(--color-white);
     align-items: center;
@@ -1006,6 +1006,7 @@ main .sub-tab{
     cursor: pointer;
     gap: 1rem;
     font-weight: 900;
+    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
     height: 3.9rem;
     text-decoration: none;
     transition: all 300ms ease;
@@ -1017,7 +1018,7 @@ main .sub-tab{
     font-size: .8rem;
 }
 .add-account3:hover{
-    background-color: var(--color-main);
+    background-color: var(--color-secondary-main);
     color: var(--color-secondary-main);
     padding-top: -.2px;
     transition: 0.3s;
@@ -1029,6 +1030,7 @@ main .sub-tab{
     border-left: 7px solid var(--color-tertiary);
     background-color: var(--color-main);
     align-items: center;
+    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
     color: var(--color-white);
     /* width: 11.5rem; */
     max-height: 46px;

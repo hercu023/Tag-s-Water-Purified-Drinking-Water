@@ -83,7 +83,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-LIS
                             <th scope="col">ID</th>
                             <th scope="col">Full Name</th>
                             <th scope="col">Position</th>
-                            <th scope="col">Daily Rate</th>
+                            <th scope="col">Hourly Rate</th>
                             <th scope="col">Date of Birth</th>
                             <th scope="col">Email</th>
                             <th scope="col">Contact</th>
@@ -98,7 +98,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-LIS
                         employee.first_name,
                         employee.middle_name,
                         employee.last_name,
-                        employee.daily_rate,
+                        employee.hourly_rate,
                         employee.date_of_birth,
                         employee.email_address,
                         employee.contact_number,
@@ -120,7 +120,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'EMPLOYEE-LIS
                         <td data-label="ID"> <?php echo $rows['id']; ?></td>
                         <td data-label="Full Name"> <?php echo $rows['first_name'].' '.$rows['middle_name'].' '.$rows['last_name']; ?></td>
                         <td data-label="Position"> <?php echo $rows['name']; ?></td>
-                        <td data-label="Daily Rate"> <?php echo '<span>&#8369;</span>'.' '.$rows['daily_rate']; ?></td>
+                        <td data-label="Daily Rate"> <?php echo '<span>&#8369;</span>'.' '.$rows['hourly_rate']; ?></td>
                         <td data-label="Date of Birth"> <?php echo $rows['date_of_birth']; ?></td>
                         <td data-label="Email"> <?php echo $rows['email_address']; ?></td>
                         <td data-label="Contact"> <?php echo $rows['contact_number']; ?></td>

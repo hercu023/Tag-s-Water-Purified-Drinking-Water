@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2023 at 02:59 PM
+-- Generation Time: Jan 11, 2023 at 07:41 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -116,7 +116,7 @@ INSERT INTO `account_type` (`id`, `user_type`, `is_deleted`) VALUES
 CREATE TABLE `attendance` (
   `id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
-  `whole_day` int(11) NOT NULL,
+  `with_uniform` int(11) NOT NULL,
   `date` date NOT NULL,
   `time_in` time NOT NULL,
   `time_out` time NOT NULL,
@@ -136,14 +136,23 @@ CREATE TABLE `attendance` (
 -- Dumping data for table `attendance`
 --
 
-INSERT INTO `attendance` (`id`, `employee_id`, `whole_day`, `date`, `time_in`, `time_out`, `deduction`, `bonus`, `note`, `total_amount`, `payroll_status`, `added_by`, `date_created`, `updated_by`, `date_updated`, `status_archive_id`) VALUES
+INSERT INTO `attendance` (`id`, `employee_id`, `with_uniform`, `date`, `time_in`, `time_out`, `deduction`, `bonus`, `note`, `total_amount`, `payroll_status`, `added_by`, `date_created`, `updated_by`, `date_updated`, `status_archive_id`) VALUES
 (1, 1, 0, '2022-11-01', '09:00:00', '18:00:00', 0.00, 750.00, 'Test note', 1000.00, 1, 6, '2022-12-31 13:43:47', 6, '2022-12-31 13:43:47', 1),
 (2, 1, 0, '2022-12-01', '13:02:00', '14:04:00', 0.00, 0.00, 'Test note', 250.00, 1, 6, '2022-12-31 13:45:55', 6, '2022-12-31 13:45:55', 1),
 (3, 1, 0, '2022-12-02', '13:46:00', '13:46:00', 0.00, 0.00, 'Test note', 250.00, 1, 6, '2022-12-31 13:46:46', 6, '2022-12-31 13:46:46', 1),
 (4, 1, 1, '2022-12-03', '13:48:00', '13:48:00', 0.00, 0.00, 'Test note', 500.00, 1, 6, '2022-12-31 13:48:26', 6, '2022-12-31 13:48:26', 1),
 (5, 1, 0, '2022-12-04', '13:49:00', '13:49:00', 50.00, 0.00, 'Test note', 200.00, 1, 6, '2022-12-31 13:49:26', 6, '2022-12-31 13:49:26', 1),
 (6, 2, 1, '2022-12-01', '15:32:00', '18:34:00', 0.00, 0.00, 'Test note', 500.00, 1, 6, '2022-12-31 14:32:34', 6, '2022-12-31 14:32:34', 1),
-(7, 3, 1, '2022-12-31', '08:00:00', '00:00:00', 0.00, 0.00, 'Test note', 0.00, 0, 6, '2022-12-31 23:21:45', 6, '2022-12-31 23:21:45', 1);
+(7, 3, 1, '2022-12-31', '08:00:00', '00:00:00', 0.00, 0.00, 'Test note', 0.00, 0, 6, '2022-12-31 23:21:45', 6, '2022-12-31 23:21:45', 1),
+(8, 1, 0, '2023-01-09', '08:00:00', '17:00:00', 0.00, 0.00, 'test\r\n\r\nRegular Pay: 4000\r\nOvertime: 0\r\nLate Deduction: 0\r\n', 4000.00, 0, 6, '2023-01-10 00:34:27', 6, '2023-01-10 00:34:27', 2),
+(9, 1, 1, '2023-01-10', '08:15:00', '14:15:00', 0.00, 0.00, '', 2500.00, 0, 6, '2023-01-10 00:41:30', 6, '2023-01-10 01:20:51', 1),
+(10, 1, 0, '2023-01-09', '08:30:00', '17:30:00', 0.00, 0.00, '\r\n\r\nRegular Pay: 4000\r\nOvertime: 0\r\nLate Deduction: 300\r\n', 3675.00, 0, 6, '2023-01-10 00:42:22', 6, '2023-01-10 00:42:22', 1),
+(11, 1, 1, '2023-01-08', '08:15:00', '16:45:00', 0.00, 0.00, 'Test note', 4000.00, 0, 6, '2023-01-10 00:54:37', 6, '2023-01-10 00:54:37', 1),
+(12, 1, 1, '2023-01-06', '08:00:00', '19:00:00', 0.00, 0.00, 'Test note', 4100.00, 0, 6, '2023-01-10 00:55:45', 6, '2023-01-10 00:55:45', 1),
+(13, 2, 1, '2023-01-10', '08:00:00', '17:00:00', 0.00, 0.00, '', 4000.00, 0, 1, '2023-01-10 15:51:35', 1, '2023-01-10 15:51:35', 1),
+(14, 3, 1, '2023-01-10', '08:15:00', '17:00:00', 0.00, 0.00, '', 3500.00, 1, 1, '2023-01-10 15:59:22', 1, '2023-01-10 15:59:22', 1),
+(15, 4, 1, '2023-01-10', '08:00:00', '18:30:00', 0.00, 0.00, '', 4050.00, 0, 1, '2023-01-10 16:04:19', 1, '2023-01-10 16:11:28', 1),
+(16, 7, 1, '2023-01-10', '08:12:00', '17:12:00', 0.00, 0.00, '', 4000.00, 1, 1, '2023-01-10 19:14:20', 1, '2023-01-10 19:14:20', 1);
 
 -- --------------------------------------------------------
 
@@ -165,22 +174,80 @@ CREATE TABLE `audit_trail` (
 --
 
 INSERT INTO `audit_trail` (`id`, `module_id`, `user_id`, `status`, `data`, `date_log`) VALUES
-(0, 1, 1, 1, 'Logged in the system', '2023-01-09 00:07:59'),
-(966, 1, 1, 0, 'Incorrect password input', '2023-01-09 14:48:17'),
-(967, 1, 1, 0, 'Restricted login, still has an active session.', '2023-01-09 14:48:20'),
-(968, 1, 1, 1, 'Logged in the system', '2023-01-09 14:48:43'),
-(969, 0, 1, 1, 'Added new user with id:22', '2023-01-09 17:27:08'),
-(970, 1, 1, 1, 'Logged out of the system', '2023-01-09 17:36:03'),
-(971, 1, 1, 0, 'Incorrect password input', '2023-01-09 17:36:06'),
-(972, 1, 1, 0, 'Incorrect password input', '2023-01-09 17:36:09'),
-(973, 1, 1, 0, 'Incorrect password input', '2023-01-09 17:36:12'),
-(974, 1, 1, 0, 'Incorrect password input', '2023-01-09 17:36:15'),
-(975, 1, 1, 1, 'Logged in the system', '2023-01-09 17:36:18'),
-(976, 1, 1, 0, 'Restricted login, still has an active session.', '2023-01-09 18:42:50'),
-(977, 1, 1, 0, 'Restricted login, still has an active session.', '2023-01-09 18:42:50'),
-(978, 1, 1, 1, 'Logged in the system', '2023-01-09 18:43:41'),
-(979, 1, 1, 0, 'Restricted login, still has an active session.', '2023-01-09 21:09:37'),
-(980, 1, 1, 1, 'Logged in the system', '2023-01-09 21:10:48');
+(1036, 1, 1, 1, 'Logged in the system', '2023-01-10 04:27:48'),
+(1037, 1, 1, 1, 'Logged in the system', '2023-01-10 14:20:03'),
+(1038, 6, 1, 1, 'Add new transaction. Reference:137', '2023-01-10 14:50:19'),
+(1039, 14, 1, 1, 'Transaction added to For Pick up. Reference: 137', '2023-01-10 14:50:33'),
+(1040, 14, 1, 1, 'Transaction updated to Already Pick Up. Reference: 137', '2023-01-10 14:54:31'),
+(1041, 6, 1, 1, 'Add new transaction. Reference:138', '2023-01-10 14:55:28'),
+(1042, 14, 1, 1, 'Transaction added to For Pick up. Reference: 138', '2023-01-10 14:55:36'),
+(1043, 14, 1, 1, 'Transaction updated to Already Pick Up. Reference: 138', '2023-01-10 14:55:40'),
+(1044, 6, 1, 1, 'Add new transaction. Reference:139', '2023-01-10 14:56:45'),
+(1045, 14, 1, 1, 'Transaction added to For Pick up. Reference: 139', '2023-01-10 14:56:54'),
+(1046, 14, 1, 1, 'Transaction updated to Ongoing Pick Up. Reference: 139', '2023-01-10 14:57:00'),
+(1047, 6, 1, 1, 'Add new transaction. Reference:140', '2023-01-10 14:58:12'),
+(1048, 14, 1, 1, 'Transaction added to For Pick up. Reference: 140', '2023-01-10 14:58:18'),
+(1049, 14, 1, 1, 'Transaction updated to Ongoing Pick Up. Reference: 140', '2023-01-10 14:58:23'),
+(1050, 6, 1, 1, 'Add new transaction. Reference:141', '2023-01-10 14:59:37'),
+(1051, 14, 1, 1, 'Transaction added to For Pick up. Reference: 141', '2023-01-10 14:59:46'),
+(1052, 14, 1, 1, 'Transaction updated to Ongoing Pick Up. Reference: 141', '2023-01-10 14:59:51'),
+(1053, 14, 1, 1, 'Transaction updated to Already Pick Up. Reference: 141', '2023-01-10 14:59:59'),
+(1054, 14, 1, 1, 'Transaction added to For Pick up. Reference: 139', '2023-01-10 15:00:22'),
+(1055, 14, 1, 1, 'Transaction added to For Pick up. Reference: 140', '2023-01-10 15:00:23'),
+(1056, 14, 1, 1, 'Transaction updated to Ongoing Pick Up. Reference: 139', '2023-01-10 15:00:29'),
+(1057, 14, 1, 1, 'Transaction updated to Ongoing Pick Up. Reference: 140', '2023-01-10 15:00:33'),
+(1058, 14, 1, 1, 'Transaction updated to For Delivery. Reference: 138', '2023-01-10 15:02:02'),
+(1059, 14, 1, 1, 'Transaction updated to For Delivery. Reference: 137', '2023-01-10 15:02:03'),
+(1060, 0, 1, 1, 'Added new attendance with details: employee_id =2,2023-01-10', '2023-01-10 15:51:36'),
+(1061, 0, 1, 1, 'Added new attendance with details: employee_id =3,2023-01-10', '2023-01-10 15:59:22'),
+(1062, 23, 1, 1, 'Added new expense:[date=2023-01-10, expense_type=1, amount=3500.00]', '2023-01-10 16:01:40'),
+(1063, 0, 1, 1, 'Payroll Process for attendance with id:14', '2023-01-10 16:01:40'),
+(1064, 0, 1, 1, 'Added new attendance with details: employee_id =4,2023-01-10', '2023-01-10 16:04:19'),
+(1065, 0, 1, 1, 'Edited attendance with details[employee_id =4,2023-01-10]', '2023-01-10 16:11:05'),
+(1066, 0, 1, 1, 'Edited attendance with details[employee_id =4,2023-01-10]', '2023-01-10 16:11:28'),
+(1067, 1, 1, 1, 'Logged in the system', '2023-01-10 16:55:16'),
+(1068, 31, 0, 1, 'Added delivery fee setting.', '2023-01-10 19:03:58'),
+(1069, 0, 1, 1, 'Added new attendance with details: employee_id =7,2023-01-10', '2023-01-10 19:14:20'),
+(1070, 23, 1, 1, 'Added new expense:[date=2023-01-10, expense_type=1, amount=4000.00]', '2023-01-10 19:16:20'),
+(1071, 0, 1, 1, 'Payroll Process for attendance with id:16', '2023-01-10 19:16:20'),
+(1072, 1, 1, 1, 'Logged in the system', '2023-01-10 22:34:56'),
+(1073, 14, 1, 1, 'Transaction updated to Already Pick Up. Reference: 140', '2023-01-11 00:16:57'),
+(1074, 14, 1, 1, 'Transaction added to For Pick up. Reference: 139', '2023-01-11 00:17:01'),
+(1075, 14, 1, 1, 'Transaction updated to Ongoing Pick Up. Reference: 139', '2023-01-11 00:17:09'),
+(1076, 14, 1, 1, 'Transaction updated to Already Pick Up. Reference: 139', '2023-01-11 00:20:02'),
+(1077, 6, 1, 1, 'Deducted stocks for item:6', '2023-01-11 00:20:34'),
+(1078, 17, 1, 1, 'Updated stocks with id:6', '2023-01-11 00:20:34'),
+(1079, 6, 1, 1, 'Add new transaction. Reference:142', '2023-01-11 00:20:34'),
+(1080, 6, 1, 1, 'Add new transaction. Reference:143', '2023-01-11 00:20:55'),
+(1081, 14, 1, 1, 'Transaction added to For Pick up. Reference: 143', '2023-01-11 00:21:04'),
+(1082, 14, 1, 1, 'Transaction updated to Ongoing Pick Up. Reference: 143', '2023-01-11 00:21:10'),
+(1083, 14, 1, 1, 'Transaction updated to Already Pick Up. Reference: 143', '2023-01-11 00:21:15'),
+(1084, 14, 1, 1, 'Transaction updated to For Delivery. Reference: 117', '2023-01-11 00:22:11'),
+(1085, 14, 1, 1, 'Transaction updated to For Delivery. Reference: 142', '2023-01-11 00:22:13'),
+(1086, 14, 1, 1, 'Transaction updated to For Delivery. Reference: 142', '2023-01-11 00:26:24'),
+(1087, 14, 1, 1, 'Transaction updated to For Delivery. Reference: 117', '2023-01-11 00:26:26'),
+(1088, 6, 1, 1, 'Add new transaction. Reference:144', '2023-01-11 00:28:16'),
+(1089, 14, 1, 1, 'Transaction added to For Pick up. Reference: 144', '2023-01-11 00:28:23'),
+(1090, 14, 1, 1, 'Transaction updated to Ongoing Pick Up. Reference: 144', '2023-01-11 00:28:30'),
+(1091, 6, 1, 1, 'Added new customer with id:14', '2023-01-11 00:46:10'),
+(1092, 6, 1, 0, 'Customer name already exist', '2023-01-11 00:50:07'),
+(1093, 14, 1, 1, 'Transaction updated to For Delivery. Reference: 139', '2023-01-11 01:07:33'),
+(1094, 14, 1, 1, 'Transaction updated to Ongoing Delivery. Reference: ', '2023-01-11 01:07:37'),
+(1095, 6, 1, 1, 'Add new transaction. Reference:145', '2023-01-11 01:51:51'),
+(1096, 14, 1, 1, 'Transaction added to For Pick up. Reference: 145', '2023-01-11 02:33:52'),
+(1097, 17, 1, 1, 'Updated stocks with id:1', '2023-01-11 04:56:07'),
+(1098, 19, 0, 1, 'Deducted stocks for item:1', '2023-01-11 04:56:07'),
+(1099, 1, 1, 0, 'Restricted login, still has an active session.', '2023-01-11 05:01:13'),
+(1100, 1, 1, 0, 'Restricted login, still has an active session.', '2023-01-11 05:01:15'),
+(1101, 1, 1, 0, 'Restricted login, still has an active session.', '2023-01-11 05:01:20'),
+(1102, 1, 1, 1, 'Logged in the system', '2023-01-11 05:01:35'),
+(1103, 1, 1, 1, 'Logged out of the system', '2023-01-11 05:03:58'),
+(1104, 1, 1, 1, 'Logged in the system', '2023-01-11 12:05:23'),
+(1105, 1, 1, 1, 'Logged out of the system', '2023-01-11 13:47:07'),
+(1106, 1, 1, 1, 'Logged in the system', '2023-01-11 13:47:19'),
+(1107, 1, 1, 0, 'Restricted login, still has an active session.', '2023-01-11 14:27:33'),
+(1108, 1, 1, 1, 'Logged in the system', '2023-01-11 14:27:56'),
+(1109, 6, 1, 1, 'Add new transaction. Reference:146', '2023-01-11 14:36:52');
 
 -- --------------------------------------------------------
 
@@ -235,15 +302,13 @@ CREATE TABLE `customers` (
 INSERT INTO `customers` (`id`, `customer_name`, `address`, `contact_number1`, `contact_number2`, `note`, `balance`, `balance_limit`, `credit_limit`, `status_archive_id`, `created_by`, `created_at`) VALUES
 (1, 'Lorenzo', 'Sta.Cruz St.', '09892829485', '09223232222112', 'tabing jollibee', 0.00, 1000.00, 1000.00, 1, '1', '2022-11-27 14:48:29'),
 (2, 'Stephen Smith', 'Curry St., Brgy. San Lorenzo', '09992829375', '09284573431', '', 0.00, 1000.00, 1000.00, 1, '1', '2022-11-27 01:38:32'),
-(3, 'Test Name', 'Test ', '1234', '1234', 'Test note', 0.00, 1000.00, 1000.00, 1, '6', '2022-11-30 02:28:56'),
 (4, 'CN', 'ADDRESS', '1234', '1234', 'Test note', 400.00, 1000.00, 1000.00, 1, '6', '2022-11-30 02:34:48'),
-(5, 'Test', 'Test ', '1234', '1234', 'Test note', 0.00, 1000.00, 1000.00, 1, '6', '2022-11-30 02:35:11'),
 (6, 'Jerwinsonn Raphael Quijano', 'B7 L7 Sta.Ana St., Villa Ligaya Subd., Brgy. Dela ', '2', '2', '2', 0.00, 1000.00, 1000.00, 1, '1', '2022-12-11 03:41:02'),
 (7, 'Dylan Angelo', 'Sto. Nino St., Brgy. San Isidro', '0989988899', '0937485758', '', 0.00, 1000.00, 1000.00, 1, '1', '2022-12-12 23:59:28'),
-(9, '', '', '', '', '', 0.00, 1000.00, 1000.00, 1, '1', '2022-12-14 21:39:05'),
 (10, 'Jessica Soho', 'Lapu-lapu St., Brgy. Tagbili, Antipolo City', '09992829375', '09283948989', 'Green gate, unang kanan sa dulo.', 325.50, 1000.00, 1000.00, 1, '1', '2022-12-16 22:36:12'),
 (12, 'Jonathan Almaranza', 'Celly Boulevard St., Brgy. Sta. Rosa', '09288883949', '09002739485', '', 0.00, 1000.00, 1000.00, 1, '1', '2022-12-23 00:19:11'),
-(13, 'DJ Khaled', '123456578', '1234', '4568', 'Test note', 0.00, 600.00, 100.00, 1, '6', '2023-01-08 19:04:30');
+(13, 'DJ Khaled', '123456578', '1234', '4568', 'Test note', 0.00, 600.00, 100.00, 1, '6', '2023-01-08 19:04:30'),
+(14, 'Jopher San', 'B8 L2 Sta.Mesa St., Lores Subd., Brgy. Dela Torre', '09892893894', '', '', 0.00, 0.00, 0.00, 1, '1', '2023-01-11 00:46:10');
 
 -- --------------------------------------------------------
 
@@ -282,7 +347,8 @@ CREATE TABLE `delivery_fee` (
 
 INSERT INTO `delivery_fee` (`id`, `fee`, `description`) VALUES
 (1, 10.00, 'Within Antipolo Bayan'),
-(2, 20.00, 'Outside Antipolo Bayan');
+(2, 20.00, 'Outside Antipolo Bayan'),
+(4, 5.00, 'Villa Ligaya');
 
 -- --------------------------------------------------------
 
@@ -308,7 +374,10 @@ INSERT INTO `delivery_list` (`id`, `uuid`, `delivery_status`, `user_id`, `delive
 (55, '63addfb7cd26a6.70637328', 3, 6, 6, '2021-11-11 19:49:23'),
 (56, '63adec37d0ab25.33071269', 3, 6, 6, '2022-12-31 19:49:25'),
 (57, '63adec37d0ab25.33071269', 3, 6, 6, '2022-11-04 19:49:25'),
-(59, '63adc22bc2cab3.50151600', 3, 6, 5, '2022-12-31 19:49:51');
+(59, '63adc22bc2cab3.50151600', 3, 6, 5, '2022-12-31 19:49:51'),
+(74, '63bd90522cb615.40239428', 2, 1, 5, '2023-01-11 01:07:37'),
+(75, '63adf42a59d698.62897437', 2, 1, 5, '2023-01-11 01:07:37'),
+(77, '63bd0c2dc7fc47.08717192', 2, 1, 5, '2023-01-11 01:07:37');
 
 -- --------------------------------------------------------
 
@@ -441,7 +510,9 @@ INSERT INTO `expense` (`id`, `expense_type_id`, `date`, `amount`, `description`,
 (19, 1, '2023-01-01', 1000.00, 'Half Dragon, Half Fruit', 6, '2023-01-01 10:39:24', 6, '2023-01-01 10:39:24', 1, 1),
 (20, 2, '2023-01-01', 1500.00, 'Half Dragon, Half Fruit', 6, '2023-01-01 10:40:02', 6, '2023-01-01 10:40:02', 1, 1),
 (21, 3, '2023-01-01', 2000.00, 'Test', 6, '2023-01-01 10:40:35', 6, '2023-01-01 10:40:35', 1, 1),
-(22, 4, '2023-01-01', 500.00, '123', 6, '2023-01-01 10:40:49', 6, '2023-01-01 10:40:49', 1, 1);
+(22, 4, '2023-01-01', 500.00, '123', 6, '2023-01-01 10:40:49', 6, '2023-01-01 10:40:49', 1, 1),
+(23, 1, '2023-01-10', 3500.00, 'Payroll for Nikolas Anderas Santos, Date: 2023-01-10, Total Amount:3500.00', 1, '2023-01-10 16:01:40', 1, '2023-01-10 16:01:40', 0, 1),
+(24, 1, '2023-01-10', 4000.00, 'Payroll for Joseph Cruz Ponte, Date: 2023-01-10, Total Amount:4000.00', 1, '2023-01-10 19:16:20', 1, '2023-01-10 19:16:20', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -550,7 +621,9 @@ INSERT INTO `inventory_log` (`id`, `inventory_id`, `details`, `quantity`, `amoun
 (26, 6, 'Supplier Details: TEST', 200, 10000.00, '2022-12-31 15:01:03', '6', 'IN'),
 (27, 1, 'Description: Test note', 1080, 0.00, '2022-12-31 21:23:43', '6', 'OUT'),
 (28, 6, 'POS Transaction Reference: 63baa0635aec10.87912152', 1, 0.00, '2023-01-08 18:52:19', '6', 'OUT'),
-(29, 9, 'POS Transaction Reference: 63baa0635aec10.87912152', 1, 0.00, '2023-01-08 18:52:19', '6', 'OUT');
+(29, 9, 'POS Transaction Reference: 63baa0635aec10.87912152', 1, 0.00, '2023-01-08 18:52:19', '6', 'OUT'),
+(30, 6, 'POS Transaction Reference: 63bd90522cb615.40239428', 2, 0.00, '2023-01-11 00:20:34', '1', 'OUT'),
+(31, 1, 'Description: sira', 2, 0.00, '2023-01-11 04:56:07', '1', 'OUT');
 
 -- --------------------------------------------------------
 
@@ -571,7 +644,7 @@ CREATE TABLE `inventory_stock` (
 --
 
 INSERT INTO `inventory_stock` (`id`, `item_name_id`, `in_going`, `out_going`, `on_hand`) VALUES
-(1, 6, 6200, 6181, 19),
+(1, 6, 6200, 6184, 16),
 (2, 2, 1000, 0, 1000),
 (3, 39, 0, 0, 0),
 (4, 1, 0, 1000, 0),
@@ -688,15 +761,16 @@ CREATE TABLE `payroll_settings` (
   `grace_period` time NOT NULL,
   `late_deduction_per_min` float(11,2) NOT NULL,
   `time_in_schedule` time NOT NULL,
-  `overtime_bonus_per_hour` float(11,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `overtime_bonus_per_hour` float(11,2) NOT NULL,
+  `without_uniform_deduction` float(11,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payroll_settings`
 --
 
-INSERT INTO `payroll_settings` (`id`, `feature`, `grace_period`, `late_deduction_per_min`, `time_in_schedule`, `overtime_bonus_per_hour`) VALUES
-(1, 'payroll', '08:15:00', 5.00, '08:00:00', 20.00);
+INSERT INTO `payroll_settings` (`id`, `feature`, `grace_period`, `late_deduction_per_min`, `time_in_schedule`, `overtime_bonus_per_hour`, `without_uniform_deduction`) VALUES
+(1, 'payroll', '08:15:00', 10.00, '08:00:00', 50.00, 100.00);
 
 -- --------------------------------------------------------
 
@@ -841,23 +915,31 @@ INSERT INTO `transaction` (`id`, `uuid`, `customer_name_id`, `service_type`, `to
 (117, '63adf42a59d698.62897437', 12, 'Delivery', 47.00, 1, '', 1, 1, 1, '2022-12-30 04:10:18', '2022-12-30', '04:10:18'),
 (118, '63ae81665d4ba6.86096893', 0, 'Walk In', 12.00, 1, '', 1, 1, 1, '2022-12-30 14:12:54', '2022-12-30', '14:12:54'),
 (119, '63aeb9931ff251.28969312', 2, 'Delivery', 15.00, 1, '', 1, 1, 1, '2022-12-30 18:12:35', '2022-12-30', '18:12:35'),
-(120, '63af21dd246400.87869706', 0, 'Walk In', 6000.00, 1, 'Test', 1, 6, 6, '2022-12-31 01:37:33', '2022-12-31', '01:37:33'),
 (121, '63b0f83f867115.74857145', 0, 'Walk In', 40000.00, 1, '', 1, 6, 6, '2023-01-01 11:04:31', '2023-01-01', '11:04:31'),
-(122, '63b105d1d0fa95.03104495', 0, 'Delivery', 40800.00, 1, '', 1, 6, 6, '2023-01-01 12:02:25', '2023-02-01', '12:02:25'),
-(123, '63b106ea3f7fa2.94397853', 0, 'Walk In', 41600.00, 1, '', 1, 6, 6, '2023-01-01 12:07:06', '2023-03-01', '12:07:06'),
-(124, '63b1070ed4ffe5.62797644', 0, 'Walk In', 42400.00, 1, '', 1, 6, 6, '2023-01-01 12:07:42', '2023-04-01', '12:07:42'),
-(125, '63b1072aac1753.53356204', 0, 'Walk In', 43200.00, 1, '', 1, 6, 6, '2023-01-01 12:08:10', '2023-05-01', '12:08:10'),
-(126, '63b107c7479ae5.83352724', 0, 'Walk In', 48000.00, 1, '', 1, 6, 6, '2023-01-01 12:10:47', '2023-06-01', '12:10:47'),
-(127, '63b1086fae1de0.73921151', 0, 'Walk In', 66000.00, 1, '', 1, 6, 6, '2023-01-01 12:13:35', '2023-07-01', '12:13:35'),
-(128, '63b108bd8e3521.93468653', 0, 'Walk In', 72000.00, 1, '', 1, 6, 6, '2023-01-01 12:14:53', '2023-08-01', '12:14:53'),
-(129, '63b1096071d759.36019109', 0, 'Walk In', 120000.00, 1, '', 1, 6, 6, '2023-01-01 12:17:36', '2023-09-01', '12:17:36'),
-(130, '63b10997219918.56987517', 0, 'Walk In', 600000.00, 1, '', 1, 6, 6, '2023-01-01 12:18:31', '2023-10-01', '12:18:31'),
-(131, '63b10b4b9149b6.59010599', 0, 'Walk In', 1200000.00, 1, '', 1, 6, 6, '2023-01-01 12:25:47', '2023-11-01', '12:25:47'),
-(132, '63b10c3a543a83.33723195', 0, 'Walk In', 720000.00, 1, '', 1, 6, 6, '2023-01-01 12:29:46', '2023-12-01', '12:29:46'),
+(123, '63b106ea3f7fa2.94397853', 0, 'Walk In', 41600.00, 1, '', 1, 6, 6, '2023-01-01 12:07:06', '2023-01-01', '12:07:06'),
+(124, '63b1070ed4ffe5.62797644', 0, 'Walk In', 42400.00, 1, '', 1, 6, 6, '2023-01-01 12:07:42', '2023-01-01', '12:07:42'),
+(125, '63b1072aac1753.53356204', 0, 'Walk In', 43200.00, 1, '', 1, 6, 6, '2023-01-01 12:08:10', '2023-01-01', '12:08:10'),
+(126, '63b107c7479ae5.83352724', 0, 'Walk In', 48000.00, 1, '', 1, 6, 6, '2023-01-01 12:10:47', '2023-01-01', '12:10:47'),
+(127, '63b1086fae1de0.73921151', 0, 'Walk In', 66000.00, 1, '', 1, 6, 6, '2023-01-01 12:13:35', '2023-01-01', '12:13:35'),
+(128, '63b108bd8e3521.93468653', 0, 'Walk In', 72000.00, 1, '', 1, 6, 6, '2023-01-01 12:14:53', '2023-01-01', '12:14:53'),
+(129, '63b1096071d759.36019109', 0, 'Walk In', 120000.00, 1, '', 1, 6, 6, '2023-01-01 12:17:36', '2023-01-01', '12:17:36'),
+(130, '63b10997219918.56987517', 0, 'Walk In', 600000.00, 1, '', 1, 6, 6, '2023-01-01 12:18:31', '2023-01-01', '12:18:31'),
+(131, '63b10b4b9149b6.59010599', 0, 'Walk In', 1200000.00, 1, '', 1, 6, 6, '2023-01-01 12:25:47', '2023-01-01', '12:25:47'),
+(132, '63b10c3a543a83.33723195', 0, 'Walk In', 720000.00, 1, '', 1, 6, 6, '2023-01-01 12:29:46', '2023-01-01', '12:29:46'),
 (133, '63b10e4aab9696.99990337', 0, 'Walk In', 120.00, 1, '', 1, 6, 6, '2023-01-01 12:38:34', '2023-01-01', '12:38:34'),
-(134, '63baa0635aec10.87912152', 12, 'Walk In', 45.00, 1, '', 0, 6, 6, '2023-01-08 18:52:19', '2023-01-08', '18:52:19'),
-(135, '63baa0740d2b01.35336222', 12, 'Walk In', 12.00, 1, '', 1, 6, 6, '2023-01-08 18:52:36', '2023-01-08', '18:52:36'),
-(136, '63baa08aa45c96.94426721', 12, 'Walk In', 12.00, 1, '', 0, 6, 6, '2023-01-08 18:52:58', '2023-01-08', '18:52:58');
+(134, '63baa0635aec10.87912152', 12, 'Walk In', 45.00, 1, '', 0, 6, 6, '2023-01-08 18:52:19', '2023-01-01', '18:52:19'),
+(135, '63baa0740d2b01.35336222', 12, 'Walk In', 12.00, 1, '', 1, 6, 6, '2023-01-08 18:52:36', '2023-01-01', '18:52:36'),
+(136, '63baa08aa45c96.94426721', 12, 'Walk In', 12.00, 1, '', 0, 6, 6, '2023-01-08 18:52:58', '2023-01-01', '18:52:58'),
+(137, '63bd0aab9062f3.68575416', 4, 'Delivery', 36.00, 1, '', 1, 1, 1, '2023-01-10 14:50:19', '2023-01-01', '14:50:19'),
+(138, '63bd0be0c6f9a6.84690160', 7, 'Delivery', 12.00, 1, '', 1, 1, 1, '2023-01-10 14:55:28', '2023-09-01', '14:55:28'),
+(139, '63bd0c2dc7fc47.08717192', 7, 'Delivery', 12.00, 1, '', 1, 1, 1, '2023-01-10 14:56:45', '2023-01-01', '14:56:45'),
+(140, '63bd0c847e14a0.23113515', 6, 'Delivery', 12.00, 1, '', 1, 1, 1, '2023-01-10 14:58:12', '2023-01-01', '14:58:12'),
+(141, '63bd0cd98b3dd0.82754381', 7, 'Delivery', 12.00, 1, '', 1, 1, 1, '2023-01-10 14:59:37', '2023-01-01', '14:59:37'),
+(142, '63bd90522cb615.40239428', 6, 'Delivery', 42.00, 1, '', 1, 1, 1, '2023-01-11 00:20:34', '2023-01-01', '00:20:34'),
+(143, '63bd90679abfc6.28719333', 5, 'Delivery', 12.00, 1, '', 1, 1, 1, '2023-01-11 00:20:55', '2023-01-01', '00:20:55'),
+(144, '63bd921fe57275.48434181', 4, 'Delivery/Pick Up', 12.00, 1, '', 1, 1, 1, '2023-01-11 00:28:15', '2023-01-01', '00:28:15'),
+(145, '63bda5b72f8f07.90426483', 6, 'Delivery/Pick Up', 48.00, 1, '', 1, 1, 1, '2023-01-11 01:51:51', '2023-01-01', '01:51:51'),
+(146, '63be59042212e0.81441028', 2, 'Walk In', 12.00, 1, '', 1, 1, 1, '2023-01-11 14:36:52', '2023-01-11', '14:36:52');
 
 -- --------------------------------------------------------
 
@@ -916,7 +998,17 @@ INSERT INTO `transaction_history` (`id`, `transaction_uuid`, `amount_tendered`, 
 (72, '63b10e4aab9696.99990337', 500.00, 380.00, 0.00, 0.00, 0.00, 6, '2023-01-01 12:38:34'),
 (73, '63baa0635aec10.87912152', 0.00, 0.00, 0.00, 0.00, 45.00, 6, '2023-01-08 18:52:19'),
 (74, '63baa0740d2b01.35336222', 12.00, 0.00, 0.00, 0.00, 0.00, 6, '2023-01-08 18:52:36'),
-(75, '63baa08aa45c96.94426721', 0.00, 0.00, 0.00, 0.00, 12.00, 6, '2023-01-08 18:52:58');
+(75, '63baa08aa45c96.94426721', 0.00, 0.00, 0.00, 0.00, 12.00, 6, '2023-01-08 18:52:58'),
+(76, '63bd0aab9062f3.68575416', 40.00, 4.00, 400.00, 400.00, 0.00, 1, '2023-01-10 14:50:19'),
+(77, '63bd0be0c6f9a6.84690160', 12.00, 0.00, 0.00, 0.00, 0.00, 1, '2023-01-10 14:55:28'),
+(78, '63bd0c2dc7fc47.08717192', 12.00, 0.00, 0.00, 0.00, 0.00, 1, '2023-01-10 14:56:45'),
+(79, '63bd0c847e14a0.23113515', 12.00, 0.00, 0.00, 0.00, 0.00, 1, '2023-01-10 14:58:12'),
+(80, '63bd0cd98b3dd0.82754381', 12.00, 0.00, 0.00, 0.00, 0.00, 1, '2023-01-10 14:59:37'),
+(81, '63bd90522cb615.40239428', 50.00, 8.00, 0.00, 0.00, 0.00, 1, '2023-01-11 00:20:34'),
+(82, '63bd90679abfc6.28719333', 15.00, 3.00, 0.00, 0.00, 0.00, 1, '2023-01-11 00:20:55'),
+(83, '63bd921fe57275.48434181', 15.00, 3.00, 400.00, 400.00, 0.00, 1, '2023-01-11 00:28:16'),
+(84, '63bda5b72f8f07.90426483', 50.00, 2.00, 0.00, 0.00, 0.00, 1, '2023-01-11 01:51:51'),
+(85, '63be59042212e0.81441028', 15.00, 3.00, 0.00, 0.00, 0.00, 1, '2023-01-11 14:36:52');
 
 -- --------------------------------------------------------
 
@@ -978,7 +1070,19 @@ INSERT INTO `transaction_process` (`id`, `item_name`, `water_type`, `category_ty
 (337, '500 ml', 'Alkaline', 'Bottle', 1, 10.00, 10.00, 6, '63baa0635aec10.87912152'),
 (338, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 6, '63baa0740d2b01.35336222'),
 (339, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 6, '63baa08aa45c96.94426721'),
-(340, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1000, 12.00, 12000.00, 6, '0');
+(341, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 6, '0'),
+(342, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 3, 12.00, 36.00, 1, '63bd0aab9062f3.68575416'),
+(345, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63bd0be0c6f9a6.84690160'),
+(346, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63bd0c2dc7fc47.08717192'),
+(347, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63bd0c847e14a0.23113515'),
+(348, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63bd0cd98b3dd0.82754381'),
+(354, '1 Liter', 'Alkaline', 'Bottle', 2, 15.00, 30.00, 1, '63bd90522cb615.40239428'),
+(357, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63bd90522cb615.40239428'),
+(358, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63bd90679abfc6.28719333'),
+(359, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63bd921fe57275.48434181'),
+(360, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 3, 12.00, 36.00, 1, '63bda5b72f8f07.90426483'),
+(361, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63bda5b72f8f07.90426483'),
+(362, '1.5 Liters - Refill', 'Alkaline', 'For Refill', 1, 12.00, 12.00, 1, '63be59042212e0.81441028');
 
 -- --------------------------------------------------------
 
@@ -1023,15 +1127,16 @@ CREATE TABLE `user_session` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `session_key` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL
+  `status` varchar(255) NOT NULL,
+  `date_active` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_session`
 --
 
-INSERT INTO `user_session` (`id`, `user_id`, `session_key`, `status`) VALUES
-(63, 1, '599bf762395c4c5962e8', 'ACTIVE');
+INSERT INTO `user_session` (`id`, `user_id`, `session_key`, `status`, `date_active`) VALUES
+(75, 1, 'fc0e9fcde62da6157aee', 'ACTIVE', '2023-01-11 14:41:18');
 
 -- --------------------------------------------------------
 
@@ -1217,6 +1322,12 @@ ALTER TABLE `payment_option`
   ADD UNIQUE KEY `option` (`option_name`);
 
 --
+-- Indexes for table `payroll_settings`
+--
+ALTER TABLE `payroll_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `pos_item`
 --
 ALTER TABLE `pos_item`
@@ -1305,13 +1416,13 @@ ALTER TABLE `account_type`
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=981;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1110;
 
 --
 -- AUTO_INCREMENT for table `category_type`
@@ -1323,7 +1434,7 @@ ALTER TABLE `category_type`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `date_scheduling`
@@ -1335,13 +1446,13 @@ ALTER TABLE `date_scheduling`
 -- AUTO_INCREMENT for table `delivery_fee`
 --
 ALTER TABLE `delivery_fee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `delivery_list`
 --
 ALTER TABLE `delivery_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `delivery_status`
@@ -1365,7 +1476,7 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT for table `expense`
 --
 ALTER TABLE `expense`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `expense_type`
@@ -1383,7 +1494,7 @@ ALTER TABLE `inventory_item`
 -- AUTO_INCREMENT for table `inventory_log`
 --
 ALTER TABLE `inventory_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `inventory_stock`
@@ -1408,6 +1519,12 @@ ALTER TABLE `module`
 --
 ALTER TABLE `payment_option`
   MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `payroll_settings`
+--
+ALTER TABLE `payroll_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pos_item`
@@ -1437,19 +1554,19 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
 
 --
 -- AUTO_INCREMENT for table `transaction_history`
 --
 ALTER TABLE `transaction_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `transaction_process`
 --
 ALTER TABLE `transaction_process`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=341;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=363;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1461,7 +1578,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_session`
 --
 ALTER TABLE `user_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `water_type`

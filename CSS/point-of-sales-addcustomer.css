@@ -1,557 +1,4 @@
-<?php
-include '../connectionDB.php';
-require_once '../service/pos-add-customer.php';
-require_once '../service/add-transaction-order.php';
-
-date_default_timezone_set("Asia/Manila");
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <!-- <link rel="stylesheet" type="text/css" href="../CSS/point-of-sales.css"> -->
-    <link href="http://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/phantom-2" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/outfit" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/galhau-display" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/malberg-trial" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/rajdhani" rel="stylesheet">
-    <title>Tag's Water Purified Drinking Water</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-</head>
-<body>
-
-<div class="container">
-
-    <?php
-    include('../common/side-menu.php')
-    ?>
-
-    <main>
-        <div class="main-pos">
-            <h1 class="posTitle">POINT OF SALES</h1>
-            <?php
-            if (isset($_GET['error'])) {
-                echo '<p id="myerror" class="error-error"> '.$_GET['error'].' </p>';
-            }
-            ?>
-                <div class="payment-options">
-                    <?php
-                        $dropdown_query1 = "SELECT * FROM payment_option";
-                        $result3 = mysqli_query($con, $dropdown_query1);
-                    ?>
-                    <p class="paymentOptions-text">Payment Option</p>
-                    <select class="paymentOptions-dropdown">
-                        <?php while($row3 = mysqli_fetch_array($result3)):;?>
-                            <option><?php echo $row3[1];?></option>
-                        <?php endwhile;?>
-                    </select>
-                </div>
-
-            <!-- ---------------------------------------------------- ORDER DETAILS ------------------------------------------------- -->
-            <div class="form-container">
-                <div class="form1">
-
-                    <div class="form1-ordertype-buttons">
-                        <button type="button" class="refillOrder-button" onclick="refillFunction();">Refill</button>
-                        <button type="button" class="newOrder-button" onclick="orderFunction();">New</button>
-                        <button type="button" class="otherOrder-button" onclick="otherFunction();">Others</button>
-                    </div>
-                    <hr>
-
-                    <!-- <br> -->
-             
-                    <div class="form1-table-water">
-                        <label class="selectlabel"> Select Water</label>
-                        <div class="select-dropdown">
-                            <select class='selectTable-water1' id="selectTable-water1" name="select-water" onchange="waterChange(this)">
-                                <option value='Alkaline'>Alkaline</option>
-                                <option value='Mineral'>Mineral</option>
-                            </select>
-                         </div>
-                        <div class="form1-table1" id="form-water1">
-         
-                            <table class="table1" id="myTable1">
-                                <thead class="form-table">
-                                <tr>
-                                    <th></th>
-                                    <th>ITEM</th>
-                                    <th>TYPE</th>
-                                    <th>WATER</th>
-                                    <th>PRICE</th>
-                                    <!-- <th>MINERAL PRICE</th> -->
-                                    <th></th>
-                                </tr>
-                                </thead>
-                             
-                                        <tbody>
-
-                                        </tbody>
-
-                                </form>
-                            </table>
-                        </div>
-                        <div class="form1-table2" id="form-water2">
-       
-                            <table class="table1" id="myTable2">
-                                <thead class="form-table">
-                                <tr>
-                                    <th></th>
-                                    <th>ITEM</th>
-                                    <th>TYPE</th>
-                                    <th>WATER</th>
-                                    <th>PRICE</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                               
-                                        <tbody>
-                                      
-                                        </tbody>
-                       
-                                </form>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="form2-table-water">
-                        <label class="selectlabel"> Select Water</label>
-                        <div class="select-dropdown">
-                            <select class='selectTable-water1' id="selectTable-water1" name="select-water" onchange="waterChange(this)">
-                                <option value='Alkaline'>Alkaline</option>
-                                <option value='Mineral'>Mineral</option>
-                            </select>
-                         </div>
-                        <div class="form2-table1" id="form-water3">
-                          
-                            <table class="table2" id="myTable2">
-                                <thead class="form-table">
-                                <tr>
-                                    <th></th>
-                                    <th>ITEM</th>
-                                    <th>TYPE</th>
-                                    <th>WATER</th>
-                                    <th>PRICE</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                
-                                            <tbody>
-                                          
-                                            </tbody>
-                    
-                                   
-                            </table>
-                        </div>
-                        <div class="form2-table2" id="form-water4">
-                           
-                            <table class="table2" id="myTable2">
-                                <thead class="form-table">
-                                <tr>
-                                    <th></th>
-                                    <th>ITEM</th>
-                                    <th>TYPE</th>
-                                    <th>WATER</th>
-                                    <th>PRICE</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                    
-                                            <tbody>
-                                           
-                                            </tbody>
-                                   
-                            </table>
-                        </div>
-                    </div>
-
-                            <div class="form3-table">
-                           
-                                <table class="table3" id="myTable3">
-                                    <thead class="form-table">
-                                        <th></th>
-                                        <th>ITEM</th>
-                                        <th>TYPE</th>
-                                        <th>Price</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                   
-                                            <tbody>
-                                           
-                                            </tbody>
-                                 
-                                </table>
-                            </div>
-                    
-                </div>
-            </div>
-            <!-- ------------------------------------------------------------------------------------------------------------------- -->
-           
-            <!-- ---------------------------------------------------- Order Summary ------------------------------------------------- -->
-
-            <div class="form-container-2">
-                
-                <div class="totalOrder">
-                    <header class="company-name">Tag's Water Purified Drinking Water</header>
-                    <body>
-                        <p class="date-Text">Date and Time:
-                        <div class="card">
-                            <h1 id="time" class="time">00:00:00</h1>
-                            <h1 class="dash">-</h1>
-                            <h1 id="date" class="date">00/00/0000</h1>
-                        </div>
-                        </p>
-                        <hr class="hr1">
-                        <div class="order-sum">
-                            <div class="ordersum-text">
-                                <p class="orderSummary-text">Order Summary</p>
-                            </div>
-                            <div class="cashiersum-text">
-                                <p class="cashier-text">Cashier: <span id="cashier-name"><h5 class="name-cashier"><?php echo $_SESSION['user_first_name']; ?></h5></span></p>
-                            </div>     
-                        </div>
-                        <div class="orderSum-table">
-                            <table class="tableCheckout" id="sumTable">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>ITEM</th>
-                                    <th>Water</th>
-                                    <th>Type</th>
-                                    <th>QTY</th>
-                                    <th>Price</th>
-                                    <th>TOTAL</th>
-                                </tr>
-                                </thead>
-                          
-                                            <tbody>
-                                           
-                                            </tbody>
-                                      
-                                            </tfoot>
-                                       
-                                </table>
-                            
-                        </div>
-                    
-                        <div class="receipt-buttons">
-                            <a href="point-of-sales.php" id="cancel">CANCEL</a>
-                            <input type="button" class="confirmOrder-button" value="CONFIRM">
-                        </div>
-                    </body>
-                </div>
-            </div>
-        <!-- ---------------------------------------------------- PREVIOUS TRANSACTIONS ------------------------------------------------- -->
-    
-        </div>
-
-    </main>
-    
-            <div class="top-menu">
-                <div class="menu-bar">
-                    <div class="menu-btn2">
-                        <i class="fas fa-bars"></i>
-                    </div>
-                    <h2 class="Title-top">POINT OF SALES</h2>
-                    <div class="user1">
-                        <div class="welcome">
-                            <h4 > Welcome, </h4>
-                        </div>
-                        <div class="user-name">
-                            <h4><?php echo $_SESSION['user_first_name']; ?> </h4>
-                        </div>
-                        <div class="user-type">
-                            <h1><?php echo $_SESSION['user_user_type']; ?> </h1>
-                        </div>
-                    </div>
-                    <div class="user2">
-                        <div class="profile" onclick="menuToggle();">
-                            <img src="../uploaded_image/<?= $_SESSION['user_profile_image']; ?>" alt="">
-                        </div>
-                        <div class="drop-menu" >
-                            <div class="ul">
-                                <div class="user-type3">
-                                    <h1><?php echo $_SESSION['user_user_type']; ?> </h1>
-                                </div>
-                                <input type="checkbox" class="checkbox" id="checkbox">
-                                <label for="checkbox" class="theme-dark">
-                                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" height="18" width="18"><path d="M10 17q-2.917 0-4.958-2.042Q3 12.917 3 10q0-2.917 2.042-4.958Q7.083 3 10 3q.271 0 .531.021.261.021.531.062-.812.605-1.291 1.5-.479.896-.479 1.917 0 1.771 1.218 2.99 1.219 1.218 2.99 1.218 1.021 0 1.917-.479.895-.479 1.5-1.291.041.27.062.531.021.26.021.531 0 2.917-2.042 4.958Q12.917 17 10 17Z"/></svg>
-                                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" height="18" width="18"><path d="M10 14q-1.667 0-2.833-1.167Q6 11.667 6 10q0-1.667 1.167-2.833Q8.333 6 10 6q1.667 0 2.833 1.167Q14 8.333 14 10q0 1.667-1.167 2.833Q11.667 14 10 14Zm-8.25-3.25q-.312 0-.531-.219Q1 10.312 1 10q0-.312.219-.531.219-.219.531-.219h2q.312 0 .531.219.219.219.219.531 0 .312-.219.531-.219.219-.531.219Zm14.5 0q-.312 0-.531-.219-.219-.219-.219-.531 0-.312.219-.531.219-.219.531-.219h2q.312 0 .531.219Q19 9.688 19 10q0 .312-.219.531-.219.219-.531.219ZM10 4.5q-.312 0-.531-.219-.219-.219-.219-.531v-2q0-.312.219-.531Q9.688 1 10 1q.312 0 .531.219.219.219.219.531v2q0 .312-.219.531-.219.219-.531.219ZM10 19q-.312 0-.531-.219-.219-.219-.219-.531v-2q0-.312.219-.531.219-.219.531-.219.312 0 .531.219.219.219.219.531v2q0 .312-.219.531Q10.312 19 10 19ZM5.042 6.104 4 5.042q-.229-.209-.229-.511 0-.302.229-.531.208-.229.521-.229.312 0 .521.229l1.062 1.042q.229.229.229.531 0 .302-.229.531-.208.229-.521.229-.312 0-.541-.229ZM14.958 16l-1.062-1.042q-.229-.229-.229-.531 0-.302.229-.531.208-.229.521-.229.312 0 .541.229L16 14.958q.229.209.229.511 0 .302-.229.531-.229.229-.521.229-.291 0-.521-.229Zm-1.062-9.896q-.229-.208-.229-.521 0-.312.229-.541L14.958 4q.23-.229.521-.219.292.011.521.219.229.229.229.521 0 .291-.229.521l-1.042 1.062q-.229.229-.531.229-.302 0-.531-.229ZM4 16q-.229-.208-.229-.521 0-.312.229-.521l1.042-1.062q.229-.208.531-.208.302 0 .531.208.229.229.219.531-.011.302-.219.531L5.042 16q-.209.229-.511.229-.302 0-.531-.229Z"/></svg>
-                                    <div class="ball"></div>
-                                </label>
-                                </input>
-                                <a href="#" class="account">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.917 14.167q1.062-.875 2.364-1.313 1.302-.437 2.719-.437 1.417 0 2.719.437 1.302.438 2.385 1.313.688-.855 1.084-1.907.395-1.052.395-2.26 0-2.75-1.916-4.667Q12.75 3.417 10 3.417T5.333 5.333Q3.417 7.25 3.417 10q0 1.208.406 2.26.406 1.052 1.094 1.907ZM10 10.854q-1.229 0-2.073-.844-.844-.843-.844-2.072 0-1.23.844-2.073.844-.844 2.073-.844t2.073.844q.844.843.844 2.073 0 1.229-.844 2.072-.844.844-2.073.844Zm0 7.479q-1.729 0-3.25-.656t-2.646-1.781q-1.125-1.125-1.781-2.646-.656-1.521-.656-3.25t.656-3.25q.656-1.521 1.781-2.646T6.75 2.323q1.521-.656 3.25-.656t3.25.656q1.521.656 2.646 1.781t1.781 2.646q.656 1.521.656 3.25t-.656 3.25q-.656 1.521-1.781 2.646t-2.646 1.781q-1.521.656-3.25.656Zm.021-1.75q1.021 0 2-.312.979-.313 1.771-.896-.771-.604-1.75-.906-.98-.302-2.042-.302-1.062 0-2.031.302-.969.302-1.761.906.792.583 1.782.896.989.312 2.031.312ZM10 9.104q.521 0 .844-.323.323-.323.323-.843 0-.521-.323-.844-.323-.323-.844-.323-.521 0-.844.323-.323.323-.323.844 0 .52.323.843.323.323.844.323Zm0-1.166Zm0 7.437Z"/></svg>
-                                    <h4>My Account</h4>
-                                </a>
-                                <a href="#" class="help">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M10 15q.417 0 .708-.292Q11 14.417 11 14t-.292-.708Q10.417 13 10 13t-.708.292Q9 13.583 9 14t.292.708Q9.583 15 10 15Zm-.75-3.188h1.521q0-.77.135-1.093.136-.323.656-.823.73-.708 1.011-1.208.281-.5.281-1.105 0-1.145-.781-1.864Q11.292 5 10.083 5q-1.062 0-1.843.562-.782.563-1.094 1.521l1.354.563q.188-.584.594-.906.406-.323.948-.323.583 0 .958.333t.375.875q0 .479-.323.854t-.719.729q-.729.667-.906 1.094-.177.427-.177 1.51ZM10 18q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                    <h4>Help</h4>
-                                </a>
-                                <a href="../auth/logout.php" class="logout">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.5 17q-.625 0-1.062-.438Q3 16.125 3 15.5v-11q0-.625.438-1.062Q3.875 3 4.5 3H10v1.5H4.5v11H10V17Zm9-3.5-1.062-1.062 1.687-1.688H8v-1.5h6.125l-1.687-1.688L13.5 6.5 17 10Z"/></svg>
-                                    <h4>Logout</h4>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-        
-    </div>
-</div>
-    <?php
-if(isset($_GET['editquantity']))
-{
-    $id = $_GET['editquantity'];
-    $result = mysqli_query($con,"SELECT
-               transaction_process.id, 
-               transaction_process.item_name, 
-               transaction_process.water_type,
-               transaction_process.price,
-               transaction_process.category_type,
-               transaction_process.quantity,
-               transaction_process.total_price
-            FROM transaction_process 
-            WHERE transaction_process.id = '$id'");
-
-    if (mysqli_num_rows($result) > 0) {
-        $item = mysqli_fetch_assoc($result); ?>
-
-        <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
-            <div class="bg-adduserform" id="bg-addform">
-                <div class="message"></div>
-                <div class="container1">
-                   
-                    <h1 class="addnew-title">EDIT QUANTITY</h1>
-                    <form action="#">
-                        <input type="hidden" required="required" name="id" value="<?=$item['id'];?>">
-                        <div class="main-user-info">
-                            <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
-                            <input type="hidden" required="required" class="iprice" name="PRICE" value="<?=$item['price'];?>">
-                            <input type="hidden" required="required" name="categorytype" value="<?=$item['water_type'];?>">
-                            <input type="hidden"  name="TOTAL" class="itotal" value="<?=$item['total_price'];?>">
-                            <label for="lastname" class="label-item"><?=$item['item_name'];?></label>
-
-                            <div class="user-input-box">
-                                <label for="quantity">Quantity</label>
-                                <input type="number" min='1' 
-                                       id="quantity" onkeyup="subTotal();"
-                                       class="iquantity" value="<?=$item['quantity'];?>"
-                                       name="quantity"
-                                       
-                                       required="required">
-                            </div>
-                            <div class="line"></div>
-
-                            <div class="bot-buttons">
-                                <div class="CancelButton">
-                                    <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
-                                </div>
-                                <div class="AddButton">
-                                    <button type="submit" id="adduserBtn" name="edit-quantity" >SAVE</button>
-                                </div>
-                            </div>
-                    </form>
-                </div>
-            </div>
-        </form>
-        <?php 
-    }} ?>
-
-</body>
-<script src="../javascript/side-menu-toggle.js"></script>
-<!-- <script src="../javascript/top-menu-toggle.js"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
-<script src="https://code.jquery.com/jquery.min.js"></script>
-<!-- <script src="../javascript/point-of-sales.js"></script> -->
-<script>
-
-    function waterChange(answer){
-        if(answer.value == 'Alkaline'){
-            document.getElementById("form-water1").style.display = 'block';
-            document.getElementById("form-water2").style.display = 'none';
-            document.getElementById("form-water3").style.display = 'block';
-            document.getElementById("form-water4").style.display = 'none';
-
-        }else if(answer.value == 'Mineral'){
-            document.getElementById("form-water1").style.display = 'none';
-            document.getElementById("form-water2").style.display = 'block';
-            document.getElementById("form-water3").style.display = 'none';
-            document.getElementById("form-water4").style.display = 'block';
-        }
-    }
-  
-    function guestCustomer(){
-        var guestTxt = document.getElementById("guest-button");
-        var selectLbl = document.getElementById("selectCustomer-text");
-        container2 = document.querySelector(".bg-selectcustomerform");
-
-        selectLbl.innerHTML = guestTxt.value;
-        container2.style.display = 'none';
-    }
-    
-    // function selectCus(){
-        var table = document.getElementById('customerTable');
-        container2 = document.querySelector(".bg-selectcustomerform");
-    
-            for(var i = 1; i < table.rows.length; i++)
-                {
-                    table.rows[i].onclick = function()
-                    {
-                        console.log('hello');
-
-                        document.getElementById("selectCustomer-text").innerHTML = this.cells[2].innerHTML;
-                         container2.style.display = 'none';
-                         //rIndex = this.rowIndex;
-                    };
-                }
-            // }
-    // -----------------------------SEARCH BAR
-    const form3Table = document.querySelector(".form3-table");
-    const form2Table = document.querySelector(".form2-table-water");
-    const form1Table = document.querySelector(".form1-table-water");
-    function refillFunction(){
-        form1Table.style.display = 'block';
-        form2Table.style.display = 'none';
-        form3Table.style.display = 'none';
-    }
-    function orderFunction(){
-        form1Table.style.display = 'none';
-        form2Table.style.display = 'block';
-        form3Table.style.display = 'none';
-    }
-    function otherFunction(){
-        form1Table.style.display = 'none';
-        form2Table.style.display = 'none';
-        form3Table.style.display = 'inline-block';
-    }
-    // -----------------------------Automatic close message
-    setTimeout(function() {
-        $('#myerror').fadeOut('fast');
-    }, 3000);
-    // -----------------------------SELECT CUSTOMER
-    const selectForm = document.querySelector(".bg-selectcustomerform");
-    function selectcustomer(){
-        selectForm.style.display = 'flex';
-    }
-    // -----------------------------ADD CUSTOMER
-    const addForm = document.querySelector(".bg-addcustomerform");
-    function addcustomer(){
-        addForm.style.display = 'flex';
-    }
- 
-// ----------------------------------------------------------DROP DOWN PROFILE
-    function menuToggle(){
-    const toggleMenu = document.querySelector('.drop-menu');
-    toggleMenu.classList.toggle('user2')
-}
-
-// -----------------------------date and time
-var today = new Date();
-var day = today.getDate();
-var month = today.getMonth() + 1;
-
-function appendZero(value) {
-    return "0" + value;
-}
-
-function theTime() {
-    var d = new Date();
-    document.getElementById("time").innerHTML = d.toLocaleTimeString("en-US");
-}
-
-if (day < 10) {
-    day = appendZero(day);
-}
-
-if (month < 10) {
-    month = appendZero(month);
-}
-
-today = day + "/" + month + "/" + today.getFullYear();
-
-document.getElementById("date").innerHTML = today;
-
-var myVar = setInterval(function () {
-    theTime();
-}, 1000);
-//    --------------------------------------------------------------------
-const closeBtn = document.querySelector('#close-btn');
-closeBtn.addEventListener('click', () =>{
-    sideMenu.style.display = 'none';
-})
-const checkbox = document.getElementById('checkbox');
-
-checkbox.addEventListener( 'change', () =>{
-    document.body.classList.toggle('dark-theme');
-});
-function isNumberKey(evt){
-    var charCode = (evt.which) ? evt.which : evt.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57))
-        return false;
-    return true;
-}
-
-function tableSearch(){
-    let input, filter, table, tr,
-    customername, address, contactnum1, contactnum2, note; i;
-
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("customerTable");
-    tr = table.getElementsByTagName("tr");
-
-
-        for(i = 0; i < tr.length; i++){
-           
-            customername = tr[i].getElementsByTagName("td")[1];
-            address = tr[i].getElementsByTagName("td")[2];
-            contactnum1 = tr[i].getElementsByTagName("td")[3];
-            contactnum2 = tr[i].getElementsByTagName("td")[4];
-            note = tr[i].getElementsByTagName("td")[6];
-
-            if(customername || address || contactnum1 || contactnum2 || note){
-                var customername_value = customername.textContent || customername.innerText;
-                var address_value = address.textContent || address.innerText;
-                var contactnum1_value = contactnum1.textContent || contactnum1.innerText;
-                var contactnum2_value = contactnum2.textContent || contactnum2.innerText;
-                var note_value = note.textContent || note.innerText;
-
-                if(customername_value.toUpperCase().indexOf(filter) > -1||
-                address_value.toUpperCase().indexOf(filter) > -1 ||
-                contactnum1_value.toUpperCase().indexOf(filter) > -1 ||
-                contactnum2_value.toUpperCase().indexOf(filter) > -1 ||
-                note_value.toUpperCase().indexOf(filter) > -1){
-                    tr[i].style.display ="";
-                }
-                else{
-                    tr[i].style.display = "none";
-                }
-                if($('#customerTable tbody tr:visible').length === 0) {
-                document.getElementById('noRecordTR').style.display = "";
-            }else{
-                document.getElementById('noRecordTR').style.display = "none";
-            }
-            }
-            if($('#customerTable tbody tr:visible').length === 0) {
-                document.getElementById('noRecordTR').style.display = "";
-            }else{
-                document.getElementById('noRecordTR').style.display = "none";
-            }
-        }   
-}
-</script>
-</html>
-<style>
-    :root{
+:root{
     --color-main: rgb(2, 80, 2);
     --color-white: white;
     --color-white-secondary: white;
@@ -610,415 +57,38 @@ BODY{
     background-size: cover;
     background-attachment: fixed;
 }
-.profile-pic{
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    margin-top: 1rem;
-}
-.profile-pic img{
-    background: var(--color-solid-gray);
-    border-radius: 10%;
-    width: 100px;
-    padding: 3px;
-}
-.label-item{
-    height: 100%;
-    font-family: 'calibri', sans-serif;
-    font-size: 20px;
-    font-weight:900;
-
-    justify-content: center;
-    color: var(--color-main);
-}
-.container1{
-    width: 100%;
-    max-width: 600px;
-    padding: 28px;
-    margin: 0 28px;
-    border-radius:  0px 0px 20px 20px;
-    background-color: var(--color-white);
-    box-shadow: 5px 7px 20px 0px var(--color-shadow-shadow);
-    border-top: 10px solid var(--color-solid-gray);
-}
-.form-title{
-    font-size: 26px;
-    font-weight: 600;
-    text-align: center;
-    padding-bottom: 6px;
-    color: white;
-    text-shadow: 2px 2px 2px black;
-    border-bottom: solid 1px white;
-}
-
-.main-user-info{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px 0;
-}
-.usertype-dropdown{
-    width: 48%;
-    margin-top: 1.6rem;
-    display: flex;
-    flex-wrap: wrap;
-}
-.select{
-    background: var(--color-solid-gray);
-    color: var(--color-white);
-    align-items: center;
-    border-radius: 13px;
-    padding: 8px 12px;
-    height: 40px;
-    width: 100%;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.action-dropdown{
-    position: relative;
-    margin-top: .5rem;
-    /* left: 10%; */
-    margin-bottom: .5rem
-}
-.user-input-box:nth-child(2n){
-    justify-content: end;
-}
-
-.checker {
-    /* display: flex; */
-    flex-wrap: wrap;
-    width: 100%;
-    padding-bottom: 15px;
-    gap: 5px;
-    text-align: right;
-    align-items: right;
-}
-.checker span {
-    text-decoration: none;
-    color: var(--color-solid-gray);
-    top: 0;
-    font-size: min(max(10px, 1.2vw), 12px);
-    font-family: 'Switzer', sans-serif;
-}
-.user-input-box{
-    display: flex;
-    flex-wrap: wrap;
-    width: 48%;
-    padding-bottom: 15px;
-}
-#email-box input{
-    background-color: var(--color-tertiary);
-    color: var(--color-white);
-}
-#email-box input:hover{
-    border: 2px solid var(--color-maroon);
-}
-.not-edit{
-    font-family: 'Calibri', sans-serif;
-    font-size: 12px;
-    color: var(--color-maroon);
-    display: inline-block;
-    position: static;
-    /* position: relative; */
-    /* padding-bottom: 2rem; */
-    /* left: 0; */
-}
-.user-input-box label{
-    width: 100%;
-    color: var(--color-solid-gray);
-    font-size: 16px;
-    /* margin-left: .2rem; */
-    margin-bottom: 0.5rem;
-    font-family: 'Malberg Trial', sans-serif;
-    font-weight: 550;
-    /* margin: 5px 0; */
-}
-.user-input-box label:focus{
-    border: 2px solid var(--color-main-3);
-    font-size: 17px;
-    font-weight: 600;
-}
-.user-input-box input::placeholder{
-    font-size: .8em;
-    color:var(--color-solid-gray);
-}
-/* ::placeholder:focus{
-    border: 2px solid var(--color-main-3);
-} */
-.user-input-box input:focus{
-    border: 2px solid var(--color-main-3);
-    background: var(--color-white);
-}
-
-.user-input-box input{
-    height: 40px;
-    width: 100%;
-    border: 2px solid var(--color-solid-gray);
-    border-radius: 15px;
-    outline: none;
-    font-size: 1em;
-    background: var(--color-white);
-    color: var(--color-black);
-    padding: 0 10px;
-}
-.line{
-    width:100%;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid var(--color-solid-gray);
-}
-.profile-picture1 h4{
-    display: flex;
-    position: relative;
-    text-align: center;
-    font-size: 1rem;
-    font-family: 'Calibri', sans-serif;
-    color: var(--color-solid-gray);
-    width: 100%;
-    border-bottom: 2px solid var(--color-solid-gray);
-    /* margin-bottom: -5rem; */
-}
-
-.choose-profile{
-    /* position: relative; */
-    width: 97%;
-    height: 1.32rem;
-    padding: 10px;
-    margin-top: 1rem;
-    background: var(--color-solid-gray);
-    color: var(--color-white);
-    border-radius: 10px;
-    transition: 0.5s;
-    font-family: 'COCOGOOSE', sans-serif;
-    cursor: pointer;
-}
-
-#image-profile{
-    cursor: pointer;
-    text-align: center;
-    align-items: center;
-}
-.gender-title{
-    /* margin-top: rem; */
-    font-family: 'Calibri', sans-serif;
-    color: var(--color-solid-gray);
-    width: 100%;
-    font-size: 20px;
-    margin-left: .2rem;
-    font-family: 'Malberg Trial', sans-serif;
-    font-weight: 550;
-    /* border-bottom: 2px solid var(--color-solid-gray); */
-}
-
-.gender-category{
-    margin: 15px 0;
-    color:  var(--color-solid-gray);
-}
-
-.gender-category label{
-    padding: 0 20px 0 5px;
-}
-
-.gender-category label,
-.gender-category input,
-.form-submit-btn input{
-    cursor: pointer;
-}
-
-.form-submit-btn{
-    margin-top: 40px;
-}
-
-.form-submit-btn input{
-    display: block;
-    width: 100%;
-    margin-top: 10px;
-    font-size: 20px;
-    padding: 10px;
-    border:none;
-    border-radius: 3px;
-    color: rgb(209, 209, 209);
-    background: rgba(63, 114, 76, 0.7);
-}
-
-.form-submit-btn input:hover{
-    background: rgba(56, 204, 93, 0.7);
-    color: rgb(255, 255, 255);
-}
-.addnew-title{
-    font-size: min(max(1.9rem, 1.1vw), 2rem);
-    color: var(--color-solid-gray);
-    font-family: 'Malberg Trial', sans-serif;
-    letter-spacing: .09rem;
-    display: flex;
-    padding-top: 1rem;
-    justify-content: center;
-    border-bottom: 2px solid var(--color-solid-gray);
-    width: 100%;
-    padding-bottom: 2px;
-}
-.bot-buttons{
-    width: 100%;
-    align-items: center;
-    text-align: center;
-    display: inline-block;
-    margin-top: 1.3rem;
-}
-.AddButton button{
-    font-family: 'COCOGOOSE', sans-serif;
-    padding: 10px;
-    width: 15rem;
-    max-height: 60px;
-    outline: none;
-    border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
-    border-radius: 20px;
-    color: white;
-    background:  var(--color-mainbutton);
-    cursor: pointer;
-    transition: 0.5s;
-    margin-left: 1rem;
-}
-.AddButton button:hover{
-    background: var(--color-button-hover);
-}
-.CancelButton{
-    display: inline-block;
-}
-.AddButton{
-    display: inline-block;
-
-}
-/* .CloseButton{
-    margin-top: 5.2vh;
-    margin-left: 2.4em;
-    margin-bottom: -2rem;
-} */
-#cancel{
-    font-family: 'COCOGOOSE', sans-serif;
-    padding: 10px;
-    padding-left: 80px;
-    padding-right: 80px;
-    text-align: center;
-    width: 30rem;
-    max-height: 70px;
-    outline: none;
-    border: none;
-    font-size: min(max(9px, 1.1vw), 11px);
-    border-radius: 20px;
-    color: white;
-    background: #c44242;
-    cursor: pointer;
-    transition: 0.5s;
-}
-#cancel:hover{
-    background-color: rgb(158, 0, 0);
-    transition: 0.5s;
-}
-
-@media(max-width: 600px){
-    .container1{
-        min-width: 280px;
-    }
-    .user-input-box .cost{
-        position: absolute;
-        display: none;
-        left: 10.65%;
-    }
-    .user-input-box .srp{
-        position: absolute;
-        display: none;
-        left: 10.65%;
-    }
-    .user-input-box{
-        margin-bottom: 12px;
-        width: 100%;
-    }
-
-    .user-input-box:nth-child(2n){
-        justify-content: space-between;
-    }
-    .usertype-dropdown{
-        width: 95%;
-        margin-bottom: 1rem;
-        margin-top: -.3rem;
-    }
-    .gender-category{
-        display: flex;
-        /* justify-content: space-between; */
-        width: 100%;
-    }
-
-    .main-user-info{
-        max-height: 380px;
-        overflow: auto;
-    }
-
-    .main-user-info::-webkit-scrollbar{
-        width: 0;
-    }
-    .bot-buttons{
-        width: 100%;
-        align-items: center;
-        text-align: center;
-        margin-top: 4.3rem;
-    }
-    .AddButton button:hover{
-        background: var(--color-button-hover);
-    }
-    .CancelButton{
-        position: relative;
-        margin-top: 3rem;
-        padding-top: 2rem;
-        /* padding-right: 2rem; */
-    }
-    .AddButton{
-        position: relative;
-        margin-top: -4rem;
-        margin-left: -1em;
-
-    }
-    /* .CloseButton{
-        margin-top: 5.2vh;
-        margin-left: 2.4em;
-        margin-bottom: -2rem;
-    } */
-    #cancel{
-        width: 100%;
-    }
-}
-.block{
-    width: 5rem;
-    height: 2rem;
-    background-color: var(--color-background);
-    position: fixed;
-    display: flex;
-    top: 0;
-}
-/* -----------------------------------------Adduserform------------------------------------------ */
-.bg-adduserform{
-    height: 100%;
-    width: 100%;
-    background: rgba(0,0,0,0.7);
-    top: 0;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* display: none; */
-}
-.selectItem{
-    margin-bottom: 1rem;
-    align-items: left;
+.deliveryfee{
     text-align: left;
+    align-items: left;
+}
+.delivery-no{
+    display: none;
+}
+.delivery-yes{
+    display: none;
+}
+#Yes{
+    display: none;
+}
+#Maybe{
+    display: none;
+}
+#No{
+    display: none;
+}
+.delivery-lbl{
+    color: var(--color-black);
+    border-bottom: 2px solid var(--color-solid-gray);
+    font-weight: 800;
+    font-size: .8rem;
+    margin-right: 1rem;
+    display: none;
 }
 .addquantity{
-    display: inline-block;
-    position: relative;
     border: none;
     font-weight: 700;
+    fill: var(--color-solid-gray);
     border-radius: 5px;
-    background-color: var(--color-background);
     color: var(--color-solid-gray);
 }
 .minusquantity{
@@ -1027,12 +97,14 @@ BODY{
     border: none;
     border-radius: 3px;
     font-weight: 600;
-    background-color: var(--color-background);
+    background-color: none;
     color: var(--color-solid-gray);
 }
 .quantity-td{
     min-width: 5rem;
     width: 10%;
+    gap: 1rem;
+    justify-content: center;
 }
 .quantity-tbl{
     width: 30%;
@@ -1299,6 +371,17 @@ BODY{
     width: 100%;
     background: rgba(0,0,0,0.7);
     top: 0;
+    position: fixed;
+    /* display: none; */
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.bg-placeorderform{
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    top: 0;
     position: absolute;
     display: none;
     align-items: center;
@@ -1333,22 +416,24 @@ BODY{
     justify-content: space-between;
     padding: 20px 0;
 }
-.select{
-    background: var(--color-solid-gray);
-    color: var(--color-white);
-    align-items: center;
-    border-radius: 13px;
-    padding: 8px 12px;
-    height: 40px;
-    width: 96%;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.action-dropdown{
-    position: relative;
-    margin-top: .5rem;
-    margin-bottom: .5rem
-}
+.usertype-dropdown{
+            width: 48%;
+            margin-top: 1.6rem;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .select{
+            background: var(--color-solid-gray);
+            color: var(--color-white);
+            align-items: center;
+            border-radius: 13px;
+            padding: 8px 12px;
+            height: 40px;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 .user-input-box:nth-child(2n){
     justify-content: end;
 }
@@ -1377,6 +462,7 @@ BODY{
 #note-box label{
     width: 100%;
 }
+
 .user-input-box{
     display: flex;
     flex-wrap: wrap;
@@ -1460,6 +546,27 @@ BODY{
     display: inline-block;
     margin-top: 1.3rem;
 }
+.CancelButton-add button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding: 10px;
+    width: 15rem;
+    max-height: 60px;
+    outline: none;
+    border: none;
+    font-size: min(max(9px, 1.1vw), 11px);
+    border-radius: 20px;
+    color: white;
+    /* background:  var(--color-mainbutton); */
+    cursor: pointer;
+    transition: 0.5s;
+    margin-left: 1rem;
+    display: inline-block;
+    position: relative; 
+    background: var(--color-maroon);
+}
+.CancelButton-add button:hover{
+    background: var(--color-main);
+}
 .AddButton button{
     font-family: 'COCOGOOSE', sans-serif;
     padding: 10px;
@@ -1481,6 +588,9 @@ BODY{
     background: var(--color-main);
 }
 .CancelButton{
+    display: inline-block;
+}
+.CancelButton-add{
     display: inline-block;
 }
 .AddButton{
@@ -2365,8 +1475,8 @@ hr{
 .delivery-options{
     display: inline-block;
     position: relative;
-    margin-left: 5rem;
-    margin-top: -.7rem;
+    margin-left:2rem;
+
 }
 .select{
     background: var(--color-solid-gray);
@@ -2852,7 +1962,7 @@ hr{
 }
 .order-sum{
     width: 100%;
-    
+    margin-top: 1rem;
 }
 .ordersum-text{
     display: inline-block;
@@ -2887,8 +1997,15 @@ hr{
 .name-cashier{
     display: inline-block;
     color: var(--color-black);
-    margin-left: 1rem;
+    /* margin-left: rem; */
+    width: 6rem;
+    border:none;
+    font-weight: 700;
+    text-align: center;
     margin-bottom: -1rem;
+}
+.name-cashier:focus{
+    outline: none;
 }
 .orderSum-table{
     background-color: var(--color-white);
@@ -2897,7 +2014,7 @@ hr{
     overflow:auto;
     /* display: inline-block; */
     /* margin-left: 1.1rem; */
-    height: 31%;
+    max-height: 18rem;
     /* margin-top: -1rem; */
     /* text-align: right; */
     /* display: flex; */
@@ -2942,13 +2059,28 @@ hr{
     align-items: left;
     text-align: left;
 }
+.totaldelivery{
+    align-items: left;
+    text-align: left;
+}
 #total_order{
-    background-color: #FFCFCF;
+    /* background-color: #FFCFCF;
     padding-left: 20px;
     padding-right: 20px;
-    font-size: 1.2rem;
-    border-radius: 1rem;
+    border-radius: 1rem; */
     font-family: 'century-gothic', sans-serif;
+    font-size: .9rem;
+    color: var(--color-solid-gray);
+}
+#totalAmount_order{
+    background-color: #FFCFCF;
+    /* padding-left: 20px;
+    padding-right: 20px; */
+    text-align: center;
+    border-radius: 1rem;
+    width: 10rem;
+    font-family: 'century-gothic', sans-serif;
+    font-size: 1.5rem;
     color: var(--color-black);
 }
 #total_order1{
@@ -2961,11 +2093,20 @@ hr{
 }
 .orderTotal-text{
     color: var(--color-black);
-    font-weight: bolder;
+    font-weight: 500;
     /* margin-top: 1rem; */
     /* margin-left: 1rem; */
     font-size: 1rem;
     /* display: inline-block; */
+}
+.totalAmount-text{
+    color: var(--color-black);
+    font-weight: bolder;
+    font-size: 1rem;    
+    margin-top: 1rem;
+    margin-left: 1rem;
+    font-size: 1rem;
+    display: inline-block;
 }
 .orderTotal2{
     display: inline-block;
@@ -3003,25 +2144,31 @@ hr{
 }
 
 .confirmOrder-button{
+    font-family: 'COCOGOOSE', sans-serif;
+    padding-top: 20px;
+    display: inline-block;
+    /* padding-bottom: -70px; */
+    text-align: center;
+    outline: none;
+    color: var(--color-white);
+    fill: var(--color-white);
+    cursor: pointer;
+    transition: 0.5s;
     background: var(--color-solid-gray);
     border-radius: 5rem;
-    font-size: min(max(9px, 1.1vw), 11px);
-    color: var(--color-white);
+    font-size: .8rem;
     border: none;
     position: relative;
     height: 2.3rem;
-    width: 15rem;
-    margin-left: 1rem;
-    font-family: 'COCOGOOSE', sans-serif;
+    width: 90%;
     text-transform: uppercase;
-    cursor: pointer;
+
 }
 .confirmOrder-button:hover{
     filter: brightness(120%);
     background: var(--color-tertiary);
     transition: 0.5s;
 }
-
 #cancel{
     font-family: 'COCOGOOSE', sans-serif;
     padding: 10px;
@@ -3098,4 +2245,3 @@ hr{
     cursor: pointer;
     background-color: var(--color-table-hover);
 }
-</style>

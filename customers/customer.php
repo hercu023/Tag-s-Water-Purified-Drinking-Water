@@ -18,6 +18,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
     <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
     <title>Tag's Water Purified Drinking Water</title>
 </head>
+
 <body>
 <div class="container">
     <div class="block"></div>
@@ -124,9 +125,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
                         <td data-label="Address"> <?php echo $rows['address']; ?></td>
                         <td data-label="Contact Number 2"> <?php echo $rows['contact_number1']; ?></td>
                         <td data-label="Contact Number 1"> <?php echo $rows['contact_number2']; ?></td>
-                        <td data-label="Balance"> <?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
-                        <td data-label="Balance Limit"> <?php echo '<span>&#8369;</span>'.' '.$rows['balance_limit']; ?></td>
-                        <td data-label="Credit Limit"> <?php echo '<span>&#8369;</span>'.' '.$rows['credit_limit']; ?></td>
+                        <td data-label="Advance Payment"> <?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
+                        <td data-label="Advance Payment Limit"> <?php echo '<span>&#8369;</span>'.' '.$rows['balance_limit']; ?></td>
+                        <td data-label="Balance Limit"> <?php echo '<span>&#8369;</span>'.' '.$rows['credit_limit']; ?></td>
                         <td data-label="Note"> <?php echo $rows['note']; ?></td>
                         <td data-label="Date/Time Added"> <?php echo $rows['created_at']; ?></td>
                         <td data-label="Added By"> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
@@ -321,7 +322,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
                     </div>
 
                     <div class="user-input-box" id="address-box">
-                                <label for="balance">Balance Limit</label>
+                                <label for="balance">Advance Payment Limit</label>
                                 <input type="number" step=".01"
                                     id="address" 
                                     class="address"
@@ -331,7 +332,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
                             </div>
 
                             <div class="user-input-box" id="address-box">
-                                <label for="balance">Credit Limit</label>
+                                <label for="balance">Balance Limit</label>
                                 <input type="number" step=".01"
                                     id="address" 
                                     class="address"
@@ -357,9 +358,6 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'CUSTOMER')) 
 <script src="../javascript/top-menu-toggle.js"></script>
 <script src="../javascript/account.js"></script>
 <script src="../javascript/account-search.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/d3js/7.6.1/d3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 </html>
 <script>

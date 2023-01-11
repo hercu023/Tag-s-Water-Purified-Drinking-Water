@@ -79,7 +79,7 @@ if(isset($_POST['add-as-already-pickup'])) {
             WHERE uuid = '$uuid'");
 
             log_audit($con, $user_id, $module, 1, 'Transaction updated to Already Pick Up. Reference: '.get_transaction_id($con, $uuid));
-            header("Location: ../monitoring/monitoring-delivery-pickup-list.php?success=<i class='fa fa-check' style='font-size:14px'></i> Transaction updated to Already Pick Up.");
+            header("Location: ../monitoring/monitoring-delivery-pickup-list.php?success=<i class='fa fa-check' style='font-size:14px'></i> Transaction updated to Deliveries.");
             exit();
         } else {
             log_audit($con, $user_id, $module, 0, 'Failed transaction update to Already Pick Up. Reference: '.get_transaction_id($con, $uuid));

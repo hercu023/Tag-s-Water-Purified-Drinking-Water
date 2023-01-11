@@ -33,7 +33,7 @@ if(isset($_POST['add-others'])){
                 header("Location: ../pos/point-of-sales.php?update=1");
             }
         } else {
-            header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+            header("Location: ../pos/point-of-sales.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed add order. Insufficient inventory stock.");
         }
 
     }
@@ -80,7 +80,7 @@ if(isset($_GET['addothers']) && isset($_GET['user_id']) ){
             header("Location: ../pos/point-of-sales.php?update=1");
         }
     } else {
-        header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+        header("Location: ../pos/point-of-sales.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed add order. Insufficient inventory stock.");
     }
 }
 }
@@ -120,7 +120,7 @@ if(isset($_POST['add-alkaline-water'])){
                 header("Location: ../pos/point-of-sales.php?update=1");
             }
         } else {
-            header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+            header("Location: ../pos/point-of-sales.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed add order. Insufficient inventory stock.");
         }
     }
 }
@@ -167,7 +167,7 @@ if(isset($_GET['addalkaline']) && isset($_GET['user_id']) ){
                 header("Location: ../pos/point-of-sales.php?update=1");
             }
         } else {
-            header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+            header("Location: ../pos/point-of-sales.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed add order. Insufficient inventory stock.");
         }
     }
 }
@@ -211,7 +211,7 @@ if(isset($_POST['add-mineral-water'])){
                 header("Location: ../pos/point-of-sales.php?update=1");
             }
         } else {
-            header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+            header("Location: ../pos/point-of-sales.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed add order. Insufficient inventory stock.");
         }
     }
 }
@@ -259,7 +259,7 @@ if(isset($_GET['addmineral']) && isset($_GET['user_id']) ){
             header("Location: ../pos/point-of-sales.php?update=1");
         }
     } else {
-        header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+        header("Location: ../pos/point-of-sales.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed add order. Insufficient inventory stock.");
     }
     }
 }
@@ -277,7 +277,8 @@ if(isset($_POST['edit-quantity'])){
         $total = filter_var($_POST['total_price'], FILTER_SANITIZE_STRING);
         $price = filter_var($_POST['PRICE'], FILTER_SANITIZE_STRING);
         $total= $qty3 * $price;
-
+        // header("Location: ../common/error-page.php?error=".$qty3);
+        // exit();
         $validate_item = mysqli_query($con, "SELECT item_name
                             FROM transaction_process 
                             WHERE id = $id");
@@ -297,7 +298,7 @@ if(isset($_POST['edit-quantity'])){
                     header("Location: ../pos/point-of-sales.php?");
                 }
             } else {
-                header("Location: ../pos/point-of-sales.php?error=Failed add order. Insufficient inventory stock.");
+                header("Location: ../pos/point-of-sales.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Failed add order. Insufficient inventory stock.");
             }
 
         } else {

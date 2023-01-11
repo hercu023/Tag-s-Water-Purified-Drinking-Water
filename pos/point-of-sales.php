@@ -4,6 +4,8 @@ require_once '../service/pos-add-customer.php';
 require_once '../service/add-transaction-order.php';
         
 date_default_timezone_set("Asia/Manila");
+
+
 ?>
 
 <!DOCTYPE html>
@@ -15,26 +17,31 @@ date_default_timezone_set("Asia/Manila");
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" type="text/css" href="../CSS/point-of-sales.css">
     <title>Tag's Water Purified Drinking Water</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <style>
-    .deliveryfee-dropdown{
-    background-color: var(--color-background);
-    /* padding: 0.5rem; */
-    color: var(--color-solid-gray);
-    border: none;
-    border-radius: 5px;
-    display: inline-block;
-    align-items: center;
-    text-align: center;
-    width: 15rem;
-    margin-right: 1rem;
-    height: 1.5rem;
-    cursor: pointer;
-}
+    .item-quantity{
+        width: 3rem;
+        text-align: center;
+        border: none;
+        background-color: none;
+        font-weight: bold;
+        display: inline-block;
+    }
+    .decrease-btn{
+        border: none;
+        font-weight: bold;
+        display: inline-block;
+    }
+    .increase-btn{
+        border: none;
+        font-weight: bold;
+        display: inline-block;
+    }
+    .quantity-div{
+        width:6rem;
+    }
 </style>
 <body>
-
 <div class="container">
 
     <?php
@@ -71,67 +78,67 @@ date_default_timezone_set("Asia/Manila");
                                 <option value='Mineral'>Mineral</option>
                             </select>
                          </div>
-                        <div class="form1-table1" id="form-water1">
-                            <?php
-                                        $dropdown_query1 = "SELECT * 
-                                        FROM inventory_item 
-                                        WHERE category_by_id = 1 OR 2 OR 10";
-                                        $result1 = mysqli_query($con, $dropdown_query1);
-                                ?>
-                            <table class="table1" id="myTable1">
-                                <thead class="form-table">
-                                <tr>
+                        <div class="formTable">
+                            <div class="form1-table1" id="form-water1">
+                                <?php
+                                            $dropdown_query1 = "SELECT * 
+                                            FROM inventory_item 
+                                            WHERE category_by_id = 1 OR 2 OR 10";
+                                            $result1 = mysqli_query($con, $dropdown_query1);
+                                    ?>
+                                <table class="table1" id="myTable1">
+                                    <thead class="form-table">
+                                    <tr>
 
-                                    <th>ITEM</th>
-                                    <th>TYPE</th>
-                                    <th>WATER</th>
-                                    <th>PRICE</th>
-                                    <!-- <th>MINERAL PRICE</th> -->
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <form action="../service/add-transaction-order.php" method="post" enctype="multipart/form-data" id="addcustomerFrm">
-                                    <?php
-                                        $query = "SELECT
-                                                inventory_item.id, 
-                                                inventory_item.image, 
-                                                inventory_item.item_name,
-                                                pos_item.pos_type,
-                                                category_type.name,
-                                                inventory_item.alkaline_price,
-                                                status_archive.status
-                                                FROM inventory_item 
-                                                INNER JOIN category_type  
-                                                ON inventory_item.category_by_id = category_type.id  
-                                                INNER JOIN pos_item  
-                                                ON inventory_item.pos_item_id = pos_item.id  
-                                                INNER JOIN status_archive 
-                                                ON inventory_item.status_archive_id = status_archive.id
-                                                WHERE category_by_id = 10
-                                                AND inventory_item.status_archive_id = '1'
-                                                AND inventory_item.pos_item_id = '1'";
-                                        $inventory_order = mysqli_query($con, $query);
-                                        while ($item_sales = mysqli_fetch_assoc($inventory_order)) {?>
-                                        <tbody>
-                                        <tr>
-                        
-                                            <td > <?php echo $item_sales['item_name']; ?></td>
-                                            <td > <?php echo $item_sales['name']; ?></td>
-                                            <td > Alkaline</td>
-                                            <td > <?php echo '&#8369'.' '.$item_sales['alkaline_price']; ?></td>
-                                            <td>
-                                             
-                                                <a href="../service/add-transaction-order.php?addalkaline=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
-                                                   ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
-                                                </a>
-                                            <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
-                                               
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    <?php } ?>
-                                </form>
-                            </table>
+                                        <th scope="col">ITEM</th>
+                                        <th scope="col">TYPE</th>
+                                        <th scope="col">WATER</th>
+                                        <th scope="col">PRICE</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <form action="../service/add-transaction-order.php" method="post" enctype="multipart/form-data" id="addcustomerFrm">
+                                        <?php
+                                            $query = "SELECT
+                                                    inventory_item.id, 
+                                                    inventory_item.image, 
+                                                    inventory_item.item_name,
+                                                    pos_item.pos_type,
+                                                    category_type.name,
+                                                    inventory_item.alkaline_price,
+                                                    status_archive.status
+                                                    FROM inventory_item 
+                                                    INNER JOIN category_type  
+                                                    ON inventory_item.category_by_id = category_type.id  
+                                                    INNER JOIN pos_item  
+                                                    ON inventory_item.pos_item_id = pos_item.id  
+                                                    INNER JOIN status_archive 
+                                                    ON inventory_item.status_archive_id = status_archive.id
+                                                    WHERE category_by_id = 10
+                                                    AND inventory_item.status_archive_id = '1'
+                                                    AND inventory_item.pos_item_id = '1'";
+                                            $inventory_order = mysqli_query($con, $query);
+                                            while ($item_sales = mysqli_fetch_assoc($inventory_order)) {?>
+                                            <tbody>
+                                            <tr>
+                            
+                                                <td data-label="ITEM"> <?php echo $item_sales['item_name']; ?></td>
+                                                <td data-label="TYPE"> <?php echo $item_sales['name']; ?></td>
+                                                <td data-label="WATER"> Alkaline</td>
+                                                <td data-label="PRICE"> <?php echo '&#8369'.' '.$item_sales['alkaline_price']; ?></td>
+                                                <td>
+                                                
+                                                    <a href="../service/add-transaction-order.php?addalkaline=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
+                                                    ADD ORDER 
+                                                    </a>
+                                                
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        <?php } ?>
+                                    </form>
+                                </table>
+                            </div>
                         </div>
                         <div class="form1-table2" id="form-water2">
                             <?php
@@ -144,11 +151,10 @@ date_default_timezone_set("Asia/Manila");
                                 <thead class="form-table">
                                 <tr>
                         
-                                    <th>ITEM</th>
-                                    <th>TYPE</th>
-                                    <th>WATER</th>
-                                    <th>PRICE</th>
-                                    <!-- <th>MINERAL PRICE</th> -->
+                                    <th scope="col">ITEM</th>
+                                    <th scope="col">TYPE</th>
+                                    <th scope="col">WATER</th>
+                                    <th scope="col">PRICE</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -181,13 +187,13 @@ date_default_timezone_set("Asia/Manila");
                                         <tbody>
                                         <tr>
                              
-                                            <td > <?php echo $item_sales['item_name']; ?></td>
-                                            <td > <?php echo $item_sales['name']; ?></td>
-                                            <td > Mineral</td>
-                                            <td > <?php echo '&#8369'.' '.$item_sales['mineral_price']; ?></td>
+                                            <td data-label="ITEM"> <?php echo $item_sales['item_name']; ?></td>
+                                            <td data-label="TYPE"> <?php echo $item_sales['name']; ?></td>
+                                            <td data-label="WATER"> Mineral</td>
+                                            <td data-label="PRICE"> <?php echo '&#8369'.' '.$item_sales['mineral_price']; ?></td>
                                             <td>
                                                 <a href="../service/add-transaction-order.php?addmineral=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
-                                                   ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                   ADD ORDER 
                                                 </a>
                                             </td>
                                         </tr>
@@ -224,10 +230,10 @@ date_default_timezone_set("Asia/Manila");
                                 <thead class="form-table">
                                 <tr>
                               
-                                    <th>ITEM</th>
-                                    <th>TYPE</th>
-                                    <th>WATER</th>
-                                    <th>PRICE</th>
+                                    <th scope="col">ITEM</th>
+                                    <th scope="col">TYPE</th>
+                                    <th scope="col">WATER</th>
+                                    <th scope="col">PRICE</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -262,14 +268,14 @@ date_default_timezone_set("Asia/Manila");
                                             <tbody>
                                             <tr>
                       
-                                                <td > <?php echo $item_sales['item_name']; ?></td>
-                                                <td > <?php echo $item_sales['name']; ?></td>
-                                                <td > Alkaline</td>
-                                                <td class="alkaline-price"> <?php echo '&#8369'.' '.$item_sales['alkaline_price']; ?></td>
+                                            <td data-label="ITEM"> <?php echo $item_sales['item_name']; ?></td>
+                                            <td data-label="TYPE"> <?php echo $item_sales['name']; ?></td>
+                                            <td data-label="WATER"> Alkaline</td>
+                                            <td data-label="PRICE"> <?php echo '&#8369'.' '.$item_sales['alkaline_price']; ?></td>
                                                 <td>
                                                 
                                                     <a href="../service/add-transaction-order.php?addalkaline=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
-                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                    ADD ORDER 
                                                     </a>
 
                                                 
@@ -297,10 +303,10 @@ date_default_timezone_set("Asia/Manila");
                                 <thead class="form-table">
                                 <tr>
                       
-                                    <th>ITEM</th>
-                                    <th>TYPE</th>
-                                    <th>WATER</th>
-                                    <th>PRICE</th>
+                                    <th scope="col">ITEM</th>
+                                    <th scope="col">TYPE</th>
+                                    <th scope="col">WATER</th>
+                                    <th scope="col">PRICE</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -335,16 +341,15 @@ date_default_timezone_set("Asia/Manila");
                                             <tbody>
                                             <tr>
                                               
-                                                <td > <?php echo $item_sales['item_name']; ?></td>
-                                                <td > <?php echo $item_sales['name']; ?></td>
-                                                <td > Mineral</td>
-                                                <td class="mineral-price"> <?php echo '&#8369'.' '.$item_sales['mineral_price']; ?></td>
+                                                <td data-label="ITEM"> <?php echo $item_sales['item_name']; ?></td>
+                                                <td data-label="TYPE"> <?php echo $item_sales['name']; ?></td>
+                                                <td data-label="WATER"> Mineral</td>
+                                                <td data-label="PRICE"> <?php echo '&#8369'.' '.$item_sales['mineral_price']; ?></td>
                                                 <td>
                                                 
                                                     <a href="../service/add-transaction-order.php?addmineral=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
-                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                    ADD ORDER 
                                                     </a>
-                                                <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
                                                 
                                                 </td>
                                             </tr>
@@ -366,19 +371,14 @@ date_default_timezone_set("Asia/Manila");
                                 WHERE category_by_id = 1 OR 2";
                                 $result7 = mysqli_query($con, $dropdown_query7);
                             ?>
-                            <!-- <div class="selectItem">
-                                <select id='selectTable-water2'class='selectTable-water2'>
-                                    <option value='Alkaline'>Alkaline</option>
-                                    <option value='Mineral'>Mineral</option>
-                                </select>
-                            </div> -->
+
                             <table class="table2" id="myTable2">
                                 <thead class="form-table">
                                 <tr>
                                   
-                                    <th>ITEM</th>
-                                    <th>TYPE</th>
-                                    <th>PRICE</th>
+                                    <th scope="col">ITEM</th>
+                                    <th scope="col">TYPE</th>
+                                    <th scope="col">PRICE</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -411,16 +411,14 @@ date_default_timezone_set("Asia/Manila");
                                             ?>
                                             <tbody>
                                             <tr>
-                                       
-                                                <td > <?php echo $item_sales['item_name']; ?></td>
-                                                <td > <?php echo $item_sales['name']; ?></td>
-                                                <td class="mineral-price"> <?php echo '&#8369'.' '.$item_sales['selling_price_item']; ?></td>
+                                                <td data-label="ITEM"> <?php echo $item_sales['item_name']; ?></td>
+                                                <td data-label="TYPE"> <?php echo $item_sales['name']; ?></td>
+                                                <td data-label="PRICE" class="mineral-price"> <?php echo '&#8369'.' '.$item_sales['selling_price_item']; ?></td>
                                                 <td>
                                                 
                                                     <a href="../service/add-transaction-order.php?addothers=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
-                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                    ADD ORDER
                                                     </a>
-                                                <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
                                                 
                                                 </td>
                                             </tr>
@@ -447,10 +445,10 @@ date_default_timezone_set("Asia/Manila");
                                 <table class="table3" id="myTable3">
                                     <thead class="form-table">
                               
-                                        <th>ITEM</th>
-                                        <th>TYPE</th>
-                                        <th>PRICE</th>
-                                        <th></th>
+                                        <th scope="col">ITEM</th>
+                                        <th scope="col">TYPE</th>
+                                        <th scope="col">PRICE</th>
+                                        <th scope="col"></th>
                                     </tr>
                                     </thead>
                                     <form action="../service/add-transaction-order.php" method="post" enctype="multipart/form-data" id="addcustomerFrm">
@@ -483,15 +481,14 @@ date_default_timezone_set("Asia/Manila");
                                             <tbody>
                                             <tr>
                                             
-                                                <td > <?php echo $item_sales['item_name']; ?></td>
-                                                <td > <?php echo $item_sales['name']; ?></td>
-                                                <td > <?php echo '&#8369'.' '.$item_sales['selling_price_item']; ?></td>
+                                                <td data-label="ITEM"> <?php echo $item_sales['item_name']; ?></td>
+                                                <td data-label="TYPE"> <?php echo $item_sales['name']; ?></td>
+                                                <td data-label="PRICE" > <?php echo '&#8369'.' '.$item_sales['selling_price_item']; ?></td>
                                                 <td>
                                                 
                                                     <a href="../service/add-transaction-order.php?addothers=<?php echo $item_sales['id'].'&user_id='.$_SESSION['user_user_id']; ?>" class="add-rowsButton" class="action-btn" name="action">
-                                                    ADD ORDER <!-- <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.521 17.479v-2.437l4.562-4.563 2.438 2.438-4.563 4.562Zm-7-3.958v-2.459h7.271v2.459Zm14.583-1.188-2.437-2.437.666-.667q.355-.354.865-.364.51-.011.864.364l.709.709q.375.354.364.864-.01.51-.364.865ZM2.521 9.75V7.292h9.958V9.75Zm0-3.771V3.521h9.958v2.458Z"/></svg> -->
+                                                    ADD ORDER 
                                                     </a>
-                                                <!-- <button type="submit" class="add-rowsButton" id="add-rowsButton" name="add-others">ADD ORDER</a>    -->
                                                 
                                                 </td>
                                             </tr>
@@ -510,8 +507,7 @@ date_default_timezone_set("Asia/Manila");
 
                 </div>
             </div>
-            <!-- ------------------------------------------------------------------------------------------------------------------- -->
-           
+          
             <!-- ---------------------------------------------------- Order Summary ------------------------------------------------- -->
 
             <div class="form-container-2">
@@ -519,12 +515,11 @@ date_default_timezone_set("Asia/Manila");
                     <header class="company-name">Tag's Water Purified Drinking Water</header>
                         <div class="date-payment">
                             <div class="dateandtime">
-                                <p class="date-Text">Date and Time:
+                                <p class="date-Text">Date/Time:
                                     <div class="card">
                                         <h1 id="time" class="time">00:00:00</h1>
                                         <h1 class="dash">-</h1>
                                         <h1 id="date" class="date">00/00/0000</h1>
-                                        <h1 class="day"><?php echo date("l") ?></h1>
                                     </div>
                                 </p>
                             </div>
@@ -552,12 +547,12 @@ date_default_timezone_set("Asia/Manila");
                                 <thead>
                                 <tr>
                                     <th></th>
-                                    <th>ITEM</th>
-                                    <th>Water</th>
-                                    <th>Type</th>
-                                    <th>Price</th>
-                                    <th>QTY</th>
-                                    <th>TOTAL</th>
+                                    <th scope="col">ITEM</th>
+                                    <th scope="col">Water</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">QTY</th>
+                                    <th scope="col">TOTAL</th>
                                 </tr>
                                 </thead>
                                     <?php           
@@ -587,17 +582,24 @@ date_default_timezone_set("Asia/Manila");
                                                         X
                                                     </a>
                                                 </td>
-                                                <td name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
-                                                <td name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
-                                                <td name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
-                                                <td name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
-                                                <td class="quantity-td" > 
-                                                    <a href="../pos/point-of-sales.php?editquantity=<?php echo $transactions['id']; ?>" class="addquantity" name="addquantity">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M4.708 17.958q-1.125 0-1.896-.77-.77-.771-.77-1.896V4.708q0-1.125.77-1.895.771-.771 1.896-.771h10.584q1.125 0 1.896.771.77.77.77 1.895v10.584q0 1.125-.77 1.896-.771.77-1.896.77Zm0-2.666h10.584V4.708L4.708 15.292Zm6.73-.875v-1.521H9.917v-1.458h1.521V9.917h1.458v1.521h1.521v1.458h-1.521v1.521ZM5.229 8.208h4.479V6.729H5.229Z"/></svg>
-                                                    </a>
-                                                    <?php echo $transactions['quantity'];?>
+                                                <td data-label="ITEM" name="itemname_transaction"> <?php echo $transactions['item_name']; ?></td>
+                                                <td data-label="WATER" name="watertype_transaction"> <?php echo $transactions['water_type']; ?></td>
+                                                <td data-label="TYPE" name="categorytype_transaction"> <?php echo $transactions['category_type']; ?></td>
+                                                <td data-label="PRICE" name="price_transaction"> <?php echo '&#8369'.' '. $transactions['price']; ?></td>
+                                            <form action="" method="post" enctype="multipart/form-data" id="addqty-<?php echo $transactions['id'] ?>">
+                                                <td data-label="QTY" class="quantity-td" > 
+                                                    <input type="hidden" name="PRICE" value="<?php echo $transactions['price']; ?>">
+                                                    <input type="hidden" name="total_price" value="<?php echo $transactions['total_price']; ?>">
+                                                    <input type="hidden" name="id" value="<?php echo $transactions['id']; ?>">
+                                                    <input type="hidden" name="edit-quantity" value="">
+                                                    <div class="quantity-div">
+                                                        <button type="button" class="decrease-btn" onClick="decreaseButton(<?php echo $transactions['id'] ?>)">-</button>
+                                                        <input type="text" id="item-quantity-<?php echo $transactions['id'] ?>" onkeyup="this.form.submit();" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode))) return false;" class="item-quantity" min="1" name="quantity" value="<?php echo $transactions['quantity'];?>">
+                                                        <button type="button" class="increase-btn" onClick="increaseButton(<?php echo $transactions['id'] ?>)"> +</button>
+                                                    </div>
                                                 </td>
-                                                <td> <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
+                                            </form>
+                                                <td data-label="TOTAL" > <?php echo '&#8369'.' '. number_format($transactions['total_price'], '2','.',','); ?></td>
                                             </tr>
                                             <?php } ?>
                                             <?php } else { ?>
@@ -641,14 +643,15 @@ date_default_timezone_set("Asia/Manila");
                                      FROM delivery_fee";
                                     $result3 = mysqli_query($con, $dropdown_query1);
                                 ?>
-                                <select class="deliveryfee-dropdown">
+                                <select class="deliveryfee-dropdown" onchange="deliveryFee(this.value)" required="required">
+                                <option selected value="0.00"> 0.00 - No Delivery Fee</option>
                                     <?php while($row3 = mysqli_fetch_array($result3)):;?>
-                                        <option><?php echo $row3['fee'].' - '.$row3['description'];?></option>
+                                        <option value="<?php echo $row3['fee'];?>"><?php echo $row3['fee'].' - '.$row3['description'];?></option>
                                     <?php endwhile;?>
                                 </select>
                             </div>
                             <div id="delivery-fee1"> 
-                             <label id="deliveryfee_amount1" class="deliveryamount_fee1" min="0" value="0.00"onkeyup="deliveryFee1();">----</label>
+                             <label id="deliveryfee_amount1" class="deliveryamount_fee1" min="0" value="0.00"onkeyup="deliveryFee();">----</label>
                             </div>
                         </div>
                         <div>
@@ -681,16 +684,16 @@ date_default_timezone_set("Asia/Manila");
                     <table class="previous-transaction-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Customer Name</th>
-                                <th>Order Details</th>
-                                <th>Total Amount</th>
-                                <th>Payment Option</th>
-                                <th>Service</th>
-                                <th>Note</th>
-                                <th>Payment Status</th>
-                                <th>Cashier Name</th>
-                                <th>Date/Time</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Customer Name</th>
+                                <th scope="col">Order Details</th>
+                                <th scope="col">Total Amount</th>
+                                <th scope="col">Payment Option</th>
+                                <th scope="col">Service</th>
+                                <th scope="col">Note</th>
+                                <th scope="col">Payment Status</th>
+                                <th scope="col">Cashier Name</th>
+                                <th scope="col">Date/Time</th>
                             </tr>
                         </thead>
                         <?php
@@ -725,20 +728,20 @@ date_default_timezone_set("Asia/Manila");
                             ?>
                             <tbody>
                             <tr>
-                                <td> <?php echo $rows['id']; ?></td>
-                                <td> <?php if($rows['customer_name']){
+                                <td data-label="ID"> <?php echo $rows['id']; ?></td>
+                                <td data-label="Customer Name"> <?php if($rows['customer_name']){
                                     echo $rows['customer_name'];
                                     }else{
                                         echo 'GUEST';
                                     }
                                  ?></td>
-                                <td> <a class="viewTransaction" href="../pos/point-of-sales-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
+                                <td data-label="Order Details"> <a class="viewTransaction" href="../pos/point-of-sales-viewdetails.php?view=<?php echo $rows['uuid'];?>">View Details</a></td>
 
-                                <td> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
-                                <td> <?php echo $rows['option_name']; ?></td>
-                                <td> <?php echo $rows['service_type']; ?></td>
-                                <td> <?php echo $rows['note']; ?></td>
-                                <td> 
+                                <td data-label="Total Amount"> <?php echo '<span>&#8369;</span>'.' '.number_format($rows['total_amount'], '2','.',','); ?></td> 
+                                <td data-label="Payment Option"> <?php echo $rows['option_name']; ?></td>
+                                <td data-label="Service"> <?php echo $rows['service_type']; ?></td>
+                                <td data-label="Note"> <?php echo $rows['note']; ?></td>
+                                <td data-label="Payment Status"> 
                                     <?php 
                                     if($rows['status_id'] == 0){
                                         echo '<span class="outofstock">Unpaid</span>';
@@ -746,8 +749,8 @@ date_default_timezone_set("Asia/Manila");
                                         echo '<span class="instock">Paid</span>';
                                     } ?>
                                 </td>
-                                <td> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
-                                <td> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
+                                <td data-label="Cashier Name"> <?php echo $rows['first_name'] .' '. $rows['last_name'] ; ?></td>
+                                <td data-label="Date/Time"> <?php echo $rows['created_at_date'] .' '. $rows['created_at_time']; ?></td>
                             <tr id="noRecordTR" style="display:none">
                                 <td colspan="10">No Record Found</td>
                             </tr>
@@ -836,242 +839,6 @@ date_default_timezone_set("Asia/Manila");
             </div>
 
         </div> 
-<!-- =======================================================add alkaline refill===================================================== -->
-
-<?php
-if(isset($_GET['addalkaline']))
-{
-    $id = $_GET['addalkaline'];
-    $result = mysqli_query($con,"SELECT
-            inventory_item.id, 
-            inventory_item.image, 
-            inventory_item.item_name,
-            category_type.name,
-            inventory_item.alkaline_price
-            FROM inventory_item 
-            INNER JOIN category_type  
-            ON inventory_item.category_by_id = category_type.id  
-            WHERE inventory_item.id = '$id'");
-
-    if (mysqli_num_rows($result) > 0) {
-        $item = mysqli_fetch_assoc($result); ?>
-
-        <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
-            <div class="bg-adduserform" id="bg-addform">
-                <div class="message"></div>
-                <div class="container1">
-                   
-                    <h1 class="addnew-title">ADD ORDER</h1>
-                    <form action="#">
-                        <input type="hidden" required="required" name="user_id" value="<?=$item['id'];?>">
-                        <div class="main-user-info">
-                        <div class="profile-pic">
-                            <img src="../uploaded_image/<?=$item['image'];?>" name="image" alt="">
-                        </div>    
-                            <div class="user-input-box">
-                                <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
-                                <input type="hidden" required="required" name="alkalineprice" value="<?=$item['alkaline_price'];?>">
-                                <input type="hidden" required="required" name="categorytype" value="<?=$item['name'];?>">
-                                <input type="hidden" required="required" name="alkaline-label" value="Alkaline">
-                                <span type="text" class="label-item2" value="Alkaline">Alkaline</span>
-                                <label for="lastname" class="label-item"><?=$item['item_name'];?></label>
-                            </div>
-                            <div class="user-input-box">
-                                <label for="quantity" class="quantity-label">Quantity</label>
-                                <input type="number" min='1' onkeypress='return isNumberKey(event)'
-                                       id="quantity"
-                                       name="quantity"
-                                       value='1'
-                                       required="required">
-                                       
-                            </div>
-                            <div class="line"></div>
-
-                            <div class="bot-buttons">
-                                <div class="CancelButton">
-                                    <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
-                                </div>
-                                <div class="AddButton">
-                                    <button type="submit" id="adduserBtn" name="add-alkaline-water">SAVE</button>
-                                </div>
-                            </div>
-                    </form>
-                </div>
-            </div>
-        </form>
-        <?php 
-    }} ?>
-        <div class="bg-selectcustomerform" id="bg-selectform">
-            <div class="container2">
-    
-                <form action="#">
-                    <div class="customer-container">
-                        <table class="table" id="customerTable">
-                        
-                        </table>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </form>
-<!-- =======================================================add mineral refill===================================================== -->
-<?php
-if(isset($_GET['addmineral']))
-{
-    $id = $_GET['addmineral'];
-    $result = mysqli_query($con,"SELECT
-            inventory_item.id, 
-            inventory_item.image, 
-            inventory_item.item_name,
-            category_type.name,
-            inventory_item.mineral_price
-            FROM inventory_item 
-            INNER JOIN category_type  
-            ON inventory_item.category_by_id = category_type.id  
-            WHERE inventory_item.id = '$id'");
-
-    if (mysqli_num_rows($result) > 0) {
-        $item = mysqli_fetch_assoc($result); 
-?>
-
-        <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
-            <div class="bg-adduserform" id="bg-addform">
-                <div class="message"></div>
-                <div class="container1">
-                   
-                    <h1 class="addnew-title">ADD ORDER</h1>
-                    <form action="#">
-                        <input type="hidden" required="required" name="user_id" value="<?=$item['id'];?>">
-                        <div class="main-user-info">
-                        <div class="profile-pic">
-                            <img src="../uploaded_image/<?=$item['image'];?>" name="image" alt="">
-                        </div>    
-                        <div class="user-input-box">
-
-                            <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
-                            <input type="hidden" required="required" name="mineralprice" value="<?=$item['mineral_price'];?>">
-                            <input type="hidden" required="required" name="categorytype" value="<?=$item['name'];?>">
-                            <input type="hidden" required="required" name="mineral-label" value="Mineral">
-                            <label type="text" class="label-item2"  name="mineral-label" value="Mineral">Mineral</label>
-                            <label for="lastname" class="label-item"><?=$item['item_name'];?></label>
-                        </div>
-                            
-                            <div class="user-input-box">
-                                <label for="quantity" class="quantity-label">Quantity</label>
-                                <input type="number" min='1' onkeypress='return isNumberKey(event)'
-                                       id="quantity"
-                                       name="quantity"
-                                       value='1'
-                                       required="required">
-                                       
-                            </div>
-                            <div class="line"></div>
-
-                            <div class="bot-buttons">
-                                <div class="CancelButton">
-                                    <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
-                                </div>
-                                <div class="AddButton">
-                                    <button type="submit" id="adduserBtn" name="add-mineral-water">SAVE</button>
-                                </div>
-                            </div>
-                    </form>
-                </div>
-            </div>
-        </form>
-        <?php 
-    
-    }} ?>
-        <div class="bg-selectcustomerform" id="bg-selectform">
-            <div class="container2">
-    
-                <form action="#">
-                    <div class="customer-container">
-                        <table class="table" id="customerTable">
-                        
-                        </table>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </form>
-
-    <!-- =======================================================add others===================================================== -->
-    <?php
-if(isset($_GET['addothers']))
-{
-    $id = $_GET['addothers'];
-    $result = mysqli_query($con,"SELECT
-            inventory_item.id, 
-            inventory_item.image, 
-            inventory_item.item_name,
-            category_type.name,
-            inventory_item.selling_price_item
-            FROM inventory_item 
-            INNER JOIN category_type  
-            ON inventory_item.category_by_id = category_type.id  
-            WHERE inventory_item.id = '$id'");
-
-    if (mysqli_num_rows($result) > 0) {
-        $item = mysqli_fetch_assoc($result); ?>
-
-        <form action="" method="post" enctype="multipart/form-data" id="addorderFrm">
-            <div class="bg-adduserform" id="bg-addform">
-                <div class="message"></div>
-                <div class="container1">
-                   
-                    <h1 class="addnew-title">ADD ORDER</h1>
-                    <form action="#">
-                        <input type="hidden" required="required" name="user_id" value="<?=$item['id'];?>">
-                        <div class="main-user-info">
-                        <div class="profile-pic">
-                            <img src="../uploaded_image/<?=$item['image'];?>" name="image" alt="">
-                        </div>    
-                        <div class="user-input-box">
-                            <input type="hidden" required="required" name="itemname" value="<?=$item['item_name'];?>">
-                            <input type="hidden" required="required" name="PRICE" value="<?=$item['selling_price_item'];?>">
-                            <input type="hidden" required="required" name="categorytype" value="<?=$item['name'];?>">
-                            <label for="lastname" class="label-item3"><?=$item['item_name'];?></label>
-                        </div>
-                            
-                            <div class="user-input-box">
-                                <label for="quantity" class="quantity-label">Quantity</label>
-                                <input type="number" min='1' onkeypress='return isNumberKey(event)'
-                                       id="quantity"
-                                       name="quantity"
-                                       value='1'
-                                       required="required">
-                                       
-                            </div>
-                            <div class="line"></div>
-
-                            <div class="bot-buttons">
-                                <div class="CancelButton">
-                                    <a href="../pos/point-of-sales.php" id="cancel">CANCEL</a>
-                                </div>
-                                <div class="AddButton">
-                                    <button type="submit" id="adduserBtn" name="add-others">SAVE</button>
-                                </div>
-                            </div>
-                    </form>
-                </div>
-            </div>
-        </form>
-        <?php 
-    }} ?>
-        <div class="bg-selectcustomerform" id="bg-selectform">
-            <div class="container2">
-    
-                <form action="#">
-                    <div class="customer-container">
-                        <table class="table" id="customerTable">
-                        
-                        </table>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </form>
     <!-- =======================================================edit quantity===================================================== -->
 
     <?php
@@ -1139,251 +906,10 @@ if(isset($_GET['editquantity']))
 </body>
 
 <script src="../javascript/side-menu-toggle.js"></script>
-<!-- <script src="../javascript/top-menu-toggle.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery.min.js"></script>
-<!-- <script src="../javascript/point-of-sales.js"></script> -->
-<script>
-  
-    function loading() {
-        document.querySelector(".loading").style.display = "flex";
-        document.querySelector(".loader").style.display = "flex";
-    }
-    function deliveryFee(){       
-        try{
-            let totalamountvalue = document.getElementById("totalamount_value").value;
-            let totalAmount = 0.00;
-            if(!isNaN(totalamountvalue) && totalamountvalue !== ''){
-                totalAmount = parseFloat(document.getElementById("totalamount_value").value);
-            }
-            var deliveryfee_value = document.getElementById("deliveryfee_amount").value;
-            let deliveryfee = 0.00;
-            if(!isNaN(deliveryfee_value) && deliveryfee_value !== ''){
-                deliveryfee = parseFloat(document.getElementById("deliveryfee_amount").value);
-            }
-            
-            let total = deliveryfee + totalAmount; 
-            document.getElementById("totalAmount_order").value = numberWithCommas(total.toFixed(2));
-        }catch(err){
-    
-        }
+<script src="../javascript/point-of-sales-datetime.js"></script>
+<script src="../javascript/top-menu-toggle.js"></script>
+<script src="../javascript/point-of-sales.js"></script>
 
-        
-    }
-    function deliveryOption(delivery){
-        if(delivery.value == 'Delivery'){
-            document.getElementById("deliveryfee_amount1").style.display = 'none';
-            document.getElementById("delivery-fee").style.display = 'inline-block';
-        }else if(delivery.value == 'Delivery/Pick Up'){
-            document.getElementById("deliveryfee_amount1").style.display = 'none';
-            document.getElementById("delivery-fee").style.display = 'inline-block';
-            
-        }else if(delivery.value == 'Walk In'){
-            document.getElementById("deliveryfee_amount1").style.display = 'inline-block';
-            document.getElementById("delivery-fee").style.display = 'none';
-            document.getElementById("deliveryfee_amount").value = 0;
-            var ele = document.getElementsByName("pos_item");
-            for(var i=0;i<ele.length;i++)
-                ele[i].checked = false;
-        }
-        selectElement = document.querySelector('#deliveryoption');
-        output = selectElement.value;
-        document.querySelector('.deliveryoption_class').value = output;
-    }
-    function waterChange(answer){
-        if(answer.value == 'Alkaline'){
-            document.getElementById("form-water1").style.display = 'block';
-            document.getElementById("form-water2").style.display = 'none';
-            document.getElementById("form-water3").style.display = 'block';
-            document.getElementById("form-category").style.display = 'none';
-            document.getElementById("form-water4").style.display = 'none';
-
-        }else if(answer.value == 'Mineral'){
-            document.getElementById("form-water1").style.display = 'none';
-            document.getElementById("form-water2").style.display = 'block';
-            document.getElementById("form-category").style.display = 'none';
-            document.getElementById("form-water3").style.display = 'none';
-            document.getElementById("form-water4").style.display = 'block';
-        }else if(answer.value == 'Container/Bottle Only'){
-            document.getElementById("form-water1").style.display = 'block';
-            document.getElementById("form-water2").style.display = 'none';
-            document.getElementById("form-category").style.display = 'block';
-            document.getElementById("form-water3").style.display = 'none';
-            document.getElementById("form-water4").style.display = 'none';
-        }
-        
-    }
-  
-    function guestCustomer(){
-        var guestTxt = document.getElementById("guest-button");
-        var selectLbl = document.getElementById("selectCustomer-text");
-        container2 = document.querySelector(".bg-selectcustomerform");
-
-        selectLbl.innerHTML = guestTxt.value;
-        container2.style.display = 'none';
-    }
-    
-    // function selectCus(){
-        var table = document.getElementById('customerTable');
-        container2 = document.querySelector(".bg-selectcustomerform");
-    
-            for(var i = 1; i < table.rows.length; i++)
-                {
-                    table.rows[i].onclick = function()
-                    {
-                        console.log('hello');
-
-                        document.getElementById("selectCustomer-text").innerHTML = this.cells[2].innerHTML;
-                         container2.style.display = 'none';
-                         //rIndex = this.rowIndex;
-                    };
-                }
-            // }
-    // -----------------------------SEARCH BAR
-    const form3Table = document.querySelector(".form3-table");
-    const form2Table = document.querySelector(".form2-table-water");
-    const form1Table = document.querySelector(".form1-table-water");
-    function refillFunction(){
-        form1Table.style.display = 'block';
-        form2Table.style.display = 'none';
-        form3Table.style.display = 'none';
-    }
-    function orderFunction(){
-        form1Table.style.display = 'none';
-        form2Table.style.display = 'block';
-        form3Table.style.display = 'none';
-    }
-    function otherFunction(){
-        form1Table.style.display = 'none';
-        form2Table.style.display = 'none';
-        form3Table.style.display = 'inline-block';
-    }
-    // -----------------------------Automatic close message
-    setTimeout(function() {
-        $('#myerror').fadeOut('fast');
-    }, 10000);
-    // -----------------------------SELECT CUSTOMER
-    const selectForm = document.querySelector(".bg-selectcustomerform");
-    function selectcustomer(){
-        selectForm.style.display = 'flex';
-    }
-    const addForm = document.querySelector(".bg-addcustomerform");
-    function addcustomer(){
-        addForm.style.display = 'flex';
-        cusForm.style.display = 'none';
-    }
-    // -----------------------------ADD CUSTOMER
-    const cusForm = document.querySelector(".bg-placeorderform");
-    function placeorder(){
-        cusForm.style.display = 'flex';
-    }
-    // const cusForm = document.querySelector(".bg-placeorderform");
-    const canceladdForm = document.querySelector(".bg-addcustomerform");
-    function cancelAddCustomer(){
-        canceladdForm.style.display = 'none';
-        cusForm.style.display = 'flex';
-
-    }
- 
-// ----------------------------------------------------------DROP DOWN PROFILE
-    function menuToggle(){
-    const toggleMenu = document.querySelector('.drop-menu');
-    toggleMenu.classList.toggle('user2')
-}
-
-// -----------------------------date and time
-var today = new Date();
-var day = today.getDate();
-var month = today.getMonth() + 1;
-
-function appendZero(value) {
-    return "0" + value;
-}
-
-function theTime() {
-    var d = new Date();
-    document.getElementById("time").innerHTML = d.toLocaleTimeString("en-US");
-}
-
-if (day < 10) {
-    day = appendZero(day);
-}
-
-if (month < 10) {
-    month = appendZero(month);
-}
-
-today = day + "/" + month + "/" + today.getFullYear();
-
-document.getElementById("date").innerHTML = today;
-
-var myVar = setInterval(function () {
-    theTime();
-}, 1000);
-//    --------------------------------------------------------------------
-const closeBtn = document.querySelector('#close-btn');
-closeBtn.addEventListener('click', () =>{
-    sideMenu.style.display = 'none';
-})
-const checkbox = document.getElementById('checkbox');
-
-checkbox.addEventListener( 'change', () =>{
-    document.body.classList.toggle('dark-theme');
-});
-function isNumberKey(evt){
-    var charCode = (evt.which) ? evt.which : evt.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57))
-        return false;
-    return true;
-}
-
-function tableSearch(){
-    let input, filter, table, tr,
-    customername, address, contactnum1, contactnum2, note; i;
-
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("customerTable");
-    tr = table.getElementsByTagName("tr");
-
-
-        for(i = 0; i < tr.length; i++){
-           
-            customername = tr[i].getElementsByTagName("td")[1];
-            address = tr[i].getElementsByTagName("td")[2];
-            contactnum1 = tr[i].getElementsByTagName("td")[3];
-            contactnum2 = tr[i].getElementsByTagName("td")[4];
-            note = tr[i].getElementsByTagName("td")[6];
-
-            if(customername || address || contactnum1 || contactnum2 || note){
-                var customername_value = customername.textContent || customername.innerText;
-                var address_value = address.textContent || address.innerText;
-                var contactnum1_value = contactnum1.textContent || contactnum1.innerText;
-                var contactnum2_value = contactnum2.textContent || contactnum2.innerText;
-                var note_value = note.textContent || note.innerText;
-
-                if(customername_value.toUpperCase().indexOf(filter) > -1||
-                address_value.toUpperCase().indexOf(filter) > -1 ||
-                contactnum1_value.toUpperCase().indexOf(filter) > -1 ||
-                contactnum2_value.toUpperCase().indexOf(filter) > -1 ||
-                note_value.toUpperCase().indexOf(filter) > -1){
-                    tr[i].style.display ="";
-                }
-                else{
-                    tr[i].style.display = "none";
-                }
-                if($('#customerTable tbody tr:visible').length === 0) {
-                document.getElementById('noRecordTR').style.display = "";
-            }else{
-                document.getElementById('noRecordTR').style.display = "none";
-            }
-            }
-            if($('#customerTable tbody tr:visible').length === 0) {
-                document.getElementById('noRecordTR').style.display = "";
-            }else{
-                document.getElementById('noRecordTR').style.display = "none";
-            }
-        }   
-}
-</script>
 </html>

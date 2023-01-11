@@ -20,7 +20,9 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
         <link rel="stylesheet" type="text/css" href="../CSS/pagination.css">
         <script src="../index.js"></script>
     </head>
- 
+    <style>
+        
+    </style>
     <body>
     
         <div class="container">
@@ -61,7 +63,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                                 <div class="newUser-button">
                                     <button type="button" id="add-userbutton" class="add-customer" onclick="addnewuser();">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M9.25 14h1.5v-3.25H14v-1.5h-3.25V6h-1.5v3.25H6v1.5h3.25Zm.75 4q-1.646 0-3.104-.625-1.458-.625-2.552-1.719t-1.719-2.552Q2 11.646 2 10q0-1.667.625-3.115.625-1.447 1.719-2.541Q5.438 3.25 6.896 2.625T10 2q1.667 0 3.115.625 1.447.625 2.541 1.719 1.094 1.094 1.719 2.541Q18 8.333 18 10q0 1.646-.625 3.104-.625 1.458-1.719 2.552t-2.541 1.719Q11.667 18 10 18Zm0-1.5q2.708 0 4.604-1.896T16.5 10q0-2.708-1.896-4.604T10 3.5q-2.708 0-4.604 1.896T3.5 10q0 2.708 1.896 4.604T10 16.5Zm0-6.5Z"/></svg>
-                                        <h3>Add Balance</h3>
+                                        <h3>Add Advance Payment</h3>
                                     </button>
                                 </div>
                             </div>
@@ -88,7 +90,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                                         if($total_customer_with_balance_result = mysqli_query($con, $total_customer_with_balance))
                                         $rowcount = mysqli_num_rows($total_customer_with_balance_result);
                                         ?>
-                                        <h3 class="deliveries">Customer With Balance</h3>
+                                        <h3 class="deliveries">Customer With Advance Payment</h3>
                                         <span class="total-deliveries"><?php echo $rowcount;?></span>
                                     </div>
                                 </div>
@@ -121,7 +123,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                                         if($total_customer_with_credit_result = mysqli_query($con, $total_customer_with_credit))
                                         $rowcount = mysqli_num_rows($total_customer_with_credit_result);
                                         ?>
-                                        <h3 class="deliveries">Customer With Credit</h3>
+                                        <h3 class="deliveries">Customer With Balance</h3>
                                         <span class="total-deliveries"><?php echo $rowcount;?></span>
                                     </div>
                                 </div>  
@@ -131,7 +133,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                     
                     <div class="account-container" id="customerTable">
                             <br>
-                            <header class="previous-transaction-header">List of Customers with Credit</header>
+                            <header class="previous-transaction-header">List of Customers with Balance</header>
                             <hr>
                             <table class="table" id="myTable">
                             <thead>
@@ -140,8 +142,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                             <th scope="col">Customer Name</th>
                             <th scope="col">Contact Number</th>
                             <th scope="col">Address</th>
+                            <th scope="col">Advance Payment</th>
                             <th scope="col">Balance</th>
-                            <th scope="col">Credit</th>
                 
                         </tr>
                         </thead>
@@ -184,8 +186,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                                     <td data-label="Customer Name"><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo $rows['customer_name']; ?></td>
                                     <td data-label="Contact Number"><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo $rows['contact_number1']; ?></td>
                                     <td data-label="Address"><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo $rows['address']; ?></td>
-                                    <td data-label="Balance"><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
-                                    <td data-label="Credit"><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo '<span>&#8369;</span>'.' '.$rows['credit']; ?></td>
+                                    <td data-label="Advance Payment"><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo '<span>&#8369;</span>'.' '.$rows['balance']; ?></td>
+                                    <td data-label="Balance"><a class="creditHref" href="../monitoring/monitoring-point-of-sales-transaction.php?customer_id=<?php echo $rows['id']?>"><?php echo '<span>&#8369;</span>'.' '.$rows['credit']; ?></td>
                                 </tr>
                             </tbody>
                             <?php
@@ -198,7 +200,7 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                         </div>
                         <div class="account-container" id="customerTable">
                             <br>
-                            <header class="previous-transaction-header">List of Customer's Available Balance</header>
+                            <header class="previous-transaction-header">List of Customer's Advance Payment</header>
                             <hr>
                             <table class="table" id="myTable">
                             <thead>
@@ -207,8 +209,8 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                             <th scope="col">Customer Name</th>
                             <th scope="col">Contact Number</th>
                             <th scope="col">Address</th>
-                            <th scope="col">Balance</th>
-                            <th scope="col">Credit</th>
+                            <th scope="col">Advance Payment</th>
+                            <th scope="col">Action</th>
                 
                         </tr>
                         </thead>
@@ -254,54 +256,48 @@ if (!get_user_access_per_module($con, $_SESSION['user_user_type'], 'MONITORING-C
                         </div>
 
                         <div class="pagination">   
-            <br>
-                <?php  
+                <div class="page-navigation">
+                    <div class="href-pages">   
+                        <?php  
 
-                    // Number of pages required.   
-                    $total_pages = ceil($total_records / $per_page_record);     
-                    $pageLink = "";       
-                
-                    if($page>=2){   
-                        echo "<a href='".$page_location."?page=".($page-1)."&records=".$per_page_record."'> Prev </a>";   
-                    }       
-                            
-                    for ($i=1; $i<=$total_pages; $i++) {   
-                    if ($i == $page) {   
-                        $pageLink .= "<a class = 'active' href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";   
-                    }               
-                    else  {   
-                        $pageLink .= "<a href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";     
-                    }   
-                    }; 
+                            // Number of pages required.   
+                            $total_pages = ceil($total_records / $per_page_record);     
+                            $pageLink = "";       
+                        
+                            if($page>=2){   
+                                echo "<a href='".$page_location."?page=".($page-1)."&records=".$per_page_record."'> Prev </a>";   
+                            }       
+                                    
+                            for ($i=1; $i<=$total_pages; $i++) {   
+                            if ($i == $page) {   
+                                $pageLink .= "<a class = 'active' href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";   
+                            }               
+                            else  {   
+                                $pageLink .= "<a href='".$page_location."?page=".$i."&records=".$per_page_record."'>".$i." </a>";     
+                            }   
+                            }; 
 
-                    echo $pageLink;   
-            
-                    if($page<$total_pages){   
-                        echo "<a href='".$page_location."?page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
-                    }  
-                ?>
-
-                <br><br>
-                <select name="option" onchange="location ='<?php echo $page_location ?>' + '?page=1&records=' + this.value;">
-                        <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
-                        <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
-                        <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
-                        <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
-                        <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
-                        <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
-                        <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
-                </select>
-                <span> No. of Records Per Page </span>  
-                
+                            echo $pageLink;   
+                    
+                            if($page<$total_pages){   
+                                echo "<a href='".$page_location."?page=".($page + 1)."&records=".$per_page_record."'>  Next </a>";   
+                            }  
+                        ?>
+                    </div>
+                    <div class="dropdown-pages">   
+                        <select name="option" class="pages" onchange="location ='<?php echo $page_location ?>' + '?page=1&records=' + this.value;">
+                                <option value="5" <?php if($per_page_record == "5") { echo 'selected'; }?>>5</option>
+                                <option value="10" <?php if($per_page_record == "10") { echo 'selected'; }?>>10</option>
+                                <option value="50" <?php if($per_page_record == "50") { echo 'selected'; }?>>50</option>
+                                <option value="100" <?php if($per_page_record == "100") { echo 'selected'; }?>>100</option>
+                                <option value="250" <?php if($per_page_record == "250") { echo 'selected'; }?>>250</option>
+                                <option value="500" <?php if($per_page_record == "500") { echo 'selected'; }?>>500</option>
+                                <option value="1000" <?php if($per_page_record == "1000") { echo 'selected'; }?>>1000</option>
+                        </select>
+                        <span class="label-number"> No. of Records Per Page </span>  
+                    </div>
+                </div>
             </div>
-            <div></div>
-
-            <div class="inline">   
-                <input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
-                placeholder="<?php echo $page."/".$total_pages; ?>" required> 
-
-                <button onClick="goToPage('<?php echo $page_location.'?records='.$per_page_record?>');">Go to page</button>   
-            </div>    
             </main>
             <div class="top-menu">
                 <div class="menu-bar">

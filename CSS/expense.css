@@ -285,17 +285,16 @@ h1{
     text-decoration: none;
     border-radius: 3px;
     display: flex;
-    width: 60%;
+    width: 100%;
     padding: 5px;
     margin: 1px;
     gap: .3rem;
-    left: 20%;
     cursor: pointer;
     transition: 0.3s;
     border: none;
 }
 .edit-action:hover{
-    background: var(--color-main);
+    background: hsl(0, 0%, 37%);
     color: var(--color-white);
 }
 .archive-action{
@@ -309,8 +308,7 @@ h1{
     text-decoration: none;
     border-radius: 3px;
     display: flex;
-    left: 20%;
-    width: 60%;
+    width: 100%;
     padding: 5px;
     margin: 5px;
     justify-content: center;
@@ -321,33 +319,7 @@ h1{
     border: none;
 }
 .archive-action:hover{
-    background: var(--color-main);
-    color: var(--color-white);
-}
-.cpass-action{
-    background:#00aa09;
-    color: var(--color-white);
-    align-items: center;
-    text-align:center;
-    justify-content: center;
-    float: center;
-    left: 20%;
-    position: relative;
-    text-decoration: none;
-    border-radius: 3px;
-    display: flex;
-    width: 60%;
-    padding: 5px;
-    margin: 5px;
-    justify-content: center;
-    margin: 1px;
-    gap: .3rem;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-}
-.cpass-action:hover{
-    background: var(--color-main);
+    background: hsl(0, 0%, 37%);
     color: var(--color-white);
 }
 
@@ -976,6 +948,7 @@ main .sub-tab{
     display: flex;
     border: none;
     background-color: var(--color-white);
+    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
     align-items: center;
     color: var(--color-button);
     fill: var(--color-button);
@@ -987,10 +960,10 @@ main .sub-tab{
     font-family: 'Outfit', sans-serif;
     cursor: pointer;
     gap: .5rem;
+    margin-left: 1rem;
     transition: all 300ms ease;
     position: relative;
     text-transform: uppercase;
-    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
 }
 .add-account h3{
     font-size: .8rem;
@@ -998,6 +971,7 @@ main .sub-tab{
 .add-account:hover{
     background-color: var(--color-main);
     color: var(--color-white);
+    box-shadow: none;
     fill: var(--color-white);
     padding-top: -.2px;
     transition: 0.7s;

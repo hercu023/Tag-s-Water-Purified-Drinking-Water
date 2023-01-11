@@ -2,6 +2,9 @@
 session_start();
 require_once "../database/connection-db.php";
 require_once "../audit/audit-logger.php";
+
+date_default_timezone_set("Asia/Manila");
+
 $module = 'EMPLOYEE';
 
 if (isset($_POST['add-employee-attendance'])) {
@@ -12,7 +15,7 @@ if (isset($_POST['add-employee-attendance'])) {
         || isset($_POST['deduction'])
         || isset($_POST['additional_bonus'])
         || isset($_POST['note'])
-        || isset($_POST['is_whole_day'])) {
+        || isset($_POST['is_with_uniform'])) {
 
         $user_id = $_SESSION['user_user_id'];
 
@@ -25,8 +28,8 @@ if (isset($_POST['add-employee-attendance'])) {
         $additional_bonus = filter_var($_POST['additional_bonus'], FILTER_SANITIZE_STRING);
         $note = filter_var($_POST['note'], FILTER_SANITIZE_STRING);
 
-        $is_whole_day = $_POST['is_whole_day'];
-
+        $is_with_uniform = $_POST['is_with_uniform'];
+        
         $date_input = new DateTime($date_of_attendance);
         $current_date = new DateTime();
         $total_pay = 0;
@@ -48,11 +51,6 @@ if (isset($_POST['add-employee-attendance'])) {
             exit();
         } else {
 
-            $is_whole_day_value = 0;
-            if ($is_whole_day == 'Yes') {
-                $is_whole_day_value = 1;
-            }
-
             //Validate if Time IN is later than Time OUT
             if ($time_in > $time_out) {
                 header("Location: ../employee/employee-attendance.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> TIME IN not valid. Must be earlier than TIME OUT entry");
@@ -68,7 +66,8 @@ if (isset($_POST['add-employee-attendance'])) {
                 $late_deduction_per_min = $settings_data['late_deduction_per_min'];
                 $time_in_schedule = $settings_data['time_in_schedule'];
                 $overtime_bonus_per_hour = $settings_data['overtime_bonus_per_hour'];
-
+                $without_uniform_deduction = $settings_data['without_uniform_deduction'];
+         
                 $employee_data = mysqli_query($con, "SELECT * FROM employee
                     WHERE id = '$employee_id'");
                 if(mysqli_num_rows($employee_data) > 0) {
@@ -88,6 +87,10 @@ if (isset($_POST['add-employee-attendance'])) {
                         $overtime_hours = $rendered_time_in_hours - 9;
                         $overtime_pay = $overtime_hours * $overtime_bonus_per_hour;
                     } else if ($rendered_time_in_hours < 9) {
+                        if($rendered_time_in_hours > 4) {
+                            //If more than 4 hours we deduct 1 hour for lunch break
+                            $rendered_time_in_hours = $rendered_time_in_hours - 1;
+                        }
                         $regular_hour_pay = $rendered_time_in_hours * $hourly_rate;
                     }
                    
@@ -102,13 +105,15 @@ if (isset($_POST['add-employee-attendance'])) {
                         $late_deduction = $difference_in_minute * $late_deduction_per_min;
                     }
 
-                    $note = $note .PHP_EOL.''.PHP_EOL.
-                            'Regular Pay: '.$regular_hour_pay .PHP_EOL.
-                            'Overtime: '.$overtime_pay .PHP_EOL.
-                            'Late Deduction: '.$late_deduction .PHP_EOL;
-
                     $total_pay = ($regular_hour_pay + $overtime_pay) - $late_deduction;
                     $total_pay = ($total_pay + $additional_bonus) - $deduction;
+
+                    $is_with_uniform_value = 0;
+                    if ($is_with_uniform == 'Yes') {
+                        $is_with_uniform_value = 1;
+                    } else {
+                        $total_pay = $total_pay - $without_uniform_deduction; 
+                    }
 
                 } else {
                     header("Location: ../employee/employee-attendance.php?error=<i class='fas fa-exclamation-triangle' style='font-size:14px'></i> Can't retrieve employee data. Try again.");
@@ -123,7 +128,7 @@ if (isset($_POST['add-employee-attendance'])) {
             $insert = mysqli_query($con, "INSERT INTO `attendance` VALUES(
                              '',
                              '$employee_id',
-                             '$is_whole_day_value',
+                             '$is_with_uniform_value',
                              '$date_of_attendance',
                              '$time_in',
                              '$time_out',

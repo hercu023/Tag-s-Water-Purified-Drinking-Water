@@ -88,6 +88,7 @@ body{
     border-radius: 3px;
     display: flex;
     font-family: 'Outfit', sans-serif;
+    font-size: .7rem;
     width: 100%;
     padding: 5px;
     margin: 5px;
@@ -97,7 +98,6 @@ body{
     cursor: pointer;
     transition: 0.3s;
     border: none;
-    
 }
 #payroll-action:hover{
     background: var(--color-main);
@@ -139,6 +139,7 @@ body{
         justify-content: center;
         align-items: center;
         color: var(--color-button);
+        box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
         fill: var(--color-button);
         width: 10rem;
         max-height: 46px;
@@ -150,7 +151,6 @@ body{
         transition: all 300ms ease;
         position: relative;
         text-transform: uppercase;
-        box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
     }
     
     .payroll:hover{
@@ -418,6 +418,7 @@ h1{
 }
 .edit-action{
     background: rgb(0, 154, 255);
+    font-size: .7rem;
     color: var(--color-white);
     align-items: center;
     text-align:center;
@@ -449,6 +450,7 @@ h1{
     position: relative;
     text-decoration: none;
     border-radius: 3px;
+    font-size: .7rem;
     display: flex;
     width: 100%;
     padding: 5px;
@@ -1104,6 +1106,7 @@ main  h2{
 }
 .add-account{
     display: flex;
+        box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
     border: none;
     background-color: var(--color-white);
     align-items: center;
@@ -1120,7 +1123,6 @@ main  h2{
     transition: all 300ms ease;
     position: relative;
     text-transform: uppercase;
-    box-shadow: 2px 3px 5px 0px var(--color-shadow-shadow);
 }
 .add-account h3{
     font-size: .8rem;
@@ -1716,7 +1718,7 @@ th{
                     <div class="newUser-button">
                         <button type="submit" id="add-payroll" class="payroll" onclick="selectRestore()">
                             <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M3.5 10h13V7h-13ZM16 18v-2.5h-2.5V14H16v-2.5h1.5V14H20v1.5h-2.5V18ZM3.5 16q-.604 0-1.052-.438Q2 15.125 2 14.5v-9q0-.625.448-1.062Q2.896 4 3.5 4h13q.604 0 1.052.438Q18 4.875 18 5.5V10h-2.188q-1.666 0-2.739 1.177T12 13.958V16Z"/></svg>
-                            <h3>PAYROLL</h3>
+                            <h3>PAY SALARY</h3>
                         </button>
                     </div>
                     <div class="checkall">
@@ -1740,10 +1742,10 @@ th{
                     <thead>
                             <tr>
                                 <th scope="col"></th>
-                                <th scope="col">ID</th>
+                                <!-- <th scope="col">ID</th> -->
                                 <th scope="col">Employee Name</th>
                                 <th scope="col">Position</th>
-                                <th scope="col">Whole Day</th>
+                                <th scope="col">With Uniform</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Time In</th>
                                 <th scope="col">Time Out</th>
@@ -1759,47 +1761,48 @@ th{
 
                             <tbody>
                             <?php
-                            $attendance = "SELECT 
-                        attendance.id,
-                        attendance.whole_day,
-                        attendance.date,
-                        attendance.time_in,
-                        attendance.time_out,
-                        attendance.deduction,
-                        attendance.bonus, 
-                        attendance.note,
-                        attendance.total_amount,
-                        attendance.payroll_status, 
-                        attendance.added_by,
-                        employee.first_name as emp_first_name,
-                        employee.last_name as emp_last_name,
-                        employee.middle_name as emp_middle_name,
-                        position_type.name as position_type,
-                        users.first_name as usr_first_name,
-                        users.last_name as usr_last_name
-                        FROM attendance 
-                        INNER JOIN employee 
-                        ON attendance.employee_id = employee.id
-                        INNER JOIN position_type
-                        ON employee.position_id = position_type.id
-                        INNER JOIN users
-                        ON attendance.added_by = users.user_id
-                        WHERE attendance.status_archive_id = 1
-                        ORDER BY attendance.date DESC
-                        LIMIT $start_from, $per_page_record";
-                            $attendance_run = mysqli_query($con, $attendance);
+                                $attendance = "SELECT 
+                                attendance.id,
+                                attendance.with_uniform,
+                                attendance.date,
+                                attendance.time_in,
+                                attendance.time_out,
+                                attendance.deduction,
+                                attendance.bonus, 
+                                attendance.note,
+                                attendance.total_amount,
+                                attendance.payroll_status, 
+                                attendance.added_by,
+                                employee.first_name as emp_first_name,
+                                employee.last_name as emp_last_name,
+                                employee.middle_name as emp_middle_name,
+                                position_type.name as position_type,
+                                users.first_name as usr_first_name,
+                                users.last_name as usr_last_name
+                                FROM attendance 
+                                INNER JOIN employee 
+                                ON attendance.employee_id = employee.id
+                                INNER JOIN position_type
+                                ON employee.position_id = position_type.id
+                                INNER JOIN users
+                                ON attendance.added_by = users.user_id
+                                WHERE attendance.status_archive_id = 1
+                                ORDER BY attendance.date DESC,
+                                attendance.id DESC
+                                LIMIT $start_from, $per_page_record";
+                                $attendance_run = mysqli_query($con, $attendance);
 
-                            if(mysqli_num_rows($attendance_run) > 0)
-                            {
-                                foreach($attendance_run as $rows)
+                                if(mysqli_num_rows($attendance_run) > 0)
                                 {
-                                    ?>
+                                    foreach($attendance_run as $rows)
+                                    {
+                            ?>
                                     <tr>
                                         <td  class="select-check"><input type="checkbox" name="select-check[]" id="<?php echo $rows['id']; ?>" value="<?php echo $rows['id']; ?>" ></td>
-                                        <td data-label="ID"> <?php echo $rows['id']; ?></td>
+                                        <!-- <td data-label="ID"> <?php echo $rows['id']; ?></td> -->
                                         <td data-label="Employee Name"> <?php echo $rows['emp_first_name'].' '.$rows['emp_middle_name'].' '.$rows['emp_first_name'] ; ?></td>
                                         <td data-label="Position"> <?php echo $rows['position_type'] ; ?></td>
-                                        <td data-label="Whole Day"> <?php  if ($rows['whole_day'] == 1) { echo '<span class="instock">YES</span>'; } else echo '<span class="lowstock">NO </span>'; ?></td>
+                                        <td data-label="Whole Day"> <?php  if ($rows['with_uniform'] == 1) { echo '<span class="instock">YES</span>'; } else echo '<span class="lowstock">NO </span>'; ?></td>
                   
                                         <td data-label="Date"> <?php echo $rows['date']; ?></td>
                                         <td data-label="Time In"> <?php echo $rows['time_in']; ?></td>
@@ -1829,7 +1832,7 @@ th{
                                             </a>
                                             <a href="../employee/employee-attendance-payroll.php?edit=<?php echo $rows['id']; ?>" id="payroll-action" class="payroll-action" name="action">
                                                 <svg class="actionicon" xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M3.5 10h13V7h-13ZM16 18v-2.5h-2.5V14H16v-2.5h1.5V14H20v1.5h-2.5V18ZM3.5 16q-.604 0-1.052-.438Q2 15.125 2 14.5v-9q0-.625.448-1.062Q2.896 4 3.5 4h13q.604 0 1.052.438Q18 4.875 18 5.5V10h-2.188q-1.666 0-2.739 1.177T12 13.958V16Z"/></svg>
-                                                <span id="tooltipText">PAYROLL</span>       
+                                                <span id="tooltipText">PAY SALARY</span>       
                                             </a>
                                         </td>
                                     </tr>
@@ -1890,9 +1893,9 @@ th{
                     
                     <div class="inline">   
                         <input id="page" type="number" class="input-pages" min="1" max="<?php echo $total_pages?>"   
-                        placeholder="<?php echo $page." - ".$total_pages; ?>" required> 
+                        placeholder="<?php echo $page." - ".$total_pages; ?>" required value="1"> 
 
-                        <button class="gotopage-btn" onClick="goToPage('<?php echo $page_location.'?records='.$per_page_record?>');">Go to page</button>   
+                        <span class="gotopage-btn" onClick="goToPage('<?php echo $page_location.'?records='.$per_page_record?>');">Go to page</span>   
                     </div>    
                 </div>
         </div>
@@ -1976,9 +1979,9 @@ th{
 </div>
     <div class="bg-addcustomerform" id="bg-addform">
         <div class="container1">
-            <h1 class="addnew-title">PROCESS PAYROLL</h1>
+            <h1 class="addnew-title">GENERATE SALARY</h1>
             <div class="a-header">
-                <label class="archive-header"> Are you sure to process the payroll of selected rows?</label>
+                <label class="archive-header"> Are you sure to generate salary of selected rows?</label>
             </div>
             <div class="bot-buttons">
                 <div class="CancelButton">
@@ -2040,7 +2043,7 @@ th{
                         </div>
                         <div class="user-input-box">
                             <label for="deduction">Deduction</label>
-                            <input min='0' onchange='setTwoNumberDecimal' step="0.25"
+                            <input min='0' onchange='setTwoNumberDecimal' step="0.25" value="0.00"
                                    id="deduction"
                                    class="deduction"
                                    name="deduction"
@@ -2048,7 +2051,7 @@ th{
                         </div>
                         <div class="user-input-box">
                             <label for="additonalbonus">Addtional Bonus</label>
-                            <input min='0' onchange='setTwoNumberDecimal' step="0.25"
+                            <input min='0' onchange='setTwoNumberDecimal' step="0.25" value="0.00"
                                    id="additonalbonus"
                                    class="additonalbonus"
                                    name="additional_bonus"
@@ -2061,10 +2064,10 @@ th{
                         </div>
                         <div class="radio-button">
                             <div class="salary-cateogory" >
-                                <input type="radio" name="is_whole_day" id="Yes" value="Yes" required="required" checked="checked">
-                                <label for="Yes">Whole Day</label>
-                                <input type="radio" name="is_whole_day" id="No" value="No">
-                                <label for="No">Half Day</label>
+                                <input type="radio" name="is_with_uniform" id="Yes" value="Yes" required="required" checked="checked">
+                                <label for="Yes">With Uniform</label>
+                                <input type="radio" name="is_with_uniform" id="No" value="No">
+                                <label for="No">No Uniform</label>
                             </div>
                         </div>
 
