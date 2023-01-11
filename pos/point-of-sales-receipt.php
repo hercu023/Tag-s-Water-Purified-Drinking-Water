@@ -23,6 +23,53 @@ date_default_timezone_set("Asia/Manila");
     <title>Tag's Water Purified Drinking Water</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
+<style>
+        .container1{
+    width: 100%;
+    max-width: 120px;
+    padding: 8px;
+    overflow: auto;
+    margin: 0 28px;
+    background-color: var(--color-white);
+}
+
+.contact{
+    font-size: 7px;
+    font-weight: 500;
+    font-family: 'Malberg Trial', sans-serif;
+    color: black;
+    margin-top: -.9rem;
+    text-align: left;
+}
+.addnew-title{
+    font-size: 9px;
+    color: black;
+    font-family: 'Malberg Trial', sans-serif;
+    /* letter-spacing: .09rem; */
+    display: flex;
+    margin-top: -.5rem;
+    justify-content: left;
+    /* border-bottom: 1px solid var(--color-solid-gray); */
+    width: 100%;
+    padding-bottom: 6px;
+}
+.titlelogo{
+    text-align: left;
+}
+.titlelogo img{
+    width: 2.5rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+.address{
+    font-size: 8px;
+    font-family: 'Malberg Trial', sans-serif;
+    color: black;
+    margin-top: -1rem;
+    margin-bottom: -1rem;
+    text-align: left;
+}
+</style>
 <body>
 
 <div class="container">
@@ -78,14 +125,24 @@ if(isset($_GET['uuid']))
                 <!-- <a href="../pos/point-of-sales.php" class="close">X</a> -->
                 <h1 class="addnew-title">TAG'S WATER</h1>
                 <h1 class="addnew-title">PURIFIED DRINKING WATER</h1>
-                <p class="address">17 M. Santos St., Brgy. San Jose, Antipolo City<p>
+                <br >
+                <p class="address">17 M. Santos St., <p>
+                <p class="address">Brgy. San Jose, <p>
+                <p class="address"> Antipolo City<p>
                 <p class="lineast">*******************************************<p>
 
-                <p class="contact1">Tel No.: 8-630-2271 / 8-806-0990 / 8-697-4627<p>
-                <p class="contact">Cel No.: 0917-149-8014 / 0918-947-3532<p>
+                <p class="contact">Tel No.:<p>
+                <p class="contact">8-630-2271 / 8-806-0990 / 8-697-4627<p>
+                <p class="contact"><p>
+                <p class="contact"><p>
+                <p class="lineast">*******************************************<p>
+                <p class="contact">Cel No.:<p>
+                <p class="contact">0917-149-8014 / <p>
+                <p class="contact">0918-947-3532<p>
                 <p class="customer-name">Customer: <?= $transaction['customer_name'];?><p>
                 <p class="service">Service: <?= $transaction['service_type'];?><p>
-                <p class="payment-method">Payment Option: <?= $transaction['option_name'];?><p>
+                <p class="payment-method">Payment Option: <p>
+                <p class="payment-method"><?= $transaction['option_name'];?><p>
                 <p class="lineast">*******************************************<p>
                 <?php           
                     $transaction_process = "SELECT
@@ -113,13 +170,11 @@ if(isset($_GET['uuid']))
                         
                             <td class="quantity-td" > 
                                 <?php echo
-                                "<p class='font'>".$transactions['quantity'].' '.'X '.' &#8369'.' '. $transactions['price']."</p>";
+                                "<p class='font'>".$transactions['quantity'].' '.'X '.' &#8369'.' '. $transactions['price']."</p>"."<p class='font'>".'=P'.number_format($transactions['total_price'], '2','.',',')."</p>";
                                 ?>
+                   
                             </td>
                             
-                            <td> <?php 
-                            echo "<p class='total'>".'P'.number_format($transactions['total_price'], '2','.',',')."</p>"; 
-                            ?></td>
                             </tr>
                     </tbody>
                         <?php
@@ -144,11 +199,16 @@ if(isset($_GET['uuid']))
                         <input type="hidden" id="totalamount_value"  value="<?php echo $transactions1['sum(transaction_process.total_price)']; ?>">
                         <input type="hidden" class="deliveryoption_class" name="option" value="Walk In">
                         <p class="totalLabel">TOTAL</p>
-                        <p class="totalAmt"><?php echo 'P'.number_format($transaction['total_amount'], '2','.',','); ?></p>
-                        <p class="totalLabel1">Remaining Unpaid Amount </p>
-                        <p class="totalAmt1"><?php echo 'P'.number_format($unpaid_amount, '2','.',','); ?></p>
+                        <br >
+                        <p class="totalLabel">--<?php echo 'P'.number_format($transaction['total_amount'], '2','.',','); ?></p>
+                        <br >
+                        <p class="totalLabel">Remaining Balance</p>
+                        <br >
+                        <p class="totalLabel"><?php echo ' --P'.number_format($unpaid_amount, '2','.',','); ?> </p>
+                        <br >
                         <p class="lineast">*******************************************<p>
-                        <h4 class="addnew-title2">TRANSACTION HISTORY</h4>
+                        <h4 class="totalLabel">TRANSACTION HISTORY</h4>
+                        <br >
                         <br >
                         <?php           
                                             $transaction_history = "SELECT
@@ -167,23 +227,29 @@ if(isset($_GET['uuid']))
                                             {
                                             ?>
                         
-                        <p class="datetime">DATE/TIME:<?= $transactions_history['created_at'];?><p>
+                        <p class="payment-method">DATE/TIME:<p>
+                        <p class="payment-method"><?= '--'.$transactions_history['created_at'];?><p>
                         <br >
-                        <p class="change1Lbl">Change</p>
-                        <p class="change1"><?php echo 'P'.number_format($transactions_history['customer_change'], '2','.',','); ?></p>
+                        <p class="change1Lbl">CHANGE</p>
+                        <p class="payment-method"><?php echo '--P'.number_format($transactions_history['customer_change'], '2','.',','); ?></p>
                         <br >
-                        <p class="change2Lbl">Amount Tendered</p>
-                        <p class="change2"><?php echo 'P'.number_format($transactions_history['amount_tendered'], '2','.',','); ?></p>
+                        <br >
+                        <p class="change1Lbl">AMOUNT TENDERED</p>
+                        <p class="payment-method"><?php echo '--P'.number_format($transactions_history['amount_tendered'], '2','.',','); ?></p>
                         <br >
                         <?php if($transactions_history['remaining_balance'] != $transactions_history['previous_balance']){ ?>
                         <p class="change2Lbl">Customer Remaining Balance</p>
                         <p class="change2"><?php echo 'P'.number_format($transactions_history['remaining_balance'], '2','.',','); ?></p>
                         <?php }}} ?>
                         <p class="lineast">*******************************************<p>
-                        <p class="service">Order ID: <?php echo $uuid; ?> <p>
+                        <p class="service">Order ID:  <p>
+                        <p class="service"><?php echo $uuid; ?> <p>
                         <p class="payment-method">Cashier:<?= $transaction['first_name'].' '.$transaction['last_name'];?><p>
-                        <p class="service">DATE/TIME:<?= $transaction['created_at_date'].' '.$transaction['created_at_time'];?><p>
-                        <h4 class="addnew-title2">--THIS IS YOUR OFFICIAL RECEIPT--</h4>
+                        <p class="service">DATE/TIME:<p>
+                        <p class="service"><?= $transaction['created_at_date'].' '.$transaction['created_at_time'];?><p>
+                        <h4 class="totalLabel">--THIS IS YOUR OFFICIAL</h4>
+                        <br >
+                        <h4 class="totalLabel"> RECEIPT--</h4>
 
             </div>
             <?php }?>

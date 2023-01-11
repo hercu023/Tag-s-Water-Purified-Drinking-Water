@@ -69,13 +69,16 @@ if(isset($_GET['delivery_boy_id']))
        
     ?>
         <div class="bg-placeorderform" id="bg-placeform">
-                <a href="../pos/point-of-sales.php" class="close">CANCEL</a>
+                <a href="../monitoring/monitoring-delivery-pickup.php" class="close">CANCEL</a>
             <div class="container1">
                 <h4 class="addnew-title2">--DELIVERY LIST--</h4>
         <?php        foreach($transaction_order as $transaction_name)
     {?>
-                <p class="customer-name">Customer: <?= $transaction_name['customer_name'];?><p>
-                <p class="payment-method">Payment Option: <?= $transaction_name['option_name'];?><p>
+                <p class="lineast">*******************************************<p>
+                <p class="payment-method">Customer: <p>
+                <p class="payment-method">--<?= $transaction_name['customer_name'];?><p>
+                <p class="payment-method">Payment Option: <p>
+                <p class="payment-method">--<?= $transaction_name['option_name'];?><p>
                 <?php 
                                     $customer_id = $transaction_name['id'];
                                     $total_unpaid = "SELECT 
@@ -114,7 +117,8 @@ if(isset($_GET['delivery_boy_id']))
                     { 
                     $transaction_unpaid = mysqli_fetch_assoc($transaction_unpaid_result);
                 ?>
-                <p class="payment-method">Total Unpaid Amount: <?= $transaction_unpaid['credit'];?><p>
+                <p class="payment-method">Total Unpaid Amount: <p>
+                <p class="payment-method"> <?= $transaction_unpaid['credit'];?><p>
                 <?php } ?>
                 
                 <p class="lineast">*******************************************<p>
@@ -161,21 +165,20 @@ if(isset($_GET['delivery_boy_id']))
                             
                                 <td class="quantity-td" > 
                                     <?php echo
-                                    "<p class='font'>".$transactions['quantity'].' '.'X '.' &#8369'.' '. $transactions['price']."</p>";
-                                    ?>
+                                "<p class='font'>".$transactions['quantity'].' '.'X '.' &#8369'.' '. $transactions['price']."</p>"."<p class='font'>".'=P'.number_format($transactions['total_price'], '2','.',',')."</p>";
+                                ?>
                                 </td>
-                                
-                                <td> <?php 
-                                echo "<p class='total'>".'P'.number_format($transactions['total_price'], '2','.',',')."</p>"; 
-                                ?></td>
+
                             </tr>
                         </tbody>
                           
                         <?php }} ?> 
+                        <br >
                     
-                    <p class="totalLabel">TOTAL</p>
-                    <p class="totalAmt"><?php echo 'P'.number_format($transaction_name['total'], '2','.',','); ?></p>
-                    <br>
+                        <p class="totalLabel">TOTAL</p>
+                        <br >
+                        <p class="totalLabel">--<?php echo 'P'.number_format($transaction_name['total'], '2','.',','); ?></p>
+                        <br >
                 <?php
                 }
             }
@@ -185,8 +188,12 @@ if(isset($_GET['delivery_boy_id']))
                         $deliveryboy = mysqli_query($con, "SELECT employee.first_name, employee.last_name FROM employee WHERE id ='$deliveryboy_id'");
                         $delivery_result = mysqli_fetch_assoc($deliveryboy);
                         ?>                         
-                    <p class="payment-method">DELIVERY BOY:<?= $delivery_result['first_name'].' '.$delivery_result['last_name'];?><p>
-                    <p class="service">DATE: <?php echo date("F j, Y")?> - TIME:<?php echo date("h-i-s-A")?><p>
+                    <p class="payment-method">DELIVERY BOY:<p>
+                    <p class="payment-method">--<?= $delivery_result['first_name'].' '.$delivery_result['last_name'];?><p>
+                    <p class="service">DATE:<p>
+                    <p class="service">--<?php echo date("F j, Y")?><p>
+                    <p class="service">TIME:<p>
+                    <p class="service">--<?php echo date("h-i-s-A")?><p>
             </div>
             <div class="bot-buttons">
                 <div class="AddButton1">

@@ -407,8 +407,8 @@ BODY{
 .close{
     background-color: var(--color-maroon);
     color: var(--color-white);
-    width: 4rem;
-    height: 1.5rem;
+    width: 10rem;
+    height: 10rem;
     text-align: center;
     padding:2rem;
     border-radius: 1rem;
@@ -576,8 +576,8 @@ BODY{
 }
 .container1{
     width: 100%;
-    max-width: 189px;
-    padding: 28px;
+    max-width: 180px;
+    padding: 8px;
     overflow: auto;
     margin: 0 28px;
     background-color: var(--color-white);
@@ -2599,12 +2599,11 @@ hr{
     text-align: center;
 }
 .contact1{
-    font-size: 9px;
+    font-size: 14px;
     font-weight: 500;
     font-family: 'Malberg Trial', sans-serif;
     margin-top: -.2rem;
     color: black;
-    text-align: center;
 }
 .contact{
     font-size: 9px;
@@ -2626,7 +2625,6 @@ hr{
 .payment-method{
     font-size: 9px;
     margin-top: -.95rem;
-
     font-weight: 500;
     font-family: 'Malberg Trial', sans-serif;
     color: black;
@@ -2724,13 +2722,13 @@ hr{
     font-size: 9px;
 }
 .addnew-title{
-    font-size: 12px;
+    font-size: 10px;
     color: black;
     font-family: 'Malberg Trial', sans-serif;
     /* letter-spacing: .09rem; */
     display: flex;
     margin-top: -.5rem;
-    justify-content: center;
+    justify-content: left;
     /* border-bottom: 1px solid var(--color-solid-gray); */
     width: 100%;
     padding-bottom: 2px;

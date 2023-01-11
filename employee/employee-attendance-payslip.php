@@ -32,6 +32,22 @@ date_default_timezone_set("Asia/Manila");
         text-transform: uppercase; 
         font-size: 10px;
     }
+    .container1{
+    width: 100%;
+    max-width: 180px;
+    padding: 8px;
+    overflow: auto;
+    margin: 0 28px;
+    background-color: var(--color-white);
+}
+.contact1{
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Malberg Trial', sans-serif;
+    margin-top: -.2rem;
+    color: black;
+    text-align: left;
+}
 </style>
 <body>
 
@@ -89,32 +105,32 @@ if(isset($_GET['edit'])) {
                 <a href="../employee/employee-attendance.php" class="close">CANCEL</a>
             <div class="container1">
 
-                <!-- <a href="../pos/point-of-sales.php" class="close">X</a> -->
-                <h1 class="addnew-title">TAG'S WATER</h1>
-                <h1 class="addnew-title">PURIFIED DRINKING WATER</h1>
-                <p class="address">17 M. Santos St., Brgy. San Jose, Antipolo City<p>
-                <p class="lineast">*******************************************<p>
-
                 <p class="contact1">PAY SLIP<p>
 
                                            
                 <p class="customer-name">Employee Name:<p  class="customer-name2"> <?php echo $employee['emp_first_name'].' '.$employee['emp_middle_name'].' '.$employee['emp_last_name'];?></p></p>
                 <br>
-                <p class="payment-method">POSITION: <?= $employee['position_type'];?><p>
-                <p class="payment-method">DATE OF ATTENDANCE: <?= $employee['date'];?><p>
-                <p class="payment-method">TIME IN: <?= $employee['time_in'];?><p>
-                <p class="payment-method">TIME OUT: <?= $employee['time_out'];?><p>
+                <p class="payment-method">POSITION:<p>
+                <p class="payment-method">--<?= $employee['position_type'];?><p>
+                <p class="payment-method">DATE OF ATTENDANCE: <p>
+                <p class="payment-method">-- <?= $employee['date'];?><p>
+                <p class="payment-method">TIME IN:<p>
+                <p class="payment-method">--<?= $employee['time_in'];?><p>
+                <p class="payment-method">TIME OUT:<p>
+                <p class="payment-method">--<?= $employee['time_out'];?><p>
             
                 <p class="lineast">*******************************************<p>
 
-                <p class="payment-method">DEDUCTION: <?= $employee['deduction'];?><p>
-                <p class="payment-method">BONUS: <?= $employee['bonus'];?><p>
-                <p class="payment-method">PROCESSED BY: <?= $employee['usr_first_name'].' '.$employee['usr_last_name'];?><p>
+                <p class="payment-method">DEDUCTION: P<?= $employee['deduction'];?><p>
+                <p class="payment-method">BONUS: P<?= $employee['bonus'];?><p>
+                <p class="payment-method">PROCESSED BY: <p>
+                <p class="payment-method">--<?= $employee['usr_first_name'].' '.$employee['usr_last_name'];?><p>
 
                    
                 
                         <p class="totalLabel">TOTAL SALARY</p>
-                        <p class="totalAmt"><?php echo 'P'.number_format($employee['total_amount'], '2','.',','); ?></p>
+                        <br >
+                        <p class="totalLabel"><?php echo 'P'.number_format($employee['total_amount'], '2','.',','); ?></p>
                         <br >
                     
             </div>
